@@ -338,7 +338,8 @@ mod tests {
     use super::*;
     use protocol::{
         CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED, CODE_SM_GET_RECOMMENDATIONS,
-        CODE_SM_JOIN_ROOM, CODE_SM_USER_JOINED_ROOM, PayloadWriter,
+        CODE_SM_GET_USER_STATUS, CODE_SM_JOIN_ROOM, CODE_SM_MESSAGE_USER, CODE_SM_USER_JOINED_ROOM,
+        PayloadWriter,
     };
 
     fn transfer_response_frame_bytes(token: u32, allowed_raw: u32) -> Vec<u8> {
@@ -369,6 +370,30 @@ mod tests {
         writer.write_u32(score);
         writer.write_u32(0);
         Frame::new(CODE_SM_GET_RECOMMENDATIONS, writer.into_inner()).encode()
+    }
+
+    fn private_message_incoming_frame_bytes(
+        message_id: u32,
+        timestamp: u32,
+        username: &str,
+        message: &str,
+        is_new: bool,
+    ) -> Vec<u8> {
+        let mut writer = PayloadWriter::new();
+        writer.write_u32(message_id);
+        writer.write_u32(timestamp);
+        writer.write_string(username);
+        writer.write_string(message);
+        writer.write_u8(u8::from(is_new));
+        Frame::new(CODE_SM_MESSAGE_USER, writer.into_inner()).encode()
+    }
+
+    fn user_status_frame_bytes(username: &str, status: u32, privileged: bool) -> Vec<u8> {
+        let mut writer = PayloadWriter::new();
+        writer.write_string(username);
+        writer.write_u32(status);
+        writer.write_bool_u32(privileged);
+        Frame::new(CODE_SM_GET_USER_STATUS, writer.into_inner()).encode()
     }
 
     fn ambiguous_code14_frame_bytes(value: &str) -> Vec<u8> {
@@ -489,6 +514,61 @@ mod tests {
                 .as_deref()
                 .unwrap_or_default()
                 .contains("term")
+        );
+    }
+
+    #[test]
+    fn semantic_mode_reports_private_message_field_diff() {
+        let official = vec![private_message_incoming_frame_bytes(
+            91,
+            1_705_000_000,
+            "alice",
+            "hello",
+            true,
+        )];
+        let neo = vec![private_message_incoming_frame_bytes(
+            92,
+            1_705_000_000,
+            "alice",
+            "hello",
+            true,
+        )];
+        let report = compare_capture_sequences_with_mode(
+            "run-private-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        assert!(
+            report.frame_comparisons[0]
+                .semantic_first_diff_field
+                .as_deref()
+                .unwrap_or_default()
+                .contains("message_id")
+        );
+    }
+
+    #[test]
+    fn semantic_mode_reports_user_status_field_diff() {
+        let official = vec![user_status_frame_bytes("alice", 2, true)];
+        let neo = vec![user_status_frame_bytes("alice", 1, true)];
+        let report = compare_capture_sequences_with_mode(
+            "run-status-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        assert!(
+            report.frame_comparisons[0]
+                .semantic_first_diff_field
+                .as_deref()
+                .unwrap_or_default()
+                .contains("status")
         );
     }
 

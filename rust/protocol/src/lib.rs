@@ -48,6 +48,9 @@ pub const CODE_SM_ADD_ROOM_OPERATOR: u32 = 143;
 pub const CODE_SM_REMOVE_ROOM_OPERATOR: u32 = 144;
 pub const CODE_SM_ROOM_MEMBERS: u32 = 133;
 pub const CODE_SM_ROOM_OPERATORS: u32 = 148;
+pub const CODE_SM_MESSAGE_USERS: u32 = 149;
+pub const CODE_SM_PEER_MESSAGE: u32 = 68;
+pub const CODE_SM_PEER_MESSAGE_ALT: u32 = 292;
 
 pub const CODE_PM_GET_SHARED_FILE_LIST: u32 = 4;
 pub const CODE_PM_SHARED_FILE_LIST: u32 = 5;
@@ -315,6 +318,31 @@ pub struct UserLookupPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PeerAddressResponsePayload {
+    pub username: String,
+    pub ip_address: String,
+    pub port: u32,
+    pub obfuscation_type: u32,
+    pub obfuscated_port: u16,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserStatusResponsePayload {
+    pub username: String,
+    pub status: u32,
+    pub privileged: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserStatsResponsePayload {
+    pub username: String,
+    pub avg_speed: u32,
+    pub download_num: u32,
+    pub files: u32,
+    pub dirs: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct OwnPrivilegesStatusPayload {
     pub time_left_seconds: u32,
 }
@@ -346,6 +374,25 @@ pub struct InformUserOfPrivilegesAckPayload {
 pub struct ConnectToPeerPayload {
     pub username: String,
     pub token: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ConnectToPeerRequestPayload {
+    pub token: u32,
+    pub username: String,
+    pub connection_type: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ConnectToPeerResponsePayload {
+    pub username: String,
+    pub connection_type: String,
+    pub ip_address: String,
+    pub port: u32,
+    pub token: u32,
+    pub privileged: bool,
+    pub obfuscation_type: u32,
+    pub obfuscated_port: u32,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -483,8 +530,33 @@ pub struct MessageUserPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MessageUserIncomingPayload {
+    pub message_id: u32,
+    pub timestamp: u32,
+    pub username: String,
+    pub message: String,
+    pub is_new: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct MessageAckedPayload {
     pub message_id: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MessageUsersPayload {
+    pub usernames: Vec<String>,
+    pub message: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PeerMessagePayload {
+    pub username: String,
+    pub message: String,
+    pub token: Option<u32>,
+    pub code: Option<u32>,
+    pub ip_address: Option<String>,
+    pub port: Option<u32>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -655,6 +727,7 @@ pub enum ServerMessage {
     LoginResponse(LoginResponsePayload),
     SetWaitPort(SetWaitPortPayload),
     GetPeerAddress(UserLookupPayload),
+    GetPeerAddressResponse(PeerAddressResponsePayload),
     IgnoreUser(UserLookupPayload),
     UnignoreUser(UserLookupPayload),
     SayChatRoom(SayChatRoomPayload),
@@ -662,6 +735,8 @@ pub enum ServerMessage {
     LeaveRoom(LeaveRoomPayload),
     UserJoinedRoom(RoomPresenceEventPayload),
     UserLeftRoom(RoomPresenceEventPayload),
+    ConnectToPeerRequest(ConnectToPeerRequestPayload),
+    ConnectToPeerResponse(ConnectToPeerResponsePayload),
     ConnectToPeer(ConnectToPeerPayload),
     FileSearch(FileSearchPayload),
     RoomList(RoomListPayload),
@@ -700,10 +775,15 @@ pub enum ServerMessage {
     RemoveRoomOperator(RoomModerationPayload),
     RoomMembers(RoomMembersPayload),
     RoomOperators(RoomOperatorsPayload),
+    MessageUserIncoming(MessageUserIncomingPayload),
     MessageUser(MessageUserPayload),
     MessageAcked(MessageAckedPayload),
+    MessageUsers(MessageUsersPayload),
+    PeerMessage(PeerMessagePayload),
     GetUserStats(UserLookupPayload),
+    GetUserStatsResponse(UserStatsResponsePayload),
     GetUserStatus(UserLookupPayload),
+    GetUserStatusResponse(UserStatusResponsePayload),
     SharedFoldersFiles(SharedFoldersFilesPayload),
     DownloadSpeed(SpeedPayload),
     UploadSpeed(SpeedPayload),
@@ -829,6 +909,18 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.username);
             CODE_SM_GET_PEER_ADDRESS
         }
+        ServerMessage::GetPeerAddressResponse(payload) => {
+            writer.write_string(&payload.username);
+            let ip = payload
+                .ip_address
+                .parse::<Ipv4Addr>()
+                .unwrap_or(Ipv4Addr::UNSPECIFIED);
+            writer.write_u32(u32::from_le_bytes(ip.octets()));
+            writer.write_u32(payload.port);
+            writer.write_u32(payload.obfuscation_type);
+            writer.write_raw_bytes(&payload.obfuscated_port.to_le_bytes());
+            CODE_SM_GET_PEER_ADDRESS
+        }
         ServerMessage::IgnoreUser(payload) => {
             writer.write_string(&payload.username);
             CODE_SM_IGNORE_USER
@@ -868,6 +960,27 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.room);
             writer.write_string(&payload.username);
             CODE_SM_USER_LEFT_ROOM
+        }
+        ServerMessage::ConnectToPeerRequest(payload) => {
+            writer.write_u32(payload.token);
+            writer.write_string(&payload.username);
+            writer.write_string(&payload.connection_type);
+            CODE_SM_CONNECT_TO_PEER
+        }
+        ServerMessage::ConnectToPeerResponse(payload) => {
+            writer.write_string(&payload.username);
+            writer.write_string(&payload.connection_type);
+            let ip = payload
+                .ip_address
+                .parse::<Ipv4Addr>()
+                .unwrap_or(Ipv4Addr::UNSPECIFIED);
+            writer.write_u32(u32::from_le_bytes(ip.octets()));
+            writer.write_u32(payload.port);
+            writer.write_u32(payload.token);
+            writer.write_bool_u32(payload.privileged);
+            writer.write_u32(payload.obfuscation_type);
+            writer.write_u32(payload.obfuscated_port);
+            CODE_SM_CONNECT_TO_PEER
         }
         ServerMessage::ConnectToPeer(payload) => {
             writer.write_string(&payload.username);
@@ -1066,6 +1179,14 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             }
             CODE_SM_ROOM_OPERATORS
         }
+        ServerMessage::MessageUserIncoming(payload) => {
+            writer.write_u32(payload.message_id);
+            writer.write_u32(payload.timestamp);
+            writer.write_string(&payload.username);
+            writer.write_string(&payload.message);
+            writer.write_u8(u8::from(payload.is_new));
+            CODE_SM_MESSAGE_USER
+        }
         ServerMessage::MessageUser(payload) => {
             writer.write_string(&payload.username);
             writer.write_string(&payload.message);
@@ -1075,12 +1196,49 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_u32(payload.message_id);
             CODE_SM_MESSAGE_ACKED
         }
+        ServerMessage::MessageUsers(payload) => {
+            writer.write_u32(payload.usernames.len() as u32);
+            for username in &payload.usernames {
+                writer.write_string(username);
+            }
+            writer.write_string(&payload.message);
+            CODE_SM_MESSAGE_USERS
+        }
+        ServerMessage::PeerMessage(payload) => {
+            writer.write_string(&payload.username);
+            if let (Some(ip), Some(port)) = (&payload.ip_address, payload.port) {
+                writer.write_u32(payload.code.unwrap_or(0));
+                writer.write_u32(payload.token.unwrap_or(0));
+                let parsed = ip.parse::<Ipv4Addr>().unwrap_or(Ipv4Addr::UNSPECIFIED);
+                writer.write_u32(u32::from_le_bytes(parsed.octets()));
+                writer.write_u32(port);
+            } else {
+                writer.write_u32(payload.token.unwrap_or(0));
+                writer.write_u32(payload.code.unwrap_or(0));
+            }
+            writer.write_string(&payload.message);
+            CODE_SM_PEER_MESSAGE
+        }
         ServerMessage::GetUserStats(payload) => {
             writer.write_string(&payload.username);
             CODE_SM_GET_USER_STATS
         }
+        ServerMessage::GetUserStatsResponse(payload) => {
+            writer.write_string(&payload.username);
+            writer.write_u32(payload.avg_speed);
+            writer.write_u32(payload.download_num);
+            writer.write_u32(payload.files);
+            writer.write_u32(payload.dirs);
+            CODE_SM_GET_USER_STATS
+        }
         ServerMessage::GetUserStatus(payload) => {
             writer.write_string(&payload.username);
+            CODE_SM_GET_USER_STATUS
+        }
+        ServerMessage::GetUserStatusResponse(payload) => {
+            writer.write_string(&payload.username);
+            writer.write_u32(payload.status);
+            writer.write_bool_u32(payload.privileged);
             CODE_SM_GET_USER_STATUS
         }
         ServerMessage::SharedFoldersFiles(payload) => {
@@ -1129,10 +1287,12 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             ServerMessage::SetWaitPort(payload)
         }
         CODE_SM_GET_PEER_ADDRESS => {
-            let payload = UserLookupPayload {
-                username: reader.read_string()?,
-            };
-            ServerMessage::GetPeerAddress(payload)
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_user_lookup_payload(payload) {
+                ServerMessage::GetPeerAddress(request)
+            } else {
+                ServerMessage::GetPeerAddressResponse(parse_peer_address_response_payload(payload)?)
+            }
         }
         CODE_SM_IGNORE_USER => {
             let payload = UserLookupPayload {
@@ -1169,11 +1329,14 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             ServerMessage::UserLeftRoom(parse_room_presence_event_payload(payload)?)
         }
         CODE_SM_CONNECT_TO_PEER => {
-            let payload = ConnectToPeerPayload {
-                username: reader.read_string()?,
-                token: reader.read_u32()?,
-            };
-            ServerMessage::ConnectToPeer(payload)
+            allow_trailing_bytes = true;
+            if let Ok(response) = parse_connect_to_peer_response_payload(payload) {
+                ServerMessage::ConnectToPeerResponse(response)
+            } else if let Ok(request) = parse_connect_to_peer_request_payload(payload) {
+                ServerMessage::ConnectToPeerRequest(request)
+            } else {
+                ServerMessage::ConnectToPeer(parse_connect_to_peer_legacy_payload(payload)?)
+            }
         }
         CODE_SM_FILE_SEARCH => {
             let payload = FileSearchPayload {
@@ -1347,11 +1510,13 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             ServerMessage::RoomOperators(parse_room_operators_payload(payload)?)
         }
         CODE_SM_MESSAGE_USER => {
-            let payload = MessageUserPayload {
-                username: reader.read_string()?,
-                message: reader.read_string()?,
-            };
-            ServerMessage::MessageUser(payload)
+            allow_trailing_bytes = true;
+            if let Ok(incoming) = parse_message_user_incoming_payload(payload) {
+                ServerMessage::MessageUserIncoming(incoming)
+            } else {
+                let request = parse_message_user_request_payload(payload)?;
+                ServerMessage::MessageUser(request)
+            }
         }
         CODE_SM_MESSAGE_ACKED => {
             let payload = MessageAckedPayload {
@@ -1359,17 +1524,29 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::MessageAcked(payload)
         }
+        CODE_SM_MESSAGE_USERS => {
+            allow_trailing_bytes = true;
+            ServerMessage::MessageUsers(parse_message_users_payload(payload)?)
+        }
+        CODE_SM_PEER_MESSAGE | CODE_SM_PEER_MESSAGE_ALT => {
+            allow_trailing_bytes = true;
+            ServerMessage::PeerMessage(parse_peer_message_payload(payload)?)
+        }
         CODE_SM_GET_USER_STATS => {
-            let payload = UserLookupPayload {
-                username: reader.read_string()?,
-            };
-            ServerMessage::GetUserStats(payload)
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_user_lookup_payload(payload) {
+                ServerMessage::GetUserStats(request)
+            } else {
+                ServerMessage::GetUserStatsResponse(parse_user_stats_response_payload(payload)?)
+            }
         }
         CODE_SM_GET_USER_STATUS => {
-            let payload = UserLookupPayload {
-                username: reader.read_string()?,
-            };
-            ServerMessage::GetUserStatus(payload)
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_user_lookup_payload(payload) {
+                ServerMessage::GetUserStatus(request)
+            } else {
+                ServerMessage::GetUserStatusResponse(parse_user_status_response_payload(payload)?)
+            }
         }
         CODE_SM_SHARED_FOLDERS_FILES => {
             let payload = SharedFoldersFilesPayload {
@@ -1659,6 +1836,197 @@ fn parse_user_lookup_payload(payload: &[u8]) -> Result<UserLookupPayload> {
     };
     ensure_payload_consumed(&reader)?;
     Ok(request)
+}
+
+fn parse_peer_address_response_payload(payload: &[u8]) -> Result<PeerAddressResponsePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let username = reader.read_string()?;
+    let ip_address = Ipv4Addr::from(reader.read_u32()?.to_le_bytes()).to_string();
+    let port = reader.read_u32()?;
+    let obfuscation_type = reader.read_u32()?;
+    let obfuscated_port_bytes = reader.take(2)?;
+    let obfuscated_port = u16::from_le_bytes([obfuscated_port_bytes[0], obfuscated_port_bytes[1]]);
+    ensure_payload_consumed(&reader)?;
+    Ok(PeerAddressResponsePayload {
+        username,
+        ip_address,
+        port,
+        obfuscation_type,
+        obfuscated_port,
+    })
+}
+
+fn parse_user_status_response_payload(payload: &[u8]) -> Result<UserStatusResponsePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let username = reader.read_string()?;
+    let status = reader.read_u32()?;
+    let privileged = if reader.remaining() >= 4 {
+        reader.read_bool_u32()?
+    } else if reader.remaining() >= 1 {
+        reader.read_u8()? != 0
+    } else {
+        false
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(UserStatusResponsePayload {
+        username,
+        status,
+        privileged,
+    })
+}
+
+fn parse_user_stats_response_payload(payload: &[u8]) -> Result<UserStatsResponsePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let response = UserStatsResponsePayload {
+        username: reader.read_string()?,
+        avg_speed: reader.read_u32()?,
+        download_num: reader.read_u32()?,
+        files: reader.read_u32()?,
+        dirs: reader.read_u32()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(response)
+}
+
+fn parse_connect_to_peer_request_payload(payload: &[u8]) -> Result<ConnectToPeerRequestPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let request = ConnectToPeerRequestPayload {
+        token: reader.read_u32()?,
+        username: reader.read_string()?,
+        connection_type: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(request)
+}
+
+fn parse_connect_to_peer_response_payload(payload: &[u8]) -> Result<ConnectToPeerResponsePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let username = reader.read_string()?;
+    let connection_type = reader.read_string()?;
+    let ip_address = Ipv4Addr::from(reader.read_u32()?.to_le_bytes()).to_string();
+    let port = reader.read_u32()?;
+    let token = reader.read_u32()?;
+    let privileged = if reader.remaining() >= 4 {
+        reader.read_bool_u32()?
+    } else {
+        false
+    };
+    let obfuscation_type = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let obfuscated_port = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(ConnectToPeerResponsePayload {
+        username,
+        connection_type,
+        ip_address,
+        port,
+        token,
+        privileged,
+        obfuscation_type,
+        obfuscated_port,
+    })
+}
+
+fn parse_connect_to_peer_legacy_payload(payload: &[u8]) -> Result<ConnectToPeerPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let legacy = ConnectToPeerPayload {
+        username: reader.read_string()?,
+        token: reader.read_u32()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(legacy)
+}
+
+fn parse_message_user_request_payload(payload: &[u8]) -> Result<MessageUserPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let request = MessageUserPayload {
+        username: reader.read_string()?,
+        message: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(request)
+}
+
+fn parse_message_user_incoming_payload(payload: &[u8]) -> Result<MessageUserIncomingPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let incoming = MessageUserIncomingPayload {
+        message_id: reader.read_u32()?,
+        timestamp: reader.read_u32()?,
+        username: reader.read_string()?,
+        message: reader.read_string()?,
+        is_new: if reader.remaining() >= 1 {
+            reader.read_u8()? != 0
+        } else {
+            false
+        },
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(incoming)
+}
+
+fn parse_message_users_payload(payload: &[u8]) -> Result<MessageUsersPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let user_count = reader.read_u32()?;
+    if user_count > 50_000 {
+        bail!("message_users count exceeds sanity threshold: {user_count}");
+    }
+    let mut usernames = Vec::with_capacity(user_count as usize);
+    for _ in 0..user_count {
+        usernames.push(reader.read_string()?);
+    }
+    let message = reader.read_string()?;
+    ensure_payload_consumed(&reader)?;
+    Ok(MessageUsersPayload { usernames, message })
+}
+
+fn parse_peer_message_request_payload(payload: &[u8]) -> Result<PeerMessagePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let username = reader.read_string()?;
+    let token = reader.read_u32()?;
+    let code = reader.read_u32()?;
+    let message = reader.read_string()?;
+    ensure_payload_consumed(&reader)?;
+    Ok(PeerMessagePayload {
+        username,
+        message,
+        token: Some(token),
+        code: Some(code),
+        ip_address: None,
+        port: None,
+    })
+}
+
+fn parse_peer_message_response_payload(payload: &[u8]) -> Result<PeerMessagePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let username = reader.read_string()?;
+    let code = reader.read_u32()?;
+    let token = reader.read_u32()?;
+    let ip_address = Ipv4Addr::from(reader.read_u32()?.to_le_bytes()).to_string();
+    let port = reader.read_u32()?;
+    let message = reader.read_string()?;
+    ensure_payload_consumed(&reader)?;
+    Ok(PeerMessagePayload {
+        username,
+        message,
+        token: Some(token),
+        code: Some(code),
+        ip_address: Some(ip_address),
+        port: Some(port),
+    })
+}
+
+fn parse_peer_message_payload(payload: &[u8]) -> Result<PeerMessagePayload> {
+    if let Ok(response) = parse_peer_message_response_payload(payload) {
+        return Ok(response);
+    }
+    parse_peer_message_request_payload(payload)
 }
 
 fn parse_own_privileges_status_payload(payload: &[u8]) -> Result<OwnPrivilegesStatusPayload> {
@@ -2231,6 +2599,48 @@ pub fn build_file_search_request(token: u32, search_text: &str) -> Frame {
     }))
 }
 
+pub fn build_get_peer_address_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetPeerAddress(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_get_user_status_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetUserStatus(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_get_user_stats_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetUserStats(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_connect_to_peer_request(token: u32, username: &str, connection_type: &str) -> Frame {
+    encode_server_message(&ServerMessage::ConnectToPeerRequest(
+        ConnectToPeerRequestPayload {
+            token,
+            username: username.to_owned(),
+            connection_type: connection_type.to_owned(),
+        },
+    ))
+}
+
+pub fn build_message_user_request(username: &str, message: &str) -> Frame {
+    encode_server_message(&ServerMessage::MessageUser(MessageUserPayload {
+        username: username.to_owned(),
+        message: message.to_owned(),
+    }))
+}
+
+pub fn build_message_users_request(usernames: &[String], message: &str) -> Frame {
+    encode_server_message(&ServerMessage::MessageUsers(MessageUsersPayload {
+        usernames: usernames.to_vec(),
+        message: message.to_owned(),
+    }))
+}
+
 pub fn build_get_recommendations_request() -> Frame {
     encode_server_message(&ServerMessage::GetRecommendations(EmptyPayload))
 }
@@ -2558,6 +2968,15 @@ mod tests {
             ProtocolMessage::Server(ServerMessage::GetPeerAddress(UserLookupPayload {
                 username: "bob".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::GetPeerAddressResponse(
+                PeerAddressResponsePayload {
+                    username: "bob".into(),
+                    ip_address: "203.0.113.5".into(),
+                    port: 2234,
+                    obfuscation_type: 1,
+                    obfuscated_port: 40123,
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::IgnoreUser(UserLookupPayload {
                 username: "eve".into(),
             })),
@@ -2584,6 +3003,25 @@ mod tests {
                 room: "nicotine".into(),
                 username: "dave".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::ConnectToPeerRequest(
+                ConnectToPeerRequestPayload {
+                    token: 77,
+                    username: "bob".into(),
+                    connection_type: "P".into(),
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::ConnectToPeerResponse(
+                ConnectToPeerResponsePayload {
+                    username: "bob".into(),
+                    connection_type: "P".into(),
+                    ip_address: "198.51.100.24".into(),
+                    port: 5566,
+                    token: 77,
+                    privileged: false,
+                    obfuscation_type: 0,
+                    obfuscated_port: 0,
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::ConnectToPeer(ConnectToPeerPayload {
                 username: "bob".into(),
                 token: 77,
@@ -2777,6 +3215,15 @@ mod tests {
                 room: "private-room".into(),
                 username: "alice".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::MessageUserIncoming(
+                MessageUserIncomingPayload {
+                    message_id: 91,
+                    timestamp: 1_705_000_000,
+                    username: "bob".into(),
+                    message: "hello inbound".into(),
+                    is_new: true,
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::MessageUser(MessageUserPayload {
                 username: "bob".into(),
                 message: "hello".into(),
@@ -2784,12 +3231,48 @@ mod tests {
             ProtocolMessage::Server(ServerMessage::MessageAcked(MessageAckedPayload {
                 message_id: 55,
             })),
+            ProtocolMessage::Server(ServerMessage::MessageUsers(MessageUsersPayload {
+                usernames: vec!["alice".into(), "bob".into()],
+                message: "broadcast test".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::PeerMessage(PeerMessagePayload {
+                username: "bob".into(),
+                message: "legacy request".into(),
+                token: Some(17),
+                code: Some(40),
+                ip_address: None,
+                port: None,
+            })),
+            ProtocolMessage::Server(ServerMessage::PeerMessage(PeerMessagePayload {
+                username: "bob".into(),
+                message: "legacy response".into(),
+                token: Some(17),
+                code: Some(40),
+                ip_address: Some("198.51.100.15".into()),
+                port: Some(2242),
+            })),
             ProtocolMessage::Server(ServerMessage::GetUserStats(UserLookupPayload {
                 username: "bob".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::GetUserStatsResponse(
+                UserStatsResponsePayload {
+                    username: "bob".into(),
+                    avg_speed: 2048,
+                    download_num: 12,
+                    files: 500,
+                    dirs: 42,
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::GetUserStatus(UserLookupPayload {
                 username: "bob".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::GetUserStatusResponse(
+                UserStatusResponsePayload {
+                    username: "bob".into(),
+                    status: 2,
+                    privileged: true,
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::SharedFoldersFiles(
                 SharedFoldersFilesPayload {
                     folder_count: 12,
@@ -3043,6 +3526,34 @@ mod tests {
     }
 
     #[test]
+    fn stage4e_server_request_builders_emit_expected_codes() {
+        assert_eq!(
+            build_get_peer_address_request("alice").code,
+            CODE_SM_GET_PEER_ADDRESS
+        );
+        assert_eq!(
+            build_get_user_status_request("alice").code,
+            CODE_SM_GET_USER_STATUS
+        );
+        assert_eq!(
+            build_get_user_stats_request("alice").code,
+            CODE_SM_GET_USER_STATS
+        );
+        assert_eq!(
+            build_connect_to_peer_request(77, "alice", "P").code,
+            CODE_SM_CONNECT_TO_PEER
+        );
+        assert_eq!(
+            build_message_user_request("alice", "hello").code,
+            CODE_SM_MESSAGE_USER
+        );
+        assert_eq!(
+            build_message_users_request(&["alice".to_string(), "bob".to_string()], "hello").code,
+            CODE_SM_MESSAGE_USERS
+        );
+    }
+
+    #[test]
     fn peer_folder_request_builder_emits_expected_code() {
         assert_eq!(
             build_get_shared_files_in_folder_request("Music").code,
@@ -3192,5 +3703,77 @@ mod tests {
             build_peer_queued_downloads(&["Music\\A.flac".to_string()]).code,
             CODE_PM_QUEUED_DOWNLOADS
         );
+    }
+
+    #[test]
+    fn decode_server_directional_responses_for_s4e_payloads() {
+        let peer_addr_frame = encode_server_message(&ServerMessage::GetPeerAddressResponse(
+            PeerAddressResponsePayload {
+                username: "alice".into(),
+                ip_address: "203.0.113.8".into(),
+                port: 2242,
+                obfuscation_type: 0,
+                obfuscated_port: 0,
+            },
+        ));
+        let peer_addr =
+            decode_server_message(peer_addr_frame.code, &peer_addr_frame.payload).expect("decode");
+        assert!(matches!(
+            peer_addr,
+            ServerMessage::GetPeerAddressResponse(_)
+        ));
+
+        let status_frame = encode_server_message(&ServerMessage::GetUserStatusResponse(
+            UserStatusResponsePayload {
+                username: "alice".into(),
+                status: 2,
+                privileged: true,
+            },
+        ));
+        let status = decode_server_message(status_frame.code, &status_frame.payload)
+            .expect("decode user status response");
+        assert!(matches!(status, ServerMessage::GetUserStatusResponse(_)));
+
+        let stats_frame = encode_server_message(&ServerMessage::GetUserStatsResponse(
+            UserStatsResponsePayload {
+                username: "alice".into(),
+                avg_speed: 2048,
+                download_num: 3,
+                files: 120,
+                dirs: 12,
+            },
+        ));
+        let stats =
+            decode_server_message(stats_frame.code, &stats_frame.payload).expect("decode stats");
+        assert!(matches!(stats, ServerMessage::GetUserStatsResponse(_)));
+    }
+
+    #[test]
+    fn decode_message_user_incoming_and_peer_message_alt() {
+        let incoming = encode_server_message(&ServerMessage::MessageUserIncoming(
+            MessageUserIncomingPayload {
+                message_id: 11,
+                timestamp: 1_705_000_000,
+                username: "bob".into(),
+                message: "hello".into(),
+                is_new: true,
+            },
+        ));
+        let decoded =
+            decode_server_message(incoming.code, &incoming.payload).expect("decode incoming");
+        assert!(matches!(decoded, ServerMessage::MessageUserIncoming(_)));
+
+        let peer_message = encode_server_message(&ServerMessage::PeerMessage(PeerMessagePayload {
+            username: "bob".into(),
+            message: "legacy".into(),
+            token: Some(7),
+            code: Some(40),
+            ip_address: Some("198.51.100.11".into()),
+            port: Some(2242),
+        }));
+        let alt_frame = Frame::new(CODE_SM_PEER_MESSAGE_ALT, peer_message.payload);
+        let alt_decoded =
+            decode_server_message(alt_frame.code, &alt_frame.payload).expect("decode alt");
+        assert!(matches!(alt_decoded, ServerMessage::PeerMessage(_)));
     }
 }

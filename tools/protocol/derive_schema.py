@@ -62,6 +62,7 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_GET_GLOBAL_RECOMMENDATIONS"): 56,
     ("server", "SM_GET_USER_RECOMMENDATIONS"): 57,
     ("server", "SM_EXACT_FILE_SEARCH"): 65,
+    ("server", "SM_PEER_MESSAGE"): 68,
     ("server", "SM_GET_OWN_PRIVILEGES_STATUS"): 92,
     ("server", "SM_SEARCH_ROOM"): 120,
     ("server", "SM_GET_USER_PRIVILEGES_STATUS"): 122,
@@ -75,6 +76,7 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_REMOVE_ROOM_OPERATOR"): 144,
     ("server", "SM_ROOM_MEMBERS"): 133,
     ("server", "SM_ROOM_OPERATORS"): 148,
+    ("server", "SM_MESSAGE_USERS"): 149,
     ("peer", "PM_GET_SHARED_FILE_LIST"): 4,
     ("peer", "PM_SHARED_FILE_LIST"): 5,
     ("peer", "PM_FILE_SEARCH_REQUEST"): 8,
@@ -103,7 +105,13 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "minor_version", "type": "u32"},
     ],
     ("server", "SM_SET_WAIT_PORT"): [{"name": "listen_port", "type": "u32"}],
-    ("server", "SM_GET_PEER_ADDRESS"): [{"name": "username", "type": "string"}],
+    ("server", "SM_GET_PEER_ADDRESS"): [
+        {"name": "username", "type": "string"},
+        {"name": "ip_address", "type": "ipv4_u32_le"},
+        {"name": "port", "type": "u32"},
+        {"name": "obfuscation_type", "type": "u32"},
+        {"name": "obfuscated_port", "type": "u16"},
+    ],
     ("server", "SM_IGNORE_USER"): [{"name": "username", "type": "string"}],
     ("server", "SM_UNIGNORE_USER"): [{"name": "username", "type": "string"}],
     ("server", "SM_SAY_CHATROOM"): [
@@ -125,8 +133,14 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "username", "type": "string"},
     ],
     ("server", "SM_CONNECT_TO_PEER"): [
-        {"name": "username", "type": "string"},
         {"name": "token", "type": "u32"},
+        {"name": "username", "type": "string"},
+        {"name": "connection_type", "type": "string"},
+        {"name": "ip_address", "type": "ipv4_u32_le"},
+        {"name": "port", "type": "u32"},
+        {"name": "privileged", "type": "bool_u32"},
+        {"name": "obfuscation_type", "type": "u32"},
+        {"name": "obfuscated_port", "type": "u32"},
     ],
     ("server", "SM_ROOM_LIST"): [
         {"name": "room_count", "type": "u32"},
@@ -227,12 +241,38 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "operators", "type": "array<string>"},
     ],
     ("server", "SM_MESSAGE_USER"): [
+        {"name": "message_id", "type": "u32"},
+        {"name": "timestamp", "type": "u32"},
         {"name": "username", "type": "string"},
         {"name": "message", "type": "string"},
+        {"name": "is_new", "type": "bool_u8"},
     ],
     ("server", "SM_MESSAGE_ACKED"): [{"name": "message_id", "type": "u32"}],
-    ("server", "SM_GET_USER_STATS"): [{"name": "username", "type": "string"}],
-    ("server", "SM_GET_USER_STATUS"): [{"name": "username", "type": "string"}],
+    ("server", "SM_MESSAGE_USERS"): [
+        {"name": "username_count", "type": "u32"},
+        {"name": "usernames", "type": "array<string>"},
+        {"name": "message", "type": "string"},
+    ],
+    ("server", "SM_PEER_MESSAGE"): [
+        {"name": "username", "type": "string"},
+        {"name": "token", "type": "u32"},
+        {"name": "code", "type": "u32"},
+        {"name": "ip_address", "type": "ipv4_u32_le"},
+        {"name": "port", "type": "u32"},
+        {"name": "message", "type": "string"},
+    ],
+    ("server", "SM_GET_USER_STATS"): [
+        {"name": "username", "type": "string"},
+        {"name": "avg_speed", "type": "u32"},
+        {"name": "download_num", "type": "u32"},
+        {"name": "files", "type": "u32"},
+        {"name": "dirs", "type": "u32"},
+    ],
+    ("server", "SM_GET_USER_STATUS"): [
+        {"name": "username", "type": "string"},
+        {"name": "status", "type": "u32"},
+        {"name": "privileged", "type": "bool_u32"},
+    ],
     ("server", "SM_SHARED_FOLDERS_FILES"): [
         {"name": "folder_count", "type": "u32"},
         {"name": "file_count", "type": "u32"},
@@ -327,11 +367,65 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "note": "PrepareSearch normalizes and emits search tokens/strings.",
         },
     ],
+    ("server", "SM_GET_PEER_ADDRESS"): [
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 3 defines peer-address request and response payload fields.",
+        }
+    ],
     ("server", "SM_CONNECT_TO_PEER"): [
         {
             "kind": "ghidra_decompile",
             "source": "evidence/reverse/disasm/server_handle_message.txt",
             "note": "Server handler routes peer connect responses to transfer subsystem.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 18 documents ConnectToPeer request and response payload shape.",
+        }
+    ],
+    ("server", "SM_MESSAGE_USER"): [
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 22 documents private message request and incoming event fields.",
+        }
+    ],
+    ("server", "SM_MESSAGE_ACKED"): [
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 23 documents private message acknowledgement with message ID.",
+        }
+    ],
+    ("server", "SM_GET_USER_STATUS"): [
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 7 defines user status response fields (status and privilege bit).",
+        }
+    ],
+    ("server", "SM_GET_USER_STATS"): [
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 36 defines user stats response fields (speed/downloads/files/dirs).",
+        }
+    ],
+    ("server", "SM_MESSAGE_USERS"): [
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 149 documents SendMessageUsers payload (users list + message).",
+        }
+    ],
+    ("server", "SM_PEER_MESSAGE"): [
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 68 is documented as PeerMessage/TunneledMessage in protocol references.",
         }
     ],
     ("server", "SM_GET_SIMILAR_TERMS"): [
