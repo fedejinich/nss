@@ -59,7 +59,9 @@ For deterministic runtime scenario generation (server socket + local peer flows)
 python3 tools/runtime/generate_stage2_real_captures.py \
   --server server.slsknet.org:2242 \
   --username <user> \
-  --password-md5 <md5>
+  --password <plain_password> \
+  --client-version 160 \
+  --minor-version 1
 ```
 
 Then redact:
@@ -92,6 +94,12 @@ This verifies:
 
 1. Fixture parity in `captures/fixtures`.
 2. Per-run parity for mandatory runs in `captures/redacted/*`.
+
+Optional explicit mode:
+
+```bash
+VERIFY_MODE=bytes scripts/run_diff_verify.sh
+```
 
 ## Policy
 

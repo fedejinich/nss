@@ -16,6 +16,7 @@ USER_KEYS = {"user", "username", "from_user", "to_user", "nick", "peer_user", "t
 ADDR_KEYS = {"ip", "address", "ip_address", "peer_addr", "server", "host"}
 PATH_KEYS = {"path", "virtual_path", "source_file", "target_path", "output_path", "file"}
 TEXT_KEYS = {"message", "text", "chat_message", "private_message"}
+SECRET_KEYS = {"password", "passwd", "password_md5", "md5hash"}
 
 
 def now_iso() -> str:
@@ -45,6 +46,10 @@ def redact_string(value: str, *, key: str, salt: str, stats: dict[str, int]) -> 
     if lowered_key in TEXT_KEYS:
         stats["text"] = stats.get("text", 0) + 1
         return hash_token("text", value, salt)
+
+    if lowered_key in SECRET_KEYS:
+        stats["secret"] = stats.get("secret", 0) + 1
+        return hash_token("secret", value, salt)
 
     def repl_ip(match: re.Match[str]) -> str:
         stats["endpoint"] = stats.get("endpoint", 0) + 1

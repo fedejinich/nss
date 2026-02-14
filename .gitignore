@@ -14,3 +14,4 @@ SoulseekQt-*.dmg
 rust/target/
 captures/raw/
 *.pcap
+.env.local

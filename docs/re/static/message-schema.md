@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T06:27:00+00:00`
+- Generated: `2026-02-14T13:54:28+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -104,11 +104,12 @@
 - Confidence: `high`
 - Payload fields:
   - `username`: `string`
-  - `password_md5`: `string`
+  - `password`: `string`
   - `client_version`: `u32`
+  - `md5hash`: `string`
   - `minor_version`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-only/official_frames.hex` (Observed authenticated runtime login request+response (code 1) with success payload on tuple 160/1.)
 
 ### `server` `SM_SET_WAIT_PORT` (code `2`)
 - Confidence: `high`

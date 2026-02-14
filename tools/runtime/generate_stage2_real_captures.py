@@ -4,11 +4,18 @@ import argparse
 import json
 import socket
 import struct
+import sys
 import threading
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Iterable
+
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from tools.runtime.slsk_runtime import compute_login_md5hash
 
 
 def now_iso() -> str:
@@ -37,7 +44,10 @@ def read_n(sock: socket.socket, total: int) -> bytes:
     chunks = []
     remaining = total
     while remaining > 0:
-        chunk = sock.recv(remaining)
+        try:
+            chunk = sock.recv(remaining)
+        except socket.timeout:
+            continue
         if not chunk:
             raise ConnectionError("socket closed")
         chunks.append(chunk)
@@ -46,18 +56,27 @@ def read_n(sock: socket.socket, total: int) -> bytes:
 
 
 def try_read_frame(sock: socket.socket) -> bytes | None:
-    try:
-        hdr = sock.recv(4)
-    except socket.timeout:
-        return None
-
-    if not hdr:
-        return None
-    if len(hdr) < 4:
-        raise ConnectionError("truncated frame header")
+    prev_timeout = sock.gettimeout()
+    hdr = b""
+    while len(hdr) < 4:
+        try:
+            chunk = sock.recv(4 - len(hdr))
+        except socket.timeout:
+            if not hdr:
+                return None
+            continue
+        if not chunk:
+            if not hdr:
+                return None
+            raise ConnectionError("truncated frame header")
+        hdr += chunk
 
     frame_len = struct.unpack("<I", hdr)[0]
+    if prev_timeout is not None and prev_timeout < 2.0:
+        sock.settimeout(2.0)
     body = read_n(sock, frame_len)
+    if prev_timeout is not None:
+        sock.settimeout(prev_timeout)
     return hdr + body
 
 
@@ -75,8 +94,9 @@ def drain_frames(sock: socket.socket, duration_s: float = 0.8) -> list[bytes]:
 
 
 # Message builders for stage2 scenarios.
-def sm_login(username: str, password_md5: str, client_version: int, minor_version: int) -> bytes:
-    return frame(1, s(username) + s(password_md5) + u32(client_version) + u32(minor_version))
+def sm_login(username: str, password: str, client_version: int, minor_version: int) -> bytes:
+    md5hash = compute_login_md5hash(username, password)
+    return frame(1, s(username) + s(password) + u32(client_version) + s(md5hash) + u32(minor_version))
 
 
 def sm_file_search(token: int, query: str) -> bytes:
@@ -226,10 +246,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Generate stage2 runtime captures for mandatory scenarios")
     parser.add_argument("--server", default="server.slsknet.org:2242")
     parser.add_argument("--username", required=True)
-    parser.add_argument("--password-md5", required=True)
-    parser.add_argument("--client-version", type=int, default=157)
-    parser.add_argument("--minor-version", type=int, default=100)
+    parser.add_argument("--password", default="")
+    parser.add_argument("--password-md5", default="")
+    parser.add_argument("--client-version", type=int, default=160)
+    parser.add_argument("--minor-version", type=int, default=1)
     args = parser.parse_args()
+
+    if args.password_md5:
+        raise SystemExit("--password-md5 is deprecated; use --password")
+    if not args.password:
+        raise SystemExit("missing --password")
 
     repo_root = Path(__file__).resolve().parent.parent.parent
 
@@ -238,7 +264,7 @@ def main() -> int:
     def scenario_login_only() -> tuple[list[bytes], list[dict], str]:
         frames = send_server_sequence(
             args.server,
-            [sm_login(args.username, args.password_md5, args.client_version, args.minor_version)],
+            [sm_login(args.username, args.password, args.client_version, args.minor_version)],
         )
         events = [
             {
@@ -249,14 +275,14 @@ def main() -> int:
                 "detail": "login_only_runtime",
             }
         ]
-        return frames, events, "runtime_socket_server"
+        return frames, events, "runtime_socket_server_authenticated"
 
     def scenario_login_search() -> tuple[list[bytes], list[dict], str]:
         token = 42101
         frames = send_server_sequence(
             args.server,
             [
-                sm_login(args.username, args.password_md5, args.client_version, args.minor_version),
+                sm_login(args.username, args.password, args.client_version, args.minor_version),
                 sm_file_search(token, "aphex twin"),
                 sm_search_room("electronica", "aphex twin"),
                 sm_exact_file_search("Music\\Aphex Twin\\Track.flac"),
@@ -279,14 +305,14 @@ def main() -> int:
                 "target_user": args.username,
             },
         ]
-        return frames, events, "runtime_socket_server"
+        return frames, events, "runtime_socket_server_authenticated"
 
     def scenario_login_search_download() -> tuple[list[bytes], list[dict], str]:
         token = 42102
         frames = send_server_sequence(
             args.server,
             [
-                sm_login(args.username, args.password_md5, args.client_version, args.minor_version),
+                sm_login(args.username, args.password, args.client_version, args.minor_version),
                 sm_file_search(token, "boards of canada"),
             ],
         )
@@ -311,7 +337,7 @@ def main() -> int:
                 "path": "Music\\Boards of Canada\\Roygbiv.flac",
             }
         ]
-        return frames, events, "runtime_socket_server_plus_local_peer"
+        return frames, events, "runtime_socket_server_plus_local_peer_authenticated"
 
     def scenario_upload_deny() -> tuple[list[bytes], list[dict], str]:
         frames = run_local_exchange(

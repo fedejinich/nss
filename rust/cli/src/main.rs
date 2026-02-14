@@ -1,18 +1,20 @@
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use clap::{Parser, Subcommand, ValueEnum};
 use protocol::{
-    build_file_search_request, build_login_request, build_transfer_request, build_transfer_response, Frame,
-    TransferDirection,
+    Frame, TransferDirection, build_file_search_request, build_login_request,
+    build_transfer_request, build_transfer_response,
 };
 use soul_core::{
-    download_single_file, Credentials, DownloadPlan, ManualUploadDecision, SessionClient, UploadAgent,
-    UploadDecisionKind,
+    Credentials, DownloadPlan, ManualUploadDecision, SessionClient, UploadAgent,
+    UploadDecisionKind, download_single_file, probe_login_versions,
 };
+use std::env;
+use std::fs;
 use std::path::PathBuf;
 use std::time::Duration;
 use verify::{
-    compare_capture_run, compare_fixture_to_frame, write_capture_report, write_report, CaptureRunReport,
-    FrameComparison,
+    CaptureRunReport, ComparisonMode, FrameComparison, compare_capture_run_with_mode,
+    compare_fixture_to_frame, write_capture_report, write_report,
 };
 
 #[derive(Debug, Parser)]
@@ -29,7 +31,9 @@ enum Commands {
         #[arg(long)]
         username: String,
         #[arg(long)]
-        password_md5: String,
+        password: String,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
         #[arg(long, default_value_t = 157)]
         client_version: u32,
         #[arg(long, default_value_t = 19)]
@@ -59,11 +63,13 @@ enum Commands {
     },
     RunLogin {
         #[arg(long)]
-        server: String,
+        server: Option<String>,
         #[arg(long)]
-        username: String,
+        username: Option<String>,
         #[arg(long)]
-        password_md5: String,
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
         #[arg(long, default_value_t = 157)]
         client_version: u32,
         #[arg(long, default_value_t = 19)]
@@ -71,11 +77,13 @@ enum Commands {
     },
     RunSearch {
         #[arg(long)]
-        server: String,
+        server: Option<String>,
         #[arg(long)]
-        username: String,
+        username: Option<String>,
         #[arg(long)]
-        password_md5: String,
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
         #[arg(long)]
         token: u32,
         #[arg(long)]
@@ -121,11 +129,13 @@ enum Commands {
 enum SessionCommand {
     Login {
         #[arg(long)]
-        server: String,
+        server: Option<String>,
         #[arg(long)]
-        username: String,
+        username: Option<String>,
         #[arg(long)]
-        password_md5: String,
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
         #[arg(long, default_value_t = 157)]
         client_version: u32,
         #[arg(long, default_value_t = 19)]
@@ -133,11 +143,13 @@ enum SessionCommand {
     },
     Search {
         #[arg(long)]
-        server: String,
+        server: Option<String>,
         #[arg(long)]
-        username: String,
+        username: Option<String>,
         #[arg(long)]
-        password_md5: String,
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
         #[arg(long)]
         token: u32,
         #[arg(long)]
@@ -150,6 +162,16 @@ enum SessionCommand {
         client_version: u32,
         #[arg(long, default_value_t = 19)]
         minor_version: u32,
+    },
+    ProbeLoginVersion {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
     },
 }
 
@@ -200,7 +222,15 @@ enum VerifyCommand {
         run: String,
         #[arg(long, default_value = "captures/redacted")]
         base_dir: PathBuf,
+        #[arg(long, value_enum, default_value_t = VerifyModeArg::Semantic)]
+        mode: VerifyModeArg,
     },
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
+enum VerifyModeArg {
+    Bytes,
+    Semantic,
 }
 
 #[tokio::main]
@@ -210,11 +240,13 @@ async fn main() -> Result<()> {
     match cli.command {
         Commands::BuildLogin {
             username,
+            password,
             password_md5,
             client_version,
             minor_version,
         } => {
-            let frame = build_login_request(&username, &password_md5, client_version, minor_version);
+            reject_password_md5(password_md5.as_deref())?;
+            let frame = build_login_request(&username, &password, client_version, minor_version);
             println!("{}", hex_string(&frame));
         }
         Commands::BuildSearch { token, query } => {
@@ -236,13 +268,24 @@ async fn main() -> Result<()> {
         Commands::RunLogin {
             server,
             username,
+            password,
             password_md5,
             client_version,
             minor_version,
-        } => run_login(&server, &username, &password_md5, client_version, minor_version).await?,
+        } => {
+            run_login(
+                runtime_server(server.as_deref())?.as_str(),
+                runtime_username(username.as_deref())?.as_str(),
+                runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                client_version,
+                minor_version,
+            )
+            .await?
+        }
         Commands::RunSearch {
             server,
             username,
+            password,
             password_md5,
             token,
             query,
@@ -250,9 +293,9 @@ async fn main() -> Result<()> {
             minor_version,
         } => {
             run_search(
-                &server,
-                &username,
-                &password_md5,
+                runtime_server(server.as_deref())?.as_str(),
+                runtime_username(username.as_deref())?.as_str(),
+                runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
                 token,
                 &query,
                 client_version,
@@ -269,20 +312,34 @@ async fn main() -> Result<()> {
             size,
             output,
         } => run_download(peer, token, path, size, output).await?,
-        Commands::VerifyFixtures { fixtures_dir, report } => {
+        Commands::VerifyFixtures {
+            fixtures_dir,
+            report,
+        } => {
             run_verify_fixtures(&fixtures_dir, &report)?;
         }
         Commands::Session { command } => match command {
             SessionCommand::Login {
                 server,
                 username,
+                password,
                 password_md5,
                 client_version,
                 minor_version,
-            } => run_login(&server, &username, &password_md5, client_version, minor_version).await?,
+            } => {
+                run_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?
+            }
             SessionCommand::Search {
                 server,
                 username,
+                password,
                 password_md5,
                 token,
                 query,
@@ -292,9 +349,9 @@ async fn main() -> Result<()> {
                 minor_version,
             } => {
                 run_search(
-                    &server,
-                    &username,
-                    &password_md5,
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
                     token,
                     &query,
                     client_version,
@@ -303,6 +360,19 @@ async fn main() -> Result<()> {
                     max_messages,
                 )
                 .await?
+            }
+            SessionCommand::ProbeLoginVersion {
+                server,
+                username,
+                password,
+                password_md5,
+            } => {
+                run_probe_login_version(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                )
+                .await?;
             }
         },
         Commands::Transfer { command } => match command {
@@ -327,11 +397,18 @@ async fn main() -> Result<()> {
             }
         },
         Commands::Verify { command } => match command {
-            VerifyCommand::Fixtures { fixtures_dir, report } => {
+            VerifyCommand::Fixtures {
+                fixtures_dir,
+                report,
+            } => {
                 run_verify_fixtures(&fixtures_dir, &report)?;
             }
-            VerifyCommand::Captures { run, base_dir } => {
-                run_verify_capture_run(&run, &base_dir)?;
+            VerifyCommand::Captures {
+                run,
+                base_dir,
+                mode,
+            } => {
+                run_verify_capture_run(&run, &base_dir, to_comparison_mode(mode))?;
             }
         },
     }
@@ -339,10 +416,109 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
+fn reject_password_md5(password_md5: Option<&str>) -> Result<()> {
+    if password_md5.is_some() {
+        bail!("--password-md5 is deprecated for runtime auth; use --password");
+    }
+    Ok(())
+}
+
+fn read_env_local() {
+    let manifest_repo = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .join(".env.local");
+    let candidates = [
+        PathBuf::from(".env.local"),
+        PathBuf::from("../.env.local"),
+        manifest_repo,
+    ];
+
+    for path in candidates {
+        if !path.exists() {
+            continue;
+        }
+        let Ok(raw) = fs::read_to_string(path) else {
+            continue;
+        };
+        for line in raw.lines() {
+            let trimmed = line.trim();
+            if trimmed.is_empty() || trimmed.starts_with('#') {
+                continue;
+            }
+            let Some((key, value)) = trimmed.split_once('=') else {
+                continue;
+            };
+            let key = key.trim();
+            if key.is_empty() || env::var_os(key).is_some() {
+                continue;
+            }
+            let value = value.trim().trim_matches('"').trim_matches('\'');
+            // SAFETY: key/value come from trusted local dotenv file and are UTF-8 strings.
+            unsafe { env::set_var(key, value) };
+        }
+        break;
+    }
+}
+
+fn env_or_arg(arg: Option<&str>, env_key: &str) -> Result<String> {
+    if let Some(value) = arg {
+        let trimmed = value.trim();
+        if !trimmed.is_empty() {
+            return Ok(trimmed.to_string());
+        }
+    }
+    read_env_local();
+    let value = env::var(env_key).with_context(|| {
+        format!(
+            "missing runtime credential: provide --{} or set {}",
+            env_key_to_arg(env_key),
+            env_key
+        )
+    })?;
+    let trimmed = value.trim();
+    if trimmed.is_empty() {
+        bail!(
+            "missing runtime credential: provide --{} or set {}",
+            env_key_to_arg(env_key),
+            env_key
+        );
+    }
+    Ok(trimmed.to_string())
+}
+
+fn env_key_to_arg(env_key: &str) -> &'static str {
+    match env_key {
+        "NSS_TEST_SERVER" => "server",
+        "NSS_TEST_USERNAME" => "username",
+        "NSS_TEST_PASSWORD" => "password",
+        _ => "value",
+    }
+}
+
+fn runtime_server(arg: Option<&str>) -> Result<String> {
+    env_or_arg(arg, "NSS_TEST_SERVER")
+}
+
+fn runtime_username(arg: Option<&str>) -> Result<String> {
+    env_or_arg(arg, "NSS_TEST_USERNAME")
+}
+
+fn runtime_password(password: Option<&str>, password_md5: Option<&str>) -> Result<String> {
+    reject_password_md5(password_md5)?;
+    env_or_arg(password, "NSS_TEST_PASSWORD")
+}
+
+fn to_comparison_mode(mode: VerifyModeArg) -> ComparisonMode {
+    match mode {
+        VerifyModeArg::Bytes => ComparisonMode::Bytes,
+        VerifyModeArg::Semantic => ComparisonMode::Semantic,
+    }
+}
+
 async fn run_login(
     server: &str,
     username: &str,
-    password_md5: &str,
+    password: &str,
     client_version: u32,
     minor_version: u32,
 ) -> Result<()> {
@@ -350,12 +526,16 @@ async fn run_login(
     client
         .login(&Credentials {
             username: username.to_owned(),
-            password_md5: password_md5.to_owned(),
+            password: password.to_owned(),
             client_version,
             minor_version,
         })
         .await?;
-    println!("session.login ok state={:?} server={}", client.state(), server);
+    println!(
+        "session.login ok state={:?} server={}",
+        client.state(),
+        server
+    );
     Ok(())
 }
 
@@ -363,7 +543,7 @@ async fn run_login(
 async fn run_search(
     server: &str,
     username: &str,
-    password_md5: &str,
+    password: &str,
     token: u32,
     query: &str,
     client_version: u32,
@@ -375,7 +555,7 @@ async fn run_search(
     client
         .login(&Credentials {
             username: username.to_owned(),
-            password_md5: password_md5.to_owned(),
+            password: password.to_owned(),
             client_version,
             minor_version,
         })
@@ -402,7 +582,32 @@ async fn run_search(
     Ok(())
 }
 
-async fn run_download(peer: String, token: u32, path: String, size: u64, output: PathBuf) -> Result<()> {
+async fn run_probe_login_version(server: &str, username: &str, password: &str) -> Result<()> {
+    let attempts = probe_login_versions(server, username, password).await?;
+    let rendered: Vec<serde_json::Value> = attempts
+        .into_iter()
+        .map(|attempt| {
+            serde_json::json!({
+                "client_version": attempt.client_version,
+                "minor_version": attempt.minor_version,
+                "result": attempt.result,
+            })
+        })
+        .collect();
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&rendered).context("serialize probe attempts")?
+    );
+    Ok(())
+}
+
+async fn run_download(
+    peer: String,
+    token: u32,
+    path: String,
+    size: u64,
+    output: PathBuf,
+) -> Result<()> {
     let result = download_single_file(&DownloadPlan {
         peer_addr: peer,
         token,
@@ -435,13 +640,7 @@ async fn run_serve_upload(
     };
 
     let result = agent
-        .serve_single_manual(
-            ManualUploadDecision {
-                decision,
-                reason,
-            },
-            source_file,
-        )
+        .serve_single_manual(ManualUploadDecision { decision, reason }, source_file)
         .await?;
 
     println!(
@@ -453,7 +652,8 @@ async fn run_serve_upload(
 
 fn run_verify_fixtures(fixtures_dir: &PathBuf, report: &PathBuf) -> Result<()> {
     let comparisons = verify_fixtures(fixtures_dir)?;
-    write_report(report, &comparisons).with_context(|| format!("write report: {}", report.display()))?;
+    write_report(report, &comparisons)
+        .with_context(|| format!("write report: {}", report.display()))?;
 
     for cmp in &comparisons {
         println!(
@@ -469,11 +669,11 @@ fn run_verify_fixtures(fixtures_dir: &PathBuf, report: &PathBuf) -> Result<()> {
     Ok(())
 }
 
-fn run_verify_capture_run(run: &str, base_dir: &PathBuf) -> Result<()> {
+fn run_verify_capture_run(run: &str, base_dir: &PathBuf, mode: ComparisonMode) -> Result<()> {
     let run_dir = base_dir.join(run);
     let report_path = run_dir.join("verify-captures-report.json");
 
-    let report = compare_capture_run(&run_dir)
+    let report = compare_capture_run_with_mode(&run_dir, mode)
         .with_context(|| format!("compare capture run: {}", run_dir.display()))?;
     write_capture_report(&report_path, &report)?;
 
@@ -488,8 +688,9 @@ fn run_verify_capture_run(run: &str, base_dir: &PathBuf) -> Result<()> {
 
 fn print_capture_report_summary(report: &CaptureRunReport) {
     println!(
-        "run={} pairs={} matched={} mismatched={} official_only={} neo_only={}",
+        "run={} mode={:?} pairs={} matched={} mismatched={} official_only={} neo_only={}",
         report.run_id,
+        report.comparison_mode,
         report.total_pairs,
         report.matched_pairs,
         report.mismatched_pairs,
@@ -506,7 +707,7 @@ fn verify_fixtures(fixtures_dir: &PathBuf) -> Result<Vec<FrameComparison>> {
 
     let mut results = Vec::new();
 
-    let login = build_login_request("alice", "0123456789abcdef0123456789abcdef", 157, 19);
+    let login = build_login_request("alice", "secret-pass", 157, 19);
     results.push(compare_fixture_to_frame(&login_fixture, &login)?);
 
     let search = build_file_search_request(12345, "aphex twin");
@@ -518,10 +719,16 @@ fn verify_fixtures(fixtures_dir: &PathBuf) -> Result<Vec<FrameComparison>> {
         "Music\\Aphex Twin\\Track.flac",
         123_456_789,
     );
-    results.push(compare_fixture_to_frame(&transfer_req_fixture, &transfer_req)?);
+    results.push(compare_fixture_to_frame(
+        &transfer_req_fixture,
+        &transfer_req,
+    )?);
 
     let transfer_resp = build_transfer_response(555, true, "");
-    results.push(compare_fixture_to_frame(&transfer_resp_fixture, &transfer_resp)?);
+    results.push(compare_fixture_to_frame(
+        &transfer_resp_fixture,
+        &transfer_resp,
+    )?);
 
     Ok(results)
 }

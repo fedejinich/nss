@@ -66,8 +66,9 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
 KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ("server", "SM_LOGIN"): [
         {"name": "username", "type": "string"},
-        {"name": "password_md5", "type": "string"},
+        {"name": "password", "type": "string"},
         {"name": "client_version", "type": "u32"},
+        {"name": "md5hash", "type": "string"},
         {"name": "minor_version", "type": "u32"},
     ],
     ("server", "SM_SET_WAIT_PORT"): [{"name": "listen_port", "type": "u32"}],

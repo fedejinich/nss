@@ -24,8 +24,8 @@
 
 ## Gaps abiertos
 
-1. Login runtime actual responde `INVALIDVERSION` con la versión enviada; falta fijar tuple de versión aceptada para sesión autenticada exitosa.
-2. Differential normalizer aún compara frames completos; se puede extender a normalización semántica por campo.
+1. [Closed in Stage 3A] Tuple autenticado aceptado: `160/1`.
+2. [Closed in Stage 3A] Differential extendido a normalización semántica por campo.
 
 ## Recomendación siguiente
 

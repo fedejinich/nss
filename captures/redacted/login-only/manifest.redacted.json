@@ -1,19 +1,19 @@
 {
   "run_id": "login-only",
   "scenario": "login-only",
-  "source_type": "runtime_socket_server",
-  "created_at": "2026-02-14T06:24:47+00:00",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-14T13:52:14+00:00",
   "outputs": {
     "official_frames_raw": "<redacted:path:1c122578d90e>",
     "neo_frames_raw": "<redacted:path:6973ce4fc8d3>",
     "frida_events_raw": "<redacted:path:3ae643f1f599>"
   },
-  "frame_count": 2,
+  "frame_count": 8,
   "notes": "Runtime-generated stage2 capture.",
   "redaction": {
     "policy": "redact+commit",
     "policy_version": "1",
-    "generated_at": "2026-02-14T06:28:09+00:00",
+    "generated_at": "2026-02-14T13:52:25+00:00",
     "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-only",
     "stats": {
       "path": 3

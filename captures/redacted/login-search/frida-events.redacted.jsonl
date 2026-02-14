@@ -1,2 +1,2 @@
-{"ts": "2026-02-14T06:24:51+00:00", "event": "session.login", "username": "<redacted:username:79a3664a984c>", "server": "<redacted:endpoint:309a1623e81f>"}
-{"ts": "2026-02-14T06:24:51+00:00", "event": "search.batch", "token": 42101, "query": "aphex twin", "room": "electronica", "target_user": "<redacted:username:79a3664a984c>"}
+{"ts": "2026-02-14T13:52:17+00:00", "event": "session.login", "username": "<redacted:username:17ff4713e906>", "server": "<redacted:endpoint:309a1623e81f>"}
+{"ts": "2026-02-14T13:52:17+00:00", "event": "search.batch", "token": 42101, "query": "aphex twin", "room": "electronica", "target_user": "<redacted:username:17ff4713e906>"}

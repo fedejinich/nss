@@ -1,5 +1,6 @@
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use serde::{Deserialize, Serialize};
+use std::net::Ipv4Addr;
 use thiserror::Error;
 
 pub const CODE_SM_LOGIN: u32 = 1;
@@ -10,6 +11,7 @@ pub const CODE_SM_CONNECT_TO_PEER: u32 = 18;
 pub const CODE_SM_MESSAGE_USER: u32 = 22;
 pub const CODE_SM_MESSAGE_ACKED: u32 = 23;
 pub const CODE_SM_FILE_SEARCH: u32 = 26;
+pub const CODE_SM_FILE_SEARCH_RESPONSE: u32 = 64;
 pub const CODE_SM_DOWNLOAD_SPEED: u32 = 34;
 pub const CODE_SM_SHARED_FOLDERS_FILES: u32 = 35;
 pub const CODE_SM_GET_USER_STATS: u32 = 36;
@@ -56,7 +58,11 @@ impl Frame {
 
         let declared = u32::from_le_bytes(buf[0..4].try_into().context("frame length")?) as usize;
         if declared + 4 != buf.len() {
-            bail!("frame length mismatch: declared={} actual={}", declared, buf.len() - 4);
+            bail!(
+                "frame length mismatch: declared={} actual={}",
+                declared,
+                buf.len() - 4
+            );
         }
 
         let code = u32::from_le_bytes(buf[4..8].try_into().context("message code")?);
@@ -91,6 +97,10 @@ impl PayloadWriter {
 
     pub fn write_u32(&mut self, value: u32) {
         self.inner.extend_from_slice(&value.to_le_bytes());
+    }
+
+    pub fn write_u8(&mut self, value: u8) {
+        self.inner.push(value);
     }
 
     pub fn write_u64(&mut self, value: u64) {
@@ -141,12 +151,21 @@ impl<'a> PayloadReader<'a> {
 
     pub fn read_u32(&mut self) -> Result<u32, DecoderError> {
         let bytes = self.take(4)?;
-        Ok(u32::from_le_bytes(bytes.try_into().expect("u32 slice length")))
+        Ok(u32::from_le_bytes(
+            bytes.try_into().expect("u32 slice length"),
+        ))
+    }
+
+    pub fn read_u8(&mut self) -> Result<u8, DecoderError> {
+        let bytes = self.take(1)?;
+        Ok(bytes[0])
     }
 
     pub fn read_u64(&mut self) -> Result<u64, DecoderError> {
         let bytes = self.take(8)?;
-        Ok(u64::from_le_bytes(bytes.try_into().expect("u64 slice length")))
+        Ok(u64::from_le_bytes(
+            bytes.try_into().expect("u64 slice length"),
+        ))
     }
 
     pub fn read_bool_u32(&mut self) -> Result<bool, DecoderError> {
@@ -164,11 +183,62 @@ impl<'a> PayloadReader<'a> {
 pub struct EmptyPayload;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct LoginPayload {
+pub struct LoginRequestPayload {
     pub username: String,
-    pub password_md5: String,
+    pub password: String,
     pub client_version: u32,
+    pub md5hash: String,
     pub minor_version: u32,
+}
+
+pub type LoginPayload = LoginRequestPayload;
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum LoginFailureReason {
+    InvalidVersion,
+    InvalidPass,
+    InvalidUsername,
+    Unknown(String),
+}
+
+impl LoginFailureReason {
+    pub fn as_wire_str(&self) -> &str {
+        match self {
+            Self::InvalidVersion => "INVALIDVERSION",
+            Self::InvalidPass => "INVALIDPASS",
+            Self::InvalidUsername => "INVALIDUSERNAME",
+            Self::Unknown(reason) => reason.as_str(),
+        }
+    }
+
+    pub fn from_wire_str(value: &str) -> Self {
+        match value {
+            "INVALIDVERSION" => Self::InvalidVersion,
+            "INVALIDPASS" => Self::InvalidPass,
+            "INVALIDUSERNAME" => Self::InvalidUsername,
+            other => Self::Unknown(other.to_owned()),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct LoginResponseSuccessPayload {
+    pub greeting: String,
+    pub ip_address: String,
+    pub md5hash: String,
+    pub is_supporter: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct LoginResponseFailurePayload {
+    pub reason: LoginFailureReason,
+    pub detail: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum LoginResponsePayload {
+    Success(LoginResponseSuccessPayload),
+    Failure(LoginResponseFailurePayload),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -256,6 +326,25 @@ pub struct FileSearchResultPayload {
     pub result_count: u32,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SearchFileSummary {
+    pub file_path: String,
+    pub file_size: u64,
+    pub extension: String,
+    pub attr_count: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SearchResponseSummary {
+    pub username: String,
+    pub token: u32,
+    pub files_count: u32,
+    pub slots_free: u32,
+    pub speed: u32,
+    pub in_queue: bool,
+    pub files: Vec<SearchFileSummary>,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TransferDirection {
     Download = 0,
@@ -316,10 +405,12 @@ pub struct UploadStatusPayload {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ServerMessage {
     Login(LoginPayload),
+    LoginResponse(LoginResponsePayload),
     SetWaitPort(SetWaitPortPayload),
     GetPeerAddress(UserLookupPayload),
     ConnectToPeer(ConnectToPeerPayload),
     FileSearch(FileSearchPayload),
+    FileSearchResponseSummary(SearchResponseSummary),
     SearchRoom(SearchRoomPayload),
     ExactFileSearch(ExactFileSearchPayload),
     SearchUserFiles(SearchUserFilesPayload),
@@ -375,7 +466,11 @@ pub fn decode_message(frame: &Frame) -> Result<ProtocolMessage> {
         return Ok(ProtocolMessage::Peer(peer));
     }
 
-    bail!("unsupported message code {} (payload_len={})", frame.code, frame.payload.len())
+    bail!(
+        "unsupported message code {} (payload_len={})",
+        frame.code,
+        frame.payload.len()
+    )
 }
 
 pub fn encode_server_message(message: &ServerMessage) -> Frame {
@@ -383,9 +478,33 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
     let code = match message {
         ServerMessage::Login(payload) => {
             writer.write_string(&payload.username);
-            writer.write_string(&payload.password_md5);
+            writer.write_string(&payload.password);
             writer.write_u32(payload.client_version);
+            writer.write_string(&payload.md5hash);
             writer.write_u32(payload.minor_version);
+            CODE_SM_LOGIN
+        }
+        ServerMessage::LoginResponse(payload) => {
+            match payload {
+                LoginResponsePayload::Success(success) => {
+                    writer.write_u8(1);
+                    writer.write_string(&success.greeting);
+                    let ip = success
+                        .ip_address
+                        .parse::<Ipv4Addr>()
+                        .unwrap_or(Ipv4Addr::UNSPECIFIED);
+                    writer.write_u32(u32::from_le_bytes(ip.octets()));
+                    writer.write_string(&success.md5hash);
+                    writer.write_u8(u8::from(success.is_supporter));
+                }
+                LoginResponsePayload::Failure(failure) => {
+                    writer.write_u8(0);
+                    writer.write_string(failure.reason.as_wire_str());
+                    if let Some(detail) = &failure.detail {
+                        writer.write_string(detail);
+                    }
+                }
+            }
             CODE_SM_LOGIN
         }
         ServerMessage::SetWaitPort(payload) => {
@@ -405,6 +524,21 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_u32(payload.search_token);
             writer.write_string(&payload.search_text);
             CODE_SM_FILE_SEARCH
+        }
+        ServerMessage::FileSearchResponseSummary(payload) => {
+            writer.write_string(&payload.username);
+            writer.write_u32(payload.token);
+            writer.write_u32(payload.files_count);
+            for file in &payload.files {
+                writer.write_string(&file.file_path);
+                writer.write_u64(file.file_size);
+                writer.write_string(&file.extension);
+                writer.write_u32(file.attr_count);
+            }
+            writer.write_u32(payload.slots_free);
+            writer.write_u32(payload.speed);
+            writer.write_bool_u32(payload.in_queue);
+            CODE_SM_FILE_SEARCH_RESPONSE
         }
         ServerMessage::SearchRoom(payload) => {
             writer.write_string(&payload.room);
@@ -456,18 +590,22 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
 }
 
 pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage> {
+    if code == CODE_SM_LOGIN {
+        if let Ok(login) = decode_login_request_payload(payload) {
+            return Ok(ServerMessage::Login(login));
+        }
+        return Ok(ServerMessage::LoginResponse(parse_login_response(payload)?));
+    }
+
+    if code == CODE_SM_FILE_SEARCH_RESPONSE {
+        return Ok(ServerMessage::FileSearchResponseSummary(
+            parse_search_response_summary(payload)?,
+        ));
+    }
+
     let mut reader = PayloadReader::new(payload);
 
     let message = match code {
-        CODE_SM_LOGIN => {
-            let payload = LoginPayload {
-                username: reader.read_string()?,
-                password_md5: reader.read_string()?,
-                client_version: reader.read_u32()?,
-                minor_version: reader.read_u32()?,
-            };
-            ServerMessage::Login(payload)
-        }
         CODE_SM_SET_WAIT_PORT => {
             let payload = SetWaitPortPayload {
                 listen_port: reader.read_u32()?,
@@ -563,6 +701,136 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
 
     ensure_payload_consumed(&reader)?;
     Ok(message)
+}
+
+fn decode_login_request_payload(payload: &[u8]) -> Result<LoginRequestPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let request = LoginRequestPayload {
+        username: reader.read_string()?,
+        password: reader.read_string()?,
+        client_version: reader.read_u32()?,
+        md5hash: reader.read_string()?,
+        minor_version: reader.read_u32()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(request)
+}
+
+pub fn compute_login_md5hash(username: &str, password: &str) -> String {
+    let digest = md5::compute(format!("{username}{password}"));
+    format!("{digest:x}")
+}
+
+pub fn parse_login_response(payload: &[u8]) -> Result<LoginResponsePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let accepted = reader.read_u8()? != 0;
+
+    if accepted {
+        let greeting = reader.read_string()?;
+        let ip_raw = reader.read_u32()?;
+        let md5hash = reader.read_string()?;
+        let is_supporter = if reader.remaining() >= 1 {
+            reader.read_u8()? != 0
+        } else {
+            false
+        };
+        Ok(LoginResponsePayload::Success(LoginResponseSuccessPayload {
+            greeting,
+            ip_address: Ipv4Addr::from(ip_raw.to_le_bytes()).to_string(),
+            md5hash,
+            is_supporter,
+        }))
+    } else {
+        let reason_wire = reader.read_string()?;
+        let detail = if reader.remaining() >= 4 {
+            Some(reader.read_string()?)
+        } else {
+            None
+        };
+        Ok(LoginResponsePayload::Failure(LoginResponseFailurePayload {
+            reason: LoginFailureReason::from_wire_str(&reason_wire),
+            detail,
+        }))
+    }
+}
+
+pub fn parse_search_response_summary(payload: &[u8]) -> Result<SearchResponseSummary> {
+    if let Ok(summary) = parse_search_response_summary_v1(payload) {
+        return Ok(summary);
+    }
+
+    parse_search_response_summary_room_list(payload)
+}
+
+fn parse_search_response_summary_v1(payload: &[u8]) -> Result<SearchResponseSummary> {
+    let mut reader = PayloadReader::new(payload);
+    let username = reader.read_string()?;
+    let token = reader.read_u32()?;
+    let files_count = reader.read_u32()?;
+    if files_count > 10_000 {
+        bail!("files_count exceeds sanity threshold: {files_count}");
+    }
+
+    let mut files = Vec::with_capacity(files_count as usize);
+    for _ in 0..files_count {
+        files.push(SearchFileSummary {
+            file_path: reader.read_string()?,
+            file_size: reader.read_u64()?,
+            extension: reader.read_string()?,
+            attr_count: reader.read_u32()?,
+        });
+    }
+
+    let slots_free = reader.read_u32()?;
+    let speed = reader.read_u32()?;
+    let in_queue = if reader.remaining() >= 4 {
+        reader.read_bool_u32()?
+    } else if reader.remaining() >= 1 {
+        reader.read_u8()? != 0
+    } else {
+        false
+    };
+
+    Ok(SearchResponseSummary {
+        username,
+        token,
+        files_count,
+        slots_free,
+        speed,
+        in_queue,
+        files,
+    })
+}
+
+fn parse_search_response_summary_room_list(payload: &[u8]) -> Result<SearchResponseSummary> {
+    let mut reader = PayloadReader::new(payload);
+    let room_count = reader.read_u32()?;
+    if room_count > 20_000 {
+        bail!("room_count exceeds sanity threshold: {room_count}");
+    }
+
+    let mut files = Vec::with_capacity(room_count.min(64) as usize);
+    for idx in 0..room_count {
+        let room_name = reader.read_string()?;
+        if idx < 64 {
+            files.push(SearchFileSummary {
+                file_path: room_name,
+                file_size: 0,
+                extension: "room".to_string(),
+                attr_count: 0,
+            });
+        }
+    }
+
+    Ok(SearchResponseSummary {
+        username: "<server_room_list>".to_string(),
+        token: 0,
+        files_count: room_count,
+        slots_free: 0,
+        speed: 0,
+        in_queue: false,
+        files,
+    })
 }
 
 pub fn encode_peer_message(message: &PeerMessage) -> Frame {
@@ -726,14 +994,16 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
 
 pub fn build_login_request(
     username: &str,
-    password_md5: &str,
+    password: &str,
     client_version: u32,
     minor_version: u32,
 ) -> Frame {
+    let md5hash = compute_login_md5hash(username, password);
     encode_server_message(&ServerMessage::Login(LoginPayload {
         username: username.to_owned(),
-        password_md5: password_md5.to_owned(),
+        password: password.to_owned(),
         client_version,
+        md5hash,
         minor_version,
     }))
 }
@@ -815,11 +1085,22 @@ mod tests {
         vec![
             ProtocolMessage::Server(ServerMessage::Login(LoginPayload {
                 username: "alice".into(),
-                password_md5: "0123456789abcdef0123456789abcdef".into(),
+                password: "secret-pass".into(),
                 client_version: 157,
+                md5hash: compute_login_md5hash("alice", "secret-pass"),
                 minor_version: 19,
             })),
-            ProtocolMessage::Server(ServerMessage::SetWaitPort(SetWaitPortPayload { listen_port: 2234 })),
+            ProtocolMessage::Server(ServerMessage::LoginResponse(LoginResponsePayload::Success(
+                LoginResponseSuccessPayload {
+                    greeting: "welcome".into(),
+                    ip_address: "127.0.0.1".into(),
+                    md5hash: "0123456789abcdef0123456789abcdef".into(),
+                    is_supporter: true,
+                },
+            ))),
+            ProtocolMessage::Server(ServerMessage::SetWaitPort(SetWaitPortPayload {
+                listen_port: 2234,
+            })),
             ProtocolMessage::Server(ServerMessage::GetPeerAddress(UserLookupPayload {
                 username: "bob".into(),
             })),
@@ -831,6 +1112,22 @@ mod tests {
                 search_token: 12345,
                 search_text: "aphex twin".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::FileSearchResponseSummary(
+                SearchResponseSummary {
+                    username: "peer_user".into(),
+                    token: 12345,
+                    files_count: 1,
+                    slots_free: 2,
+                    speed: 4096,
+                    in_queue: false,
+                    files: vec![SearchFileSummary {
+                        file_path: "Music\\Aphex Twin\\Track.flac".into(),
+                        file_size: 123_456,
+                        extension: "flac".into(),
+                        attr_count: 3,
+                    }],
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::SearchRoom(SearchRoomPayload {
                 room: "electronic".into(),
                 search_text: "selected ambient works".into(),
@@ -846,19 +1143,27 @@ mod tests {
                 username: "bob".into(),
                 message: "hola".into(),
             })),
-            ProtocolMessage::Server(ServerMessage::MessageAcked(MessageAckedPayload { message_id: 55 })),
+            ProtocolMessage::Server(ServerMessage::MessageAcked(MessageAckedPayload {
+                message_id: 55,
+            })),
             ProtocolMessage::Server(ServerMessage::GetUserStats(UserLookupPayload {
                 username: "bob".into(),
             })),
             ProtocolMessage::Server(ServerMessage::GetUserStatus(UserLookupPayload {
                 username: "bob".into(),
             })),
-            ProtocolMessage::Server(ServerMessage::SharedFoldersFiles(SharedFoldersFilesPayload {
-                folder_count: 12,
-                file_count: 200,
+            ProtocolMessage::Server(ServerMessage::SharedFoldersFiles(
+                SharedFoldersFilesPayload {
+                    folder_count: 12,
+                    file_count: 200,
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::DownloadSpeed(SpeedPayload {
+                bytes_per_sec: 2048,
             })),
-            ProtocolMessage::Server(ServerMessage::DownloadSpeed(SpeedPayload { bytes_per_sec: 2048 })),
-            ProtocolMessage::Server(ServerMessage::UploadSpeed(SpeedPayload { bytes_per_sec: 1024 })),
+            ProtocolMessage::Server(ServerMessage::UploadSpeed(SpeedPayload {
+                bytes_per_sec: 1024,
+            })),
             ProtocolMessage::Peer(PeerMessage::GetSharedFileList(UserLookupPayload {
                 username: "alice".into(),
             })),
@@ -929,7 +1234,9 @@ mod tests {
     fn frame_rejects_truncated_payload() {
         let bad = decode_hex("04000000010000");
         let err = Frame::decode(&bad).expect_err("must fail");
-        assert!(err.to_string().contains("frame too short") || err.to_string().contains("mismatch"));
+        assert!(
+            err.to_string().contains("frame too short") || err.to_string().contains("mismatch")
+        );
     }
 
     #[test]
@@ -940,12 +1247,69 @@ mod tests {
     }
 
     #[test]
-    fn login_fixture_matches() {
-        let frame = build_login_request("alice", "0123456789abcdef0123456789abcdef", 157, 19);
-        let expected = decode_hex(
-            "390000000100000005000000616c6963652000000030313233343536373839616263646566303132333435363738396162636465669d00000013000000",
+    fn login_request_includes_md5hash() {
+        let frame = build_login_request("alice", "secret-pass", 157, 19);
+        assert_eq!(frame.code, CODE_SM_LOGIN);
+
+        let decoded =
+            decode_server_message(frame.code, &frame.payload).expect("decode login payload");
+        let ServerMessage::Login(payload) = decoded else {
+            panic!("expected login payload");
+        };
+
+        assert_eq!(payload.username, "alice");
+        assert_eq!(payload.password, "secret-pass");
+        assert_eq!(payload.client_version, 157);
+        assert_eq!(payload.minor_version, 19);
+        assert_eq!(payload.md5hash, "a709495ec9adc487831c96a72a7728cf");
+    }
+
+    #[test]
+    fn parse_login_response_success_fixture() {
+        let payload = decode_hex(
+            "0100000000922d5e0320000000376261383835313432656633366135353765376531646430633030623263373600",
         );
-        assert_eq!(frame.encode(), expected);
+        let parsed = parse_login_response(&payload).expect("parse login success");
+        let LoginResponsePayload::Success(success) = parsed else {
+            panic!("expected success payload");
+        };
+        assert_eq!(success.greeting, "");
+        assert_eq!(success.ip_address, "146.45.94.3");
+        assert_eq!(success.md5hash, "7ba885142ef36a557e7e1dd0c00b2c76");
+        assert!(!success.is_supporter);
+    }
+
+    #[test]
+    fn parse_login_response_failure_fixture() {
+        let payload = decode_hex("000e000000494e56414c494456455253494f4e");
+        let parsed = parse_login_response(&payload).expect("parse login failure");
+        let LoginResponsePayload::Failure(failure) = parsed else {
+            panic!("expected failure payload");
+        };
+        assert_eq!(failure.reason, LoginFailureReason::InvalidVersion);
+        assert_eq!(failure.detail, None);
+    }
+
+    #[test]
+    fn parse_search_summary_roundtrip() {
+        let original = SearchResponseSummary {
+            username: "peer-user".into(),
+            token: 321,
+            files_count: 1,
+            slots_free: 3,
+            speed: 2048,
+            in_queue: true,
+            files: vec![SearchFileSummary {
+                file_path: "Music\\Track.flac".into(),
+                file_size: 9999,
+                extension: "flac".into(),
+                attr_count: 2,
+            }],
+        };
+        let frame =
+            encode_server_message(&ServerMessage::FileSearchResponseSummary(original.clone()));
+        let parsed = parse_search_response_summary(&frame.payload).expect("parse summary");
+        assert_eq!(parsed, original);
     }
 
     #[test]

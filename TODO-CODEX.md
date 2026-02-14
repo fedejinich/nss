@@ -173,40 +173,47 @@ Tasks:
 
 - id: S3A-T01
   description: Determinar tuple de version/login aceptada por servidor oficial y registrar evidencia runtime
-  status: todo
+  status: done
   depends_on: []
 
 - id: S3A-T02
-  description: Actualizar rust/core login para esperar y validar respuesta de servidor (ok/error) antes de LoggedIn
-  status: todo
+  description: Implementar codec/login request correcto (con md5hash) y parser tipado de login response
+  status: done
   depends_on: [S3A-T01]
 
 - id: S3A-T03
-  description: Extender rust/protocol con decode tipado de login response y errores de autenticacion
-  status: todo
+  description: Actualizar SessionClient login state machine para LoggedIn solo tras Success real
+  status: done
   depends_on: [S3A-T02]
 
 - id: S3A-T04
-  description: Incorporar tests de regresion para login success/INVALIDVERSION/credenciales invalidas
-  status: todo
+  description: Extender CLI y tools para credenciales seguras por env + probe de version
+  status: done
   depends_on: [S3A-T03]
 
 - id: S3A-T05
-  description: Re-ejecutar capturas runtime autenticadas (login-search-download/upload) con cuenta de prueba real
-  status: todo
+  description: Capturar escenarios runtime autenticados y refrescar raw->redacted
+  status: done
   depends_on: [S3A-T04]
 
 - id: S3A-T06
-  description: Extender verificador diferencial a comparacion semantica por campo (no solo bytes/frame)
-  status: todo
+  description: Implementar verificador diferencial semantico y mantener modo bytes por compatibilidad
+  status: done
   depends_on: [S3A-T05]
 
 - id: S3A-T07
-  description: Actualizar mapas/esquema/docs estado con evidencia autenticada real y gaps restantes
-  status: todo
+  description: Actualizar mapas/schema/docs/ledger y KB de estado con evidencia autenticada real
+  status: done
   depends_on: [S3A-T06]
 
 - id: S3A-T08
-  description: Cierre Stage 3A con auditoria, run_regression verde y push a main
-  status: todo
+  description: Cierre de etapa con run_regression verde, PR documentado y retrospectiva de mantenibilidad
+  status: done
   depends_on: [S3A-T07]
+
+Notes:
+
+- Tuple autenticado confirmado por runtime probe: `client_version=160`, `minor_version=1`.
+- Login stateful validado: `LoggedIn` solo tras `LoginResponsePayload::Success`; en failure mantiene `Connected`.
+- `scripts/run_diff_verify.sh` ahora corre por defecto en modo semantico (`VERIFY_MODE=semantic`) y mantiene fallback `bytes`.
+- Capturas redacted obligatorias fueron regeneradas con credencial real (`login-only`, `login-search`, `login-search-download`, `upload-deny`, `upload-accept`).
