@@ -737,3 +737,81 @@ Notes:
 - Protocol matrix snapshot after S4E: tracked `131`, implemented+mapped `67`, missing `63`, implemented-not-mapped `1` (`SM_PEER_MESSAGE_ALT` compatibility alias).
 - PR review-loop process was executed with two `@codex review` requests; no automated Codex feedback was produced during the execution window, and closure proceeded with green validation gates.
 - Validation gates passed on final S4E snapshot: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`, `./.venv-tools/bin/zensical build -f zensical.toml`.
+
+## Stage 4F - Global/admin/distributed control mapping batch
+
+Dependency graph:
+
+- `S4F-W01 -> S4F-T01`
+- `S4F-T01 -> S4F-T02`
+- `S4F-T02 -> S4F-T03`
+- `S4F-T03 -> S4F-T04`
+- `S4F-T04 -> S4F-T05`
+- `S4F-T05 -> S4F-R01`
+- `S4F-R01 -> S4F-Q01`
+- `S4F-Q01 -> S4F-Q02`
+- `S4F-Q02 -> S4F-Q03`
+- `S4F-Q03 -> S4F-Q04`
+- `S4F-Q04 -> S4F-T06`
+
+Tasks:
+
+- id: S4F-W01
+  description: Start from updated main and create branch `codex/s4f-global-admin-distributed-map`
+  status: done
+  depends_on: []
+
+- id: S4F-T01
+  description: Resolve and register authoritative codes/evidence for S4F mapping batch from jump-table extraction
+  status: done
+  depends_on: [S4F-W01]
+
+- id: S4F-T02
+  description: Update `message_map.csv` and regenerate `message_schema.json` for S4F rows
+  status: done
+  depends_on: [S4F-T01]
+
+- id: S4F-T03
+  description: Sync detangling/ledger/schema docs and regenerate protocol matrix
+  status: done
+  depends_on: [S4F-T02]
+
+- id: S4F-T04
+  description: Update roadmap/backlog/project/verification/decompilation status docs for S4F completion and S4G preview
+  status: done
+  depends_on: [S4F-T03]
+
+- id: S4F-T05
+  description: Run validation gates (`kb_validate`, regression, zensical build)
+  status: done
+  depends_on: [S4F-T04]
+
+- id: S4F-R01
+  description: Publish PR doc for S4F and stage closure notes
+  status: done
+  depends_on: [S4F-T05]
+
+- id: S4F-Q01
+  description: Open S4F PR and request first `@codex review`
+  status: todo
+  depends_on: [S4F-R01]
+
+- id: S4F-Q02
+  description: Triage/apply useful feedback from round 1 and resolve/dismiss comments with rationale
+  status: todo
+  depends_on: [S4F-Q01]
+
+- id: S4F-Q03
+  description: Request second `@codex review` after round-1 updates
+  status: todo
+  depends_on: [S4F-Q02]
+
+- id: S4F-Q04
+  description: Triage/apply useful feedback from round 2 and resolve/dismiss comments with rationale
+  status: todo
+  depends_on: [S4F-Q03]
+
+- id: S4F-T06
+  description: Merge-ready closure with final status synchronization
+  status: todo
+  depends_on: [S4F-Q04]

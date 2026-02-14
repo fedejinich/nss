@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T19:10:23+00:00",
+  "generated_at": "2026-02-14T19:56:59+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -1404,6 +1404,20 @@
     },
     {
       "scope": "server",
+      "code": 58,
+      "name": "SM_COMMAND",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 58 to SM_COMMAND (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 64,
       "name": "SM_ROOM_LIST",
       "payload": [
@@ -1441,6 +1455,34 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-search/official_frames.hex",
           "note": "Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 66,
+      "name": "SM_ADMIN_MESSAGE",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 66 to SM_ADMIN_MESSAGE (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 67,
+      "name": "SM_GLOBAL_USER_LIST",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 67 to SM_GLOBAL_USER_LIST (x86_64 binary disassembly)."
         }
       ]
     },
@@ -1504,6 +1546,48 @@
     },
     {
       "scope": "server",
+      "code": 71,
+      "name": "SM_SEND_DISTRIBUTIONS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 73,
+      "name": "SM_NOTE_PARENT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 82,
+      "name": "SM_CHILD_PARENT_MAP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 92,
       "name": "SM_GET_OWN_PRIVILEGES_STATUS",
       "payload": [
@@ -1528,6 +1612,20 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 92 documents CheckPrivileges with response payload indicating remaining seconds."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 93,
+      "name": "SM_DNET_MESSAGE",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly)."
         }
       ]
     },
@@ -1740,6 +1838,20 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 125 documents AckNotifyPrivileges with token payload."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 130,
+      "name": "SM_DNET_RESET",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 130 to SM_DNET_RESET (x86_64 binary disassembly)."
         }
       ]
     },

@@ -21,8 +21,9 @@ gantt
     S4C Privileges + social control + peer folder domains :done, s4c, after s4b, 2d
     S4D Privilege/messaging gaps + peer legacy cleanup :done, s4d, after s4c, 2d
     S4E Private messaging + user-state domain batch :done, s4e, after s4d, 2d
+    S4F Global/admin/distributed control mapping batch :done, s4f, after s4e, 1d
     section Planned
-    S4F Global/admin/distributed control batch :crit, s4f, after s4e, 3d
+    S4G Parent/distributed tuning continuation :crit, s4g, after s4f, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -106,7 +107,8 @@ graph TD
 | S4C | privileges/social control + peer folder domains | done | `docs/pr/0007-s4c-privileges-social-peer-folder.md` | define S4D batch |
 | S4D | privilege/messaging gaps + peer legacy cleanup | done | `docs/pr/0008-s4d-privilege-messaging-peer-legacy.md` | define S4E batch |
 | S4E | private messaging + user-state domain batch | done | `docs/pr/0009-s4e-private-messaging-user-state.md` | define S4F batch |
-| S4F | global/admin/distributed control batch | planned | `docs/state/protocol-backlog.md` | start S4F plan |
+| S4F | global/admin/distributed control mapping batch | done | `docs/pr/0010-s4f-global-admin-distributed-map.md` | start S4G implementation batch |
+| S4G | parent/distributed tuning continuation | planned | `docs/state/protocol-backlog.md` | start S4G plan |
 
 ## S4B Target Contract
 
@@ -204,10 +206,10 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S4F Preview (Not Started)
+## S4G Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Global/admin and distributed-control server domain (`SM_ADMIN_MESSAGE`, `SM_DNET_MESSAGE`, `SM_GLOBAL_USER_LIST`, `SM_COMMAND` family).
-2. Private-room and membership control backlog (`SM_ENABLE_PRIVATE_ROOM_ADD`, room ownership/membership transitions).
-3. Remaining legacy/missing matrix rows prioritized by runtime feasibility and impact on CLI usability.
+1. Parent/distributed tuning server domain (`SM_SET_PARENT_MIN_SPEED`, `SM_SET_PARENT_SPEED_CONNECTION_RATIO`, `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`, `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`, `SM_SET_SECONDS_BEFORE_PING_CHILDREN`).
+2. Capability/path continuation (`SM_CAN_PARENT`, `SM_POSSIBLE_PARENTS`, `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`).
+3. Convert S4F mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
