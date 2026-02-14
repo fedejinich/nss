@@ -1,0 +1,24 @@
+{
+  "run_id": "login-peer-message",
+  "scenario": "login-peer-message",
+  "source_type": "runtime_peer_local_deterministic",
+  "created_at": "2026-02-14T19:08:54+00:00",
+  "server": "<redacted:endpoint:8a7eb6b4dbf6>",
+  "frame_count": 3,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:e2a521d30819>",
+    "neo_frames_raw": "<redacted:path:4b972f409907>",
+    "frida_events_raw": "<redacted:path:a8877dc30238>"
+  },
+  "notes": "Stage 4E runtime capture generated for private messaging and user-state domain.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T19:08:58+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-peer-message",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "run_id": "login-peer-message",
+  "comparison_mode": "semantic",
+  "total_pairs": 3,
+  "matched_pairs": 3,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 57,
+      "neo_len": 57,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 66,
+      "neo_len": 66,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 70,
+      "neo_len": 70,
+      "first_diff_offset": null
+    }
+  ]
+}

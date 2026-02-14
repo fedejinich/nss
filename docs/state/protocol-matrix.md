@@ -4,14 +4,14 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-14T17:40:47+00:00`
-- Total messages tracked: `130`
-- Server messages: `105`
+- Generated at: `2026-02-14T19:16:09+00:00`
+- Total messages tracked: `131`
+- Server messages: `106`
 - Peer messages: `25`
-- Implemented + mapped: `65`
+- Implemented + mapped: `67`
 - Mapped not implemented: `0`
-- Implemented not mapped: `0`
-- Missing: `65`
+- Implemented not mapped: `1`
+- Missing: `63`
 
 Status legend:
 
@@ -51,8 +51,8 @@ Status legend:
 | peer |  | `PM_SEND_CONNECT_TOKEN` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server | 1 | `SM_LOGIN` | `implemented_mapped` | high | Observed authenticated runtime login request+response (code 1) with success payload on tuple 160/1. | `captures/redacted/login-only/official_frames.hex` |
 | server | 2 | `SM_SET_WAIT_PORT` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
-| server | 3 | `SM_GET_PEER_ADDRESS` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
-| server | 7 | `SM_GET_USER_STATUS` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
+| server | 3 | `SM_GET_PEER_ADDRESS` | `implemented_mapped` | high | Authenticated runtime flow includes GetPeerAddress request/response (code 3) with username and endpoint payload fields. | `captures/redacted/login-peer-address-connect/official_frames.hex` |
+| server | 7 | `SM_GET_USER_STATUS` | `implemented_mapped` | high | Authenticated runtime flow includes user-status request/response (code 7) with status and privilege fields. | `captures/redacted/login-user-state/official_frames.hex` |
 | server | 11 | `SM_IGNORE_USER` | `implemented_mapped` | high | Authenticated runtime flow sends ignore-user request (code 11); mapping aligns with server MessageCodeToString and SLSK spec obsolete ignore operation. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 12 | `SM_UNIGNORE_USER` | `implemented_mapped` | high | Authenticated runtime flow sends unignore-user request (code 12); mapping aligns with server MessageCodeToString and SLSK spec obsolete unignore operation. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 13 | `SM_SAY_CHATROOM` | `implemented_mapped` | high | Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
@@ -60,13 +60,13 @@ Status legend:
 | server | 15 | `SM_LEAVE_ROOM` | `implemented_mapped` | high | Observed runtime leave-room request and server leave acknowledgement payload. | `captures/redacted/login-leave-room/official_frames.hex` |
 | server | 16 | `SM_USER_JOINED_ROOM` | `implemented_mapped` | high | Observed runtime user-joined room presence events while watching authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 17 | `SM_USER_LEFT_ROOM` | `implemented_mapped` | high | Observed runtime user-left room presence events while watching authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
-| server | 18 | `SM_CONNECT_TO_PEER` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch and peer connect path. | `evidence/reverse/server_messagecodetostring_otool.txt` |
-| server | 22 | `SM_MESSAGE_USER` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
-| server | 23 | `SM_MESSAGE_ACKED` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
+| server | 18 | `SM_CONNECT_TO_PEER` | `implemented_mapped` | high | Authenticated runtime flow includes ConnectToPeer request and response payloads (code 18) with token | `captures/redacted/login-peer-address-connect/official_frames.hex` |
+| server | 22 | `SM_MESSAGE_USER` | `implemented_mapped` | high | Authenticated runtime flow includes private-message send and inbound private-message frame (code 22) with directional payload variants. | `captures/redacted/login-private-message/official_frames.hex` |
+| server | 23 | `SM_MESSAGE_ACKED` | `implemented_mapped` | high | Authenticated runtime flow includes private-message acknowledgement path (code 23) with message_id payload. | `captures/redacted/login-private-message/official_frames.hex` |
 | server | 26 | `SM_FILE_SEARCH` | `implemented_mapped` | high | FileSearch writes constant 0x1a before Server::SendMessage. | `evidence/reverse/disasm/server_file_search.txt` |
 | server | 34 | `SM_DOWNLOAD_SPEED` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
 | server | 35 | `SM_SHARED_FOLDERS_FILES` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
-| server | 36 | `SM_GET_USER_STATS` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
+| server | 36 | `SM_GET_USER_STATS` | `implemented_mapped` | high | Authenticated runtime flow includes user-stats request/response (code 36) with stats summary fields. | `captures/redacted/login-user-state/official_frames.hex` |
 | server | 42 | `SM_SEARCH_USER_FILES` | `implemented_mapped` | high | Observed outbound runtime frame in login-search scenario (code 42) with user+query payload. | `captures/redacted/login-search/official_frames.hex` |
 | server | 50 | `SM_GET_SIMILAR_TERMS` | `implemented_mapped` | high | Observed authenticated runtime request/response for similar-terms discovery flow (code 50). | `captures/redacted/login-similar-terms/official_frames.hex` |
 | server | 54 | `SM_GET_RECOMMENDATIONS` | `implemented_mapped` | high | Observed authenticated runtime recommendations flow (code 54) including outbound request and inbound summary payload. | `captures/redacted/login-recommendations/official_frames.hex` |
@@ -75,6 +75,7 @@ Status legend:
 | server | 57 | `SM_GET_USER_RECOMMENDATIONS` | `implemented_mapped` | high | Observed authenticated runtime user-recommendations flow (code 57) with user request and reply payload. | `captures/redacted/login-user-recommendations/official_frames.hex` |
 | server | 64 | `SM_ROOM_LIST` | `implemented_mapped` | high | Observed runtime room list request/response flow with authenticated session. | `captures/redacted/login-room-list/official_frames.hex` |
 | server | 65 | `SM_EXACT_FILE_SEARCH` | `implemented_mapped` | high | Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload. | `captures/redacted/login-search/official_frames.hex` |
+| server | 68 | `SM_PEER_MESSAGE` | `implemented_mapped` | high | Deterministic runtime-local legacy tunneled-message capture covers code 68 request/response payload variants; alt compatibility alias 292 observed in same run. | `captures/redacted/login-peer-message/official_frames.hex` |
 | server | 69 | `SM_PRIVILEGED_LIST` | `implemented_mapped` | high | Authenticated runtime flow includes privileged-list request and response frames (code 69) with user-list style payloads. | `captures/redacted/login-privilege-messaging/official_frames.hex` |
 | server | 92 | `SM_GET_OWN_PRIVILEGES_STATUS` | `implemented_mapped` | high | Authenticated runtime flow sends own-privileges status request (code 92); spec defines CheckPrivileges response with remaining seconds. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 110 | `SM_GET_RECOMMENDED_USERS` | `implemented_mapped` | high | Authenticated runtime flow includes code 110 request/response for similar users with scored user entries. | `captures/redacted/login-privilege-messaging/official_frames.hex` |
@@ -93,6 +94,8 @@ Status legend:
 | server | 143 | `SM_ADD_ROOM_OPERATOR` | `implemented_mapped` | high | Server code 143 AddOperatorToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
 | server | 144 | `SM_REMOVE_ROOM_OPERATOR` | `implemented_mapped` | high | Server code 144 RemoveOperatorFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
 | server | 148 | `SM_ROOM_OPERATORS` | `implemented_mapped` | high | Observed runtime room-operators request flow in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
+| server | 149 | `SM_MESSAGE_USERS` | `implemented_mapped` | high | Authenticated runtime flow sends message-users payload (code 149) with user list and message body. | `captures/redacted/login-message-users/official_frames.hex` |
+| server | 292 | `SM_PEER_MESSAGE_ALT` | `implemented_not_mapped` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ADD_CHATROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ADD_HATE_TERM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ADD_LIKE_TERM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
@@ -121,10 +124,8 @@ Status legend:
 | server |  | `SM_JOIN_GLOBAL_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_LEAVE_GLOBAL_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_LOW_PRIORITY_FILE_SEARCH` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_MESSAGE_USERS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_NODES_IN_CACHE_BEFORE_DISCONNECT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_NOTE_PARENT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_PEER_MESSAGE` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_PLACE_IN_LINE` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_PLACE_IN_LINE_RESPONSE` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_POSSIBLE_PARENTS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |

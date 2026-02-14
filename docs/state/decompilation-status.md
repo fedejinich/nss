@@ -12,7 +12,8 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4B peer advanced + room moderation addendum: `+9` messages.
 - Stage 4C privileges/social + peer-folder addendum: `+9` messages.
 - Stage 4D privilege/messaging gaps + peer legacy addendum: `+9` new messages and `+2` confidence promotions.
-- Total mapped protocol rows: `65`.
+- Stage 4E private messaging + user-state addendum: `+2` new messages with runtime validation upgrades for six existing mappings.
+- Total mapped protocol rows: `67`.
 
 ## Static Evidence Sources
 
@@ -36,10 +37,11 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4B capture generator: `tools/runtime/generate_stage4b_peer_room_captures.py`
 - Stage 4C capture generator: `tools/runtime/generate_stage4c_privileges_social_captures.py`
 - Stage 4D capture generator: `tools/runtime/generate_stage4d_privilege_legacy_captures.py`
+- Stage 4E capture generator: `tools/runtime/generate_stage4e_private_userstate_captures.py`
 - Redacted run storage: `captures/redacted/*`
 
 ## Next Reverse Focus
 
-- Map and validate private messaging runtime flows (`SM_MESSAGE_USER`, `SM_MESSAGE_ACKED`) with typed field coverage.
-- Expand runtime evidence for user-state/status domains (`SM_GET_USER_STATUS`, `SM_GET_USER_STATS`, peer address/connect interactions).
+- Map global/admin/distributed server controls (`SM_ADMIN_MESSAGE`, `SM_DNET_MESSAGE`, `SM_GLOBAL_USER_LIST`, and parent/child tuning messages).
+- Resolve remaining legacy server operations in private/global room management (`SM_ENABLE_PRIVATE_ROOM_ADD` and ownership/membership transitions).
 - Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.

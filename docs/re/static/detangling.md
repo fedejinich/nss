@@ -57,10 +57,10 @@ No approved data labels yet.
 
 Review queue is empty.
 
-## Protocol Coverage Snapshot
+## Protocol Coverage (Stage 2)
 
-- Message rows: `65`
-- Confidence split: `high=64` `medium=1` `low=0`
+- Message rows: `67`
+- Confidence split: `high=66` `medium=1` `low=0`
 - Latest mapped messages:
   - `server` `SM_LOGIN` code `1` confidence `high`
   - `server` `SM_SET_WAIT_PORT` code `2` confidence `high`

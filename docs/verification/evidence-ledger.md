@@ -7,11 +7,11 @@ Project-level evidence summaries and provenance tracking.
 - Approved function renames: `5`
 - Approved data labels: `0`
 - Review queue entries: `0`
-- Protocol message rows: `65`
+- Protocol message rows: `67`
 
 ## Protocol Confidence
 
-- `high`: `64`
+- `high`: `66`
 - `medium`: `1`
 - `low`: `0`
 
