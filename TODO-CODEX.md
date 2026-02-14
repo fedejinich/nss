@@ -878,25 +878,32 @@ Tasks:
 
 - id: S4G-Q01
   description: Open S4G PR and request first `@codex review`
-  status: todo
+  status: done
   depends_on: [S4G-R01]
 
 - id: S4G-Q02
   description: Triage/apply useful feedback from round 1 and resolve/dismiss comments with rationale
-  status: todo
+  status: done
   depends_on: [S4G-Q01]
 
 - id: S4G-Q03
   description: Request second `@codex review` after round-1 updates
-  status: todo
+  status: done
   depends_on: [S4G-Q02]
 
 - id: S4G-Q04
   description: Triage/apply useful feedback from round 2 and resolve/dismiss comments with rationale
-  status: todo
+  status: done
   depends_on: [S4G-Q03]
 
 - id: S4G-T06
   description: Merge-ready closure with final status synchronization
-  status: todo
+  status: done
   depends_on: [S4G-Q04]
+
+Notes:
+
+- Stage 4G mapping batch landed with confidence gate satisfied: `high=8`, `medium=0`, `low=0`.
+- Protocol matrix snapshot after S4G: tracked `131`, implemented+mapped `67`, mapped-not-implemented `16`, missing `47`.
+- S4G was executed as mapping-first with authoritative static evidence from `message_codes_jump_table.md`; typed protocol/core/cli implementation is scheduled for S4H+.
+- Two `@codex review` requests were posted on PR #10 and no automated review comments were produced during the execution window.
