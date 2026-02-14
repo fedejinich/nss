@@ -1,4 +1,4 @@
-"""Knowledge-base workflow helpers for soul-dec."""
+"""Knowledge-base workflow helpers for NeoSoulSeek."""
 
 from .workflow import promote_candidates
 from .docs_sync import sync_docs

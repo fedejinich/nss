@@ -1,4 +1,4 @@
-# TODO Execution Plan - soul-dec KB-first
+# TODO Execution Plan - NeoSoulSeek KB-first
 
 Dependency graph:
 - T0A -> T0B

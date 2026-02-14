@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://soul-dec.local/schemas/data_map.schema.json",
-  "title": "Soul-dec data map",
+  "$id": "https://neosoulseek.local/schemas/data_map.schema.json",
+  "title": "NeoSoulSeek data map",
   "type": "object",
   "required": ["version", "generated_by", "entries"],
   "properties": {

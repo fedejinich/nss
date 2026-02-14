@@ -1,4 +1,4 @@
-# soul-dec Rust Workspace
+# NeoSoulSeek Rust Workspace
 
 ## Crates
 

@@ -1,8 +1,8 @@
 [project]
-site_name = "soul-dec Knowledge Base"
+site_name = "NeoSoulSeek Knowledge Base"
 site_description = "Reverse engineering knowledge base for SoulseekQt decompilation and protocol parity work."
 site_author = "void_rsk + codex"
-copyright = "Copyright &copy; 2026 soul-dec"
+copyright = "Copyright &copy; 2026 NeoSoulSeek"
 
 [project.theme]
 language = "en"

@@ -1,4 +1,4 @@
-# soul-dec Knowledge Base
+# NeoSoulSeek Knowledge Base
 
 This documentation is the project memory for decompilation and parity work against SoulseekQt.
 

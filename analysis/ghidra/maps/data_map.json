@@ -1,6 +1,6 @@
 {
   "$schema": "../schemas/data_map.schema.json",
   "version": 1,
-  "generated_by": "soul-dec kb workflow",
+  "generated_by": "NeoSoulSeek kb workflow",
   "entries": []
 }

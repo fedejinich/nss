@@ -21,7 +21,7 @@ def now_iso() -> str:
 
 def _load_json(path: Path) -> dict[str, Any]:
     if not path.exists():
-        return {"version": 1, "generated_by": "soul-dec kb workflow", "entries": []}
+        return {"version": 1, "generated_by": "NeoSoulSeek kb workflow", "entries": []}
     return json.loads(path.read_text(encoding="utf-8"))
 
 
