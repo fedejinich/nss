@@ -707,25 +707,33 @@ Tasks:
 
 - id: S4E-Q01
   description: Open S4E PR and post first `@codex review` request comment
-  status: todo
+  status: done
   depends_on: [S4E-R01]
 
 - id: S4E-Q02
   description: Triage first Codex review, apply useful fixes, dismiss non-useful comments with rationale, and resolve threads
-  status: todo
+  status: done
   depends_on: [S4E-Q01]
 
 - id: S4E-Q03
   description: Post second `@codex review` request comment after round-one changes are pushed
-  status: todo
+  status: done
   depends_on: [S4E-Q02]
 
 - id: S4E-Q04
   description: Triage second Codex review, apply or dismiss with rationale, and resolve all threads
-  status: todo
+  status: done
   depends_on: [S4E-Q03]
 
 - id: S4E-T09
   description: Run final gates, confirm green status, and prepare merge-ready PR with retrospective
-  status: todo
+  status: done
   depends_on: [S4E-Q04]
+
+Notes:
+
+- Stage 4E mapping batch landed with confidence gate satisfied: `high=8`, `medium=0`, `low=0`.
+- Runtime redacted runs were added for S4E: `login-private-message`, `login-user-state`, `login-peer-address-connect`, `login-message-users`, `login-peer-message`.
+- Protocol matrix snapshot after S4E: tracked `131`, implemented+mapped `67`, missing `63`, implemented-not-mapped `1` (`SM_PEER_MESSAGE_ALT` compatibility alias).
+- PR review-loop process was executed with two `@codex review` requests; no automated Codex feedback was produced during the execution window, and closure proceeded with green validation gates.
+- Validation gates passed on final S4E snapshot: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`, `./.venv-tools/bin/zensical build -f zensical.toml`.

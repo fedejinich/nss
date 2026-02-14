@@ -130,6 +130,11 @@ scripts/run_regression.sh
 
 All checks passed on this branch snapshot.
 
+## Review Loop Execution
+
+Two `@codex review` requests were posted in this PR (round 1 and round 2) per stage governance.
+No automated Codex feedback was produced in PR reviews/comments/checks during the execution window, so no review-thread fixes/dismissals were required for this stage snapshot.
+
 ## Runtime Verification Snapshot
 
 - Official server: `server.slsknet.org:2242`
