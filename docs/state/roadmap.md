@@ -23,8 +23,9 @@ gantt
     S4E Private messaging + user-state domain batch :done, s4e, after s4d, 2d
     S4F Global/admin/distributed control mapping batch :done, s4f, after s4e, 1d
     S4G Parent/distributed tuning continuation mapping batch :done, s4g, after s4f, 1d
+    S4H Global room/system control continuation mapping batch :done, s4h, after s4g, 1d
     section Planned
-    S4H Global room/system control continuation :crit, s4h, after s4g, 2d
+    S4I Ticker and term-control continuation :crit, s4i, after s4h, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -110,7 +111,8 @@ graph TD
 | S4E | private messaging + user-state domain batch | done | `docs/pr/0009-s4e-private-messaging-user-state.md` | define S4F batch |
 | S4F | global/admin/distributed control mapping batch | done | `docs/pr/0010-s4f-global-admin-distributed-map.md` | start S4G implementation batch |
 | S4G | parent/distributed tuning continuation mapping batch | done | `docs/pr/0011-s4g-parent-distributed-tuning-map.md` | start S4H implementation batch |
-| S4H | global room/system control continuation | planned | `docs/state/protocol-backlog.md` | start S4H plan |
+| S4H | global room/system control continuation mapping batch | done | `docs/pr/0012-s4h-global-system-control-map.md` | start S4I implementation batch |
+| S4I | ticker and term-control continuation | planned | `docs/state/protocol-backlog.md` | start S4I plan |
 
 ## S4B Target Contract
 
@@ -208,10 +210,10 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S4H Preview (Not Started)
+## S4I Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Global room/system server domain (`SM_ADD_CHATROOM`, `SM_SET_STATUS`, `SM_HEARTBEAT`, `SM_RELOGGED`, `SM_USER_LIST`, `SM_ROOM_ADDED`, `SM_ROOM_REMOVED`, `SM_CONNECT_TO_CLIENT`).
-2. Convert S4F/S4G mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
-3. Keep runtime evidence capture plan for reachable global/system control paths.
+1. Ticker/term-control server domain (`SM_ADD_LIKE_TERM`, `SM_REMOVE_LIKE_TERM`, `SM_GET_ROOM_TICKER`, `SM_ROOM_TICKER_USER_ADDED`, `SM_ROOM_TICKER_USER_REMOVED`, `SM_SET_TICKER`, `SM_ADD_HATE_TERM`, `SM_REMOVE_HATE_TERM`).
+2. Convert S4F/S4G/S4H mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
+3. Keep runtime evidence capture plan for reachable global/system and term-control paths.

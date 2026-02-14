@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4G)
+# Protocol Backlog (Post S4H)
 
 ## Objective
 
@@ -105,7 +105,7 @@ Status: completed in S4F with authoritative static mapping evidence from jump-ta
 
 Status: completed in S4G with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
 
-## Next Candidate Stage (S4H) - Global Room/System Control Continuation
+## Completed in S4H (Global Room/System Control Mapping Batch)
 
 - `SM_ADD_CHATROOM`
 - `SM_SET_STATUS`
@@ -115,6 +115,19 @@ Status: completed in S4G with authoritative static mapping evidence from jump-ta
 - `SM_ROOM_ADDED`
 - `SM_ROOM_REMOVED`
 - `SM_CONNECT_TO_CLIENT`
+
+Status: completed in S4H with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
+
+## Next Candidate Stage (S4I) - Ticker/Term Control Continuation
+
+- `SM_ADD_LIKE_TERM`
+- `SM_REMOVE_LIKE_TERM`
+- `SM_GET_ROOM_TICKER`
+- `SM_ROOM_TICKER_USER_ADDED`
+- `SM_ROOM_TICKER_USER_REMOVED`
+- `SM_SET_TICKER`
+- `SM_ADD_HATE_TERM`
+- `SM_REMOVE_HATE_TERM`
 - carryover parser-depth follow-up:
   - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
 
@@ -130,4 +143,4 @@ Status: completed in S4G with authoritative static mapping evidence from jump-ta
 
 ## Next Session Entry Point
 
-Start S4H by extending global/system control mappings and begin typed codec implementation for mapped-not-implemented S4F/S4G rows.
+Start S4I by extending ticker/term control mappings and begin typed codec implementation for mapped-not-implemented S4F/S4G/S4H rows.

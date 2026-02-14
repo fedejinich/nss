@@ -4,14 +4,14 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-14T20:06:03+00:00`
+- Generated at: `2026-02-14T20:11:21+00:00`
 - Total messages tracked: `131`
 - Server messages: `106`
 - Peer messages: `25`
 - Implemented + mapped: `67`
-- Mapped not implemented: `16`
+- Mapped not implemented: `24`
 - Implemented not mapped: `1`
-- Missing: `47`
+- Missing: `39`
 
 Status legend:
 
@@ -95,9 +95,17 @@ Status legend:
 | server | 144 | `SM_REMOVE_ROOM_OPERATOR` | `implemented_mapped` | high | Server code 144 RemoveOperatorFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
 | server | 148 | `SM_ROOM_OPERATORS` | `implemented_mapped` | high | Observed runtime room-operators request flow in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 149 | `SM_MESSAGE_USERS` | `implemented_mapped` | high | Authenticated runtime flow sends message-users payload (code 149) with user list and message body. | `captures/redacted/login-message-users/official_frames.hex` |
+| server | 10 | `SM_ADD_CHATROOM` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 10 to SM_ADD_CHATROOM (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 28 | `SM_SET_STATUS` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 28 to SM_SET_STATUS (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 32 | `SM_HEARTBEAT` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 32 to SM_HEARTBEAT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 41 | `SM_RELOGGED` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 58 | `SM_COMMAND` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 58 to SM_COMMAND (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 61 | `SM_USER_LIST` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 61 to SM_USER_LIST (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 62 | `SM_ROOM_ADDED` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 62 to SM_ROOM_ADDED (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 63 | `SM_ROOM_REMOVED` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 63 to SM_ROOM_REMOVED (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 66 | `SM_ADMIN_MESSAGE` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 66 to SM_ADMIN_MESSAGE (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 67 | `SM_GLOBAL_USER_LIST` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 67 to SM_GLOBAL_USER_LIST (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 70 | `SM_CONNECT_TO_CLIENT` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 70 to SM_CONNECT_TO_CLIENT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 71 | `SM_SEND_DISTRIBUTIONS` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 73 | `SM_NOTE_PARENT` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 82 | `SM_CHILD_PARENT_MAP` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
@@ -112,7 +120,6 @@ Status legend:
 | server | 102 | `SM_POSSIBLE_PARENTS` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 130 | `SM_DNET_RESET` | `mapped_not_implemented` | high | Server MessageCodeToString jump-table extraction resolves code 130 to SM_DNET_RESET (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 292 | `SM_PEER_MESSAGE_ALT` | `implemented_not_mapped` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_ADD_CHATROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ADD_HATE_TERM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ADD_LIKE_TERM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ADD_PRIVILEGED_USER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
@@ -120,7 +127,6 @@ Status legend:
 | server |  | `SM_ADD_ROOM_OPERATORSHIP` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ADD_USER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_CHANGE_PASSWORD` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_CONNECT_TO_CLIENT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_DNET_CHILD_DEPTH` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_DNET_DELIVERY_REPORT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_DNET_GROUP_LEADER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
@@ -129,13 +135,11 @@ Status legend:
 | server |  | `SM_FLOOD` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GET_ROOM_TICKER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GIVE_UP_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_HEARTBEAT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_JOIN_GLOBAL_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_LEAVE_GLOBAL_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_LOW_PRIORITY_FILE_SEARCH` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_PLACE_IN_LINE` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_PLACE_IN_LINE_RESPONSE` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_RELOGGED` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_REMOVE_HATE_TERM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_REMOVE_LIKE_TERM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_REMOVE_OWN_ROOM_MEMBERSHIP` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
@@ -143,17 +147,13 @@ Status legend:
 | server |  | `SM_REMOVE_ROOM_MEMBERSHIP` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_REMOVE_ROOM_OPERATORSHIP` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_REMOVE_USER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_ROOM_ADDED` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_ROOM_REMOVED` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ROOM_TICKER_USER_ADDED` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ROOM_TICKER_USER_REMOVED` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_SAY_GLOBAL_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_SEARCH_CORRELATIONS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_SEND_CONNECT_TOKEN` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_SET_STATUS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_SET_TICKER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_TRANSFER_ROOM_OWNERSHIP` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_USER_LIST` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_WISHLIST_WAIT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 
 ## Regeneration

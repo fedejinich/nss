@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T20:04:03+00:00",
+  "generated_at": "2026-02-14T20:09:50+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -731,6 +731,20 @@
     },
     {
       "scope": "server",
+      "code": 10,
+      "name": "SM_ADD_CHATROOM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 10 to SM_ADD_CHATROOM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 11,
       "name": "SM_IGNORE_USER",
       "payload": [
@@ -1058,6 +1072,34 @@
     },
     {
       "scope": "server",
+      "code": 28,
+      "name": "SM_SET_STATUS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 28 to SM_SET_STATUS (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 32,
+      "name": "SM_HEARTBEAT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 32 to SM_HEARTBEAT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 34,
       "name": "SM_DOWNLOAD_SPEED",
       "payload": [
@@ -1135,6 +1177,20 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 36 defines user stats response fields (speed/downloads/files/dirs)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 41,
+      "name": "SM_RELOGGED",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly)."
         }
       ]
     },
@@ -1418,6 +1474,48 @@
     },
     {
       "scope": "server",
+      "code": 61,
+      "name": "SM_USER_LIST",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 61 to SM_USER_LIST (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 62,
+      "name": "SM_ROOM_ADDED",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 62 to SM_ROOM_ADDED (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 63,
+      "name": "SM_ROOM_REMOVED",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 63 to SM_ROOM_REMOVED (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 64,
       "name": "SM_ROOM_LIST",
       "payload": [
@@ -1541,6 +1639,20 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-privilege-messaging/official_frames.hex",
           "note": "Authenticated runtime flow includes privileged-list request and response frames (code 69) with user-list style payloads."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 70,
+      "name": "SM_CONNECT_TO_CLIENT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 70 to SM_CONNECT_TO_CLIENT (x86_64 binary disassembly)."
         }
       ]
     },
