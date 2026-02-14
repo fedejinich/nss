@@ -596,8 +596,20 @@ impl SessionClient {
                     else {
                         continue;
                     };
-                    if let ServerMessage::GetTermRecommendationsResponse(payload) = message {
-                        return Ok(payload);
+                    match message {
+                        ServerMessage::GetTermRecommendationsResponse(payload) => {
+                            return Ok(payload);
+                        }
+                        // Code 111 request/response payloads are wire-ambiguous when the response
+                        // carries zero entries (term-only payload). Treat request-classified
+                        // decodes as empty responses to avoid false timeouts.
+                        ServerMessage::GetTermRecommendations(request) => {
+                            return Ok(TermRecommendationsPayload {
+                                term: request.term,
+                                recommendations: Vec::new(),
+                            });
+                        }
+                        _ => {}
                     }
                 }
                 Ok(Err(err)) => {
@@ -634,8 +646,19 @@ impl SessionClient {
                     else {
                         continue;
                     };
-                    if let ServerMessage::GetRecommendationUsersResponse(payload) = message {
-                        return Ok(payload);
+                    match message {
+                        ServerMessage::GetRecommendationUsersResponse(payload) => {
+                            return Ok(payload);
+                        }
+                        // Code 112 has the same term-only ambiguity as code 111 for zero-entry
+                        // responses; normalize to an empty users response.
+                        ServerMessage::GetRecommendationUsers(request) => {
+                            return Ok(RecommendationUsersPayload {
+                                term: request.term,
+                                users: Vec::new(),
+                            });
+                        }
+                        _ => {}
                     }
                 }
                 Ok(Err(err)) => {
@@ -1177,9 +1200,9 @@ mod tests {
         OwnPrivilegesStatusPayload, PrivilegedListPayload, RecommendationEntry,
         RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
         RoomListPayload, RoomPresenceEventPayload, ServerMessage, SimilarTermsPayload,
-        SpeedPayload, TermRecommendationsPayload, UserPrivilegesStatusPayload,
-        UserRecommendationsPayload, encode_server_message, parse_transfer_request,
-        parse_transfer_response,
+        SimilarTermsRequestPayload, SpeedPayload, TermRecommendationsPayload,
+        UserPrivilegesStatusPayload, UserRecommendationsPayload, encode_server_message,
+        parse_transfer_request, parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -2023,6 +2046,55 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn get_term_recommendations_accepts_term_only_response_variant() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("term recommendations request");
+            assert_eq!(request.code, CODE_SM_GET_TERM_RECOMMENDATIONS);
+
+            // Term-only payload is wire-ambiguous for code 111. Simulate server emitting this
+            // shape so SessionClient normalizes it as an empty response instead of timing out.
+            let response = encode_server_message(&ServerMessage::GetTermRecommendations(
+                SimilarTermsRequestPayload { term: "idm".into() },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write term-only recommendations payload");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_term_recommendations("idm", Duration::from_secs(1))
+            .await
+            .expect("get term recommendations");
+        assert_eq!(payload.term, "idm");
+        assert!(payload.recommendations.is_empty());
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
     async fn get_recommendation_users_returns_payload() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("addr");
@@ -2073,6 +2145,54 @@ mod tests {
         assert_eq!(payload.term, "idm");
         assert_eq!(payload.users.len(), 1);
         assert_eq!(payload.users[0].username, "charlie");
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_recommendation_users_accepts_term_only_response_variant() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("recommendation users request");
+            assert_eq!(request.code, CODE_SM_GET_RECOMMENDATION_USERS);
+
+            // Term-only payload is wire-ambiguous for code 112. Treat it as empty users response.
+            let response = encode_server_message(&ServerMessage::GetRecommendationUsers(
+                SimilarTermsRequestPayload { term: "idm".into() },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write term-only recommendation-users payload");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_recommendation_users("idm", Duration::from_secs(1))
+            .await
+            .expect("get recommendation users");
+        assert_eq!(payload.term, "idm");
+        assert!(payload.users.is_empty());
         server.await.expect("server task");
     }
 

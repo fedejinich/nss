@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use protocol::{Frame, decode_message};
+use protocol::{Frame, decode_peer_message, decode_server_message};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeSet;
@@ -224,13 +224,30 @@ fn normalize_semantic_frame(bytes: &[u8]) -> Value {
         }
     };
 
-    match decode_message(&frame) {
-        Ok(message) => json!({
+    let server = decode_server_message(frame.code, &frame.payload);
+    let peer = decode_peer_message(frame.code, &frame.payload);
+
+    match (server, peer) {
+        (Ok(server), Err(_)) => json!({
             "code": frame.code,
             "known": true,
-            "decoded": message,
+            "scope": "server",
+            "decoded": server,
         }),
-        Err(_) => json!({
+        (Err(_), Ok(peer)) => json!({
+            "code": frame.code,
+            "known": true,
+            "scope": "peer",
+            "decoded": peer,
+        }),
+        (Ok(server), Ok(peer)) => json!({
+            "code": frame.code,
+            "known": true,
+            "scope": "ambiguous",
+            "decoded_server": server,
+            "decoded_peer": peer,
+        }),
+        (Err(_), Err(_)) => json!({
             "code": frame.code,
             "known": false,
             "payload_len": frame.payload.len(),
@@ -321,7 +338,7 @@ mod tests {
     use super::*;
     use protocol::{
         CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED, CODE_SM_GET_RECOMMENDATIONS,
-        CODE_SM_USER_JOINED_ROOM, PayloadWriter,
+        CODE_SM_JOIN_ROOM, CODE_SM_USER_JOINED_ROOM, PayloadWriter,
     };
 
     fn transfer_response_frame_bytes(token: u32, allowed_raw: u32) -> Vec<u8> {
@@ -352,6 +369,12 @@ mod tests {
         writer.write_u32(score);
         writer.write_u32(0);
         Frame::new(CODE_SM_GET_RECOMMENDATIONS, writer.into_inner()).encode()
+    }
+
+    fn ambiguous_code14_frame_bytes(value: &str) -> Vec<u8> {
+        let mut writer = PayloadWriter::new();
+        writer.write_string(value);
+        Frame::new(CODE_SM_JOIN_ROOM, writer.into_inner()).encode()
     }
 
     #[test]
@@ -466,6 +489,46 @@ mod tests {
                 .as_deref()
                 .unwrap_or_default()
                 .contains("term")
+        );
+    }
+
+    #[test]
+    fn semantic_mode_handles_ambiguous_code_without_server_bias() {
+        let official = vec![ambiguous_code14_frame_bytes("nicotine")];
+        let neo = vec![ambiguous_code14_frame_bytes("nicotine")];
+        let report = compare_capture_sequences_with_mode(
+            "run-ambiguous",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 1);
+        assert!(report.frame_comparisons[0].semantic_matches);
+        assert_eq!(report.frame_comparisons[0].semantic_first_diff_field, None);
+    }
+
+    #[test]
+    fn semantic_mode_reports_ambiguous_code_payload_diff() {
+        let official = vec![ambiguous_code14_frame_bytes("nicotine")];
+        let neo = vec![ambiguous_code14_frame_bytes("electronic")];
+        let report = compare_capture_sequences_with_mode(
+            "run-ambiguous-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        assert!(!report.frame_comparisons[0].semantic_matches);
+        assert!(
+            report.frame_comparisons[0]
+                .semantic_first_diff_field
+                .as_deref()
+                .unwrap_or_default()
+                .contains("decoded_")
         );
     }
 }

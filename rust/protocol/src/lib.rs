@@ -769,19 +769,22 @@ pub fn encode_message(message: &ProtocolMessage) -> Frame {
 }
 
 pub fn decode_message(frame: &Frame) -> Result<ProtocolMessage> {
-    if let Ok(server) = decode_server_message(frame.code, &frame.payload) {
-        return Ok(ProtocolMessage::Server(server));
-    }
+    let server = decode_server_message(frame.code, &frame.payload);
+    let peer = decode_peer_message(frame.code, &frame.payload);
 
-    if let Ok(peer) = decode_peer_message(frame.code, &frame.payload) {
-        return Ok(ProtocolMessage::Peer(peer));
+    match (server, peer) {
+        (Ok(server), Err(_)) => Ok(ProtocolMessage::Server(server)),
+        (Err(_), Ok(peer)) => Ok(ProtocolMessage::Peer(peer)),
+        (Ok(_), Ok(_)) => bail!(
+            "ambiguous message code {} decodes as both server and peer; use scoped decoder",
+            frame.code
+        ),
+        (Err(_), Err(_)) => bail!(
+            "unsupported message code {} (payload_len={})",
+            frame.code,
+            frame.payload.len()
+        ),
     }
-
-    bail!(
-        "unsupported message code {} (payload_len={})",
-        frame.code,
-        frame.payload.len()
-    )
 }
 
 pub fn encode_server_message(message: &ServerMessage) -> Frame {
@@ -3061,6 +3064,15 @@ mod tests {
         let frame = Frame::new(9999, vec![0, 1, 2]);
         let err = decode_message(&frame).expect_err("unknown code must fail");
         assert!(err.to_string().contains("unsupported message code"));
+    }
+
+    #[test]
+    fn decode_rejects_ambiguous_code_without_scope() {
+        let mut payload = PayloadWriter::new();
+        payload.write_string("nicotine");
+        let frame = Frame::new(CODE_SM_JOIN_ROOM, payload.into_inner());
+        let err = decode_message(&frame).expect_err("ambiguous decode must fail");
+        assert!(err.to_string().contains("ambiguous message code"));
     }
 
     #[test]
