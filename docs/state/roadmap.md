@@ -25,8 +25,9 @@ gantt
     S4G Parent/distributed tuning continuation mapping batch :done, s4g, after s4f, 1d
     S4H Global room/system control continuation mapping batch :done, s4h, after s4g, 1d
     S4I Ticker and term-control continuation mapping batch :done, s4i, after s4h, 1d
+    S4J Private-room ownership and membership continuation mapping batch :done, s4j, after s4i, 1d
     section Planned
-    S4J Private-room ownership and membership continuation :crit, s4j, after s4i, 2d
+    S4K Global/distributed tail + peer control continuation :crit, s4k, after s4j, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -114,7 +115,8 @@ graph TD
 | S4G | parent/distributed tuning continuation mapping batch | done | `docs/pr/0011-s4g-parent-distributed-tuning-map.md` | start S4H implementation batch |
 | S4H | global room/system control continuation mapping batch | done | `docs/pr/0012-s4h-global-system-control-map.md` | start S4I implementation batch |
 | S4I | ticker and term-control continuation mapping batch | done | `docs/pr/0013-s4i-ticker-term-control-map.md` | start S4J implementation batch |
-| S4J | private-room ownership and membership continuation | planned | `docs/state/protocol-backlog.md` | start S4J plan |
+| S4J | private-room ownership and membership continuation mapping batch | done | `docs/pr/0014-s4j-private-room-ownership-map.md` | start S4K implementation batch |
+| S4K | global/distributed tail + peer control continuation | planned | `docs/state/protocol-backlog.md` | start S4K plan |
 
 ## S4B Target Contract
 
@@ -212,10 +214,10 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S4J Preview (Not Started)
+## S4K Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Private-room ownership/membership server domain (`SM_REMOVE_OWN_ROOM_MEMBERSHIP`, `SM_GIVE_UP_ROOM`, `SM_TRANSFER_ROOM_OWNERSHIP`, `SM_ADD_ROOM_MEMBERSHIP`, `SM_REMOVE_ROOM_MEMBERSHIP`, `SM_ENABLE_PRIVATE_ROOM_ADD`, `SM_CHANGE_PASSWORD`, `SM_ADD_ROOM_OPERATORSHIP`).
-2. Convert S4F/S4G/S4H/S4I mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
-3. Keep runtime evidence capture plan for reachable room ownership/membership flows.
+1. Remaining global/distributed and peer-control domain (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, `SM_JOIN_GLOBAL_ROOM`, `SM_LEAVE_GLOBAL_ROOM`, `SM_SAY_GLOBAL_ROOM`, `SM_SEARCH_CORRELATIONS`, distributed tail messages, and remaining peer controls).
+2. Convert mapped-not-implemented rows from S4F through S4J into typed protocol/core/CLI support.
+3. Keep runtime evidence capture plan for reachable global-room and distributed-control flows.

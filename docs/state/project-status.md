@@ -19,7 +19,23 @@
 - Stage 4G complete: parent/distributed tuning mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4H complete: global room/system control mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4I complete: ticker/term control mapping continuation with authoritative jump-table evidence (mapping-first expansion).
+- Stage 4J complete: private-room ownership/membership mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Stage 4J Completion
+
+1. Expanded protocol mapping from 99 to 107 rows (`+8` S4J messages):
+   - `SM_REMOVE_OWN_ROOM_MEMBERSHIP`
+   - `SM_GIVE_UP_ROOM`
+   - `SM_TRANSFER_ROOM_OWNERSHIP`
+   - `SM_ADD_ROOM_MEMBERSHIP`
+   - `SM_REMOVE_ROOM_MEMBERSHIP`
+   - `SM_ENABLE_PRIVATE_ROOM_ADD`
+   - `SM_CHANGE_PASSWORD`
+   - `SM_ADD_ROOM_OPERATORSHIP`
+2. Regenerated canonical schema/docs/matrix from authoritative maps.
+3. Preserved verification baselines while continuing mapping-first expansion.
+4. Kept S4J rows explicitly as `mapped_not_implemented` pending typed implementation.
 
 ## Stage 4I Completion
 
@@ -148,10 +164,11 @@
 - `docs/pr/0011-s4g-parent-distributed-tuning-map.md`
 - `docs/pr/0012-s4h-global-system-control-map.md`
 - `docs/pr/0013-s4i-ticker-term-control-map.md`
+- `docs/pr/0014-s4j-private-room-ownership-map.md`
 
 ## Operational Notes
 
 - Stage 2 core contract remains intact (`25/25`, `high=25`, `medium=0`, `low=0`).
-- Total mapped protocol rows: `99`.
-- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `32`, missing `31`.
+- Total mapped protocol rows: `107`.
+- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `40`, missing `23`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.

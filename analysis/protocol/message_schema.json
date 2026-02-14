@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T20:14:50+00:00",
+  "generated_at": "2026-02-14T20:20:01+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -2296,6 +2296,104 @@
     },
     {
       "scope": "server",
+      "code": 136,
+      "name": "SM_REMOVE_OWN_ROOM_MEMBERSHIP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 136 to SM_REMOVE_OWN_ROOM_MEMBERSHIP (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 137,
+      "name": "SM_GIVE_UP_ROOM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 137 to SM_GIVE_UP_ROOM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 138,
+      "name": "SM_TRANSFER_ROOM_OWNERSHIP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 138 to SM_TRANSFER_ROOM_OWNERSHIP (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 139,
+      "name": "SM_ADD_ROOM_MEMBERSHIP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 139 to SM_ADD_ROOM_MEMBERSHIP (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 140,
+      "name": "SM_REMOVE_ROOM_MEMBERSHIP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 140 to SM_REMOVE_ROOM_MEMBERSHIP (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 141,
+      "name": "SM_ENABLE_PRIVATE_ROOM_ADD",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 141 to SM_ENABLE_PRIVATE_ROOM_ADD (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 142,
+      "name": "SM_CHANGE_PASSWORD",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 142 to SM_CHANGE_PASSWORD (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 143,
       "name": "SM_ADD_ROOM_OPERATOR",
       "payload": [
@@ -2357,6 +2455,20 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 144 documents RemoveOperatorFromPrivileged operation with room+username fields."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 145,
+      "name": "SM_ADD_ROOM_OPERATORSHIP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 145 to SM_ADD_ROOM_OPERATORSHIP (x86_64 binary disassembly)."
         }
       ]
     },
