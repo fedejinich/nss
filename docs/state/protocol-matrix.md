@@ -4,7 +4,7 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-14T19:16:09+00:00`
+- Generated at: `2026-02-14T19:18:42+00:00`
 - Total messages tracked: `131`
 - Server messages: `106`
 - Peer messages: `25`
