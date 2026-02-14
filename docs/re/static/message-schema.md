@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T17:37:14+00:00`
+- Generated: `2026-02-14T19:10:23+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -217,15 +217,23 @@
 - Confidence: `high`
 - Payload fields:
   - `username`: `string`
+  - `ip_address`: `ipv4_u32_le`
+  - `port`: `u32`
+  - `obfuscation_type`: `u32`
+  - `obfuscated_port`: `u16`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-peer-address-connect/official_frames.hex` (Authenticated runtime flow includes GetPeerAddress request/response (code 3) with username and endpoint payload fields.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 3 defines peer-address request and response payload fields.)
 
 ### `server` `SM_GET_USER_STATUS` (code `7`)
 - Confidence: `high`
 - Payload fields:
   - `username`: `string`
+  - `status`: `u32`
+  - `privileged`: `bool_u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-user-state/official_frames.hex` (Authenticated runtime flow includes user-status request/response (code 7) with status and privilege fields.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 7 defines user status response fields (status and privilege bit).)
 
 ### `server` `SM_IGNORE_USER` (code `11`)
 - Confidence: `high`
@@ -288,26 +296,38 @@
 ### `server` `SM_CONNECT_TO_PEER` (code `18`)
 - Confidence: `high`
 - Payload fields:
-  - `username`: `string`
   - `token`: `u32`
+  - `username`: `string`
+  - `connection_type`: `string`
+  - `ip_address`: `ipv4_u32_le`
+  - `port`: `u32`
+  - `privileged`: `bool_u32`
+  - `obfuscation_type`: `u32`
+  - `obfuscated_port`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch and peer connect path.)
+  - `runtime_capture`: `captures/redacted/login-peer-address-connect/official_frames.hex` (Authenticated runtime flow includes ConnectToPeer request and response payloads (code 18) with token)
   - `ghidra_decompile`: `evidence/reverse/disasm/server_handle_message.txt` (Server handler routes peer connect responses to transfer subsystem.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 18 documents ConnectToPeer request and response payload shape.)
 
 ### `server` `SM_MESSAGE_USER` (code `22`)
 - Confidence: `high`
 - Payload fields:
+  - `message_id`: `u32`
+  - `timestamp`: `u32`
   - `username`: `string`
   - `message`: `string`
+  - `is_new`: `bool_u8`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-private-message/official_frames.hex` (Authenticated runtime flow includes private-message send and inbound private-message frame (code 22) with directional payload variants.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 22 documents private message request and incoming event fields.)
 
 ### `server` `SM_MESSAGE_ACKED` (code `23`)
 - Confidence: `high`
 - Payload fields:
   - `message_id`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-private-message/official_frames.hex` (Authenticated runtime flow includes private-message acknowledgement path (code 23) with message_id payload.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 23 documents private message acknowledgement with message ID.)
 
 ### `server` `SM_FILE_SEARCH` (code `26`)
 - Confidence: `high`
@@ -338,8 +358,13 @@
 - Confidence: `high`
 - Payload fields:
   - `username`: `string`
+  - `avg_speed`: `u32`
+  - `download_num`: `u32`
+  - `files`: `u32`
+  - `dirs`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-user-state/official_frames.hex` (Authenticated runtime flow includes user-stats request/response (code 36) with stats summary fields.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 36 defines user stats response fields (speed/downloads/files/dirs).)
 
 ### `server` `SM_SEARCH_USER_FILES` (code `42`)
 - Confidence: `high`
@@ -432,6 +457,19 @@
   - `virtual_path`: `string`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload.)
+
+### `server` `SM_PEER_MESSAGE` (code `68`)
+- Confidence: `high`
+- Payload fields:
+  - `username`: `string`
+  - `token`: `u32`
+  - `code`: `u32`
+  - `ip_address`: `ipv4_u32_le`
+  - `port`: `u32`
+  - `message`: `string`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-peer-message/official_frames.hex` (Deterministic runtime-local legacy tunneled-message capture covers code 68 request/response payload variants; alt compatibility alias 292 observed in same run.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 68 is documented as PeerMessage/TunneledMessage in protocol references.)
 
 ### `server` `SM_PRIVILEGED_LIST` (code `69`)
 - Confidence: `high`
@@ -581,4 +619,14 @@
   - `operators`: `array<string>`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime room-operators request flow in authenticated room session.)
+
+### `server` `SM_MESSAGE_USERS` (code `149`)
+- Confidence: `high`
+- Payload fields:
+  - `username_count`: `u32`
+  - `usernames`: `array<string>`
+  - `message`: `string`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-message-users/official_frames.hex` (Authenticated runtime flow sends message-users payload (code 149) with user list and message body.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 149 documents SendMessageUsers payload (users list + message).)
 

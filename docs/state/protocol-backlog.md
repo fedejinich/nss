@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4D)
+# Protocol Backlog (Post S4E)
 
 ## Objective
 
@@ -66,20 +66,40 @@ Status: completed in S4C with runtime captures (`login-privileges-social`, `peer
 
 Status: completed in S4D with runtime captures (`login-privilege-messaging`, `peer-legacy-local`), jump-table static extraction (`SM_BAN_USER`), protocol implementation, and semantic verification updates.
 
-## Next Candidate Stage (S4E) - Private Messaging + User-State Domain
+## Completed in S4E (Private Messaging + User-State Domain)
 
 - `SM_MESSAGE_USER`
 - `SM_MESSAGE_ACKED`
-- deeper runtime field validation for:
-  - `SM_GET_USER_STATUS`
-  - `SM_GET_USER_STATS`
-  - `SM_CONNECT_TO_PEER` / `SM_GET_PEER_ADDRESS` interaction traces
-- parser-depth follow-up:
+- `SM_GET_USER_STATUS`
+- `SM_GET_USER_STATS`
+- `SM_GET_PEER_ADDRESS`
+- `SM_CONNECT_TO_PEER`
+- `SM_MESSAGE_USERS`
+- `SM_PEER_MESSAGE`
+
+Status: completed in S4E with runtime captures (`login-private-message`, `login-user-state`, `login-peer-address-connect`, `login-message-users`, `login-peer-message`), protocol implementation, and semantic verification updates.
+
+## Next Candidate Stage (S4F) - Global/Admin/Distributed Control Domain
+
+- `SM_ADMIN_MESSAGE`
+- `SM_DNET_MESSAGE`
+- `SM_GLOBAL_USER_LIST`
+- `SM_COMMAND`
+- `SM_CHILD_PARENT_MAP`
+- `SM_SEND_DISTRIBUTIONS`
+- `SM_NOTE_PARENT`
+- `SM_SET_PARENT_MIN_SPEED`
+- `SM_SET_PARENT_SPEED_CONNECTION_RATIO`
+- `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`
+- `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`
+- `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`
+- `SM_SET_SECONDS_BEFORE_PING_CHILDREN`
+- carryover parser-depth follow-up:
   - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
 
 ## Execution Strategy
 
-1. Add S4E batch rows to `analysis/ghidra/maps/message_map.csv` with explicit confidence and evidence.
+1. Add S4F batch rows to `analysis/ghidra/maps/message_map.csv` with explicit confidence and evidence.
 2. Collect runtime captures first for high-confidence promotion when feasible.
 3. Regenerate schema/docs from authoritative maps:
    - `scripts/derive_message_schema.sh`
@@ -89,4 +109,4 @@ Status: completed in S4D with runtime captures (`login-privilege-messaging`, `pe
 
 ## Next Session Entry Point
 
-Start S4E by capturing authenticated private messaging flows and user-status/stat exchanges, then promote mappings using runtime-first evidence.
+Start S4F by capturing reachable global/admin/distributed-control flows and promoting mappings with runtime-first evidence where feasible.

@@ -1,0 +1,24 @@
+{
+  "run_id": "login-peer-address-connect",
+  "scenario": "login-peer-address-connect",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-14T19:08:50+00:00",
+  "server": "<redacted:endpoint:6ae7868553ad>",
+  "frame_count": 13,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:91cc84c4d6f6>",
+    "neo_frames_raw": "<redacted:path:6a8947babc8b>",
+    "frida_events_raw": "<redacted:path:453bb475d00e>"
+  },
+  "notes": "Stage 4E runtime capture generated for private messaging and user-state domain.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T19:08:58+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-peer-address-connect",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

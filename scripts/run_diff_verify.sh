@@ -22,6 +22,11 @@ REQUIRED_RUNS=(
   "peer-folder-local"
   "login-privilege-messaging"
   "peer-legacy-local"
+  "login-private-message"
+  "login-user-state"
+  "login-peer-address-connect"
+  "login-message-users"
+  "login-peer-message"
 )
 
 cd "${ROOT_DIR}/rust"

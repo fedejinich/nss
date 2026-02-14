@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T17:37:14+00:00",
+  "generated_at": "2026-02-14T19:10:23+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -665,14 +665,35 @@
         {
           "name": "username",
           "type": "string"
+        },
+        {
+          "name": "ip_address",
+          "type": "ipv4_u32_le"
+        },
+        {
+          "name": "port",
+          "type": "u32"
+        },
+        {
+          "name": "obfuscation_type",
+          "type": "u32"
+        },
+        {
+          "name": "obfuscated_port",
+          "type": "u16"
         }
       ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in Server::MessageCodeToString dispatch."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-peer-address-connect/official_frames.hex",
+          "note": "Authenticated runtime flow includes GetPeerAddress request/response (code 3) with username and endpoint payload fields."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 3 defines peer-address request and response payload fields."
         }
       ]
     },
@@ -684,14 +705,27 @@
         {
           "name": "username",
           "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "u32"
+        },
+        {
+          "name": "privileged",
+          "type": "bool_u32"
         }
       ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in Server::MessageCodeToString dispatch."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-user-state/official_frames.hex",
+          "note": "Authenticated runtime flow includes user-status request/response (code 7) with status and privilege fields."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 7 defines user status response fields (status and privilege bit)."
         }
       ]
     },
@@ -874,25 +908,54 @@
       "name": "SM_CONNECT_TO_PEER",
       "payload": [
         {
+          "name": "token",
+          "type": "u32"
+        },
+        {
           "name": "username",
           "type": "string"
         },
         {
-          "name": "token",
+          "name": "connection_type",
+          "type": "string"
+        },
+        {
+          "name": "ip_address",
+          "type": "ipv4_u32_le"
+        },
+        {
+          "name": "port",
+          "type": "u32"
+        },
+        {
+          "name": "privileged",
+          "type": "bool_u32"
+        },
+        {
+          "name": "obfuscation_type",
+          "type": "u32"
+        },
+        {
+          "name": "obfuscated_port",
           "type": "u32"
         }
       ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in Server::MessageCodeToString dispatch and peer connect path."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-peer-address-connect/official_frames.hex",
+          "note": "Authenticated runtime flow includes ConnectToPeer request and response payloads (code 18) with token"
         },
         {
           "kind": "ghidra_decompile",
           "source": "evidence/reverse/disasm/server_handle_message.txt",
           "note": "Server handler routes peer connect responses to transfer subsystem."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 18 documents ConnectToPeer request and response payload shape."
         }
       ]
     },
@@ -902,20 +965,37 @@
       "name": "SM_MESSAGE_USER",
       "payload": [
         {
+          "name": "message_id",
+          "type": "u32"
+        },
+        {
+          "name": "timestamp",
+          "type": "u32"
+        },
+        {
           "name": "username",
           "type": "string"
         },
         {
           "name": "message",
           "type": "string"
+        },
+        {
+          "name": "is_new",
+          "type": "bool_u8"
         }
       ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in Server::MessageCodeToString dispatch."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-private-message/official_frames.hex",
+          "note": "Authenticated runtime flow includes private-message send and inbound private-message frame (code 22) with directional payload variants."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 22 documents private message request and incoming event fields."
         }
       ]
     },
@@ -932,9 +1012,14 @@
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in Server::MessageCodeToString dispatch."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-private-message/official_frames.hex",
+          "note": "Authenticated runtime flow includes private-message acknowledgement path (code 23) with message_id payload."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 23 documents private message acknowledgement with message ID."
         }
       ]
     },
@@ -1021,14 +1106,35 @@
         {
           "name": "username",
           "type": "string"
+        },
+        {
+          "name": "avg_speed",
+          "type": "u32"
+        },
+        {
+          "name": "download_num",
+          "type": "u32"
+        },
+        {
+          "name": "files",
+          "type": "u32"
+        },
+        {
+          "name": "dirs",
+          "type": "u32"
         }
       ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in Server::MessageCodeToString dispatch."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-user-state/official_frames.hex",
+          "note": "Authenticated runtime flow includes user-stats request/response (code 36) with stats summary fields."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 36 defines user stats response fields (speed/downloads/files/dirs)."
         }
       ]
     },
@@ -1335,6 +1441,50 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-search/official_frames.hex",
           "note": "Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 68,
+      "name": "SM_PEER_MESSAGE",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "token",
+          "type": "u32"
+        },
+        {
+          "name": "code",
+          "type": "u32"
+        },
+        {
+          "name": "ip_address",
+          "type": "ipv4_u32_le"
+        },
+        {
+          "name": "port",
+          "type": "u32"
+        },
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-peer-message/official_frames.hex",
+          "note": "Deterministic runtime-local legacy tunneled-message capture covers code 68 request/response payload variants; alt compatibility alias 292 observed in same run."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 68 is documented as PeerMessage/TunneledMessage in protocol references."
         }
       ]
     },
@@ -1782,6 +1932,38 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-join-room-presence/official_frames.hex",
           "note": "Observed runtime room-operators request flow in authenticated room session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 149,
+      "name": "SM_MESSAGE_USERS",
+      "payload": [
+        {
+          "name": "username_count",
+          "type": "u32"
+        },
+        {
+          "name": "usernames",
+          "type": "array<string>"
+        },
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-message-users/official_frames.hex",
+          "note": "Authenticated runtime flow sends message-users payload (code 149) with user list and message body."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 149 documents SendMessageUsers payload (users list + message)."
         }
       ]
     }

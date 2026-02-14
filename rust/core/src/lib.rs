@@ -1,27 +1,31 @@
 use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
-    CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_RECOMMENDATION_USERS,
+    CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_PEER_ADDRESS, CODE_SM_GET_RECOMMENDATION_USERS,
     CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_TERM_RECOMMENDATIONS,
-    CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_LOGIN, CODE_SM_PRIVILEGED_LIST, CODE_SM_ROOM_LIST,
-    Frame, LoginFailureReason, LoginResponsePayload, OwnPrivilegesStatusPayload, PeerMessage,
-    PrivilegedListPayload, ProtocolMessage, RecommendationUsersPayload, RecommendationsPayload,
-    RecommendedUsersPayload, RoomListPayload, RoomMembersPayload, RoomOperatorsPayload,
-    ServerMessage, SimilarTermsPayload, TermRecommendationsPayload, TransferDirection,
-    TransferRequestPayload, TransferResponsePayload, UserPrivilegesStatusPayload,
-    UserRecommendationsPayload, build_add_room_member_request, build_add_room_operator_request,
-    build_ban_user_request, build_file_search_request, build_get_global_recommendations_request,
-    build_get_my_recommendations_request, build_get_own_privileges_status_request,
+    CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_GET_USER_STATS, CODE_SM_GET_USER_STATUS,
+    CODE_SM_LOGIN, CODE_SM_MESSAGE_ACKED, CODE_SM_PRIVILEGED_LIST, CODE_SM_ROOM_LIST, Frame,
+    LoginFailureReason, LoginResponsePayload, MessageAckedPayload, MessageUserIncomingPayload,
+    OwnPrivilegesStatusPayload, PeerAddressResponsePayload, PeerMessage, PrivilegedListPayload,
+    ProtocolMessage, RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
+    RoomListPayload, RoomMembersPayload, RoomOperatorsPayload, ServerMessage, SimilarTermsPayload,
+    TermRecommendationsPayload, TransferDirection, TransferRequestPayload, TransferResponsePayload,
+    UserPrivilegesStatusPayload, UserRecommendationsPayload, UserStatsResponsePayload,
+    UserStatusResponsePayload, build_add_room_member_request, build_add_room_operator_request,
+    build_ban_user_request, build_connect_to_peer_request, build_file_search_request,
+    build_get_global_recommendations_request, build_get_my_recommendations_request,
+    build_get_own_privileges_status_request, build_get_peer_address_request,
     build_get_recommendation_users_request, build_get_recommendations_request,
     build_get_recommended_users_request, build_get_similar_terms_request,
     build_get_term_recommendations_request, build_get_user_privileges_status_request,
-    build_get_user_recommendations_request, build_give_privilege_request,
-    build_ignore_user_request, build_inform_user_of_privileges_ack_request,
-    build_inform_user_of_privileges_request, build_join_room_request, build_leave_room_request,
-    build_login_request, build_privileged_list_request, build_remove_room_member_request,
-    build_remove_room_operator_request, build_room_list_request, build_room_members_request,
-    build_room_operators_request, build_say_chatroom, build_transfer_request,
-    build_unignore_user_request, decode_peer_message, decode_server_message, encode_peer_message,
-    encode_server_message, split_first_frame,
+    build_get_user_recommendations_request, build_get_user_stats_request,
+    build_get_user_status_request, build_give_privilege_request, build_ignore_user_request,
+    build_inform_user_of_privileges_ack_request, build_inform_user_of_privileges_request,
+    build_join_room_request, build_leave_room_request, build_login_request,
+    build_message_user_request, build_message_users_request, build_privileged_list_request,
+    build_remove_room_member_request, build_remove_room_operator_request, build_room_list_request,
+    build_room_members_request, build_room_operators_request, build_say_chatroom,
+    build_transfer_request, build_unignore_user_request, decode_peer_message,
+    decode_server_message, encode_peer_message, encode_server_message, split_first_frame,
 };
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
@@ -78,6 +82,12 @@ pub enum RoomEvent {
     },
     MembersSnapshot(RoomMembersPayload),
     OperatorsSnapshot(RoomOperatorsPayload),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum PrivateEvent {
+    Message(MessageUserIncomingPayload),
+    Ack(MessageAckedPayload),
 }
 
 #[derive(Debug)]
@@ -372,6 +382,214 @@ impl SessionClient {
         self.ensure_logged_in()?;
         let frame = build_say_chatroom(room, message);
         write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn send_private_message(&mut self, target_user: &str, message: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_message_user_request(target_user, message);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn send_message_users(&mut self, targets: &[String], message: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_message_users_request(targets, message);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn wait_message_ack(&mut self, timeout: Duration) -> Result<MessageAckedPayload> {
+        self.ensure_logged_in()?;
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_MESSAGE_ACKED {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::MessageAcked(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+        bail!("timed out waiting for message ack")
+    }
+
+    pub async fn get_user_status(
+        &mut self,
+        username: &str,
+        timeout: Duration,
+    ) -> Result<UserStatusResponsePayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_user_status_request(username);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_USER_STATUS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::GetUserStatusResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+        bail!("timed out waiting for user status response")
+    }
+
+    pub async fn get_user_stats(
+        &mut self,
+        username: &str,
+        timeout: Duration,
+    ) -> Result<UserStatsResponsePayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_user_stats_request(username);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_USER_STATS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::GetUserStatsResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+        bail!("timed out waiting for user stats response")
+    }
+
+    pub async fn get_peer_address(
+        &mut self,
+        username: &str,
+        timeout: Duration,
+    ) -> Result<PeerAddressResponsePayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_peer_address_request(username);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_PEER_ADDRESS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::GetPeerAddressResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+        bail!("timed out waiting for peer address response")
+    }
+
+    pub async fn connect_to_peer(
+        &mut self,
+        username: &str,
+        token: u32,
+        connection_type: &str,
+    ) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_connect_to_peer_request(token, username, connection_type);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn collect_private_events(
+        &mut self,
+        timeout: Duration,
+        max_events: usize,
+    ) -> Result<Vec<PrivateEvent>> {
+        self.ensure_logged_in()?;
+        let mut events = Vec::new();
+        let deadline = Instant::now() + timeout;
+
+        while events.len() < max_events {
+            let now = Instant::now();
+            if now >= deadline {
+                break;
+            }
+
+            let remaining = deadline.saturating_duration_since(now);
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(frame)) => {
+                    let Ok(msg) = decode_server_message(frame.code, &frame.payload) else {
+                        continue;
+                    };
+                    match msg {
+                        ServerMessage::MessageUserIncoming(payload) => {
+                            events.push(PrivateEvent::Message(payload));
+                        }
+                        ServerMessage::MessageAcked(payload) => {
+                            events.push(PrivateEvent::Ack(payload));
+                        }
+                        _ => {}
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        Ok(events)
     }
 
     pub async fn get_recommendations(
@@ -1188,21 +1406,24 @@ impl UploadAgent {
 mod tests {
     use super::*;
     use protocol::{
-        CODE_SM_ADD_ROOM_MEMBER, CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_BAN_USER, CODE_SM_FILE_SEARCH,
-        CODE_SM_GET_GLOBAL_RECOMMENDATIONS, CODE_SM_GET_MY_RECOMMENDATIONS,
-        CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_RECOMMENDATION_USERS,
-        CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_SIMILAR_TERMS,
-        CODE_SM_GET_TERM_RECOMMENDATIONS, CODE_SM_GET_USER_PRIVILEGES_STATUS,
-        CODE_SM_GET_USER_RECOMMENDATIONS, CODE_SM_GIVE_PRIVILEGE, CODE_SM_IGNORE_USER,
-        CODE_SM_INFORM_USER_OF_PRIVILEGES, CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK,
-        CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN, CODE_SM_PRIVILEGED_LIST,
+        CODE_SM_ADD_ROOM_MEMBER, CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_BAN_USER,
+        CODE_SM_CONNECT_TO_PEER, CODE_SM_FILE_SEARCH, CODE_SM_GET_GLOBAL_RECOMMENDATIONS,
+        CODE_SM_GET_MY_RECOMMENDATIONS, CODE_SM_GET_OWN_PRIVILEGES_STATUS,
+        CODE_SM_GET_PEER_ADDRESS, CODE_SM_GET_RECOMMENDATION_USERS, CODE_SM_GET_RECOMMENDATIONS,
+        CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_SIMILAR_TERMS, CODE_SM_GET_TERM_RECOMMENDATIONS,
+        CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_GET_USER_RECOMMENDATIONS,
+        CODE_SM_GET_USER_STATS, CODE_SM_GET_USER_STATUS, CODE_SM_GIVE_PRIVILEGE,
+        CODE_SM_IGNORE_USER, CODE_SM_INFORM_USER_OF_PRIVILEGES,
+        CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK, CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM,
+        CODE_SM_LOGIN, CODE_SM_MESSAGE_USER, CODE_SM_MESSAGE_USERS, CODE_SM_PRIVILEGED_LIST,
         CODE_SM_REMOVE_ROOM_MEMBER, CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST,
         CODE_SM_UNIGNORE_USER, JoinRoomPayload, LoginResponsePayload, LoginResponseSuccessPayload,
-        OwnPrivilegesStatusPayload, PrivilegedListPayload, RecommendationEntry,
-        RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
-        RoomListPayload, RoomPresenceEventPayload, ServerMessage, SimilarTermsPayload,
-        SimilarTermsRequestPayload, SpeedPayload, TermRecommendationsPayload,
-        UserPrivilegesStatusPayload, UserRecommendationsPayload, encode_server_message,
+        MessageUserIncomingPayload, OwnPrivilegesStatusPayload, PeerAddressResponsePayload,
+        PrivilegedListPayload, RecommendationEntry, RecommendationUsersPayload,
+        RecommendationsPayload, RecommendedUsersPayload, RoomListPayload, RoomPresenceEventPayload,
+        ServerMessage, SimilarTermsPayload, SimilarTermsRequestPayload, SpeedPayload,
+        TermRecommendationsPayload, UserPrivilegesStatusPayload, UserRecommendationsPayload,
+        UserStatsResponsePayload, UserStatusResponsePayload, encode_server_message,
         parse_transfer_request, parse_transfer_response,
     };
 
@@ -1299,6 +1520,224 @@ mod tests {
             .await
             .expect("collect");
         assert!(!messages.is_empty());
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn private_message_ack_flow_works() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let message = read_frame(&mut socket).await.expect("message frame");
+            assert_eq!(message.code, CODE_SM_MESSAGE_USER);
+
+            let ack_frame = encode_server_message(&ServerMessage::MessageAcked(
+                protocol::MessageAckedPayload { message_id: 42 },
+            ));
+            write_frame(&mut socket, &ack_frame)
+                .await
+                .expect("write ack frame");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+        client
+            .send_private_message("alice", "hello from test")
+            .await
+            .expect("send private message");
+        let ack = client
+            .wait_message_ack(Duration::from_secs(1))
+            .await
+            .expect("wait ack");
+        assert_eq!(ack.message_id, 42);
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn user_state_and_peer_address_operations_parse_typed_payloads() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let status_request = read_frame(&mut socket).await.expect("status request");
+            assert_eq!(status_request.code, CODE_SM_GET_USER_STATUS);
+            let status_response = encode_server_message(&ServerMessage::GetUserStatusResponse(
+                UserStatusResponsePayload {
+                    username: "alice".into(),
+                    status: 2,
+                    privileged: true,
+                },
+            ));
+            write_frame(&mut socket, &status_response)
+                .await
+                .expect("write status response");
+
+            let stats_request = read_frame(&mut socket).await.expect("stats request");
+            assert_eq!(stats_request.code, CODE_SM_GET_USER_STATS);
+            let stats_response = encode_server_message(&ServerMessage::GetUserStatsResponse(
+                UserStatsResponsePayload {
+                    username: "alice".into(),
+                    avg_speed: 4096,
+                    download_num: 11,
+                    files: 100,
+                    dirs: 12,
+                },
+            ));
+            write_frame(&mut socket, &stats_response)
+                .await
+                .expect("write stats response");
+
+            let peer_addr_request = read_frame(&mut socket).await.expect("peer addr request");
+            assert_eq!(peer_addr_request.code, CODE_SM_GET_PEER_ADDRESS);
+            let peer_addr_response = encode_server_message(&ServerMessage::GetPeerAddressResponse(
+                PeerAddressResponsePayload {
+                    username: "alice".into(),
+                    ip_address: "203.0.113.10".into(),
+                    port: 2242,
+                    obfuscation_type: 1,
+                    obfuscated_port: 5555,
+                },
+            ));
+            write_frame(&mut socket, &peer_addr_response)
+                .await
+                .expect("write peer addr response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let status = client
+            .get_user_status("alice", Duration::from_secs(1))
+            .await
+            .expect("status payload");
+        assert_eq!(status.status, 2);
+        assert!(status.privileged);
+
+        let stats = client
+            .get_user_stats("alice", Duration::from_secs(1))
+            .await
+            .expect("stats payload");
+        assert_eq!(stats.avg_speed, 4096);
+        assert_eq!(stats.download_num, 11);
+
+        let peer_address = client
+            .get_peer_address("alice", Duration::from_secs(1))
+            .await
+            .expect("peer address payload");
+        assert_eq!(peer_address.ip_address, "203.0.113.10");
+        assert_eq!(peer_address.port, 2242);
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn connect_peer_message_users_and_watch_private_flow() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let connect = read_frame(&mut socket).await.expect("connect request");
+            assert_eq!(connect.code, CODE_SM_CONNECT_TO_PEER);
+            let message_users = read_frame(&mut socket)
+                .await
+                .expect("message-users request");
+            assert_eq!(message_users.code, CODE_SM_MESSAGE_USERS);
+
+            let incoming = encode_server_message(&ServerMessage::MessageUserIncoming(
+                MessageUserIncomingPayload {
+                    message_id: 77,
+                    timestamp: 1_705_000_000,
+                    username: "bob".into(),
+                    message: "hello".into(),
+                    is_new: true,
+                },
+            ));
+            write_frame(&mut socket, &incoming)
+                .await
+                .expect("write incoming message");
+            let ack = encode_server_message(&ServerMessage::MessageAcked(
+                protocol::MessageAckedPayload { message_id: 77 },
+            ));
+            write_frame(&mut socket, &ack).await.expect("write ack");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+        client
+            .connect_to_peer("bob", 77, "P")
+            .await
+            .expect("connect peer request");
+        client
+            .send_message_users(&["alice".to_string(), "bob".to_string()], "broadcast")
+            .await
+            .expect("message users request");
+
+        let events = client
+            .collect_private_events(Duration::from_secs(1), 4)
+            .await
+            .expect("private events");
+        assert!(!events.is_empty());
+        assert!(
+            events
+                .iter()
+                .any(|event| matches!(event, PrivateEvent::Message(_)))
+        );
+        assert!(
+            events
+                .iter()
+                .any(|event| matches!(event, PrivateEvent::Ack(_)))
+        );
 
         server.await.expect("server task");
     }

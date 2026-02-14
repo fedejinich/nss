@@ -5,8 +5,8 @@ use protocol::{
     build_login_request, build_transfer_request, build_transfer_response,
 };
 use soul_core::{
-    Credentials, DownloadPlan, ManualUploadDecision, RoomEvent, SessionClient, UploadAgent,
-    UploadDecisionKind, download_single_file, probe_login_versions,
+    Credentials, DownloadPlan, ManualUploadDecision, PrivateEvent, RoomEvent, SessionClient,
+    UploadAgent, UploadDecisionKind, download_single_file, probe_login_versions,
 };
 use std::env;
 use std::fs;
@@ -174,6 +174,148 @@ enum SessionCommand {
         client_version: u32,
         #[arg(long, default_value_t = 19)]
         minor_version: u32,
+    },
+    Message {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long)]
+        message: String,
+        #[arg(long, default_value_t = false)]
+        wait_ack: bool,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    MessageUsers {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, value_delimiter = ',')]
+        targets: Vec<String>,
+        #[arg(long)]
+        message: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
+    Status {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Stats {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    PeerAddress {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    ConnectPeer {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long)]
+        token: u32,
+        #[arg(long, default_value = "P")]
+        connection_type: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
+    WatchPrivate {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 15)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 128)]
+        max_events: usize,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
     },
     IgnoreUser {
         #[arg(long)]
@@ -864,6 +1006,162 @@ async fn main() -> Result<()> {
                     max_messages,
                 )
                 .await?
+            }
+            SessionCommand::Message {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                message,
+                wait_ack,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_message(
+                    &mut client,
+                    &target_user,
+                    &message,
+                    wait_ack,
+                    timeout_secs,
+                    verbose,
+                )
+                .await?;
+            }
+            SessionCommand::MessageUsers {
+                server,
+                username,
+                password,
+                password_md5,
+                targets,
+                message,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_message_users(&mut client, &targets, &message).await?;
+            }
+            SessionCommand::Status {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_user_status(&mut client, &target_user, timeout_secs, verbose).await?;
+            }
+            SessionCommand::Stats {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_user_stats(&mut client, &target_user, timeout_secs, verbose).await?;
+            }
+            SessionCommand::PeerAddress {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_peer_address(&mut client, &target_user, timeout_secs, verbose).await?;
+            }
+            SessionCommand::ConnectPeer {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                token,
+                connection_type,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_connect_peer(&mut client, &target_user, token, &connection_type).await?;
+            }
+            SessionCommand::WatchPrivate {
+                server,
+                username,
+                password,
+                password_md5,
+                timeout_secs,
+                max_events,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_watch_private(&mut client, timeout_secs, max_events, verbose).await?;
             }
             SessionCommand::IgnoreUser {
                 server,
@@ -1619,6 +1917,173 @@ async fn run_search(
     );
     for (idx, msg) in messages.iter().enumerate() {
         println!("[{idx}] {:?}", msg);
+    }
+    Ok(())
+}
+
+async fn run_message(
+    client: &mut SessionClient,
+    target_user: &str,
+    message: &str,
+    wait_ack: bool,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    client.send_private_message(target_user, message).await?;
+    println!(
+        "session.message sent target_user={} message_len={} wait_ack={}",
+        target_user,
+        message.len(),
+        wait_ack
+    );
+
+    if wait_ack {
+        let ack = client
+            .wait_message_ack(Duration::from_secs(timeout_secs))
+            .await?;
+        println!("session.message acked message_id={}", ack.message_id);
+        if verbose {
+            println!("{ack:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_message_users(
+    client: &mut SessionClient,
+    targets: &[String],
+    message: &str,
+) -> Result<()> {
+    if targets.is_empty() {
+        bail!("session.message-users requires at least one --targets entry");
+    }
+    client.send_message_users(targets, message).await?;
+    println!(
+        "session.message-users sent targets={} message_len={}",
+        targets.len(),
+        message.len()
+    );
+    Ok(())
+}
+
+async fn run_user_status(
+    client: &mut SessionClient,
+    target_user: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_user_status(target_user, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "session.status ok target_user={} status={} privileged={}",
+        payload.username, payload.status, payload.privileged
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_user_stats(
+    client: &mut SessionClient,
+    target_user: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_user_stats(target_user, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "session.stats ok target_user={} avg_speed={} download_num={} files={} dirs={}",
+        payload.username, payload.avg_speed, payload.download_num, payload.files, payload.dirs
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_peer_address(
+    client: &mut SessionClient,
+    target_user: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_peer_address(target_user, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "session.peer-address ok target_user={} ip={} port={} obfuscation_type={} obfuscated_port={}",
+        payload.username,
+        payload.ip_address,
+        payload.port,
+        payload.obfuscation_type,
+        payload.obfuscated_port
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_connect_peer(
+    client: &mut SessionClient,
+    target_user: &str,
+    token: u32,
+    connection_type: &str,
+) -> Result<()> {
+    client
+        .connect_to_peer(target_user, token, connection_type)
+        .await?;
+    println!(
+        "session.connect-peer sent target_user={} token={} connection_type={}",
+        target_user, token, connection_type
+    );
+    Ok(())
+}
+
+async fn run_watch_private(
+    client: &mut SessionClient,
+    timeout_secs: u64,
+    max_events: usize,
+    verbose: bool,
+) -> Result<()> {
+    let events = client
+        .collect_private_events(Duration::from_secs(timeout_secs), max_events)
+        .await?;
+    let messages = events
+        .iter()
+        .filter(|event| matches!(event, PrivateEvent::Message(_)))
+        .count();
+    let acks = events
+        .iter()
+        .filter(|event| matches!(event, PrivateEvent::Ack(_)))
+        .count();
+    println!(
+        "session.watch-private ok timeout_secs={} messages={} acks={} total_events={}",
+        timeout_secs,
+        messages,
+        acks,
+        events.len()
+    );
+    if verbose {
+        for (idx, event) in events.iter().enumerate() {
+            match event {
+                PrivateEvent::Message(payload) => {
+                    println!(
+                        "[{idx}] message id={} user={} is_new={} message_len={}",
+                        payload.message_id,
+                        payload.username,
+                        payload.is_new,
+                        payload.message.len()
+                    );
+                }
+                PrivateEvent::Ack(payload) => {
+                    println!("[{idx}] ack id={}", payload.message_id);
+                }
+            }
+        }
     }
     Ok(())
 }

@@ -20,8 +20,9 @@ gantt
     S4B Peer advanced + room moderation :done, s4b, after s4a, 2d
     S4C Privileges + social control + peer folder domains :done, s4c, after s4b, 2d
     S4D Privilege/messaging gaps + peer legacy cleanup :done, s4d, after s4c, 2d
+    S4E Private messaging + user-state domain batch :done, s4e, after s4d, 2d
     section Planned
-    S4E Private messaging + user-state domain batch :crit, s4e, after s4d, 3d
+    S4F Global/admin/distributed control batch :crit, s4f, after s4e, 3d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -70,6 +71,28 @@ graph TD
     R02 --> T08["S4D-T08 Final validation + PR publication"]
 ```
 
+## S4E Dependency Graph (Executed)
+
+```mermaid
+graph TD
+    W01["S4E-W01 Branch from updated main"] --> W02["S4E-W02 Verify commit signing"]
+    W02 --> W03["S4E-W03 Update AGENTS review-loop governance"]
+    W03 --> T01["S4E-T01 Resolve code/evidence for S4E message pack"]
+    T01 --> T02["S4E-T02 Generate runtime captures + redaction"]
+    T02 --> T03["S4E-T03 Update message_map/schema + matrix inputs"]
+    T03 --> T04["S4E-T04 rust/protocol typed codec+builders"]
+    T04 --> T05["S4E-T05 rust/core private+user-state operations"]
+    T05 --> T06["S4E-T06 rust/cli session commands"]
+    T06 --> T07["S4E-T07 semantic verifier coverage updates"]
+    T07 --> T08["S4E-T08 contract/regression coverage updates"]
+    T08 --> R01["S4E-R01 Sync docs + TODO + PR notes"]
+    R01 --> Q01["S4E-Q01 PR + Codex review round 1"]
+    Q01 --> Q02["S4E-Q02 Resolve/dismiss round 1"]
+    Q02 --> Q03["S4E-Q03 Codex review round 2"]
+    Q03 --> Q04["S4E-Q04 Resolve/dismiss round 2"]
+    Q04 --> T09["S4E-T09 Final gates + merge readiness"]
+```
+
 ## Stage Status Matrix
 
 | Stage | Owner area | Status | Evidence | Next gate |
@@ -82,7 +105,8 @@ graph TD
 | S4B | peer advanced + room moderation | done | `docs/pr/0006-s4b-peer-room-matrix.md` | define S4C message batch |
 | S4C | privileges/social control + peer folder domains | done | `docs/pr/0007-s4c-privileges-social-peer-folder.md` | define S4D batch |
 | S4D | privilege/messaging gaps + peer legacy cleanup | done | `docs/pr/0008-s4d-privilege-messaging-peer-legacy.md` | define S4E batch |
-| S4E | private messaging + user-state domain batch | planned | `docs/state/protocol-backlog.md` | start S4E plan |
+| S4E | private messaging + user-state domain batch | done | `docs/pr/0009-s4e-private-messaging-user-state.md` | define S4F batch |
+| S4F | global/admin/distributed control batch | planned | `docs/state/protocol-backlog.md` | start S4F plan |
 
 ## S4B Target Contract
 
@@ -153,10 +177,37 @@ Final confidence result for this batch:
 
 All entries must include valid evidence links.
 
-## S4E Preview (Not Started)
+## S4E Target Contract (Executed)
+
+Required message pack:
+
+1. `SM_MESSAGE_USER`
+2. `SM_MESSAGE_ACKED`
+3. `SM_GET_USER_STATUS`
+4. `SM_GET_USER_STATS`
+5. `SM_GET_PEER_ADDRESS`
+6. `SM_CONNECT_TO_PEER`
+7. `SM_MESSAGE_USERS`
+8. `SM_PEER_MESSAGE`
+
+Final confidence result for this batch:
+
+- `high = 8`
+- `medium = 0`
+- `low = 0`
+
+Runtime scenarios added:
+
+1. `login-private-message`
+2. `login-user-state`
+3. `login-peer-address-connect`
+4. `login-message-users`
+5. `login-peer-message`
+
+## S4F Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Private messaging + acknowledgement domain (`SM_MESSAGE_USER`, `SM_MESSAGE_ACKED`) with runtime flow decoding and typed SDK surfaces.
-2. User-state/status enrichment around already mapped status/stat messages with stronger runtime field validation.
-3. Optional carryover from backlog if runtime evidence is available in the same cycle.
+1. Global/admin and distributed-control server domain (`SM_ADMIN_MESSAGE`, `SM_DNET_MESSAGE`, `SM_GLOBAL_USER_LIST`, `SM_COMMAND` family).
+2. Private-room and membership control backlog (`SM_ENABLE_PRIVATE_ROOM_ADD`, room ownership/membership transitions).
+3. Remaining legacy/missing matrix rows prioritized by runtime feasibility and impact on CLI usability.

@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity for Stage 4D (privilege/messaging gaps + peer legacy cleanup) while preserving all previous stage guarantees.
+Ensure evidence traceability and semantic protocol parity for Stage 4E (private messaging + user-state domain) while preserving all previous stage guarantees.
 
 ## Validation Gates
 
@@ -45,6 +45,11 @@ Runs:
    - `peer-folder-local`
    - `login-privilege-messaging`
    - `peer-legacy-local`
+   - `login-private-message`
+   - `login-user-state`
+   - `login-peer-address-connect`
+   - `login-message-users`
+   - `login-peer-message`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -61,54 +66,56 @@ Includes:
 4. Differential verification gate.
 5. Zensical build check (if available).
 
-## Stage 4D Coverage Status
+## Stage 4E Coverage Status
 
-S4D 11-message contract set (9 new + 2 promoted) is present in:
+S4E 8-message contract set is present in:
 
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
 
 Messages:
 
-- `SM_BAN_USER`
-- `SM_PRIVILEGED_LIST`
-- `SM_GET_RECOMMENDED_USERS`
-- `SM_GET_TERM_RECOMMENDATIONS`
-- `SM_GET_RECOMMENDATION_USERS`
-- `PM_INVITE_USER_TO_ROOM`
-- `PM_CANCELLED_QUEUED_TRANSFER`
-- `PM_MOVE_DOWNLOAD_TO_TOP`
-- `PM_QUEUED_DOWNLOADS`
-- `PM_EXACT_FILE_SEARCH_REQUEST` (promoted)
-- `PM_INDIRECT_FILE_SEARCH_REQUEST` (promoted)
+- `SM_MESSAGE_USER`
+- `SM_MESSAGE_ACKED`
+- `SM_GET_USER_STATUS`
+- `SM_GET_USER_STATS`
+- `SM_GET_PEER_ADDRESS`
+- `SM_CONNECT_TO_PEER`
+- `SM_MESSAGE_USERS`
+- `SM_PEER_MESSAGE`
 
-Confidence distribution for the S4D contract set:
+Confidence distribution for the S4E contract set:
 
-- `high=11`
+- `high=8`
 - `medium=0`
 - `low=0`
 
 Protocol matrix status:
 
-- Tracked message names from static string tables: `130`
-- Implemented + mapped: `65`
-- Missing: `65`
+- Tracked message names from static string tables: `131`
+- Implemented + mapped: `67`
+- Missing: `63`
 - Matrix source: `docs/state/protocol-matrix.md`
 
 ## Runtime Evidence Snapshot
 
 - Official server: `server.slsknet.org:2242`
 - Auth tuple used: `160/1`
-- S4D runtime redacted runs:
-  - `captures/redacted/login-privilege-messaging`
-  - `captures/redacted/peer-legacy-local`
-- Privilege/messaging runtime scenario includes authenticated request/response frames for codes `69`, `110`, `111`, `112`, and outbound `132`.
-- Peer-legacy deterministic runtime scenario includes frames `10`, `14`, `34`, `48`, `47`, `49`.
-- Authoritative static mapping for `SM_BAN_USER` is backed by jump-table extraction:
-  - `evidence/reverse/message_codes_jump_table.md`
+- S4E runtime redacted runs:
+  - `captures/redacted/login-private-message`
+  - `captures/redacted/login-user-state`
+  - `captures/redacted/login-peer-address-connect`
+  - `captures/redacted/login-message-users`
+  - `captures/redacted/login-peer-message`
+- Private messaging runtime scenarios include code `22` and `23` paths with directional payload decoding.
+- User-state runtime scenario includes code `7` and `36` request/response payloads.
+- Peer-address/connect scenario includes code `3` and `18` request/response payloads.
+- Message-users scenario includes code `149`.
+- Peer-message deterministic scenario includes code `68` plus compatibility alias `292`.
 
 ## Residual Risk
 
 - `SM_GET_USER_PRIVILEGES_STATUS` remains `medium` from S4C because code `122` is deprecated in public specs and behavior can vary by server implementation.
-- Several protocol names in string tables remain unmapped (`65` missing in matrix); S4E should prioritize private messaging and user-state domains.
+- `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
+- Several protocol names in string tables remain unmapped (`63` missing in matrix); S4F should prioritize global/admin/distributed-control domains.
 - `PM_SHARED_FILES_IN_FOLDER` response payload is still represented as `directory + compressed bytes`; deep decompression schema remains a follow-up parser task.

@@ -73,6 +73,16 @@ When a stage closes (for example S3A, S3B):
 6. Add or refresh protocol contract tests under `tests/protocol/` for every new mapped message batch.
 7. Regenerate `docs/state/protocol-matrix.md` whenever message coverage or protocol constants change.
 
+## PR Review Loop Discipline
+
+For each stage branch/PR, run two Codex review loops before final merge:
+
+1. Open/update PR and comment `@codex review`.
+2. Wait for review output, apply useful fixes, and resolve comments.
+3. For discarded suggestions, reply with concise rationale and resolve the thread.
+4. Repeat steps 1-3 a second time after pushing round-one updates.
+5. Merge only after both review loops are complete and validation gates are green.
+
 ## Branch Start Discipline
 
 Before starting work on a new branch/PR, use this default flow unless explicitly instructed otherwise:

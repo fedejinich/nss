@@ -1,8 +1,8 @@
 scope,code,name,confidence,source,status,notes
 server,1,SM_LOGIN,high,captures/redacted/login-only/official_frames.hex,verified_runtime,Observed authenticated runtime login request+response (code 1) with success payload on tuple 160/1.
 server,2,SM_SET_WAIT_PORT,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
-server,3,SM_GET_PEER_ADDRESS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
-server,18,SM_CONNECT_TO_PEER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch and peer connect path.
+server,3,SM_GET_PEER_ADDRESS,high,captures/redacted/login-peer-address-connect/official_frames.hex,verified_runtime,Authenticated runtime flow includes GetPeerAddress request/response (code 3) with username and endpoint payload fields.
+server,18,SM_CONNECT_TO_PEER,high,captures/redacted/login-peer-address-connect/official_frames.hex,verified_runtime,Authenticated runtime flow includes ConnectToPeer request and response payloads (code 18) with token, connection type, and endpoint fields.
 server,13,SM_SAY_CHATROOM,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session.
 server,14,SM_JOIN_ROOM,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime join-room request and server join payload during authenticated room session.
 server,15,SM_LEAVE_ROOM,high,captures/redacted/login-leave-room/official_frames.hex,verified_runtime,Observed runtime leave-room request and server leave acknowledgement payload.
@@ -24,10 +24,12 @@ server,111,SM_GET_TERM_RECOMMENDATIONS,high,captures/redacted/login-privilege-me
 server,112,SM_GET_RECOMMENDATION_USERS,high,captures/redacted/login-privilege-messaging/official_frames.hex,verified_runtime,Authenticated runtime flow includes code 112 request with term payload and scored-user response entries.
 server,133,SM_ROOM_MEMBERS,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room-members request flow in authenticated room session.
 server,148,SM_ROOM_OPERATORS,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room-operators request flow in authenticated room session.
-server,22,SM_MESSAGE_USER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
-server,23,SM_MESSAGE_ACKED,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
-server,36,SM_GET_USER_STATS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
-server,7,SM_GET_USER_STATUS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,22,SM_MESSAGE_USER,high,captures/redacted/login-private-message/official_frames.hex,verified_runtime,Authenticated runtime flow includes private-message send and inbound private-message frame (code 22) with directional payload variants.
+server,23,SM_MESSAGE_ACKED,high,captures/redacted/login-private-message/official_frames.hex,verified_runtime,Authenticated runtime flow includes private-message acknowledgement path (code 23) with message_id payload.
+server,36,SM_GET_USER_STATS,high,captures/redacted/login-user-state/official_frames.hex,verified_runtime,Authenticated runtime flow includes user-stats request/response (code 36) with stats summary fields.
+server,7,SM_GET_USER_STATUS,high,captures/redacted/login-user-state/official_frames.hex,verified_runtime,Authenticated runtime flow includes user-status request/response (code 7) with status and privilege fields.
+server,149,SM_MESSAGE_USERS,high,captures/redacted/login-message-users/official_frames.hex,verified_runtime,Authenticated runtime flow sends message-users payload (code 149) with user list and message body.
+server,68,SM_PEER_MESSAGE,high,captures/redacted/login-peer-message/official_frames.hex,verified_runtime,Deterministic runtime-local legacy tunneled-message capture covers code 68 request/response payload variants; alt compatibility alias 292 observed in same run.
 server,35,SM_SHARED_FOLDERS_FILES,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,34,SM_DOWNLOAD_SPEED,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,121,SM_UPLOAD_SPEED,high,evidence/reverse/message_name_strings.txt,hypothesis_static,String present and mirrored by upload code paths.

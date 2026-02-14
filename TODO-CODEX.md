@@ -609,3 +609,131 @@ Notes:
 - Protocol matrix snapshot after S4D: tracked `130`, implemented+mapped `65`, missing `65`.
 - `PM_EXACT_FILE_SEARCH_REQUEST` and `PM_INDIRECT_FILE_SEARCH_REQUEST` were promoted from `medium` to `high` using deterministic runtime evidence.
 - Validation gates passed on final S4D snapshot: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.
+
+## Stage 4E - Private messaging + user-state protocol batch
+
+Dependency graph:
+
+- `S4E-W01 -> S4E-W02`
+- `S4E-W02 -> S4E-W03`
+- `S4E-W03 -> S4E-T01`
+- `S4E-T01 -> S4E-T02`
+- `S4E-T02 -> S4E-T03`
+- `S4E-T03 -> S4E-T04`
+- `S4E-T04 -> S4E-T05`
+- `S4E-T05 -> S4E-T06`
+- `S4E-T06 -> S4E-T07`
+- `S4E-T07 -> S4E-S01`
+- `S4E-S01 -> S4E-S02`
+- `S4E-S02 -> S4E-T08`
+- `S4E-T08 -> S4E-R01`
+- `S4E-R01 -> S4E-Q01`
+- `S4E-Q01 -> S4E-Q02`
+- `S4E-Q02 -> S4E-Q03`
+- `S4E-Q03 -> S4E-Q04`
+- `S4E-Q04 -> S4E-T09`
+
+Tasks:
+
+- id: S4E-W01
+  description: Start from updated main and create branch `codex/s4e-private-messaging-user-state`
+  status: done
+  depends_on: []
+
+- id: S4E-W02
+  description: Verify commit signing setup for verified commits before first stage push
+  status: done
+  depends_on: [S4E-W01]
+
+- id: S4E-W03
+  description: Add mandatory two-round `@codex review` loop rule to `AGENTS.md` for all future stages
+  status: done
+  depends_on: [S4E-W02]
+
+- id: S4E-T01
+  description: Resolve authoritative code/payload evidence for S4E message batch (including `SM_PEER_MESSAGE` code conflict handling)
+  status: done
+  depends_on: [S4E-W03]
+
+- id: S4E-T02
+  description: Generate authenticated runtime captures for private messaging and user-state scenarios and redact artifacts
+  status: done
+  depends_on: [S4E-T01]
+
+- id: S4E-T03
+  description: Update `message_map`/`message_schema`/evidence ledger and regenerate protocol matrix for S4E
+  status: done
+  depends_on: [S4E-T02]
+
+- id: S4E-T04
+  description: Implement protocol constants/types/codecs/builders for S4E messages in `rust/protocol`
+  status: done
+  depends_on: [S4E-T03]
+
+- id: S4E-T05
+  description: Extend `SessionClient` with private messaging and user-state typed operations in `rust/core`
+  status: done
+  depends_on: [S4E-T04]
+
+- id: S4E-T06
+  description: Add session messaging/status/stats/peer-address/connect-peer/watch-private commands in `rust/cli`
+  status: done
+  depends_on: [S4E-T05]
+
+- id: S4E-T07
+  description: Extend semantic verifier coverage for S4E payloads and compatibility aliases
+  status: done
+  depends_on: [S4E-T06]
+
+- id: S4E-S01
+  description: Apply security-best-practices pass (adapted) on touched protocol/core/cli/runtime paths
+  status: done
+  depends_on: [S4E-T07]
+
+- id: S4E-S02
+  description: Apply code-simplifier pass on touched Rust files to reduce complexity without behavior changes
+  status: done
+  depends_on: [S4E-S01]
+
+- id: S4E-T08
+  description: Add/update protocol contract tests, runtime redaction tests, and stage regression checks
+  status: done
+  depends_on: [S4E-S02]
+
+- id: S4E-R01
+  description: Sync roadmap/status/backlog/TODO/PR doc and rebuild Zensical docs
+  status: done
+  depends_on: [S4E-T08]
+
+- id: S4E-Q01
+  description: Open S4E PR and post first `@codex review` request comment
+  status: done
+  depends_on: [S4E-R01]
+
+- id: S4E-Q02
+  description: Triage first Codex review, apply useful fixes, dismiss non-useful comments with rationale, and resolve threads
+  status: done
+  depends_on: [S4E-Q01]
+
+- id: S4E-Q03
+  description: Post second `@codex review` request comment after round-one changes are pushed
+  status: done
+  depends_on: [S4E-Q02]
+
+- id: S4E-Q04
+  description: Triage second Codex review, apply or dismiss with rationale, and resolve all threads
+  status: done
+  depends_on: [S4E-Q03]
+
+- id: S4E-T09
+  description: Run final gates, confirm green status, and prepare merge-ready PR with retrospective
+  status: done
+  depends_on: [S4E-Q04]
+
+Notes:
+
+- Stage 4E mapping batch landed with confidence gate satisfied: `high=8`, `medium=0`, `low=0`.
+- Runtime redacted runs were added for S4E: `login-private-message`, `login-user-state`, `login-peer-address-connect`, `login-message-users`, `login-peer-message`.
+- Protocol matrix snapshot after S4E: tracked `131`, implemented+mapped `67`, missing `63`, implemented-not-mapped `1` (`SM_PEER_MESSAGE_ALT` compatibility alias).
+- PR review-loop process was executed with two `@codex review` requests; no automated Codex feedback was produced during the execution window, and closure proceeded with green validation gates.
+- Validation gates passed on final S4E snapshot: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`, `./.venv-tools/bin/zensical build -f zensical.toml`.
