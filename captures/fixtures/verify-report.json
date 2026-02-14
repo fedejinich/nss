@@ -1,0 +1,30 @@
+[
+  {
+    "fixture": "server_login_request.hex",
+    "matches": true,
+    "expected_len": 61,
+    "actual_len": 61,
+    "first_diff_offset": null
+  },
+  {
+    "fixture": "server_file_search_request.hex",
+    "matches": true,
+    "expected_len": 26,
+    "actual_len": 26,
+    "first_diff_offset": null
+  },
+  {
+    "fixture": "peer_transfer_request.hex",
+    "matches": true,
+    "expected_len": 55,
+    "actual_len": 55,
+    "first_diff_offset": null
+  },
+  {
+    "fixture": "peer_transfer_response.hex",
+    "matches": true,
+    "expected_len": 20,
+    "actual_len": 20,
+    "first_diff_offset": null
+  }
+]

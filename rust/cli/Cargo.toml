@@ -1,0 +1,15 @@
+[package]
+name = "soul-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+tokio.workspace = true
+protocol.workspace = true
+soul-core.workspace = true
+verify.workspace = true
+hex.workspace = true
