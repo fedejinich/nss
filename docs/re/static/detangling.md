@@ -59,8 +59,8 @@ Review queue is empty.
 
 ## Protocol Coverage (Stage 2)
 
-- Message rows: `75`
-- Confidence split: `high=74` `medium=1` `low=0`
+- Message rows: `83`
+- Confidence split: `high=82` `medium=1` `low=0`
 - Latest mapped messages:
   - `server` `SM_LOGIN` code `1` confidence `high`
   - `server` `SM_SET_WAIT_PORT` code `2` confidence `high`

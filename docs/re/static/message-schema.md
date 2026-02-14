@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T19:56:59+00:00`
+- Generated: `2026-02-14T20:04:03+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -513,6 +513,42 @@
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly).)
 
+### `server` `SM_SET_PARENT_MIN_SPEED` (code `83`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 83 to SM_SET_PARENT_MIN_SPEED (x86_64 binary disassembly).)
+
+### `server` `SM_SET_PARENT_SPEED_CONNECTION_RATIO` (code `84`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 84 to SM_SET_PARENT_SPEED_CONNECTION_RATIO (x86_64 binary disassembly).)
+
+### `server` `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT` (code `86`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 86 to SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly).)
+
+### `server` `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT` (code `87`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 87 to SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly).)
+
+### `server` `SM_NODES_IN_CACHE_BEFORE_DISCONNECT` (code `88`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 88 to SM_NODES_IN_CACHE_BEFORE_DISCONNECT (x86_64 binary disassembly).)
+
+### `server` `SM_SET_SECONDS_BEFORE_PING_CHILDREN` (code `90`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 90 to SM_SET_SECONDS_BEFORE_PING_CHILDREN (x86_64 binary disassembly).)
+
 ### `server` `SM_GET_OWN_PRIVILEGES_STATUS` (code `92`)
 - Confidence: `high`
 - Payload fields:
@@ -527,6 +563,18 @@
 - Payload fields: pending derivation
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly).)
+
+### `server` `SM_CAN_PARENT` (code `100`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 100 to SM_CAN_PARENT (x86_64 binary disassembly).)
+
+### `server` `SM_POSSIBLE_PARENTS` (code `102`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly).)
 
 ### `server` `SM_GET_RECOMMENDED_USERS` (code `110`)
 - Confidence: `high`

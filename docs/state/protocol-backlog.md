@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4F)
+# Protocol Backlog (Post S4G)
 
 ## Objective
 
@@ -92,7 +92,7 @@ Status: completed in S4E with runtime captures (`login-private-message`, `login-
 
 Status: completed in S4F with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
 
-## Next Candidate Stage (S4G) - Parent/Distributed Tuning Continuation
+## Completed in S4G (Parent/Distributed Tuning Mapping Batch)
 
 - `SM_SET_PARENT_MIN_SPEED`
 - `SM_SET_PARENT_SPEED_CONNECTION_RATIO`
@@ -102,6 +102,19 @@ Status: completed in S4F with authoritative static mapping evidence from jump-ta
 - `SM_SET_SECONDS_BEFORE_PING_CHILDREN`
 - `SM_CAN_PARENT`
 - `SM_POSSIBLE_PARENTS`
+
+Status: completed in S4G with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
+
+## Next Candidate Stage (S4H) - Global Room/System Control Continuation
+
+- `SM_ADD_CHATROOM`
+- `SM_SET_STATUS`
+- `SM_HEARTBEAT`
+- `SM_RELOGGED`
+- `SM_USER_LIST`
+- `SM_ROOM_ADDED`
+- `SM_ROOM_REMOVED`
+- `SM_CONNECT_TO_CLIENT`
 - carryover parser-depth follow-up:
   - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
 
@@ -117,4 +130,4 @@ Status: completed in S4F with authoritative static mapping evidence from jump-ta
 
 ## Next Session Entry Point
 
-Start S4G by extending parent/distributed control mappings and begin typed codec implementation for mapped-not-implemented S4F rows.
+Start S4H by extending global/system control mappings and begin typed codec implementation for mapped-not-implemented S4F/S4G rows.
