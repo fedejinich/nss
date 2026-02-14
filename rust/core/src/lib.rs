@@ -1,11 +1,14 @@
-use anyhow::{anyhow, bail, Context, Result};
+use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
-    build_file_search_request, build_login_request, build_transfer_request, decode_message, encode_peer_message,
-    encode_server_message, split_first_frame, Frame, PeerMessage, ProtocolMessage, ServerMessage,
-    TransferDirection, TransferRequestPayload, TransferResponsePayload,
+    CODE_SM_FILE_SEARCH_RESPONSE, CODE_SM_LOGIN, Frame, LoginFailureReason, LoginResponsePayload,
+    PeerMessage, ProtocolMessage, ServerMessage, TransferDirection, TransferRequestPayload,
+    TransferResponsePayload, build_file_search_request, build_login_request,
+    build_transfer_request, decode_message, decode_server_message, encode_peer_message,
+    encode_server_message, parse_search_response_summary, split_first_frame,
 };
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
+use thiserror::Error;
 use tokio::fs;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
@@ -14,7 +17,7 @@ use tokio::time::{Duration, Instant};
 #[derive(Debug, Clone)]
 pub struct Credentials {
     pub username: String,
-    pub password_md5: String,
+    pub password: String,
     pub client_version: u32,
     pub minor_version: u32,
 }
@@ -45,15 +48,19 @@ pub enum SessionState {
 pub struct SessionClient {
     stream: Option<TcpStream>,
     state: SessionState,
+    login_response_timeout: Duration,
 }
 
 pub type SoulClient = SessionClient;
 
 impl SessionClient {
+    const DEFAULT_LOGIN_RESPONSE_TIMEOUT: Duration = Duration::from_secs(5);
+
     pub fn new_disconnected() -> Self {
         Self {
             stream: None,
             state: SessionState::Disconnected,
+            login_response_timeout: Self::DEFAULT_LOGIN_RESPONSE_TIMEOUT,
         }
     }
 
@@ -65,6 +72,7 @@ impl SessionClient {
         Ok(Self {
             stream: Some(stream),
             state: SessionState::Connected,
+            login_response_timeout: Self::DEFAULT_LOGIN_RESPONSE_TIMEOUT,
         })
     }
 
@@ -72,17 +80,59 @@ impl SessionClient {
         self.state
     }
 
-    pub async fn login(&mut self, credentials: &Credentials) -> Result<()> {
-        self.ensure_connected()?;
+    pub fn set_login_response_timeout(&mut self, timeout: Duration) {
+        self.login_response_timeout = timeout;
+    }
+
+    pub async fn login(&mut self, credentials: &Credentials) -> std::result::Result<(), AuthError> {
+        self.ensure_connected()
+            .map_err(|err| AuthError::ProtocolDecode(err.to_string()))?;
         let frame = build_login_request(
             &credentials.username,
-            &credentials.password_md5,
+            &credentials.password,
             credentials.client_version,
             credentials.minor_version,
         );
-        write_frame(self.stream_mut()?, &frame).await?;
-        self.state = SessionState::LoggedIn;
-        Ok(())
+        let stream = self.stream.as_mut().ok_or_else(|| {
+            AuthError::ProtocolDecode("session stream is unavailable".to_string())
+        })?;
+        write_frame(stream, &frame)
+            .await
+            .map_err(|err| AuthError::ProtocolDecode(format!("write login frame: {err}")))?;
+
+        let response_frame = tokio::time::timeout(self.login_response_timeout, read_frame(stream))
+            .await
+            .map_err(|_| AuthError::Timeout)?
+            .map_err(|err| AuthError::ProtocolDecode(format!("read login response: {err}")))?;
+
+        if response_frame.code != CODE_SM_LOGIN {
+            return Err(AuthError::ProtocolDecode(format!(
+                "expected login response code {} got {}",
+                CODE_SM_LOGIN, response_frame.code
+            )));
+        }
+
+        let payload = match decode_server_message(response_frame.code, &response_frame.payload)
+            .map_err(|err| AuthError::ProtocolDecode(format!("decode login response: {err}")))?
+        {
+            ServerMessage::LoginResponse(payload) => payload,
+            other => {
+                return Err(AuthError::ProtocolDecode(format!(
+                    "expected LoginResponse payload, got {other:?}"
+                )));
+            }
+        };
+
+        match payload {
+            LoginResponsePayload::Success(_) => {
+                self.state = SessionState::LoggedIn;
+                Ok(())
+            }
+            LoginResponsePayload::Failure(failure) => Err(AuthError::from_failure_reason(
+                failure.reason,
+                failure.detail,
+            )),
+        }
     }
 
     pub async fn search(&mut self, token: u32, search_text: &str) -> Result<()> {
@@ -132,9 +182,19 @@ impl SessionClient {
             }
 
             let remaining = deadline.saturating_duration_since(now);
-            match tokio::time::timeout(remaining, self.read_next_message()).await {
-                Ok(Ok(ProtocolMessage::Server(msg))) => collected.push(msg),
-                Ok(Ok(ProtocolMessage::Peer(_))) => {}
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(frame)) => {
+                    if frame.code == CODE_SM_FILE_SEARCH_RESPONSE {
+                        if let Ok(summary) = parse_search_response_summary(&frame.payload) {
+                            collected.push(ServerMessage::FileSearchResponseSummary(summary));
+                        }
+                        continue;
+                    }
+
+                    if let Ok(msg) = decode_server_message(frame.code, &frame.payload) {
+                        collected.push(msg);
+                    }
+                }
                 Ok(Err(err)) => {
                     if is_connection_eof(&err) {
                         break;
@@ -169,6 +229,81 @@ impl SessionClient {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Error)]
+pub enum AuthError {
+    #[error("login rejected: INVALIDVERSION")]
+    InvalidVersion,
+    #[error("login rejected: INVALIDPASS")]
+    InvalidPass,
+    #[error("login rejected: INVALIDUSERNAME")]
+    InvalidUsername,
+    #[error("login response decode failure: {0}")]
+    ProtocolDecode(String),
+    #[error("login response timed out")]
+    Timeout,
+}
+
+impl AuthError {
+    fn from_failure_reason(reason: LoginFailureReason, detail: Option<String>) -> Self {
+        match reason {
+            LoginFailureReason::InvalidVersion => Self::InvalidVersion,
+            LoginFailureReason::InvalidPass => Self::InvalidPass,
+            LoginFailureReason::InvalidUsername => Self::InvalidUsername,
+            LoginFailureReason::Unknown(value) => {
+                let mut message = format!("unknown login failure reason: {value}");
+                if let Some(extra) = detail {
+                    message.push_str(" detail=");
+                    message.push_str(&extra);
+                }
+                Self::ProtocolDecode(message)
+            }
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct LoginProbeAttempt {
+    pub client_version: u32,
+    pub minor_version: u32,
+    pub result: String,
+}
+
+pub async fn probe_login_versions(
+    server_addr: &str,
+    username: &str,
+    password: &str,
+) -> Result<Vec<LoginProbeAttempt>> {
+    const CANDIDATES: &[(u32, u32)] = &[(160, 1), (157, 19), (157, 17), (157, 100)];
+    let mut attempts = Vec::with_capacity(CANDIDATES.len());
+
+    for (client_version, minor_version) in CANDIDATES {
+        let mut session = SessionClient::connect(server_addr).await?;
+        let credentials = Credentials {
+            username: username.to_owned(),
+            password: password.to_owned(),
+            client_version: *client_version,
+            minor_version: *minor_version,
+        };
+
+        let result = match session.login(&credentials).await {
+            Ok(()) => "success".to_string(),
+            Err(err) => format!("{err}"),
+        };
+
+        attempts.push(LoginProbeAttempt {
+            client_version: *client_version,
+            minor_version: *minor_version,
+            result: result.clone(),
+        });
+
+        if result == "success" || !result.contains("INVALIDVERSION") {
+            break;
+        }
+    }
+
+    Ok(attempts)
+}
+
 fn is_connection_eof(err: &anyhow::Error) -> bool {
     err.chain().any(|cause| {
         let rendered = cause.to_string().to_lowercase();
@@ -187,11 +322,17 @@ pub async fn write_frame(stream: &mut TcpStream, frame: &Frame) -> Result<()> {
 
 pub async fn read_frame(stream: &mut TcpStream) -> Result<Frame> {
     let mut len_buf = [0_u8; 4];
-    stream.read_exact(&mut len_buf).await.context("read frame len")?;
+    stream
+        .read_exact(&mut len_buf)
+        .await
+        .context("read frame len")?;
     let body_len = u32::from_le_bytes(len_buf) as usize;
 
     let mut body = vec![0_u8; body_len];
-    stream.read_exact(&mut body).await.context("read frame body")?;
+    stream
+        .read_exact(&mut body)
+        .await
+        .context("read frame body")?;
 
     let mut frame_bytes = Vec::with_capacity(body_len + 4);
     frame_bytes.extend_from_slice(&len_buf);
@@ -222,7 +363,10 @@ pub async fn download_single_file(plan: &DownloadPlan) -> Result<DownloadResult>
     ensure_parent_dir(&plan.output_path).await?;
 
     let mut content = Vec::new();
-    stream.read_to_end(&mut content).await.context("read file body")?;
+    stream
+        .read_to_end(&mut content)
+        .await
+        .context("read file body")?;
     fs::write(&plan.output_path, &content)
         .await
         .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -233,7 +377,10 @@ pub async fn download_single_file(plan: &DownloadPlan) -> Result<DownloadResult>
     })
 }
 
-fn validate_transfer_response(expected_token: u32, response: &TransferResponsePayload) -> Result<()> {
+fn validate_transfer_response(
+    expected_token: u32,
+    response: &TransferResponsePayload,
+) -> Result<()> {
     if response.token != expected_token {
         bail!(
             "token mismatch: expected {} got {}",
@@ -355,11 +502,12 @@ impl UploadAgent {
             decision.reason
         };
 
-        let response_frame = encode_peer_message(&PeerMessage::TransferResponse(TransferResponsePayload {
-            token: request.token,
-            allowed,
-            queue_or_reason: reason,
-        }));
+        let response_frame =
+            encode_peer_message(&PeerMessage::TransferResponse(TransferResponsePayload {
+                token: request.token,
+                allowed,
+                queue_or_reason: reason,
+            }));
         write_frame(&mut socket, &response_frame).await?;
 
         let mut bytes_sent = 0_u64;
@@ -368,7 +516,10 @@ impl UploadAgent {
                 let bytes = fs::read(&path)
                     .await
                     .with_context(|| format!("read upload source file: {}", path.display()))?;
-                socket.write_all(&bytes).await.context("write upload bytes")?;
+                socket
+                    .write_all(&bytes)
+                    .await
+                    .context("write upload bytes")?;
                 socket.flush().await.context("flush upload bytes")?;
                 bytes_sent = bytes.len() as u64;
             }
@@ -389,9 +540,28 @@ impl UploadAgent {
 mod tests {
     use super::*;
     use protocol::{
-        encode_server_message, parse_transfer_request, parse_transfer_response, ServerMessage, SpeedPayload,
-        CODE_SM_FILE_SEARCH, CODE_SM_LOGIN,
+        CODE_SM_FILE_SEARCH, CODE_SM_LOGIN, LoginResponsePayload, LoginResponseSuccessPayload,
+        ServerMessage, SpeedPayload, encode_server_message, parse_transfer_request,
+        parse_transfer_response,
     };
+
+    fn login_success_frame() -> Frame {
+        encode_server_message(&ServerMessage::LoginResponse(
+            LoginResponsePayload::Success(LoginResponseSuccessPayload {
+                greeting: String::new(),
+                ip_address: "127.0.0.1".into(),
+                md5hash: "0123456789abcdef0123456789abcdef".into(),
+                is_supporter: false,
+            }),
+        ))
+    }
+
+    fn login_failure_frame(reason: &str) -> Frame {
+        let mut payload = protocol::PayloadWriter::new();
+        payload.write_u8(0);
+        payload.write_string(reason);
+        Frame::new(CODE_SM_LOGIN, payload.into_inner())
+    }
 
     #[tokio::test]
     async fn login_and_search_send_expected_codes() {
@@ -401,15 +571,21 @@ mod tests {
         let server = tokio::spawn(async move {
             let (mut socket, _) = listener.accept().await.expect("accept");
             let first = read_frame(&mut socket).await.expect("first");
+            let login_response = login_success_frame();
+            write_frame(&mut socket, &login_response)
+                .await
+                .expect("write login response");
             let second = read_frame(&mut socket).await.expect("second");
             (first.code, second.code)
         });
 
-        let mut client = SessionClient::connect(&addr.to_string()).await.expect("connect");
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
         client
             .login(&Credentials {
                 username: "alice".into(),
-                password_md5: "0123456789abcdef0123456789abcdef".into(),
+                password: "secret-pass".into(),
                 client_version: 157,
                 minor_version: 19,
             })
@@ -430,19 +606,27 @@ mod tests {
         let server = tokio::spawn(async move {
             let (mut socket, _) = listener.accept().await.expect("accept");
             let _login = read_frame(&mut socket).await.expect("login frame");
+            let login_response = login_success_frame();
+            write_frame(&mut socket, &login_response)
+                .await
+                .expect("write login response");
             let _search = read_frame(&mut socket).await.expect("search frame");
 
             let speed_frame = encode_server_message(&ServerMessage::DownloadSpeed(SpeedPayload {
                 bytes_per_sec: 4096,
             }));
-            write_frame(&mut socket, &speed_frame).await.expect("write speed");
+            write_frame(&mut socket, &speed_frame)
+                .await
+                .expect("write speed");
         });
 
-        let mut client = SessionClient::connect(&addr.to_string()).await.expect("connect");
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
         client
             .login(&Credentials {
                 username: "alice".into(),
-                password_md5: "0123456789abcdef0123456789abcdef".into(),
+                password: "secret-pass".into(),
                 client_version: 157,
                 minor_version: 19,
             })
@@ -455,6 +639,68 @@ mod tests {
             .expect("collect");
         assert!(!messages.is_empty());
 
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn login_failure_keeps_connected_state() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            let failure = login_failure_frame("INVALIDPASS");
+            write_frame(&mut socket, &failure)
+                .await
+                .expect("write login failure");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        let err = client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "wrong-pass".into(),
+                client_version: 157,
+                minor_version: 19,
+            })
+            .await
+            .expect_err("must fail");
+        assert_eq!(err, AuthError::InvalidPass);
+        assert_eq!(client.state(), SessionState::Connected);
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn login_invalid_version_returns_typed_error() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            let failure = login_failure_frame("INVALIDVERSION");
+            write_frame(&mut socket, &failure)
+                .await
+                .expect("write login failure");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        let err = client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 157,
+                minor_version: 19,
+            })
+            .await
+            .expect_err("must fail");
+        assert_eq!(err, AuthError::InvalidVersion);
+        assert_eq!(client.state(), SessionState::Connected);
         server.await.expect("server task");
     }
 
@@ -472,7 +718,9 @@ mod tests {
             assert_eq!(parsed.token, 555);
 
             let response = protocol::build_transfer_response(555, true, "");
-            write_frame(&mut socket, &response).await.expect("write response");
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write response");
             socket.write_all(b"abc123").await.expect("write payload");
             socket.shutdown().await.expect("shutdown");
         });
@@ -499,9 +747,13 @@ mod tests {
     #[tokio::test]
     async fn upload_agent_manual_accept_and_send_bytes() {
         let source = std::env::temp_dir().join("neosoulseek-upload-source.bin");
-        fs::write(&source, b"payload-xyz").await.expect("write source");
+        fs::write(&source, b"payload-xyz")
+            .await
+            .expect("write source");
 
-        let agent = UploadAgent::bind_manual("127.0.0.1:0").await.expect("bind agent");
+        let agent = UploadAgent::bind_manual("127.0.0.1:0")
+            .await
+            .expect("bind agent");
         let addr = agent.local_addr().expect("local addr");
 
         let task = tokio::spawn(async move {
@@ -540,7 +792,9 @@ mod tests {
 
     #[tokio::test]
     async fn upload_agent_manual_deny() {
-        let agent = UploadAgent::bind_manual("127.0.0.1:0").await.expect("bind agent");
+        let agent = UploadAgent::bind_manual("127.0.0.1:0")
+            .await
+            .expect("bind agent");
         let addr = agent.local_addr().expect("local addr");
 
         let task = tokio::spawn(async move {

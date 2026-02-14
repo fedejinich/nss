@@ -9,6 +9,7 @@ authors.workspace = true
 anyhow.workspace = true
 tokio.workspace = true
 protocol.workspace = true
+thiserror.workspace = true
 
 [dev-dependencies]
 hex.workspace = true
