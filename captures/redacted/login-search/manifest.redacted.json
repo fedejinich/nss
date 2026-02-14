@@ -1,22 +1,22 @@
 {
   "run_id": "login-search",
   "scenario": "login-search",
-  "source_type": "synthetic_fixture_replay",
-  "created_at": "2026-02-14T04:58:47+00:00",
-  "notes": "Redacted stage2 bootstrap capture for deterministic verification. Replace with real-account runs when available.",
+  "source_type": "runtime_socket_server",
+  "created_at": "2026-02-14T06:24:51+00:00",
   "outputs": {
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search/neo_frames.hex",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search/frida-events.redacted.jsonl"
+    "official_frames_raw": "<redacted:path:948f0c7ced7c>",
+    "neo_frames_raw": "<redacted:path:d16024186e04>",
+    "frida_events_raw": "<redacted:path:33f236af0231>"
   },
+  "frame_count": 6,
+  "notes": "Runtime-generated stage2 capture.",
   "redaction": {
     "policy": "redact+commit",
     "policy_version": "1",
-    "generated_at": "2026-02-14T04:58:47+00:00",
+    "generated_at": "2026-02-14T06:28:09+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-search",
     "stats": {
-      "username": 1,
-      "endpoint": 1,
-      "text": 1
+      "path": 3
     }
   }
 }

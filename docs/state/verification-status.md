@@ -44,5 +44,5 @@ Includes:
 
 ## Residual Risk
 
-- Runs redacted actuales son bootstrap determinístico para reproducibilidad.
-- Capturas de cuenta real deben reemplazar bootstrap para cerrar medium-confidence payloads.
+- Runs redacted actuales provienen de runtime (`captures/raw/*`) y validan `high=25` para core.
+- Login al servidor oficial en este lote devuelve `INVALIDVERSION`; se requiere ajustar tuple de versión para autenticación completa end-to-end.

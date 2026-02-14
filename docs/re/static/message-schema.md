@@ -1,10 +1,10 @@
 # Message Schema
 
-- Generated: `2026-02-14T04:58:01+00:00`
+- Generated: `2026-02-14T06:27:00+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
-- Current coverage: `high=18` `medium=7` `low=0`
+- Current coverage: `high=25` `medium=0` `low=0`
 
 ## Messages
 
@@ -33,13 +33,13 @@
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Observed literal in PeerMessenger::MessageCodeToString dispatch.)
 
 ### `peer` `PM_FILE_SEARCH_RESULT` (code `9`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `token`: `u32`
   - `username`: `string`
   - `result_count`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Literal dispatch identified; complex payload list normalization pending.)
+  - `runtime_capture`: `captures/redacted/login-search-download/official_frames.hex` (Observed inbound runtime frame in login-search-download scenario (code 9) with token+user+result_count.)
 
 ### `peer` `PM_TRANSFER_REQUEST` (code `40`)
 - Confidence: `high`
@@ -72,32 +72,32 @@
   - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_queue_download.txt` (Queue manager records upload queueing for pending peers.)
 
 ### `peer` `PM_UPLOAD_PLACE_IN_LINE` (code `44`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `username`: `string`
   - `virtual_path`: `string`
   - `place`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Literal dispatch identified; queue position payload pending runtime confirmation.)
+  - `runtime_capture`: `captures/redacted/upload-deny/official_frames.hex` (Observed inbound runtime frame in upload-deny scenario (code 44) with queue place payload.)
 
 ### `peer` `PM_UPLOAD_FAILED` (code `46`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `username`: `string`
   - `virtual_path`: `string`
   - `reason`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Literal dispatch identified; runtime reasons pending.)
+  - `runtime_capture`: `captures/redacted/upload-deny/official_frames.hex` (Observed inbound runtime frame in upload-deny scenario (code 46) with failure reason payload.)
   - `ghidra_decompile`: `evidence/reverse/disasm/upload_write_socket.txt` (Upload send path emits failure branch when transfer cannot continue.)
 
 ### `peer` `PM_UPLOAD_DENIED` (code `50`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `username`: `string`
   - `virtual_path`: `string`
   - `reason`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Literal dispatch identified; runtime reasons pending.)
+  - `runtime_capture`: `captures/redacted/upload-deny/official_frames.hex` (Observed inbound runtime frame in upload-deny scenario (code 50) with deny reason payload.)
   - `ghidra_decompile`: `evidence/reverse/disasm/upload_write_socket.txt` (Upload send path emits deny branch for rejected requests.)
 
 ### `server` `SM_LOGIN` (code `1`)
@@ -188,27 +188,27 @@
   - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
 
 ### `server` `SM_SEARCH_USER_FILES` (code `42`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `username`: `string`
   - `search_text`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Literal dispatch identified; payload details pending runtime confirmation.)
+  - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 42) with user+query payload.)
 
 ### `server` `SM_EXACT_FILE_SEARCH` (code `65`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `virtual_path`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/message_name_strings.txt` (String present in binary; payload shape pending runtime confirmation.)
+  - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload.)
 
 ### `server` `SM_SEARCH_ROOM` (code `120`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `room`: `string`
   - `search_text`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/message_name_strings.txt` (String present in binary; payload shape pending runtime confirmation.)
+  - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 120) with room+query payload.)
 
 ### `server` `SM_UPLOAD_SPEED` (code `121`)
 - Confidence: `high`

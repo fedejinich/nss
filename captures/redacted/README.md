@@ -20,7 +20,8 @@ Mandatory stage 2 scenarios:
 4. `upload-deny`
 5. `upload-accept`
 
-Bootstrap note:
+Current state:
 
-- Current files are deterministic redacted fixtures (`source_type=synthetic_fixture_replay`) used to keep differential verification reproducible.
-- Replace them with real account captures when operator credentials/session window are available.
+- Stage 2 scenarios were regenerated from runtime runs (`captures/raw/* -> captures/redacted/*`).
+- `login-*` scenarios include live server socket traffic to `server.slsknet.org:2242`.
+- `download/upload` peer flows are runtime local-peer exchanges used for deterministic protocol evidence and regression.

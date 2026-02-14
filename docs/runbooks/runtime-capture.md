@@ -51,6 +51,26 @@ Mandatory scenarios for stage 2:
 4. `upload-deny`
 5. `upload-accept`
 
+## Runtime Scenario Generator (Stage 2R)
+
+For deterministic runtime scenario generation (server socket + local peer flows):
+
+```bash
+python3 tools/runtime/generate_stage2_real_captures.py \
+  --server server.slsknet.org:2242 \
+  --username <user> \
+  --password-md5 <md5>
+```
+
+Then redact:
+
+```bash
+for run in login-only login-search login-search-download upload-deny upload-accept; do
+  ./.venv-tools/bin/python tools/runtime/redact_capture_run.py \
+    --run-dir captures/raw/$run --run-id $run --out-root captures/redacted
+done
+```
+
 ## Manual Redaction
 
 ```bash

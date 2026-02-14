@@ -12,7 +12,7 @@ IP_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}(?::\d{1,5})?\b")
 UNIX_PATH_RE = re.compile(r"/(?:[^\s/]+/)+[^\s/]+")
 WIN_PATH_RE = re.compile(r"[A-Za-z]:\\(?:[^\\\s]+\\)*[^\\\s]+")
 
-USER_KEYS = {"user", "username", "from_user", "to_user", "nick", "peer_user"}
+USER_KEYS = {"user", "username", "from_user", "to_user", "nick", "peer_user", "target_user", "login_as"}
 ADDR_KEYS = {"ip", "address", "ip_address", "peer_addr", "server", "host"}
 PATH_KEYS = {"path", "virtual_path", "source_file", "target_path", "output_path", "file"}
 TEXT_KEYS = {"message", "text", "chat_message", "private_message"}

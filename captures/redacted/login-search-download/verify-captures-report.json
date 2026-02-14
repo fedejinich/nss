@@ -1,7 +1,7 @@
 {
   "run_id": "login-search-download",
-  "total_pairs": 4,
-  "matched_pairs": 4,
+  "total_pairs": 7,
+  "matched_pairs": 7,
   "mismatched_pairs": 0,
   "official_only": 0,
   "neo_only": 0,
@@ -9,26 +9,47 @@
     {
       "index": 0,
       "matches": true,
-      "official_len": 61,
-      "neo_len": 61,
+      "official_len": 64,
+      "neo_len": 64,
       "first_diff_offset": null
     },
     {
       "index": 1,
       "matches": true,
-      "official_len": 26,
-      "neo_len": 26,
+      "official_len": 27,
+      "neo_len": 27,
       "first_diff_offset": null
     },
     {
       "index": 2,
       "matches": true,
-      "official_len": 55,
-      "neo_len": 55,
+      "official_len": 32,
+      "neo_len": 32,
       "first_diff_offset": null
     },
     {
       "index": 3,
+      "matches": true,
+      "official_len": 32,
+      "neo_len": 32,
+      "first_diff_offset": null
+    },
+    {
+      "index": 4,
+      "matches": true,
+      "official_len": 63,
+      "neo_len": 63,
+      "first_diff_offset": null
+    },
+    {
+      "index": 5,
+      "matches": true,
+      "official_len": 37,
+      "neo_len": 37,
+      "first_diff_offset": null
+    },
+    {
+      "index": 6,
       "matches": true,
       "official_len": 20,
       "neo_len": 20,

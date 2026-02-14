@@ -1,21 +1,22 @@
 {
   "run_id": "login-only",
   "scenario": "login-only",
-  "source_type": "synthetic_fixture_replay",
-  "created_at": "2026-02-14T04:58:47+00:00",
-  "notes": "Redacted stage2 bootstrap capture for deterministic verification. Replace with real-account runs when available.",
+  "source_type": "runtime_socket_server",
+  "created_at": "2026-02-14T06:24:47+00:00",
   "outputs": {
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only/neo_frames.hex",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only/frida-events.redacted.jsonl"
+    "official_frames_raw": "<redacted:path:1c122578d90e>",
+    "neo_frames_raw": "<redacted:path:6973ce4fc8d3>",
+    "frida_events_raw": "<redacted:path:3ae643f1f599>"
   },
+  "frame_count": 2,
+  "notes": "Runtime-generated stage2 capture.",
   "redaction": {
     "policy": "redact+commit",
     "policy_version": "1",
-    "generated_at": "2026-02-14T04:58:47+00:00",
+    "generated_at": "2026-02-14T06:28:09+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-only",
     "stats": {
-      "username": 1,
-      "endpoint": 1
+      "path": 3
     }
   }
 }

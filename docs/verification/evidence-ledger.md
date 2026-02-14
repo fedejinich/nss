@@ -11,8 +11,8 @@ Project-level evidence summaries and provenance tracking.
 
 ## Protocol Confidence
 
-- `high`: `18`
-- `medium`: `7`
+- `high`: `25`
+- `medium`: `0`
 - `low`: `0`
 
 ## Latest Evidence Sources
@@ -24,4 +24,7 @@ Project-level evidence summaries and provenance tracking.
 - `evidence/reverse/message_name_strings.txt`
 - `evidence/reverse/disasm/peer_queue_download.txt`
 - `evidence/reverse/disasm/transfer_on_file_request.txt`
+- `captures/redacted/login-search/official_frames.hex`
 - `evidence/reverse/peer_messagecodetostring_otool.txt`
+- `captures/redacted/login-search-download/official_frames.hex`
+- `captures/redacted/upload-deny/official_frames.hex`

@@ -7,6 +7,7 @@
 ## Current Phase
 
 - Stage 2 complete at repository level: Core P2P MVP + KB-first coverage contract for 25 core messages.
+- Stage 2R complete: runtime capture refresh + confidence promotion (`medium -> high`) for all core messages.
 - Product direction updated: app evolutiva propia, no clon 1:1 del cliente oficial.
 
 ## Stage 2 Completion
@@ -31,5 +32,6 @@
 
 ## Operational Note
 
-- Redacted stage2 runs are currently bootstrap deterministic fixtures (`source_type=synthetic_fixture_replay`) for reproducible verification.
-- Operator-run real-account captures can replace these runs without changing the workflow.
+- Redacted stage2 runs were regenerated from runtime runs in `captures/raw/*`.
+- Current coverage confidence is `high=25`, `medium=0`, `low=0`.
+- Login runtime capture currently observes server response `INVALIDVERSION` for the sent client version tuple; framing/message evidence remains valid for stage gates.

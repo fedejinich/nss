@@ -1,7 +1,7 @@
 {
   "run_id": "upload-accept",
-  "total_pairs": 2,
-  "matched_pairs": 2,
+  "total_pairs": 3,
+  "matched_pairs": 3,
   "mismatched_pairs": 0,
   "official_only": 0,
   "neo_only": 0,
@@ -9,12 +9,19 @@
     {
       "index": 0,
       "matches": true,
-      "official_len": 55,
-      "neo_len": 55,
+      "official_len": 49,
+      "neo_len": 49,
       "first_diff_offset": null
     },
     {
       "index": 1,
+      "matches": true,
+      "official_len": 58,
+      "neo_len": 58,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
       "matches": true,
       "official_len": 20,
       "neo_len": 20,

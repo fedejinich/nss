@@ -1,22 +1,22 @@
 {
   "run_id": "upload-deny",
   "scenario": "upload-deny",
-  "source_type": "synthetic_fixture_replay",
-  "created_at": "2026-02-14T04:58:47+00:00",
-  "notes": "Redacted stage2 bootstrap capture for deterministic verification. Replace with real-account runs when available.",
+  "source_type": "runtime_local_peer",
+  "created_at": "2026-02-14T06:24:53+00:00",
   "outputs": {
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny/neo_frames.hex",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny/frida-events.redacted.jsonl"
+    "official_frames_raw": "<redacted:path:9e3c8aacde0a>",
+    "neo_frames_raw": "<redacted:path:9d391ec24d5c>",
+    "frida_events_raw": "<redacted:path:e6d7cb07d049>"
   },
+  "frame_count": 4,
+  "notes": "Runtime-generated stage2 capture.",
   "redaction": {
     "policy": "redact+commit",
     "policy_version": "1",
-    "generated_at": "2026-02-14T04:58:47+00:00",
+    "generated_at": "2026-02-14T06:28:09+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/upload-deny",
     "stats": {
-      "username": 1,
-      "path": 1,
-      "text": 1
+      "path": 3
     }
   }
 }

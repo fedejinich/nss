@@ -9,6 +9,7 @@ Mapear protocolo Soulseek de forma incremental y trazable para habilitar una app
 - Target core: `25` mensajes (server + peer).
 - Coverage actual: `25/25` en `analysis/ghidra/maps/message_map.csv`.
 - Confidence contract: `high >= 18`, `medium <= 7`, `low = 0`.
+- Confidence actual: `high=25`, `medium=0`, `low=0`.
 
 ## Static Evidence Sources
 
@@ -31,4 +32,4 @@ Mapear protocolo Soulseek de forma incremental y trazable para habilitar una app
 
 ## Next Reverse Focus
 
-- Promote medium-confidence message payloads (room search/user search/upload queue details) using real runtime captures.
+- Resolver versión de login aceptada por servidor para capturar sesiones autenticadas completas y ampliar cobertura beyond-core.

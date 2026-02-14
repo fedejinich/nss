@@ -76,5 +76,53 @@ Tasks:
 
 Notes:
 
-- Los escenarios en `captures/redacted/*` estan versionados como `synthetic_fixture_replay` para validacion deterministica.
-- Reemplazar por capturas reales con cuenta de prueba cuando el operador ejecute sesiones autenticadas.
+- Los escenarios en `captures/redacted/*` fueron reemplazados por runs runtime generados desde `captures/raw/*`.
+- Login al servidor oficial fue capturado en runtime; la respuesta observada en este lote fue `INVALIDVERSION` para la combinación de version enviada.
+
+## Stage 2R - Runtime Capture Refresh + Confidence Promotion
+
+Dependency graph:
+
+- `S2R-T01 -> S2R-T02`
+- `S2R-T02 -> S2R-T03`
+- `S2R-T03 -> S2R-T04`
+- `S2R-T04 -> S2R-T05`
+- `S2R-T05 -> S2R-T06`
+- `S2R-T06 -> S2R-T07`
+
+Tasks:
+
+- id: S2R-T01
+  description: Generar capturas runtime reales para escenarios login/search/download/upload accept/deny y escribir raw manifests/frames
+  status: done
+  depends_on: []
+
+- id: S2R-T02
+  description: Reemplazar captures/redacted con artefactos derivados de runs runtime (raw->redacted)
+  status: done
+  depends_on: [S2R-T01]
+
+- id: S2R-T03
+  description: Promover los 7 mensajes medium a high con evidencia runtime enlazada valida
+  status: done
+  depends_on: [S2R-T02]
+
+- id: S2R-T04
+  description: Regenerar esquema/docs KB y validar gates de calidad
+  status: done
+  depends_on: [S2R-T03]
+
+- id: S2R-T05
+  description: Ejecutar scripts/run_diff_verify.sh con escenarios redacted reemplazados
+  status: done
+  depends_on: [S2R-T04]
+
+- id: S2R-T06
+  description: Ejecutar scripts/run_regression.sh completo
+  status: done
+  depends_on: [S2R-T05]
+
+- id: S2R-T07
+  description: Commit y push a main con evidencia runtime y promoción de confianza
+  status: in_progress
+  depends_on: [S2R-T06]

@@ -1,0 +1,16 @@
+{
+  "run_id": "upload-deny",
+  "created_at": "2026-02-14T06:28:09+00:00",
+  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/upload-deny",
+  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny",
+  "stats": {
+    "path": 4,
+    "username": 1
+  },
+  "artifacts": {
+    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny/manifest.redacted.json",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny/frida-events.redacted.jsonl",
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/upload-deny/neo_frames.hex"
+  }
+}

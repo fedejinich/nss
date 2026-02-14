@@ -1,4 +1,1 @@
-{"ts": "2026-02-14T04:58:47+00:00", "event": "session.login", "username": "<redacted:username:aaa111bbb222>", "server": "<redacted:endpoint:123abc456def>"}
-{"ts": "2026-02-14T04:58:47+00:00", "event": "search.sent", "query": "<redacted:text:feed00beef11>", "token": 12345}
-{"ts": "2026-02-14T04:58:47+00:00", "event": "download.request", "peer_user": "<redacted:username:0f0f0f0f0f0f>", "virtual_path": "<redacted:path:bb11cc22dd33>"}
-{"ts": "2026-02-14T04:58:47+00:00", "event": "download.accepted", "token": 555, "bytes": 123456789}
+{"ts": "2026-02-14T06:24:53+00:00", "event": "login_search_download", "username": "<redacted:username:85a4ff07caff>", "query": "boards of canada", "peer_user": "<redacted:username:7a6f14ba5cb2>", "path": "<redacted:path:53dd60f8edb5>"}

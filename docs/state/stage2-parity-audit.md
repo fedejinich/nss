@@ -16,17 +16,17 @@
 ## Resultado
 
 - `message_map.csv`: `25/25` mensajes presentes.
-- Confianza: `high=18`, `medium=7`, `low=0`.
+- Confianza: `high=25`, `medium=0`, `low=0`.
 - `message_schema.json`: cobertura `25/25` con evidencia enlazada.
 - `scripts/run_diff_verify.sh`: fixture diff + capture diff por escenario obligatorio.
 - `scripts/run_regression.sh`: verde con Python + Rust + KB validate + diff verify.
+- `captures/redacted/*`: reemplazado con runs runtime derivados desde `captures/raw/*`.
 
 ## Gaps abiertos
 
-1. Capturas actuales son bootstrap redacted determinístico (`synthetic_fixture_replay`).
-2. Payload shape de mensajes medium requiere validación runtime real.
-3. Differential normalizer aún compara frames completos; se puede extender a normalización semántica por campo.
+1. Login runtime actual responde `INVALIDVERSION` con la versión enviada; falta fijar tuple de versión aceptada para sesión autenticada exitosa.
+2. Differential normalizer aún compara frames completos; se puede extender a normalización semántica por campo.
 
 ## Recomendación siguiente
 
-- Ejecutar lote de capturas reales con cuenta de prueba y promover medium -> high con evidencia runtime.
+- Resolver tuple de versión de login aceptada por servidor y repetir lote login/search/download con sesión autenticada completa.

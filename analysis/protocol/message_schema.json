@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T04:58:01+00:00",
+  "generated_at": "2026-02-14T06:27:00+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -24,8 +24,8 @@
     "medium_max": 7,
     "low_max": 0,
     "current": {
-      "high": 18,
-      "medium": 7,
+      "high": 25,
+      "medium": 0,
       "low": 0
     }
   },
@@ -117,12 +117,12 @@
           "type": "u32"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Literal dispatch identified; complex payload list normalization pending."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-search-download/official_frames.hex",
+          "note": "Observed inbound runtime frame in login-search-download scenario (code 9) with token+user+result_count."
         }
       ]
     },
@@ -240,12 +240,12 @@
           "type": "u32"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Literal dispatch identified; queue position payload pending runtime confirmation."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/upload-deny/official_frames.hex",
+          "note": "Observed inbound runtime frame in upload-deny scenario (code 44) with queue place payload."
         }
       ]
     },
@@ -267,12 +267,12 @@
           "type": "string"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Literal dispatch identified; runtime reasons pending."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/upload-deny/official_frames.hex",
+          "note": "Observed inbound runtime frame in upload-deny scenario (code 46) with failure reason payload."
         },
         {
           "kind": "ghidra_decompile",
@@ -299,12 +299,12 @@
           "type": "string"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Literal dispatch identified; runtime reasons pending."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/upload-deny/official_frames.hex",
+          "note": "Observed inbound runtime frame in upload-deny scenario (code 50) with deny reason payload."
         },
         {
           "kind": "ghidra_decompile",
@@ -579,12 +579,12 @@
           "type": "string"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Literal dispatch identified; payload details pending runtime confirmation."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-search/official_frames.hex",
+          "note": "Observed outbound runtime frame in login-search scenario (code 42) with user+query payload."
         }
       ]
     },
@@ -598,12 +598,12 @@
           "type": "string"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/message_name_strings.txt",
-          "note": "String present in binary; payload shape pending runtime confirmation."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-search/official_frames.hex",
+          "note": "Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload."
         }
       ]
     },
@@ -621,12 +621,12 @@
           "type": "string"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/message_name_strings.txt",
-          "note": "String present in binary; payload shape pending runtime confirmation."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-search/official_frames.hex",
+          "note": "Observed outbound runtime frame in login-search scenario (code 120) with room+query payload."
         }
       ]
     },

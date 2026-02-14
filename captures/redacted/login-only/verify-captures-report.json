@@ -1,7 +1,7 @@
 {
   "run_id": "login-only",
-  "total_pairs": 1,
-  "matched_pairs": 1,
+  "total_pairs": 2,
+  "matched_pairs": 2,
   "mismatched_pairs": 0,
   "official_only": 0,
   "neo_only": 0,
@@ -9,8 +9,15 @@
     {
       "index": 0,
       "matches": true,
-      "official_len": 61,
-      "neo_len": 61,
+      "official_len": 64,
+      "neo_len": 64,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "official_len": 27,
+      "neo_len": 27,
       "first_diff_offset": null
     }
   ]

@@ -1,7 +1,7 @@
 {
   "run_id": "login-search",
-  "total_pairs": 2,
-  "matched_pairs": 2,
+  "total_pairs": 6,
+  "matched_pairs": 6,
   "mismatched_pairs": 0,
   "official_only": 0,
   "neo_only": 0,
@@ -9,15 +9,43 @@
     {
       "index": 0,
       "matches": true,
-      "official_len": 61,
-      "neo_len": 61,
+      "official_len": 64,
+      "neo_len": 64,
       "first_diff_offset": null
     },
     {
       "index": 1,
       "matches": true,
+      "official_len": 27,
+      "neo_len": 27,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
+      "matches": true,
       "official_len": 26,
       "neo_len": 26,
+      "first_diff_offset": null
+    },
+    {
+      "index": 3,
+      "matches": true,
+      "official_len": 37,
+      "neo_len": 37,
+      "first_diff_offset": null
+    },
+    {
+      "index": 4,
+      "matches": true,
+      "official_len": 39,
+      "neo_len": 39,
+      "first_diff_offset": null
+    },
+    {
+      "index": 5,
+      "matches": true,
+      "official_len": 29,
+      "neo_len": 29,
       "first_diff_offset": null
     }
   ]
