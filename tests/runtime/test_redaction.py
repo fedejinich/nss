@@ -21,6 +21,7 @@ class RuntimeRedactionTests(unittest.TestCase):
             manifest = {
                 "scenario": "login-search",
                 "username": "alice",
+                "password": "my-secret-password",
                 "peer_addr": "10.0.0.4:2234",
                 "download_path": "/Users/alice/Music/track.flac",
                 "private_message": "hola este es un mensaje privado",
@@ -58,6 +59,7 @@ class RuntimeRedactionTests(unittest.TestCase):
             redacted_manifest = json.loads((run_dir / "manifest.redacted.json").read_text(encoding="utf-8"))
             raw_text = json.dumps(redacted_manifest)
             self.assertNotIn("alice", raw_text)
+            self.assertNotIn("my-secret-password", raw_text)
             self.assertNotIn("10.0.0.4", raw_text)
             self.assertNotIn("/Users/alice/Music/track.flac", raw_text)
             self.assertNotIn("mensaje privado", raw_text)

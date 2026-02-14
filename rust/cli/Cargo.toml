@@ -13,3 +13,4 @@ protocol.workspace = true
 soul-core.workspace = true
 verify.workspace = true
 hex.workspace = true
+serde_json.workspace = true
