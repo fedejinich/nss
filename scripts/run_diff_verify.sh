@@ -10,6 +10,9 @@ REQUIRED_RUNS=(
   "login-search-download"
   "upload-deny"
   "upload-accept"
+  "login-room-list"
+  "login-join-room-presence"
+  "login-leave-room"
 )
 
 cd "${ROOT_DIR}/rust"

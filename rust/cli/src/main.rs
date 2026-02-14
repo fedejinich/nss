@@ -5,7 +5,7 @@ use protocol::{
     build_transfer_request, build_transfer_response,
 };
 use soul_core::{
-    Credentials, DownloadPlan, ManualUploadDecision, SessionClient, UploadAgent,
+    Credentials, DownloadPlan, ManualUploadDecision, RoomEvent, SessionClient, UploadAgent,
     UploadDecisionKind, download_single_file, probe_login_versions,
 };
 use std::env;
@@ -119,6 +119,10 @@ enum Commands {
         #[command(subcommand)]
         command: TransferCommand,
     },
+    Room {
+        #[command(subcommand)]
+        command: RoomCommand,
+    },
     Verify {
         #[command(subcommand)]
         command: VerifyCommand,
@@ -200,6 +204,102 @@ enum TransferCommand {
         reason: String,
         #[arg(long)]
         source_file: Option<PathBuf>,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum RoomCommand {
+    List {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Join {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Leave {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Members {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long, default_value_t = 6)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Watch {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long, default_value_t = 15)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
     },
 }
 
@@ -396,6 +496,109 @@ async fn main() -> Result<()> {
                 run_serve_upload(&bind, decision, reason, source_file).await?;
             }
         },
+        Commands::Room { command } => match command {
+            RoomCommand::List {
+                server,
+                username,
+                password,
+                password_md5,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_list(&mut client, verbose).await?;
+            }
+            RoomCommand::Join {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_join(&mut client, &room, verbose).await?;
+            }
+            RoomCommand::Leave {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_leave(&mut client, &room, verbose).await?;
+            }
+            RoomCommand::Members {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_members(&mut client, &room, timeout_secs, verbose).await?;
+            }
+            RoomCommand::Watch {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_watch(&mut client, &room, timeout_secs, verbose).await?;
+            }
+        },
         Commands::Verify { command } => match command {
             VerifyCommand::Fixtures {
                 fixtures_dir,
@@ -515,13 +718,13 @@ fn to_comparison_mode(mode: VerifyModeArg) -> ComparisonMode {
     }
 }
 
-async fn run_login(
+async fn connect_and_login(
     server: &str,
     username: &str,
     password: &str,
     client_version: u32,
     minor_version: u32,
-) -> Result<()> {
+) -> Result<SessionClient> {
     let mut client = SessionClient::connect(server).await?;
     client
         .login(&Credentials {
@@ -531,6 +734,17 @@ async fn run_login(
             minor_version,
         })
         .await?;
+    Ok(client)
+}
+
+async fn run_login(
+    server: &str,
+    username: &str,
+    password: &str,
+    client_version: u32,
+    minor_version: u32,
+) -> Result<()> {
+    let client = connect_and_login(server, username, password, client_version, minor_version).await?;
     println!(
         "session.login ok state={:?} server={}",
         client.state(),
@@ -551,15 +765,8 @@ async fn run_search(
     timeout_secs: u64,
     max_messages: usize,
 ) -> Result<()> {
-    let mut client = SessionClient::connect(server).await?;
-    client
-        .login(&Credentials {
-            username: username.to_owned(),
-            password: password.to_owned(),
-            client_version,
-            minor_version,
-        })
-        .await?;
+    let mut client =
+        connect_and_login(server, username, password, client_version, minor_version).await?;
 
     let messages = client
         .search_and_collect(
@@ -578,6 +785,137 @@ async fn run_search(
     );
     for (idx, msg) in messages.iter().enumerate() {
         println!("[{idx}] {:?}", msg);
+    }
+    Ok(())
+}
+
+async fn run_room_list(client: &mut SessionClient, verbose: bool) -> Result<()> {
+    let payload = client.list_rooms(Duration::from_secs(6)).await?;
+    println!(
+        "room.list ok rooms={} sample={}",
+        payload.room_count,
+        payload.rooms.iter().take(5).cloned().collect::<Vec<_>>().join(", ")
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_room_join(client: &mut SessionClient, room: &str, verbose: bool) -> Result<()> {
+    client.join_room(room).await?;
+    let events = client.collect_room_events(Duration::from_secs(3), 64).await?;
+    println!(
+        "room.join ok room={} collected_events={}",
+        room,
+        events.len()
+    );
+    if verbose {
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_room_leave(client: &mut SessionClient, room: &str, verbose: bool) -> Result<()> {
+    client.join_room(room).await?;
+    client.leave_room(room).await?;
+    let events = client.collect_room_events(Duration::from_secs(2), 32).await?;
+    println!(
+        "room.leave ok room={} collected_events={}",
+        room,
+        events.len()
+    );
+    if verbose {
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_room_members(
+    client: &mut SessionClient,
+    room: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    client.join_room(room).await?;
+    client.request_room_members(room).await?;
+    client.request_room_operators(room).await?;
+    let events = client
+        .collect_room_events(Duration::from_secs(timeout_secs), 256)
+        .await?;
+
+    let members = events.iter().find_map(|event| {
+        if let RoomEvent::MembersSnapshot(payload) = event {
+            Some(payload)
+        } else {
+            None
+        }
+    });
+    let operators = events.iter().find_map(|event| {
+        if let RoomEvent::OperatorsSnapshot(payload) = event {
+            Some(payload)
+        } else {
+            None
+        }
+    });
+
+    let members_count = members.map(|payload| payload.users.len()).unwrap_or(0);
+    let operators_count = operators.map(|payload| payload.operators.len()).unwrap_or(0);
+    println!(
+        "room.members ok room={} members={} operators={}",
+        room, members_count, operators_count
+    );
+    if verbose {
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_room_watch(
+    client: &mut SessionClient,
+    room: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    client.join_room(room).await?;
+    client.request_room_members(room).await?;
+    client.request_room_operators(room).await?;
+    let events = client
+        .collect_room_events(Duration::from_secs(timeout_secs), 512)
+        .await?;
+
+    let joined = events
+        .iter()
+        .filter(|event| matches!(event, RoomEvent::UserJoined { .. }))
+        .count();
+    let left = events
+        .iter()
+        .filter(|event| matches!(event, RoomEvent::UserLeft { .. }))
+        .count();
+    let messages = events
+        .iter()
+        .filter(|event| matches!(event, RoomEvent::RoomMessage { .. }))
+        .count();
+
+    println!(
+        "room.watch ok room={} timeout_secs={} joined={} left={} messages={} total_events={}",
+        room,
+        timeout_secs,
+        joined,
+        left,
+        messages,
+        events.len()
+    );
+    if verbose {
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
     }
     Ok(())
 }

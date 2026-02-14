@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T13:54:28+00:00",
+  "generated_at": "2026-02-14T14:44:43+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -407,6 +407,121 @@
     },
     {
       "scope": "server",
+      "code": 13,
+      "name": "SM_SAY_CHATROOM",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "optional_string"
+        },
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-join-room-presence/official_frames.hex",
+          "note": "Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 14,
+      "name": "SM_JOIN_ROOM",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "users",
+          "type": "array<string>"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-join-room-presence/official_frames.hex",
+          "note": "Observed runtime join-room request and server join payload during authenticated room session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 15,
+      "name": "SM_LEAVE_ROOM",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-leave-room/official_frames.hex",
+          "note": "Observed runtime leave-room request and server leave acknowledgement payload."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 16,
+      "name": "SM_USER_JOINED_ROOM",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-join-room-presence/official_frames.hex",
+          "note": "Observed runtime user-joined room presence events while watching authenticated room session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 17,
+      "name": "SM_USER_LEFT_ROOM",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-join-room-presence/official_frames.hex",
+          "note": "Observed runtime user-left room presence events while watching authenticated room session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 18,
       "name": "SM_CONNECT_TO_PEER",
       "payload": [
@@ -594,6 +709,29 @@
     },
     {
       "scope": "server",
+      "code": 64,
+      "name": "SM_ROOM_LIST",
+      "payload": [
+        {
+          "name": "room_count",
+          "type": "u32"
+        },
+        {
+          "name": "rooms",
+          "type": "array<string>"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-room-list/official_frames.hex",
+          "note": "Observed runtime room list request/response flow with authenticated session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 65,
       "name": "SM_EXACT_FILE_SEARCH",
       "payload": [
@@ -650,6 +788,52 @@
           "kind": "string",
           "source": "evidence/reverse/message_name_strings.txt",
           "note": "String present and mirrored by upload code paths."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 133,
+      "name": "SM_ROOM_MEMBERS",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "users",
+          "type": "array<string>"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-join-room-presence/official_frames.hex",
+          "note": "Observed runtime room-members request flow in authenticated room session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 148,
+      "name": "SM_ROOM_OPERATORS",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "operators",
+          "type": "array<string>"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-join-room-presence/official_frames.hex",
+          "note": "Observed runtime room-operators request flow in authenticated room session."
         }
       ]
     }

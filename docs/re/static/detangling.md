@@ -59,17 +59,25 @@ Review queue is empty.
 
 ## Protocol Coverage (Stage 2)
 
-- Message rows: `25`
-- Confidence split: `high=25` `medium=0` `low=0`
+- Message rows: `33`
+- Confidence split: `high=33` `medium=0` `low=0`
 - Latest mapped messages:
   - `server` `SM_LOGIN` code `1` confidence `high`
   - `server` `SM_SET_WAIT_PORT` code `2` confidence `high`
   - `server` `SM_GET_PEER_ADDRESS` code `3` confidence `high`
   - `server` `SM_CONNECT_TO_PEER` code `18` confidence `high`
+  - `server` `SM_SAY_CHATROOM` code `13` confidence `high`
+  - `server` `SM_JOIN_ROOM` code `14` confidence `high`
+  - `server` `SM_LEAVE_ROOM` code `15` confidence `high`
+  - `server` `SM_USER_JOINED_ROOM` code `16` confidence `high`
+  - `server` `SM_USER_LEFT_ROOM` code `17` confidence `high`
   - `server` `SM_FILE_SEARCH` code `26` confidence `high`
+  - `server` `SM_ROOM_LIST` code `64` confidence `high`
   - `server` `SM_SEARCH_ROOM` code `120` confidence `high`
   - `server` `SM_EXACT_FILE_SEARCH` code `65` confidence `high`
   - `server` `SM_SEARCH_USER_FILES` code `42` confidence `high`
+  - `server` `SM_ROOM_MEMBERS` code `133` confidence `high`
+  - `server` `SM_ROOM_OPERATORS` code `148` confidence `high`
   - `server` `SM_MESSAGE_USER` code `22` confidence `high`
   - `server` `SM_MESSAGE_ACKED` code `23` confidence `high`
   - `server` `SM_GET_USER_STATS` code `36` confidence `high`
@@ -79,11 +87,3 @@ Review queue is empty.
   - `server` `SM_UPLOAD_SPEED` code `121` confidence `high`
   - `peer` `PM_GET_SHARED_FILE_LIST` code `4` confidence `high`
   - `peer` `PM_SHARED_FILE_LIST` code `5` confidence `high`
-  - `peer` `PM_FILE_SEARCH_REQUEST` code `8` confidence `high`
-  - `peer` `PM_FILE_SEARCH_RESULT` code `9` confidence `high`
-  - `peer` `PM_TRANSFER_REQUEST` code `40` confidence `high`
-  - `peer` `PM_TRANSFER_RESPONSE` code `41` confidence `high`
-  - `peer` `PM_QUEUE_UPLOAD` code `43` confidence `high`
-  - `peer` `PM_UPLOAD_PLACE_IN_LINE` code `44` confidence `high`
-  - `peer` `PM_UPLOAD_FAILED` code `46` confidence `high`
-  - `peer` `PM_UPLOAD_DENIED` code `50` confidence `high`

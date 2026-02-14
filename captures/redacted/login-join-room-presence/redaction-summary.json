@@ -1,0 +1,17 @@
+{
+  "run_id": "login-join-room-presence",
+  "created_at": "2026-02-14T14:36:56+00:00",
+  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-join-room-presence",
+  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-join-room-presence",
+  "stats": {
+    "endpoint": 2,
+    "path": 3,
+    "text": 1
+  },
+  "artifacts": {
+    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-join-room-presence/manifest.redacted.json",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-join-room-presence/frida-events.redacted.jsonl",
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-join-room-presence/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-join-room-presence/neo_frames.hex"
+  }
+}

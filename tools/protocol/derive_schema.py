@@ -40,10 +40,16 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_SET_WAIT_PORT"): 2,
     ("server", "SM_GET_PEER_ADDRESS"): 3,
     ("server", "SM_GET_USER_STATUS"): 7,
+    ("server", "SM_SAY_CHATROOM"): 13,
+    ("server", "SM_JOIN_ROOM"): 14,
+    ("server", "SM_LEAVE_ROOM"): 15,
+    ("server", "SM_USER_JOINED_ROOM"): 16,
+    ("server", "SM_USER_LEFT_ROOM"): 17,
     ("server", "SM_CONNECT_TO_PEER"): 18,
     ("server", "SM_MESSAGE_USER"): 22,
     ("server", "SM_MESSAGE_ACKED"): 23,
     ("server", "SM_FILE_SEARCH"): 26,
+    ("server", "SM_ROOM_LIST"): 64,
     ("server", "SM_DOWNLOAD_SPEED"): 34,
     ("server", "SM_SHARED_FOLDERS_FILES"): 35,
     ("server", "SM_GET_USER_STATS"): 36,
@@ -51,6 +57,8 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_EXACT_FILE_SEARCH"): 65,
     ("server", "SM_SEARCH_ROOM"): 120,
     ("server", "SM_UPLOAD_SPEED"): 121,
+    ("server", "SM_ROOM_MEMBERS"): 133,
+    ("server", "SM_ROOM_OPERATORS"): 148,
     ("peer", "PM_GET_SHARED_FILE_LIST"): 4,
     ("peer", "PM_SHARED_FILE_LIST"): 5,
     ("peer", "PM_FILE_SEARCH_REQUEST"): 8,
@@ -73,9 +81,31 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ],
     ("server", "SM_SET_WAIT_PORT"): [{"name": "listen_port", "type": "u32"}],
     ("server", "SM_GET_PEER_ADDRESS"): [{"name": "username", "type": "string"}],
+    ("server", "SM_SAY_CHATROOM"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "optional_string"},
+        {"name": "message", "type": "string"},
+    ],
+    ("server", "SM_JOIN_ROOM"): [
+        {"name": "room", "type": "string"},
+        {"name": "users", "type": "array<string>"},
+    ],
+    ("server", "SM_LEAVE_ROOM"): [{"name": "room", "type": "string"}],
+    ("server", "SM_USER_JOINED_ROOM"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+    ],
+    ("server", "SM_USER_LEFT_ROOM"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+    ],
     ("server", "SM_CONNECT_TO_PEER"): [
         {"name": "username", "type": "string"},
         {"name": "token", "type": "u32"},
+    ],
+    ("server", "SM_ROOM_LIST"): [
+        {"name": "room_count", "type": "u32"},
+        {"name": "rooms", "type": "array<string>"},
     ],
     ("server", "SM_FILE_SEARCH"): [
         {"name": "search_token", "type": "u32"},
@@ -89,6 +119,14 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ("server", "SM_SEARCH_USER_FILES"): [
         {"name": "username", "type": "string"},
         {"name": "search_text", "type": "string"},
+    ],
+    ("server", "SM_ROOM_MEMBERS"): [
+        {"name": "room", "type": "string"},
+        {"name": "users", "type": "array<string>"},
+    ],
+    ("server", "SM_ROOM_OPERATORS"): [
+        {"name": "room", "type": "string"},
+        {"name": "operators", "type": "array<string>"},
     ],
     ("server", "SM_MESSAGE_USER"): [
         {"name": "username", "type": "string"},

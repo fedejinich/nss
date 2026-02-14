@@ -1,0 +1,25 @@
+{
+  "run_id": "login-room-list",
+  "scenario": "login-room-list",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-14T14:36:31+00:00",
+  "server": "<redacted:endpoint:ba7c64f9bf24>",
+  "room": "nicotine",
+  "frame_count": 10,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:a8ba4d459566>",
+    "neo_frames_raw": "<redacted:path:b6af9d2430cb>",
+    "frida_events_raw": "<redacted:path:5b670154491a>"
+  },
+  "notes": "Runtime-authenticated room/presence capture generated for S3B.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T14:36:56+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-room-list",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

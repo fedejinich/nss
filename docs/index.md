@@ -23,6 +23,7 @@ This documentation is the project memory for decompilation and parity work again
 - `docs/re/static/message-schema.md`
 - `docs/state/stage2-parity-audit.md`
 - `docs/state/protocol-backlog.md`
+- `docs/state/roadmap.md`
 - `docs/runbooks/documentation-discipline.md`
 
 ## Commands

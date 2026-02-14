@@ -1,6 +1,6 @@
 # TODO Execution Plan - NeoSoulSeek
 
-## Stage 2 - Core P2P MVP + 25 mensajes
+## Stage 2 - Core P2P MVP + 25 messages
 
 Dependency graph:
 
@@ -20,66 +20,66 @@ Dependency graph:
 Tasks:
 
 - id: S2-T01
-  description: Publicar contrato de etapa (scope core P2P, 25 mensajes target, criterios de calidad)
+  description: Publish stage contract (core P2P scope, target 25 messages, quality criteria)
   status: done
   depends_on: []
 
 - id: S2-T02
-  description: Ejecutar decompilacion orientada a 25 mensajes (callsites, handlers, serializers) con evidencia estatica
+  description: Execute reverse engineering focused on 25 messages (callsites, handlers, serializers) with static evidence
   status: done
   depends_on: [S2-T01]
 
 - id: S2-T03
-  description: Implementar pipeline de redaccion de capturas runtime (raw->redacted) y politica documental
+  description: Implement runtime capture redaction pipeline (raw -> redacted) and policy documentation
   status: done
   depends_on: [S2-T01]
 
 - id: S2-T04
-  description: Correr capturas para escenarios core (login, search, download, upload accept/deny)
+  description: Capture core scenarios (login, search, download, upload accept/deny)
   status: done
   depends_on: [S2-T02, S2-T03]
 
 - id: S2-T05
-  description: Actualizar message_map/message_schema/name_map con 25 mensajes core y evidencia trazable
+  description: Update message_map/message_schema/name_map with 25 core messages and traceable evidence
   status: done
   depends_on: [S2-T04]
 
 - id: S2-T06
-  description: Extender rust/protocol y rust/core para sesion core P2P + upload manual
+  description: Extend rust/protocol and rust/core for core session + manual upload handling
   status: done
   depends_on: [S2-T04]
 
 - id: S2-T07
-  description: Extender rust/cli con comandos session/transfer/verify y compatibilidad temporal
+  description: Extend rust/cli with session/transfer/verify commands and temporary compatibility with legacy commands
   status: done
   depends_on: [S2-T05, S2-T06]
 
 - id: S2-T08
-  description: Implementar verificador diferencial sobre artefactos redacted (official vs NeoSoulSeek)
+  description: Implement differential verifier over redacted artifacts (official vs NeoSoulSeek)
   status: done
   depends_on: [S2-T07]
 
 - id: S2-T09
-  description: Expandir suite de regresion (unit + integration + fixtures + capture replay)
+  description: Expand regression suite (unit + integration + fixture + capture replay)
   status: done
   depends_on: [S2-T08]
 
 - id: S2-T10
-  description: Cierre de etapa con auditoria de paridad core y reporte de gaps
+  description: Stage closure with core parity audit and gap report
   status: done
   depends_on: [S2-T09]
 
 - id: S2-T11
-  description: Publicar backlog de cobertura para mapear protocolo completo por lotes
+  description: Publish complete protocol mapping backlog by functional domains
   status: done
   depends_on: [S2-T10]
 
 Notes:
 
-- Los escenarios en `captures/redacted/*` fueron reemplazados por runs runtime generados desde `captures/raw/*`.
-- Login al servidor oficial fue capturado en runtime; la respuesta observada en este lote fue `INVALIDVERSION` para la combinación de version enviada.
+- Required scenarios in `captures/redacted/*` were refreshed from runtime runs in `captures/raw/*`.
+- Runtime-authenticated login evidence was captured and persisted in the KB.
 
-## Stage 2R - Runtime Capture Refresh + Confidence Promotion
+## Stage 2R - Runtime capture refresh + confidence promotion
 
 Dependency graph:
 
@@ -93,41 +93,41 @@ Dependency graph:
 Tasks:
 
 - id: S2R-T01
-  description: Generar capturas runtime reales para escenarios login/search/download/upload accept/deny y escribir raw manifests/frames
+  description: Generate real runtime captures for login/search/download/upload accept/deny and write raw manifests/frames
   status: done
   depends_on: []
 
 - id: S2R-T02
-  description: Reemplazar captures/redacted con artefactos derivados de runs runtime (raw->redacted)
+  description: Replace `captures/redacted/*` with artifacts derived from runtime runs (raw -> redacted)
   status: done
   depends_on: [S2R-T01]
 
 - id: S2R-T03
-  description: Promover los 7 mensajes medium a high con evidencia runtime enlazada valida
+  description: Promote 7 medium-confidence messages to high with valid runtime evidence links
   status: done
   depends_on: [S2R-T02]
 
 - id: S2R-T04
-  description: Regenerar esquema/docs KB y validar gates de calidad
+  description: Regenerate KB schema/docs and validate quality gates
   status: done
   depends_on: [S2R-T03]
 
 - id: S2R-T05
-  description: Ejecutar scripts/run_diff_verify.sh con escenarios redacted reemplazados
+  description: Run `scripts/run_diff_verify.sh` with refreshed redacted scenarios
   status: done
   depends_on: [S2R-T04]
 
 - id: S2R-T06
-  description: Ejecutar scripts/run_regression.sh completo
+  description: Run full `scripts/run_regression.sh`
   status: done
   depends_on: [S2R-T05]
 
 - id: S2R-T07
-  description: Commit y push a main con evidencia runtime y promoción de confianza
+  description: Commit and push runtime evidence and confidence promotion changes
   status: done
   depends_on: [S2R-T06]
 
-## DOC-T0 - Institutionalizar documentacion continua
+## DOC-T0 - Institutionalize continuous documentation
 
 Dependency graph:
 
@@ -138,26 +138,26 @@ Dependency graph:
 Tasks:
 
 - id: DOC-T01
-  description: Crear/actualizar AGENTS.md con reglas obligatorias de mantenimiento de conocimiento
+  description: Create/update `AGENTS.md` with mandatory knowledge maintenance rules
   status: done
   depends_on: []
 
 - id: DOC-T02
-  description: Publicar runbook de disciplina documental en Zensical docs
+  description: Publish documentation discipline runbook in Zensical docs
   status: done
   depends_on: [DOC-T01]
 
 - id: DOC-T03
-  description: Enlazar la disciplina documental desde docs/index.md como regla operativa
+  description: Link documentation discipline from `docs/index.md` as an operational rule
   status: done
   depends_on: [DOC-T02]
 
 - id: DOC-T04
-  description: Validar y registrar que TODO-CODEX/AGENTS/KB se actualizan en cada iteración
+  description: Validate and record that TODO-CODEX/AGENTS/KB are updated each iteration
   status: done
   depends_on: [DOC-T03]
 
-## Stage 3A - Login autenticado real + paridad semantica
+## Stage 3A - Authenticated login + semantic parity
 
 Dependency graph:
 
@@ -172,48 +172,134 @@ Dependency graph:
 Tasks:
 
 - id: S3A-T01
-  description: Determinar tuple de version/login aceptada por servidor oficial y registrar evidencia runtime
+  description: Determine accepted official login version tuple and record runtime evidence
   status: done
   depends_on: []
 
 - id: S3A-T02
-  description: Implementar codec/login request correcto (con md5hash) y parser tipado de login response
+  description: Implement correct login codec (including md5hash) and typed login response parser
   status: done
   depends_on: [S3A-T01]
 
 - id: S3A-T03
-  description: Actualizar SessionClient login state machine para LoggedIn solo tras Success real
+  description: Update SessionClient login state machine so `LoggedIn` is set only after real success
   status: done
   depends_on: [S3A-T02]
 
 - id: S3A-T04
-  description: Extender CLI y tools para credenciales seguras por env + probe de version
+  description: Extend CLI/tools for env-based credentials and login version probing
   status: done
   depends_on: [S3A-T03]
 
 - id: S3A-T05
-  description: Capturar escenarios runtime autenticados y refrescar raw->redacted
+  description: Capture authenticated runtime scenarios and refresh raw -> redacted artifacts
   status: done
   depends_on: [S3A-T04]
 
 - id: S3A-T06
-  description: Implementar verificador diferencial semantico y mantener modo bytes por compatibilidad
+  description: Implement semantic differential verifier while keeping bytes mode compatibility
   status: done
   depends_on: [S3A-T05]
 
 - id: S3A-T07
-  description: Actualizar mapas/schema/docs/ledger y KB de estado con evidencia autenticada real
+  description: Update maps/schema/docs/ledger and KB state with authenticated evidence
   status: done
   depends_on: [S3A-T06]
 
 - id: S3A-T08
-  description: Cierre de etapa con run_regression verde, PR documentado y retrospectiva de mantenibilidad
+  description: Stage closure with green regression, documented PR, and maintainability retrospective
   status: done
   depends_on: [S3A-T07]
 
 Notes:
 
-- Tuple autenticado confirmado por runtime probe: `client_version=160`, `minor_version=1`.
-- Login stateful validado: `LoggedIn` solo tras `LoginResponsePayload::Success`; en failure mantiene `Connected`.
-- `scripts/run_diff_verify.sh` ahora corre por defecto en modo semantico (`VERIFY_MODE=semantic`) y mantiene fallback `bytes`.
-- Capturas redacted obligatorias fueron regeneradas con credencial real (`login-only`, `login-search`, `login-search-download`, `upload-deny`, `upload-accept`).
+- Authenticated runtime tuple confirmed by probe: `client_version=160`, `minor_version=1`.
+- Stateful login validated: `LoggedIn` is only set after `LoginResponsePayload::Success`; failures keep `Connected`.
+- `scripts/run_diff_verify.sh` defaults to semantic mode (`VERIFY_MODE=semantic`) while preserving bytes mode fallback.
+- Mandatory redacted authenticated scenarios were refreshed (`login-only`, `login-search`, `login-search-download`, `upload-deny`, `upload-accept`).
+
+## Stage 3B - Visual roadmap + Rooms/Presence protocol batch
+
+Dependency graph:
+
+- `S3B-R01 -> S3B-R02`
+- `S3B-R02 -> S3B-T01`
+- `S3B-T01 -> S3B-T02`
+- `S3B-T02 -> S3B-T03`
+- `S3B-T03 -> S3B-T04`
+- `S3B-T04 -> S3B-T05`
+- `S3B-T05 -> S3B-T06`
+- `S3B-T06 -> S3B-T07`
+- `S3B-T07 -> S3B-T08`
+- `S3B-T08 -> S3B-T09`
+- `S3B-T08 -> S3B-R03`
+- `S3B-R03 -> S3B-T09`
+
+Tasks:
+
+- id: S3B-R01
+  description: Create visual roadmap page for Zensical (timeline + dependency + status matrix) in `docs/state/roadmap.md`
+  status: done
+  depends_on: []
+
+- id: S3B-R02
+  description: Sync roadmap baseline with current stage status and link from `docs/index.md`
+  status: done
+  depends_on: [S3B-R01]
+
+- id: S3B-T01
+  description: Resolve code/evidence for 8 Rooms+Presence messages using static + runtime sources and ledger traceability
+  status: done
+  depends_on: [S3B-R02]
+
+- id: S3B-T02
+  description: Capture authenticated runtime room scenarios (room-list, join-presence, leave) and redact artifacts
+  status: done
+  depends_on: [S3B-T01]
+
+- id: S3B-T03
+  description: Update `message_map` and `message_schema` for the 8 new messages with valid evidence links and confidence levels
+  status: done
+  depends_on: [S3B-T02]
+
+- id: S3B-T04
+  description: Implement room and presence protocol codec/types in `rust/protocol`
+  status: done
+  depends_on: [S3B-T03]
+
+- id: S3B-T05
+  description: Extend `SessionClient` with room list/join/leave/event collection in `rust/core`
+  status: done
+  depends_on: [S3B-T04]
+
+- id: S3B-T06
+  description: Add `soul-cli room` commands (`list/join/leave/members/watch`) with summary + verbose modes
+  status: done
+  depends_on: [S3B-T05]
+
+- id: S3B-T07
+  description: Extend semantic differential verifier coverage for room/presence payloads
+  status: done
+  depends_on: [S3B-T06]
+
+- id: S3B-T08
+  description: Run full validation gates (`kb_validate`, semantic diff verify, regression) and fix issues
+  status: done
+  depends_on: [S3B-T07]
+
+- id: S3B-R03
+  description: Refresh roadmap/status docs with executed S3B outcomes and S4 preview readiness
+  status: done
+  depends_on: [S3B-T08]
+
+- id: S3B-T09
+  description: Publish S3B PR doc and retrospective (maintainability/reuse/surface reduction)
+  status: done
+  depends_on: [S3B-T08, S3B-R03]
+
+Notes:
+
+- Runtime-authenticated S3B runs were generated and redacted: `login-room-list`, `login-join-room-presence`, `login-leave-room`.
+- Protocol mapping expanded to `33` rows total with S3B batch confidence `high=8`, `medium=0`, `low=0`.
+- CLI room commands were validated against the official server in summary mode (`room list/join/members/watch/leave`).
+- Validation gates passed: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.

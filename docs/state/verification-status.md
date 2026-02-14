@@ -2,11 +2,11 @@
 
 ## Objective
 
-Asegurar trazabilidad de evidencia y paridad protocolar para Stage 3A (`auth+search real` + diff semantico).
+Ensure evidence traceability and semantic protocol parity for Stage 3B (Rooms+Presence batch) while preserving Stage 2/S3A guarantees.
 
-## Gates
+## Validation Gates
 
-- KB validation:
+### KB validation
 
 ```bash
 python3 scripts/kb_validate.py
@@ -14,11 +14,11 @@ python3 scripts/kb_validate.py
 
 Checks:
 
-- Name/data maps con evidencia válida.
-- `message_map.csv` con `25/25` mensajes core y umbrales de confianza.
-- `message_schema.json` con evidencia enlazada y umbrales de confianza.
+- Name/data maps contain valid evidence.
+- `message_map.csv` has valid links and confidence values.
+- `message_schema.json` has valid evidence links and schema integrity.
 
-## Differential Verification
+### Differential verification
 
 ```bash
 scripts/run_diff_verify.sh
@@ -27,10 +27,18 @@ scripts/run_diff_verify.sh
 Runs:
 
 1. Fixture parity (`captures/fixtures/*`).
-2. Capture parity para runs obligatorios en `captures/redacted/*`.
-3. Modo por defecto: `semantic` (`VERIFY_MODE=semantic`), con compatibilidad `bytes`.
+2. Runtime redacted capture parity for mandatory scenarios:
+   - `login-only`
+   - `login-search`
+   - `login-search-download`
+   - `upload-deny`
+   - `upload-accept`
+   - `login-room-list`
+   - `login-join-room-presence`
+   - `login-leave-room`
+3. Default mode is semantic (`VERIFY_MODE=semantic`), with backward-compatible bytes mode.
 
-## Regression Suite
+### Full regression
 
 ```bash
 scripts/run_regression.sh
@@ -40,21 +48,37 @@ Includes:
 
 1. Python unit tests (`tests/kb`, `tests/protocol`, `tests/runtime`).
 2. Rust unit/integration tests (`cargo test`).
-3. KB validation gates.
-4. Differential verification gates.
+3. KB validation gate.
+4. Differential verification gate.
+5. Zensical build check (if available).
+
+## Stage 3B Coverage Status
+
+- S3B 8-message Rooms+Presence pack is present in both:
+  - `analysis/ghidra/maps/message_map.csv`
+  - `analysis/protocol/message_schema.json`
+- Confidence distribution for S3B pack:
+  - `high=8`
+  - `medium=0`
+  - `low=0`
+- Runtime evidence is linked for all S3B rows.
+
+## Runtime Evidence Snapshot
+
+- Official server: `server.slsknet.org:2242`
+- Auth tuple used: `160/1`
+- Real room commands validated against authenticated session:
+  - `room list`
+  - `room join`
+  - `room members`
+  - `room watch`
+  - `room leave`
+- S3B runtime redacted scenarios:
+  - `captures/redacted/login-room-list`
+  - `captures/redacted/login-join-room-presence`
+  - `captures/redacted/login-leave-room`
 
 ## Residual Risk
 
-- `code=64` se normaliza con parser summary fallback (`room-list`) para mantener comparación semántica estable.
-- Búsqueda real en esta etapa usa parseo `summary` (no parseo exhaustivo de todos los atributos opcionales de resultados).
-
-## Current Auth Evidence
-
-- Login autenticado real verificado contra servidor oficial con tuple `160/1`.
-- `session.login` y `session.search` reales validados con credencial de prueba local (`.env.local` no versionado).
-- Capturas obligatorias redacted refrescadas y verificadas en modo semántico:
-  - `login-only`
-  - `login-search`
-  - `login-search-download`
-  - `upload-deny`
-  - `upload-accept`
+- `SM_JOIN_ROOM`, `SM_ROOM_MEMBERS`, and `SM_ROOM_OPERATORS` payloads are currently summary-oriented parsers for CLI/verify stability; full field-level exhaustive parsing remains future work.
+- Unknown/partially mapped server messages continue to use semantic fallback normalization (`payload_md5`) in verifier mode.
