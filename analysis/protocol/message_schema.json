@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T19:56:59+00:00",
+  "generated_at": "2026-02-14T20:04:03+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -1588,6 +1588,90 @@
     },
     {
       "scope": "server",
+      "code": 83,
+      "name": "SM_SET_PARENT_MIN_SPEED",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 83 to SM_SET_PARENT_MIN_SPEED (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 84,
+      "name": "SM_SET_PARENT_SPEED_CONNECTION_RATIO",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 84 to SM_SET_PARENT_SPEED_CONNECTION_RATIO (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 86,
+      "name": "SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 86 to SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 87,
+      "name": "SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 87 to SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 88,
+      "name": "SM_NODES_IN_CACHE_BEFORE_DISCONNECT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 88 to SM_NODES_IN_CACHE_BEFORE_DISCONNECT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 90,
+      "name": "SM_SET_SECONDS_BEFORE_PING_CHILDREN",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 90 to SM_SET_SECONDS_BEFORE_PING_CHILDREN (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 92,
       "name": "SM_GET_OWN_PRIVILEGES_STATUS",
       "payload": [
@@ -1626,6 +1710,34 @@
           "kind": "manual_note",
           "source": "evidence/reverse/message_codes_jump_table.md",
           "note": "Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 100,
+      "name": "SM_CAN_PARENT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 100 to SM_CAN_PARENT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 102,
+      "name": "SM_POSSIBLE_PARENTS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly)."
         }
       ]
     },

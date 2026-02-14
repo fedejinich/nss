@@ -16,7 +16,23 @@
 - Stage 4D complete: privilege/messaging gaps + peer legacy cleanup with runtime captures, protocol promotion, and CLI support.
 - Stage 4E complete: private messaging + user-state batch with runtime evidence, typed SDK/CLI operations, and semantic verification updates.
 - Stage 4F complete: global/admin/distributed-control mapping batch with authoritative jump-table evidence (mapping-first expansion).
+- Stage 4G complete: parent/distributed tuning mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Stage 4G Completion
+
+1. Expanded protocol mapping from 75 to 83 rows (`+8` S4G messages) from jump-table evidence:
+   - `SM_SET_PARENT_MIN_SPEED`
+   - `SM_SET_PARENT_SPEED_CONNECTION_RATIO`
+   - `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`
+   - `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`
+   - `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`
+   - `SM_SET_SECONDS_BEFORE_PING_CHILDREN`
+   - `SM_CAN_PARENT`
+   - `SM_POSSIBLE_PARENTS`
+2. Regenerated canonical schema/docs/matrix from authoritative maps.
+3. Preserved runtime+semantic validation baseline while expanding mapped coverage.
+4. Kept S4G rows explicitly as `mapped_not_implemented` pending typed protocol/core/CLI implementation.
 
 ## Stage 4F Completion
 
@@ -97,10 +113,11 @@
 - `tools/runtime/generate_stage4e_private_userstate_captures.py`
 - `docs/pr/0009-s4e-private-messaging-user-state.md`
 - `docs/pr/0010-s4f-global-admin-distributed-map.md`
+- `docs/pr/0011-s4g-parent-distributed-tuning-map.md`
 
 ## Operational Notes
 
 - Stage 2 core contract remains intact (`25/25`, `high=25`, `medium=0`, `low=0`).
-- Total mapped protocol rows: `75`.
-- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `8`, missing `55`.
+- Total mapped protocol rows: `83`.
+- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `16`, missing `47`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.

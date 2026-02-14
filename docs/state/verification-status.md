@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while expanding Stage 4F (global/admin/distributed-control) mapping coverage.
+Ensure evidence traceability and semantic protocol parity baseline while expanding Stage 4G (parent/distributed tuning) mapping coverage.
 
 ## Validation Gates
 
@@ -66,25 +66,25 @@ Includes:
 4. Differential verification gate.
 5. Zensical build check (if available).
 
-## Stage 4F Coverage Status
+## Stage 4G Coverage Status
 
-S4F 8-message mapping contract set is present in:
+S4G 8-message mapping contract set is present in:
 
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
 
 Messages:
 
-- `SM_COMMAND`
-- `SM_ADMIN_MESSAGE`
-- `SM_GLOBAL_USER_LIST`
-- `SM_SEND_DISTRIBUTIONS`
-- `SM_NOTE_PARENT`
-- `SM_CHILD_PARENT_MAP`
-- `SM_DNET_MESSAGE`
-- `SM_DNET_RESET`
+- `SM_SET_PARENT_MIN_SPEED`
+- `SM_SET_PARENT_SPEED_CONNECTION_RATIO`
+- `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`
+- `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`
+- `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`
+- `SM_SET_SECONDS_BEFORE_PING_CHILDREN`
+- `SM_CAN_PARENT`
+- `SM_POSSIBLE_PARENTS`
 
-Confidence distribution for the S4F contract set:
+Confidence distribution for the S4G contract set:
 
 - `high=8`
 - `medium=0`
@@ -94,8 +94,8 @@ Protocol matrix status:
 
 - Tracked message names from static string tables: `131`
 - Implemented + mapped: `67`
-- Mapped not implemented: `8`
-- Missing: `55`
+- Mapped not implemented: `16`
+- Missing: `47`
 - Matrix source: `docs/state/protocol-matrix.md`
 
 ## Runtime Evidence Snapshot
@@ -113,12 +113,12 @@ Protocol matrix status:
 - Peer-address/connect scenario includes code `3` and `18` request/response payloads.
 - Message-users scenario includes code `149`.
 - Peer-message deterministic scenario includes code `68` plus compatibility alias `292`.
-- Stage 4F is mapping-first and currently static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
+- Stage 4F and S4G are mapping-first and currently static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
 
 ## Residual Risk
 
 - `SM_GET_USER_PRIVILEGES_STATUS` remains `medium` from S4C because code `122` is deprecated in public specs and behavior can vary by server implementation.
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- S4F currently adds mapped-not-implemented rows; typed codec/core/CLI support for this domain remains a follow-up stage objective.
-- Several protocol names in string tables remain unmapped (`55` missing in matrix); S4G should prioritize parent/distributed tuning and global control continuation.
+- S4F/S4G currently add mapped-not-implemented rows; typed codec/core/CLI support for these domains remains a follow-up stage objective.
+- Several protocol names in string tables remain unmapped (`47` missing in matrix); S4H should prioritize global room/system control continuation and state events.
 - `PM_SHARED_FILES_IN_FOLDER` response payload is still represented as `directory + compressed bytes`; deep decompression schema remains a follow-up parser task.

@@ -22,8 +22,9 @@ gantt
     S4D Privilege/messaging gaps + peer legacy cleanup :done, s4d, after s4c, 2d
     S4E Private messaging + user-state domain batch :done, s4e, after s4d, 2d
     S4F Global/admin/distributed control mapping batch :done, s4f, after s4e, 1d
+    S4G Parent/distributed tuning continuation mapping batch :done, s4g, after s4f, 1d
     section Planned
-    S4G Parent/distributed tuning continuation :crit, s4g, after s4f, 2d
+    S4H Global room/system control continuation :crit, s4h, after s4g, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -108,7 +109,8 @@ graph TD
 | S4D | privilege/messaging gaps + peer legacy cleanup | done | `docs/pr/0008-s4d-privilege-messaging-peer-legacy.md` | define S4E batch |
 | S4E | private messaging + user-state domain batch | done | `docs/pr/0009-s4e-private-messaging-user-state.md` | define S4F batch |
 | S4F | global/admin/distributed control mapping batch | done | `docs/pr/0010-s4f-global-admin-distributed-map.md` | start S4G implementation batch |
-| S4G | parent/distributed tuning continuation | planned | `docs/state/protocol-backlog.md` | start S4G plan |
+| S4G | parent/distributed tuning continuation mapping batch | done | `docs/pr/0011-s4g-parent-distributed-tuning-map.md` | start S4H implementation batch |
+| S4H | global room/system control continuation | planned | `docs/state/protocol-backlog.md` | start S4H plan |
 
 ## S4B Target Contract
 
@@ -206,10 +208,10 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S4G Preview (Not Started)
+## S4H Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Parent/distributed tuning server domain (`SM_SET_PARENT_MIN_SPEED`, `SM_SET_PARENT_SPEED_CONNECTION_RATIO`, `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`, `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`, `SM_SET_SECONDS_BEFORE_PING_CHILDREN`).
-2. Capability/path continuation (`SM_CAN_PARENT`, `SM_POSSIBLE_PARENTS`, `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`).
-3. Convert S4F mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
+1. Global room/system server domain (`SM_ADD_CHATROOM`, `SM_SET_STATUS`, `SM_HEARTBEAT`, `SM_RELOGGED`, `SM_USER_LIST`, `SM_ROOM_ADDED`, `SM_ROOM_REMOVED`, `SM_CONNECT_TO_CLIENT`).
+2. Convert S4F/S4G mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
+3. Keep runtime evidence capture plan for reachable global/system control paths.
