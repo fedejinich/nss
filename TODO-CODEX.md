@@ -963,25 +963,32 @@ Tasks:
 
 - id: S4H-Q01
   description: Open S4H PR and request first `@codex review`
-  status: todo
+  status: done
   depends_on: [S4H-R01]
 
 - id: S4H-Q02
   description: Triage/apply useful feedback from round 1 and resolve/dismiss comments with rationale
-  status: todo
+  status: done
   depends_on: [S4H-Q01]
 
 - id: S4H-Q03
   description: Request second `@codex review` after round-1 updates
-  status: todo
+  status: done
   depends_on: [S4H-Q02]
 
 - id: S4H-Q04
   description: Triage/apply useful feedback from round 2 and resolve/dismiss comments with rationale
-  status: todo
+  status: done
   depends_on: [S4H-Q03]
 
 - id: S4H-T06
   description: Merge-ready closure with final status synchronization
-  status: todo
+  status: done
   depends_on: [S4H-Q04]
+
+Notes:
+
+- Stage 4H mapping batch landed with confidence gate satisfied: `high=8`, `medium=0`, `low=0`.
+- Protocol matrix snapshot after S4H: tracked `131`, implemented+mapped `67`, mapped-not-implemented `24`, missing `39`.
+- S4H was executed as mapping-first with authoritative static evidence from `message_codes_jump_table.md`; typed protocol/core/cli implementation is scheduled for S4I+.
+- Two `@codex review` requests were posted on PR #11 and the connector reported usage-limit responses without actionable findings.
