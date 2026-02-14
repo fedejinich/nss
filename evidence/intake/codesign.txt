@@ -1,0 +1,28 @@
+Executable=/private/tmp/soulseek_dmg_mount/SoulseekQt.app/Contents/MacOS/SoulseekQt
+Identifier=com.yourcompany.SoulseekQt
+Format=app bundle with Mach-O universal (x86_64 arm64)
+CodeDirectory v=20500 size=28710 flags=0x10000(runtime) hashes=890+3 location=embedded
+VersionPlatform=1
+VersionMin=786432
+VersionSDK=918784
+Hash type=sha256 size=32
+CandidateCDHash sha256=c6b0d43e8848ba09606552dbdeac2410a54918cf
+CandidateCDHashFull sha256=c6b0d43e8848ba09606552dbdeac2410a54918cf513b7a9f2b9ea7fbc4b6e5ad
+Hash choices=sha256
+CMSDigest=c6b0d43e8848ba09606552dbdeac2410a54918cf513b7a9f2b9ea7fbc4b6e5ad
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=2916352
+Executable Segment flags=0x1
+Page size=4096
+CDHash=c6b0d43e8848ba09606552dbdeac2410a54918cf
+Signature size=8969
+Authority=Developer ID Application: nir arbel (5LXL7667Z7)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=16 Jan 2026 at 11:46:12 PM
+Info.plist entries=11
+TeamIdentifier=5LXL7667Z7
+Runtime Version=14.5.0
+Sealed Resources version=2 rules=13 files=39
+Internal requirements count=1 size=188

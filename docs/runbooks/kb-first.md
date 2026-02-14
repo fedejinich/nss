@@ -15,6 +15,8 @@ Establish a mandatory knowledge-base gate before further reverse engineering and
 python3 scripts/kb_promote.py
 ```
 
+Candidate queue files are consumed on each run (emptied after processing). Rejected or medium/low entries remain in `analysis/ghidra/queue/review_queue.jsonl`.
+
 3. Regenerate docs from authoritative maps:
 
 ```bash

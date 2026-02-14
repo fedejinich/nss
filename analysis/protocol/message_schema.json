@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "generated_at": "2026-02-14T03:58:52+00:00",
+  "framing": {
+    "transport": "tcp",
+    "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "kind": "ghidra_decompile",
+        "source": "evidence/reverse/disasm/server_send_message.txt",
+        "note": "Server send path serializes integer fields through MemStream before socket write."
+      },
+      {
+        "kind": "ghidra_decompile",
+        "source": "evidence/reverse/disasm/peer_send_message.txt",
+        "note": "Peer send path mirrors frame serialization through MemStream."
+      }
+    ]
+  },
+  "messages": [
+    {
+      "scope": "peer",
+      "code": 40,
+      "name": "PM_TRANSFER_REQUEST",
+      "payload": [
+        {
+          "name": "direction",
+          "type": "u32"
+        },
+        {
+          "name": "token",
+          "type": "u32"
+        },
+        {
+          "name": "virtual_path",
+          "type": "string"
+        },
+        {
+          "name": "file_size",
+          "type": "u64"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Observed literal in Peer MessageCodeToString dispatch."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
+          "note": "Transfer queue dispatcher handles peer transfer negotiation path."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 41,
+      "name": "PM_TRANSFER_RESPONSE",
+      "payload": [
+        {
+          "name": "token",
+          "type": "u32"
+        },
+        {
+          "name": "allowed",
+          "type": "bool_u32"
+        },
+        {
+          "name": "queue_or_reason",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Observed literal in Peer MessageCodeToString dispatch."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
+          "note": "Transfer queue dispatcher handles peer transfer negotiation path."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 1,
+      "name": "SM_LOGIN",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "password_md5",
+          "type": "string"
+        },
+        {
+          "name": "client_version",
+          "type": "u32"
+        },
+        {
+          "name": "minor_version",
+          "type": "u32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 2,
+      "name": "SM_SET_WAIT_PORT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 3,
+      "name": "SM_GET_PEER_ADDRESS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 26,
+      "name": "SM_FILE_SEARCH",
+      "payload": [
+        {
+          "name": "search_token",
+          "type": "u32"
+        },
+        {
+          "name": "search_text",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/server_file_search.txt",
+          "note": "FileSearch writes constant 0x1a before Server::SendMessage."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/server_file_search.txt",
+          "note": "Function writes constant 0x1a before serializing search payload."
+        }
+      ]
+    }
+  ]
+}

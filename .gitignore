@@ -10,3 +10,8 @@ analysis/binaries/
 
 *.log
 .DS_Store
+SoulseekQt-*.dmg
+rust/target/
+captures/runs/
+captures/golden/*/
+*.pcap

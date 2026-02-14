@@ -1,0 +1,146 @@
+{
+  "generated_at": "2026-02-14T03:55:27+00:00",
+  "binary": "SoulseekQt",
+  "architecture": "arm64",
+  "sources": {
+    "symbols": "/Users/void_rsk/Projects/soul-dec/evidence/reverse/search_download_symbols_nm.txt",
+    "strings": "evidence/reverse/search_download_strings.txt"
+  },
+  "nodes": [
+    {
+      "node_id": "server_prepare_search",
+      "symbol": "Server::PrepareSearch(QString)",
+      "address": "0x00000001000615c0",
+      "stage": "server_tx",
+      "description": "Normaliza texto de busqueda antes de serializar.",
+      "disassembly": "evidence/reverse/disasm/server_prepare_search.txt"
+    },
+    {
+      "node_id": "server_file_search",
+      "symbol": "Server::FileSearch(QString, QString)",
+      "address": "0x0000000100060fa0",
+      "stage": "server_tx",
+      "description": "Construye y envia mensaje de busqueda al servidor.",
+      "disassembly": "evidence/reverse/disasm/server_file_search.txt"
+    },
+    {
+      "node_id": "server_send_message",
+      "symbol": "Server::SendMessage(MemStream&, bool)",
+      "address": "0x0000000100054dac",
+      "stage": "server_tx",
+      "description": "Serializa MemStream en socket de servidor.",
+      "disassembly": "evidence/reverse/disasm/server_send_message.txt"
+    },
+    {
+      "node_id": "server_handle_message",
+      "symbol": "Server::HandleMessage(int, MemStream&)",
+      "address": "0x000000010005521c",
+      "stage": "server_rx",
+      "description": "Despacha mensajes entrantes del servidor.",
+      "disassembly": "evidence/reverse/disasm/server_handle_message.txt"
+    },
+    {
+      "node_id": "peer_queue_download",
+      "symbol": "PeerMessenger::QueueDownload(QString, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)",
+      "address": "0x00000001000a4474",
+      "stage": "peer_tx",
+      "description": "Encapsula solicitud inicial de descarga a peer.",
+      "disassembly": "evidence/reverse/disasm/peer_queue_download.txt"
+    },
+    {
+      "node_id": "peer_send_message",
+      "symbol": "PeerMessenger::SendMessage(QTcpSocket*, MemStream&, bool)",
+      "address": "0x00000001000a0328",
+      "stage": "peer_tx",
+      "description": "Serializa mensajes sobre socket peer.",
+      "disassembly": "evidence/reverse/disasm/peer_send_message.txt"
+    },
+    {
+      "node_id": "peer_handle_message",
+      "symbol": "PeerMessenger::HandleMessage(QTcpSocket*, MemStream)",
+      "address": "0x00000001000964ec",
+      "stage": "peer_rx",
+      "description": "Despacha mensajes entrantes peer a manejadores de transferencia.",
+      "disassembly": "evidence/reverse/disasm/peer_handle_message.txt"
+    },
+    {
+      "node_id": "transfer_on_queue_download",
+      "symbol": "TransferQueueManager::OnQueueDownloadRequested(QString, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, long long)",
+      "address": "0x00000001000f0478",
+      "stage": "transfer_ctrl",
+      "description": "Materializa entrada de cola local y dispara conexion de archivo.",
+      "disassembly": "evidence/reverse/disasm/transfer_on_queue_download.txt"
+    },
+    {
+      "node_id": "transfer_on_file_request",
+      "symbol": "TransferQueueManager::OnFileTransferRequest(QString, int, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, long long)",
+      "address": "0x00000001000d7114",
+      "stage": "transfer_ctrl",
+      "description": "Negocia request/respuesta de transferencia con peer.",
+      "disassembly": "evidence/reverse/disasm/transfer_on_file_request.txt"
+    },
+    {
+      "node_id": "download_read_socket",
+      "symbol": "DownloadTask::readSocket()",
+      "address": "0x00000001000eb9fc",
+      "stage": "download_rx",
+      "description": "Consume bytes del socket para escribir archivo destino.",
+      "disassembly": "evidence/reverse/disasm/download_read_socket.txt"
+    },
+    {
+      "node_id": "upload_write_socket",
+      "symbol": "UploadTask::writeToSocket()",
+      "address": "0x00000001000ea3cc",
+      "stage": "upload_tx",
+      "description": "Publica bytes locales al peer remoto.",
+      "disassembly": "evidence/reverse/disasm/upload_write_socket.txt"
+    }
+  ],
+  "edges": [
+    {
+      "from_id": "server_file_search",
+      "to_id": "server_prepare_search",
+      "reason": "file_search prepara terminos antes de armar frame"
+    },
+    {
+      "from_id": "server_file_search",
+      "to_id": "server_send_message",
+      "reason": "file_search termina en send_message"
+    },
+    {
+      "from_id": "server_send_message",
+      "to_id": "server_handle_message",
+      "reason": "request/response via socket servidor"
+    },
+    {
+      "from_id": "peer_queue_download",
+      "to_id": "transfer_on_queue_download",
+      "reason": "queue_download dispara alta en cola"
+    },
+    {
+      "from_id": "transfer_on_queue_download",
+      "to_id": "peer_send_message",
+      "reason": "cola de descarga emite request al peer"
+    },
+    {
+      "from_id": "peer_send_message",
+      "to_id": "peer_handle_message",
+      "reason": "response peer vuelve por handle_message"
+    },
+    {
+      "from_id": "peer_handle_message",
+      "to_id": "transfer_on_file_request",
+      "reason": "dispatch de transfer_request"
+    },
+    {
+      "from_id": "transfer_on_file_request",
+      "to_id": "download_read_socket",
+      "reason": "request aceptado inicia descarga"
+    },
+    {
+      "from_id": "transfer_on_file_request",
+      "to_id": "upload_write_socket",
+      "reason": "request aceptado puede iniciar upload"
+    }
+  ]
+}

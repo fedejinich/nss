@@ -1,0 +1,7 @@
+scope,code,name,source,status,notes
+server,1,SM_LOGIN,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in MessageCodeToString dispatch.
+server,2,SM_SET_WAIT_PORT,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in MessageCodeToString dispatch.
+server,3,SM_GET_PEER_ADDRESS,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in MessageCodeToString dispatch.
+server,26,SM_FILE_SEARCH,evidence/reverse/disasm/server_file_search.txt,verified_static,FileSearch writes constant 0x1a before Server::SendMessage.
+peer,40,PM_TRANSFER_REQUEST,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in Peer MessageCodeToString dispatch.
+peer,41,PM_TRANSFER_RESPONSE,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in Peer MessageCodeToString dispatch.

@@ -1,0 +1,127 @@
+__ZN13PeerMessenger19MessageCodeToStringEi:
+00000001000a7ce0	pushq	%rbp
+00000001000a7ce1	movq	%rsp, %rbp
+00000001000a7ce4	pushq	%r14
+00000001000a7ce6	pushq	%rbx
+00000001000a7ce7	subq	$0x20, %rsp
+00000001000a7ceb	movq	%rdi, %rbx
+00000001000a7cee	leal	-0x1(%rdx), %eax
+00000001000a7cf1	cmpl	$0x33, %eax
+00000001000a7cf4	ja	0x1000a7d1b
+00000001000a7cf6	leaq	0x233(%rip), %rcx
+00000001000a7cfd	movslq	(%rcx,%rax,4), %rax
+00000001000a7d01	addq	%rcx, %rax
+00000001000a7d04	jmpq	*%rax
+00000001000a7d06	leaq	0x1bf543(%rip), %rdx            ## literal pool for: "PM_SAY"
+00000001000a7d0d	leaq	-0x30(%rbp), %rdi
+00000001000a7d11	movl	$0x6, %esi
+00000001000a7d16	jmp	0x1000a7ef2
+00000001000a7d1b	leaq	-0x30(%rbp), %r14
+00000001000a7d1f	movq	%r14, %rdi
+00000001000a7d22	movl	%edx, %esi
+00000001000a7d24	movl	$0xa, %edx
+00000001000a7d29	callq	0x1002318e5                     ## symbol stub for: __ZN7QString6numberEii
+00000001000a7d2e	leaq	0x1bf740(%rip), %rsi            ## literal pool for: " (unknown)"
+00000001000a7d35	movl	$0xa, %edx
+00000001000a7d3a	movq	%r14, %rdi
+00000001000a7d3d	callq	0x1002318cd                     ## symbol stub for: __ZN7QString6appendE20QBasicUtf8StringViewILb0EE
+00000001000a7d42	movups	(%rax), %xmm0
+00000001000a7d45	xorps	%xmm1, %xmm1
+00000001000a7d48	movups	%xmm1, (%rax)
+00000001000a7d4b	movups	%xmm0, (%rbx)
+00000001000a7d4e	movq	0x10(%rax), %rcx
+00000001000a7d52	movq	$0x0, 0x10(%rax)
+00000001000a7d5a	movq	%rcx, 0x10(%rbx)
+00000001000a7d5e	movq	-0x30(%rbp), %rax
+00000001000a7d62	testq	%rax, %rax
+00000001000a7d65	je	0x1000a7f06
+00000001000a7d6b	lock
+00000001000a7d6c	decl	(%rax)
+00000001000a7d6e	jne	0x1000a7f06
+00000001000a7d74	movq	-0x30(%rbp), %rdi
+00000001000a7d78	movl	$0x2, %esi
+00000001000a7d7d	movl	$0x10, %edx
+00000001000a7d82	callq	0x100231003                     ## symbol stub for: __ZN10QArrayData10deallocateEPS_xx
+00000001000a7d87	jmp	0x1000a7f06
+00000001000a7d8c	leaq	0x1bf4c4(%rip), %rdx            ## literal pool for: "PM_GET_SHARED_FILE_LIST"
+00000001000a7d93	jmp	0x1000a7e7d
+00000001000a7d98	leaq	0x1bf4d0(%rip), %rdx            ## literal pool for: "PM_SHARED_FILE_LIST"
+00000001000a7d9f	jmp	0x1000a7eaa
+00000001000a7da4	leaq	0x1bf4d8(%rip), %rdx            ## literal pool for: "PM_FILE_SEARCH_REQUEST"
+00000001000a7dab	jmp	0x1000a7dbd
+00000001000a7dad	leaq	0x1bf4e6(%rip), %rdx            ## literal pool for: "PM_FILE_SEARCH_RESULT"
+00000001000a7db4	jmp	0x1000a7dfc
+00000001000a7db6	leaq	0x1bf4f3(%rip), %rdx            ## literal pool for: "PM_INVITE_USER_TO_ROOM"
+00000001000a7dbd	leaq	-0x30(%rbp), %rdi
+00000001000a7dc1	movl	$0x16, %esi
+00000001000a7dc6	jmp	0x1000a7ef2
+00000001000a7dcb	leaq	0x1bf4f5(%rip), %rdx            ## literal pool for: "PM_CANCELLED_QUEUED_TRANSFER"
+00000001000a7dd2	jmp	0x1000a7e98
+00000001000a7dd7	leaq	0x1bf506(%rip), %rdx            ## literal pool for: "PM_USER_INFO_REQUEST"
+00000001000a7dde	jmp	0x1000a7e4d
+00000001000a7de0	leaq	0x1bf512(%rip), %rdx            ## literal pool for: "PM_USER_INFO_REPLY"
+00000001000a7de7	leaq	-0x30(%rbp), %rdi
+00000001000a7deb	movl	$0x12, %esi
+00000001000a7df0	jmp	0x1000a7ef2
+00000001000a7df5	leaq	0x1bf510(%rip), %rdx            ## literal pool for: "PM_SEND_CONNECT_TOKEN"
+00000001000a7dfc	leaq	-0x30(%rbp), %rdi
+00000001000a7e00	movl	$0x15, %esi
+00000001000a7e05	jmp	0x1000a7ef2
+00000001000a7e0a	leaq	0x1bf511(%rip), %rdx            ## literal pool for: "PM_MOVE_DOWNLOAD_TO_TOP"
+00000001000a7e11	jmp	0x1000a7e7d
+00000001000a7e13	leaq	0x1bf520(%rip), %rdx            ## literal pool for: "PM_GET_SHARED_FILES_IN_FOLDER"
+00000001000a7e1a	leaq	-0x30(%rbp), %rdi
+00000001000a7e1e	movl	$0x1d, %esi
+00000001000a7e23	jmp	0x1000a7ef2
+00000001000a7e28	leaq	0x1bf529(%rip), %rdx            ## literal pool for: "PM_SHARED_FILES_IN_FOLDER"
+00000001000a7e2f	leaq	-0x30(%rbp), %rdi
+00000001000a7e33	movl	$0x19, %esi
+00000001000a7e38	jmp	0x1000a7ef2
+00000001000a7e3d	leaq	0x1bf52e(%rip), %rdx            ## literal pool for: "PM_TRANSFER_REQUEST"
+00000001000a7e44	jmp	0x1000a7eaa
+00000001000a7e46	leaq	0x1bf539(%rip), %rdx            ## literal pool for: "PM_TRANSFER_RESPONSE"
+00000001000a7e4d	leaq	-0x30(%rbp), %rdi
+00000001000a7e51	movl	$0x14, %esi
+00000001000a7e56	jmp	0x1000a7ef2
+00000001000a7e5b	leaq	0x1bf539(%rip), %rdx            ## literal pool for: "PM_PLACEHOLD_UPLOAD"
+00000001000a7e62	jmp	0x1000a7eaa
+00000001000a7e64	leaq	0x1bf544(%rip), %rdx            ## literal pool for: "PM_QUEUE_UPLOAD"
+00000001000a7e6b	leaq	-0x30(%rbp), %rdi
+00000001000a7e6f	movl	$0xf, %esi
+00000001000a7e74	jmp	0x1000a7ef2
+00000001000a7e76	leaq	0x1bf542(%rip), %rdx            ## literal pool for: "PM_UPLOAD_PLACE_IN_LINE"
+00000001000a7e7d	leaq	-0x30(%rbp), %rdi
+00000001000a7e81	movl	$0x17, %esi
+00000001000a7e86	jmp	0x1000a7ef2
+00000001000a7e88	leaq	0x1bf548(%rip), %rdx            ## literal pool for: "PM_UPLOAD_FAILED"
+00000001000a7e8f	jmp	0x1000a7ec5
+00000001000a7e91	leaq	0x1bf550(%rip), %rdx            ## literal pool for: "PM_EXACT_FILE_SEARCH_REQUEST"
+00000001000a7e98	leaq	-0x30(%rbp), %rdi
+00000001000a7e9c	movl	$0x1c, %esi
+00000001000a7ea1	jmp	0x1000a7ef2
+00000001000a7ea3	leaq	0x1bf55b(%rip), %rdx            ## literal pool for: "PM_QUEUED_DOWNLOADS"
+00000001000a7eaa	leaq	-0x30(%rbp), %rdi
+00000001000a7eae	movl	$0x13, %esi
+00000001000a7eb3	jmp	0x1000a7ef2
+00000001000a7eb5	leaq	0x1bf55d(%rip), %rdx            ## literal pool for: "PM_INDIRECT_FILE_SEARCH_REQUEST"
+00000001000a7ebc	jmp	0x1000a7ed7
+00000001000a7ebe	leaq	0x1bf574(%rip), %rdx            ## literal pool for: "PM_UPLOAD_DENIED"
+00000001000a7ec5	leaq	-0x30(%rbp), %rdi
+00000001000a7ec9	movl	$0x10, %esi
+00000001000a7ece	jmp	0x1000a7ef2
+00000001000a7ed0	leaq	0x1bf573(%rip), %rdx            ## literal pool for: "PM_UPLOAD_PLACE_IN_LINE_REQUEST"
+00000001000a7ed7	leaq	-0x30(%rbp), %rdi
+00000001000a7edb	movl	$0x1f, %esi
+00000001000a7ee0	jmp	0x1000a7ef2
+00000001000a7ee2	leaq	0x1bf581(%rip), %rdx            ## literal pool for: "PM_NOTHING"
+00000001000a7ee9	leaq	-0x30(%rbp), %rdi
+00000001000a7eed	movl	$0xa, %esi
+00000001000a7ef2	callq	0x10023191b                     ## symbol stub for: __ZN7QString8fromUtf8E14QByteArrayView
+00000001000a7ef7	movaps	-0x30(%rbp), %xmm0
+00000001000a7efb	movups	%xmm0, (%rbx)
+00000001000a7efe	movq	-0x20(%rbp), %rax
+00000001000a7f02	movq	%rax, 0x10(%rbx)
+00000001000a7f06	movq	%rbx, %rax
+00000001000a7f09	addq	$0x20, %rsp
+00000001000a7f0d	popq	%rbx
+00000001000a7f0e	popq	%r14

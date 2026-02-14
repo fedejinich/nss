@@ -1,0 +1,3 @@
+/tmp/soulseek_dmg_mount/SoulseekQt.app/Contents/MacOS/SoulseekQt: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64]
+/tmp/soulseek_dmg_mount/SoulseekQt.app/Contents/MacOS/SoulseekQt (for architecture x86_64):	Mach-O 64-bit executable x86_64
+/tmp/soulseek_dmg_mount/SoulseekQt.app/Contents/MacOS/SoulseekQt (for architecture arm64):	Mach-O 64-bit executable arm64

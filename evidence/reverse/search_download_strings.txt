@@ -1,0 +1,712 @@
+_uploadsH
+_uploadsH
+downloadH
+transferH
+upload_oH
+downloadH
+downloadH
+downloadH
+downloadH
+downloadH
+downloadH
+downloadH
+downloadH
+downloadH
+downloadH
+upload_eH
+upload_tH
+downloadH
+downloadH
+downloadH
+transferH
+transferH
+downloadH
+downloadH
+upload_eH
+upload_oH
+downloadH
+upload_eH
+upload_tH
+transferH
+downloadH
+downloadH
+upload_tH
+upload_tH
+upload_tH
+upload_tH
+downloadH
+downloadH
+downloadH
+downloadH
+upload_eH
+upload_eH
+upload_oH
+downloadH
+upload_eH
+downloadH
+upload_eH
+downloadH
+_uploadsH
+downloadH
+upload_eH
+upload_eH
+set_download_folder
+use_download_folder_dialog
+transfer_queued
+transfer_complete
+transfer_in_progress
+transfer_failed
+transfer_paused
+transfer_other
+download_folder
+show_downloads_and_uploads_in_same_tab
+use_old_style_transfers
+dont_create_subfolders_for_single_downloads
+dont_split_downloads
+transfers
+accept_userlist_uploads
+max_queued_uploads_per_user_enabled
+immediately_upload_small_files_enabled
+max_queued_uploads_per_user
+immediately_upload_small_files_kb
+download_folders_on_double_click
+excluded_download_extension
+download
+Many Soulseek users require that you share something before downloading from them. Would you like to share a folder now?
+transfersTab
+transfersForm
+downloadFolderEdit
+downloadFolderSpacer
+downloadFoldersOnDoubleClickCheckBox
+downloadAlertSoundEdit
+downloadAlertSoundSelectFileButton
+downloadAlertSoundClearButton
+Limit maximum number of queued uploads per user
+Limit maximum megabytes of queued uploads per user
+Immediately upload files smaller than
+Accept uploads from all user list users
+Send warning message to downloading users with empty shares
+Filename extensions excluded from folder downloads:
+Don't create subfolders for single downloads
+Don't put downloads in Downloading and Complete folders
+Show files in folder dialog when downloading folders from search results
+Use old-style transfers view (list instead of tree, requires a client restart to apply)
+Show uploads and downloads in same tab
+average_download_speed
+group_download_priority
+accept_uploads
+search_request_text
+search_request
+SM_DNET_LEVEL %1
+SM_DNET_GROUP_LEADER %1
+SM_SEND_DISTRIBUTIONS %1
+SM_LOGIN
+SM_SET_WAIT_PORT
+SM_GET_PEER_ADDRESS
+SM_ADD_USER
+SM_REMOVE_USER
+SM_GET_USER_STATUS
+SM_ADD_CHATROOM
+SM_IGNORE_USER
+SM_UNIGNORE_USER
+SM_SAY_CHATROOM
+SM_JOIN_ROOM
+SM_LEAVE_ROOM
+SM_USER_JOINED_ROOM
+SM_USER_LEFT_ROOM
+SM_CONNECT_TO_PEER
+SM_MESSAGE_USER
+SM_MESSAGE_ACKED
+SM_FILE_SEARCH
+SM_SET_STATUS
+SM_HEARTBEAT
+SM_SEND_CONNECT_TOKEN
+SM_DOWNLOAD_SPEED
+SM_SHARED_FOLDERS_FILES
+SM_GET_USER_STATS
+SM_RELOGGED
+SM_SEARCH_USER_FILES
+SM_GET_SIMILAR_TERMS
+SM_ADD_LIKE_TERM
+SM_REMOVE_LIKE_TERM
+SM_GET_RECOMMENDATIONS
+SM_GET_MY_RECOMMENDATIONS
+SM_GET_GLOBAL_RECOMMENDATIONS
+SM_GET_USER_RECOMMENDATIONS
+SM_COMMAND
+SM_PLACE_IN_LINE
+SM_PLACE_IN_LINE_RESPONSE
+SM_USER_LIST
+SM_ROOM_ADDED
+SM_ROOM_REMOVED
+SM_ROOM_LIST
+SM_EXACT_FILE_SEARCH
+SM_ADMIN_MESSAGE
+SM_GLOBAL_USER_LIST
+SM_PEER_MESSAGE
+SM_PRIVILEGED_LIST
+SM_CONNECT_TO_CLIENT
+SM_SEND_DISTRIBUTIONS
+SM_NOTE_PARENT
+SM_CHILD_PARENT_MAP
+SM_SET_PARENT_MIN_SPEED
+SM_SET_PARENT_SPEED_CONNECTION_RATIO
+SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT
+SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT
+SM_NODES_IN_CACHE_BEFORE_DISCONNECT
+SM_SET_SECONDS_BEFORE_PING_CHILDREN
+SM_ADD_PRIVILEGED_USER
+SM_GET_OWN_PRIVILEGES_STATUS
+SM_DNET_MESSAGE
+SM_CAN_PARENT
+SM_POSSIBLE_PARENTS
+SM_LOW_PRIORITY_FILE_SEARCH
+SM_WISHLIST_WAIT
+SM_GET_RECOMMENDED_USERS
+SM_GET_TERM_RECOMMENDATIONS
+SM_GET_RECOMMENDATION_USERS
+SM_GET_ROOM_TICKER
+SM_ROOM_TICKER_USER_ADDED
+SM_ROOM_TICKER_USER_REMOVED
+SM_SET_TICKER
+SM_ADD_HATE_TERM
+SM_REMOVE_HATE_TERM
+SM_SEARCH_ROOM
+SM_UPLOAD_SPEED
+SM_GET_USER_PRIVILEGES_STATUS
+SM_GIVE_PRIVILEGE
+SM_INFORM_USER_OF_PRIVILEGES
+SM_INFORM_USER_OF_PRIVILEGES_ACK
+SM_DNET_LEVEL
+SM_DNET_GROUP_LEADER
+SM_DNET_DELIVERY_REPORT
+SM_DNET_CHILD_DEPTH
+SM_DNET_RESET
+SM_FLOOD
+SM_BAN_USER
+SM_ROOM_MEMBERS
+SM_ADD_ROOM_MEMBER
+SM_REMOVE_ROOM_MEMBER
+SM_REMOVE_OWN_ROOM_MEMBERSHIP
+SM_GIVE_UP_ROOM
+SM_TRANSFER_ROOM_OWNERSHIP
+SM_ADD_ROOM_MEMBERSHIP
+SM_REMOVE_ROOM_MEMBERSHIP
+SM_ENABLE_PRIVATE_ROOM_ADD
+SM_CHANGE_PASSWORD
+SM_ADD_ROOM_OPERATOR
+SM_REMOVE_ROOM_OPERATOR
+SM_ADD_ROOM_OPERATORSHIP
+SM_REMOVE_ROOM_OPERATORSHIP
+SM_REMOVE_OWN_ROOM_OPERATORSHIP
+SM_ROOM_OPERATORS
+SM_MESSAGE_USERS
+SM_JOIN_GLOBAL_ROOM
+SM_LEAVE_GLOBAL_ROOM
+SM_SAY_GLOBAL_ROOM
+SM_SEARCH_CORRELATIONS
+:/icons/download_icon
+:/icons/transfer_icon
+transfer_req_counter
+PM_SAY
+PM_GET_SHARED_FILE_LIST
+PM_SHARED_FILE_LIST
+PM_FILE_SEARCH_REQUEST
+PM_FILE_SEARCH_RESULT
+PM_INVITE_USER_TO_ROOM
+PM_CANCELLED_QUEUED_TRANSFER
+PM_USER_INFO_REQUEST
+PM_USER_INFO_REPLY
+PM_SEND_CONNECT_TOKEN
+PM_MOVE_DOWNLOAD_TO_TOP
+PM_GET_SHARED_FILES_IN_FOLDER
+PM_SHARED_FILES_IN_FOLDER
+PM_TRANSFER_REQUEST
+PM_TRANSFER_RESPONSE
+PM_PLACEHOLD_UPLOAD
+PM_QUEUE_UPLOAD
+PM_UPLOAD_PLACE_IN_LINE
+PM_UPLOAD_FAILED
+PM_EXACT_FILE_SEARCH_REQUEST
+PM_QUEUED_DOWNLOADS
+PM_INDIRECT_FILE_SEARCH_REQUEST
+PM_UPLOAD_DENIED
+PM_UPLOAD_PLACE_IN_LINE_REQUEST
+PM_NOTHING
+search_results_uploads_in_queue
+2DirectFileSearch(QString,quint32,QString)
+1onDirectFileSearch(QString,quint32,QString)
+finish_uploads_and_quit
+upload_speed
+download_entry
+transfer_req
+remote_transfer_req
+download_entry_status
+download_order
+upload_entry_status
+upload_order
+download_task
+single_download
+download_retry_count
+upload_entry
+upload_start_time
+upload_task
+effective_upload_order
+immediate_upload
+2QueueDownloadRequested(QString,string,qint64)
+1OnQueueDownloadRequested(QString,string,qint64)
+transfer_order_counter
+downloading
+uploading
+upload_speed_limit
+upload_speed_limit_enabled
+download_speed_limit
+download_speed_limit_enabled
+upload_slots
+It looks like you're not sharing any files. Please share something before downloading anything from my own shares. Thanks.
+Requeueing downloads from user %1
+Received upload request from %1 for file %2, req %3
+Transfer is already downloading, cancelling...
+/downloading
+2downloadError(QString)
+2downloadProgress(qint64,int)
+2downloadComplete()
+Queue upload requested by %1 for file %2
+2uploadError(QString)
+2uploadProgress(qint64,int)
+2uploadComplete()
+Received file transfer response from user %1 for req %2, transfer %3
+Found download, not processing
+Found upload
+File could not be opened, marking local error and sending denial message. Shouldn't we have done this before we requested the transfer?
+Neither upload or download attached to req, weird
+Received peer notification from %1 that upload of %2 failed
+Received peer notification from %1 that upload of %2 was denied, reason: %3
+Upload of %1 to %2 aborted, sending upload failed notification.
+last_upload_state_change
+Requesting place in line for download of %1 from %2
+Error uploading %1 to %2. %3
+Recording upload speed of %1
+Error downloading %1 from %2. %3
+Initiating upload to %1 of file %2
+Can't upload, file is either not shared or not shared with that particular user.
+download_list_user_node
+download_list_folder_node
+download_list_node
+upload_list_user_node
+upload_list_folder_node
+upload_list_node
+downloads
+expand_download_folders
+expand_download_users
+clear_complete_downloads
+open_download_folder
+uploads
+expand_upload_folders
+expand_upload_users
+clear_complete_and_aborted_uploads
+2downloadComplete(Item)
+complete_download_alert
+download_list
+upload_list
+remove_download
+clear_complete_aborted_uploads
+All download from user %1 complete
+transfers_splitter
+transfersTabControl
+downloadsTab
+downloadsTabLayout
+downloadsWidget
+downloadsList
+downloadLimitCheckBox
+downloadLimitSpinBox
+uploadsTab
+uploadsTabLayout
+uploadsWidget
+uploadsList
+uploadSlotsSpinBox
+uploadLimitCheckBox
+uploadLimitSpinBox
+upload_share_tab
+upload_folders
+Accept uploads from users in this group
+Defines the download priority of users belonging to this group. Users who belong to more than one group will be prioritized by their highest-ranked group.
+A priority of 0 will not affect the order of downloads by users of this group relative to other downloads. A priority of 1 or more will order downloads by users of this group ahead of all other downloads, except for ones with a higher priority.
+Retry downloads
+Retry download
+Pause downloads
+Pause download
+Resume downloads
+Resume download
+Remove downloads
+Remove download
+File download completes
+Folder download completes
+All downloads from user complete
+:/icons/downloads_icon
+Initiating folder download for tree node %1
+upload_form_splitter
+upload_form_file_list
+:/icons/upload_icon
+downloadButton
+uploadSlotsEdit
+Free to upload?
+Queued uploads
+Remove uploads
+Remove upload
+downloadSelectedButton
+transfer-encoding
+i_downloadLink
+DirectFileSearch
+i_uploadSpeed
+i_uploadsInQueue
+QueueDownloadRequested
+i_uploadSlots
+onDirectFileSearch
+i_uploadSpeed
+i_uploadsInQueue
+i_download
+i_upload
+OnQueueDownloadRequested
+uploadError
+uploadProgress
+uploadComplete
+downloadError
+downloadProgress
+downloadComplete
+downloadComplete
+i_download
+i_upload
+i_download
+i_downloadLink
+i_uploadSlots
+set_download_folder
+use_download_folder_dialog
+transfer_queued
+transfer_complete
+transfer_in_progress
+transfer_failed
+transfer_paused
+transfer_other
+download_folder
+show_downloads_and_uploads_in_same_tab
+use_old_style_transfers
+dont_create_subfolders_for_single_downloads
+dont_split_downloads
+transfers
+accept_userlist_uploads
+max_queued_uploads_per_user_enabled
+immediately_upload_small_files_enabled
+max_queued_uploads_per_user
+immediately_upload_small_files_kb
+download_folders_on_double_click
+excluded_download_extension
+download
+Many Soulseek users require that you share something before downloading from them. Would you like to share a folder now?
+transfersTab
+transfersForm
+downloadFolderEdit
+downloadFolderSpacer
+downloadFoldersOnDoubleClickCheckBox
+downloadAlertSoundEdit
+downloadAlertSoundSelectFileButton
+downloadAlertSoundClearButton
+Limit maximum number of queued uploads per user
+Limit maximum megabytes of queued uploads per user
+Immediately upload files smaller than
+Accept uploads from all user list users
+Send warning message to downloading users with empty shares
+Filename extensions excluded from folder downloads:
+Don't create subfolders for single downloads
+Don't put downloads in Downloading and Complete folders
+Show files in folder dialog when downloading folders from search results
+Use old-style transfers view (list instead of tree, requires a client restart to apply)
+Show uploads and downloads in same tab
+average_download_speed
+group_download_priority
+accept_uploads
+search_request_text
+search_request
+SM_DNET_LEVEL %1
+SM_DNET_GROUP_LEADER %1
+SM_SEND_DISTRIBUTIONS %1
+SM_LOGIN
+SM_SET_WAIT_PORT
+SM_GET_PEER_ADDRESS
+SM_ADD_USER
+SM_REMOVE_USER
+SM_GET_USER_STATUS
+SM_ADD_CHATROOM
+SM_IGNORE_USER
+SM_UNIGNORE_USER
+SM_SAY_CHATROOM
+SM_JOIN_ROOM
+SM_LEAVE_ROOM
+SM_USER_JOINED_ROOM
+SM_USER_LEFT_ROOM
+SM_CONNECT_TO_PEER
+SM_MESSAGE_USER
+SM_MESSAGE_ACKED
+SM_FILE_SEARCH
+SM_SET_STATUS
+SM_HEARTBEAT
+SM_SEND_CONNECT_TOKEN
+SM_DOWNLOAD_SPEED
+SM_SHARED_FOLDERS_FILES
+SM_GET_USER_STATS
+SM_RELOGGED
+SM_SEARCH_USER_FILES
+SM_GET_SIMILAR_TERMS
+SM_ADD_LIKE_TERM
+SM_REMOVE_LIKE_TERM
+SM_GET_RECOMMENDATIONS
+SM_GET_MY_RECOMMENDATIONS
+SM_GET_GLOBAL_RECOMMENDATIONS
+SM_GET_USER_RECOMMENDATIONS
+SM_COMMAND
+SM_PLACE_IN_LINE
+SM_PLACE_IN_LINE_RESPONSE
+SM_USER_LIST
+SM_ROOM_ADDED
+SM_ROOM_REMOVED
+SM_ROOM_LIST
+SM_EXACT_FILE_SEARCH
+SM_ADMIN_MESSAGE
+SM_GLOBAL_USER_LIST
+SM_PEER_MESSAGE
+SM_PRIVILEGED_LIST
+SM_CONNECT_TO_CLIENT
+SM_SEND_DISTRIBUTIONS
+SM_NOTE_PARENT
+SM_CHILD_PARENT_MAP
+SM_SET_PARENT_MIN_SPEED
+SM_SET_PARENT_SPEED_CONNECTION_RATIO
+SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT
+SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT
+SM_NODES_IN_CACHE_BEFORE_DISCONNECT
+SM_SET_SECONDS_BEFORE_PING_CHILDREN
+SM_ADD_PRIVILEGED_USER
+SM_GET_OWN_PRIVILEGES_STATUS
+SM_DNET_MESSAGE
+SM_CAN_PARENT
+SM_POSSIBLE_PARENTS
+SM_LOW_PRIORITY_FILE_SEARCH
+SM_WISHLIST_WAIT
+SM_GET_RECOMMENDED_USERS
+SM_GET_TERM_RECOMMENDATIONS
+SM_GET_RECOMMENDATION_USERS
+SM_GET_ROOM_TICKER
+SM_ROOM_TICKER_USER_ADDED
+SM_ROOM_TICKER_USER_REMOVED
+SM_SET_TICKER
+SM_ADD_HATE_TERM
+SM_REMOVE_HATE_TERM
+SM_SEARCH_ROOM
+SM_UPLOAD_SPEED
+SM_GET_USER_PRIVILEGES_STATUS
+SM_GIVE_PRIVILEGE
+SM_INFORM_USER_OF_PRIVILEGES
+SM_INFORM_USER_OF_PRIVILEGES_ACK
+SM_DNET_LEVEL
+SM_DNET_GROUP_LEADER
+SM_DNET_DELIVERY_REPORT
+SM_DNET_CHILD_DEPTH
+SM_DNET_RESET
+SM_FLOOD
+SM_BAN_USER
+SM_ROOM_MEMBERS
+SM_ADD_ROOM_MEMBER
+SM_REMOVE_ROOM_MEMBER
+SM_REMOVE_OWN_ROOM_MEMBERSHIP
+SM_GIVE_UP_ROOM
+SM_TRANSFER_ROOM_OWNERSHIP
+SM_ADD_ROOM_MEMBERSHIP
+SM_REMOVE_ROOM_MEMBERSHIP
+SM_ENABLE_PRIVATE_ROOM_ADD
+SM_CHANGE_PASSWORD
+SM_ADD_ROOM_OPERATOR
+SM_REMOVE_ROOM_OPERATOR
+SM_ADD_ROOM_OPERATORSHIP
+SM_REMOVE_ROOM_OPERATORSHIP
+SM_REMOVE_OWN_ROOM_OPERATORSHIP
+SM_ROOM_OPERATORS
+SM_MESSAGE_USERS
+SM_JOIN_GLOBAL_ROOM
+SM_LEAVE_GLOBAL_ROOM
+SM_SAY_GLOBAL_ROOM
+SM_SEARCH_CORRELATIONS
+:/icons/download_icon
+:/icons/transfer_icon
+transfer_req_counter
+PM_SAY
+PM_GET_SHARED_FILE_LIST
+PM_SHARED_FILE_LIST
+PM_FILE_SEARCH_REQUEST
+PM_FILE_SEARCH_RESULT
+PM_INVITE_USER_TO_ROOM
+PM_CANCELLED_QUEUED_TRANSFER
+PM_USER_INFO_REQUEST
+PM_USER_INFO_REPLY
+PM_SEND_CONNECT_TOKEN
+PM_MOVE_DOWNLOAD_TO_TOP
+PM_GET_SHARED_FILES_IN_FOLDER
+PM_SHARED_FILES_IN_FOLDER
+PM_TRANSFER_REQUEST
+PM_TRANSFER_RESPONSE
+PM_PLACEHOLD_UPLOAD
+PM_QUEUE_UPLOAD
+PM_UPLOAD_PLACE_IN_LINE
+PM_UPLOAD_FAILED
+PM_EXACT_FILE_SEARCH_REQUEST
+PM_QUEUED_DOWNLOADS
+PM_INDIRECT_FILE_SEARCH_REQUEST
+PM_UPLOAD_DENIED
+PM_UPLOAD_PLACE_IN_LINE_REQUEST
+PM_NOTHING
+search_results_uploads_in_queue
+2DirectFileSearch(QString,quint32,QString)
+1onDirectFileSearch(QString,quint32,QString)
+finish_uploads_and_quit
+upload_speed
+download_entry
+transfer_req
+remote_transfer_req
+download_entry_status
+download_order
+upload_entry_status
+upload_order
+download_task
+single_download
+download_retry_count
+upload_entry
+upload_start_time
+upload_task
+effective_upload_order
+immediate_upload
+2QueueDownloadRequested(QString,string,qint64)
+1OnQueueDownloadRequested(QString,string,qint64)
+transfer_order_counter
+downloading
+uploading
+upload_speed_limit
+upload_speed_limit_enabled
+download_speed_limit
+download_speed_limit_enabled
+upload_slots
+It looks like you're not sharing any files. Please share something before downloading anything from my own shares. Thanks.
+Requeueing downloads from user %1
+Received upload request from %1 for file %2, req %3
+Transfer is already downloading, cancelling...
+/downloading
+2downloadError(QString)
+2downloadProgress(qint64,int)
+2downloadComplete()
+Queue upload requested by %1 for file %2
+2uploadError(QString)
+2uploadProgress(qint64,int)
+2uploadComplete()
+Received file transfer response from user %1 for req %2, transfer %3
+Found download, not processing
+Found upload
+File could not be opened, marking local error and sending denial message. Shouldn't we have done this before we requested the transfer?
+Neither upload or download attached to req, weird
+Received peer notification from %1 that upload of %2 failed
+Received peer notification from %1 that upload of %2 was denied, reason: %3
+Upload of %1 to %2 aborted, sending upload failed notification.
+last_upload_state_change
+Requesting place in line for download of %1 from %2
+Error uploading %1 to %2. %3
+Recording upload speed of %1
+Error downloading %1 from %2. %3
+Initiating upload to %1 of file %2
+Can't upload, file is either not shared or not shared with that particular user.
+download_list_user_node
+download_list_folder_node
+download_list_node
+upload_list_user_node
+upload_list_folder_node
+upload_list_node
+downloads
+expand_download_folders
+expand_download_users
+clear_complete_downloads
+open_download_folder
+uploads
+expand_upload_folders
+expand_upload_users
+clear_complete_and_aborted_uploads
+2downloadComplete(Item)
+complete_download_alert
+download_list
+upload_list
+remove_download
+clear_complete_aborted_uploads
+All download from user %1 complete
+transfers_splitter
+transfersTabControl
+downloadsTab
+downloadsTabLayout
+downloadsWidget
+downloadsList
+downloadLimitCheckBox
+downloadLimitSpinBox
+uploadsTab
+uploadsTabLayout
+uploadsWidget
+uploadsList
+uploadSlotsSpinBox
+uploadLimitCheckBox
+uploadLimitSpinBox
+upload_share_tab
+upload_folders
+Accept uploads from users in this group
+Defines the download priority of users belonging to this group. Users who belong to more than one group will be prioritized by their highest-ranked group.
+A priority of 0 will not affect the order of downloads by users of this group relative to other downloads. A priority of 1 or more will order downloads by users of this group ahead of all other downloads, except for ones with a higher priority.
+Retry downloads
+Retry download
+Pause downloads
+Pause download
+Resume downloads
+Resume download
+Remove downloads
+Remove download
+File download completes
+Folder download completes
+All downloads from user complete
+:/icons/downloads_icon
+Initiating folder download for tree node %1
+upload_form_splitter
+upload_form_file_list
+:/icons/upload_icon
+downloadButton
+uploadSlotsEdit
+Free to upload?
+Queued uploads
+Remove uploads
+Remove upload
+downloadSelectedButton
+transfer-encoding
+i_downloadLink
+DirectFileSearch
+i_uploadSpeed
+i_uploadsInQueue
+QueueDownloadRequested
+i_uploadSlots
+onDirectFileSearch
+i_uploadSpeed
+i_uploadsInQueue
+i_download
+i_upload
+OnQueueDownloadRequested
+uploadError
+uploadProgress
+uploadComplete
+downloadError
+downloadProgress
+downloadComplete
+downloadComplete
+i_download
+i_upload
+i_download
+i_downloadLink
+i_uploadSlots

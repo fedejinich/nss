@@ -1,0 +1,394 @@
+Current executable set to '/Users/void_rsk/Projects/soul-dec/analysis/binaries/SoulseekQt' (arm64).
+SoulseekQt`Server::FileSearch:
+SoulseekQt[0x100060fa0] <+0>:    sub    sp, sp, #0x180
+SoulseekQt[0x100060fa4] <+4>:    stp    x26, x25, [sp, #0x130]
+SoulseekQt[0x100060fa8] <+8>:    stp    x24, x23, [sp, #0x140]
+SoulseekQt[0x100060fac] <+12>:   stp    x22, x21, [sp, #0x150]
+SoulseekQt[0x100060fb0] <+16>:   stp    x20, x19, [sp, #0x160]
+SoulseekQt[0x100060fb4] <+20>:   stp    x29, x30, [sp, #0x170]
+SoulseekQt[0x100060fb8] <+24>:   add    x29, sp, #0x170
+SoulseekQt[0x100060fbc] <+28>:   mov    x21, x2
+SoulseekQt[0x100060fc0] <+32>:   mov    x22, x1
+SoulseekQt[0x100060fc4] <+36>:   mov    x19, x0
+SoulseekQt[0x100060fc8] <+40>:   ldp    x8, x9, [x1]
+SoulseekQt[0x100060fcc] <+44>:   stp    x8, x9, [x29, #-0x58]
+SoulseekQt[0x100060fd0] <+48>:   ldr    x9, [x1, #0x10]
+SoulseekQt[0x100060fd4] <+52>:   stur   x9, [x29, #-0x48]
+SoulseekQt[0x100060fd8] <+56>:   cbz    x8, 0x100060fe4           ; <+68>
+SoulseekQt[0x100060fdc] <+60>:   mov    w9, #0x1                  ; =1 
+SoulseekQt[0x100060fe0] <+64>:   ldaddal w9, w8, [x8]
+SoulseekQt[0x100060fe4] <+68>:   sub    x8, x29, #0x78
+SoulseekQt[0x100060fe8] <+72>:   sub    x1, x29, #0x58
+SoulseekQt[0x100060fec] <+76>:   bl     0x1000615c0               ; Server::PrepareSearch(QString)
+SoulseekQt[0x100060ff0] <+80>:   add    x25, sp, #0xa0
+SoulseekQt[0x100060ff4] <+84>:   ldur   q0, [x25, #0x58]
+SoulseekQt[0x100060ff8] <+88>:   ldp    x8, x9, [x22]
+SoulseekQt[0x100060ffc] <+92>:   str    q0, [x22]
+SoulseekQt[0x100061000] <+96>:   stp    x8, x9, [x29, #-0x78]
+SoulseekQt[0x100061004] <+100>:  ldr    x9, [x22, #0x10]
+SoulseekQt[0x100061008] <+104>:  ldur   x10, [x29, #-0x68]
+SoulseekQt[0x10006100c] <+108>:  str    x10, [x22, #0x10]
+SoulseekQt[0x100061010] <+112>:  stur   x9, [x29, #-0x68]
+SoulseekQt[0x100061014] <+116>:  cbz    x8, 0x100061038           ; <+152>
+SoulseekQt[0x100061018] <+120>:  mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x10006101c] <+124>:  ldaddal w9, w8, [x8]
+SoulseekQt[0x100061020] <+128>:  cmp    w8, #0x1
+SoulseekQt[0x100061024] <+132>:  b.ne   0x100061038               ; <+152>
+SoulseekQt[0x100061028] <+136>:  ldur   x0, [x29, #-0x78]
+SoulseekQt[0x10006102c] <+140>:  mov    w1, #0x2                  ; =2 
+SoulseekQt[0x100061030] <+144>:  mov    w2, #0x8                  ; =8 
+SoulseekQt[0x100061034] <+148>:  bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x100061038] <+152>:  ldur   x8, [x29, #-0x58]
+SoulseekQt[0x10006103c] <+156>:  cbz    x8, 0x100061060           ; <+192>
+SoulseekQt[0x100061040] <+160>:  mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x100061044] <+164>:  ldaddal w9, w8, [x8]
+SoulseekQt[0x100061048] <+168>:  cmp    w8, #0x1
+SoulseekQt[0x10006104c] <+172>:  b.ne   0x100061060               ; <+192>
+SoulseekQt[0x100061050] <+176>:  ldur   x0, [x29, #-0x58]
+SoulseekQt[0x100061054] <+180>:  mov    w1, #0x2                  ; =2 
+SoulseekQt[0x100061058] <+184>:  mov    w2, #0x8                  ; =8 
+SoulseekQt[0x10006105c] <+188>:  bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x100061060] <+192>:  ldr    w20, [x19, #0x40]
+SoulseekQt[0x100061064] <+196>:  add    w8, w20, #0x1
+SoulseekQt[0x100061068] <+200>:  str    w8, [x19, #0x40]
+SoulseekQt[0x10006106c] <+204>:  sub    x23, x29, #0x78
+SoulseekQt[0x100061070] <+208>:  sub    x0, x29, #0x78
+SoulseekQt[0x100061074] <+212>:  bl     0x1000518d0               ; ___lldb_unnamed_symbol6543
+SoulseekQt[0x100061078] <+216>:  adrp   x24, 615
+SoulseekQt[0x10006107c] <+220>:  ldr    x24, [x24, #0xd08]
+SoulseekQt[0x100061080] <+224>:  ldp    x8, x1, [x21, #0x8]
+SoulseekQt[0x100061084] <+228>:  cmp    x8, #0x0
+SoulseekQt[0x100061088] <+232>:  csel   x0, x24, x8, eq
+SoulseekQt[0x10006108c] <+236>:  adrp   x2, 482
+SoulseekQt[0x100061090] <+240>:  add    x2, x2, #0x53b            ; ""
+SoulseekQt[0x100061094] <+244>:  mov    x3, #0x0                  ; =0 
+SoulseekQt[0x100061098] <+248>:  mov    w4, #0x1                  ; =1 
+SoulseekQt[0x10006109c] <+252>:  bl     0x100214c58               ; symbol stub for: QString::compare_helper(QChar const*, long long, char const*, long long, Qt::CaseSensitivity)
+SoulseekQt[0x1000610a0] <+256>:  mov    x8, x0
+SoulseekQt[0x1000610a4] <+260>:  ldur   x9, [x29, #-0x78]
+SoulseekQt[0x1000610a8] <+264>:  ldur   x9, [x9, #-0x30]
+SoulseekQt[0x1000610ac] <+268>:  add    x0, x23, x9
+SoulseekQt[0x1000610b0] <+272>:  cbz    w8, 0x1000610d4           ; <+308>
+SoulseekQt[0x1000610b4] <+276>:  mov    w8, #0x67                 ; =103 
+SoulseekQt[0x1000610b8] <+280>:  stur   w8, [x29, #-0x80]
+SoulseekQt[0x1000610bc] <+284>:  ldr    x8, [x0]
+SoulseekQt[0x1000610c0] <+288>:  ldr    x8, [x8, #0x10]
+SoulseekQt[0x1000610c4] <+292>:  sub    x1, x29, #0x80
+SoulseekQt[0x1000610c8] <+296>:  mov    w2, #0x4                  ; =4 
+SoulseekQt[0x1000610cc] <+300>:  blr    x8
+SoulseekQt[0x1000610d0] <+304>:  b      0x1000610f0               ; <+336>
+SoulseekQt[0x1000610d4] <+308>:  mov    w8, #0x1a                 ; =26 
+SoulseekQt[0x1000610d8] <+312>:  stur   w8, [x29, #-0x80]
+SoulseekQt[0x1000610dc] <+316>:  ldr    x8, [x0]
+SoulseekQt[0x1000610e0] <+320>:  ldr    x8, [x8, #0x10]
+SoulseekQt[0x1000610e4] <+324>:  sub    x1, x29, #0x80
+SoulseekQt[0x1000610e8] <+328>:  mov    w2, #0x4                  ; =4 
+SoulseekQt[0x1000610ec] <+332>:  blr    x8
+SoulseekQt[0x1000610f0] <+336>:  ldur   x8, [x29, #-0x78]
+SoulseekQt[0x1000610f4] <+340>:  ldur   x8, [x8, #-0x30]
+SoulseekQt[0x1000610f8] <+344>:  sub    x23, x29, #0x78
+SoulseekQt[0x1000610fc] <+348>:  add    x0, x23, x8
+SoulseekQt[0x100061100] <+352>:  stur   w20, [x29, #-0x80]
+SoulseekQt[0x100061104] <+356>:  ldr    x8, [x0]
+SoulseekQt[0x100061108] <+360>:  ldr    x8, [x8, #0x10]
+SoulseekQt[0x10006110c] <+364>:  sub    x1, x29, #0x80
+SoulseekQt[0x100061110] <+368>:  mov    w2, #0x4                  ; =4 
+SoulseekQt[0x100061114] <+372>:  blr    x8
+SoulseekQt[0x100061118] <+376>:  ldur   x8, [x29, #-0x78]
+SoulseekQt[0x10006111c] <+380>:  ldur   x8, [x8, #-0x30]
+SoulseekQt[0x100061120] <+384>:  add    x0, x23, x8
+SoulseekQt[0x100061124] <+388>:  mov    x1, x22
+SoulseekQt[0x100061128] <+392>:  bl     0x100054bf8               ; ___lldb_unnamed_symbol6547
+SoulseekQt[0x10006112c] <+396>:  sub    x1, x29, #0x78
+SoulseekQt[0x100061130] <+400>:  mov    x0, x19
+SoulseekQt[0x100061134] <+404>:  mov    w2, #0x0                  ; =0 
+SoulseekQt[0x100061138] <+408>:  bl     0x100054dac               ; Server::SendMessage(MemStream&, bool)
+SoulseekQt[0x10006113c] <+412>:  mov    w8, #0xe                  ; =14 
+SoulseekQt[0x100061140] <+416>:  adrp   x9, 486
+SoulseekQt[0x100061144] <+420>:  add    x9, x9, #0xda             ; "search_request"
+SoulseekQt[0x100061148] <+424>:  sturb  w8, [x29, #-0x81]
+SoulseekQt[0x10006114c] <+428>:  ldr    x8, [x9]
+SoulseekQt[0x100061150] <+432>:  stur   x8, [x29, #-0x98]
+SoulseekQt[0x100061154] <+436>:  ldur   x8, [x9, #0x6]
+SoulseekQt[0x100061158] <+440>:  stur   x8, [x25, #0x3e]
+SoulseekQt[0x10006115c] <+444>:  sturb  wzr, [x29, #-0x8a]
+SoulseekQt[0x100061160] <+448>:  adrp   x0, 637
+SoulseekQt[0x100061164] <+452>:  add    x0, x0, #0xc20            ; d
+SoulseekQt[0x100061168] <+456>:  sub    x1, x29, #0x98
+SoulseekQt[0x10006116c] <+460>:  bl     0x100007efc               ; ___lldb_unnamed_symbol6380
+SoulseekQt[0x100061170] <+464>:  mov    x23, x0
+SoulseekQt[0x100061174] <+468>:  sub    x0, x29, #0xb0
+SoulseekQt[0x100061178] <+472>:  mov    x1, x20
+SoulseekQt[0x10006117c] <+476>:  bl     0x100066ec0               ; ___lldb_unnamed_symbol6575
+SoulseekQt[0x100061180] <+480>:  sub    x8, x29, #0x80
+SoulseekQt[0x100061184] <+484>:  sub    x1, x29, #0xb0
+SoulseekQt[0x100061188] <+488>:  mov    x0, x23
+SoulseekQt[0x10006118c] <+492>:  bl     0x100041b4c               ; Type::newItem(Value)
+SoulseekQt[0x100061190] <+496>:  ldursb w8, [x29, #-0x99]
+SoulseekQt[0x100061194] <+500>:  tbnz   w8, #0x1f, 0x100061448    ; <+1192>
+SoulseekQt[0x100061198] <+504>:  ldursb w8, [x29, #-0x81]
+SoulseekQt[0x10006119c] <+508>:  tbnz   w8, #0x1f, 0x100061458    ; <+1208>
+SoulseekQt[0x1000611a0] <+512>:  mov    w8, #0x13                 ; =19 
+SoulseekQt[0x1000611a4] <+516>:  strb   w8, [sp, #0xb7]
+SoulseekQt[0x1000611a8] <+520>:  mov    w8, #0x6574               ; =25972 
+SoulseekQt[0x1000611ac] <+524>:  movk   w8, #0x7478, lsl #16
+SoulseekQt[0x1000611b0] <+528>:  stur   w8, [x25, #0xf]
+SoulseekQt[0x1000611b4] <+532>:  adrp   x8, 486
+SoulseekQt[0x1000611b8] <+536>:  add    x8, x8, #0x79             ; "search_request_text"
+SoulseekQt[0x1000611bc] <+540>:  ldr    q0, [x8]
+SoulseekQt[0x1000611c0] <+544>:  str    q0, [sp, #0xa0]
+SoulseekQt[0x1000611c4] <+548>:  strb   wzr, [sp, #0xb3]
+SoulseekQt[0x1000611c8] <+552>:  adrp   x0, 637
+SoulseekQt[0x1000611cc] <+556>:  add    x0, x0, #0xc20            ; d
+SoulseekQt[0x1000611d0] <+560>:  add    x1, sp, #0xa0
+SoulseekQt[0x1000611d4] <+564>:  bl     0x100007efc               ; ___lldb_unnamed_symbol6380
+SoulseekQt[0x1000611d8] <+568>:  mov    x23, x0
+SoulseekQt[0x1000611dc] <+572>:  ldp    x8, x9, [x22]
+SoulseekQt[0x1000611e0] <+576>:  stp    x8, x9, [sp, #0x70]
+SoulseekQt[0x1000611e4] <+580>:  ldr    x9, [x22, #0x10]
+SoulseekQt[0x1000611e8] <+584>:  str    x9, [sp, #0x80]
+SoulseekQt[0x1000611ec] <+588>:  cbz    x8, 0x1000611f8           ; <+600>
+SoulseekQt[0x1000611f0] <+592>:  mov    w9, #0x1                  ; =1 
+SoulseekQt[0x1000611f4] <+596>:  ldaddal w9, w8, [x8]
+SoulseekQt[0x1000611f8] <+600>:  add    x0, sp, #0x88
+SoulseekQt[0x1000611fc] <+604>:  add    x1, sp, #0x70
+SoulseekQt[0x100061200] <+608>:  bl     0x100037f7c               ; ___lldb_unnamed_symbol6396
+SoulseekQt[0x100061204] <+612>:  add    x8, sp, #0xb8
+SoulseekQt[0x100061208] <+616>:  add    x1, sp, #0x88
+SoulseekQt[0x10006120c] <+620>:  mov    x0, x23
+SoulseekQt[0x100061210] <+624>:  bl     0x1000081d4               ; ___lldb_unnamed_symbol6382
+SoulseekQt[0x100061214] <+628>:  add    x8, sp, #0x68
+SoulseekQt[0x100061218] <+632>:  sub    x0, x29, #0x80
+SoulseekQt[0x10006121c] <+636>:  add    x1, sp, #0xb8
+SoulseekQt[0x100061220] <+640>:  bl     0x100044868               ; Item::operator+=(Item)
+SoulseekQt[0x100061224] <+644>:  ldrsb  w8, [sp, #0x9f]
+SoulseekQt[0x100061228] <+648>:  tbz    w8, #0x1f, 0x100061234    ; <+660>
+SoulseekQt[0x10006122c] <+652>:  ldr    x0, [sp, #0x88]
+SoulseekQt[0x100061230] <+656>:  bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061234] <+660>:  ldr    x8, [sp, #0x70]
+SoulseekQt[0x100061238] <+664>:  cbz    x8, 0x10006125c           ; <+700>
+SoulseekQt[0x10006123c] <+668>:  mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x100061240] <+672>:  ldaddal w9, w8, [x8]
+SoulseekQt[0x100061244] <+676>:  cmp    w8, #0x1
+SoulseekQt[0x100061248] <+680>:  b.ne   0x10006125c               ; <+700>
+SoulseekQt[0x10006124c] <+684>:  ldr    x0, [sp, #0x70]
+SoulseekQt[0x100061250] <+688>:  mov    w1, #0x2                  ; =2 
+SoulseekQt[0x100061254] <+692>:  mov    w2, #0x8                  ; =8 
+SoulseekQt[0x100061258] <+696>:  bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x10006125c] <+700>:  ldrsb  w8, [sp, #0xb7]
+SoulseekQt[0x100061260] <+704>:  tbz    w8, #0x1f, 0x10006126c    ; <+716>
+SoulseekQt[0x100061264] <+708>:  ldr    x0, [sp, #0xa0]
+SoulseekQt[0x100061268] <+712>:  bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x10006126c] <+716>:  ldp    x8, x1, [x21, #0x8]
+SoulseekQt[0x100061270] <+720>:  cmp    x8, #0x0
+SoulseekQt[0x100061274] <+724>:  csel   x0, x24, x8, eq
+SoulseekQt[0x100061278] <+728>:  adrp   x2, 482
+SoulseekQt[0x10006127c] <+732>:  add    x2, x2, #0x53b            ; ""
+SoulseekQt[0x100061280] <+736>:  mov    x3, #0x0                  ; =0 
+SoulseekQt[0x100061284] <+740>:  mov    w4, #0x1                  ; =1 
+SoulseekQt[0x100061288] <+744>:  bl     0x100214c58               ; symbol stub for: QString::compare_helper(QChar const*, long long, char const*, long long, Qt::CaseSensitivity)
+SoulseekQt[0x10006128c] <+748>:  cbz    w0, 0x100061358           ; <+952>
+SoulseekQt[0x100061290] <+752>:  mov    w8, #0xe                  ; =14 
+SoulseekQt[0x100061294] <+756>:  adrp   x9, 486
+SoulseekQt[0x100061298] <+760>:  add    x9, x9, #0xe9             ; "wish_list_item"
+SoulseekQt[0x10006129c] <+764>:  strb   w8, [sp, #0x5f]
+SoulseekQt[0x1000612a0] <+768>:  ldr    x8, [x9]
+SoulseekQt[0x1000612a4] <+772>:  str    x8, [sp, #0x48]
+SoulseekQt[0x1000612a8] <+776>:  ldur   x8, [x9, #0x6]
+SoulseekQt[0x1000612ac] <+780>:  stur   x8, [sp, #0x4e]
+SoulseekQt[0x1000612b0] <+784>:  strb   wzr, [sp, #0x56]
+SoulseekQt[0x1000612b4] <+788>:  adrp   x0, 637
+SoulseekQt[0x1000612b8] <+792>:  add    x0, x0, #0xc20            ; d
+SoulseekQt[0x1000612bc] <+796>:  add    x1, sp, #0x48
+SoulseekQt[0x1000612c0] <+800>:  bl     0x100007efc               ; ___lldb_unnamed_symbol6380
+SoulseekQt[0x1000612c4] <+804>:  mov    x23, x0
+SoulseekQt[0x1000612c8] <+808>:  ldp    x8, x9, [x21]
+SoulseekQt[0x1000612cc] <+812>:  stp    x8, x9, [sp, #0x18]
+SoulseekQt[0x1000612d0] <+816>:  ldr    x9, [x21, #0x10]
+SoulseekQt[0x1000612d4] <+820>:  str    x9, [sp, #0x28]
+SoulseekQt[0x1000612d8] <+824>:  cbz    x8, 0x1000612e4           ; <+836>
+SoulseekQt[0x1000612dc] <+828>:  mov    w9, #0x1                  ; =1 
+SoulseekQt[0x1000612e0] <+832>:  ldaddal w9, w8, [x8]
+SoulseekQt[0x1000612e4] <+836>:  add    x0, sp, #0x30
+SoulseekQt[0x1000612e8] <+840>:  add    x1, sp, #0x18
+SoulseekQt[0x1000612ec] <+844>:  bl     0x100037f7c               ; ___lldb_unnamed_symbol6396
+SoulseekQt[0x1000612f0] <+848>:  add    x8, sp, #0x60
+SoulseekQt[0x1000612f4] <+852>:  add    x1, sp, #0x30
+SoulseekQt[0x1000612f8] <+856>:  mov    x0, x23
+SoulseekQt[0x1000612fc] <+860>:  bl     0x1000081d4               ; ___lldb_unnamed_symbol6382
+SoulseekQt[0x100061300] <+864>:  add    x8, sp, #0x68
+SoulseekQt[0x100061304] <+868>:  sub    x0, x29, #0x80
+SoulseekQt[0x100061308] <+872>:  add    x1, sp, #0x60
+SoulseekQt[0x10006130c] <+876>:  bl     0x100044868               ; Item::operator+=(Item)
+SoulseekQt[0x100061310] <+880>:  ldrsb  w8, [sp, #0x47]
+SoulseekQt[0x100061314] <+884>:  tbz    w8, #0x1f, 0x100061320    ; <+896>
+SoulseekQt[0x100061318] <+888>:  ldr    x0, [sp, #0x30]
+SoulseekQt[0x10006131c] <+892>:  bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061320] <+896>:  ldr    x8, [sp, #0x18]
+SoulseekQt[0x100061324] <+900>:  cbz    x8, 0x100061348           ; <+936>
+SoulseekQt[0x100061328] <+904>:  mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x10006132c] <+908>:  ldaddal w9, w8, [x8]
+SoulseekQt[0x100061330] <+912>:  cmp    w8, #0x1
+SoulseekQt[0x100061334] <+916>:  b.ne   0x100061348               ; <+936>
+SoulseekQt[0x100061338] <+920>:  ldr    x0, [sp, #0x18]
+SoulseekQt[0x10006133c] <+924>:  mov    w1, #0x2                  ; =2 
+SoulseekQt[0x100061340] <+928>:  mov    w2, #0x8                  ; =8 
+SoulseekQt[0x100061344] <+932>:  bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x100061348] <+936>:  ldrsb  w8, [sp, #0x5f]
+SoulseekQt[0x10006134c] <+940>:  tbz    w8, #0x1f, 0x100061358    ; <+952>
+SoulseekQt[0x100061350] <+944>:  ldr    x0, [sp, #0x48]
+SoulseekQt[0x100061354] <+948>:  bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061358] <+952>:  ldp    x8, x9, [x22]
+SoulseekQt[0x10006135c] <+956>:  stp    x8, x9, [sp]
+SoulseekQt[0x100061360] <+960>:  ldr    x9, [x22, #0x10]
+SoulseekQt[0x100061364] <+964>:  str    x9, [sp, #0x10]
+SoulseekQt[0x100061368] <+968>:  cbz    x8, 0x100061374           ; <+980>
+SoulseekQt[0x10006136c] <+972>:  mov    w9, #0x1                  ; =1 
+SoulseekQt[0x100061370] <+976>:  ldaddal w9, w8, [x8]
+SoulseekQt[0x100061374] <+980>:  ldp    x8, x1, [x21, #0x8]
+SoulseekQt[0x100061378] <+984>:  cmp    x8, #0x0
+SoulseekQt[0x10006137c] <+988>:  csel   x0, x24, x8, eq
+SoulseekQt[0x100061380] <+992>:  adrp   x2, 482
+SoulseekQt[0x100061384] <+996>:  add    x2, x2, #0x53b            ; ""
+SoulseekQt[0x100061388] <+1000>: mov    x3, #0x0                  ; =0 
+SoulseekQt[0x10006138c] <+1004>: mov    w4, #0x1                  ; =1 
+SoulseekQt[0x100061390] <+1008>: bl     0x100214c58               ; symbol stub for: QString::compare_helper(QChar const*, long long, char const*, long long, Qt::CaseSensitivity)
+SoulseekQt[0x100061394] <+1012>: cmp    w0, #0x0
+SoulseekQt[0x100061398] <+1016>: cset   w3, ne
+SoulseekQt[0x10006139c] <+1020>: mov    x2, sp
+SoulseekQt[0x1000613a0] <+1024>: mov    x0, x19
+SoulseekQt[0x1000613a4] <+1028>: mov    x1, x20
+SoulseekQt[0x1000613a8] <+1032>: bl     0x1001f5e94               ; Server::SearchRequested(unsigned int, QString, bool)
+SoulseekQt[0x1000613ac] <+1036>: ldr    x8, [sp]
+SoulseekQt[0x1000613b0] <+1040>: cbz    x8, 0x1000613d4           ; <+1076>
+SoulseekQt[0x1000613b4] <+1044>: mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x1000613b8] <+1048>: ldaddal w9, w8, [x8]
+SoulseekQt[0x1000613bc] <+1052>: cmp    w8, #0x1
+SoulseekQt[0x1000613c0] <+1056>: b.ne   0x1000613d4               ; <+1076>
+SoulseekQt[0x1000613c4] <+1060>: ldr    x0, [sp]
+SoulseekQt[0x1000613c8] <+1064>: mov    w1, #0x2                  ; =2 
+SoulseekQt[0x1000613cc] <+1068>: mov    w2, #0x8                  ; =8 
+SoulseekQt[0x1000613d0] <+1072>: bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x1000613d4] <+1076>: adrp   x8, 616
+SoulseekQt[0x1000613d8] <+1080>: add    x8, x8, #0xfa0            ; typeinfo for DataHandler + 16
+SoulseekQt[0x1000613dc] <+1084>: add    x9, x8, #0x30
+SoulseekQt[0x1000613e0] <+1088>: add    x8, x8, #0x70
+SoulseekQt[0x1000613e4] <+1092>: stur   x9, [x29, #-0x78]
+SoulseekQt[0x1000613e8] <+1096>: stur   x8, [x29, #-0x60]
+SoulseekQt[0x1000613ec] <+1100>: ldur   x19, [x29, #-0x68]
+SoulseekQt[0x1000613f0] <+1104>: cbz    x19, 0x100061428          ; <+1160>
+SoulseekQt[0x1000613f4] <+1108>: add    x8, x19, #0x4
+SoulseekQt[0x1000613f8] <+1112>: mov    w21, #-0x1                ; =-1 
+SoulseekQt[0x1000613fc] <+1116>: ldaddal w21, w8, [x8]
+SoulseekQt[0x100061400] <+1120>: cmp    w8, #0x1
+SoulseekQt[0x100061404] <+1124>: b.ne   0x100061414               ; <+1140>
+SoulseekQt[0x100061408] <+1128>: ldr    x8, [x19, #0x8]
+SoulseekQt[0x10006140c] <+1132>: mov    x0, x19
+SoulseekQt[0x100061410] <+1136>: blr    x8
+SoulseekQt[0x100061414] <+1140>: ldaddal w21, w8, [x19]
+SoulseekQt[0x100061418] <+1144>: cmp    w8, #0x1
+SoulseekQt[0x10006141c] <+1148>: b.ne   0x100061428               ; <+1160>
+SoulseekQt[0x100061420] <+1152>: mov    x0, x19
+SoulseekQt[0x100061424] <+1156>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061428] <+1160>: mov    x0, x20
+SoulseekQt[0x10006142c] <+1164>: ldp    x29, x30, [sp, #0x170]
+SoulseekQt[0x100061430] <+1168>: ldp    x20, x19, [sp, #0x160]
+SoulseekQt[0x100061434] <+1172>: ldp    x22, x21, [sp, #0x150]
+SoulseekQt[0x100061438] <+1176>: ldp    x24, x23, [sp, #0x140]
+SoulseekQt[0x10006143c] <+1180>: ldp    x26, x25, [sp, #0x130]
+SoulseekQt[0x100061440] <+1184>: add    sp, sp, #0x180
+SoulseekQt[0x100061444] <+1188>: ret    
+SoulseekQt[0x100061448] <+1192>: ldur   x0, [x29, #-0xb0]
+SoulseekQt[0x10006144c] <+1196>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061450] <+1200>: ldursb w8, [x29, #-0x81]
+SoulseekQt[0x100061454] <+1204>: tbz    w8, #0x1f, 0x1000611a0    ; <+512>
+SoulseekQt[0x100061458] <+1208>: ldur   x0, [x29, #-0x98]
+SoulseekQt[0x10006145c] <+1212>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061460] <+1216>: b      0x1000611a0               ; <+512>
+SoulseekQt[0x100061464] <+1220>: bl     0x100023170               ; ___lldb_unnamed_symbol6388
+SoulseekQt[0x100061468] <+1224>: b      0x10006146c               ; <+1228>
+SoulseekQt[0x10006146c] <+1228>: mov    x19, x0
+SoulseekQt[0x100061470] <+1232>: ldrsb  w8, [sp, #0x47]
+SoulseekQt[0x100061474] <+1236>: tbz    w8, #0x1f, 0x100061488    ; <+1256>
+SoulseekQt[0x100061478] <+1240>: ldr    x0, [sp, #0x30]
+SoulseekQt[0x10006147c] <+1244>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061480] <+1248>: b      0x100061488               ; <+1256>
+SoulseekQt[0x100061484] <+1252>: mov    x19, x0
+SoulseekQt[0x100061488] <+1256>: ldr    x8, [sp, #0x18]
+SoulseekQt[0x10006148c] <+1260>: cbz    x8, 0x1000614b8           ; <+1304>
+SoulseekQt[0x100061490] <+1264>: mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x100061494] <+1268>: ldaddal w9, w8, [x8]
+SoulseekQt[0x100061498] <+1272>: cmp    w8, #0x1
+SoulseekQt[0x10006149c] <+1276>: b.ne   0x1000614b8               ; <+1304>
+SoulseekQt[0x1000614a0] <+1280>: ldr    x0, [sp, #0x18]
+SoulseekQt[0x1000614a4] <+1284>: mov    w1, #0x2                  ; =2 
+SoulseekQt[0x1000614a8] <+1288>: mov    w2, #0x8                  ; =8 
+SoulseekQt[0x1000614ac] <+1292>: bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x1000614b0] <+1296>: b      0x1000614b8               ; <+1304>
+SoulseekQt[0x1000614b4] <+1300>: mov    x19, x0
+SoulseekQt[0x1000614b8] <+1304>: ldrsb  w8, [sp, #0x5f]
+SoulseekQt[0x1000614bc] <+1308>: tbz    w8, #0x1f, 0x1000615b0    ; <+1552>
+SoulseekQt[0x1000614c0] <+1312>: ldr    x0, [sp, #0x48]
+SoulseekQt[0x1000614c4] <+1316>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x1000614c8] <+1320>: b      0x1000615b0               ; <+1552>
+SoulseekQt[0x1000614cc] <+1324>: mov    x19, x0
+SoulseekQt[0x1000614d0] <+1328>: ldr    x8, [sp]
+SoulseekQt[0x1000614d4] <+1332>: cbz    x8, 0x1000615b0           ; <+1552>
+SoulseekQt[0x1000614d8] <+1336>: mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x1000614dc] <+1340>: ldaddal w9, w8, [x8]
+SoulseekQt[0x1000614e0] <+1344>: cmp    w8, #0x1
+SoulseekQt[0x1000614e4] <+1348>: b.ne   0x1000615b0               ; <+1552>
+SoulseekQt[0x1000614e8] <+1352>: ldr    x0, [sp]
+SoulseekQt[0x1000614ec] <+1356>: mov    w1, #0x2                  ; =2 
+SoulseekQt[0x1000614f0] <+1360>: mov    w2, #0x8                  ; =8 
+SoulseekQt[0x1000614f4] <+1364>: bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x1000614f8] <+1368>: b      0x1000615b0               ; <+1552>
+SoulseekQt[0x1000614fc] <+1372>: b      0x100061500               ; <+1376>
+SoulseekQt[0x100061500] <+1376>: mov    x19, x0
+SoulseekQt[0x100061504] <+1380>: ldrsb  w8, [sp, #0x9f]
+SoulseekQt[0x100061508] <+1384>: tbz    w8, #0x1f, 0x10006151c    ; <+1404>
+SoulseekQt[0x10006150c] <+1388>: ldr    x0, [sp, #0x88]
+SoulseekQt[0x100061510] <+1392>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061514] <+1396>: b      0x10006151c               ; <+1404>
+SoulseekQt[0x100061518] <+1400>: mov    x19, x0
+SoulseekQt[0x10006151c] <+1404>: ldr    x8, [sp, #0x70]
+SoulseekQt[0x100061520] <+1408>: cbz    x8, 0x10006154c           ; <+1452>
+SoulseekQt[0x100061524] <+1412>: mov    w9, #-0x1                 ; =-1 
+SoulseekQt[0x100061528] <+1416>: ldaddal w9, w8, [x8]
+SoulseekQt[0x10006152c] <+1420>: cmp    w8, #0x1
+SoulseekQt[0x100061530] <+1424>: b.ne   0x10006154c               ; <+1452>
+SoulseekQt[0x100061534] <+1428>: ldr    x0, [sp, #0x70]
+SoulseekQt[0x100061538] <+1432>: mov    w1, #0x2                  ; =2 
+SoulseekQt[0x10006153c] <+1436>: mov    w2, #0x8                  ; =8 
+SoulseekQt[0x100061540] <+1440>: bl     0x100213b48               ; symbol stub for: QArrayData::deallocate(QArrayData*, long long, long long)
+SoulseekQt[0x100061544] <+1444>: b      0x10006154c               ; <+1452>
+SoulseekQt[0x100061548] <+1448>: mov    x19, x0
+SoulseekQt[0x10006154c] <+1452>: ldrsb  w8, [sp, #0xb7]
+SoulseekQt[0x100061550] <+1456>: tbz    w8, #0x1f, 0x1000615b0    ; <+1552>
+SoulseekQt[0x100061554] <+1460>: ldr    x0, [sp, #0xa0]
+SoulseekQt[0x100061558] <+1464>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x10006155c] <+1468>: b      0x1000615b0               ; <+1552>
+SoulseekQt[0x100061560] <+1472>: mov    x19, x0
+SoulseekQt[0x100061564] <+1476>: ldursb w8, [x29, #-0x99]
+SoulseekQt[0x100061568] <+1480>: tbz    w8, #0x1f, 0x100061598    ; <+1528>
+SoulseekQt[0x10006156c] <+1484>: ldur   x0, [x29, #-0xb0]
+SoulseekQt[0x100061570] <+1488>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x100061574] <+1492>: b      0x100061598               ; <+1528>
+SoulseekQt[0x100061578] <+1496>: mov    x19, x0
+SoulseekQt[0x10006157c] <+1500>: ldur   x0, [x29, #-0x58]
+SoulseekQt[0x100061580] <+1504>: cbz    x0, 0x1000615b8           ; <+1560>
+SoulseekQt[0x100061584] <+1508>: sub    x1, x29, #0x58
+SoulseekQt[0x100061588] <+1512>: bl     0x100208fa0               ; ___lldb_unnamed_symbol8123
+SoulseekQt[0x10006158c] <+1516>: mov    x0, x19
+SoulseekQt[0x100061590] <+1520>: bl     0x100213aac               ; symbol stub for: _Unwind_Resume
+SoulseekQt[0x100061594] <+1524>: mov    x19, x0
+SoulseekQt[0x100061598] <+1528>: ldursb w8, [x29, #-0x81]
+SoulseekQt[0x10006159c] <+1532>: tbz    w8, #0x1f, 0x1000615b0    ; <+1552>
+SoulseekQt[0x1000615a0] <+1536>: ldur   x0, [x29, #-0x98]
+SoulseekQt[0x1000615a4] <+1540>: bl     0x100215e64               ; symbol stub for: operator delete(void*)
+SoulseekQt[0x1000615a8] <+1544>: b      0x1000615b0               ; <+1552>
+SoulseekQt[0x1000615ac] <+1548>: mov    x19, x0
+SoulseekQt[0x1000615b0] <+1552>: sub    x0, x29, #0x78
+SoulseekQt[0x1000615b4] <+1556>: bl     0x1000519c4               ; ___lldb_unnamed_symbol6544
+SoulseekQt[0x1000615b8] <+1560>: mov    x0, x19
+SoulseekQt[0x1000615bc] <+1564>: bl     0x100213aac               ; symbol stub for: _Unwind_Resume

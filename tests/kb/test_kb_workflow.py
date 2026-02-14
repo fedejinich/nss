@@ -166,6 +166,41 @@ class KBWorkflowTests(unittest.TestCase):
 
         self.assertEqual(first, second)
 
+    def test_candidate_queue_is_consumed_after_promotion(self) -> None:
+        (self.root / "evidence/static.txt").write_text("xref", encoding="utf-8")
+        self._append_name_candidate(
+            {
+                "binary": "SoulseekQt",
+                "address": "0x10006c700",
+                "original_name": "FUN_10006c700",
+                "new_name": "Server_TestCandidate",
+                "kind": "function_rename",
+                "confidence": "high",
+                "evidence": [{"kind": "xref", "source": "evidence/static.txt"}],
+            }
+        )
+
+        first = promote_candidates(
+            repo_root=self.root,
+            name_map_path=self.root / "analysis/ghidra/maps/name_map.json",
+            data_map_path=self.root / "analysis/ghidra/maps/data_map.json",
+            name_candidates_path=self.root / "analysis/ghidra/queue/name_candidates.jsonl",
+            data_candidates_path=self.root / "analysis/ghidra/queue/data_candidates.jsonl",
+            review_queue_path=self.root / "analysis/ghidra/queue/review_queue.jsonl",
+        )
+        self.assertEqual(first["name"].promoted, 1)
+        self.assertEqual((self.root / "analysis/ghidra/queue/name_candidates.jsonl").read_text(encoding="utf-8"), "")
+
+        second = promote_candidates(
+            repo_root=self.root,
+            name_map_path=self.root / "analysis/ghidra/maps/name_map.json",
+            data_map_path=self.root / "analysis/ghidra/maps/data_map.json",
+            name_candidates_path=self.root / "analysis/ghidra/queue/name_candidates.jsonl",
+            data_candidates_path=self.root / "analysis/ghidra/queue/data_candidates.jsonl",
+            review_queue_path=self.root / "analysis/ghidra/queue/review_queue.jsonl",
+        )
+        self.assertEqual(second["name"].promoted, 0)
+
 
 if __name__ == "__main__":
     unittest.main()

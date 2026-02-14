@@ -51,6 +51,11 @@ def _append_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
             fh.write(json.dumps(row, ensure_ascii=True) + "\n")
 
 
+def _truncate_file(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("", encoding="utf-8")
+
+
 def _is_url(value: str) -> bool:
     parsed = urlparse(value)
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
@@ -169,7 +174,10 @@ def promote_candidates(
     name_result = PromoteResult()
     data_result = PromoteResult()
 
-    for candidate in _read_jsonl(name_candidates_path):
+    name_candidates = _read_jsonl(name_candidates_path)
+    data_candidates = _read_jsonl(data_candidates_path)
+
+    for candidate in name_candidates:
         outcome = _promote_single(candidate, "name", name_entries, review_rows, repo_root)
         if outcome == "promoted":
             name_result.promoted += 1
@@ -178,7 +186,7 @@ def promote_candidates(
         else:
             name_result.rejected += 1
 
-    for candidate in _read_jsonl(data_candidates_path):
+    for candidate in data_candidates:
         outcome = _promote_single(candidate, "data", data_entries, review_rows, repo_root)
         if outcome == "promoted":
             data_result.promoted += 1
@@ -193,5 +201,7 @@ def promote_candidates(
     _write_json(name_map_path, name_map)
     _write_json(data_map_path, data_map)
     _append_jsonl(review_queue_path, review_rows)
+    _truncate_file(name_candidates_path)
+    _truncate_file(data_candidates_path)
 
     return {"name": name_result, "data": data_result}

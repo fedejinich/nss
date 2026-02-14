@@ -5,6 +5,68 @@
   "entries": [
     {
       "binary": "SoulseekQt",
+      "address": "0x100054dac",
+      "original_name": "Server::SendMessage(MemStream&, bool)",
+      "new_name": "server_send_message",
+      "kind": "function_rename",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "xref",
+          "source": "evidence/reverse/search_download_symbols_nm.txt",
+          "note": "Symbolized server transmit entrypoint."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/server_send_message.txt",
+          "note": "MemStream payload is serialized and flushed to socket."
+        }
+      ],
+      "tags": [
+        "protocol",
+        "server",
+        "framing"
+      ],
+      "status": "approved",
+      "provenance": {
+        "analyst": "codex",
+        "created_at": "2026-02-14T04:03:59+00:00",
+        "promoted_at": "2026-02-14T04:03:59+00:00"
+      }
+    },
+    {
+      "binary": "SoulseekQt",
+      "address": "0x100060fa0",
+      "original_name": "Server::FileSearch(QString, QString)",
+      "new_name": "server_file_search",
+      "kind": "function_rename",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "xref",
+          "source": "evidence/reverse/search_download_symbols_nm.txt",
+          "note": "Demangled symbol at fixed text address."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/server_file_search.txt",
+          "note": "Calls PrepareSearch and SendMessage with SM_FILE_SEARCH code path."
+        }
+      ],
+      "tags": [
+        "protocol",
+        "search",
+        "server"
+      ],
+      "status": "approved",
+      "provenance": {
+        "analyst": "codex",
+        "created_at": "2026-02-14T04:03:59+00:00",
+        "promoted_at": "2026-02-14T04:03:59+00:00"
+      }
+    },
+    {
+      "binary": "SoulseekQt",
       "address": "0x10006c590",
       "original_name": "FUN_10006c590",
       "new_name": "server_message_code_to_string",
@@ -30,8 +92,71 @@
       "status": "approved",
       "provenance": {
         "analyst": "codex",
-        "created_at": "2026-02-14T03:46:50+00:00",
-        "promoted_at": "2026-02-14T03:46:50+00:00"
+        "created_at": "2026-02-14T04:03:59+00:00",
+        "promoted_at": "2026-02-14T04:03:59+00:00"
+      }
+    },
+    {
+      "binary": "SoulseekQt",
+      "address": "0x1000a4474",
+      "original_name": "PeerMessenger::QueueDownload(QString, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)",
+      "new_name": "peer_queue_download",
+      "kind": "function_rename",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "xref",
+          "source": "evidence/reverse/search_download_symbols_nm.txt",
+          "note": "Peer download enqueue symbol found in text section."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/peer_queue_download.txt",
+          "note": "Queue download request preparation before peer send."
+        }
+      ],
+      "tags": [
+        "protocol",
+        "peer",
+        "download"
+      ],
+      "status": "approved",
+      "provenance": {
+        "analyst": "codex",
+        "created_at": "2026-02-14T04:03:59+00:00",
+        "promoted_at": "2026-02-14T04:03:59+00:00"
+      }
+    },
+    {
+      "binary": "SoulseekQt",
+      "address": "0x1000d7114",
+      "original_name": "TransferQueueManager::OnFileTransferRequest(QString, int, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, long long)",
+      "new_name": "transfer_queue_on_file_transfer_request",
+      "kind": "function_rename",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "xref",
+          "source": "evidence/reverse/search_download_symbols_nm.txt",
+          "note": "Transfer negotiation dispatcher symbol."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
+          "note": "Handles transfer request/response state and task dispatch."
+        }
+      ],
+      "tags": [
+        "protocol",
+        "transfer",
+        "download",
+        "upload"
+      ],
+      "status": "approved",
+      "provenance": {
+        "analyst": "codex",
+        "created_at": "2026-02-14T04:03:59+00:00",
+        "promoted_at": "2026-02-14T04:03:59+00:00"
       }
     }
   ]

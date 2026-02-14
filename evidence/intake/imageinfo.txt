@@ -1,0 +1,133 @@
+Format Description: UDIF read-only compressed (zlib)
+Class Name: CUDIFDiskImage
+Checksum Type: CRC32
+Size Information:
+	CUDIFEncoding-bytes-total: 53061112
+	Total Empty Bytes: 21971968
+	Sector Count: 275952
+	Total Bytes: 141287424
+	CUDIFEncoding-bytes-wasted: 1078121
+	Total Non-Empty Bytes: 119315456
+	Compressed Ratio: 0.43567572670551585
+	CUDIFEncoding-bytes-in-use: 51982991
+	Compressed Bytes: 51982991
+Checksum Value: $77AB6388
+Segments:
+	0: /Users/void_rsk/Projects/soul-dec/SoulseekQt-2025-10-11.dmg
+Partition Information:
+	3:
+		Name: disk image (Apple_HFS : 4)
+		Partition Number: 3
+		Checksum Type: CRC32
+		Checksum Value: $76322E4F
+	4:
+		Name:  (Apple_Free : 5)
+		Partition Number: 4
+		Checksum Type: CRC32
+		Checksum Value: $00000000
+	0:
+		Name: GPT Header (Primary GPT Header : 1)
+		Partition Number: 0
+		Checksum Type: CRC32
+		Checksum Value: $B2B6AD8B
+	5:
+		Name: GPT Partition Data (Backup GPT Table : 6)
+		Partition Number: 5
+		Checksum Type: CRC32
+		Checksum Value: $DFA6E93B
+	1:
+		Name: GPT Partition Data (Primary GPT Table : 2)
+		Partition Number: 1
+		Checksum Type: CRC32
+		Checksum Value: $DFA6E93B
+	6:
+		Name: GPT Header (Backup GPT Header : 7)
+		Partition Number: 6
+		Checksum Type: CRC32
+		Checksum Value: $FDF09E06
+	-1:
+		Name: Protective Master Boot Record (MBR : 0)
+		Partition Number: -1
+		Checksum Type: CRC32
+		Checksum Value: $41934547
+	2:
+		Name:  (Apple_Free : 3)
+		Partition Number: 2
+		Checksum Type: CRC32
+		Checksum Value: $00000000
+Format: UDZO
+Backing Store Information:
+	URL: file:///Users/void_rsk/Projects/soul-dec/SoulseekQt-2025-10-11.dmg
+	Name: SoulseekQt-2025-10-11.dmg
+	Class Name: CUDIFEncoding
+	Backing Store Information:
+		URL: file:///Users/void_rsk/Projects/soul-dec/SoulseekQt-2025-10-11.dmg
+		Name: SoulseekQt-2025-10-11.dmg
+		Class Name: CBSDBackingStore
+partitions:
+	partition-scheme: GUID
+	block-size: 512
+	partitions:
+		0:
+			partition-name: Protective Master Boot Record
+			partition-start: 0
+			partition-synthesized: true
+			partition-length: 1
+			partition-hint: MBR
+		1:
+			partition-name: GPT Header
+			partition-start: 1
+			partition-synthesized: true
+			partition-length: 1
+			partition-hint: Primary GPT Header
+		2:
+			partition-name: GPT Partition Data
+			partition-start: 2
+			partition-synthesized: true
+			partition-length: 32
+			partition-hint: Primary GPT Table
+		3:
+			partition-name: 
+			partition-start: 34
+			partition-synthesized: true
+			partition-length: 6
+			partition-hint: Apple_Free
+		4:
+			partition-UUID: 19E11815-0CE8-4BFA-A3A6-293F8F480FDA
+			partition-name: disk image
+			partition-hint-UUID: 48465300-0000-11AA-AA11-00306543ECAC
+			partition-start: 40
+			partition-number: 1
+			partition-length: 275872
+			partition-hint: Apple_HFS
+			partition-filesystems:
+				HFS+: 
+		5:
+			partition-name: 
+			partition-start: 275912
+			partition-synthesized: true
+			partition-length: 7
+			partition-hint: Apple_Free
+		6:
+			partition-name: GPT Partition Data
+			partition-start: 275919
+			partition-synthesized: true
+			partition-length: 32
+			partition-hint: Backup GPT Table
+		7:
+			partition-name: GPT Header
+			partition-start: 275951
+			partition-synthesized: true
+			partition-length: 1
+			partition-hint: Backup GPT Header
+	burnable: false
+udif-ordered-chunks: false
+Properties:
+	Encrypted: false
+	Kernel Compatible: true
+	Checksummed: true
+	Software License Agreement: false
+	Partitioned: false
+	Compressed: true
+Resize limits (per hdiutil resize -limits):
+275952	275952	275952
