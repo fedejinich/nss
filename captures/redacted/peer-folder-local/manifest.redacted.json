@@ -1,0 +1,24 @@
+{
+  "run_id": "peer-folder-local",
+  "scenario": "peer-folder-local",
+  "source_type": "runtime_peer_local_deterministic",
+  "created_at": "2026-02-14T16:32:22+00:00",
+  "server": "<redacted:endpoint:f3a03dbaa965>",
+  "frame_count": 2,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:acda2bd648f3>",
+    "neo_frames_raw": "<redacted:path:6f8b03234b89>",
+    "frida_events_raw": "<redacted:path:86d5626a9025>"
+  },
+  "notes": "Stage 4C runtime capture generated for privileges/social control and peer folder coverage.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T16:32:29+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-folder-local",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

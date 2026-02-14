@@ -1,0 +1,31 @@
+{
+  "run_id": "peer-folder-local",
+  "comparison_mode": "semantic",
+  "total_pairs": 2,
+  "matched_pairs": 2,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 25,
+      "neo_len": 25,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 52,
+      "neo_len": 52,
+      "first_diff_offset": null
+    }
+  ]
+}

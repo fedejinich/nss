@@ -18,8 +18,9 @@ gantt
     S3B Rooms + Presence (8-message pack) :done, s3b, 2026-02-14, 2d
     S4A Recommendations + Discovery batch :done, s4a, after s3b, 1d
     S4B Peer advanced + room moderation :done, s4b, after s4a, 2d
+    S4C Privileges + social control + peer folder domains :done, s4c, after s4b, 2d
     section Preview
-    S4C Privileges + social control domains :s4c, after s4b, 3d
+    S4D Privilege/messaging gaps + peer legacy cleanup :s4d, after s4c, 3d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -38,6 +39,21 @@ graph TD
     R03 --> T08["S4B-T08 Final validation + PR publication"]
 ```
 
+## S4C Dependency Graph (Planned)
+
+```mermaid
+graph TD
+    R01["S4C-R01 Initialize plan + roadmap baseline"] --> T01["S4C-T01 Resolve message codes/evidence"]
+    T01 --> T02["S4C-T02 Runtime captures + redaction"]
+    T02 --> T03["S4C-T03 message_map + schema updates"]
+    T03 --> T04["S4C-T04 rust/protocol privileges/social/folder codec"]
+    T04 --> T05["S4C-T05 rust/core + rust/cli operations"]
+    T05 --> T06["S4C-T06 rust/verify + required runs updates"]
+    T06 --> T07["S4C-T07 Regression coverage for S4C"]
+    T07 --> R02["S4C-R02 Refresh roadmap/status/backlog docs"]
+    R02 --> T08["S4C-T08 Final validation + PR publication"]
+```
+
 ## Stage Status Matrix
 
 | Stage | Owner area | Status | Evidence | Next gate |
@@ -48,7 +64,8 @@ graph TD
 | S3B | rooms/presence batch | done | `docs/pr/0004-s3b-rooms-presence-roadmap.md` | S4A start |
 | S4A | recommendations/discovery batch | done | `docs/pr/0005-s4a-recommendations-discovery.md` | select S4B scope |
 | S4B | peer advanced + room moderation | done | `docs/pr/0006-s4b-peer-room-matrix.md` | define S4C message batch |
-| S4C preview | privileges + social control domains | preview | `docs/state/protocol-backlog.md` | publish S4C dependency graph |
+| S4C | privileges/social control + peer folder domains | done | `docs/pr/0007-s4c-privileges-social-peer-folder.md` | define S4D batch |
+| S4D preview | privilege/messaging gaps + peer legacy cleanup | preview | `docs/state/protocol-backlog.md` | publish S4D dependency graph |
 
 ## S4B Target Contract
 
@@ -72,8 +89,26 @@ Confidence gate for this batch:
 
 All entries must include valid evidence links.
 
-## S4C Preview (After S4B)
+## S4C Target Contract (Executed)
 
-1. Privileges and moderation-adjacent server controls (`SM_BAN_USER`, privilege status and grants).
-2. Social-control flows (`SM_IGNORE_USER`, `SM_UNIGNORE_USER`, and related user-state notifications).
-3. Additional peer domain coverage (`PM_GET_SHARED_FILES_IN_FOLDER`, `PM_SHARED_FILES_IN_FOLDER`).
+Required target pack:
+
+1. `SM_IGNORE_USER`
+2. `SM_UNIGNORE_USER`
+3. `SM_GET_OWN_PRIVILEGES_STATUS`
+4. `SM_GET_USER_PRIVILEGES_STATUS`
+5. `SM_GIVE_PRIVILEGE`
+6. `SM_INFORM_USER_OF_PRIVILEGES`
+7. `SM_INFORM_USER_OF_PRIVILEGES_ACK`
+8. `PM_GET_SHARED_FILES_IN_FOLDER`
+9. `PM_SHARED_FILES_IN_FOLDER`
+
+Confidence gate for this batch:
+
+- `high >= 7`
+- `medium <= 2`
+- `low = 0`
+
+Backlog note:
+
+- `SM_BAN_USER` remains deferred pending authoritative code/evidence resolution.

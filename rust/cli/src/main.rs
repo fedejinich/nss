@@ -1,8 +1,8 @@
 use anyhow::{Context, Result, bail};
 use clap::{Parser, Subcommand, ValueEnum};
 use protocol::{
-    Frame, TransferDirection, build_file_search_request, build_login_request,
-    build_transfer_request, build_transfer_response,
+    Frame, TransferDirection, build_file_search_request, build_get_shared_files_in_folder_request,
+    build_login_request, build_transfer_request, build_transfer_response,
 };
 use soul_core::{
     Credentials, DownloadPlan, ManualUploadDecision, RoomEvent, SessionClient, UploadAgent,
@@ -60,6 +60,10 @@ enum Commands {
         allowed: bool,
         #[arg(long, default_value = "")]
         queue_or_reason: String,
+    },
+    BuildPeerFolderRequest {
+        #[arg(long)]
+        directory: String,
     },
     RunLogin {
         #[arg(long)]
@@ -169,6 +173,128 @@ enum SessionCommand {
         #[arg(long, default_value_t = 157)]
         client_version: u32,
         #[arg(long, default_value_t = 19)]
+        minor_version: u32,
+    },
+    IgnoreUser {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
+    UnignoreUser {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
+    OwnPrivileges {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    UserPrivileges {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    GivePrivilege {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long)]
+        days: u32,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
+    InformPrivileges {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        token: u32,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
+    InformPrivilegesAck {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        token: u32,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
         minor_version: u32,
     },
     ProbeLoginVersion {
@@ -547,6 +673,10 @@ async fn main() -> Result<()> {
             let frame = build_transfer_response(token, allowed, &queue_or_reason);
             println!("{}", hex_string(&frame));
         }
+        Commands::BuildPeerFolderRequest { directory } => {
+            let frame = build_get_shared_files_in_folder_request(&directory);
+            println!("{}", hex_string(&frame));
+        }
         Commands::RunLogin {
             server,
             username,
@@ -642,6 +772,144 @@ async fn main() -> Result<()> {
                     max_messages,
                 )
                 .await?
+            }
+            SessionCommand::IgnoreUser {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_ignore_user(&mut client, &target_user).await?;
+            }
+            SessionCommand::UnignoreUser {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_unignore_user(&mut client, &target_user).await?;
+            }
+            SessionCommand::OwnPrivileges {
+                server,
+                username,
+                password,
+                password_md5,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_own_privileges(&mut client, timeout_secs, verbose).await?;
+            }
+            SessionCommand::UserPrivileges {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_user_privileges(&mut client, &target_user, timeout_secs, verbose).await?;
+            }
+            SessionCommand::GivePrivilege {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                days,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_give_privilege(&mut client, &target_user, days).await?;
+            }
+            SessionCommand::InformPrivileges {
+                server,
+                username,
+                password,
+                password_md5,
+                token,
+                target_user,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_inform_privileges(&mut client, token, &target_user).await?;
+            }
+            SessionCommand::InformPrivilegesAck {
+                server,
+                username,
+                password,
+                password_md5,
+                token,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_inform_privileges_ack(&mut client, token).await?;
             }
             SessionCommand::ProbeLoginVersion {
                 server,
@@ -1157,6 +1425,87 @@ async fn run_search(
     for (idx, msg) in messages.iter().enumerate() {
         println!("[{idx}] {:?}", msg);
     }
+    Ok(())
+}
+
+async fn run_ignore_user(client: &mut SessionClient, target_user: &str) -> Result<()> {
+    client.ignore_user(target_user).await?;
+    println!("session.ignore-user sent target_user={}", target_user);
+    Ok(())
+}
+
+async fn run_unignore_user(client: &mut SessionClient, target_user: &str) -> Result<()> {
+    client.unignore_user(target_user).await?;
+    println!("session.unignore-user sent target_user={}", target_user);
+    Ok(())
+}
+
+async fn run_own_privileges(
+    client: &mut SessionClient,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_own_privileges_status(Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "session.own-privileges ok time_left_seconds={}",
+        payload.time_left_seconds
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_user_privileges(
+    client: &mut SessionClient,
+    target_user: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_user_privileges_status(target_user, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "session.user-privileges ok target_user={} privileged={}",
+        payload.username, payload.privileged
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_give_privilege(
+    client: &mut SessionClient,
+    target_user: &str,
+    days: u32,
+) -> Result<()> {
+    client.give_privilege(target_user, days).await?;
+    println!(
+        "session.give-privilege sent target_user={} days={}",
+        target_user, days
+    );
+    Ok(())
+}
+
+async fn run_inform_privileges(
+    client: &mut SessionClient,
+    token: u32,
+    target_user: &str,
+) -> Result<()> {
+    client.inform_user_of_privileges(token, target_user).await?;
+    println!(
+        "session.inform-privileges sent token={} target_user={}",
+        token, target_user
+    );
+    Ok(())
+}
+
+async fn run_inform_privileges_ack(client: &mut SessionClient, token: u32) -> Result<()> {
+    client.inform_user_of_privileges_ack(token).await?;
+    println!("session.inform-privileges-ack sent token={}", token);
     Ok(())
 }
 
