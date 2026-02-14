@@ -23,6 +23,7 @@ This documentation is the project memory for decompilation and parity work again
 - `docs/re/static/message-schema.md`
 - `docs/state/stage2-parity-audit.md`
 - `docs/state/protocol-backlog.md`
+- `docs/state/protocol-matrix.md`
 - `docs/state/roadmap.md`
 - `docs/runbooks/documentation-discipline.md`
 
@@ -34,6 +35,7 @@ python3 scripts/kb_sync_docs.py
 python3 scripts/kb_validate.py
 scripts/extract_search_download_flow.sh
 scripts/derive_message_schema.sh
+python3 tools/protocol/generate_protocol_matrix.py
 scripts/run_diff_verify.sh
 scripts/run_regression.sh
 .venv-tools/bin/zensical build -f zensical.toml

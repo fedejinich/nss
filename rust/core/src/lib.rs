@@ -1,13 +1,14 @@
 use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
-    CODE_SM_LOGIN, CODE_SM_ROOM_LIST, Frame, LoginFailureReason, LoginResponsePayload,
-    PeerMessage, ProtocolMessage, RecommendationsPayload, RoomListPayload, RoomMembersPayload,
+    CODE_SM_LOGIN, CODE_SM_ROOM_LIST, Frame, LoginFailureReason, LoginResponsePayload, PeerMessage,
+    ProtocolMessage, RecommendationsPayload, RoomListPayload, RoomMembersPayload,
     RoomOperatorsPayload, ServerMessage, SimilarTermsPayload, TransferDirection,
     TransferRequestPayload, TransferResponsePayload, UserRecommendationsPayload,
-    build_file_search_request, build_get_global_recommendations_request,
-    build_get_my_recommendations_request, build_get_recommendations_request,
-    build_get_similar_terms_request, build_get_user_recommendations_request,
-    build_join_room_request, build_leave_room_request, build_login_request,
+    build_add_room_member_request, build_add_room_operator_request, build_file_search_request,
+    build_get_global_recommendations_request, build_get_my_recommendations_request,
+    build_get_recommendations_request, build_get_similar_terms_request,
+    build_get_user_recommendations_request, build_join_room_request, build_leave_room_request,
+    build_login_request, build_remove_room_member_request, build_remove_room_operator_request,
     build_room_list_request, build_room_members_request, build_room_operators_request,
     build_say_chatroom, build_transfer_request, decode_message, decode_server_message,
     encode_peer_message, encode_server_message, split_first_frame,
@@ -222,13 +223,40 @@ impl SessionClient {
         write_frame(self.stream_mut()?, &frame).await
     }
 
+    pub async fn add_room_member(&mut self, room: &str, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_add_room_member_request(room, username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn remove_room_member(&mut self, room: &str, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_remove_room_member_request(room, username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn add_room_operator(&mut self, room: &str, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_add_room_operator_request(room, username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn remove_room_operator(&mut self, room: &str, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_remove_room_operator_request(room, username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
     pub async fn say_chatroom(&mut self, room: &str, message: &str) -> Result<()> {
         self.ensure_logged_in()?;
         let frame = build_say_chatroom(room, message);
         write_frame(self.stream_mut()?, &frame).await
     }
 
-    pub async fn get_recommendations(&mut self, timeout: Duration) -> Result<RecommendationsPayload> {
+    pub async fn get_recommendations(
+        &mut self,
+        timeout: Duration,
+    ) -> Result<RecommendationsPayload> {
         self.ensure_logged_in()?;
         let frame = build_get_recommendations_request();
         write_frame(self.stream_mut()?, &frame).await?;
@@ -248,7 +276,8 @@ impl SessionClient {
             let remaining = deadline.saturating_duration_since(Instant::now());
             match tokio::time::timeout(remaining, self.read_next_frame()).await {
                 Ok(Ok(response)) => {
-                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
                         continue;
                     };
                     if let ServerMessage::GetMyRecommendationsResponse(payload) = message {
@@ -295,7 +324,8 @@ impl SessionClient {
             let remaining = deadline.saturating_duration_since(Instant::now());
             match tokio::time::timeout(remaining, self.read_next_frame()).await {
                 Ok(Ok(response)) => {
-                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
                         continue;
                     };
                     if let ServerMessage::GetUserRecommendationsResponse(payload) = message {
@@ -329,7 +359,8 @@ impl SessionClient {
             let remaining = deadline.saturating_duration_since(Instant::now());
             match tokio::time::timeout(remaining, self.read_next_frame()).await {
                 Ok(Ok(response)) => {
-                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
                         continue;
                     };
                     if let ServerMessage::GetSimilarTermsResponse(payload) = message {
@@ -510,7 +541,8 @@ impl SessionClient {
             let remaining = deadline.saturating_duration_since(Instant::now());
             match tokio::time::timeout(remaining, self.read_next_frame()).await {
                 Ok(Ok(response)) => {
-                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
                         continue;
                     };
                     match (kind, message) {
@@ -861,13 +893,15 @@ impl UploadAgent {
 mod tests {
     use super::*;
     use protocol::{
-        CODE_SM_GET_GLOBAL_RECOMMENDATIONS, CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_SIMILAR_TERMS,
-        CODE_SM_GET_MY_RECOMMENDATIONS, CODE_SM_GET_USER_RECOMMENDATIONS,
-        CODE_SM_FILE_SEARCH, CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN,
-        CODE_SM_ROOM_LIST, LoginResponsePayload, LoginResponseSuccessPayload, RecommendationEntry,
-        RecommendationsPayload, RoomListPayload, RoomPresenceEventPayload, ServerMessage,
-        SimilarTermsPayload, SpeedPayload, UserRecommendationsPayload, encode_server_message,
-        parse_transfer_request, parse_transfer_response,
+        CODE_SM_ADD_ROOM_MEMBER, CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_FILE_SEARCH,
+        CODE_SM_GET_GLOBAL_RECOMMENDATIONS, CODE_SM_GET_MY_RECOMMENDATIONS,
+        CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_SIMILAR_TERMS, CODE_SM_GET_USER_RECOMMENDATIONS,
+        CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN, CODE_SM_REMOVE_ROOM_MEMBER,
+        CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST, LoginResponsePayload,
+        LoginResponseSuccessPayload, RecommendationEntry, RecommendationsPayload, RoomListPayload,
+        RoomPresenceEventPayload, ServerMessage, SimilarTermsPayload, SpeedPayload,
+        UserRecommendationsPayload, encode_server_message, parse_transfer_request,
+        parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -981,10 +1015,11 @@ mod tests {
             let room_list_request = read_frame(&mut socket).await.expect("room list request");
             assert_eq!(room_list_request.code, CODE_SM_ROOM_LIST);
 
-            let room_list_frame = encode_server_message(&ServerMessage::RoomList(RoomListPayload {
-                room_count: 2,
-                rooms: vec!["nicotine".into(), "electronic".into()],
-            }));
+            let room_list_frame =
+                encode_server_message(&ServerMessage::RoomList(RoomListPayload {
+                    room_count: 2,
+                    rooms: vec!["nicotine".into(), "electronic".into()],
+                }));
             write_frame(&mut socket, &room_list_frame)
                 .await
                 .expect("write room list");
@@ -1050,6 +1085,67 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn room_moderation_operations_send_expected_codes() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let add_member = read_frame(&mut socket).await.expect("add member");
+            let remove_member = read_frame(&mut socket).await.expect("remove member");
+            let add_operator = read_frame(&mut socket).await.expect("add operator");
+            let remove_operator = read_frame(&mut socket).await.expect("remove operator");
+            (
+                add_member.code,
+                remove_member.code,
+                add_operator.code,
+                remove_operator.code,
+            )
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+        client
+            .add_room_member("private-room", "bob")
+            .await
+            .expect("add member");
+        client
+            .remove_room_member("private-room", "bob")
+            .await
+            .expect("remove member");
+        client
+            .add_room_operator("private-room", "alice")
+            .await
+            .expect("add operator");
+        client
+            .remove_room_operator("private-room", "alice")
+            .await
+            .expect("remove operator");
+
+        let (add_member, remove_member, add_operator, remove_operator) =
+            server.await.expect("server task");
+        assert_eq!(add_member, CODE_SM_ADD_ROOM_MEMBER);
+        assert_eq!(remove_member, CODE_SM_REMOVE_ROOM_MEMBER);
+        assert_eq!(add_operator, CODE_SM_ADD_ROOM_OPERATOR);
+        assert_eq!(remove_operator, CODE_SM_REMOVE_ROOM_OPERATOR);
+    }
+
+    #[tokio::test]
     async fn collect_room_events_decodes_presence_messages() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("addr");
@@ -1061,21 +1157,23 @@ mod tests {
                 .await
                 .expect("write login success");
 
-            let joined = encode_server_message(&ServerMessage::UserJoinedRoom(
-                RoomPresenceEventPayload {
+            let joined =
+                encode_server_message(&ServerMessage::UserJoinedRoom(RoomPresenceEventPayload {
                     room: "nicotine".into(),
                     username: "bob".into(),
-                },
-            ));
-            let left = encode_server_message(&ServerMessage::UserLeftRoom(RoomPresenceEventPayload {
-                room: "nicotine".into(),
-                username: "bob".into(),
-            }));
+                }));
+            let left =
+                encode_server_message(&ServerMessage::UserLeftRoom(RoomPresenceEventPayload {
+                    room: "nicotine".into(),
+                    username: "bob".into(),
+                }));
 
             write_frame(&mut socket, &joined)
                 .await
                 .expect("write joined event");
-            write_frame(&mut socket, &left).await.expect("write left event");
+            write_frame(&mut socket, &left)
+                .await
+                .expect("write left event");
         });
 
         let mut client = SessionClient::connect(&addr.to_string())
@@ -1121,7 +1219,9 @@ mod tests {
                 .await
                 .expect("write login success");
 
-            let request = read_frame(&mut socket).await.expect("recommendations request");
+            let request = read_frame(&mut socket)
+                .await
+                .expect("recommendations request");
             assert_eq!(request.code, CODE_SM_GET_RECOMMENDATIONS);
 
             let response = encode_server_message(&ServerMessage::GetRecommendationsResponse(
@@ -1178,16 +1278,15 @@ mod tests {
                 .expect("global recommendations request");
             assert_eq!(request.code, CODE_SM_GET_GLOBAL_RECOMMENDATIONS);
 
-            let response =
-                encode_server_message(&ServerMessage::GetGlobalRecommendationsResponse(
-                    RecommendationsPayload {
-                        recommendations: vec![RecommendationEntry {
-                            term: "lossless".into(),
-                            score: 8,
-                        }],
-                        unrecommendations: vec![],
-                    },
-                ));
+            let response = encode_server_message(&ServerMessage::GetGlobalRecommendationsResponse(
+                RecommendationsPayload {
+                    recommendations: vec![RecommendationEntry {
+                        term: "lossless".into(),
+                        score: 8,
+                    }],
+                    unrecommendations: vec![],
+                },
+            ));
             write_frame(&mut socket, &response)
                 .await
                 .expect("write global recommendations response");
@@ -1228,7 +1327,9 @@ mod tests {
                 .await
                 .expect("write login success");
 
-            let request = read_frame(&mut socket).await.expect("user recommendations request");
+            let request = read_frame(&mut socket)
+                .await
+                .expect("user recommendations request");
             assert_eq!(request.code, CODE_SM_GET_USER_RECOMMENDATIONS);
 
             let response = encode_server_message(&ServerMessage::GetUserRecommendationsResponse(
@@ -1283,7 +1384,9 @@ mod tests {
                 .await
                 .expect("write login success");
 
-            let request = read_frame(&mut socket).await.expect("similar terms request");
+            let request = read_frame(&mut socket)
+                .await
+                .expect("similar terms request");
             assert_eq!(request.code, CODE_SM_GET_SIMILAR_TERMS);
 
             let response = encode_server_message(&ServerMessage::GetSimilarTermsResponse(
@@ -1336,7 +1439,9 @@ mod tests {
                 .await
                 .expect("write login success");
 
-            let request = read_frame(&mut socket).await.expect("my recommendations request");
+            let request = read_frame(&mut socket)
+                .await
+                .expect("my recommendations request");
             assert_eq!(request.code, CODE_SM_GET_MY_RECOMMENDATIONS);
         });
 

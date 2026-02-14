@@ -382,3 +382,82 @@ Notes:
 - Protocol mapping expanded to `38` rows total with S4A batch confidence `high=5`, `medium=0`, `low=0`.
 - CLI discover commands were validated against the official server in summary mode (`discover recommendations/mine/global/user/similar-terms`).
 - Validation gates passed: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.
+
+## Stage 4B - Peer advanced + room moderation + protocol matrix
+
+Dependency graph:
+
+- `S4B-R01 -> S4B-R02`
+- `S4B-R02 -> S4B-T01`
+- `S4B-T01 -> S4B-T02`
+- `S4B-T02 -> S4B-T03`
+- `S4B-T03 -> S4B-T04`
+- `S4B-T04 -> S4B-T05`
+- `S4B-T05 -> S4B-T06`
+- `S4B-T06 -> S4B-T07`
+- `S4B-T07 -> S4B-R03`
+- `S4B-R03 -> S4B-T08`
+
+Tasks:
+
+- id: S4B-R01
+  description: Initialize Stage 4B plan and mark roadmap state for active execution
+  status: done
+  depends_on: []
+
+- id: S4B-R02
+  description: Add canonical protocol matrix generation and publish `docs/state/protocol-matrix.md` (mapped/implemented/missing + purpose)
+  status: done
+  depends_on: [S4B-R01]
+
+- id: S4B-T01
+  description: Resolve evidence and codes for S4B target messages (peer advanced + room moderation) from static/runtime/spec sources
+  status: done
+  depends_on: [S4B-R02]
+
+- id: S4B-T02
+  description: Generate S4B runtime captures (official room moderation attempts + local peer advanced scenarios) and redact artifacts
+  status: done
+  depends_on: [S4B-T01]
+
+- id: S4B-T03
+  description: Update `message_map.csv` and `message_schema.json` for S4B targets with confidence and evidence links
+  status: done
+  depends_on: [S4B-T02]
+
+- id: S4B-T04
+  description: Implement protocol codecs/types/builders for S4B messages in `rust/protocol`
+  status: done
+  depends_on: [S4B-T03]
+
+- id: S4B-T05
+  description: Extend `rust/core` and `rust/cli` for room moderation operations and peer advanced protocol usage
+  status: done
+  depends_on: [S4B-T04]
+
+- id: S4B-T06
+  description: Extend semantic differential verification and required run set for S4B scenarios
+  status: done
+  depends_on: [S4B-T05]
+
+- id: S4B-T07
+  description: Add S4B regression coverage (protocol contract + matrix integrity checks where applicable)
+  status: done
+  depends_on: [S4B-T06]
+
+- id: S4B-R03
+  description: Sync roadmap/project/verification/backlog docs and publish S4B status and outcomes
+  status: done
+  depends_on: [S4B-T07]
+
+- id: S4B-T08
+  description: Run final validation gates, prepare PR document, and open S4B PR
+  status: done
+  depends_on: [S4B-R03]
+
+Notes:
+
+- Stage 4B protocol matrix is published at `docs/state/protocol-matrix.md` and linked from `docs/index.md`.
+- Current matrix snapshot: total tracked `130`, implemented+mapped `47`, missing `83`.
+- S4B mapping batch landed with confidence gate satisfied: `high=7`, `medium=2`, `low=0`.
+- Validation gates passed: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.

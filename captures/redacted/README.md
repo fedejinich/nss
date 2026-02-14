@@ -32,10 +32,17 @@ Mandatory stage 4A scenarios:
 2. `login-user-recommendations`
 3. `login-similar-terms`
 
+Mandatory stage 4B scenarios:
+
+1. `login-room-moderation`
+2. `peer-advanced-local`
+
 Current state:
 
 - Stage 2 scenarios were regenerated from runtime runs (`captures/raw/* -> captures/redacted/*`).
 - Stage 3B room/presence scenarios were generated from authenticated runtime sessions and redacted with the same policy.
 - Stage 4A recommendations/discovery scenarios were generated from authenticated runtime sessions and redacted with the same policy.
+- Stage 4B room moderation scenario was generated from authenticated runtime sessions and redacted with the same policy.
+- Stage 4B peer-advanced scenario is a deterministic local peer runtime run for protocol coverage and semantic verification.
 - `login-*` scenarios include live server socket traffic to `server.slsknet.org:2242`.
 - `download/upload` peer flows are runtime local-peer exchanges used for deterministic protocol evidence and regression.

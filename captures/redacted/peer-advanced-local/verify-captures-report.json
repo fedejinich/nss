@@ -1,0 +1,61 @@
+{
+  "run_id": "peer-advanced-local",
+  "comparison_mode": "semantic",
+  "total_pairs": 5,
+  "matched_pairs": 5,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 8,
+      "neo_len": 8,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 59,
+      "neo_len": 59,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 28,
+      "neo_len": 28,
+      "first_diff_offset": null
+    },
+    {
+      "index": 3,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 18,
+      "neo_len": 18,
+      "first_diff_offset": null
+    },
+    {
+      "index": 4,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 24,
+      "neo_len": 24,
+      "first_diff_offset": null
+    }
+  ]
+}

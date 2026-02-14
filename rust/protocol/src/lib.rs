@@ -30,6 +30,10 @@ pub const CODE_SM_GET_USER_RECOMMENDATIONS: u32 = 57;
 pub const CODE_SM_EXACT_FILE_SEARCH: u32 = 65;
 pub const CODE_SM_SEARCH_ROOM: u32 = 120;
 pub const CODE_SM_UPLOAD_SPEED: u32 = 121;
+pub const CODE_SM_ADD_ROOM_MEMBER: u32 = 134;
+pub const CODE_SM_REMOVE_ROOM_MEMBER: u32 = 135;
+pub const CODE_SM_ADD_ROOM_OPERATOR: u32 = 143;
+pub const CODE_SM_REMOVE_ROOM_OPERATOR: u32 = 144;
 pub const CODE_SM_ROOM_MEMBERS: u32 = 133;
 pub const CODE_SM_ROOM_OPERATORS: u32 = 148;
 
@@ -37,12 +41,17 @@ pub const CODE_PM_GET_SHARED_FILE_LIST: u32 = 4;
 pub const CODE_PM_SHARED_FILE_LIST: u32 = 5;
 pub const CODE_PM_FILE_SEARCH_REQUEST: u32 = 8;
 pub const CODE_PM_FILE_SEARCH_RESULT: u32 = 9;
+pub const CODE_PM_USER_INFO_REQUEST: u32 = 15;
+pub const CODE_PM_USER_INFO_REPLY: u32 = 16;
 pub const CODE_PM_TRANSFER_REQUEST: u32 = 40;
 pub const CODE_PM_TRANSFER_RESPONSE: u32 = 41;
 pub const CODE_PM_QUEUE_UPLOAD: u32 = 43;
 pub const CODE_PM_UPLOAD_PLACE_IN_LINE: u32 = 44;
+pub const CODE_PM_EXACT_FILE_SEARCH_REQUEST: u32 = 47;
+pub const CODE_PM_INDIRECT_FILE_SEARCH_REQUEST: u32 = 49;
 pub const CODE_PM_UPLOAD_FAILED: u32 = 46;
 pub const CODE_PM_UPLOAD_DENIED: u32 = 50;
+pub const CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST: u32 = 51;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Frame {
@@ -124,6 +133,11 @@ impl PayloadWriter {
         self.write_u32(if value { 1 } else { 0 });
     }
 
+    pub fn write_bytes(&mut self, value: &[u8]) {
+        self.write_u32(value.len() as u32);
+        self.inner.extend_from_slice(value);
+    }
+
     pub fn write_string(&mut self, value: &str) {
         self.write_u32(value.len() as u32);
         self.inner.extend_from_slice(value.as_bytes());
@@ -183,6 +197,11 @@ impl<'a> PayloadReader<'a> {
 
     pub fn read_bool_u32(&mut self) -> Result<bool, DecoderError> {
         Ok(self.read_u32()? != 0)
+    }
+
+    pub fn read_bytes(&mut self) -> Result<Vec<u8>, DecoderError> {
+        let len = self.read_u32()? as usize;
+        Ok(self.take(len)?.to_vec())
     }
 
     pub fn read_string(&mut self) -> Result<String, DecoderError> {
@@ -358,6 +377,12 @@ pub struct RoomOperatorsPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomModerationPayload {
+    pub room: String,
+    pub username: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SayChatRoomPayload {
     pub room: String,
     pub username: Option<String>,
@@ -487,6 +512,31 @@ pub struct UploadStatusPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserInfoRequestPayload;
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserInfoReplyPayload {
+    pub description: String,
+    pub has_picture: bool,
+    pub picture: Vec<u8>,
+    pub total_uploads: u32,
+    pub queue_size: u32,
+    pub slots_free: bool,
+    pub upload_permissions: Option<u32>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PeerSearchQueryPayload {
+    pub token: Option<u32>,
+    pub query: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UploadPlaceInLineRequestPayload {
+    pub virtual_path: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ServerMessage {
     Login(LoginPayload),
     LoginResponse(LoginResponsePayload),
@@ -514,6 +564,10 @@ pub enum ServerMessage {
     GetGlobalRecommendationsResponse(RecommendationsPayload),
     GetUserRecommendations(UserLookupPayload),
     GetUserRecommendationsResponse(UserRecommendationsPayload),
+    AddRoomMember(RoomModerationPayload),
+    RemoveRoomMember(RoomModerationPayload),
+    AddRoomOperator(RoomModerationPayload),
+    RemoveRoomOperator(RoomModerationPayload),
     RoomMembers(RoomMembersPayload),
     RoomOperators(RoomOperatorsPayload),
     MessageUser(MessageUserPayload),
@@ -531,12 +585,17 @@ pub enum PeerMessage {
     SharedFileList(SharedFileListPayload),
     FileSearchRequest(FileSearchRequestPayload),
     FileSearchResult(FileSearchResultPayload),
+    UserInfoRequest(UserInfoRequestPayload),
+    UserInfoReply(UserInfoReplyPayload),
     TransferRequest(TransferRequestPayload),
     TransferResponse(TransferResponsePayload),
     QueueUpload(QueueUploadPayload),
     UploadPlaceInLine(UploadPlaceInLinePayload),
+    ExactFileSearchRequest(PeerSearchQueryPayload),
+    IndirectFileSearchRequest(PeerSearchQueryPayload),
     UploadFailed(UploadStatusPayload),
     UploadDenied(UploadStatusPayload),
+    UploadPlaceInLineRequest(UploadPlaceInLineRequestPayload),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -746,6 +805,26 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             encode_recommendations_payload(&mut writer, &payload.recommendations);
             CODE_SM_GET_USER_RECOMMENDATIONS
         }
+        ServerMessage::AddRoomMember(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            CODE_SM_ADD_ROOM_MEMBER
+        }
+        ServerMessage::RemoveRoomMember(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            CODE_SM_REMOVE_ROOM_MEMBER
+        }
+        ServerMessage::AddRoomOperator(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            CODE_SM_ADD_ROOM_OPERATOR
+        }
+        ServerMessage::RemoveRoomOperator(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            CODE_SM_REMOVE_ROOM_OPERATOR
+        }
         ServerMessage::RoomMembers(payload) => {
             writer.write_string(&payload.room);
             if !payload.users.is_empty() {
@@ -813,9 +892,9 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         if let Ok(room_list) = parse_room_list_payload(payload) {
             return Ok(ServerMessage::RoomList(room_list));
         }
-        return Ok(ServerMessage::FileSearchResponseSummary(parse_search_response_summary(
-            payload,
-        )?));
+        return Ok(ServerMessage::FileSearchResponseSummary(
+            parse_search_response_summary(payload)?,
+        ));
     }
 
     let mut reader = PayloadReader::new(payload);
@@ -929,10 +1008,26 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             if let Ok(request) = parse_user_lookup_payload(payload) {
                 ServerMessage::GetUserRecommendations(request)
             } else {
-                ServerMessage::GetUserRecommendationsResponse(
-                    parse_user_recommendations_payload(payload)?,
-                )
+                ServerMessage::GetUserRecommendationsResponse(parse_user_recommendations_payload(
+                    payload,
+                )?)
             }
+        }
+        CODE_SM_ADD_ROOM_MEMBER => {
+            allow_trailing_bytes = true;
+            ServerMessage::AddRoomMember(parse_room_moderation_payload(payload)?)
+        }
+        CODE_SM_REMOVE_ROOM_MEMBER => {
+            allow_trailing_bytes = true;
+            ServerMessage::RemoveRoomMember(parse_room_moderation_payload(payload)?)
+        }
+        CODE_SM_ADD_ROOM_OPERATOR => {
+            allow_trailing_bytes = true;
+            ServerMessage::AddRoomOperator(parse_room_moderation_payload(payload)?)
+        }
+        CODE_SM_REMOVE_ROOM_OPERATOR => {
+            allow_trailing_bytes = true;
+            ServerMessage::RemoveRoomOperator(parse_room_moderation_payload(payload)?)
         }
         CODE_SM_ROOM_MEMBERS => {
             allow_trailing_bytes = true;
@@ -1068,6 +1163,16 @@ pub fn parse_room_operators_payload(payload: &[u8]) -> Result<RoomOperatorsPaylo
     Ok(RoomOperatorsPayload { room, operators })
 }
 
+pub fn parse_room_moderation_payload(payload: &[u8]) -> Result<RoomModerationPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let data = RoomModerationPayload {
+        room: reader.read_string()?,
+        username: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(data)
+}
+
 pub fn parse_say_chatroom_payload(payload: &[u8]) -> Result<SayChatRoomPayload> {
     let mut reader = PayloadReader::new(payload);
     let room = reader.read_string()?;
@@ -1129,8 +1234,7 @@ fn parse_recommendations_payload_from_reader(
     } else {
         0
     };
-    let unrecommendations =
-        parse_recommendation_entries(reader, unrecommendation_count, 100_000)?;
+    let unrecommendations = parse_recommendation_entries(reader, unrecommendation_count, 100_000)?;
 
     Ok(RecommendationsPayload {
         recommendations,
@@ -1313,6 +1417,73 @@ fn parse_search_response_summary_room_list(payload: &[u8]) -> Result<SearchRespo
     })
 }
 
+fn parse_user_info_reply_payload(payload: &[u8]) -> Result<UserInfoReplyPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let description = reader.read_string()?;
+    let has_picture = if reader.remaining() >= 1 {
+        reader.read_u8()? != 0
+    } else {
+        false
+    };
+    let picture = if has_picture && reader.remaining() >= 4 {
+        reader.read_bytes()?
+    } else {
+        Vec::new()
+    };
+    let total_uploads = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let queue_size = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let slots_free = if reader.remaining() >= 1 {
+        reader.read_u8()? != 0
+    } else {
+        false
+    };
+    let upload_permissions = if reader.remaining() >= 4 {
+        Some(reader.read_u32()?)
+    } else {
+        None
+    };
+
+    Ok(UserInfoReplyPayload {
+        description,
+        has_picture,
+        picture,
+        total_uploads,
+        queue_size,
+        slots_free,
+        upload_permissions,
+    })
+}
+
+fn parse_peer_search_query_payload(payload: &[u8]) -> Result<PeerSearchQueryPayload> {
+    let mut reader = PayloadReader::new(payload);
+    if reader.remaining() >= 8 {
+        let checkpoint = reader.clone();
+        if let Ok(token) = reader.read_u32() {
+            if let Ok(query) = reader.read_string() {
+                if reader.remaining() == 0 {
+                    return Ok(PeerSearchQueryPayload {
+                        token: Some(token),
+                        query,
+                    });
+                }
+            }
+        }
+        reader = checkpoint;
+    }
+
+    let query = reader.read_string()?;
+    ensure_payload_consumed(&reader)?;
+    Ok(PeerSearchQueryPayload { token: None, query })
+}
+
 pub fn encode_peer_message(message: &PeerMessage) -> Frame {
     let mut writer = PayloadWriter::new();
     let code = match message {
@@ -1339,6 +1510,21 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_u32(payload.result_count);
             CODE_PM_FILE_SEARCH_RESULT
         }
+        PeerMessage::UserInfoRequest(_) => CODE_PM_USER_INFO_REQUEST,
+        PeerMessage::UserInfoReply(payload) => {
+            writer.write_string(&payload.description);
+            writer.write_u8(u8::from(payload.has_picture));
+            if payload.has_picture {
+                writer.write_bytes(&payload.picture);
+            }
+            writer.write_u32(payload.total_uploads);
+            writer.write_u32(payload.queue_size);
+            writer.write_u8(u8::from(payload.slots_free));
+            if let Some(value) = payload.upload_permissions {
+                writer.write_u32(value);
+            }
+            CODE_PM_USER_INFO_REPLY
+        }
         PeerMessage::TransferRequest(payload) => {
             writer.write_u32(payload.direction.as_u32());
             writer.write_u32(payload.token);
@@ -1363,6 +1549,20 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_u32(payload.place);
             CODE_PM_UPLOAD_PLACE_IN_LINE
         }
+        PeerMessage::ExactFileSearchRequest(payload) => {
+            if let Some(token) = payload.token {
+                writer.write_u32(token);
+            }
+            writer.write_string(&payload.query);
+            CODE_PM_EXACT_FILE_SEARCH_REQUEST
+        }
+        PeerMessage::IndirectFileSearchRequest(payload) => {
+            if let Some(token) = payload.token {
+                writer.write_u32(token);
+            }
+            writer.write_string(&payload.query);
+            CODE_PM_INDIRECT_FILE_SEARCH_REQUEST
+        }
         PeerMessage::UploadFailed(payload) => {
             writer.write_string(&payload.username);
             writer.write_string(&payload.virtual_path);
@@ -1375,6 +1575,10 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_string(&payload.reason);
             CODE_PM_UPLOAD_DENIED
         }
+        PeerMessage::UploadPlaceInLineRequest(payload) => {
+            writer.write_string(&payload.virtual_path);
+            CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST
+        }
     };
 
     Frame::new(code, writer.into_inner())
@@ -1382,6 +1586,7 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
 
 pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
     let mut reader = PayloadReader::new(payload);
+    let mut allow_trailing_bytes = false;
 
     let message = match code {
         CODE_PM_GET_SHARED_FILE_LIST => {
@@ -1416,6 +1621,11 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             };
             PeerMessage::FileSearchResult(payload)
         }
+        CODE_PM_USER_INFO_REQUEST => PeerMessage::UserInfoRequest(UserInfoRequestPayload),
+        CODE_PM_USER_INFO_REPLY => {
+            allow_trailing_bytes = true;
+            PeerMessage::UserInfoReply(parse_user_info_reply_payload(payload)?)
+        }
         CODE_PM_TRANSFER_REQUEST => {
             let direction = TransferDirection::from_u32(reader.read_u32()?)?;
             let payload = TransferRequestPayload {
@@ -1449,6 +1659,14 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             };
             PeerMessage::UploadPlaceInLine(payload)
         }
+        CODE_PM_EXACT_FILE_SEARCH_REQUEST => {
+            allow_trailing_bytes = true;
+            PeerMessage::ExactFileSearchRequest(parse_peer_search_query_payload(payload)?)
+        }
+        CODE_PM_INDIRECT_FILE_SEARCH_REQUEST => {
+            allow_trailing_bytes = true;
+            PeerMessage::IndirectFileSearchRequest(parse_peer_search_query_payload(payload)?)
+        }
         CODE_PM_UPLOAD_FAILED => {
             let payload = UploadStatusPayload {
                 username: reader.read_string()?,
@@ -1465,10 +1683,18 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             };
             PeerMessage::UploadDenied(payload)
         }
+        CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST => {
+            let payload = UploadPlaceInLineRequestPayload {
+                virtual_path: reader.read_string()?,
+            };
+            PeerMessage::UploadPlaceInLineRequest(payload)
+        }
         other => bail!("unsupported peer message code {other}"),
     };
 
-    ensure_payload_consumed(&reader)?;
+    if !allow_trailing_bytes {
+        ensure_payload_consumed(&reader)?;
+    }
     Ok(message)
 }
 
@@ -1514,9 +1740,11 @@ pub fn build_get_user_recommendations_request(username: &str) -> Frame {
 }
 
 pub fn build_get_similar_terms_request(term: &str) -> Frame {
-    encode_server_message(&ServerMessage::GetSimilarTerms(SimilarTermsRequestPayload {
-        term: term.to_owned(),
-    }))
+    encode_server_message(&ServerMessage::GetSimilarTerms(
+        SimilarTermsRequestPayload {
+            term: term.to_owned(),
+        },
+    ))
 }
 
 pub fn build_room_list_request() -> Frame {
@@ -1550,6 +1778,34 @@ pub fn build_room_operators_request(room: &str) -> Frame {
     }))
 }
 
+pub fn build_add_room_member_request(room: &str, username: &str) -> Frame {
+    encode_server_message(&ServerMessage::AddRoomMember(RoomModerationPayload {
+        room: room.to_owned(),
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_remove_room_member_request(room: &str, username: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveRoomMember(RoomModerationPayload {
+        room: room.to_owned(),
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_add_room_operator_request(room: &str, username: &str) -> Frame {
+    encode_server_message(&ServerMessage::AddRoomOperator(RoomModerationPayload {
+        room: room.to_owned(),
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_remove_room_operator_request(room: &str, username: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveRoomOperator(RoomModerationPayload {
+        room: room.to_owned(),
+        username: username.to_owned(),
+    }))
+}
+
 pub fn build_say_chatroom(room: &str, message: &str) -> Frame {
     encode_server_message(&ServerMessage::SayChatRoom(SayChatRoomPayload {
         room: room.to_owned(),
@@ -1578,6 +1834,36 @@ pub fn build_transfer_response(token: u32, allowed: bool, queue_or_reason: &str)
         allowed,
         queue_or_reason: queue_or_reason.to_owned(),
     }))
+}
+
+pub fn build_user_info_request() -> Frame {
+    encode_peer_message(&PeerMessage::UserInfoRequest(UserInfoRequestPayload))
+}
+
+pub fn build_exact_file_search_request(query: &str, token: Option<u32>) -> Frame {
+    encode_peer_message(&PeerMessage::ExactFileSearchRequest(
+        PeerSearchQueryPayload {
+            token,
+            query: query.to_owned(),
+        },
+    ))
+}
+
+pub fn build_indirect_file_search_request(query: &str, token: Option<u32>) -> Frame {
+    encode_peer_message(&PeerMessage::IndirectFileSearchRequest(
+        PeerSearchQueryPayload {
+            token,
+            query: query.to_owned(),
+        },
+    ))
+}
+
+pub fn build_upload_place_in_line_request(virtual_path: &str) -> Frame {
+    encode_peer_message(&PeerMessage::UploadPlaceInLineRequest(
+        UploadPlaceInLineRequestPayload {
+            virtual_path: virtual_path.to_owned(),
+        },
+    ))
 }
 
 pub fn parse_transfer_request(payload: &[u8]) -> Result<TransferRequestPayload> {
@@ -1706,18 +1992,18 @@ mod tests {
                 username: "bob".into(),
                 search_text: "flac".into(),
             })),
-            ProtocolMessage::Server(ServerMessage::GetSimilarTerms(
-                SimilarTermsRequestPayload {
+            ProtocolMessage::Server(ServerMessage::GetSimilarTerms(SimilarTermsRequestPayload {
+                term: "electronic".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::GetSimilarTermsResponse(
+                SimilarTermsPayload {
                     term: "electronic".into(),
+                    entries: vec![RecommendationEntry {
+                        term: "idm".into(),
+                        score: 7,
+                    }],
                 },
             )),
-            ProtocolMessage::Server(ServerMessage::GetSimilarTermsResponse(SimilarTermsPayload {
-                term: "electronic".into(),
-                entries: vec![RecommendationEntry {
-                    term: "idm".into(),
-                    score: 7,
-                }],
-            })),
             ProtocolMessage::Server(ServerMessage::GetRecommendations(EmptyPayload)),
             ProtocolMessage::Server(ServerMessage::GetRecommendationsResponse(
                 RecommendationsPayload {
@@ -1777,6 +2063,22 @@ mod tests {
                 room: "nicotine".into(),
                 operators: vec!["alice".into()],
             })),
+            ProtocolMessage::Server(ServerMessage::AddRoomMember(RoomModerationPayload {
+                room: "private-room".into(),
+                username: "bob".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveRoomMember(RoomModerationPayload {
+                room: "private-room".into(),
+                username: "bob".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::AddRoomOperator(RoomModerationPayload {
+                room: "private-room".into(),
+                username: "alice".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveRoomOperator(RoomModerationPayload {
+                room: "private-room".into(),
+                username: "alice".into(),
+            })),
             ProtocolMessage::Server(ServerMessage::MessageUser(MessageUserPayload {
                 username: "bob".into(),
                 message: "hello".into(),
@@ -1826,6 +2128,16 @@ mod tests {
                 username: "bob".into(),
                 result_count: 2,
             })),
+            ProtocolMessage::Peer(PeerMessage::UserInfoRequest(UserInfoRequestPayload)),
+            ProtocolMessage::Peer(PeerMessage::UserInfoReply(UserInfoReplyPayload {
+                description: "hello".into(),
+                has_picture: false,
+                picture: Vec::new(),
+                total_uploads: 12,
+                queue_size: 2,
+                slots_free: true,
+                upload_permissions: Some(1),
+            })),
             ProtocolMessage::Peer(PeerMessage::TransferRequest(TransferRequestPayload {
                 direction: TransferDirection::Download,
                 token: 555,
@@ -1846,6 +2158,18 @@ mod tests {
                 virtual_path: "Music\\queued.flac".into(),
                 place: 3,
             })),
+            ProtocolMessage::Peer(PeerMessage::ExactFileSearchRequest(
+                PeerSearchQueryPayload {
+                    token: Some(123),
+                    query: "Music\\A.flac".into(),
+                },
+            )),
+            ProtocolMessage::Peer(PeerMessage::IndirectFileSearchRequest(
+                PeerSearchQueryPayload {
+                    token: None,
+                    query: "A.flac".into(),
+                },
+            )),
             ProtocolMessage::Peer(PeerMessage::UploadFailed(UploadStatusPayload {
                 username: "alice".into(),
                 virtual_path: "Music\\queued.flac".into(),
@@ -1856,6 +2180,11 @@ mod tests {
                 virtual_path: "Music\\queued.flac".into(),
                 reason: "blocked".into(),
             })),
+            ProtocolMessage::Peer(PeerMessage::UploadPlaceInLineRequest(
+                UploadPlaceInLineRequestPayload {
+                    virtual_path: "Music\\queued.flac".into(),
+                },
+            )),
         ]
     }
 
@@ -1872,13 +2201,38 @@ mod tests {
     fn room_request_builders_emit_expected_codes() {
         assert_eq!(build_room_list_request().code, CODE_SM_ROOM_LIST);
         assert_eq!(build_join_room_request("nicotine").code, CODE_SM_JOIN_ROOM);
-        assert_eq!(build_leave_room_request("nicotine").code, CODE_SM_LEAVE_ROOM);
-        assert_eq!(build_room_members_request("nicotine").code, CODE_SM_ROOM_MEMBERS);
+        assert_eq!(
+            build_leave_room_request("nicotine").code,
+            CODE_SM_LEAVE_ROOM
+        );
+        assert_eq!(
+            build_room_members_request("nicotine").code,
+            CODE_SM_ROOM_MEMBERS
+        );
         assert_eq!(
             build_room_operators_request("nicotine").code,
             CODE_SM_ROOM_OPERATORS
         );
-        assert_eq!(build_say_chatroom("nicotine", "hello").code, CODE_SM_SAY_CHATROOM);
+        assert_eq!(
+            build_say_chatroom("nicotine", "hello").code,
+            CODE_SM_SAY_CHATROOM
+        );
+        assert_eq!(
+            build_add_room_member_request("private", "bob").code,
+            CODE_SM_ADD_ROOM_MEMBER
+        );
+        assert_eq!(
+            build_remove_room_member_request("private", "bob").code,
+            CODE_SM_REMOVE_ROOM_MEMBER
+        );
+        assert_eq!(
+            build_add_room_operator_request("private", "bob").code,
+            CODE_SM_ADD_ROOM_OPERATOR
+        );
+        assert_eq!(
+            build_remove_room_operator_request("private", "bob").code,
+            CODE_SM_REMOVE_ROOM_OPERATOR
+        );
     }
 
     #[test]
@@ -2001,5 +2355,22 @@ mod tests {
         assert_eq!(parsed.token, 555);
         assert!(parsed.allowed);
         assert_eq!(parsed.queue_or_reason, "");
+    }
+
+    #[test]
+    fn peer_advanced_request_builders_emit_expected_codes() {
+        assert_eq!(build_user_info_request().code, CODE_PM_USER_INFO_REQUEST);
+        assert_eq!(
+            build_exact_file_search_request("A.flac", Some(10)).code,
+            CODE_PM_EXACT_FILE_SEARCH_REQUEST
+        );
+        assert_eq!(
+            build_indirect_file_search_request("A.flac", None).code,
+            CODE_PM_INDIRECT_FILE_SEARCH_REQUEST
+        );
+        assert_eq!(
+            build_upload_place_in_line_request("Music\\A.flac").code,
+            CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST
+        );
     }
 }

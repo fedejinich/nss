@@ -305,6 +305,86 @@ enum RoomCommand {
         #[arg(long)]
         verbose: bool,
     },
+    AddMember {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    RemoveMember {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    AddOperator {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    RemoveOperator {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
 }
 
 #[derive(Debug, Subcommand)]
@@ -700,6 +780,90 @@ async fn main() -> Result<()> {
                 .await?;
                 run_room_watch(&mut client, &room, timeout_secs, verbose).await?;
             }
+            RoomCommand::AddMember {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                target_user,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_add_member(&mut client, &room, &target_user, verbose).await?;
+            }
+            RoomCommand::RemoveMember {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                target_user,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_remove_member(&mut client, &room, &target_user, verbose).await?;
+            }
+            RoomCommand::AddOperator {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                target_user,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_add_operator(&mut client, &room, &target_user, verbose).await?;
+            }
+            RoomCommand::RemoveOperator {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                target_user,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_remove_operator(&mut client, &room, &target_user, verbose).await?;
+            }
         },
         Commands::Discover { command } => match command {
             DiscoverCommand::Recommendations {
@@ -950,7 +1114,8 @@ async fn run_login(
     client_version: u32,
     minor_version: u32,
 ) -> Result<()> {
-    let client = connect_and_login(server, username, password, client_version, minor_version).await?;
+    let client =
+        connect_and_login(server, username, password, client_version, minor_version).await?;
     println!(
         "session.login ok state={:?} server={}",
         client.state(),
@@ -1000,7 +1165,13 @@ async fn run_room_list(client: &mut SessionClient, verbose: bool) -> Result<()> 
     println!(
         "room.list ok rooms={} sample={}",
         payload.room_count,
-        payload.rooms.iter().take(5).cloned().collect::<Vec<_>>().join(", ")
+        payload
+            .rooms
+            .iter()
+            .take(5)
+            .cloned()
+            .collect::<Vec<_>>()
+            .join(", ")
     );
     if verbose {
         println!("{payload:#?}");
@@ -1010,7 +1181,9 @@ async fn run_room_list(client: &mut SessionClient, verbose: bool) -> Result<()> 
 
 async fn run_room_join(client: &mut SessionClient, room: &str, verbose: bool) -> Result<()> {
     client.join_room(room).await?;
-    let events = client.collect_room_events(Duration::from_secs(3), 64).await?;
+    let events = client
+        .collect_room_events(Duration::from_secs(3), 64)
+        .await?;
     println!(
         "room.join ok room={} collected_events={}",
         room,
@@ -1027,7 +1200,9 @@ async fn run_room_join(client: &mut SessionClient, room: &str, verbose: bool) ->
 async fn run_room_leave(client: &mut SessionClient, room: &str, verbose: bool) -> Result<()> {
     client.join_room(room).await?;
     client.leave_room(room).await?;
-    let events = client.collect_room_events(Duration::from_secs(2), 32).await?;
+    let events = client
+        .collect_room_events(Duration::from_secs(2), 32)
+        .await?;
     println!(
         "room.leave ok room={} collected_events={}",
         room,
@@ -1070,7 +1245,9 @@ async fn run_room_members(
     });
 
     let members_count = members.map(|payload| payload.users.len()).unwrap_or(0);
-    let operators_count = operators.map(|payload| payload.operators.len()).unwrap_or(0);
+    let operators_count = operators
+        .map(|payload| payload.operators.len())
+        .unwrap_or(0);
     println!(
         "room.members ok room={} members={} operators={}",
         room, members_count, operators_count
@@ -1119,6 +1296,85 @@ async fn run_room_watch(
         events.len()
     );
     if verbose {
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_room_add_member(
+    client: &mut SessionClient,
+    room: &str,
+    target_user: &str,
+    verbose: bool,
+) -> Result<()> {
+    client.add_room_member(room, target_user).await?;
+    println!("room.add-member sent room={} user={}", room, target_user);
+    if verbose {
+        let events = client
+            .collect_room_events(Duration::from_secs(2), 64)
+            .await?;
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_room_remove_member(
+    client: &mut SessionClient,
+    room: &str,
+    target_user: &str,
+    verbose: bool,
+) -> Result<()> {
+    client.remove_room_member(room, target_user).await?;
+    println!("room.remove-member sent room={} user={}", room, target_user);
+    if verbose {
+        let events = client
+            .collect_room_events(Duration::from_secs(2), 64)
+            .await?;
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_room_add_operator(
+    client: &mut SessionClient,
+    room: &str,
+    target_user: &str,
+    verbose: bool,
+) -> Result<()> {
+    client.add_room_operator(room, target_user).await?;
+    println!("room.add-operator sent room={} user={}", room, target_user);
+    if verbose {
+        let events = client
+            .collect_room_events(Duration::from_secs(2), 64)
+            .await?;
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
+async fn run_room_remove_operator(
+    client: &mut SessionClient,
+    room: &str,
+    target_user: &str,
+    verbose: bool,
+) -> Result<()> {
+    client.remove_room_operator(room, target_user).await?;
+    println!(
+        "room.remove-operator sent room={} user={}",
+        room, target_user
+    );
+    if verbose {
+        let events = client
+            .collect_room_events(Duration::from_secs(2), 64)
+            .await?;
         for (idx, event) in events.iter().enumerate() {
             println!("[{idx}] {event:#?}");
         }
