@@ -1,8 +1,17 @@
 use anyhow::{Context, Result};
-use protocol::Frame;
+use protocol::{Frame, decode_message};
 use serde::{Deserialize, Serialize};
+use serde_json::{Value, json};
+use std::collections::BTreeSet;
 use std::fs;
 use std::path::Path;
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum ComparisonMode {
+    Bytes,
+    Semantic,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct FrameComparison {
@@ -17,6 +26,9 @@ pub struct FrameComparison {
 pub struct CaptureFrameComparison {
     pub index: usize,
     pub matches: bool,
+    pub bytes_match: bool,
+    pub semantic_matches: bool,
+    pub semantic_first_diff_field: Option<String>,
     pub official_len: usize,
     pub neo_len: usize,
     pub first_diff_offset: Option<usize>,
@@ -25,6 +37,7 @@ pub struct CaptureFrameComparison {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct CaptureRunReport {
     pub run_id: String,
+    pub comparison_mode: ComparisonMode,
     pub total_pairs: usize,
     pub matched_pairs: usize,
     pub mismatched_pairs: usize,
@@ -85,7 +98,11 @@ pub fn load_hex_lines(path: impl AsRef<Path>) -> Result<Vec<Vec<u8>>> {
             continue;
         }
         let bytes = decode_hex(trimmed).with_context(|| {
-            format!("decode hex line {} from {}", line_no + 1, path_ref.display())
+            format!(
+                "decode hex line {} from {}",
+                line_no + 1,
+                path_ref.display()
+            )
         })?;
         out.push(bytes);
     }
@@ -98,6 +115,15 @@ pub fn compare_capture_sequences(
     official_frames: &[Vec<u8>],
     neo_frames: &[Vec<u8>],
 ) -> CaptureRunReport {
+    compare_capture_sequences_with_mode(run_id, official_frames, neo_frames, ComparisonMode::Bytes)
+}
+
+pub fn compare_capture_sequences_with_mode(
+    run_id: &str,
+    official_frames: &[Vec<u8>],
+    neo_frames: &[Vec<u8>],
+    mode: ComparisonMode,
+) -> CaptureRunReport {
     let pair_count = official_frames.len().min(neo_frames.len());
     let mut comparisons = Vec::with_capacity(pair_count);
     let mut matched_pairs = 0;
@@ -105,22 +131,33 @@ pub fn compare_capture_sequences(
     for idx in 0..pair_count {
         let official = &official_frames[idx];
         let neo = &neo_frames[idx];
-        let diff = first_diff_offset(official, neo);
-        let matches = diff.is_none() && official.len() == neo.len();
+        let first_diff = first_diff_offset(official, neo);
+        let bytes_match = first_diff.is_none() && official.len() == neo.len();
+
+        let (semantic_matches, semantic_first_diff_field) = semantic_compare(official, neo);
+        let matches = match mode {
+            ComparisonMode::Bytes => bytes_match,
+            ComparisonMode::Semantic => semantic_matches,
+        };
         if matches {
             matched_pairs += 1;
         }
+
         comparisons.push(CaptureFrameComparison {
             index: idx,
             matches,
+            bytes_match,
+            semantic_matches,
+            semantic_first_diff_field,
             official_len: official.len(),
             neo_len: neo.len(),
-            first_diff_offset: diff,
+            first_diff_offset: first_diff,
         });
     }
 
     CaptureRunReport {
         run_id: run_id.to_owned(),
+        comparison_mode: mode,
         total_pairs: pair_count,
         matched_pairs,
         mismatched_pairs: pair_count.saturating_sub(matched_pairs),
@@ -131,6 +168,13 @@ pub fn compare_capture_sequences(
 }
 
 pub fn compare_capture_run(run_dir: impl AsRef<Path>) -> Result<CaptureRunReport> {
+    compare_capture_run_with_mode(run_dir, ComparisonMode::Bytes)
+}
+
+pub fn compare_capture_run_with_mode(
+    run_dir: impl AsRef<Path>,
+    mode: ComparisonMode,
+) -> Result<CaptureRunReport> {
     let run_dir = run_dir.as_ref();
     let run_id = run_dir
         .file_name()
@@ -143,7 +187,9 @@ pub fn compare_capture_run(run_dir: impl AsRef<Path>) -> Result<CaptureRunReport
     let official = load_hex_lines(&official_path)?;
     let neo = load_hex_lines(&neo_path)?;
 
-    Ok(compare_capture_sequences(&run_id, &official, &neo))
+    Ok(compare_capture_sequences_with_mode(
+        &run_id, &official, &neo, mode,
+    ))
 }
 
 pub fn write_capture_report(path: impl AsRef<Path>, report: &CaptureRunReport) -> Result<()> {
@@ -151,6 +197,89 @@ pub fn write_capture_report(path: impl AsRef<Path>, report: &CaptureRunReport) -
     fs::write(path.as_ref(), rendered + "\n")
         .with_context(|| format!("write capture report: {}", path.as_ref().display()))?;
     Ok(())
+}
+
+fn semantic_compare(official: &[u8], neo: &[u8]) -> (bool, Option<String>) {
+    let official_norm = normalize_semantic_frame(official);
+    let neo_norm = normalize_semantic_frame(neo);
+    if official_norm == neo_norm {
+        return (true, None);
+    }
+
+    (
+        false,
+        first_semantic_diff(&official_norm, &neo_norm, "semantic")
+            .or_else(|| Some("semantic".to_string())),
+    )
+}
+
+fn normalize_semantic_frame(bytes: &[u8]) -> Value {
+    let frame = match Frame::decode(bytes) {
+        Ok(frame) => frame,
+        Err(err) => {
+            return json!({
+                "decode_error": err.to_string(),
+                "frame_md5": format!("{:x}", md5::compute(bytes)),
+            });
+        }
+    };
+
+    match decode_message(&frame) {
+        Ok(message) => json!({
+            "code": frame.code,
+            "known": true,
+            "decoded": message,
+        }),
+        Err(_) => json!({
+            "code": frame.code,
+            "known": false,
+            "payload_len": frame.payload.len(),
+            "payload_md5": format!("{:x}", md5::compute(&frame.payload)),
+        }),
+    }
+}
+
+fn first_semantic_diff(expected: &Value, actual: &Value, path: &str) -> Option<String> {
+    match (expected, actual) {
+        (Value::Object(left), Value::Object(right)) => {
+            let mut keys = BTreeSet::new();
+            keys.extend(left.keys().cloned());
+            keys.extend(right.keys().cloned());
+            for key in keys {
+                let next = format!("{path}.{key}");
+                match (left.get(&key), right.get(&key)) {
+                    (Some(a), Some(b)) => {
+                        if let Some(diff) = first_semantic_diff(a, b, &next) {
+                            return Some(diff);
+                        }
+                    }
+                    _ => return Some(next),
+                }
+            }
+            None
+        }
+        (Value::Array(left), Value::Array(right)) => {
+            let min = left.len().min(right.len());
+            for idx in 0..min {
+                let next = format!("{path}[{idx}]");
+                if let Some(diff) = first_semantic_diff(&left[idx], &right[idx], &next) {
+                    return Some(diff);
+                }
+            }
+            if left.len() != right.len() {
+                Some(format!("{path}.len"))
+            } else {
+                None
+            }
+        }
+        _ => {
+            if expected == actual {
+                None
+            } else {
+                Some(path.to_string())
+            }
+        }
+    }
 }
 
 fn first_diff_offset(expected: &[u8], actual: &[u8]) -> Option<usize> {
@@ -190,6 +319,21 @@ fn decode_hex(input: &str) -> Result<Vec<u8>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use protocol::{CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED};
+
+    fn transfer_response_frame_bytes(token: u32, allowed_raw: u32) -> Vec<u8> {
+        let mut payload = Vec::new();
+        payload.extend_from_slice(&token.to_le_bytes());
+        payload.extend_from_slice(&allowed_raw.to_le_bytes());
+        payload.extend_from_slice(&0_u32.to_le_bytes());
+        Frame::new(CODE_PM_TRANSFER_RESPONSE, payload).encode()
+    }
+
+    fn server_speed_frame_bytes(speed: u32) -> Vec<u8> {
+        let mut payload = Vec::new();
+        payload.extend_from_slice(&speed.to_le_bytes());
+        Frame::new(CODE_SM_DOWNLOAD_SPEED, payload).encode()
+    }
 
     #[test]
     fn comparison_detects_diff() {
@@ -211,10 +355,52 @@ mod tests {
         let neo = vec![vec![1, 2, 3], vec![9, 8], vec![7, 7, 7]];
         let report = compare_capture_sequences("run-a", &official, &neo);
 
+        assert_eq!(report.comparison_mode, ComparisonMode::Bytes);
         assert_eq!(report.total_pairs, 2);
         assert_eq!(report.matched_pairs, 1);
         assert_eq!(report.mismatched_pairs, 1);
         assert_eq!(report.official_only, 0);
         assert_eq!(report.neo_only, 1);
+    }
+
+    #[test]
+    fn semantic_mode_accepts_different_bytes_when_fields_match() {
+        let official = vec![transfer_response_frame_bytes(555, 1)];
+        let neo = vec![transfer_response_frame_bytes(555, 2)];
+        let report = compare_capture_sequences_with_mode(
+            "run-semantic",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 1);
+        assert!(!report.frame_comparisons[0].bytes_match);
+        assert!(report.frame_comparisons[0].semantic_matches);
+        assert_eq!(report.frame_comparisons[0].semantic_first_diff_field, None);
+    }
+
+    #[test]
+    fn semantic_mode_reports_first_mismatch_field() {
+        let official = vec![server_speed_frame_bytes(2048)];
+        let neo = vec![server_speed_frame_bytes(1024)];
+        let report = compare_capture_sequences_with_mode(
+            "run-semantic-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        assert!(!report.frame_comparisons[0].semantic_matches);
+        assert!(
+            report.frame_comparisons[0]
+                .semantic_first_diff_field
+                .as_deref()
+                .unwrap_or_default()
+                .contains("bytes_per_sec")
+        );
     }
 }
