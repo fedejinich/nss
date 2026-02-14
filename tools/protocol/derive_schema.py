@@ -54,6 +54,11 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_SHARED_FOLDERS_FILES"): 35,
     ("server", "SM_GET_USER_STATS"): 36,
     ("server", "SM_SEARCH_USER_FILES"): 42,
+    ("server", "SM_GET_SIMILAR_TERMS"): 50,
+    ("server", "SM_GET_RECOMMENDATIONS"): 54,
+    ("server", "SM_GET_MY_RECOMMENDATIONS"): 55,
+    ("server", "SM_GET_GLOBAL_RECOMMENDATIONS"): 56,
+    ("server", "SM_GET_USER_RECOMMENDATIONS"): 57,
     ("server", "SM_EXACT_FILE_SEARCH"): 65,
     ("server", "SM_SEARCH_ROOM"): 120,
     ("server", "SM_UPLOAD_SPEED"): 121,
@@ -119,6 +124,45 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ("server", "SM_SEARCH_USER_FILES"): [
         {"name": "username", "type": "string"},
         {"name": "search_text", "type": "string"},
+    ],
+    ("server", "SM_GET_SIMILAR_TERMS"): [
+        {"name": "term", "type": "string"},
+        {"name": "recommendation_count", "type": "u32"},
+        {"name": "recommendation.term", "type": "string"},
+        {"name": "recommendation.score", "type": "i32"},
+    ],
+    ("server", "SM_GET_RECOMMENDATIONS"): [
+        {"name": "recommendation_count", "type": "u32"},
+        {"name": "recommendation.term", "type": "string"},
+        {"name": "recommendation.score", "type": "i32"},
+        {"name": "unrecommendation_count", "type": "u32"},
+        {"name": "unrecommendation.term", "type": "string"},
+        {"name": "unrecommendation.score", "type": "i32"},
+    ],
+    ("server", "SM_GET_MY_RECOMMENDATIONS"): [
+        {"name": "recommendation_count", "type": "u32"},
+        {"name": "recommendation.term", "type": "string"},
+        {"name": "recommendation.score", "type": "i32"},
+        {"name": "unrecommendation_count", "type": "u32"},
+        {"name": "unrecommendation.term", "type": "string"},
+        {"name": "unrecommendation.score", "type": "i32"},
+    ],
+    ("server", "SM_GET_GLOBAL_RECOMMENDATIONS"): [
+        {"name": "recommendation_count", "type": "u32"},
+        {"name": "recommendation.term", "type": "string"},
+        {"name": "recommendation.score", "type": "i32"},
+        {"name": "unrecommendation_count", "type": "u32"},
+        {"name": "unrecommendation.term", "type": "string"},
+        {"name": "unrecommendation.score", "type": "i32"},
+    ],
+    ("server", "SM_GET_USER_RECOMMENDATIONS"): [
+        {"name": "username", "type": "string"},
+        {"name": "recommendation_count", "type": "u32"},
+        {"name": "recommendation.term", "type": "string"},
+        {"name": "recommendation.score", "type": "i32"},
+        {"name": "unrecommendation_count", "type": "u32"},
+        {"name": "unrecommendation.term", "type": "string"},
+        {"name": "unrecommendation.score", "type": "i32"},
     ],
     ("server", "SM_ROOM_MEMBERS"): [
         {"name": "room", "type": "string"},
@@ -207,6 +251,66 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "source": "evidence/reverse/disasm/server_handle_message.txt",
             "note": "Server handler routes peer connect responses to transfer subsystem.",
         }
+    ],
+    ("server", "SM_GET_SIMILAR_TERMS"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_GET_SIMILAR_TERMS.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Protocol list documents similar recommendation request/response message family.",
+        },
+    ],
+    ("server", "SM_GET_RECOMMENDATIONS"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+            "note": "Server MessageCodeToString includes SM_GET_RECOMMENDATIONS.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Protocol list documents recommendation request/response code mapping.",
+        },
+    ],
+    ("server", "SM_GET_MY_RECOMMENDATIONS"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+            "note": "Server MessageCodeToString includes SM_GET_MY_RECOMMENDATIONS.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Protocol list documents my-recommendations request code mapping.",
+        },
+    ],
+    ("server", "SM_GET_GLOBAL_RECOMMENDATIONS"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+            "note": "Server MessageCodeToString includes SM_GET_GLOBAL_RECOMMENDATIONS.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Protocol list documents global recommendations message mapping.",
+        },
+    ],
+    ("server", "SM_GET_USER_RECOMMENDATIONS"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+            "note": "Server MessageCodeToString includes SM_GET_USER_RECOMMENDATIONS.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Protocol list documents user recommendation/interests message mapping.",
+        },
     ],
     ("peer", "PM_TRANSFER_REQUEST"): [
         {

@@ -123,6 +123,10 @@ enum Commands {
         #[command(subcommand)]
         command: RoomCommand,
     },
+    Discover {
+        #[command(subcommand)]
+        command: DiscoverCommand,
+    },
     Verify {
         #[command(subcommand)]
         command: VerifyCommand,
@@ -298,6 +302,104 @@ enum RoomCommand {
         client_version: u32,
         #[arg(long, default_value_t = 1)]
         minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum DiscoverCommand {
+    Recommendations {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Global {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Mine {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 2)]
+        timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
+    User {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
+    SimilarTerms {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        term: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
         #[arg(long)]
         verbose: bool,
     },
@@ -597,6 +699,110 @@ async fn main() -> Result<()> {
                 )
                 .await?;
                 run_room_watch(&mut client, &room, timeout_secs, verbose).await?;
+            }
+        },
+        Commands::Discover { command } => match command {
+            DiscoverCommand::Recommendations {
+                server,
+                username,
+                password,
+                password_md5,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_recommendations(&mut client, timeout_secs, verbose).await?;
+            }
+            DiscoverCommand::Global {
+                server,
+                username,
+                password,
+                password_md5,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_global(&mut client, timeout_secs, verbose).await?;
+            }
+            DiscoverCommand::Mine {
+                server,
+                username,
+                password,
+                password_md5,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_mine(&mut client, timeout_secs, verbose).await?;
+            }
+            DiscoverCommand::User {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_user(&mut client, &target_user, timeout_secs, verbose).await?;
+            }
+            DiscoverCommand::SimilarTerms {
+                server,
+                username,
+                password,
+                password_md5,
+                term,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_similar_terms(&mut client, &term, timeout_secs, verbose).await?;
             }
         },
         Commands::Verify { command } => match command {
@@ -916,6 +1122,110 @@ async fn run_room_watch(
         for (idx, event) in events.iter().enumerate() {
             println!("[{idx}] {event:#?}");
         }
+    }
+    Ok(())
+}
+
+fn summarize_recommendation_terms(entries: &[protocol::RecommendationEntry]) -> String {
+    entries
+        .iter()
+        .take(5)
+        .map(|entry| format!("{}:{}", entry.term, entry.score))
+        .collect::<Vec<_>>()
+        .join(", ")
+}
+
+fn print_recommendations_summary(
+    label: &str,
+    payload: &protocol::RecommendationsPayload,
+    verbose: bool,
+) {
+    println!(
+        "discover.{label} ok recommendations={} unrecommendations={} sample={}",
+        payload.recommendations.len(),
+        payload.unrecommendations.len(),
+        summarize_recommendation_terms(&payload.recommendations),
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+}
+
+async fn run_discover_recommendations(
+    client: &mut SessionClient,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_recommendations(Duration::from_secs(timeout_secs))
+        .await?;
+    print_recommendations_summary("recommendations", &payload, verbose);
+    Ok(())
+}
+
+async fn run_discover_global(
+    client: &mut SessionClient,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_global_recommendations(Duration::from_secs(timeout_secs))
+        .await?;
+    print_recommendations_summary("global", &payload, verbose);
+    Ok(())
+}
+
+async fn run_discover_mine(
+    client: &mut SessionClient,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_my_recommendations(Duration::from_secs(timeout_secs))
+        .await?;
+    print_recommendations_summary("mine", &payload, verbose);
+    Ok(())
+}
+
+async fn run_discover_user(
+    client: &mut SessionClient,
+    target_user: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_user_recommendations(target_user, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "discover.user ok target_user={} recommendations={} unrecommendations={} sample={}",
+        payload.username,
+        payload.recommendations.recommendations.len(),
+        payload.recommendations.unrecommendations.len(),
+        summarize_recommendation_terms(&payload.recommendations.recommendations),
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_discover_similar_terms(
+    client: &mut SessionClient,
+    term: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_similar_terms(term, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "discover.similar-terms ok term={} entries={} sample={}",
+        payload.term,
+        payload.entries.len(),
+        summarize_recommendation_terms(&payload.entries),
+    );
+    if verbose {
+        println!("{payload:#?}");
     }
     Ok(())
 }

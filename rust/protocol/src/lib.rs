@@ -22,6 +22,11 @@ pub const CODE_SM_DOWNLOAD_SPEED: u32 = 34;
 pub const CODE_SM_SHARED_FOLDERS_FILES: u32 = 35;
 pub const CODE_SM_GET_USER_STATS: u32 = 36;
 pub const CODE_SM_SEARCH_USER_FILES: u32 = 42;
+pub const CODE_SM_GET_SIMILAR_TERMS: u32 = 50;
+pub const CODE_SM_GET_RECOMMENDATIONS: u32 = 54;
+pub const CODE_SM_GET_MY_RECOMMENDATIONS: u32 = 55;
+pub const CODE_SM_GET_GLOBAL_RECOMMENDATIONS: u32 = 56;
+pub const CODE_SM_GET_USER_RECOMMENDATIONS: u32 = 57;
 pub const CODE_SM_EXACT_FILE_SEARCH: u32 = 65;
 pub const CODE_SM_SEARCH_ROOM: u32 = 120;
 pub const CODE_SM_UPLOAD_SPEED: u32 = 121;
@@ -289,6 +294,35 @@ pub struct SearchUserFilesPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RecommendationEntry {
+    pub term: String,
+    pub score: i32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RecommendationsPayload {
+    pub recommendations: Vec<RecommendationEntry>,
+    pub unrecommendations: Vec<RecommendationEntry>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserRecommendationsPayload {
+    pub username: String,
+    pub recommendations: RecommendationsPayload,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SimilarTermsRequestPayload {
+    pub term: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SimilarTermsPayload {
+    pub term: String,
+    pub entries: Vec<RecommendationEntry>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RoomListPayload {
     pub room_count: u32,
     pub rooms: Vec<String>,
@@ -470,6 +504,16 @@ pub enum ServerMessage {
     SearchRoom(SearchRoomPayload),
     ExactFileSearch(ExactFileSearchPayload),
     SearchUserFiles(SearchUserFilesPayload),
+    GetSimilarTerms(SimilarTermsRequestPayload),
+    GetSimilarTermsResponse(SimilarTermsPayload),
+    GetRecommendations(EmptyPayload),
+    GetRecommendationsResponse(RecommendationsPayload),
+    GetMyRecommendations(EmptyPayload),
+    GetMyRecommendationsResponse(RecommendationsPayload),
+    GetGlobalRecommendations(EmptyPayload),
+    GetGlobalRecommendationsResponse(RecommendationsPayload),
+    GetUserRecommendations(UserLookupPayload),
+    GetUserRecommendationsResponse(UserRecommendationsPayload),
     RoomMembers(RoomMembersPayload),
     RoomOperators(RoomOperatorsPayload),
     MessageUser(MessageUserPayload),
@@ -506,6 +550,20 @@ fn ensure_payload_consumed(reader: &PayloadReader<'_>) -> Result<()> {
         bail!("unexpected trailing payload bytes: {}", reader.remaining());
     }
     Ok(())
+}
+
+fn encode_recommendations_payload(writer: &mut PayloadWriter, payload: &RecommendationsPayload) {
+    writer.write_u32(payload.recommendations.len() as u32);
+    for entry in &payload.recommendations {
+        writer.write_string(&entry.term);
+        writer.write_u32(entry.score as u32);
+    }
+
+    writer.write_u32(payload.unrecommendations.len() as u32);
+    for entry in &payload.unrecommendations {
+        writer.write_string(&entry.term);
+        writer.write_u32(entry.score as u32);
+    }
 }
 
 pub fn encode_message(message: &ProtocolMessage) -> Frame {
@@ -651,6 +709,43 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.search_text);
             CODE_SM_SEARCH_USER_FILES
         }
+        ServerMessage::GetSimilarTerms(payload) => {
+            writer.write_string(&payload.term);
+            CODE_SM_GET_SIMILAR_TERMS
+        }
+        ServerMessage::GetSimilarTermsResponse(payload) => {
+            writer.write_string(&payload.term);
+            writer.write_u32(payload.entries.len() as u32);
+            for entry in &payload.entries {
+                writer.write_string(&entry.term);
+                writer.write_u32(entry.score as u32);
+            }
+            CODE_SM_GET_SIMILAR_TERMS
+        }
+        ServerMessage::GetRecommendations(_) => CODE_SM_GET_RECOMMENDATIONS,
+        ServerMessage::GetRecommendationsResponse(payload) => {
+            encode_recommendations_payload(&mut writer, payload);
+            CODE_SM_GET_RECOMMENDATIONS
+        }
+        ServerMessage::GetMyRecommendations(_) => CODE_SM_GET_MY_RECOMMENDATIONS,
+        ServerMessage::GetMyRecommendationsResponse(payload) => {
+            encode_recommendations_payload(&mut writer, payload);
+            CODE_SM_GET_MY_RECOMMENDATIONS
+        }
+        ServerMessage::GetGlobalRecommendations(_) => CODE_SM_GET_GLOBAL_RECOMMENDATIONS,
+        ServerMessage::GetGlobalRecommendationsResponse(payload) => {
+            encode_recommendations_payload(&mut writer, payload);
+            CODE_SM_GET_GLOBAL_RECOMMENDATIONS
+        }
+        ServerMessage::GetUserRecommendations(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_GET_USER_RECOMMENDATIONS
+        }
+        ServerMessage::GetUserRecommendationsResponse(payload) => {
+            writer.write_string(&payload.username);
+            encode_recommendations_payload(&mut writer, &payload.recommendations);
+            CODE_SM_GET_USER_RECOMMENDATIONS
+        }
         ServerMessage::RoomMembers(payload) => {
             writer.write_string(&payload.room);
             if !payload.users.is_empty() {
@@ -794,6 +889,50 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                 search_text: reader.read_string()?,
             };
             ServerMessage::SearchUserFiles(payload)
+        }
+        CODE_SM_GET_SIMILAR_TERMS => {
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_similar_terms_request(payload) {
+                ServerMessage::GetSimilarTerms(request)
+            } else {
+                ServerMessage::GetSimilarTermsResponse(parse_similar_terms_response(payload)?)
+            }
+        }
+        CODE_SM_GET_RECOMMENDATIONS => {
+            allow_trailing_bytes = true;
+            if payload.is_empty() {
+                ServerMessage::GetRecommendations(EmptyPayload)
+            } else {
+                ServerMessage::GetRecommendationsResponse(parse_recommendations_payload(payload)?)
+            }
+        }
+        CODE_SM_GET_MY_RECOMMENDATIONS => {
+            allow_trailing_bytes = true;
+            if payload.is_empty() {
+                ServerMessage::GetMyRecommendations(EmptyPayload)
+            } else {
+                ServerMessage::GetMyRecommendationsResponse(parse_recommendations_payload(payload)?)
+            }
+        }
+        CODE_SM_GET_GLOBAL_RECOMMENDATIONS => {
+            allow_trailing_bytes = true;
+            if payload.is_empty() {
+                ServerMessage::GetGlobalRecommendations(EmptyPayload)
+            } else {
+                ServerMessage::GetGlobalRecommendationsResponse(parse_recommendations_payload(
+                    payload,
+                )?)
+            }
+        }
+        CODE_SM_GET_USER_RECOMMENDATIONS => {
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_user_lookup_payload(payload) {
+                ServerMessage::GetUserRecommendations(request)
+            } else {
+                ServerMessage::GetUserRecommendationsResponse(
+                    parse_user_recommendations_payload(payload)?,
+                )
+            }
         }
         CODE_SM_ROOM_MEMBERS => {
             allow_trailing_bytes = true;
@@ -948,6 +1087,99 @@ pub fn parse_say_chatroom_payload(payload: &[u8]) -> Result<SayChatRoomPayload> 
         room,
         username: None,
         message: second,
+    })
+}
+
+fn parse_recommendation_entries(
+    reader: &mut PayloadReader<'_>,
+    count: u32,
+    max_count: u32,
+) -> Result<Vec<RecommendationEntry>> {
+    if count > max_count {
+        bail!("recommendation_count exceeds sanity threshold: {count}");
+    }
+
+    let mut entries = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        let term = reader.read_string()?;
+        let score = if reader.remaining() >= 4 {
+            reader.read_u32()? as i32
+        } else {
+            0
+        };
+        entries.push(RecommendationEntry { term, score });
+    }
+    Ok(entries)
+}
+
+fn parse_recommendations_payload_from_reader(
+    reader: &mut PayloadReader<'_>,
+) -> Result<RecommendationsPayload> {
+    if reader.remaining() == 0 {
+        return Ok(RecommendationsPayload {
+            recommendations: Vec::new(),
+            unrecommendations: Vec::new(),
+        });
+    }
+
+    let recommendation_count = reader.read_u32()?;
+    let recommendations = parse_recommendation_entries(reader, recommendation_count, 100_000)?;
+    let unrecommendation_count = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let unrecommendations =
+        parse_recommendation_entries(reader, unrecommendation_count, 100_000)?;
+
+    Ok(RecommendationsPayload {
+        recommendations,
+        unrecommendations,
+    })
+}
+
+pub fn parse_recommendations_payload(payload: &[u8]) -> Result<RecommendationsPayload> {
+    let mut reader = PayloadReader::new(payload);
+    parse_recommendations_payload_from_reader(&mut reader)
+}
+
+pub fn parse_similar_terms_request(payload: &[u8]) -> Result<SimilarTermsRequestPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let request = SimilarTermsRequestPayload {
+        term: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(request)
+}
+
+pub fn parse_similar_terms_response(payload: &[u8]) -> Result<SimilarTermsPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let term = reader.read_string()?;
+    let count = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let entries = parse_recommendation_entries(&mut reader, count, 100_000)?;
+    Ok(SimilarTermsPayload { term, entries })
+}
+
+fn parse_user_lookup_payload(payload: &[u8]) -> Result<UserLookupPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let request = UserLookupPayload {
+        username: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(request)
+}
+
+pub fn parse_user_recommendations_payload(payload: &[u8]) -> Result<UserRecommendationsPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let username = reader.read_string()?;
+    let recommendations = parse_recommendations_payload_from_reader(&mut reader)?;
+    Ok(UserRecommendationsPayload {
+        username,
+        recommendations,
     })
 }
 
@@ -1263,6 +1495,30 @@ pub fn build_file_search_request(token: u32, search_text: &str) -> Frame {
     }))
 }
 
+pub fn build_get_recommendations_request() -> Frame {
+    encode_server_message(&ServerMessage::GetRecommendations(EmptyPayload))
+}
+
+pub fn build_get_my_recommendations_request() -> Frame {
+    encode_server_message(&ServerMessage::GetMyRecommendations(EmptyPayload))
+}
+
+pub fn build_get_global_recommendations_request() -> Frame {
+    encode_server_message(&ServerMessage::GetGlobalRecommendations(EmptyPayload))
+}
+
+pub fn build_get_user_recommendations_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetUserRecommendations(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_get_similar_terms_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetSimilarTerms(SimilarTermsRequestPayload {
+        term: term.to_owned(),
+    }))
+}
+
 pub fn build_room_list_request() -> Frame {
     Frame::new(CODE_SM_ROOM_LIST, Vec::new())
 }
@@ -1450,6 +1706,69 @@ mod tests {
                 username: "bob".into(),
                 search_text: "flac".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::GetSimilarTerms(
+                SimilarTermsRequestPayload {
+                    term: "electronic".into(),
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetSimilarTermsResponse(SimilarTermsPayload {
+                term: "electronic".into(),
+                entries: vec![RecommendationEntry {
+                    term: "idm".into(),
+                    score: 7,
+                }],
+            })),
+            ProtocolMessage::Server(ServerMessage::GetRecommendations(EmptyPayload)),
+            ProtocolMessage::Server(ServerMessage::GetRecommendationsResponse(
+                RecommendationsPayload {
+                    recommendations: vec![RecommendationEntry {
+                        term: "flac".into(),
+                        score: 3,
+                    }],
+                    unrecommendations: vec![RecommendationEntry {
+                        term: "low-bitrate".into(),
+                        score: -2,
+                    }],
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetMyRecommendations(EmptyPayload)),
+            ProtocolMessage::Server(ServerMessage::GetMyRecommendationsResponse(
+                RecommendationsPayload {
+                    recommendations: vec![RecommendationEntry {
+                        term: "ambient".into(),
+                        score: 4,
+                    }],
+                    unrecommendations: vec![],
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetGlobalRecommendations(EmptyPayload)),
+            ProtocolMessage::Server(ServerMessage::GetGlobalRecommendationsResponse(
+                RecommendationsPayload {
+                    recommendations: vec![RecommendationEntry {
+                        term: "lossless".into(),
+                        score: 8,
+                    }],
+                    unrecommendations: vec![RecommendationEntry {
+                        term: "ads".into(),
+                        score: -4,
+                    }],
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetUserRecommendations(UserLookupPayload {
+                username: "bob".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::GetUserRecommendationsResponse(
+                UserRecommendationsPayload {
+                    username: "bob".into(),
+                    recommendations: RecommendationsPayload {
+                        recommendations: vec![RecommendationEntry {
+                            term: "aphex".into(),
+                            score: 9,
+                        }],
+                        unrecommendations: vec![],
+                    },
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::RoomMembers(RoomMembersPayload {
                 room: "nicotine".into(),
                 users: vec!["alice".into(), "bob".into(), "carol".into()],
@@ -1560,6 +1879,30 @@ mod tests {
             CODE_SM_ROOM_OPERATORS
         );
         assert_eq!(build_say_chatroom("nicotine", "hello").code, CODE_SM_SAY_CHATROOM);
+    }
+
+    #[test]
+    fn discovery_request_builders_emit_expected_codes() {
+        assert_eq!(
+            build_get_recommendations_request().code,
+            CODE_SM_GET_RECOMMENDATIONS
+        );
+        assert_eq!(
+            build_get_my_recommendations_request().code,
+            CODE_SM_GET_MY_RECOMMENDATIONS
+        );
+        assert_eq!(
+            build_get_global_recommendations_request().code,
+            CODE_SM_GET_GLOBAL_RECOMMENDATIONS
+        );
+        assert_eq!(
+            build_get_user_recommendations_request("alice").code,
+            CODE_SM_GET_USER_RECOMMENDATIONS
+        );
+        assert_eq!(
+            build_get_similar_terms_request("electronic").code,
+            CODE_SM_GET_SIMILAR_TERMS
+        );
     }
 
     #[test]

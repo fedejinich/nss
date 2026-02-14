@@ -13,6 +13,9 @@ REQUIRED_RUNS=(
   "login-room-list"
   "login-join-room-presence"
   "login-leave-room"
+  "login-recommendations"
+  "login-user-recommendations"
+  "login-similar-terms"
 )
 
 cd "${ROOT_DIR}/rust"

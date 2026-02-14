@@ -2,19 +2,14 @@
 
 ## Objective
 
-Map the Soulseek protocol incrementally and with traceable evidence to enable an evolvable custom client.
+Map the Soulseek protocol incrementally with traceable evidence to enable a custom evolvable client.
 
-## Stage 2 Coverage
+## Coverage Summary
 
-- Core target: `25` messages (server + peer).
-- Current Stage 2 core coverage: `25/25` in `analysis/ghidra/maps/message_map.csv`.
-- Confidence contract: `high >= 18`, `medium <= 7`, `low = 0`.
-- Stage 2 confidence: `high=25`, `medium=0`, `low=0`.
-
-## Stage 3B Addendum
-
-- Total mapped rows now: `33` (`25` core + `8` rooms/presence messages).
-- S3B batch confidence: `high=8`, `medium=0`, `low=0`.
+- Stage 2 core contract: `25/25` core messages (`high=25`, `medium=0`, `low=0`).
+- Stage 3B rooms/presence addendum: `+8` messages.
+- Stage 4A discovery addendum: `+5` messages.
+- Total mapped protocol rows: `38`.
 
 ## Static Evidence Sources
 
@@ -32,10 +27,11 @@ Map the Soulseek protocol incrementally and with traceable evidence to enable an
 
 - Capture harness: `tools/runtime/capture_harness.py`
 - Redaction tool: `tools/runtime/redact_capture_run.py`
-- Scenario wrappers: `scripts/capture_session.sh`, `scripts/capture_golden.sh`
-- S3B room capture generator: `tools/runtime/generate_stage3b_room_captures.py`
+- Stage 3B capture generator: `tools/runtime/generate_stage3b_room_captures.py`
+- Stage 4A capture generator: `tools/runtime/generate_stage4a_discovery_captures.py`
 - Redacted run storage: `captures/redacted/*`
 
 ## Next Reverse Focus
 
-- Execute S4 batches (recommendations/discovery + peer advanced + room moderation) with runtime-first evidence promotion.
+- S4B: peer-advanced + room-moderation message batches.
+- Expand field-level decoding for recommendation payload optional fields.

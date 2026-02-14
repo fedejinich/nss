@@ -320,7 +320,8 @@ fn decode_hex(input: &str) -> Result<Vec<u8>> {
 mod tests {
     use super::*;
     use protocol::{
-        CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED, CODE_SM_USER_JOINED_ROOM, PayloadWriter,
+        CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED, CODE_SM_GET_RECOMMENDATIONS,
+        CODE_SM_USER_JOINED_ROOM, PayloadWriter,
     };
 
     fn transfer_response_frame_bytes(token: u32, allowed_raw: u32) -> Vec<u8> {
@@ -342,6 +343,15 @@ mod tests {
         writer.write_string(room);
         writer.write_string(username);
         Frame::new(CODE_SM_USER_JOINED_ROOM, writer.into_inner()).encode()
+    }
+
+    fn recommendations_frame_bytes(term: &str, score: u32) -> Vec<u8> {
+        let mut writer = PayloadWriter::new();
+        writer.write_u32(1);
+        writer.write_string(term);
+        writer.write_u32(score);
+        writer.write_u32(0);
+        Frame::new(CODE_SM_GET_RECOMMENDATIONS, writer.into_inner()).encode()
     }
 
     #[test]
@@ -433,6 +443,29 @@ mod tests {
                 .as_deref()
                 .unwrap_or_default()
                 .contains("username")
+        );
+    }
+
+    #[test]
+    fn semantic_mode_reports_recommendation_term_diff() {
+        let official = vec![recommendations_frame_bytes("flac", 3)];
+        let neo = vec![recommendations_frame_bytes("lossless", 3)];
+        let report = compare_capture_sequences_with_mode(
+            "run-recommendation-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        assert!(!report.frame_comparisons[0].semantic_matches);
+        assert!(
+            report.frame_comparisons[0]
+                .semantic_first_diff_field
+                .as_deref()
+                .unwrap_or_default()
+                .contains("term")
         );
     }
 }

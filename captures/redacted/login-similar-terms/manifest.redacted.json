@@ -1,0 +1,24 @@
+{
+  "run_id": "login-similar-terms",
+  "scenario": "login-similar-terms",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-14T15:02:44+00:00",
+  "server": "<redacted:endpoint:23cde8af6793>",
+  "frame_count": 10,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:3cf4e9f33f2f>",
+    "neo_frames_raw": "<redacted:path:8f025001034b>",
+    "frida_events_raw": "<redacted:path:af42a6a5b3fc>"
+  },
+  "notes": "Runtime-authenticated recommendations/discovery capture generated for S4A.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T15:02:50+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-similar-terms",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}
