@@ -2,17 +2,25 @@
 
 ## Goal
 
-Collect synchronized runtime evidence for search/download behavior:
+Collect synchronized runtime evidence for core flows and keep only redacted artifacts in git.
 
-- Frida hooks (`frida-events.jsonl`)
-- Network traffic (`traffic.pcap`)
-- Session manifest (`manifest.json`)
+## Capture Model
+
+- Raw local-only run: `captures/raw/<run_id>/`
+- Redacted commit-safe run: `captures/redacted/<run_id>/`
+
+Each redacted run should contain:
+
+- `manifest.redacted.json`
+- `frida-events.redacted.jsonl` (if available)
+- `official_frames.hex`
+- `neo_frames.hex`
 
 ## Prerequisites
 
 1. SoulseekQt running locally.
 2. Tooling initialized with `scripts/setup_toolchain.sh`.
-3. Packet capture permission for `tcpdump` (root/admin entitlement on macOS).
+3. Packet capture permission for `tcpdump` on macOS.
 
 ## Standard Session
 
@@ -24,22 +32,47 @@ Environment variables:
 
 - `DURATION` (default `60`)
 - `PROCESS_NAME` (default `SoulseekQt`)
-- `IFACE` (optional; default auto)
+- `IFACE` (optional, auto when empty)
 - `BPF_FILTER` (default `tcp`)
-- `SKIP_PCAP=1` to collect Frida-only traces
+- `SKIP_PCAP=1` for Frida-only capture
+- `AUTO_REDACT=0` to skip automatic redaction
 
-## Golden Session
+## Scenario Session
 
 ```bash
 SCENARIO=login-search-download DURATION=120 scripts/capture_golden.sh
 ```
 
-Outputs are stored under `captures/golden/<timestamp>-<scenario>/`.
+Mandatory scenarios for stage 2:
 
-## Evidence Registration
+1. `login-only`
+2. `login-search`
+3. `login-search-download`
+4. `upload-deny`
+5. `upload-accept`
 
-After each run:
+## Manual Redaction
 
-1. Add run directory path to `docs/verification/evidence-ledger.md`.
-2. Promote only high-confidence findings to `analysis/ghidra/maps/name_map.json` or `analysis/ghidra/maps/data_map.json`.
-3. Keep medium/low confidence in `analysis/ghidra/queue/review_queue.jsonl`.
+```bash
+RUN_DIR=captures/raw/<run_id> scripts/redact_capture_run.sh
+```
+
+Optional:
+
+- `RUN_ID=<new_id>` to rename output run
+- `OUT_ROOT=captures/redacted` to change target root
+
+## Verification
+
+```bash
+scripts/run_diff_verify.sh
+```
+
+This verifies:
+
+1. Fixture parity in `captures/fixtures`.
+2. Per-run parity for mandatory runs in `captures/redacted/*`.
+
+## Policy
+
+See `docs/verification/capture-redaction-policy.md`.

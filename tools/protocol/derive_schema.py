@@ -7,6 +7,61 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+CORE_MESSAGES: list[tuple[str, str]] = [
+    ("server", "SM_LOGIN"),
+    ("server", "SM_SET_WAIT_PORT"),
+    ("server", "SM_GET_PEER_ADDRESS"),
+    ("server", "SM_CONNECT_TO_PEER"),
+    ("server", "SM_FILE_SEARCH"),
+    ("server", "SM_SEARCH_ROOM"),
+    ("server", "SM_EXACT_FILE_SEARCH"),
+    ("server", "SM_SEARCH_USER_FILES"),
+    ("server", "SM_MESSAGE_USER"),
+    ("server", "SM_MESSAGE_ACKED"),
+    ("server", "SM_GET_USER_STATS"),
+    ("server", "SM_GET_USER_STATUS"),
+    ("server", "SM_SHARED_FOLDERS_FILES"),
+    ("server", "SM_DOWNLOAD_SPEED"),
+    ("server", "SM_UPLOAD_SPEED"),
+    ("peer", "PM_GET_SHARED_FILE_LIST"),
+    ("peer", "PM_SHARED_FILE_LIST"),
+    ("peer", "PM_FILE_SEARCH_REQUEST"),
+    ("peer", "PM_FILE_SEARCH_RESULT"),
+    ("peer", "PM_TRANSFER_REQUEST"),
+    ("peer", "PM_TRANSFER_RESPONSE"),
+    ("peer", "PM_QUEUE_UPLOAD"),
+    ("peer", "PM_UPLOAD_PLACE_IN_LINE"),
+    ("peer", "PM_UPLOAD_FAILED"),
+    ("peer", "PM_UPLOAD_DENIED"),
+]
+
+KNOWN_CODES: dict[tuple[str, str], int] = {
+    ("server", "SM_LOGIN"): 1,
+    ("server", "SM_SET_WAIT_PORT"): 2,
+    ("server", "SM_GET_PEER_ADDRESS"): 3,
+    ("server", "SM_GET_USER_STATUS"): 7,
+    ("server", "SM_CONNECT_TO_PEER"): 18,
+    ("server", "SM_MESSAGE_USER"): 22,
+    ("server", "SM_MESSAGE_ACKED"): 23,
+    ("server", "SM_FILE_SEARCH"): 26,
+    ("server", "SM_DOWNLOAD_SPEED"): 34,
+    ("server", "SM_SHARED_FOLDERS_FILES"): 35,
+    ("server", "SM_GET_USER_STATS"): 36,
+    ("server", "SM_SEARCH_USER_FILES"): 42,
+    ("server", "SM_EXACT_FILE_SEARCH"): 65,
+    ("server", "SM_SEARCH_ROOM"): 120,
+    ("server", "SM_UPLOAD_SPEED"): 121,
+    ("peer", "PM_GET_SHARED_FILE_LIST"): 4,
+    ("peer", "PM_SHARED_FILE_LIST"): 5,
+    ("peer", "PM_FILE_SEARCH_REQUEST"): 8,
+    ("peer", "PM_FILE_SEARCH_RESULT"): 9,
+    ("peer", "PM_TRANSFER_REQUEST"): 40,
+    ("peer", "PM_TRANSFER_RESPONSE"): 41,
+    ("peer", "PM_QUEUE_UPLOAD"): 43,
+    ("peer", "PM_UPLOAD_PLACE_IN_LINE"): 44,
+    ("peer", "PM_UPLOAD_FAILED"): 46,
+    ("peer", "PM_UPLOAD_DENIED"): 50,
+}
 
 KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ("server", "SM_LOGIN"): [
@@ -15,12 +70,55 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "client_version", "type": "u32"},
         {"name": "minor_version", "type": "u32"},
     ],
+    ("server", "SM_SET_WAIT_PORT"): [{"name": "listen_port", "type": "u32"}],
+    ("server", "SM_GET_PEER_ADDRESS"): [{"name": "username", "type": "string"}],
+    ("server", "SM_CONNECT_TO_PEER"): [
+        {"name": "username", "type": "string"},
+        {"name": "token", "type": "u32"},
+    ],
     ("server", "SM_FILE_SEARCH"): [
         {"name": "search_token", "type": "u32"},
         {"name": "search_text", "type": "string"},
     ],
+    ("server", "SM_SEARCH_ROOM"): [
+        {"name": "room", "type": "string"},
+        {"name": "search_text", "type": "string"},
+    ],
+    ("server", "SM_EXACT_FILE_SEARCH"): [{"name": "virtual_path", "type": "string"}],
+    ("server", "SM_SEARCH_USER_FILES"): [
+        {"name": "username", "type": "string"},
+        {"name": "search_text", "type": "string"},
+    ],
+    ("server", "SM_MESSAGE_USER"): [
+        {"name": "username", "type": "string"},
+        {"name": "message", "type": "string"},
+    ],
+    ("server", "SM_MESSAGE_ACKED"): [{"name": "message_id", "type": "u32"}],
+    ("server", "SM_GET_USER_STATS"): [{"name": "username", "type": "string"}],
+    ("server", "SM_GET_USER_STATUS"): [{"name": "username", "type": "string"}],
+    ("server", "SM_SHARED_FOLDERS_FILES"): [
+        {"name": "folder_count", "type": "u32"},
+        {"name": "file_count", "type": "u32"},
+    ],
+    ("server", "SM_DOWNLOAD_SPEED"): [{"name": "bytes_per_sec", "type": "u32"}],
+    ("server", "SM_UPLOAD_SPEED"): [{"name": "bytes_per_sec", "type": "u32"}],
+    ("peer", "PM_GET_SHARED_FILE_LIST"): [{"name": "username", "type": "string"}],
+    ("peer", "PM_SHARED_FILE_LIST"): [
+        {"name": "entries", "type": "array<shared_file_entry>"},
+        {"name": "entry.virtual_path", "type": "string"},
+        {"name": "entry.size", "type": "u64"},
+    ],
+    ("peer", "PM_FILE_SEARCH_REQUEST"): [
+        {"name": "token", "type": "u32"},
+        {"name": "query", "type": "string"},
+    ],
+    ("peer", "PM_FILE_SEARCH_RESULT"): [
+        {"name": "token", "type": "u32"},
+        {"name": "username", "type": "string"},
+        {"name": "result_count", "type": "u32"},
+    ],
     ("peer", "PM_TRANSFER_REQUEST"): [
-        {"name": "direction", "type": "u32"},
+        {"name": "direction", "type": "enum_u32"},
         {"name": "token", "type": "u32"},
         {"name": "virtual_path", "type": "string"},
         {"name": "file_size", "type": "u64"},
@@ -30,19 +128,109 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "allowed", "type": "bool_u32"},
         {"name": "queue_or_reason", "type": "string"},
     ],
+    ("peer", "PM_QUEUE_UPLOAD"): [
+        {"name": "username", "type": "string"},
+        {"name": "virtual_path", "type": "string"},
+    ],
+    ("peer", "PM_UPLOAD_PLACE_IN_LINE"): [
+        {"name": "username", "type": "string"},
+        {"name": "virtual_path", "type": "string"},
+        {"name": "place", "type": "u32"},
+    ],
+    ("peer", "PM_UPLOAD_FAILED"): [
+        {"name": "username", "type": "string"},
+        {"name": "virtual_path", "type": "string"},
+        {"name": "reason", "type": "string"},
+    ],
+    ("peer", "PM_UPLOAD_DENIED"): [
+        {"name": "username", "type": "string"},
+        {"name": "virtual_path", "type": "string"},
+        {"name": "reason", "type": "string"},
+    ],
 }
 
-
-KNOWN_CODES: dict[tuple[str, str], int] = {
-    ("server", "SM_LOGIN"): 1,
-    ("server", "SM_FILE_SEARCH"): 26,
-    ("peer", "PM_TRANSFER_REQUEST"): 40,
-    ("peer", "PM_TRANSFER_RESPONSE"): 41,
+EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
+    ("server", "SM_FILE_SEARCH"): [
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/server_file_search.txt",
+            "note": "Function writes constant 0x1a before serializing search payload.",
+        },
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/server_prepare_search.txt",
+            "note": "PrepareSearch normalizes and emits search tokens/strings.",
+        },
+    ],
+    ("server", "SM_CONNECT_TO_PEER"): [
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/server_handle_message.txt",
+            "note": "Server handler routes peer connect responses to transfer subsystem.",
+        }
+    ],
+    ("peer", "PM_TRANSFER_REQUEST"): [
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
+            "note": "Transfer queue dispatcher handles transfer request negotiation path.",
+        }
+    ],
+    ("peer", "PM_TRANSFER_RESPONSE"): [
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
+            "note": "Transfer queue dispatcher handles transfer response negotiation path.",
+        }
+    ],
+    ("peer", "PM_QUEUE_UPLOAD"): [
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/transfer_on_queue_download.txt",
+            "note": "Queue manager records upload queueing for pending peers.",
+        }
+    ],
+    ("peer", "PM_UPLOAD_FAILED"): [
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/upload_write_socket.txt",
+            "note": "Upload send path emits failure branch when transfer cannot continue.",
+        }
+    ],
+    ("peer", "PM_UPLOAD_DENIED"): [
+        {
+            "kind": "ghidra_decompile",
+            "source": "evidence/reverse/disasm/upload_write_socket.txt",
+            "note": "Upload send path emits deny branch for rejected requests.",
+        }
+    ],
 }
 
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+
+def _normalize_confidence(raw: str) -> str:
+    value = raw.strip().lower()
+    if value in {"high", "medium", "low"}:
+        return value
+    return "medium"
+
+
+def _source_kind(source: str) -> str:
+    lowered = source.lower()
+    if "/disasm/" in lowered or lowered.endswith(".asm"):
+        return "ghidra_decompile"
+    if lowered.endswith(".pcap"):
+        return "pcap"
+    if "frida" in lowered and lowered.endswith((".json", ".jsonl")):
+        return "frida_hook"
+    if lowered.endswith((".json", ".jsonl", ".hex")):
+        return "runtime_capture"
+    if "strings" in lowered or "messagecode" in lowered:
+        return "string"
+    return "manual_note"
 
 
 def _read_message_map(path: Path) -> list[dict[str, Any]]:
@@ -57,19 +245,40 @@ def _read_message_map(path: Path) -> list[dict[str, Any]]:
             name = (row.get("name") or "").strip()
             if not scope or not name:
                 continue
+
             code_raw = (row.get("code") or "").strip()
-            code = int(code_raw) if code_raw.isdigit() else KNOWN_CODES.get((scope, name))
+            try:
+                code = int(code_raw)
+            except ValueError:
+                code = KNOWN_CODES.get((scope, name))
+
             rows.append(
                 {
                     "scope": scope,
                     "name": name,
                     "code": code,
+                    "confidence": _normalize_confidence((row.get("confidence") or "").strip()),
                     "source": (row.get("source") or "").strip(),
                     "status": (row.get("status") or "").strip(),
                     "notes": (row.get("notes") or "").strip(),
                 }
             )
+
     return rows
+
+
+def _dedupe_evidence(items: list[dict[str, str]]) -> list[dict[str, str]]:
+    dedup: list[dict[str, str]] = []
+    seen: set[tuple[str, str, str]] = set()
+
+    for item in items:
+        key = (item.get("kind", ""), item.get("source", ""), item.get("note", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        dedup.append(item)
+
+    return dedup
 
 
 def _entry(row: dict[str, Any]) -> dict[str, Any]:
@@ -77,38 +286,23 @@ def _entry(row: dict[str, Any]) -> dict[str, Any]:
     name = row["name"]
     code = row.get("code")
 
-    evidence = []
-    if row.get("source"):
-        source = row["source"]
-        ev_kind = "ghidra_decompile" if "/disasm/" in source or source.endswith(".asm") else "string"
+    evidence: list[dict[str, str]] = []
+    source = row.get("source")
+    if source:
         evidence.append(
             {
-                "kind": ev_kind,
+                "kind": _source_kind(source),
                 "source": source,
                 "note": row.get("notes", "").strip() or "Message mapping source",
             }
         )
 
-    if (scope, name) == ("server", "SM_FILE_SEARCH"):
-        evidence.append(
-            {
-                "kind": "ghidra_decompile",
-                "source": "evidence/reverse/disasm/server_file_search.txt",
-                "note": "Function writes constant 0x1a before serializing search payload.",
-            }
-        )
-    if (scope, name) in {("peer", "PM_TRANSFER_REQUEST"), ("peer", "PM_TRANSFER_RESPONSE")}:
-        evidence.append(
-            {
-                "kind": "ghidra_decompile",
-                "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
-                "note": "Transfer queue dispatcher handles peer transfer negotiation path.",
-            }
-        )
+    evidence.extend(EXTRA_EVIDENCE.get((scope, name), []))
+    evidence = _dedupe_evidence(evidence)
 
-    confidence = "high" if code is not None else "medium"
-    if name in {"SM_FILE_SEARCH", "PM_TRANSFER_REQUEST", "PM_TRANSFER_RESPONSE"}:
-        confidence = "high"
+    confidence = _normalize_confidence(row.get("confidence", "medium"))
+    if code is None:
+        confidence = "medium"
 
     return {
         "scope": scope,
@@ -120,40 +314,50 @@ def _entry(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _bootstrap_missing_entry(scope: str, name: str) -> dict[str, Any]:
+    return {
+        "scope": scope,
+        "code": KNOWN_CODES[(scope, name)],
+        "name": name,
+        "payload": KNOWN_PAYLOADS.get((scope, name), []),
+        "confidence": "medium",
+        "evidence": [
+            {
+                "kind": "manual_note",
+                "source": "docs/re/static/search-download-flow.md",
+                "note": "Bootstrapped from static flow extraction; runtime evidence promotion pending.",
+            }
+        ],
+    }
+
+
 def build_schema(message_rows: list[dict[str, Any]]) -> dict[str, Any]:
     dedup: dict[tuple[str, str], dict[str, Any]] = {}
     for row in message_rows:
         key = (row["scope"], row["name"])
         dedup[key] = _entry(row)
 
-    for key, code in KNOWN_CODES.items():
-        if key in dedup:
-            if dedup[key]["code"] is None:
-                dedup[key]["code"] = code
+    for scope, name in CORE_MESSAGES:
+        key = (scope, name)
+        if key not in dedup:
+            dedup[key] = _bootstrap_missing_entry(scope, name)
             continue
-        scope, name = key
-        dedup[key] = {
-            "scope": scope,
-            "code": code,
-            "name": name,
-            "payload": KNOWN_PAYLOADS.get(key, []),
-            "confidence": "medium",
-            "evidence": [
-                {
-                    "kind": "manual_note",
-                    "source": "docs/re/static/search-download-flow.md",
-                    "note": "Bootstrap default from static flow extraction; verify with runtime capture.",
-                }
-            ],
-        }
+
+        if dedup[key]["code"] is None:
+            dedup[key]["code"] = KNOWN_CODES[key]
 
     entries = sorted(
         dedup.values(),
         key=lambda row: (row["scope"], row["code"] if row["code"] is not None else 10**9, row["name"]),
     )
 
+    core_entries = [entry for entry in entries if (entry["scope"], entry["name"]) in set(CORE_MESSAGES)]
+    high_count = sum(1 for entry in core_entries if entry["confidence"] == "high")
+    medium_count = sum(1 for entry in core_entries if entry["confidence"] == "medium")
+    low_count = sum(1 for entry in core_entries if entry["confidence"] == "low")
+
     return {
-        "version": 1,
+        "version": 2,
         "generated_at": now_iso(),
         "framing": {
             "transport": "tcp",
@@ -172,6 +376,17 @@ def build_schema(message_rows: list[dict[str, Any]]) -> dict[str, Any]:
                 },
             ],
         },
+        "coverage_contract": {
+            "target_core_messages": 25,
+            "high_min": 18,
+            "medium_max": 7,
+            "low_max": 0,
+            "current": {
+                "high": high_count,
+                "medium": medium_count,
+                "low": low_count,
+            },
+        },
         "messages": entries,
     }
 
@@ -183,6 +398,18 @@ def write_markdown(schema: dict[str, Any], out_path: Path) -> None:
     lines.append(f"- Generated: `{schema['generated_at']}`")
     lines.append(f"- Framing: `{schema['framing']['layout']}`")
     lines.append(f"- Framing confidence: `{schema['framing']['confidence']}`")
+    lines.append(
+        "- Coverage contract: "
+        f"`high >= {schema['coverage_contract']['high_min']}` "
+        f"`medium <= {schema['coverage_contract']['medium_max']}` "
+        f"`low <= {schema['coverage_contract']['low_max']}`"
+    )
+    lines.append(
+        "- Current coverage: "
+        f"`high={schema['coverage_contract']['current']['high']}` "
+        f"`medium={schema['coverage_contract']['current']['medium']}` "
+        f"`low={schema['coverage_contract']['current']['low']}`"
+    )
     lines.append("")
     lines.append("## Messages")
     lines.append("")

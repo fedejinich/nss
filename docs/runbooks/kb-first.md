@@ -23,11 +23,19 @@ Candidate queue files are consumed on each run (emptied after processing). Rejec
 python3 scripts/kb_sync_docs.py
 ```
 
-4. Validate all map entries and evidence links:
+4. Validate maps/schema contract and evidence links:
 
 ```bash
 python3 scripts/kb_validate.py
 ```
+
+Validation includes:
+
+- `analysis/ghidra/maps/name_map.json`
+- `analysis/ghidra/maps/data_map.json`
+- `analysis/ghidra/maps/message_map.csv`
+- `analysis/protocol/message_schema.json`
+- Stage 2 confidence contract (`high >= 18`, `medium <= 7`, `low = 0`) for the 25 core messages.
 
 ## Promotion Rules
 

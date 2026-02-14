@@ -1,0 +1,2 @@
+{"ts": "2026-02-14T04:58:47+00:00", "event": "upload.request", "peer_user": "<redacted:username:0f0f0f0f0f0f>", "virtual_path": "<redacted:path:bb11cc22dd33>"}
+{"ts": "2026-02-14T04:58:47+00:00", "event": "upload.denied", "reason": "<redacted:text:deadbeef1234>"}

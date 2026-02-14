@@ -56,3 +56,34 @@ No approved data labels yet.
 ## Review Queue
 
 Review queue is empty.
+
+## Protocol Coverage (Stage 2)
+
+- Message rows: `25`
+- Confidence split: `high=18` `medium=7` `low=0`
+- Latest mapped messages:
+  - `server` `SM_LOGIN` code `1` confidence `high`
+  - `server` `SM_SET_WAIT_PORT` code `2` confidence `high`
+  - `server` `SM_GET_PEER_ADDRESS` code `3` confidence `high`
+  - `server` `SM_CONNECT_TO_PEER` code `18` confidence `high`
+  - `server` `SM_FILE_SEARCH` code `26` confidence `high`
+  - `server` `SM_SEARCH_ROOM` code `120` confidence `medium`
+  - `server` `SM_EXACT_FILE_SEARCH` code `65` confidence `medium`
+  - `server` `SM_SEARCH_USER_FILES` code `42` confidence `medium`
+  - `server` `SM_MESSAGE_USER` code `22` confidence `high`
+  - `server` `SM_MESSAGE_ACKED` code `23` confidence `high`
+  - `server` `SM_GET_USER_STATS` code `36` confidence `high`
+  - `server` `SM_GET_USER_STATUS` code `7` confidence `high`
+  - `server` `SM_SHARED_FOLDERS_FILES` code `35` confidence `high`
+  - `server` `SM_DOWNLOAD_SPEED` code `34` confidence `high`
+  - `server` `SM_UPLOAD_SPEED` code `121` confidence `high`
+  - `peer` `PM_GET_SHARED_FILE_LIST` code `4` confidence `high`
+  - `peer` `PM_SHARED_FILE_LIST` code `5` confidence `high`
+  - `peer` `PM_FILE_SEARCH_REQUEST` code `8` confidence `high`
+  - `peer` `PM_FILE_SEARCH_RESULT` code `9` confidence `medium`
+  - `peer` `PM_TRANSFER_REQUEST` code `40` confidence `high`
+  - `peer` `PM_TRANSFER_RESPONSE` code `41` confidence `high`
+  - `peer` `PM_QUEUE_UPLOAD` code `43` confidence `high`
+  - `peer` `PM_UPLOAD_PLACE_IN_LINE` code `44` confidence `medium`
+  - `peer` `PM_UPLOAD_FAILED` code `46` confidence `medium`
+  - `peer` `PM_UPLOAD_DENIED` code `50` confidence `medium`

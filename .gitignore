@@ -12,6 +12,5 @@ analysis/binaries/
 .DS_Store
 SoulseekQt-*.dmg
 rust/target/
-captures/runs/
-captures/golden/*/
+captures/raw/
 *.pcap

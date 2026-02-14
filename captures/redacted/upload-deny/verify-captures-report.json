@@ -1,0 +1,24 @@
+{
+  "run_id": "upload-deny",
+  "total_pairs": 2,
+  "matched_pairs": 2,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "official_len": 55,
+      "neo_len": 55,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "official_len": 31,
+      "neo_len": 31,
+      "first_diff_offset": null
+    }
+  ]
+}

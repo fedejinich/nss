@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "generated_at": "2026-02-14T03:58:52+00:00",
+  "version": 2,
+  "generated_at": "2026-02-14T04:58:01+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -18,7 +18,114 @@
       }
     ]
   },
+  "coverage_contract": {
+    "target_core_messages": 25,
+    "high_min": 18,
+    "medium_max": 7,
+    "low_max": 0,
+    "current": {
+      "high": 18,
+      "medium": 7,
+      "low": 0
+    }
+  },
   "messages": [
+    {
+      "scope": "peer",
+      "code": 4,
+      "name": "PM_GET_SHARED_FILE_LIST",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Observed literal in PeerMessenger::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 5,
+      "name": "PM_SHARED_FILE_LIST",
+      "payload": [
+        {
+          "name": "entries",
+          "type": "array<shared_file_entry>"
+        },
+        {
+          "name": "entry.virtual_path",
+          "type": "string"
+        },
+        {
+          "name": "entry.size",
+          "type": "u64"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Observed literal in PeerMessenger::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 8,
+      "name": "PM_FILE_SEARCH_REQUEST",
+      "payload": [
+        {
+          "name": "token",
+          "type": "u32"
+        },
+        {
+          "name": "query",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Observed literal in PeerMessenger::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 9,
+      "name": "PM_FILE_SEARCH_RESULT",
+      "payload": [
+        {
+          "name": "token",
+          "type": "u32"
+        },
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "result_count",
+          "type": "u32"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Literal dispatch identified; complex payload list normalization pending."
+        }
+      ]
+    },
     {
       "scope": "peer",
       "code": 40,
@@ -26,7 +133,7 @@
       "payload": [
         {
           "name": "direction",
-          "type": "u32"
+          "type": "enum_u32"
         },
         {
           "name": "token",
@@ -44,14 +151,14 @@
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Observed literal in Peer MessageCodeToString dispatch."
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
+          "note": "Transfer queue dispatcher handles transfer request negotiation."
         },
         {
           "kind": "ghidra_decompile",
           "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
-          "note": "Transfer queue dispatcher handles peer transfer negotiation path."
+          "note": "Transfer queue dispatcher handles transfer request negotiation path."
         }
       ]
     },
@@ -76,14 +183,133 @@
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Observed literal in Peer MessageCodeToString dispatch."
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
+          "note": "Transfer queue dispatcher handles transfer response negotiation."
         },
         {
           "kind": "ghidra_decompile",
           "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
-          "note": "Transfer queue dispatcher handles peer transfer negotiation path."
+          "note": "Transfer queue dispatcher handles transfer response negotiation path."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 43,
+      "name": "PM_QUEUE_UPLOAD",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "virtual_path",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Observed literal in PeerMessenger::MessageCodeToString dispatch."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/transfer_on_queue_download.txt",
+          "note": "Queue manager records upload queueing for pending peers."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 44,
+      "name": "PM_UPLOAD_PLACE_IN_LINE",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "virtual_path",
+          "type": "string"
+        },
+        {
+          "name": "place",
+          "type": "u32"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Literal dispatch identified; queue position payload pending runtime confirmation."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 46,
+      "name": "PM_UPLOAD_FAILED",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "virtual_path",
+          "type": "string"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Literal dispatch identified; runtime reasons pending."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/upload_write_socket.txt",
+          "note": "Upload send path emits failure branch when transfer cannot continue."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 50,
+      "name": "PM_UPLOAD_DENIED",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "virtual_path",
+          "type": "string"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Literal dispatch identified; runtime reasons pending."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/upload_write_socket.txt",
+          "note": "Upload send path emits deny branch for rejected requests."
         }
       ]
     },
@@ -114,7 +340,7 @@
         {
           "kind": "string",
           "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in MessageCodeToString dispatch."
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
         }
       ]
     },
@@ -122,13 +348,18 @@
       "scope": "server",
       "code": 2,
       "name": "SM_SET_WAIT_PORT",
-      "payload": [],
+      "payload": [
+        {
+          "name": "listen_port",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
           "kind": "string",
           "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in MessageCodeToString dispatch."
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
         }
       ]
     },
@@ -136,13 +367,107 @@
       "scope": "server",
       "code": 3,
       "name": "SM_GET_PEER_ADDRESS",
-      "payload": [],
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
           "kind": "string",
           "source": "evidence/reverse/server_messagecodetostring_otool.txt",
-          "note": "Observed literal in MessageCodeToString dispatch."
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 7,
+      "name": "SM_GET_USER_STATUS",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 18,
+      "name": "SM_CONNECT_TO_PEER",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "token",
+          "type": "u32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in Server::MessageCodeToString dispatch and peer connect path."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/server_handle_message.txt",
+          "note": "Server handler routes peer connect responses to transfer subsystem."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 22,
+      "name": "SM_MESSAGE_USER",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 23,
+      "name": "SM_MESSAGE_ACKED",
+      "payload": [
+        {
+          "name": "message_id",
+          "type": "u32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
         }
       ]
     },
@@ -171,6 +496,156 @@
           "kind": "ghidra_decompile",
           "source": "evidence/reverse/disasm/server_file_search.txt",
           "note": "Function writes constant 0x1a before serializing search payload."
+        },
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/disasm/server_prepare_search.txt",
+          "note": "PrepareSearch normalizes and emits search tokens/strings."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 34,
+      "name": "SM_DOWNLOAD_SPEED",
+      "payload": [
+        {
+          "name": "bytes_per_sec",
+          "type": "u32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 35,
+      "name": "SM_SHARED_FOLDERS_FILES",
+      "payload": [
+        {
+          "name": "folder_count",
+          "type": "u32"
+        },
+        {
+          "name": "file_count",
+          "type": "u32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 36,
+      "name": "SM_GET_USER_STATS",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Observed literal in Server::MessageCodeToString dispatch."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 42,
+      "name": "SM_SEARCH_USER_FILES",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "search_text",
+          "type": "string"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Literal dispatch identified; payload details pending runtime confirmation."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 65,
+      "name": "SM_EXACT_FILE_SEARCH",
+      "payload": [
+        {
+          "name": "virtual_path",
+          "type": "string"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "String present in binary; payload shape pending runtime confirmation."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 120,
+      "name": "SM_SEARCH_ROOM",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "search_text",
+          "type": "string"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "String present in binary; payload shape pending runtime confirmation."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 121,
+      "name": "SM_UPLOAD_SPEED",
+      "payload": [
+        {
+          "name": "bytes_per_sec",
+          "type": "u32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "String present and mirrored by upload code paths."
         }
       ]
     }

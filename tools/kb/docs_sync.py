@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,14 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _read_message_rows(path: Path) -> list[dict[str, str]]:
+    if not path.exists():
+        return []
+
+    with path.open("r", encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
 def _link(source: str) -> str:
     if source.startswith("http://") or source.startswith("https://"):
         return f"[{source}]({source})"
@@ -33,12 +42,14 @@ def sync_docs(
     name_map_path: Path,
     data_map_path: Path,
     review_queue_path: Path,
+    message_map_path: Path,
     detangling_doc_path: Path,
     ledger_doc_path: Path,
 ) -> None:
     name_entries = _load_json(name_map_path).get("entries", [])
     data_entries = _load_json(data_map_path).get("entries", [])
     review_entries = _read_jsonl(review_queue_path)
+    message_rows = _read_message_rows(message_map_path)
 
     detangling_lines: list[str] = []
     detangling_lines.append("# Detangling Notes")
@@ -89,6 +100,26 @@ def sync_docs(
             name = candidate.get("new_name") or candidate.get("new_label") or "unnamed"
             detangling_lines.append(f"- `{status}` `{name}` reason: `{reason}`")
 
+    detangling_lines.append("")
+    detangling_lines.append("## Protocol Coverage (Stage 2)")
+    detangling_lines.append("")
+    if not message_rows:
+        detangling_lines.append("No message coverage rows yet.")
+    else:
+        core_rows = [row for row in message_rows if (row.get("scope") or "").strip() in {"server", "peer"}]
+        high = sum(1 for row in core_rows if (row.get("confidence") or "").strip().lower() == "high")
+        medium = sum(1 for row in core_rows if (row.get("confidence") or "").strip().lower() == "medium")
+        low = sum(1 for row in core_rows if (row.get("confidence") or "").strip().lower() == "low")
+        detangling_lines.append(f"- Message rows: `{len(core_rows)}`")
+        detangling_lines.append(f"- Confidence split: `high={high}` `medium={medium}` `low={low}`")
+        detangling_lines.append("- Latest mapped messages:")
+        for row in core_rows[:25]:
+            scope = (row.get("scope") or "").strip()
+            name = (row.get("name") or "").strip()
+            code = (row.get("code") or "").strip()
+            conf = (row.get("confidence") or "").strip()
+            detangling_lines.append(f"  - `{scope}` `{name}` code `{code}` confidence `{conf}`")
+
     detangling_doc_path.parent.mkdir(parents=True, exist_ok=True)
     detangling_doc_path.write_text("\n".join(detangling_lines) + "\n", encoding="utf-8")
 
@@ -102,7 +133,19 @@ def sync_docs(
     ledger_lines.append(f"- Approved function renames: `{len(name_entries)}`")
     ledger_lines.append(f"- Approved data labels: `{len(data_entries)}`")
     ledger_lines.append(f"- Review queue entries: `{len(review_entries)}`")
+    ledger_lines.append(f"- Protocol message rows: `{len(message_rows)}`")
     ledger_lines.append("")
+
+    if message_rows:
+        high = sum(1 for row in message_rows if (row.get("confidence") or "").strip().lower() == "high")
+        medium = sum(1 for row in message_rows if (row.get("confidence") or "").strip().lower() == "medium")
+        low = sum(1 for row in message_rows if (row.get("confidence") or "").strip().lower() == "low")
+        ledger_lines.append("## Protocol Confidence")
+        ledger_lines.append("")
+        ledger_lines.append(f"- `high`: `{high}`")
+        ledger_lines.append(f"- `medium`: `{medium}`")
+        ledger_lines.append(f"- `low`: `{low}`")
+        ledger_lines.append("")
 
     ledger_lines.append("## Latest Evidence Sources")
     ledger_lines.append("")
@@ -112,6 +155,10 @@ def sync_docs(
             src = str(ev.get("source", "")).strip()
             if src:
                 latest_sources.append(src)
+    for row in message_rows[-25:]:
+        src = str(row.get("source", "")).strip()
+        if src:
+            latest_sources.append(src)
 
     if not latest_sources:
         ledger_lines.append("No evidence sources registered yet.")

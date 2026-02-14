@@ -1,7 +1,26 @@
-scope,code,name,source,status,notes
-server,1,SM_LOGIN,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in MessageCodeToString dispatch.
-server,2,SM_SET_WAIT_PORT,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in MessageCodeToString dispatch.
-server,3,SM_GET_PEER_ADDRESS,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in MessageCodeToString dispatch.
-server,26,SM_FILE_SEARCH,evidence/reverse/disasm/server_file_search.txt,verified_static,FileSearch writes constant 0x1a before Server::SendMessage.
-peer,40,PM_TRANSFER_REQUEST,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in Peer MessageCodeToString dispatch.
-peer,41,PM_TRANSFER_RESPONSE,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in Peer MessageCodeToString dispatch.
+scope,code,name,confidence,source,status,notes
+server,1,SM_LOGIN,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,2,SM_SET_WAIT_PORT,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,3,SM_GET_PEER_ADDRESS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,18,SM_CONNECT_TO_PEER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch and peer connect path.
+server,26,SM_FILE_SEARCH,high,evidence/reverse/disasm/server_file_search.txt,verified_static,FileSearch writes constant 0x1a before Server::SendMessage.
+server,120,SM_SEARCH_ROOM,medium,evidence/reverse/message_name_strings.txt,hypothesis_static,String present in binary; payload shape pending runtime confirmation.
+server,65,SM_EXACT_FILE_SEARCH,medium,evidence/reverse/message_name_strings.txt,hypothesis_static,String present in binary; payload shape pending runtime confirmation.
+server,42,SM_SEARCH_USER_FILES,medium,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Literal dispatch identified; payload details pending runtime confirmation.
+server,22,SM_MESSAGE_USER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,23,SM_MESSAGE_ACKED,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,36,SM_GET_USER_STATS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,7,SM_GET_USER_STATUS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,35,SM_SHARED_FOLDERS_FILES,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,34,SM_DOWNLOAD_SPEED,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,121,SM_UPLOAD_SPEED,high,evidence/reverse/message_name_strings.txt,hypothesis_static,String present and mirrored by upload code paths.
+peer,4,PM_GET_SHARED_FILE_LIST,high,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in PeerMessenger::MessageCodeToString dispatch.
+peer,5,PM_SHARED_FILE_LIST,high,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in PeerMessenger::MessageCodeToString dispatch.
+peer,8,PM_FILE_SEARCH_REQUEST,high,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in PeerMessenger::MessageCodeToString dispatch.
+peer,9,PM_FILE_SEARCH_RESULT,medium,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Literal dispatch identified; complex payload list normalization pending.
+peer,40,PM_TRANSFER_REQUEST,high,evidence/reverse/disasm/transfer_on_file_request.txt,verified_static,Transfer queue dispatcher handles transfer request negotiation.
+peer,41,PM_TRANSFER_RESPONSE,high,evidence/reverse/disasm/transfer_on_file_request.txt,verified_static,Transfer queue dispatcher handles transfer response negotiation.
+peer,43,PM_QUEUE_UPLOAD,high,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Observed literal in PeerMessenger::MessageCodeToString dispatch.
+peer,44,PM_UPLOAD_PLACE_IN_LINE,medium,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Literal dispatch identified; queue position payload pending runtime confirmation.
+peer,46,PM_UPLOAD_FAILED,medium,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Literal dispatch identified; runtime reasons pending.
+peer,50,PM_UPLOAD_DENIED,medium,evidence/reverse/peer_messagecodetostring_otool.txt,verified_static,Literal dispatch identified; runtime reasons pending.

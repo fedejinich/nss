@@ -16,9 +16,12 @@ This documentation is the project memory for decompilation and parity work again
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
 - `docs/verification/evidence-ledger.md`
+- `docs/verification/capture-redaction-policy.md`
 - `docs/re/static/detangling.md`
 - `docs/re/static/search-download-flow.md`
 - `docs/re/static/message-schema.md`
+- `docs/state/stage2-parity-audit.md`
+- `docs/state/protocol-backlog.md`
 
 ## Commands
 
@@ -28,5 +31,6 @@ python3 scripts/kb_sync_docs.py
 python3 scripts/kb_validate.py
 scripts/extract_search_download_flow.sh
 scripts/derive_message_schema.sh
+scripts/run_diff_verify.sh
 scripts/run_regression.sh
 ```

@@ -1,0 +1,38 @@
+{
+  "run_id": "login-search-download",
+  "total_pairs": 4,
+  "matched_pairs": 4,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "official_len": 61,
+      "neo_len": 61,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "official_len": 26,
+      "neo_len": 26,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
+      "matches": true,
+      "official_len": 55,
+      "neo_len": 55,
+      "first_diff_offset": null
+    },
+    {
+      "index": 3,
+      "matches": true,
+      "official_len": 20,
+      "neo_len": 20,
+      "first_diff_offset": null
+    }
+  ]
+}

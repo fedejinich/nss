@@ -2,37 +2,32 @@
 
 ## Objective
 
-Guarantee that protocol reconstruction and KB claims remain traceable to static/runtime evidence.
+Asegurar trazabilidad de evidencia y paridad protocolar para el scope core de Stage 2.
 
-## Current Controls
+## Gates
 
-- Promotion policy:
-  - `high` confidence + valid evidence -> auto-promote.
-  - `medium`/`low` -> review queue.
-  - Missing/broken evidence -> rejected.
-- Candidate queues are consumed after each promotion run.
-- Validation command:
+- KB validation:
 
 ```bash
 python3 scripts/kb_validate.py
 ```
 
-- Docs sync command:
+Checks:
 
-```bash
-python3 scripts/kb_sync_docs.py
-```
+- Name/data maps con evidencia válida.
+- `message_map.csv` con `25/25` mensajes core y umbrales de confianza.
+- `message_schema.json` con evidencia enlazada y umbrales de confianza.
 
 ## Differential Verification
-
-- Fixture diff command:
 
 ```bash
 scripts/run_diff_verify.sh
 ```
 
-- Latest report:
-  - `captures/fixtures/verify-report.json`
+Runs:
+
+1. Fixture parity (`captures/fixtures/*`).
+2. Capture parity para runs obligatorios en `captures/redacted/*`.
 
 ## Regression Suite
 
@@ -42,10 +37,12 @@ scripts/run_regression.sh
 
 Includes:
 
-1. KB workflow unit tests.
-2. Rust protocol/core/verify unit tests.
-3. Fixture parity checks (login/search/transfer request/response).
+1. Python unit tests (`tests/kb`, `tests/protocol`, `tests/runtime`).
+2. Rust unit/integration tests (`cargo test`).
+3. KB validation gates.
+4. Differential verification gates.
 
 ## Residual Risk
 
-- Runtime parity against official client network sessions requires running golden captures with a dedicated test account.
+- Runs redacted actuales son bootstrap determinístico para reproducibilidad.
+- Capturas de cuenta real deben reemplazar bootstrap para cerrar medium-confidence payloads.

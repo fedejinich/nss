@@ -1,0 +1,23 @@
+{
+  "run_id": "login-search-download",
+  "scenario": "login-search-download",
+  "source_type": "synthetic_fixture_replay",
+  "created_at": "2026-02-14T04:58:47+00:00",
+  "notes": "Redacted stage2 bootstrap capture for deterministic verification. Replace with real-account runs when available.",
+  "outputs": {
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download/neo_frames.hex",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download/frida-events.redacted.jsonl"
+  },
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T04:58:47+00:00",
+    "stats": {
+      "username": 2,
+      "endpoint": 1,
+      "text": 1,
+      "path": 1
+    }
+  }
+}

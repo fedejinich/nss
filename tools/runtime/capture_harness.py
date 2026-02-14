@@ -44,13 +44,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Run synchronized Frida+PCAP capture session")
     parser.add_argument("--process", default="SoulseekQt")
     parser.add_argument("--duration", type=int, default=60)
-    parser.add_argument("--output-root", default="captures/runs")
+    parser.add_argument("--output-root", default="captures/raw")
     parser.add_argument("--label", default="")
     parser.add_argument("--iface", default="")
     parser.add_argument("--bpf", default="tcp")
     parser.add_argument("--skip-pcap", action="store_true")
     parser.add_argument("--python-bin", default=".venv-tools/bin/python")
     parser.add_argument("--frida-script", default="frida/hooks/soulseek_trace.js")
+    parser.add_argument("--manifest-name", default="manifest.raw.json")
+    parser.add_argument("--frida-events-name", default="frida-events.raw.jsonl")
+    parser.add_argument("--pcap-name", default="traffic.raw.pcap")
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent.parent
@@ -62,11 +65,11 @@ def main() -> int:
     run_dir = output_root / run_name
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    frida_events = run_dir / "frida-events.jsonl"
+    frida_events = run_dir / args.frida_events_name
     frida_log = run_dir / "frida-capture.log"
-    pcap_file = run_dir / "traffic.pcap"
+    pcap_file = run_dir / args.pcap_name
     pcap_log = run_dir / "pcap.log"
-    manifest_path = run_dir / "manifest.json"
+    manifest_path = run_dir / args.manifest_name
 
     python_bin = (repo_root / args.python_bin).resolve()
     frida_capture = (repo_root / "tools/runtime/frida_capture.py").resolve()

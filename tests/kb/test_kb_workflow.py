@@ -26,6 +26,10 @@ class KBWorkflowTests(unittest.TestCase):
         (self.root / "analysis/ghidra/maps/data_map.json").write_text(
             json.dumps({"version": 1, "generated_by": "test", "entries": []}), encoding="utf-8"
         )
+        (self.root / "analysis/ghidra/maps/message_map.csv").write_text(
+            "scope,code,name,confidence,source,status,notes\n",
+            encoding="utf-8",
+        )
 
         (self.root / "analysis/ghidra/queue/name_candidates.jsonl").write_text("", encoding="utf-8")
         (self.root / "analysis/ghidra/queue/data_candidates.jsonl").write_text("", encoding="utf-8")
@@ -54,6 +58,7 @@ class KBWorkflowTests(unittest.TestCase):
             name_map_path=self.root / "analysis/ghidra/maps/name_map.json",
             data_map_path=self.root / "analysis/ghidra/maps/data_map.json",
             review_queue_path=self.root / "analysis/ghidra/queue/review_queue.jsonl",
+            message_map_path=self.root / "analysis/ghidra/maps/message_map.csv",
             detangling_doc_path=self.root / "docs/re/static/detangling.md",
             ledger_doc_path=self.root / "docs/verification/evidence-ledger.md",
         )

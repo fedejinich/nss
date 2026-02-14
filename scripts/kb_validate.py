@@ -18,6 +18,8 @@ def main() -> int:
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--name-map", default="analysis/ghidra/maps/name_map.json")
     parser.add_argument("--data-map", default="analysis/ghidra/maps/data_map.json")
+    parser.add_argument("--message-map", default="analysis/ghidra/maps/message_map.csv")
+    parser.add_argument("--message-schema", default="analysis/protocol/message_schema.json")
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root).resolve()
@@ -25,6 +27,8 @@ def main() -> int:
         repo_root=repo_root,
         name_map_path=repo_root / args.name_map,
         data_map_path=repo_root / args.data_map,
+        message_map_path=repo_root / args.message_map,
+        message_schema_path=repo_root / args.message_schema,
     )
 
     print(json.dumps(result, indent=2, ensure_ascii=True))

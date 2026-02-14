@@ -1,0 +1,24 @@
+{
+  "run_id": "login-search",
+  "total_pairs": 2,
+  "matched_pairs": 2,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "official_len": 61,
+      "neo_len": 61,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "official_len": 26,
+      "neo_len": 26,
+      "first_diff_offset": null
+    }
+  ]
+}

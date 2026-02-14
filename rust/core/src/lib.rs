@@ -1,12 +1,15 @@
 use anyhow::{anyhow, bail, Context, Result};
 use protocol::{
-    build_file_search_request, build_login_request, build_transfer_request, parse_transfer_response, split_first_frame,
-    Frame, TransferDirection,
+    build_file_search_request, build_login_request, build_transfer_request, decode_message, encode_peer_message,
+    encode_server_message, split_first_frame, Frame, PeerMessage, ProtocolMessage, ServerMessage,
+    TransferDirection, TransferRequestPayload, TransferResponsePayload,
 };
+use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
 use tokio::fs;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::net::TcpStream;
+use tokio::net::{TcpListener, TcpStream};
+use tokio::time::{Duration, Instant};
 
 #[derive(Debug, Clone)]
 pub struct Credentials {
@@ -31,37 +34,148 @@ pub struct DownloadResult {
     pub bytes_written: u64,
 }
 
-#[derive(Debug)]
-pub struct SoulClient {
-    stream: TcpStream,
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SessionState {
+    Disconnected,
+    Connected,
+    LoggedIn,
 }
 
-impl SoulClient {
+#[derive(Debug)]
+pub struct SessionClient {
+    stream: Option<TcpStream>,
+    state: SessionState,
+}
+
+pub type SoulClient = SessionClient;
+
+impl SessionClient {
+    pub fn new_disconnected() -> Self {
+        Self {
+            stream: None,
+            state: SessionState::Disconnected,
+        }
+    }
+
     pub async fn connect(server_addr: &str) -> Result<Self> {
         let stream = TcpStream::connect(server_addr)
             .await
             .with_context(|| format!("connect failed: {server_addr}"))?;
-        Ok(Self { stream })
+
+        Ok(Self {
+            stream: Some(stream),
+            state: SessionState::Connected,
+        })
+    }
+
+    pub fn state(&self) -> SessionState {
+        self.state
     }
 
     pub async fn login(&mut self, credentials: &Credentials) -> Result<()> {
+        self.ensure_connected()?;
         let frame = build_login_request(
             &credentials.username,
             &credentials.password_md5,
             credentials.client_version,
             credentials.minor_version,
         );
-        write_frame(&mut self.stream, &frame).await
+        write_frame(self.stream_mut()?, &frame).await?;
+        self.state = SessionState::LoggedIn;
+        Ok(())
     }
 
     pub async fn search(&mut self, token: u32, search_text: &str) -> Result<()> {
+        self.ensure_logged_in()?;
         let frame = build_file_search_request(token, search_text);
-        write_frame(&mut self.stream, &frame).await
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn send_server_message(&mut self, message: &ServerMessage) -> Result<()> {
+        self.ensure_connected()?;
+        let frame = encode_server_message(message);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn send_peer_message(&mut self, message: &PeerMessage) -> Result<()> {
+        self.ensure_connected()?;
+        let frame = encode_peer_message(message);
+        write_frame(self.stream_mut()?, &frame).await
     }
 
     pub async fn read_next_frame(&mut self) -> Result<Frame> {
-        read_frame(&mut self.stream).await
+        self.ensure_connected()?;
+        read_frame(self.stream_mut()?).await
     }
+
+    pub async fn read_next_message(&mut self) -> Result<ProtocolMessage> {
+        let frame = self.read_next_frame().await?;
+        decode_message(&frame)
+    }
+
+    pub async fn search_and_collect(
+        &mut self,
+        token: u32,
+        query: &str,
+        timeout: Duration,
+        max_messages: usize,
+    ) -> Result<Vec<ServerMessage>> {
+        self.search(token, query).await?;
+
+        let mut collected = Vec::new();
+        let deadline = Instant::now() + timeout;
+
+        while collected.len() < max_messages {
+            let now = Instant::now();
+            if now >= deadline {
+                break;
+            }
+
+            let remaining = deadline.saturating_duration_since(now);
+            match tokio::time::timeout(remaining, self.read_next_message()).await {
+                Ok(Ok(ProtocolMessage::Server(msg))) => collected.push(msg),
+                Ok(Ok(ProtocolMessage::Peer(_))) => {}
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        Ok(collected)
+    }
+
+    fn ensure_connected(&self) -> Result<()> {
+        if self.state == SessionState::Disconnected || self.stream.is_none() {
+            bail!("session is not connected");
+        }
+        Ok(())
+    }
+
+    fn ensure_logged_in(&self) -> Result<()> {
+        if self.state != SessionState::LoggedIn {
+            bail!("session is not logged in");
+        }
+        Ok(())
+    }
+
+    fn stream_mut(&mut self) -> Result<&mut TcpStream> {
+        self.stream
+            .as_mut()
+            .ok_or_else(|| anyhow!("session stream is unavailable"))
+    }
+}
+
+fn is_connection_eof(err: &anyhow::Error) -> bool {
+    err.chain().any(|cause| {
+        let rendered = cause.to_string().to_lowercase();
+        rendered.contains("early eof")
+            || rendered.contains("connection reset")
+            || rendered.contains("failed to fill whole buffer")
+    })
 }
 
 pub async fn write_frame(stream: &mut TcpStream, frame: &Frame) -> Result<()> {
@@ -98,24 +212,13 @@ pub async fn download_single_file(plan: &DownloadPlan) -> Result<DownloadResult>
     );
     write_frame(&mut stream, &request).await?;
 
-    let response = read_frame(&mut stream).await?;
-    if response.code != protocol::CODE_PM_TRANSFER_RESPONSE {
-        bail!("unexpected peer response code: {}", response.code);
-    }
+    let response_frame = read_frame(&mut stream).await?;
+    let response = match decode_message(&response_frame)? {
+        ProtocolMessage::Peer(PeerMessage::TransferResponse(payload)) => payload,
+        other => bail!("unexpected first peer message during download: {other:?}"),
+    };
 
-    let parsed = parse_transfer_response(&response.payload).context("parse transfer response")?;
-    if parsed.token != plan.token {
-        bail!("token mismatch: expected {} got {}", plan.token, parsed.token);
-    }
-    if !parsed.allowed {
-        let reason = if parsed.queue_or_reason.is_empty() {
-            "peer denied transfer".to_string()
-        } else {
-            parsed.queue_or_reason
-        };
-        bail!(reason);
-    }
-
+    validate_transfer_response(plan.token, &response)?;
     ensure_parent_dir(&plan.output_path).await?;
 
     let mut content = Vec::new();
@@ -128,6 +231,27 @@ pub async fn download_single_file(plan: &DownloadPlan) -> Result<DownloadResult>
         output_path: plan.output_path.clone(),
         bytes_written: content.len() as u64,
     })
+}
+
+fn validate_transfer_response(expected_token: u32, response: &TransferResponsePayload) -> Result<()> {
+    if response.token != expected_token {
+        bail!(
+            "token mismatch: expected {} got {}",
+            expected_token,
+            response.token
+        );
+    }
+
+    if !response.allowed {
+        let reason = if response.queue_or_reason.is_empty() {
+            "peer denied transfer".to_string()
+        } else {
+            response.queue_or_reason.clone()
+        };
+        bail!(reason);
+    }
+
+    Ok(())
 }
 
 async fn ensure_parent_dir(path: &Path) -> Result<()> {
@@ -157,11 +281,117 @@ pub fn decode_frames_from_bytes(bytes: &[u8]) -> Result<Vec<Frame>> {
     Ok(frames)
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum UploadPolicy {
+    Manual,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum UploadDecisionKind {
+    Accept,
+    Deny,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ManualUploadDecision {
+    pub decision: UploadDecisionKind,
+    pub reason: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct UploadSessionResult {
+    pub bind_addr: SocketAddr,
+    pub peer_addr: SocketAddr,
+    pub request: TransferRequestPayload,
+    pub decision: UploadDecisionKind,
+    pub bytes_sent: u64,
+}
+
+#[derive(Debug)]
+pub struct UploadAgent {
+    listener: TcpListener,
+    policy: UploadPolicy,
+}
+
+impl UploadAgent {
+    pub async fn bind_manual(bind_addr: &str) -> Result<Self> {
+        let listener = TcpListener::bind(bind_addr)
+            .await
+            .with_context(|| format!("bind upload agent failed: {bind_addr}"))?;
+        Ok(Self {
+            listener,
+            policy: UploadPolicy::Manual,
+        })
+    }
+
+    pub fn local_addr(&self) -> Result<SocketAddr> {
+        Ok(self.listener.local_addr()?)
+    }
+
+    pub async fn serve_single_manual(
+        self,
+        decision: ManualUploadDecision,
+        source_file: Option<PathBuf>,
+    ) -> Result<UploadSessionResult> {
+        if self.policy != UploadPolicy::Manual {
+            bail!("only manual policy is supported in this stage");
+        }
+
+        let bind_addr = self.listener.local_addr()?;
+        let (mut socket, peer_addr) = self.listener.accept().await.context("accept upload peer")?;
+
+        let first_frame = read_frame(&mut socket).await?;
+        let request = match decode_message(&first_frame)? {
+            ProtocolMessage::Peer(PeerMessage::TransferRequest(payload)) => payload,
+            other => bail!("expected transfer request, got {other:?}"),
+        };
+
+        let allowed = decision.decision == UploadDecisionKind::Accept;
+        let reason = if allowed {
+            String::new()
+        } else if decision.reason.is_empty() {
+            "manual deny".to_string()
+        } else {
+            decision.reason
+        };
+
+        let response_frame = encode_peer_message(&PeerMessage::TransferResponse(TransferResponsePayload {
+            token: request.token,
+            allowed,
+            queue_or_reason: reason,
+        }));
+        write_frame(&mut socket, &response_frame).await?;
+
+        let mut bytes_sent = 0_u64;
+        if allowed {
+            if let Some(path) = source_file {
+                let bytes = fs::read(&path)
+                    .await
+                    .with_context(|| format!("read upload source file: {}", path.display()))?;
+                socket.write_all(&bytes).await.context("write upload bytes")?;
+                socket.flush().await.context("flush upload bytes")?;
+                bytes_sent = bytes.len() as u64;
+            }
+        }
+        socket.shutdown().await.context("shutdown upload socket")?;
+
+        Ok(UploadSessionResult {
+            bind_addr,
+            peer_addr,
+            request,
+            decision: decision.decision,
+            bytes_sent,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use protocol::{build_transfer_response, CODE_SM_FILE_SEARCH, CODE_SM_LOGIN};
-    use tokio::net::TcpListener;
+    use protocol::{
+        encode_server_message, parse_transfer_request, parse_transfer_response, ServerMessage, SpeedPayload,
+        CODE_SM_FILE_SEARCH, CODE_SM_LOGIN,
+    };
 
     #[tokio::test]
     async fn login_and_search_send_expected_codes() {
@@ -175,7 +405,7 @@ mod tests {
             (first.code, second.code)
         });
 
-        let mut client = SoulClient::connect(&addr.to_string()).await.expect("connect");
+        let mut client = SessionClient::connect(&addr.to_string()).await.expect("connect");
         client
             .login(&Credentials {
                 username: "alice".into(),
@@ -193,6 +423,42 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn search_and_collect_returns_server_messages() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            let _search = read_frame(&mut socket).await.expect("search frame");
+
+            let speed_frame = encode_server_message(&ServerMessage::DownloadSpeed(SpeedPayload {
+                bytes_per_sec: 4096,
+            }));
+            write_frame(&mut socket, &speed_frame).await.expect("write speed");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string()).await.expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password_md5: "0123456789abcdef0123456789abcdef".into(),
+                client_version: 157,
+                minor_version: 19,
+            })
+            .await
+            .expect("login");
+
+        let messages = client
+            .search_and_collect(12345, "ambient", Duration::from_millis(250), 3)
+            .await
+            .expect("collect");
+        assert!(!messages.is_empty());
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
     async fn download_single_file_writes_output() {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
         let addr = listener.local_addr().expect("addr");
@@ -202,13 +468,16 @@ mod tests {
             let request = read_frame(&mut socket).await.expect("transfer request");
             assert_eq!(request.code, protocol::CODE_PM_TRANSFER_REQUEST);
 
-            let response = build_transfer_response(555, true, "");
+            let parsed = parse_transfer_request(&request.payload).expect("parse transfer request");
+            assert_eq!(parsed.token, 555);
+
+            let response = protocol::build_transfer_response(555, true, "");
             write_frame(&mut socket, &response).await.expect("write response");
             socket.write_all(b"abc123").await.expect("write payload");
             socket.shutdown().await.expect("shutdown");
         });
 
-        let output = std::env::temp_dir().join("soul-dec-download-test.bin");
+        let output = std::env::temp_dir().join("neosoulseek-download-test.bin");
         let result = download_single_file(&DownloadPlan {
             peer_addr: addr.to_string(),
             token: 555,
@@ -225,5 +494,83 @@ mod tests {
 
         let _ = fs::remove_file(output).await;
         server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn upload_agent_manual_accept_and_send_bytes() {
+        let source = std::env::temp_dir().join("neosoulseek-upload-source.bin");
+        fs::write(&source, b"payload-xyz").await.expect("write source");
+
+        let agent = UploadAgent::bind_manual("127.0.0.1:0").await.expect("bind agent");
+        let addr = agent.local_addr().expect("local addr");
+
+        let task = tokio::spawn(async move {
+            agent
+                .serve_single_manual(
+                    ManualUploadDecision {
+                        decision: UploadDecisionKind::Accept,
+                        reason: String::new(),
+                    },
+                    Some(source),
+                )
+                .await
+                .expect("serve")
+        });
+
+        let mut client = TcpStream::connect(addr).await.expect("connect agent");
+        let req = protocol::build_transfer_request(
+            TransferDirection::Download,
+            999,
+            "Music\\queued.flac",
+            11,
+        );
+        write_frame(&mut client, &req).await.expect("write req");
+
+        let response = read_frame(&mut client).await.expect("read response");
+        let response = parse_transfer_response(&response.payload).expect("parse response");
+        assert!(response.allowed);
+
+        let mut bytes = Vec::new();
+        client.read_to_end(&mut bytes).await.expect("read payload");
+        assert_eq!(bytes, b"payload-xyz");
+
+        let result = task.await.expect("join task");
+        assert_eq!(result.bytes_sent, 11);
+    }
+
+    #[tokio::test]
+    async fn upload_agent_manual_deny() {
+        let agent = UploadAgent::bind_manual("127.0.0.1:0").await.expect("bind agent");
+        let addr = agent.local_addr().expect("local addr");
+
+        let task = tokio::spawn(async move {
+            agent
+                .serve_single_manual(
+                    ManualUploadDecision {
+                        decision: UploadDecisionKind::Deny,
+                        reason: "blocked by policy".into(),
+                    },
+                    None,
+                )
+                .await
+                .expect("serve")
+        });
+
+        let mut client = TcpStream::connect(addr).await.expect("connect agent");
+        let req = protocol::build_transfer_request(
+            TransferDirection::Download,
+            404,
+            "Music\\blocked.flac",
+            99,
+        );
+        write_frame(&mut client, &req).await.expect("write req");
+
+        let response = read_frame(&mut client).await.expect("read response");
+        let response = parse_transfer_response(&response.payload).expect("parse response");
+        assert!(!response.allowed);
+        assert_eq!(response.queue_or_reason, "blocked by policy");
+
+        let result = task.await.expect("join task");
+        assert_eq!(result.bytes_sent, 0);
     }
 }

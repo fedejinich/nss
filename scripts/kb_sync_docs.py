@@ -18,6 +18,7 @@ def main() -> int:
     parser.add_argument("--name-map", default="analysis/ghidra/maps/name_map.json")
     parser.add_argument("--data-map", default="analysis/ghidra/maps/data_map.json")
     parser.add_argument("--review-queue", default="analysis/ghidra/queue/review_queue.jsonl")
+    parser.add_argument("--message-map", default="analysis/ghidra/maps/message_map.csv")
     parser.add_argument("--detangling-doc", default="docs/re/static/detangling.md")
     parser.add_argument("--ledger-doc", default="docs/verification/evidence-ledger.md")
     args = parser.parse_args()
@@ -27,6 +28,7 @@ def main() -> int:
         name_map_path=repo_root / args.name_map,
         data_map_path=repo_root / args.data_map,
         review_queue_path=repo_root / args.review_queue,
+        message_map_path=repo_root / args.message_map,
         detangling_doc_path=repo_root / args.detangling_doc,
         ledger_doc_path=repo_root / args.ledger_doc,
     )

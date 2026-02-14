@@ -13,6 +13,26 @@ pub struct FrameComparison {
     pub first_diff_offset: Option<usize>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct CaptureFrameComparison {
+    pub index: usize,
+    pub matches: bool,
+    pub official_len: usize,
+    pub neo_len: usize,
+    pub first_diff_offset: Option<usize>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct CaptureRunReport {
+    pub run_id: String,
+    pub total_pairs: usize,
+    pub matched_pairs: usize,
+    pub mismatched_pairs: usize,
+    pub official_only: usize,
+    pub neo_only: usize,
+    pub frame_comparisons: Vec<CaptureFrameComparison>,
+}
+
 pub fn load_hex_fixture(path: impl AsRef<Path>) -> Result<Vec<u8>> {
     let path_ref = path.as_ref();
     let raw = fs::read_to_string(path_ref)
@@ -50,6 +70,86 @@ pub fn write_report(path: impl AsRef<Path>, comparisons: &[FrameComparison]) -> 
     let report = serde_json::to_string_pretty(comparisons).context("serialize comparisons")?;
     fs::write(path.as_ref(), report + "\n")
         .with_context(|| format!("write report: {}", path.as_ref().display()))?;
+    Ok(())
+}
+
+pub fn load_hex_lines(path: impl AsRef<Path>) -> Result<Vec<Vec<u8>>> {
+    let path_ref = path.as_ref();
+    let raw = fs::read_to_string(path_ref)
+        .with_context(|| format!("read hex lines: {}", path_ref.display()))?;
+
+    let mut out = Vec::new();
+    for (line_no, line) in raw.lines().enumerate() {
+        let trimmed = line.trim();
+        if trimmed.is_empty() || trimmed.starts_with('#') {
+            continue;
+        }
+        let bytes = decode_hex(trimmed).with_context(|| {
+            format!("decode hex line {} from {}", line_no + 1, path_ref.display())
+        })?;
+        out.push(bytes);
+    }
+
+    Ok(out)
+}
+
+pub fn compare_capture_sequences(
+    run_id: &str,
+    official_frames: &[Vec<u8>],
+    neo_frames: &[Vec<u8>],
+) -> CaptureRunReport {
+    let pair_count = official_frames.len().min(neo_frames.len());
+    let mut comparisons = Vec::with_capacity(pair_count);
+    let mut matched_pairs = 0;
+
+    for idx in 0..pair_count {
+        let official = &official_frames[idx];
+        let neo = &neo_frames[idx];
+        let diff = first_diff_offset(official, neo);
+        let matches = diff.is_none() && official.len() == neo.len();
+        if matches {
+            matched_pairs += 1;
+        }
+        comparisons.push(CaptureFrameComparison {
+            index: idx,
+            matches,
+            official_len: official.len(),
+            neo_len: neo.len(),
+            first_diff_offset: diff,
+        });
+    }
+
+    CaptureRunReport {
+        run_id: run_id.to_owned(),
+        total_pairs: pair_count,
+        matched_pairs,
+        mismatched_pairs: pair_count.saturating_sub(matched_pairs),
+        official_only: official_frames.len().saturating_sub(pair_count),
+        neo_only: neo_frames.len().saturating_sub(pair_count),
+        frame_comparisons: comparisons,
+    }
+}
+
+pub fn compare_capture_run(run_dir: impl AsRef<Path>) -> Result<CaptureRunReport> {
+    let run_dir = run_dir.as_ref();
+    let run_id = run_dir
+        .file_name()
+        .map(|v| v.to_string_lossy().to_string())
+        .unwrap_or_else(|| "run".to_string());
+
+    let official_path = run_dir.join("official_frames.hex");
+    let neo_path = run_dir.join("neo_frames.hex");
+
+    let official = load_hex_lines(&official_path)?;
+    let neo = load_hex_lines(&neo_path)?;
+
+    Ok(compare_capture_sequences(&run_id, &official, &neo))
+}
+
+pub fn write_capture_report(path: impl AsRef<Path>, report: &CaptureRunReport) -> Result<()> {
+    let rendered = serde_json::to_string_pretty(report).context("serialize capture report")?;
+    fs::write(path.as_ref(), rendered + "\n")
+        .with_context(|| format!("write capture report: {}", path.as_ref().display()))?;
     Ok(())
 }
 
@@ -103,5 +203,18 @@ mod tests {
         let cmp = compare_fixture_hex("fixture", &[0xaa, 0xbb], &[0xaa, 0xbb]);
         assert!(cmp.matches);
         assert_eq!(cmp.first_diff_offset, None);
+    }
+
+    #[test]
+    fn capture_comparison_reports_pair_diffs() {
+        let official = vec![vec![1, 2, 3], vec![9, 9]];
+        let neo = vec![vec![1, 2, 3], vec![9, 8], vec![7, 7, 7]];
+        let report = compare_capture_sequences("run-a", &official, &neo);
+
+        assert_eq!(report.total_pairs, 2);
+        assert_eq!(report.matched_pairs, 1);
+        assert_eq!(report.mismatched_pairs, 1);
+        assert_eq!(report.official_only, 0);
+        assert_eq!(report.neo_only, 1);
     }
 }
