@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T20:04:03+00:00`
+- Generated: `2026-02-14T20:09:50+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -235,6 +235,12 @@
   - `runtime_capture`: `captures/redacted/login-user-state/official_frames.hex` (Authenticated runtime flow includes user-status request/response (code 7) with status and privilege fields.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 7 defines user status response fields (status and privilege bit).)
 
+### `server` `SM_ADD_CHATROOM` (code `10`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 10 to SM_ADD_CHATROOM (x86_64 binary disassembly).)
+
 ### `server` `SM_IGNORE_USER` (code `11`)
 - Confidence: `high`
 - Payload fields:
@@ -339,6 +345,18 @@
   - `ghidra_decompile`: `evidence/reverse/disasm/server_file_search.txt` (Function writes constant 0x1a before serializing search payload.)
   - `ghidra_decompile`: `evidence/reverse/disasm/server_prepare_search.txt` (PrepareSearch normalizes and emits search tokens/strings.)
 
+### `server` `SM_SET_STATUS` (code `28`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 28 to SM_SET_STATUS (x86_64 binary disassembly).)
+
+### `server` `SM_HEARTBEAT` (code `32`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 32 to SM_HEARTBEAT (x86_64 binary disassembly).)
+
 ### `server` `SM_DOWNLOAD_SPEED` (code `34`)
 - Confidence: `high`
 - Payload fields:
@@ -365,6 +383,12 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-user-state/official_frames.hex` (Authenticated runtime flow includes user-stats request/response (code 36) with stats summary fields.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 36 defines user stats response fields (speed/downloads/files/dirs).)
+
+### `server` `SM_RELOGGED` (code `41`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly).)
 
 ### `server` `SM_SEARCH_USER_FILES` (code `42`)
 - Confidence: `high`
@@ -449,6 +473,24 @@
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 58 to SM_COMMAND (x86_64 binary disassembly).)
 
+### `server` `SM_USER_LIST` (code `61`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 61 to SM_USER_LIST (x86_64 binary disassembly).)
+
+### `server` `SM_ROOM_ADDED` (code `62`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 62 to SM_ROOM_ADDED (x86_64 binary disassembly).)
+
+### `server` `SM_ROOM_REMOVED` (code `63`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 63 to SM_ROOM_REMOVED (x86_64 binary disassembly).)
+
 ### `server` `SM_ROOM_LIST` (code `64`)
 - Confidence: `high`
 - Payload fields:
@@ -494,6 +536,12 @@
 - Payload fields: pending derivation
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-privilege-messaging/official_frames.hex` (Authenticated runtime flow includes privileged-list request and response frames (code 69) with user-list style payloads.)
+
+### `server` `SM_CONNECT_TO_CLIENT` (code `70`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 70 to SM_CONNECT_TO_CLIENT (x86_64 binary disassembly).)
 
 ### `server` `SM_SEND_DISTRIBUTIONS` (code `71`)
 - Confidence: `high`

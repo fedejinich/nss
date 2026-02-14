@@ -17,7 +17,23 @@
 - Stage 4E complete: private messaging + user-state batch with runtime evidence, typed SDK/CLI operations, and semantic verification updates.
 - Stage 4F complete: global/admin/distributed-control mapping batch with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4G complete: parent/distributed tuning mapping continuation with authoritative jump-table evidence (mapping-first expansion).
+- Stage 4H complete: global room/system control mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Stage 4H Completion
+
+1. Expanded protocol mapping from 83 to 91 rows (`+8` S4H messages):
+   - `SM_ADD_CHATROOM`
+   - `SM_SET_STATUS`
+   - `SM_HEARTBEAT`
+   - `SM_RELOGGED`
+   - `SM_USER_LIST`
+   - `SM_ROOM_ADDED`
+   - `SM_ROOM_REMOVED`
+   - `SM_CONNECT_TO_CLIENT`
+2. Regenerated canonical schema/docs/matrix from authoritative maps.
+3. Preserved verification baselines while continuing mapping-first expansion.
+4. Kept S4H rows explicitly as `mapped_not_implemented` pending typed implementation.
 
 ## Stage 4G Completion
 
@@ -114,10 +130,11 @@
 - `docs/pr/0009-s4e-private-messaging-user-state.md`
 - `docs/pr/0010-s4f-global-admin-distributed-map.md`
 - `docs/pr/0011-s4g-parent-distributed-tuning-map.md`
+- `docs/pr/0012-s4h-global-system-control-map.md`
 
 ## Operational Notes
 
 - Stage 2 core contract remains intact (`25/25`, `high=25`, `medium=0`, `low=0`).
-- Total mapped protocol rows: `83`.
-- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `16`, missing `47`.
+- Total mapped protocol rows: `91`.
+- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `24`, missing `39`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.

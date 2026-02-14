@@ -7,11 +7,11 @@ Project-level evidence summaries and provenance tracking.
 - Approved function renames: `5`
 - Approved data labels: `0`
 - Review queue entries: `0`
-- Protocol message rows: `83`
+- Protocol message rows: `91`
 
 ## Protocol Confidence
 
-- `high`: `82`
+- `high`: `90`
 - `medium`: `1`
 - `low`: `0`
 
@@ -24,6 +24,5 @@ Project-level evidence summaries and provenance tracking.
 - `evidence/reverse/message_name_strings.txt`
 - `evidence/reverse/disasm/peer_queue_download.txt`
 - `evidence/reverse/disasm/transfer_on_file_request.txt`
-- `captures/redacted/login-privileges-social/official_frames.hex`
 - `captures/redacted/peer-folder-local/official_frames.hex`
 - `evidence/reverse/message_codes_jump_table.md`
