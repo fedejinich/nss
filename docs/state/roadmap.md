@@ -24,8 +24,9 @@ gantt
     S4F Global/admin/distributed control mapping batch :done, s4f, after s4e, 1d
     S4G Parent/distributed tuning continuation mapping batch :done, s4g, after s4f, 1d
     S4H Global room/system control continuation mapping batch :done, s4h, after s4g, 1d
+    S4I Ticker and term-control continuation mapping batch :done, s4i, after s4h, 1d
     section Planned
-    S4I Ticker and term-control continuation :crit, s4i, after s4h, 2d
+    S4J Private-room ownership and membership continuation :crit, s4j, after s4i, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -112,7 +113,8 @@ graph TD
 | S4F | global/admin/distributed control mapping batch | done | `docs/pr/0010-s4f-global-admin-distributed-map.md` | start S4G implementation batch |
 | S4G | parent/distributed tuning continuation mapping batch | done | `docs/pr/0011-s4g-parent-distributed-tuning-map.md` | start S4H implementation batch |
 | S4H | global room/system control continuation mapping batch | done | `docs/pr/0012-s4h-global-system-control-map.md` | start S4I implementation batch |
-| S4I | ticker and term-control continuation | planned | `docs/state/protocol-backlog.md` | start S4I plan |
+| S4I | ticker and term-control continuation mapping batch | done | `docs/pr/0013-s4i-ticker-term-control-map.md` | start S4J implementation batch |
+| S4J | private-room ownership and membership continuation | planned | `docs/state/protocol-backlog.md` | start S4J plan |
 
 ## S4B Target Contract
 
@@ -210,10 +212,10 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S4I Preview (Not Started)
+## S4J Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Ticker/term-control server domain (`SM_ADD_LIKE_TERM`, `SM_REMOVE_LIKE_TERM`, `SM_GET_ROOM_TICKER`, `SM_ROOM_TICKER_USER_ADDED`, `SM_ROOM_TICKER_USER_REMOVED`, `SM_SET_TICKER`, `SM_ADD_HATE_TERM`, `SM_REMOVE_HATE_TERM`).
-2. Convert S4F/S4G/S4H mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
-3. Keep runtime evidence capture plan for reachable global/system and term-control paths.
+1. Private-room ownership/membership server domain (`SM_REMOVE_OWN_ROOM_MEMBERSHIP`, `SM_GIVE_UP_ROOM`, `SM_TRANSFER_ROOM_OWNERSHIP`, `SM_ADD_ROOM_MEMBERSHIP`, `SM_REMOVE_ROOM_MEMBERSHIP`, `SM_ENABLE_PRIVATE_ROOM_ADD`, `SM_CHANGE_PASSWORD`, `SM_ADD_ROOM_OPERATORSHIP`).
+2. Convert S4F/S4G/S4H/S4I mapped rows from `mapped_not_implemented` to typed protocol/core/CLI support.
+3. Keep runtime evidence capture plan for reachable room ownership/membership flows.
