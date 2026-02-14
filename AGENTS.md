@@ -73,6 +73,18 @@ When a stage closes (for example S3A, S3B):
 6. Add or refresh protocol contract tests under `tests/protocol/` for every new mapped message batch.
 7. Regenerate `docs/state/protocol-matrix.md` whenever message coverage or protocol constants change.
 
+## Branch Start Discipline
+
+Before starting work on a new branch/PR, use this default flow unless explicitly instructed otherwise:
+
+1. Checkout `main`.
+2. Pull latest changes from `origin/main`.
+3. Create the new working branch from the updated `main`.
+
+Exception:
+
+1. If the user explicitly requests another base branch or commit, branch from that specified base.
+
 ## Repository Language Policy
 
 - All repository code comments, commit-ready docs, runbooks, status files, and canonical artifacts must be written in English.
