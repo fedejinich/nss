@@ -52,3 +52,5 @@ When work touches authenticated runtime flows:
 - All repository code comments, commit-ready docs, runbooks, status files, and canonical artifacts must be written in English.
 - Non-English text is not allowed in tracked repository content.
 - If a source artifact is captured in another language, document an English summary in the canonical KB files.
+- Working conversations and non-committed scratch notes may be written in Spanish.
+- Before committing, any repository content drafted in Spanish must be translated to English.
