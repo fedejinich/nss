@@ -126,3 +126,33 @@ Tasks:
   description: Commit y push a main con evidencia runtime y promoción de confianza
   status: done
   depends_on: [S2R-T06]
+
+## DOC-T0 - Institutionalizar documentacion continua
+
+Dependency graph:
+
+- `DOC-T01 -> DOC-T02`
+- `DOC-T02 -> DOC-T03`
+- `DOC-T03 -> DOC-T04`
+
+Tasks:
+
+- id: DOC-T01
+  description: Crear/actualizar AGENTS.md con reglas obligatorias de mantenimiento de conocimiento
+  status: done
+  depends_on: []
+
+- id: DOC-T02
+  description: Publicar runbook de disciplina documental en Zensical docs
+  status: done
+  depends_on: [DOC-T01]
+
+- id: DOC-T03
+  description: Enlazar la disciplina documental desde docs/index.md como regla operativa
+  status: done
+  depends_on: [DOC-T02]
+
+- id: DOC-T04
+  description: Validar y registrar que TODO-CODEX/AGENTS/KB se actualizan en cada iteración
+  status: done
+  depends_on: [DOC-T03]

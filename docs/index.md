@@ -8,6 +8,7 @@ This documentation is the project memory for decompilation and parity work again
 - No rename is accepted without evidence.
 - Only high-confidence candidates are auto-promoted into authoritative maps.
 - Medium/low confidence candidates are queued for review.
+- Project memory must be updated continuously (`TODO-CODEX.md`, `AGENTS.md`, and canonical KB docs/artifacts).
 
 ## Authoritative Sources
 
@@ -22,6 +23,7 @@ This documentation is the project memory for decompilation and parity work again
 - `docs/re/static/message-schema.md`
 - `docs/state/stage2-parity-audit.md`
 - `docs/state/protocol-backlog.md`
+- `docs/runbooks/documentation-discipline.md`
 
 ## Commands
 
@@ -33,4 +35,5 @@ scripts/extract_search_download_flow.sh
 scripts/derive_message_schema.sh
 scripts/run_diff_verify.sh
 scripts/run_regression.sh
+.venv-tools/bin/zensical build -f zensical.toml
 ```

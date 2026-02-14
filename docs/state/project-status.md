@@ -8,6 +8,7 @@
 
 - Stage 2 complete at repository level: Core P2P MVP + KB-first coverage contract for 25 core messages.
 - Stage 2R complete: runtime capture refresh + confidence promotion (`medium -> high`) for all core messages.
+- Documentation discipline institutionalized: `TODO-CODEX.md` + `AGENTS.md` + Zensical docs are mandatory per iteration.
 - Product direction updated: app evolutiva propia, no clon 1:1 del cliente oficial.
 
 ## Stage 2 Completion

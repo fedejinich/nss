@@ -37,6 +37,11 @@ Validation includes:
 - `analysis/protocol/message_schema.json`
 - Stage 2 confidence contract (`high >= 18`, `medium <= 7`, `low = 0`) for the 25 core messages.
 
+5. Persist project memory updates:
+
+- Update `TODO-CODEX.md` task statuses/dependencies.
+- Update `AGENTS.md` when process-level learnings change execution rules.
+
 ## Promotion Rules
 
 - `high` confidence + valid evidence: auto-promote to authoritative map (`status=approved`).
