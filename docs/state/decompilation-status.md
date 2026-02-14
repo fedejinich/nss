@@ -10,7 +10,8 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 3B rooms/presence addendum: `+8` messages.
 - Stage 4A discovery addendum: `+5` messages.
 - Stage 4B peer advanced + room moderation addendum: `+9` messages.
-- Total mapped protocol rows: `47`.
+- Stage 4C privileges/social + peer-folder addendum: `+9` messages.
+- Total mapped protocol rows: `56`.
 
 ## Static Evidence Sources
 
@@ -31,9 +32,11 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 3B capture generator: `tools/runtime/generate_stage3b_room_captures.py`
 - Stage 4A capture generator: `tools/runtime/generate_stage4a_discovery_captures.py`
 - Stage 4B capture generator: `tools/runtime/generate_stage4b_peer_room_captures.py`
+- Stage 4C capture generator: `tools/runtime/generate_stage4c_privileges_social_captures.py`
 - Redacted run storage: `captures/redacted/*`
 
 ## Next Reverse Focus
 
-- S4C: privileges/social-control domain mapping and peer folder domain (`PM_GET_SHARED_FILES_IN_FOLDER`, `PM_SHARED_FILES_IN_FOLDER`).
-- Promote remaining medium-confidence peer legacy searches with live runtime evidence where feasible.
+- Resolve authoritative mapping for `SM_BAN_USER`.
+- Promote remaining medium-confidence legacy peer search messages with runtime evidence.
+- Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.

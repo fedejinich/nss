@@ -1,0 +1,1 @@
+{"ts": "2026-02-14T16:32:22+00:00", "event": "privileges.social.attempts", "server": "<redacted:endpoint:e6c9252a2d13>", "target_user": "<redacted:username:93492605d93f>", "days": 7, "token": 4242, "code_counts": {"1": 2, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "160": 1, "11": 1, "12": 1, "92": 2, "122": 2, "123": 1, "124": 1, "125": 2}}

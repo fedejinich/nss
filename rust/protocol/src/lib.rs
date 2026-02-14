@@ -7,6 +7,8 @@ pub const CODE_SM_LOGIN: u32 = 1;
 pub const CODE_SM_SET_WAIT_PORT: u32 = 2;
 pub const CODE_SM_GET_PEER_ADDRESS: u32 = 3;
 pub const CODE_SM_GET_USER_STATUS: u32 = 7;
+pub const CODE_SM_IGNORE_USER: u32 = 11;
+pub const CODE_SM_UNIGNORE_USER: u32 = 12;
 pub const CODE_SM_SAY_CHATROOM: u32 = 13;
 pub const CODE_SM_JOIN_ROOM: u32 = 14;
 pub const CODE_SM_LEAVE_ROOM: u32 = 15;
@@ -28,7 +30,12 @@ pub const CODE_SM_GET_MY_RECOMMENDATIONS: u32 = 55;
 pub const CODE_SM_GET_GLOBAL_RECOMMENDATIONS: u32 = 56;
 pub const CODE_SM_GET_USER_RECOMMENDATIONS: u32 = 57;
 pub const CODE_SM_EXACT_FILE_SEARCH: u32 = 65;
+pub const CODE_SM_GET_OWN_PRIVILEGES_STATUS: u32 = 92;
 pub const CODE_SM_SEARCH_ROOM: u32 = 120;
+pub const CODE_SM_GET_USER_PRIVILEGES_STATUS: u32 = 122;
+pub const CODE_SM_GIVE_PRIVILEGE: u32 = 123;
+pub const CODE_SM_INFORM_USER_OF_PRIVILEGES: u32 = 124;
+pub const CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK: u32 = 125;
 pub const CODE_SM_UPLOAD_SPEED: u32 = 121;
 pub const CODE_SM_ADD_ROOM_MEMBER: u32 = 134;
 pub const CODE_SM_REMOVE_ROOM_MEMBER: u32 = 135;
@@ -43,6 +50,8 @@ pub const CODE_PM_FILE_SEARCH_REQUEST: u32 = 8;
 pub const CODE_PM_FILE_SEARCH_RESULT: u32 = 9;
 pub const CODE_PM_USER_INFO_REQUEST: u32 = 15;
 pub const CODE_PM_USER_INFO_REPLY: u32 = 16;
+pub const CODE_PM_GET_SHARED_FILES_IN_FOLDER: u32 = 36;
+pub const CODE_PM_SHARED_FILES_IN_FOLDER: u32 = 37;
 pub const CODE_PM_TRANSFER_REQUEST: u32 = 40;
 pub const CODE_PM_TRANSFER_RESPONSE: u32 = 41;
 pub const CODE_PM_QUEUE_UPLOAD: u32 = 43;
@@ -138,6 +147,10 @@ impl PayloadWriter {
         self.inner.extend_from_slice(value);
     }
 
+    pub fn write_raw_bytes(&mut self, value: &[u8]) {
+        self.inner.extend_from_slice(value);
+    }
+
     pub fn write_string(&mut self, value: &str) {
         self.write_u32(value.len() as u32);
         self.inner.extend_from_slice(value.as_bytes());
@@ -202,6 +215,15 @@ impl<'a> PayloadReader<'a> {
     pub fn read_bytes(&mut self) -> Result<Vec<u8>, DecoderError> {
         let len = self.read_u32()? as usize;
         Ok(self.take(len)?.to_vec())
+    }
+
+    pub fn read_remaining_bytes(&mut self) -> Vec<u8> {
+        if self.remaining() == 0 {
+            return Vec::new();
+        }
+        let start = self.offset;
+        self.offset = self.payload.len();
+        self.payload[start..].to_vec()
     }
 
     pub fn read_string(&mut self) -> Result<String, DecoderError> {
@@ -281,6 +303,34 @@ pub struct SetWaitPortPayload {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct UserLookupPayload {
     pub username: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct OwnPrivilegesStatusPayload {
+    pub time_left_seconds: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserPrivilegesStatusPayload {
+    pub username: String,
+    pub privileged: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GivePrivilegePayload {
+    pub username: String,
+    pub days: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct InformUserOfPrivilegesPayload {
+    pub token: u32,
+    pub username: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct InformUserOfPrivilegesAckPayload {
+    pub token: u32,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -423,6 +473,17 @@ pub struct SharedFileListPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SharedFilesInFolderRequestPayload {
+    pub directory: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SharedFilesInFolderPayload {
+    pub directory: String,
+    pub compressed_listing: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct FileSearchRequestPayload {
     pub token: u32,
     pub query: String,
@@ -542,6 +603,8 @@ pub enum ServerMessage {
     LoginResponse(LoginResponsePayload),
     SetWaitPort(SetWaitPortPayload),
     GetPeerAddress(UserLookupPayload),
+    IgnoreUser(UserLookupPayload),
+    UnignoreUser(UserLookupPayload),
     SayChatRoom(SayChatRoomPayload),
     JoinRoom(JoinRoomPayload),
     LeaveRoom(LeaveRoomPayload),
@@ -562,6 +625,13 @@ pub enum ServerMessage {
     GetMyRecommendationsResponse(RecommendationsPayload),
     GetGlobalRecommendations(EmptyPayload),
     GetGlobalRecommendationsResponse(RecommendationsPayload),
+    GetOwnPrivilegesStatus(EmptyPayload),
+    OwnPrivilegesStatus(OwnPrivilegesStatusPayload),
+    GetUserPrivilegesStatus(UserLookupPayload),
+    UserPrivilegesStatus(UserPrivilegesStatusPayload),
+    GivePrivilege(GivePrivilegePayload),
+    InformUserOfPrivileges(InformUserOfPrivilegesPayload),
+    InformUserOfPrivilegesAck(InformUserOfPrivilegesAckPayload),
     GetUserRecommendations(UserLookupPayload),
     GetUserRecommendationsResponse(UserRecommendationsPayload),
     AddRoomMember(RoomModerationPayload),
@@ -583,6 +653,8 @@ pub enum ServerMessage {
 pub enum PeerMessage {
     GetSharedFileList(UserLookupPayload),
     SharedFileList(SharedFileListPayload),
+    GetSharedFilesInFolder(SharedFilesInFolderRequestPayload),
+    SharedFilesInFolder(SharedFilesInFolderPayload),
     FileSearchRequest(FileSearchRequestPayload),
     FileSearchResult(FileSearchResultPayload),
     UserInfoRequest(UserInfoRequestPayload),
@@ -690,6 +762,14 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.username);
             CODE_SM_GET_PEER_ADDRESS
         }
+        ServerMessage::IgnoreUser(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_IGNORE_USER
+        }
+        ServerMessage::UnignoreUser(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_UNIGNORE_USER
+        }
         ServerMessage::SayChatRoom(payload) => {
             writer.write_string(&payload.room);
             if let Some(username) = &payload.username {
@@ -795,6 +875,34 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
         ServerMessage::GetGlobalRecommendationsResponse(payload) => {
             encode_recommendations_payload(&mut writer, payload);
             CODE_SM_GET_GLOBAL_RECOMMENDATIONS
+        }
+        ServerMessage::GetOwnPrivilegesStatus(_) => CODE_SM_GET_OWN_PRIVILEGES_STATUS,
+        ServerMessage::OwnPrivilegesStatus(payload) => {
+            writer.write_u32(payload.time_left_seconds);
+            CODE_SM_GET_OWN_PRIVILEGES_STATUS
+        }
+        ServerMessage::GetUserPrivilegesStatus(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_GET_USER_PRIVILEGES_STATUS
+        }
+        ServerMessage::UserPrivilegesStatus(payload) => {
+            writer.write_string(&payload.username);
+            writer.write_bool_u32(payload.privileged);
+            CODE_SM_GET_USER_PRIVILEGES_STATUS
+        }
+        ServerMessage::GivePrivilege(payload) => {
+            writer.write_string(&payload.username);
+            writer.write_u32(payload.days);
+            CODE_SM_GIVE_PRIVILEGE
+        }
+        ServerMessage::InformUserOfPrivileges(payload) => {
+            writer.write_u32(payload.token);
+            writer.write_string(&payload.username);
+            CODE_SM_INFORM_USER_OF_PRIVILEGES
+        }
+        ServerMessage::InformUserOfPrivilegesAck(payload) => {
+            writer.write_u32(payload.token);
+            CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK
         }
         ServerMessage::GetUserRecommendations(payload) => {
             writer.write_string(&payload.username);
@@ -913,6 +1021,18 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::GetPeerAddress(payload)
         }
+        CODE_SM_IGNORE_USER => {
+            let payload = UserLookupPayload {
+                username: reader.read_string()?,
+            };
+            ServerMessage::IgnoreUser(payload)
+        }
+        CODE_SM_UNIGNORE_USER => {
+            let payload = UserLookupPayload {
+                username: reader.read_string()?,
+            };
+            ServerMessage::UnignoreUser(payload)
+        }
         CODE_SM_SAY_CHATROOM => {
             allow_trailing_bytes = true;
             ServerMessage::SayChatRoom(parse_say_chatroom_payload(payload)?)
@@ -1002,6 +1122,42 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                     payload,
                 )?)
             }
+        }
+        CODE_SM_GET_OWN_PRIVILEGES_STATUS => {
+            allow_trailing_bytes = true;
+            if payload.is_empty() {
+                ServerMessage::GetOwnPrivilegesStatus(EmptyPayload)
+            } else {
+                ServerMessage::OwnPrivilegesStatus(parse_own_privileges_status_payload(payload)?)
+            }
+        }
+        CODE_SM_GET_USER_PRIVILEGES_STATUS => {
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_user_lookup_payload(payload) {
+                ServerMessage::GetUserPrivilegesStatus(request)
+            } else {
+                ServerMessage::UserPrivilegesStatus(parse_user_privileges_status_payload(payload)?)
+            }
+        }
+        CODE_SM_GIVE_PRIVILEGE => {
+            let payload = GivePrivilegePayload {
+                username: reader.read_string()?,
+                days: reader.read_u32()?,
+            };
+            ServerMessage::GivePrivilege(payload)
+        }
+        CODE_SM_INFORM_USER_OF_PRIVILEGES => {
+            let payload = InformUserOfPrivilegesPayload {
+                token: reader.read_u32()?,
+                username: reader.read_string()?,
+            };
+            ServerMessage::InformUserOfPrivileges(payload)
+        }
+        CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK => {
+            let payload = InformUserOfPrivilegesAckPayload {
+                token: reader.read_u32()?,
+            };
+            ServerMessage::InformUserOfPrivilegesAck(payload)
         }
         CODE_SM_GET_USER_RECOMMENDATIONS => {
             allow_trailing_bytes = true;
@@ -1277,6 +1433,31 @@ fn parse_user_lookup_payload(payload: &[u8]) -> Result<UserLookupPayload> {
     Ok(request)
 }
 
+fn parse_own_privileges_status_payload(payload: &[u8]) -> Result<OwnPrivilegesStatusPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let status = OwnPrivilegesStatusPayload {
+        time_left_seconds: reader.read_u32()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(status)
+}
+
+fn parse_user_privileges_status_payload(payload: &[u8]) -> Result<UserPrivilegesStatusPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let status = UserPrivilegesStatusPayload {
+        username: reader.read_string()?,
+        privileged: if reader.remaining() >= 4 {
+            reader.read_bool_u32()?
+        } else if reader.remaining() >= 1 {
+            reader.read_u8()? != 0
+        } else {
+            false
+        },
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(status)
+}
+
 pub fn parse_user_recommendations_payload(payload: &[u8]) -> Result<UserRecommendationsPayload> {
     let mut reader = PayloadReader::new(payload);
     let username = reader.read_string()?;
@@ -1499,6 +1680,15 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             }
             CODE_PM_SHARED_FILE_LIST
         }
+        PeerMessage::GetSharedFilesInFolder(payload) => {
+            writer.write_string(&payload.directory);
+            CODE_PM_GET_SHARED_FILES_IN_FOLDER
+        }
+        PeerMessage::SharedFilesInFolder(payload) => {
+            writer.write_string(&payload.directory);
+            writer.write_raw_bytes(&payload.compressed_listing);
+            CODE_PM_SHARED_FILES_IN_FOLDER
+        }
         PeerMessage::FileSearchRequest(payload) => {
             writer.write_u32(payload.token);
             writer.write_string(&payload.query);
@@ -1605,6 +1795,19 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
                 });
             }
             PeerMessage::SharedFileList(SharedFileListPayload { entries })
+        }
+        CODE_PM_GET_SHARED_FILES_IN_FOLDER => {
+            let payload = SharedFilesInFolderRequestPayload {
+                directory: reader.read_string()?,
+            };
+            PeerMessage::GetSharedFilesInFolder(payload)
+        }
+        CODE_PM_SHARED_FILES_IN_FOLDER => {
+            let payload = SharedFilesInFolderPayload {
+                directory: reader.read_string()?,
+                compressed_listing: reader.read_remaining_bytes(),
+            };
+            PeerMessage::SharedFilesInFolder(payload)
         }
         CODE_PM_FILE_SEARCH_REQUEST => {
             let payload = FileSearchRequestPayload {
@@ -1747,6 +1950,50 @@ pub fn build_get_similar_terms_request(term: &str) -> Frame {
     ))
 }
 
+pub fn build_ignore_user_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::IgnoreUser(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_unignore_user_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::UnignoreUser(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_get_own_privileges_status_request() -> Frame {
+    encode_server_message(&ServerMessage::GetOwnPrivilegesStatus(EmptyPayload))
+}
+
+pub fn build_get_user_privileges_status_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetUserPrivilegesStatus(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_give_privilege_request(username: &str, days: u32) -> Frame {
+    encode_server_message(&ServerMessage::GivePrivilege(GivePrivilegePayload {
+        username: username.to_owned(),
+        days,
+    }))
+}
+
+pub fn build_inform_user_of_privileges_request(token: u32, username: &str) -> Frame {
+    encode_server_message(&ServerMessage::InformUserOfPrivileges(
+        InformUserOfPrivilegesPayload {
+            token,
+            username: username.to_owned(),
+        },
+    ))
+}
+
+pub fn build_inform_user_of_privileges_ack_request(token: u32) -> Frame {
+    encode_server_message(&ServerMessage::InformUserOfPrivilegesAck(
+        InformUserOfPrivilegesAckPayload { token },
+    ))
+}
+
 pub fn build_room_list_request() -> Frame {
     Frame::new(CODE_SM_ROOM_LIST, Vec::new())
 }
@@ -1866,6 +2113,14 @@ pub fn build_upload_place_in_line_request(virtual_path: &str) -> Frame {
     ))
 }
 
+pub fn build_get_shared_files_in_folder_request(directory: &str) -> Frame {
+    encode_peer_message(&PeerMessage::GetSharedFilesInFolder(
+        SharedFilesInFolderRequestPayload {
+            directory: directory.to_owned(),
+        },
+    ))
+}
+
 pub fn parse_transfer_request(payload: &[u8]) -> Result<TransferRequestPayload> {
     match decode_peer_message(CODE_PM_TRANSFER_REQUEST, payload)? {
         PeerMessage::TransferRequest(msg) => Ok(msg),
@@ -1877,6 +2132,13 @@ pub fn parse_transfer_response(payload: &[u8]) -> Result<TransferResponsePayload
     match decode_peer_message(CODE_PM_TRANSFER_RESPONSE, payload)? {
         PeerMessage::TransferResponse(msg) => Ok(msg),
         _ => bail!("decoded peer message is not transfer response"),
+    }
+}
+
+pub fn parse_shared_files_in_folder_payload(payload: &[u8]) -> Result<SharedFilesInFolderPayload> {
+    match decode_peer_message(CODE_PM_SHARED_FILES_IN_FOLDER, payload)? {
+        PeerMessage::SharedFilesInFolder(msg) => Ok(msg),
+        _ => bail!("decoded peer message is not shared files in folder response"),
     }
 }
 
@@ -1932,6 +2194,12 @@ mod tests {
             })),
             ProtocolMessage::Server(ServerMessage::GetPeerAddress(UserLookupPayload {
                 username: "bob".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::IgnoreUser(UserLookupPayload {
+                username: "eve".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::UnignoreUser(UserLookupPayload {
+                username: "eve".into(),
             })),
             ProtocolMessage::Server(ServerMessage::SayChatRoom(SayChatRoomPayload {
                 room: "nicotine".into(),
@@ -2040,6 +2308,34 @@ mod tests {
                     }],
                 },
             )),
+            ProtocolMessage::Server(ServerMessage::GetOwnPrivilegesStatus(EmptyPayload)),
+            ProtocolMessage::Server(ServerMessage::OwnPrivilegesStatus(
+                OwnPrivilegesStatusPayload {
+                    time_left_seconds: 86_400,
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetUserPrivilegesStatus(UserLookupPayload {
+                username: "bob".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::UserPrivilegesStatus(
+                UserPrivilegesStatusPayload {
+                    username: "bob".into(),
+                    privileged: true,
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GivePrivilege(GivePrivilegePayload {
+                username: "bob".into(),
+                days: 7,
+            })),
+            ProtocolMessage::Server(ServerMessage::InformUserOfPrivileges(
+                InformUserOfPrivilegesPayload {
+                    token: 1234,
+                    username: "bob".into(),
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::InformUserOfPrivilegesAck(
+                InformUserOfPrivilegesAckPayload { token: 1234 },
+            )),
             ProtocolMessage::Server(ServerMessage::GetUserRecommendations(UserLookupPayload {
                 username: "bob".into(),
             })),
@@ -2119,6 +2415,17 @@ mod tests {
                     },
                 ],
             })),
+            ProtocolMessage::Peer(PeerMessage::GetSharedFilesInFolder(
+                SharedFilesInFolderRequestPayload {
+                    directory: "Music\\Albums".into(),
+                },
+            )),
+            ProtocolMessage::Peer(PeerMessage::SharedFilesInFolder(
+                SharedFilesInFolderPayload {
+                    directory: "Music\\Albums".into(),
+                    compressed_listing: vec![0x78, 0x9c, 0x03, 0x00],
+                },
+            )),
             ProtocolMessage::Peer(PeerMessage::FileSearchRequest(FileSearchRequestPayload {
                 token: 9,
                 query: "ambient".into(),
@@ -2192,8 +2499,18 @@ mod tests {
     fn roundtrip_all_core_messages() {
         for message in sample_messages() {
             let frame = encode_message(&message);
-            let decoded = decode_message(&frame).expect("decode message");
-            assert_eq!(decoded, message);
+            match &message {
+                ProtocolMessage::Server(_) => {
+                    let decoded = decode_server_message(frame.code, &frame.payload)
+                        .expect("decode server message");
+                    assert_eq!(ProtocolMessage::Server(decoded), message);
+                }
+                ProtocolMessage::Peer(_) => {
+                    let decoded = decode_peer_message(frame.code, &frame.payload)
+                        .expect("decode peer message");
+                    assert_eq!(ProtocolMessage::Peer(decoded), message);
+                }
+            }
         }
     }
 
@@ -2256,6 +2573,43 @@ mod tests {
         assert_eq!(
             build_get_similar_terms_request("electronic").code,
             CODE_SM_GET_SIMILAR_TERMS
+        );
+    }
+
+    #[test]
+    fn privileges_request_builders_emit_expected_codes() {
+        assert_eq!(build_ignore_user_request("alice").code, CODE_SM_IGNORE_USER);
+        assert_eq!(
+            build_unignore_user_request("alice").code,
+            CODE_SM_UNIGNORE_USER
+        );
+        assert_eq!(
+            build_get_own_privileges_status_request().code,
+            CODE_SM_GET_OWN_PRIVILEGES_STATUS
+        );
+        assert_eq!(
+            build_get_user_privileges_status_request("alice").code,
+            CODE_SM_GET_USER_PRIVILEGES_STATUS
+        );
+        assert_eq!(
+            build_give_privilege_request("alice", 7).code,
+            CODE_SM_GIVE_PRIVILEGE
+        );
+        assert_eq!(
+            build_inform_user_of_privileges_request(55, "alice").code,
+            CODE_SM_INFORM_USER_OF_PRIVILEGES
+        );
+        assert_eq!(
+            build_inform_user_of_privileges_ack_request(55).code,
+            CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK
+        );
+    }
+
+    #[test]
+    fn peer_folder_request_builder_emits_expected_code() {
+        assert_eq!(
+            build_get_shared_files_in_folder_request("Music").code,
+            CODE_PM_GET_SHARED_FILES_IN_FOLDER
         );
     }
 
