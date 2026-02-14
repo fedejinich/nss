@@ -1,0 +1,38 @@
+{
+  "$schema": "../schemas/name_map.schema.json",
+  "version": 1,
+  "generated_by": "soul-dec kb workflow",
+  "entries": [
+    {
+      "binary": "SoulseekQt",
+      "address": "0x10006c590",
+      "original_name": "FUN_10006c590",
+      "new_name": "server_message_code_to_string",
+      "kind": "function_rename",
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "ghidra_decompile",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Jump table maps integer server message codes to SM_* literals."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "SM_* literals present in binary strings."
+        }
+      ],
+      "tags": [
+        "protocol",
+        "server",
+        "message-codes"
+      ],
+      "status": "approved",
+      "provenance": {
+        "analyst": "codex",
+        "created_at": "2026-02-14T03:46:50+00:00",
+        "promoted_at": "2026-02-14T03:46:50+00:00"
+      }
+    }
+  ]
+}

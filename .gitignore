@@ -1,0 +1,12 @@
+.venv-tools/
+site/
+.cache/
+__pycache__/
+*.pyc
+
+analysis/ghidra/project/
+analysis/ghidra/tmp/
+analysis/binaries/
+
+*.log
+.DS_Store

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://soul-dec.local/schemas/name_map.schema.json",
+  "title": "Soul-dec name map",
+  "type": "object",
+  "required": ["version", "generated_by", "entries"],
+  "properties": {
+    "version": {"type": "integer", "minimum": 1},
+    "generated_by": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nameEntry"}
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["kind", "source"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "string",
+            "call_pattern",
+            "xref",
+            "ghidra_decompile",
+            "frida_trace",
+            "pcap",
+            "runtime_log",
+            "manual_note"
+          ]
+        },
+        "source": {"type": "string", "minLength": 1},
+        "note": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "nameEntry": {
+      "type": "object",
+      "required": [
+        "binary",
+        "address",
+        "original_name",
+        "new_name",
+        "kind",
+        "confidence",
+        "evidence",
+        "status"
+      ],
+      "properties": {
+        "binary": {"type": "string", "minLength": 1},
+        "address": {"type": "string", "pattern": "^0x[0-9a-fA-F]+$"},
+        "original_name": {"type": "string", "minLength": 1},
+        "new_name": {"type": "string", "minLength": 1},
+        "kind": {"type": "string", "enum": ["function_rename", "type_signature"]},
+        "signature": {"type": "string"},
+        "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+        "status": {"type": "string", "enum": ["approved", "review_required", "rejected"]},
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "analyst": {"type": "string"},
+            "created_at": {"type": "string"},
+            "promoted_at": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/evidence"}
+        },
+        "tags": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
