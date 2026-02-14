@@ -20,7 +20,7 @@ use protocol::{
     build_login_request, build_privileged_list_request, build_remove_room_member_request,
     build_remove_room_operator_request, build_room_list_request, build_room_members_request,
     build_room_operators_request, build_say_chatroom, build_transfer_request,
-    build_unignore_user_request, decode_message, decode_server_message, encode_peer_message,
+    build_unignore_user_request, decode_peer_message, decode_server_message, encode_peer_message,
     encode_server_message, split_first_frame,
 };
 use std::net::SocketAddr;
@@ -693,7 +693,8 @@ impl SessionClient {
 
     pub async fn read_next_message(&mut self) -> Result<ProtocolMessage> {
         let frame = self.read_next_frame().await?;
-        decode_message(&frame)
+        let server = decode_server_message(frame.code, &frame.payload)?;
+        Ok(ProtocolMessage::Server(server))
     }
 
     pub async fn search_and_collect(
@@ -1001,8 +1002,8 @@ pub async fn download_single_file(plan: &DownloadPlan) -> Result<DownloadResult>
     write_frame(&mut stream, &request).await?;
 
     let response_frame = read_frame(&mut stream).await?;
-    let response = match decode_message(&response_frame)? {
-        ProtocolMessage::Peer(PeerMessage::TransferResponse(payload)) => payload,
+    let response = match decode_peer_message(response_frame.code, &response_frame.payload)? {
+        PeerMessage::TransferResponse(payload) => payload,
         other => bail!("unexpected first peer message during download: {other:?}"),
     };
 
@@ -1135,8 +1136,8 @@ impl UploadAgent {
         let (mut socket, peer_addr) = self.listener.accept().await.context("accept upload peer")?;
 
         let first_frame = read_frame(&mut socket).await?;
-        let request = match decode_message(&first_frame)? {
-            ProtocolMessage::Peer(PeerMessage::TransferRequest(payload)) => payload,
+        let request = match decode_peer_message(first_frame.code, &first_frame.payload)? {
+            PeerMessage::TransferRequest(payload) => payload,
             other => bail!("expected transfer request, got {other:?}"),
         };
 
@@ -1196,7 +1197,7 @@ mod tests {
         CODE_SM_INFORM_USER_OF_PRIVILEGES, CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK,
         CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN, CODE_SM_PRIVILEGED_LIST,
         CODE_SM_REMOVE_ROOM_MEMBER, CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST,
-        CODE_SM_UNIGNORE_USER, LoginResponsePayload, LoginResponseSuccessPayload,
+        CODE_SM_UNIGNORE_USER, JoinRoomPayload, LoginResponsePayload, LoginResponseSuccessPayload,
         OwnPrivilegesStatusPayload, PrivilegedListPayload, RecommendationEntry,
         RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
         RoomListPayload, RoomPresenceEventPayload, ServerMessage, SimilarTermsPayload,
@@ -1345,6 +1346,52 @@ mod tests {
             .expect("list rooms");
         assert_eq!(room_list.room_count, 2);
         assert_eq!(room_list.rooms.len(), 2);
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn read_next_message_decodes_server_join_room_on_server_socket() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            // JoinRoom with empty users serializes to a single room string and is ambiguous
+            // with peer code 14 payload shape. Server socket reads must remain server-scoped.
+            let join_frame = encode_server_message(&ServerMessage::JoinRoom(JoinRoomPayload {
+                room: "nicotine".into(),
+                users: Vec::new(),
+            }));
+            write_frame(&mut socket, &join_frame)
+                .await
+                .expect("write join room");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let message = client.read_next_message().await.expect("read next message");
+        let ProtocolMessage::Server(ServerMessage::JoinRoom(payload)) = message else {
+            panic!("expected server join-room message");
+        };
+        assert_eq!(payload.room, "nicotine");
+        assert!(payload.users.is_empty());
 
         server.await.expect("server task");
     }
