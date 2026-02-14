@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T20:09:50+00:00",
+  "generated_at": "2026-02-14T20:14:50+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -1260,6 +1260,34 @@
     },
     {
       "scope": "server",
+      "code": 51,
+      "name": "SM_ADD_LIKE_TERM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 51 to SM_ADD_LIKE_TERM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 52,
+      "name": "SM_REMOVE_LIKE_TERM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 52 to SM_REMOVE_LIKE_TERM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 54,
       "name": "SM_GET_RECOMMENDATIONS",
       "payload": [
@@ -1892,6 +1920,90 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-privilege-messaging/official_frames.hex",
           "note": "Authenticated runtime flow includes code 112 request with term payload and scored-user response entries."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 113,
+      "name": "SM_GET_ROOM_TICKER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 113 to SM_GET_ROOM_TICKER (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 114,
+      "name": "SM_ROOM_TICKER_USER_ADDED",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 114 to SM_ROOM_TICKER_USER_ADDED (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 115,
+      "name": "SM_ROOM_TICKER_USER_REMOVED",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 115 to SM_ROOM_TICKER_USER_REMOVED (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 116,
+      "name": "SM_SET_TICKER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 116 to SM_SET_TICKER (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 117,
+      "name": "SM_ADD_HATE_TERM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 117 to SM_ADD_HATE_TERM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 118,
+      "name": "SM_REMOVE_HATE_TERM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 118 to SM_REMOVE_HATE_TERM (x86_64 binary disassembly)."
         }
       ]
     },

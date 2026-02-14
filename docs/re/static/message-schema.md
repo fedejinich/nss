@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T20:09:50+00:00`
+- Generated: `2026-02-14T20:14:50+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -410,6 +410,18 @@
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_GET_SIMILAR_TERMS.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Protocol list documents similar recommendation request/response message family.)
 
+### `server` `SM_ADD_LIKE_TERM` (code `51`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 51 to SM_ADD_LIKE_TERM (x86_64 binary disassembly).)
+
+### `server` `SM_REMOVE_LIKE_TERM` (code `52`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 52 to SM_REMOVE_LIKE_TERM (x86_64 binary disassembly).)
+
 ### `server` `SM_GET_RECOMMENDATIONS` (code `54`)
 - Confidence: `high`
 - Payload fields:
@@ -641,6 +653,42 @@
 - Payload fields: pending derivation
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-privilege-messaging/official_frames.hex` (Authenticated runtime flow includes code 112 request with term payload and scored-user response entries.)
+
+### `server` `SM_GET_ROOM_TICKER` (code `113`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 113 to SM_GET_ROOM_TICKER (x86_64 binary disassembly).)
+
+### `server` `SM_ROOM_TICKER_USER_ADDED` (code `114`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 114 to SM_ROOM_TICKER_USER_ADDED (x86_64 binary disassembly).)
+
+### `server` `SM_ROOM_TICKER_USER_REMOVED` (code `115`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 115 to SM_ROOM_TICKER_USER_REMOVED (x86_64 binary disassembly).)
+
+### `server` `SM_SET_TICKER` (code `116`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 116 to SM_SET_TICKER (x86_64 binary disassembly).)
+
+### `server` `SM_ADD_HATE_TERM` (code `117`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 117 to SM_ADD_HATE_TERM (x86_64 binary disassembly).)
+
+### `server` `SM_REMOVE_HATE_TERM` (code `118`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 118 to SM_REMOVE_HATE_TERM (x86_64 binary disassembly).)
 
 ### `server` `SM_SEARCH_ROOM` (code `120`)
 - Confidence: `high`

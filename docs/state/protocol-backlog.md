@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4H)
+# Protocol Backlog (Post S4I)
 
 ## Objective
 
@@ -118,7 +118,7 @@ Status: completed in S4G with authoritative static mapping evidence from jump-ta
 
 Status: completed in S4H with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
 
-## Next Candidate Stage (S4I) - Ticker/Term Control Continuation
+## Completed in S4I (Ticker/Term Control Mapping Batch)
 
 - `SM_ADD_LIKE_TERM`
 - `SM_REMOVE_LIKE_TERM`
@@ -128,6 +128,19 @@ Status: completed in S4H with authoritative static mapping evidence from jump-ta
 - `SM_SET_TICKER`
 - `SM_ADD_HATE_TERM`
 - `SM_REMOVE_HATE_TERM`
+
+Status: completed in S4I with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
+
+## Next Candidate Stage (S4J) - Private Room Ownership/Membership Continuation
+
+- `SM_REMOVE_OWN_ROOM_MEMBERSHIP`
+- `SM_GIVE_UP_ROOM`
+- `SM_TRANSFER_ROOM_OWNERSHIP`
+- `SM_ADD_ROOM_MEMBERSHIP`
+- `SM_REMOVE_ROOM_MEMBERSHIP`
+- `SM_ENABLE_PRIVATE_ROOM_ADD`
+- `SM_CHANGE_PASSWORD`
+- `SM_ADD_ROOM_OPERATORSHIP`
 - carryover parser-depth follow-up:
   - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
 
@@ -143,4 +156,4 @@ Status: completed in S4H with authoritative static mapping evidence from jump-ta
 
 ## Next Session Entry Point
 
-Start S4I by extending ticker/term control mappings and begin typed codec implementation for mapped-not-implemented S4F/S4G/S4H rows.
+Start S4J by extending private-room ownership/membership mappings and begin typed codec implementation for mapped-not-implemented S4F/S4G/S4H/S4I rows.

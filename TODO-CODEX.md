@@ -992,3 +992,81 @@ Notes:
 - Protocol matrix snapshot after S4H: tracked `131`, implemented+mapped `67`, mapped-not-implemented `24`, missing `39`.
 - S4H was executed as mapping-first with authoritative static evidence from `message_codes_jump_table.md`; typed protocol/core/cli implementation is scheduled for S4I+.
 - Two `@codex review` requests were posted on PR #11 and the connector reported usage-limit responses without actionable findings.
+
+## Stage 4I - Ticker/term control mapping continuation
+
+Dependency graph:
+
+- `S4I-W01 -> S4I-T01`
+- `S4I-T01 -> S4I-T02`
+- `S4I-T02 -> S4I-T03`
+- `S4I-T03 -> S4I-T04`
+- `S4I-T04 -> S4I-T05`
+- `S4I-T05 -> S4I-R01`
+- `S4I-R01 -> S4I-Q01`
+- `S4I-Q01 -> S4I-Q02`
+- `S4I-Q02 -> S4I-Q03`
+- `S4I-Q03 -> S4I-Q04`
+- `S4I-Q04 -> S4I-T06`
+
+Tasks:
+
+- id: S4I-W01
+  description: Start from updated main and create branch `codex/s4i-ticker-term-control-map`
+  status: done
+  depends_on: []
+
+- id: S4I-T01
+  description: Resolve and register authoritative codes/evidence for S4I mapping batch from jump-table extraction
+  status: done
+  depends_on: [S4I-W01]
+
+- id: S4I-T02
+  description: Update `message_map.csv` and regenerate `message_schema.json` for S4I rows
+  status: done
+  depends_on: [S4I-T01]
+
+- id: S4I-T03
+  description: Sync detangling/ledger/schema docs and regenerate protocol matrix
+  status: done
+  depends_on: [S4I-T02]
+
+- id: S4I-T04
+  description: Update roadmap/backlog/project/verification/decompilation status docs for S4I completion and S4J preview
+  status: done
+  depends_on: [S4I-T03]
+
+- id: S4I-T05
+  description: Run validation gates (`kb_validate`, regression, zensical build)
+  status: done
+  depends_on: [S4I-T04]
+
+- id: S4I-R01
+  description: Publish PR doc for S4I and stage closure notes
+  status: done
+  depends_on: [S4I-T05]
+
+- id: S4I-Q01
+  description: Open S4I PR and request first `@codex review`
+  status: todo
+  depends_on: [S4I-R01]
+
+- id: S4I-Q02
+  description: Triage/apply useful feedback from round 1 and resolve/dismiss comments with rationale
+  status: todo
+  depends_on: [S4I-Q01]
+
+- id: S4I-Q03
+  description: Request second `@codex review` after round-1 updates
+  status: todo
+  depends_on: [S4I-Q02]
+
+- id: S4I-Q04
+  description: Triage/apply useful feedback from round 2 and resolve/dismiss comments with rationale
+  status: todo
+  depends_on: [S4I-Q03]
+
+- id: S4I-T06
+  description: Merge-ready closure with final status synchronization
+  status: todo
+  depends_on: [S4I-Q04]

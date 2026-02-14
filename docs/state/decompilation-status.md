@@ -16,7 +16,8 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4F global/admin/distributed mapping addendum: `+8` mapped messages from jump-table evidence.
 - Stage 4G parent/distributed tuning mapping addendum: `+8` mapped messages from jump-table evidence.
 - Stage 4H global room/system control mapping addendum: `+8` mapped messages from jump-table evidence.
-- Total mapped protocol rows: `91`.
+- Stage 4I ticker/term-control mapping addendum: `+8` mapped messages from jump-table evidence.
+- Total mapped protocol rows: `99`.
 
 ## Static Evidence Sources
 
@@ -45,7 +46,7 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 
 ## Next Reverse Focus
 
-- Convert S4F/S4G/S4H mapped-not-implemented control messages into typed protocol/core/CLI coverage.
-- Continue ticker/term-control mappings (`SM_ADD_LIKE_TERM`, `SM_REMOVE_LIKE_TERM`, `SM_GET_ROOM_TICKER`, `SM_ROOM_TICKER_USER_ADDED`, `SM_ROOM_TICKER_USER_REMOVED`, `SM_SET_TICKER`, `SM_ADD_HATE_TERM`, `SM_REMOVE_HATE_TERM`).
-- Resolve remaining legacy server operations in private/global room management (`SM_ENABLE_PRIVATE_ROOM_ADD` and ownership/membership transitions).
+- Convert S4F/S4G/S4H/S4I mapped-not-implemented control messages into typed protocol/core/CLI coverage.
+- Continue private-room ownership/membership mappings (`SM_REMOVE_OWN_ROOM_MEMBERSHIP`, `SM_GIVE_UP_ROOM`, `SM_TRANSFER_ROOM_OWNERSHIP`, `SM_ADD_ROOM_MEMBERSHIP`, `SM_REMOVE_ROOM_MEMBERSHIP`, `SM_ENABLE_PRIVATE_ROOM_ADD`, `SM_CHANGE_PASSWORD`, `SM_ADD_ROOM_OPERATORSHIP`).
+- Resolve remaining legacy/global room operations and system messages (`SM_JOIN_GLOBAL_ROOM`, `SM_LEAVE_GLOBAL_ROOM`, `SM_SAY_GLOBAL_ROOM`, `SM_SEARCH_CORRELATIONS`).
 - Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.
