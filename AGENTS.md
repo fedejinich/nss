@@ -46,3 +46,9 @@ When work touches authenticated runtime flows:
 2. Update `.env.example` whenever required runtime vars change.
 3. Refresh redacted captures and re-run differential verification in semantic mode.
 4. Record accepted login tuple and evidence paths in state docs and ledger.
+
+## Repository Language Policy
+
+- All repository code comments, commit-ready docs, runbooks, status files, and canonical artifacts must be written in English.
+- Non-English text is not allowed in tracked repository content.
+- If a source artifact is captured in another language, document an English summary in the canonical KB files.
