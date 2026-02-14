@@ -156,3 +156,57 @@ Tasks:
   description: Validar y registrar que TODO-CODEX/AGENTS/KB se actualizan en cada iteración
   status: done
   depends_on: [DOC-T03]
+
+## Stage 3A - Login autenticado real + paridad semantica
+
+Dependency graph:
+
+- `S3A-T01 -> S3A-T02`
+- `S3A-T02 -> S3A-T03`
+- `S3A-T03 -> S3A-T04`
+- `S3A-T04 -> S3A-T05`
+- `S3A-T05 -> S3A-T06`
+- `S3A-T06 -> S3A-T07`
+- `S3A-T07 -> S3A-T08`
+
+Tasks:
+
+- id: S3A-T01
+  description: Determinar tuple de version/login aceptada por servidor oficial y registrar evidencia runtime
+  status: todo
+  depends_on: []
+
+- id: S3A-T02
+  description: Actualizar rust/core login para esperar y validar respuesta de servidor (ok/error) antes de LoggedIn
+  status: todo
+  depends_on: [S3A-T01]
+
+- id: S3A-T03
+  description: Extender rust/protocol con decode tipado de login response y errores de autenticacion
+  status: todo
+  depends_on: [S3A-T02]
+
+- id: S3A-T04
+  description: Incorporar tests de regresion para login success/INVALIDVERSION/credenciales invalidas
+  status: todo
+  depends_on: [S3A-T03]
+
+- id: S3A-T05
+  description: Re-ejecutar capturas runtime autenticadas (login-search-download/upload) con cuenta de prueba real
+  status: todo
+  depends_on: [S3A-T04]
+
+- id: S3A-T06
+  description: Extender verificador diferencial a comparacion semantica por campo (no solo bytes/frame)
+  status: todo
+  depends_on: [S3A-T05]
+
+- id: S3A-T07
+  description: Actualizar mapas/esquema/docs estado con evidencia autenticada real y gaps restantes
+  status: todo
+  depends_on: [S3A-T06]
+
+- id: S3A-T08
+  description: Cierre Stage 3A con auditoria, run_regression verde y push a main
+  status: todo
+  depends_on: [S3A-T07]
