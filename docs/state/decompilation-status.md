@@ -17,7 +17,8 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4G parent/distributed tuning mapping addendum: `+8` mapped messages from jump-table evidence.
 - Stage 4H global room/system control mapping addendum: `+8` mapped messages from jump-table evidence.
 - Stage 4I ticker/term-control mapping addendum: `+8` mapped messages from jump-table evidence.
-- Total mapped protocol rows: `99`.
+- Stage 4J private-room ownership/membership mapping addendum: `+8` mapped messages from jump-table evidence.
+- Total mapped protocol rows: `107`.
 
 ## Static Evidence Sources
 
@@ -46,7 +47,7 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 
 ## Next Reverse Focus
 
-- Convert S4F/S4G/S4H/S4I mapped-not-implemented control messages into typed protocol/core/CLI coverage.
-- Continue private-room ownership/membership mappings (`SM_REMOVE_OWN_ROOM_MEMBERSHIP`, `SM_GIVE_UP_ROOM`, `SM_TRANSFER_ROOM_OWNERSHIP`, `SM_ADD_ROOM_MEMBERSHIP`, `SM_REMOVE_ROOM_MEMBERSHIP`, `SM_ENABLE_PRIVATE_ROOM_ADD`, `SM_CHANGE_PASSWORD`, `SM_ADD_ROOM_OPERATORSHIP`).
-- Resolve remaining legacy/global room operations and system messages (`SM_JOIN_GLOBAL_ROOM`, `SM_LEAVE_GLOBAL_ROOM`, `SM_SAY_GLOBAL_ROOM`, `SM_SEARCH_CORRELATIONS`).
+- Convert S4F through S4J mapped-not-implemented control messages into typed protocol/core/CLI coverage.
+- Continue remaining global-room/distributed-tail mappings (`SM_JOIN_GLOBAL_ROOM`, `SM_LEAVE_GLOBAL_ROOM`, `SM_SAY_GLOBAL_ROOM`, `SM_SEARCH_CORRELATIONS`, `SM_DNET_LEVEL`, `SM_DNET_GROUP_LEADER`, `SM_DNET_DELIVERY_REPORT`, `SM_DNET_CHILD_DEPTH`, `SM_FLOOD`).
+- Resolve final peer control gaps (`PM_SAY`, `PM_SEND_CONNECT_TOKEN`, `PM_PLACEHOLD_UPLOAD`, `PM_NOTHING`) with evidence and codec support.
 - Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.

@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T20:14:50+00:00`
+- Generated: `2026-02-14T20:20:01+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -784,6 +784,48 @@
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_REMOVE_ROOM_MEMBER.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 135 documents RemoveUserFromPrivileged operation with room+username fields.)
 
+### `server` `SM_REMOVE_OWN_ROOM_MEMBERSHIP` (code `136`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 136 to SM_REMOVE_OWN_ROOM_MEMBERSHIP (x86_64 binary disassembly).)
+
+### `server` `SM_GIVE_UP_ROOM` (code `137`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 137 to SM_GIVE_UP_ROOM (x86_64 binary disassembly).)
+
+### `server` `SM_TRANSFER_ROOM_OWNERSHIP` (code `138`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 138 to SM_TRANSFER_ROOM_OWNERSHIP (x86_64 binary disassembly).)
+
+### `server` `SM_ADD_ROOM_MEMBERSHIP` (code `139`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 139 to SM_ADD_ROOM_MEMBERSHIP (x86_64 binary disassembly).)
+
+### `server` `SM_REMOVE_ROOM_MEMBERSHIP` (code `140`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 140 to SM_REMOVE_ROOM_MEMBERSHIP (x86_64 binary disassembly).)
+
+### `server` `SM_ENABLE_PRIVATE_ROOM_ADD` (code `141`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 141 to SM_ENABLE_PRIVATE_ROOM_ADD (x86_64 binary disassembly).)
+
+### `server` `SM_CHANGE_PASSWORD` (code `142`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 142 to SM_CHANGE_PASSWORD (x86_64 binary disassembly).)
+
 ### `server` `SM_ADD_ROOM_OPERATOR` (code `143`)
 - Confidence: `high`
 - Payload fields:
@@ -803,6 +845,12 @@
   - `string`: `evidence/reverse/message_name_strings.txt` (Server code 144 RemoveOperatorFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_REMOVE_ROOM_OPERATOR.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 144 documents RemoveOperatorFromPrivileged operation with room+username fields.)
+
+### `server` `SM_ADD_ROOM_OPERATORSHIP` (code `145`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 145 to SM_ADD_ROOM_OPERATORSHIP (x86_64 binary disassembly).)
 
 ### `server` `SM_ROOM_OPERATORS` (code `148`)
 - Confidence: `high`

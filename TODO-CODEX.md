@@ -1077,3 +1077,88 @@ Notes:
 - Protocol matrix snapshot after S4I: tracked `131`, implemented+mapped `67`, mapped-not-implemented `32`, missing `31`.
 - S4I was executed as mapping-first with authoritative static evidence from `message_codes_jump_table.md`; typed protocol/core/cli implementation is scheduled for S4J+.
 - Two `@codex review` requests were posted on PR #12 and the connector reported usage-limit responses without actionable findings.
+
+## Stage 4J - Private-room ownership/membership mapping continuation
+
+Dependency graph:
+
+- `S4J-W01 -> S4J-T01`
+- `S4J-T01 -> S4J-T02`
+- `S4J-T02 -> S4J-T03`
+- `S4J-T03 -> S4J-T04`
+- `S4J-T04 -> S4J-T05`
+- `S4J-T05 -> S4J-R01`
+- `S4J-R01 -> S4J-Q01`
+- `S4J-Q01 -> S4J-Q02`
+- `S4J-Q02 -> S4J-Q03`
+- `S4J-Q03 -> S4J-Q04`
+- `S4J-Q04 -> S4J-T06`
+
+Tasks:
+
+- id: S4J-W01
+  description: Start from updated main and create branch `codex/s4j-private-room-ownership-map`
+  status: done
+  depends_on: []
+
+- id: S4J-T01
+  description: Resolve and register authoritative codes/evidence for S4J mapping batch from jump-table extraction
+  status: done
+  depends_on: [S4J-W01]
+
+- id: S4J-T02
+  description: Update `message_map.csv` and regenerate `message_schema.json` for S4J rows
+  status: done
+  depends_on: [S4J-T01]
+
+- id: S4J-T03
+  description: Sync detangling/ledger/schema docs and regenerate protocol matrix
+  status: done
+  depends_on: [S4J-T02]
+
+- id: S4J-T04
+  description: Update roadmap/backlog/project/verification/decompilation status docs for S4J completion and S4K preview
+  status: done
+  depends_on: [S4J-T03]
+
+- id: S4J-T05
+  description: Run validation gates (`kb_validate`, regression, zensical build)
+  status: done
+  depends_on: [S4J-T04]
+
+- id: S4J-R01
+  description: Publish PR doc for S4J and stage closure notes
+  status: done
+  depends_on: [S4J-T05]
+
+- id: S4J-Q01
+  description: Open S4J PR and request first `@codex review`
+  status: done
+  depends_on: [S4J-R01]
+
+- id: S4J-Q02
+  description: Triage/apply useful feedback from round 1 and resolve/dismiss comments with rationale
+  status: done
+  depends_on: [S4J-Q01]
+
+- id: S4J-Q03
+  description: Request second `@codex review` after round-1 updates
+  status: done
+  depends_on: [S4J-Q02]
+
+- id: S4J-Q04
+  description: Triage/apply useful feedback from round 2 and resolve/dismiss comments with rationale
+  status: done
+  depends_on: [S4J-Q03]
+
+- id: S4J-T06
+  description: Merge-ready closure with final status synchronization
+  status: done
+  depends_on: [S4J-Q04]
+
+Notes:
+
+- Stage 4J mapping batch landed with confidence gate satisfied: `high=8`, `medium=0`, `low=0`.
+- Protocol matrix snapshot after S4J: tracked `131`, implemented+mapped `67`, mapped-not-implemented `40`, missing `23`.
+- S4J was executed as mapping-first with authoritative static evidence from `message_codes_jump_table.md`; typed protocol/core/cli implementation is scheduled for S4K+.
+- Two `@codex review` requests were posted on PR #13 and the connector reported usage-limit responses without actionable findings.

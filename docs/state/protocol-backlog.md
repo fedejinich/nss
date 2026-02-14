@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4I)
+# Protocol Backlog (Post S4J)
 
 ## Objective
 
@@ -131,7 +131,7 @@ Status: completed in S4H with authoritative static mapping evidence from jump-ta
 
 Status: completed in S4I with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
 
-## Next Candidate Stage (S4J) - Private Room Ownership/Membership Continuation
+## Completed in S4J (Private Room Ownership/Membership Mapping Batch)
 
 - `SM_REMOVE_OWN_ROOM_MEMBERSHIP`
 - `SM_GIVE_UP_ROOM`
@@ -141,6 +141,27 @@ Status: completed in S4I with authoritative static mapping evidence from jump-ta
 - `SM_ENABLE_PRIVATE_ROOM_ADD`
 - `SM_CHANGE_PASSWORD`
 - `SM_ADD_ROOM_OPERATORSHIP`
+
+Status: completed in S4J with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
+
+## Next Candidate Stage (S4K) - Global/Distributed Tail + Peer Control Continuation
+
+- `SM_REMOVE_ROOM_OPERATORSHIP`
+- `SM_REMOVE_OWN_ROOM_OPERATORSHIP`
+- `SM_JOIN_GLOBAL_ROOM`
+- `SM_LEAVE_GLOBAL_ROOM`
+- `SM_SAY_GLOBAL_ROOM`
+- `SM_SEARCH_CORRELATIONS`
+- `SM_DNET_LEVEL`
+- `SM_DNET_GROUP_LEADER`
+- `SM_DNET_DELIVERY_REPORT`
+- `SM_DNET_CHILD_DEPTH`
+- `SM_FLOOD`
+- `SM_ADD_PRIVILEGED_USER`
+- `PM_SAY`
+- `PM_SEND_CONNECT_TOKEN`
+- `PM_PLACEHOLD_UPLOAD`
+- `PM_NOTHING`
 - carryover parser-depth follow-up:
   - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
 
@@ -156,4 +177,4 @@ Status: completed in S4I with authoritative static mapping evidence from jump-ta
 
 ## Next Session Entry Point
 
-Start S4J by extending private-room ownership/membership mappings and begin typed codec implementation for mapped-not-implemented S4F/S4G/S4H/S4I rows.
+Start S4K by extending global/distributed tail and peer-control mappings and begin typed codec implementation for mapped-not-implemented S4F through S4J rows.
