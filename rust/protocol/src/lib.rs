@@ -20,6 +20,7 @@ pub const CODE_SM_MESSAGE_ACKED: u32 = 23;
 pub const CODE_SM_FILE_SEARCH: u32 = 26;
 pub const CODE_SM_ROOM_LIST: u32 = 64;
 pub const CODE_SM_FILE_SEARCH_RESPONSE: u32 = CODE_SM_ROOM_LIST;
+pub const CODE_SM_PRIVILEGED_LIST: u32 = 69;
 pub const CODE_SM_DOWNLOAD_SPEED: u32 = 34;
 pub const CODE_SM_SHARED_FOLDERS_FILES: u32 = 35;
 pub const CODE_SM_GET_USER_STATS: u32 = 36;
@@ -31,12 +32,16 @@ pub const CODE_SM_GET_GLOBAL_RECOMMENDATIONS: u32 = 56;
 pub const CODE_SM_GET_USER_RECOMMENDATIONS: u32 = 57;
 pub const CODE_SM_EXACT_FILE_SEARCH: u32 = 65;
 pub const CODE_SM_GET_OWN_PRIVILEGES_STATUS: u32 = 92;
+pub const CODE_SM_GET_RECOMMENDED_USERS: u32 = 110;
+pub const CODE_SM_GET_TERM_RECOMMENDATIONS: u32 = 111;
+pub const CODE_SM_GET_RECOMMENDATION_USERS: u32 = 112;
 pub const CODE_SM_SEARCH_ROOM: u32 = 120;
 pub const CODE_SM_GET_USER_PRIVILEGES_STATUS: u32 = 122;
 pub const CODE_SM_GIVE_PRIVILEGE: u32 = 123;
 pub const CODE_SM_INFORM_USER_OF_PRIVILEGES: u32 = 124;
 pub const CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK: u32 = 125;
 pub const CODE_SM_UPLOAD_SPEED: u32 = 121;
+pub const CODE_SM_BAN_USER: u32 = 132;
 pub const CODE_SM_ADD_ROOM_MEMBER: u32 = 134;
 pub const CODE_SM_REMOVE_ROOM_MEMBER: u32 = 135;
 pub const CODE_SM_ADD_ROOM_OPERATOR: u32 = 143;
@@ -48,8 +53,11 @@ pub const CODE_PM_GET_SHARED_FILE_LIST: u32 = 4;
 pub const CODE_PM_SHARED_FILE_LIST: u32 = 5;
 pub const CODE_PM_FILE_SEARCH_REQUEST: u32 = 8;
 pub const CODE_PM_FILE_SEARCH_RESULT: u32 = 9;
+pub const CODE_PM_INVITE_USER_TO_ROOM: u32 = 10;
+pub const CODE_PM_CANCELLED_QUEUED_TRANSFER: u32 = 14;
 pub const CODE_PM_USER_INFO_REQUEST: u32 = 15;
 pub const CODE_PM_USER_INFO_REPLY: u32 = 16;
+pub const CODE_PM_MOVE_DOWNLOAD_TO_TOP: u32 = 34;
 pub const CODE_PM_GET_SHARED_FILES_IN_FOLDER: u32 = 36;
 pub const CODE_PM_SHARED_FILES_IN_FOLDER: u32 = 37;
 pub const CODE_PM_TRANSFER_REQUEST: u32 = 40;
@@ -57,6 +65,7 @@ pub const CODE_PM_TRANSFER_RESPONSE: u32 = 41;
 pub const CODE_PM_QUEUE_UPLOAD: u32 = 43;
 pub const CODE_PM_UPLOAD_PLACE_IN_LINE: u32 = 44;
 pub const CODE_PM_EXACT_FILE_SEARCH_REQUEST: u32 = 47;
+pub const CODE_PM_QUEUED_DOWNLOADS: u32 = 48;
 pub const CODE_PM_INDIRECT_FILE_SEARCH_REQUEST: u32 = 49;
 pub const CODE_PM_UPLOAD_FAILED: u32 = 46;
 pub const CODE_PM_UPLOAD_DENIED: u32 = 50;
@@ -369,9 +378,37 @@ pub struct RecommendationEntry {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ScoredUserEntry {
+    pub username: String,
+    pub score: i32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RecommendationsPayload {
     pub recommendations: Vec<RecommendationEntry>,
     pub unrecommendations: Vec<RecommendationEntry>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PrivilegedListPayload {
+    pub users: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RecommendedUsersPayload {
+    pub users: Vec<ScoredUserEntry>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TermRecommendationsPayload {
+    pub term: String,
+    pub recommendations: Vec<RecommendationEntry>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RecommendationUsersPayload {
+    pub term: String,
+    pub users: Vec<ScoredUserEntry>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -593,6 +630,21 @@ pub struct PeerSearchQueryPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PeerRoomInvitePayload {
+    pub room: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PeerVirtualPathPayload {
+    pub virtual_path: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PeerQueuedDownloadsPayload {
+    pub virtual_paths: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct UploadPlaceInLineRequestPayload {
     pub virtual_path: String,
 }
@@ -614,9 +666,11 @@ pub enum ServerMessage {
     FileSearch(FileSearchPayload),
     RoomList(RoomListPayload),
     FileSearchResponseSummary(SearchResponseSummary),
+    PrivilegedList(PrivilegedListPayload),
     SearchRoom(SearchRoomPayload),
     ExactFileSearch(ExactFileSearchPayload),
     SearchUserFiles(SearchUserFilesPayload),
+    BanUser(UserLookupPayload),
     GetSimilarTerms(SimilarTermsRequestPayload),
     GetSimilarTermsResponse(SimilarTermsPayload),
     GetRecommendations(EmptyPayload),
@@ -634,6 +688,12 @@ pub enum ServerMessage {
     InformUserOfPrivilegesAck(InformUserOfPrivilegesAckPayload),
     GetUserRecommendations(UserLookupPayload),
     GetUserRecommendationsResponse(UserRecommendationsPayload),
+    GetRecommendedUsers(EmptyPayload),
+    GetRecommendedUsersResponse(RecommendedUsersPayload),
+    GetTermRecommendations(SimilarTermsRequestPayload),
+    GetTermRecommendationsResponse(TermRecommendationsPayload),
+    GetRecommendationUsers(SimilarTermsRequestPayload),
+    GetRecommendationUsersResponse(RecommendationUsersPayload),
     AddRoomMember(RoomModerationPayload),
     RemoveRoomMember(RoomModerationPayload),
     AddRoomOperator(RoomModerationPayload),
@@ -657,13 +717,17 @@ pub enum PeerMessage {
     SharedFilesInFolder(SharedFilesInFolderPayload),
     FileSearchRequest(FileSearchRequestPayload),
     FileSearchResult(FileSearchResultPayload),
+    InviteUserToRoom(PeerRoomInvitePayload),
+    CancelledQueuedTransfer(PeerVirtualPathPayload),
     UserInfoRequest(UserInfoRequestPayload),
     UserInfoReply(UserInfoReplyPayload),
+    MoveDownloadToTop(PeerVirtualPathPayload),
     TransferRequest(TransferRequestPayload),
     TransferResponse(TransferResponsePayload),
     QueueUpload(QueueUploadPayload),
     UploadPlaceInLine(UploadPlaceInLinePayload),
     ExactFileSearchRequest(PeerSearchQueryPayload),
+    QueuedDownloads(PeerQueuedDownloadsPayload),
     IndirectFileSearchRequest(PeerSearchQueryPayload),
     UploadFailed(UploadStatusPayload),
     UploadDenied(UploadStatusPayload),
@@ -819,6 +883,13 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             }
             CODE_SM_ROOM_LIST
         }
+        ServerMessage::PrivilegedList(payload) => {
+            writer.write_u32(payload.users.len() as u32);
+            for user in &payload.users {
+                writer.write_string(user);
+            }
+            CODE_SM_PRIVILEGED_LIST
+        }
         ServerMessage::FileSearchResponseSummary(payload) => {
             writer.write_string(&payload.username);
             writer.write_u32(payload.token);
@@ -847,6 +918,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.username);
             writer.write_string(&payload.search_text);
             CODE_SM_SEARCH_USER_FILES
+        }
+        ServerMessage::BanUser(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_BAN_USER
         }
         ServerMessage::GetSimilarTerms(payload) => {
             writer.write_string(&payload.term);
@@ -912,6 +987,41 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.username);
             encode_recommendations_payload(&mut writer, &payload.recommendations);
             CODE_SM_GET_USER_RECOMMENDATIONS
+        }
+        ServerMessage::GetRecommendedUsers(_) => CODE_SM_GET_RECOMMENDED_USERS,
+        ServerMessage::GetRecommendedUsersResponse(payload) => {
+            writer.write_u32(payload.users.len() as u32);
+            for entry in &payload.users {
+                writer.write_string(&entry.username);
+                writer.write_u32(entry.score as u32);
+            }
+            CODE_SM_GET_RECOMMENDED_USERS
+        }
+        ServerMessage::GetTermRecommendations(payload) => {
+            writer.write_string(&payload.term);
+            CODE_SM_GET_TERM_RECOMMENDATIONS
+        }
+        ServerMessage::GetTermRecommendationsResponse(payload) => {
+            writer.write_string(&payload.term);
+            writer.write_u32(payload.recommendations.len() as u32);
+            for entry in &payload.recommendations {
+                writer.write_string(&entry.term);
+                writer.write_u32(entry.score as u32);
+            }
+            CODE_SM_GET_TERM_RECOMMENDATIONS
+        }
+        ServerMessage::GetRecommendationUsers(payload) => {
+            writer.write_string(&payload.term);
+            CODE_SM_GET_RECOMMENDATION_USERS
+        }
+        ServerMessage::GetRecommendationUsersResponse(payload) => {
+            writer.write_string(&payload.term);
+            writer.write_u32(payload.users.len() as u32);
+            for entry in &payload.users {
+                writer.write_string(&entry.username);
+                writer.write_u32(entry.score as u32);
+            }
+            CODE_SM_GET_RECOMMENDATION_USERS
         }
         ServerMessage::AddRoomMember(payload) => {
             writer.write_string(&payload.room);
@@ -1069,6 +1179,10 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::FileSearch(payload)
         }
+        CODE_SM_PRIVILEGED_LIST => {
+            allow_trailing_bytes = true;
+            ServerMessage::PrivilegedList(parse_privileged_list_payload(payload)?)
+        }
         CODE_SM_SEARCH_ROOM => {
             let payload = SearchRoomPayload {
                 room: reader.read_string()?,
@@ -1089,12 +1203,48 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::SearchUserFiles(payload)
         }
+        CODE_SM_BAN_USER => {
+            let payload = UserLookupPayload {
+                username: reader.read_string()?,
+            };
+            ServerMessage::BanUser(payload)
+        }
         CODE_SM_GET_SIMILAR_TERMS => {
             allow_trailing_bytes = true;
             if let Ok(request) = parse_similar_terms_request(payload) {
                 ServerMessage::GetSimilarTerms(request)
             } else {
                 ServerMessage::GetSimilarTermsResponse(parse_similar_terms_response(payload)?)
+            }
+        }
+        CODE_SM_GET_RECOMMENDED_USERS => {
+            allow_trailing_bytes = true;
+            if payload.is_empty() {
+                ServerMessage::GetRecommendedUsers(EmptyPayload)
+            } else {
+                ServerMessage::GetRecommendedUsersResponse(parse_recommended_users_payload(
+                    payload,
+                )?)
+            }
+        }
+        CODE_SM_GET_TERM_RECOMMENDATIONS => {
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_similar_terms_request(payload) {
+                ServerMessage::GetTermRecommendations(request)
+            } else {
+                ServerMessage::GetTermRecommendationsResponse(parse_term_recommendations_payload(
+                    payload,
+                )?)
+            }
+        }
+        CODE_SM_GET_RECOMMENDATION_USERS => {
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_similar_terms_request(payload) {
+                ServerMessage::GetRecommendationUsers(request)
+            } else {
+                ServerMessage::GetRecommendationUsersResponse(parse_recommendation_users_payload(
+                    payload,
+                )?)
             }
         }
         CODE_SM_GET_RECOMMENDATIONS => {
@@ -1371,6 +1521,81 @@ fn parse_recommendation_entries(
         entries.push(RecommendationEntry { term, score });
     }
     Ok(entries)
+}
+
+fn parse_scored_user_entries(
+    reader: &mut PayloadReader<'_>,
+    count: u32,
+    max_count: u32,
+) -> Result<Vec<ScoredUserEntry>> {
+    if count > max_count {
+        bail!("scored_user_count exceeds sanity threshold: {count}");
+    }
+
+    let mut users = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        users.push(ScoredUserEntry {
+            username: reader.read_string()?,
+            score: reader.read_u32()? as i32,
+        });
+    }
+    Ok(users)
+}
+
+pub fn parse_privileged_list_payload(payload: &[u8]) -> Result<PrivilegedListPayload> {
+    if payload.is_empty() {
+        return Ok(PrivilegedListPayload { users: Vec::new() });
+    }
+
+    let mut reader = PayloadReader::new(payload);
+    let count = reader.read_u32()?;
+    if count > 300_000 {
+        bail!("privileged_user_count exceeds sanity threshold: {count}");
+    }
+
+    let mut users = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        users.push(reader.read_string()?);
+    }
+    ensure_payload_consumed(&reader)?;
+    Ok(PrivilegedListPayload { users })
+}
+
+pub fn parse_recommended_users_payload(payload: &[u8]) -> Result<RecommendedUsersPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let count = reader.read_u32()?;
+    let users = parse_scored_user_entries(&mut reader, count, 100_000)?;
+    ensure_payload_consumed(&reader)?;
+    Ok(RecommendedUsersPayload { users })
+}
+
+pub fn parse_term_recommendations_payload(payload: &[u8]) -> Result<TermRecommendationsPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let term = reader.read_string()?;
+    let count = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let recommendations = parse_recommendation_entries(&mut reader, count, 100_000)?;
+    ensure_payload_consumed(&reader)?;
+    Ok(TermRecommendationsPayload {
+        term,
+        recommendations,
+    })
+}
+
+pub fn parse_recommendation_users_payload(payload: &[u8]) -> Result<RecommendationUsersPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let term = reader.read_string()?;
+    let count = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let users = parse_scored_user_entries(&mut reader, count, 100_000)?;
+    ensure_payload_consumed(&reader)?;
+    Ok(RecommendationUsersPayload { term, users })
 }
 
 fn parse_recommendations_payload_from_reader(
@@ -1665,6 +1890,44 @@ fn parse_peer_search_query_payload(payload: &[u8]) -> Result<PeerSearchQueryPayl
     Ok(PeerSearchQueryPayload { token: None, query })
 }
 
+fn parse_queued_downloads_payload(payload: &[u8]) -> Result<PeerQueuedDownloadsPayload> {
+    if payload.is_empty() {
+        return Ok(PeerQueuedDownloadsPayload {
+            virtual_paths: Vec::new(),
+        });
+    }
+
+    let mut reader = PayloadReader::new(payload);
+    let checkpoint = reader.clone();
+
+    if let Ok(count) = reader.read_u32() {
+        if count <= 100_000 {
+            let mut virtual_paths = Vec::with_capacity(count as usize);
+            let mut ok = true;
+            for _ in 0..count {
+                match reader.read_string() {
+                    Ok(path) => virtual_paths.push(path),
+                    Err(_) => {
+                        ok = false;
+                        break;
+                    }
+                }
+            }
+
+            if ok && reader.remaining() == 0 {
+                return Ok(PeerQueuedDownloadsPayload { virtual_paths });
+            }
+        }
+    }
+
+    reader = checkpoint;
+    let single = reader.read_string()?;
+    ensure_payload_consumed(&reader)?;
+    Ok(PeerQueuedDownloadsPayload {
+        virtual_paths: vec![single],
+    })
+}
+
 pub fn encode_peer_message(message: &PeerMessage) -> Frame {
     let mut writer = PayloadWriter::new();
     let code = match message {
@@ -1699,6 +1962,14 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_string(&payload.username);
             writer.write_u32(payload.result_count);
             CODE_PM_FILE_SEARCH_RESULT
+        }
+        PeerMessage::InviteUserToRoom(payload) => {
+            writer.write_string(&payload.room);
+            CODE_PM_INVITE_USER_TO_ROOM
+        }
+        PeerMessage::CancelledQueuedTransfer(payload) => {
+            writer.write_string(&payload.virtual_path);
+            CODE_PM_CANCELLED_QUEUED_TRANSFER
         }
         PeerMessage::UserInfoRequest(_) => CODE_PM_USER_INFO_REQUEST,
         PeerMessage::UserInfoReply(payload) => {
@@ -1739,12 +2010,23 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_u32(payload.place);
             CODE_PM_UPLOAD_PLACE_IN_LINE
         }
+        PeerMessage::MoveDownloadToTop(payload) => {
+            writer.write_string(&payload.virtual_path);
+            CODE_PM_MOVE_DOWNLOAD_TO_TOP
+        }
         PeerMessage::ExactFileSearchRequest(payload) => {
             if let Some(token) = payload.token {
                 writer.write_u32(token);
             }
             writer.write_string(&payload.query);
             CODE_PM_EXACT_FILE_SEARCH_REQUEST
+        }
+        PeerMessage::QueuedDownloads(payload) => {
+            writer.write_u32(payload.virtual_paths.len() as u32);
+            for virtual_path in &payload.virtual_paths {
+                writer.write_string(virtual_path);
+            }
+            CODE_PM_QUEUED_DOWNLOADS
         }
         PeerMessage::IndirectFileSearchRequest(payload) => {
             if let Some(token) = payload.token {
@@ -1824,6 +2106,18 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             };
             PeerMessage::FileSearchResult(payload)
         }
+        CODE_PM_INVITE_USER_TO_ROOM => {
+            let payload = PeerRoomInvitePayload {
+                room: reader.read_string()?,
+            };
+            PeerMessage::InviteUserToRoom(payload)
+        }
+        CODE_PM_CANCELLED_QUEUED_TRANSFER => {
+            let payload = PeerVirtualPathPayload {
+                virtual_path: reader.read_string()?,
+            };
+            PeerMessage::CancelledQueuedTransfer(payload)
+        }
         CODE_PM_USER_INFO_REQUEST => PeerMessage::UserInfoRequest(UserInfoRequestPayload),
         CODE_PM_USER_INFO_REPLY => {
             allow_trailing_bytes = true;
@@ -1862,9 +2156,19 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             };
             PeerMessage::UploadPlaceInLine(payload)
         }
+        CODE_PM_MOVE_DOWNLOAD_TO_TOP => {
+            let payload = PeerVirtualPathPayload {
+                virtual_path: reader.read_string()?,
+            };
+            PeerMessage::MoveDownloadToTop(payload)
+        }
         CODE_PM_EXACT_FILE_SEARCH_REQUEST => {
             allow_trailing_bytes = true;
             PeerMessage::ExactFileSearchRequest(parse_peer_search_query_payload(payload)?)
+        }
+        CODE_PM_QUEUED_DOWNLOADS => {
+            allow_trailing_bytes = true;
+            PeerMessage::QueuedDownloads(parse_queued_downloads_payload(payload)?)
         }
         CODE_PM_INDIRECT_FILE_SEARCH_REQUEST => {
             allow_trailing_bytes = true;
@@ -1942,6 +2246,30 @@ pub fn build_get_user_recommendations_request(username: &str) -> Frame {
     }))
 }
 
+pub fn build_privileged_list_request() -> Frame {
+    Frame::new(CODE_SM_PRIVILEGED_LIST, Vec::new())
+}
+
+pub fn build_get_recommended_users_request() -> Frame {
+    Frame::new(CODE_SM_GET_RECOMMENDED_USERS, Vec::new())
+}
+
+pub fn build_get_term_recommendations_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetTermRecommendations(
+        SimilarTermsRequestPayload {
+            term: term.to_owned(),
+        },
+    ))
+}
+
+pub fn build_get_recommendation_users_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetRecommendationUsers(
+        SimilarTermsRequestPayload {
+            term: term.to_owned(),
+        },
+    ))
+}
+
 pub fn build_get_similar_terms_request(term: &str) -> Frame {
     encode_server_message(&ServerMessage::GetSimilarTerms(
         SimilarTermsRequestPayload {
@@ -1958,6 +2286,12 @@ pub fn build_ignore_user_request(username: &str) -> Frame {
 
 pub fn build_unignore_user_request(username: &str) -> Frame {
     encode_server_message(&ServerMessage::UnignoreUser(UserLookupPayload {
+        username: username.to_owned(),
+    }))
+}
+
+pub fn build_ban_user_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::BanUser(UserLookupPayload {
         username: username.to_owned(),
     }))
 }
@@ -2094,6 +2428,32 @@ pub fn build_exact_file_search_request(query: &str, token: Option<u32>) -> Frame
             query: query.to_owned(),
         },
     ))
+}
+
+pub fn build_peer_invite_user_to_room(room: &str) -> Frame {
+    encode_peer_message(&PeerMessage::InviteUserToRoom(PeerRoomInvitePayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_peer_cancelled_queued_transfer(virtual_path: &str) -> Frame {
+    encode_peer_message(&PeerMessage::CancelledQueuedTransfer(
+        PeerVirtualPathPayload {
+            virtual_path: virtual_path.to_owned(),
+        },
+    ))
+}
+
+pub fn build_peer_move_download_to_top(virtual_path: &str) -> Frame {
+    encode_peer_message(&PeerMessage::MoveDownloadToTop(PeerVirtualPathPayload {
+        virtual_path: virtual_path.to_owned(),
+    }))
+}
+
+pub fn build_peer_queued_downloads(virtual_paths: &[String]) -> Frame {
+    encode_peer_message(&PeerMessage::QueuedDownloads(PeerQueuedDownloadsPayload {
+        virtual_paths: virtual_paths.to_vec(),
+    }))
 }
 
 pub fn build_indirect_file_search_request(query: &str, token: Option<u32>) -> Frame {
@@ -2351,6 +2711,45 @@ mod tests {
                     },
                 },
             )),
+            ProtocolMessage::Server(ServerMessage::PrivilegedList(PrivilegedListPayload {
+                users: vec!["alice".into(), "bob".into()],
+            })),
+            ProtocolMessage::Server(ServerMessage::GetRecommendedUsers(EmptyPayload)),
+            ProtocolMessage::Server(ServerMessage::GetRecommendedUsersResponse(
+                RecommendedUsersPayload {
+                    users: vec![ScoredUserEntry {
+                        username: "alice".into(),
+                        score: 12,
+                    }],
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetTermRecommendations(
+                SimilarTermsRequestPayload { term: "idm".into() },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetTermRecommendationsResponse(
+                TermRecommendationsPayload {
+                    term: "idm".into(),
+                    recommendations: vec![RecommendationEntry {
+                        term: "ambient".into(),
+                        score: 5,
+                    }],
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetRecommendationUsers(
+                SimilarTermsRequestPayload { term: "idm".into() },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetRecommendationUsersResponse(
+                RecommendationUsersPayload {
+                    term: "idm".into(),
+                    users: vec![ScoredUserEntry {
+                        username: "charlie".into(),
+                        score: 3,
+                    }],
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::BanUser(UserLookupPayload {
+                username: "mallory".into(),
+            })),
             ProtocolMessage::Server(ServerMessage::RoomMembers(RoomMembersPayload {
                 room: "nicotine".into(),
                 users: vec!["alice".into(), "bob".into(), "carol".into()],
@@ -2435,6 +2834,14 @@ mod tests {
                 username: "bob".into(),
                 result_count: 2,
             })),
+            ProtocolMessage::Peer(PeerMessage::InviteUserToRoom(PeerRoomInvitePayload {
+                room: "nicotine".into(),
+            })),
+            ProtocolMessage::Peer(PeerMessage::CancelledQueuedTransfer(
+                PeerVirtualPathPayload {
+                    virtual_path: "Music\\A.flac".into(),
+                },
+            )),
             ProtocolMessage::Peer(PeerMessage::UserInfoRequest(UserInfoRequestPayload)),
             ProtocolMessage::Peer(PeerMessage::UserInfoReply(UserInfoReplyPayload {
                 description: "hello".into(),
@@ -2465,12 +2872,18 @@ mod tests {
                 virtual_path: "Music\\queued.flac".into(),
                 place: 3,
             })),
+            ProtocolMessage::Peer(PeerMessage::MoveDownloadToTop(PeerVirtualPathPayload {
+                virtual_path: "Music\\queued.flac".into(),
+            })),
             ProtocolMessage::Peer(PeerMessage::ExactFileSearchRequest(
                 PeerSearchQueryPayload {
                     token: Some(123),
                     query: "Music\\A.flac".into(),
                 },
             )),
+            ProtocolMessage::Peer(PeerMessage::QueuedDownloads(PeerQueuedDownloadsPayload {
+                virtual_paths: vec!["Music\\A.flac".into(), "Music\\B.flac".into()],
+            })),
             ProtocolMessage::Peer(PeerMessage::IndirectFileSearchRequest(
                 PeerSearchQueryPayload {
                     token: None,
@@ -2606,6 +3019,27 @@ mod tests {
     }
 
     #[test]
+    fn stage4d_server_request_builders_emit_expected_codes() {
+        assert_eq!(build_ban_user_request("alice").code, CODE_SM_BAN_USER);
+        assert_eq!(
+            build_privileged_list_request().code,
+            CODE_SM_PRIVILEGED_LIST
+        );
+        assert_eq!(
+            build_get_recommended_users_request().code,
+            CODE_SM_GET_RECOMMENDED_USERS
+        );
+        assert_eq!(
+            build_get_term_recommendations_request("idm").code,
+            CODE_SM_GET_TERM_RECOMMENDATIONS
+        );
+        assert_eq!(
+            build_get_recommendation_users_request("idm").code,
+            CODE_SM_GET_RECOMMENDATION_USERS
+        );
+    }
+
+    #[test]
     fn peer_folder_request_builder_emits_expected_code() {
         assert_eq!(
             build_get_shared_files_in_folder_request("Music").code,
@@ -2725,6 +3159,26 @@ mod tests {
         assert_eq!(
             build_upload_place_in_line_request("Music\\A.flac").code,
             CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST
+        );
+    }
+
+    #[test]
+    fn stage4d_peer_legacy_builders_emit_expected_codes() {
+        assert_eq!(
+            build_peer_invite_user_to_room("nicotine").code,
+            CODE_PM_INVITE_USER_TO_ROOM
+        );
+        assert_eq!(
+            build_peer_cancelled_queued_transfer("Music\\A.flac").code,
+            CODE_PM_CANCELLED_QUEUED_TRANSFER
+        );
+        assert_eq!(
+            build_peer_move_download_to_top("Music\\A.flac").code,
+            CODE_PM_MOVE_DOWNLOAD_TO_TOP
+        );
+        assert_eq!(
+            build_peer_queued_downloads(&["Music\\A.flac".to_string()]).code,
+            CODE_PM_QUEUED_DOWNLOADS
         );
     }
 }

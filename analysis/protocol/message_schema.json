@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T16:32:37+00:00",
+  "generated_at": "2026-02-14T17:37:14+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -128,6 +128,34 @@
     },
     {
       "scope": "peer",
+      "code": 10,
+      "name": "PM_INVITE_USER_TO_ROOM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/peer-legacy-local/official_frames.hex",
+          "note": "Deterministic peer-local runtime flow emits invite-to-room frame (code 10) with room payload."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 14,
+      "name": "PM_CANCELLED_QUEUED_TRANSFER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/peer-legacy-local/official_frames.hex",
+          "note": "Deterministic peer-local runtime flow emits cancelled-queued-transfer frame (code 14) with virtual path payload."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
       "code": 15,
       "name": "PM_USER_INFO_REQUEST",
       "payload": [],
@@ -200,6 +228,20 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Peer code 16 documents user info reply payload fields."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 34,
+      "name": "PM_MOVE_DOWNLOAD_TO_TOP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/peer-legacy-local/official_frames.hex",
+          "note": "Deterministic peer-local runtime flow emits move-download-to-top frame (code 34) with virtual path payload."
         }
       ]
     },
@@ -434,12 +476,12 @@
           "type": "string"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Peer code list maps 47 to ExactFileSearchRequest (code resolved from SLSK protocol spec); payload shape treated as legacy optional-token+query until runtime evidence is captured."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/peer-legacy-local/official_frames.hex",
+          "note": "Deterministic peer-local runtime flow emits exact-file-search frame (code 47) with token+query payload."
         },
         {
           "kind": "string",
@@ -450,6 +492,20 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Peer code list includes code 47 for ExactFileSearchRequest (legacy/obsolete family)."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 48,
+      "name": "PM_QUEUED_DOWNLOADS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/peer-legacy-local/official_frames.hex",
+          "note": "Deterministic peer-local runtime flow emits queued-downloads frame (code 48) with list payload."
         }
       ]
     },
@@ -467,12 +523,12 @@
           "type": "string"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
-          "note": "Peer code list maps 49 to IndirectFileSearchRequest (code resolved from SLSK protocol spec); payload shape treated as legacy optional-token+query until runtime evidence is captured."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/peer-legacy-local/official_frames.hex",
+          "note": "Deterministic peer-local runtime flow emits indirect-file-search frame (code 49) with query payload."
         },
         {
           "kind": "string",
@@ -1284,6 +1340,20 @@
     },
     {
       "scope": "server",
+      "code": 69,
+      "name": "SM_PRIVILEGED_LIST",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-privilege-messaging/official_frames.hex",
+          "note": "Authenticated runtime flow includes privileged-list request and response frames (code 69) with user-list style payloads."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 92,
       "name": "SM_GET_OWN_PRIVILEGES_STATUS",
       "payload": [
@@ -1308,6 +1378,48 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 92 documents CheckPrivileges with response payload indicating remaining seconds."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 110,
+      "name": "SM_GET_RECOMMENDED_USERS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-privilege-messaging/official_frames.hex",
+          "note": "Authenticated runtime flow includes code 110 request/response for similar users with scored user entries."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 111,
+      "name": "SM_GET_TERM_RECOMMENDATIONS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-privilege-messaging/official_frames.hex",
+          "note": "Authenticated runtime flow includes code 111 request with term payload and recommendation-entry response."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 112,
+      "name": "SM_GET_RECOMMENDATION_USERS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-privilege-messaging/official_frames.hex",
+          "note": "Authenticated runtime flow includes code 112 request with term payload and scored-user response entries."
         }
       ]
     },
@@ -1478,6 +1590,20 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 125 documents AckNotifyPrivileges with token payload."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 132,
+      "name": "SM_BAN_USER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 132 to SM_BAN_USER (x86_64 binary disassembly)."
         }
       ]
     },

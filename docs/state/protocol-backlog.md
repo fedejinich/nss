@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4C)
+# Protocol Backlog (Post S4D)
 
 ## Objective
 
@@ -49,27 +49,37 @@ Continue protocol mapping toward full coverage by functional domains while keepi
 
 Status: completed in S4C with runtime captures (`login-privileges-social`, `peer-folder-local`), protocol implementation, and semantic differential verification.
 
-## Remaining S4D Candidate Batch - Privilege/Messaging Gaps
+## Completed in S4D (Privilege/Messaging Gaps + Peer Legacy Cleanup)
 
-- `SM_BAN_USER` (authoritative code unresolved)
+- `SM_BAN_USER`
 - `SM_PRIVILEGED_LIST`
 - `SM_GET_RECOMMENDATION_USERS`
 - `SM_GET_RECOMMENDED_USERS`
 - `SM_GET_TERM_RECOMMENDATIONS`
-
-## Remaining S4D Candidate Batch - Peer Legacy/Search Cleanup
-
 - `PM_INVITE_USER_TO_ROOM`
 - `PM_CANCELLED_QUEUED_TRANSFER`
 - `PM_QUEUED_DOWNLOADS`
 - `PM_MOVE_DOWNLOAD_TO_TOP`
-- Runtime promotion of medium-confidence:
-  - `PM_EXACT_FILE_SEARCH_REQUEST`
-  - `PM_INDIRECT_FILE_SEARCH_REQUEST`
+- runtime promotions:
+  - `PM_EXACT_FILE_SEARCH_REQUEST` (`medium -> high`)
+  - `PM_INDIRECT_FILE_SEARCH_REQUEST` (`medium -> high`)
+
+Status: completed in S4D with runtime captures (`login-privilege-messaging`, `peer-legacy-local`), jump-table static extraction (`SM_BAN_USER`), protocol implementation, and semantic verification updates.
+
+## Next Candidate Stage (S4E) - Private Messaging + User-State Domain
+
+- `SM_MESSAGE_USER`
+- `SM_MESSAGE_ACKED`
+- deeper runtime field validation for:
+  - `SM_GET_USER_STATUS`
+  - `SM_GET_USER_STATS`
+  - `SM_CONNECT_TO_PEER` / `SM_GET_PEER_ADDRESS` interaction traces
+- parser-depth follow-up:
+  - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
 
 ## Execution Strategy
 
-1. Add batch rows to `analysis/ghidra/maps/message_map.csv` with explicit confidence and evidence.
+1. Add S4E batch rows to `analysis/ghidra/maps/message_map.csv` with explicit confidence and evidence.
 2. Collect runtime captures first for high-confidence promotion when feasible.
 3. Regenerate schema/docs from authoritative maps:
    - `scripts/derive_message_schema.sh`
@@ -79,4 +89,4 @@ Status: completed in S4C with runtime captures (`login-privileges-social`, `peer
 
 ## Next Session Entry Point
 
-Start S4D by resolving `SM_BAN_USER` code mapping and promoting the remaining medium-confidence peer legacy search messages with live runtime evidence.
+Start S4E by capturing authenticated private messaging flows and user-status/stat exchanges, then promote mappings using runtime-first evidence.

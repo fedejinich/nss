@@ -1,0 +1,71 @@
+{
+  "run_id": "peer-legacy-local",
+  "comparison_mode": "semantic",
+  "total_pairs": 6,
+  "matched_pairs": 6,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 20,
+      "neo_len": 20,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 36,
+      "neo_len": 36,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 36,
+      "neo_len": 36,
+      "first_diff_offset": null
+    },
+    {
+      "index": 3,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 64,
+      "neo_len": 64,
+      "first_diff_offset": null
+    },
+    {
+      "index": 4,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 40,
+      "neo_len": 40,
+      "first_diff_offset": null
+    },
+    {
+      "index": 5,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 29,
+      "neo_len": 29,
+      "first_diff_offset": null
+    }
+  ]
+}

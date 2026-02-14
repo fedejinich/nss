@@ -1,0 +1,1 @@
+{"ts": "2026-02-14T17:27:34+00:00", "event": "privilege.messaging.attempts", "server": "<redacted:endpoint:b1f18f96bc4d>", "target_user": "<redacted:username:4e086fb66e18>", "term": "idm", "code_counts": {"1": 2, "64": 1, "83": 1, "84": 1, "104": 1, "69": 2, "160": 1, "110": 2, "111": 2, "112": 2, "132": 1}}

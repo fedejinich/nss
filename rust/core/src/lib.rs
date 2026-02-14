@@ -1,22 +1,27 @@
 use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
-    CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_LOGIN,
-    CODE_SM_ROOM_LIST, Frame, LoginFailureReason, LoginResponsePayload, OwnPrivilegesStatusPayload,
-    PeerMessage, ProtocolMessage, RecommendationsPayload, RoomListPayload, RoomMembersPayload,
-    RoomOperatorsPayload, ServerMessage, SimilarTermsPayload, TransferDirection,
+    CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_RECOMMENDATION_USERS,
+    CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_TERM_RECOMMENDATIONS,
+    CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_LOGIN, CODE_SM_PRIVILEGED_LIST, CODE_SM_ROOM_LIST,
+    Frame, LoginFailureReason, LoginResponsePayload, OwnPrivilegesStatusPayload, PeerMessage,
+    PrivilegedListPayload, ProtocolMessage, RecommendationUsersPayload, RecommendationsPayload,
+    RecommendedUsersPayload, RoomListPayload, RoomMembersPayload, RoomOperatorsPayload,
+    ServerMessage, SimilarTermsPayload, TermRecommendationsPayload, TransferDirection,
     TransferRequestPayload, TransferResponsePayload, UserPrivilegesStatusPayload,
     UserRecommendationsPayload, build_add_room_member_request, build_add_room_operator_request,
-    build_file_search_request, build_get_global_recommendations_request,
+    build_ban_user_request, build_file_search_request, build_get_global_recommendations_request,
     build_get_my_recommendations_request, build_get_own_privileges_status_request,
-    build_get_recommendations_request, build_get_similar_terms_request,
-    build_get_user_privileges_status_request, build_get_user_recommendations_request,
-    build_give_privilege_request, build_ignore_user_request,
-    build_inform_user_of_privileges_ack_request, build_inform_user_of_privileges_request,
-    build_join_room_request, build_leave_room_request, build_login_request,
-    build_remove_room_member_request, build_remove_room_operator_request, build_room_list_request,
-    build_room_members_request, build_room_operators_request, build_say_chatroom,
-    build_transfer_request, build_unignore_user_request, decode_message, decode_server_message,
-    encode_peer_message, encode_server_message, split_first_frame,
+    build_get_recommendation_users_request, build_get_recommendations_request,
+    build_get_recommended_users_request, build_get_similar_terms_request,
+    build_get_term_recommendations_request, build_get_user_privileges_status_request,
+    build_get_user_recommendations_request, build_give_privilege_request,
+    build_ignore_user_request, build_inform_user_of_privileges_ack_request,
+    build_inform_user_of_privileges_request, build_join_room_request, build_leave_room_request,
+    build_login_request, build_privileged_list_request, build_remove_room_member_request,
+    build_remove_room_operator_request, build_room_list_request, build_room_members_request,
+    build_room_operators_request, build_say_chatroom, build_transfer_request,
+    build_unignore_user_request, decode_message, decode_server_message, encode_peer_message,
+    encode_server_message, split_first_frame,
 };
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
@@ -264,6 +269,12 @@ impl SessionClient {
         write_frame(self.stream_mut()?, &frame).await
     }
 
+    pub async fn ban_user(&mut self, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_ban_user_request(username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
     pub async fn get_own_privileges_status(
         &mut self,
         timeout: Duration,
@@ -488,6 +499,156 @@ impl SessionClient {
         }
 
         bail!("timed out waiting for similar terms response")
+    }
+
+    pub async fn get_privileged_list(
+        &mut self,
+        timeout: Duration,
+    ) -> Result<PrivilegedListPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_privileged_list_request();
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_PRIVILEGED_LIST {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::PrivilegedList(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for privileged list response")
+    }
+
+    pub async fn get_recommended_users(
+        &mut self,
+        timeout: Duration,
+    ) -> Result<RecommendedUsersPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_recommended_users_request();
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_RECOMMENDED_USERS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::GetRecommendedUsersResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for recommended users response")
+    }
+
+    pub async fn get_term_recommendations(
+        &mut self,
+        term: &str,
+        timeout: Duration,
+    ) -> Result<TermRecommendationsPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_term_recommendations_request(term);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_TERM_RECOMMENDATIONS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::GetTermRecommendationsResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for term recommendations response")
+    }
+
+    pub async fn get_recommendation_users(
+        &mut self,
+        term: &str,
+        timeout: Duration,
+    ) -> Result<RecommendationUsersPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_recommendation_users_request(term);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_RECOMMENDATION_USERS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::GetRecommendationUsersResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for recommendation users response")
     }
 
     pub async fn send_server_message(&mut self, message: &ServerMessage) -> Result<()> {
@@ -1003,18 +1164,22 @@ impl UploadAgent {
 mod tests {
     use super::*;
     use protocol::{
-        CODE_SM_ADD_ROOM_MEMBER, CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_FILE_SEARCH,
+        CODE_SM_ADD_ROOM_MEMBER, CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_BAN_USER, CODE_SM_FILE_SEARCH,
         CODE_SM_GET_GLOBAL_RECOMMENDATIONS, CODE_SM_GET_MY_RECOMMENDATIONS,
-        CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_SIMILAR_TERMS,
-        CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_GET_USER_RECOMMENDATIONS,
-        CODE_SM_GIVE_PRIVILEGE, CODE_SM_IGNORE_USER, CODE_SM_INFORM_USER_OF_PRIVILEGES,
-        CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK, CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM,
-        CODE_SM_LOGIN, CODE_SM_REMOVE_ROOM_MEMBER, CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST,
+        CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_RECOMMENDATION_USERS,
+        CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_SIMILAR_TERMS,
+        CODE_SM_GET_TERM_RECOMMENDATIONS, CODE_SM_GET_USER_PRIVILEGES_STATUS,
+        CODE_SM_GET_USER_RECOMMENDATIONS, CODE_SM_GIVE_PRIVILEGE, CODE_SM_IGNORE_USER,
+        CODE_SM_INFORM_USER_OF_PRIVILEGES, CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK,
+        CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN, CODE_SM_PRIVILEGED_LIST,
+        CODE_SM_REMOVE_ROOM_MEMBER, CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST,
         CODE_SM_UNIGNORE_USER, LoginResponsePayload, LoginResponseSuccessPayload,
-        OwnPrivilegesStatusPayload, RecommendationEntry, RecommendationsPayload, RoomListPayload,
-        RoomPresenceEventPayload, ServerMessage, SimilarTermsPayload, SpeedPayload,
-        UserPrivilegesStatusPayload, UserRecommendationsPayload, encode_server_message,
-        parse_transfer_request, parse_transfer_response,
+        OwnPrivilegesStatusPayload, PrivilegedListPayload, RecommendationEntry,
+        RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
+        RoomListPayload, RoomPresenceEventPayload, ServerMessage, SimilarTermsPayload,
+        SpeedPayload, TermRecommendationsPayload, UserPrivilegesStatusPayload,
+        UserRecommendationsPayload, encode_server_message, parse_transfer_request,
+        parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -1275,7 +1440,15 @@ mod tests {
             let give = read_frame(&mut socket).await.expect("give privilege");
             let inform = read_frame(&mut socket).await.expect("inform privilege");
             let ack = read_frame(&mut socket).await.expect("inform ack");
-            (ignore.code, unignore.code, give.code, inform.code, ack.code)
+            let ban = read_frame(&mut socket).await.expect("ban user");
+            (
+                ignore.code,
+                unignore.code,
+                give.code,
+                inform.code,
+                ack.code,
+                ban.code,
+            )
         });
 
         let mut client = SessionClient::connect(&addr.to_string())
@@ -1304,13 +1477,15 @@ mod tests {
             .inform_user_of_privileges_ack(42)
             .await
             .expect("inform ack");
+        client.ban_user("eve").await.expect("ban");
 
-        let (ignore, unignore, give, inform, ack) = server.await.expect("server task");
+        let (ignore, unignore, give, inform, ack, ban) = server.await.expect("server task");
         assert_eq!(ignore, CODE_SM_IGNORE_USER);
         assert_eq!(unignore, CODE_SM_UNIGNORE_USER);
         assert_eq!(give, CODE_SM_GIVE_PRIVILEGE);
         assert_eq!(inform, CODE_SM_INFORM_USER_OF_PRIVILEGES);
         assert_eq!(ack, CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK);
+        assert_eq!(ban, CODE_SM_BAN_USER);
     }
 
     #[tokio::test]
@@ -1690,6 +1865,214 @@ mod tests {
         assert_eq!(payload.entries.len(), 1);
         assert_eq!(payload.entries[0].term, "idm");
 
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_privileged_list_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("privileged list request");
+            assert_eq!(request.code, CODE_SM_PRIVILEGED_LIST);
+
+            let response =
+                encode_server_message(&ServerMessage::PrivilegedList(PrivilegedListPayload {
+                    users: vec!["alice".into(), "bob".into()],
+                }));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write privileged list response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_privileged_list(Duration::from_secs(1))
+            .await
+            .expect("get privileged list");
+        assert_eq!(payload.users, vec!["alice".to_string(), "bob".to_string()]);
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_recommended_users_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("recommended users request");
+            assert_eq!(request.code, CODE_SM_GET_RECOMMENDED_USERS);
+
+            let response = encode_server_message(&ServerMessage::GetRecommendedUsersResponse(
+                RecommendedUsersPayload {
+                    users: vec![protocol::ScoredUserEntry {
+                        username: "alice".into(),
+                        score: 9,
+                    }],
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write recommended users response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_recommended_users(Duration::from_secs(1))
+            .await
+            .expect("get recommended users");
+        assert_eq!(payload.users.len(), 1);
+        assert_eq!(payload.users[0].username, "alice");
+        assert_eq!(payload.users[0].score, 9);
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_term_recommendations_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("term recommendations request");
+            assert_eq!(request.code, CODE_SM_GET_TERM_RECOMMENDATIONS);
+
+            let response = encode_server_message(&ServerMessage::GetTermRecommendationsResponse(
+                TermRecommendationsPayload {
+                    term: "idm".into(),
+                    recommendations: vec![RecommendationEntry {
+                        term: "ambient".into(),
+                        score: 5,
+                    }],
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write term recommendations response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_term_recommendations("idm", Duration::from_secs(1))
+            .await
+            .expect("get term recommendations");
+        assert_eq!(payload.term, "idm");
+        assert_eq!(payload.recommendations.len(), 1);
+        assert_eq!(payload.recommendations[0].term, "ambient");
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_recommendation_users_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("recommendation users request");
+            assert_eq!(request.code, CODE_SM_GET_RECOMMENDATION_USERS);
+
+            let response = encode_server_message(&ServerMessage::GetRecommendationUsersResponse(
+                RecommendationUsersPayload {
+                    term: "idm".into(),
+                    users: vec![protocol::ScoredUserEntry {
+                        username: "charlie".into(),
+                        score: 4,
+                    }],
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write recommendation users response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_recommendation_users("idm", Duration::from_secs(1))
+            .await
+            .expect("get recommendation users");
+        assert_eq!(payload.term, "idm");
+        assert_eq!(payload.users.len(), 1);
+        assert_eq!(payload.users[0].username, "charlie");
         server.await.expect("server task");
     }
 

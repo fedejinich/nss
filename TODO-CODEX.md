@@ -535,3 +535,77 @@ Notes:
 - Protocol matrix snapshot after S4C: tracked `130`, implemented+mapped `56`, missing `74`.
 - `SM_BAN_USER` remains deferred to backlog due unresolved authoritative code/evidence.
 - Validation gates passed on final S4C snapshot: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.
+
+## Stage 4D - Privilege/messaging gaps + peer legacy cleanup
+
+Dependency graph:
+
+- `S4D-R01 -> S4D-T01`
+- `S4D-T01 -> S4D-T02`
+- `S4D-T02 -> S4D-T03`
+- `S4D-T03 -> S4D-T04`
+- `S4D-T04 -> S4D-T05`
+- `S4D-T05 -> S4D-T06`
+- `S4D-T06 -> S4D-T07`
+- `S4D-T07 -> S4D-R02`
+- `S4D-R02 -> S4D-T08`
+
+Tasks:
+
+- id: S4D-R01
+  description: Initialize Stage 4D execution plan and mark roadmap baseline for active execution
+  status: done
+  depends_on: []
+
+- id: S4D-T01
+  description: Resolve authoritative message codes/evidence for privilege/messaging and peer-legacy targets from MessageCodeToString jump tables + protocol spec
+  status: done
+  depends_on: [S4D-R01]
+
+- id: S4D-T02
+  description: Generate Stage 4D runtime captures (authenticated privilege/messaging probes + deterministic peer-legacy frames) and redact artifacts
+  status: done
+  depends_on: [S4D-T01]
+
+- id: S4D-T03
+  description: Update `message_map.csv` and `message_schema.json` with S4D target rows and promote legacy search messages to high confidence with runtime evidence
+  status: done
+  depends_on: [S4D-T02]
+
+- id: S4D-T04
+  description: Implement protocol constants/types/codecs/builders for Stage 4D messages in `rust/protocol`
+  status: done
+  depends_on: [S4D-T03]
+
+- id: S4D-T05
+  description: Extend `rust/core` and `rust/cli` with privilege/messaging operations for Stage 4D server flows
+  status: done
+  depends_on: [S4D-T04]
+
+- id: S4D-T06
+  description: Extend semantic verification required-run set and normalization coverage for Stage 4D runs
+  status: done
+  depends_on: [S4D-T05]
+
+- id: S4D-T07
+  description: Add Stage 4D regression coverage (protocol contract tests + matrix coherence updates)
+  status: done
+  depends_on: [S4D-T06]
+
+- id: S4D-R02
+  description: Sync roadmap/project/verification/backlog docs and matrix with Stage 4D outcomes
+  status: done
+  depends_on: [S4D-T07]
+
+- id: S4D-T08
+  description: Run final validation gates, publish Stage 4D PR document, and prepare PR
+  status: done
+  depends_on: [S4D-R02]
+
+Notes:
+
+- Stage 4D mapping batch landed with confidence gate satisfied: `high=11`, `medium=0`, `low=0`.
+- Runtime redacted runs were added for S4D: `login-privilege-messaging`, `peer-legacy-local`.
+- Protocol matrix snapshot after S4D: tracked `130`, implemented+mapped `65`, missing `65`.
+- `PM_EXACT_FILE_SEARCH_REQUEST` and `PM_INDIRECT_FILE_SEARCH_REQUEST` were promoted from `medium` to `high` using deterministic runtime evidence.
+- Validation gates passed on final S4D snapshot: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.

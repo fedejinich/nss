@@ -53,6 +53,14 @@ When work touches authenticated runtime flows:
 2. For deterministic protocol tests and feature logic, prefer scoped decoders (`decode_server_message(...)` or `decode_peer_message(...)`) when the channel is known.
 3. Keep semantic diff fallback behavior, but avoid using ambiguous generic decode output as authoritative protocol classification.
 
+## Message-Code Resolution Discipline
+
+When a protocol code mapping is unresolved but the symbol name exists in static tables:
+
+1. Prefer deterministic jump-table extraction from the binary before runtime-only assumptions.
+2. Persist extractor tooling under `tools/re/` and commit machine-readable + human-readable evidence outputs.
+3. Promote mapping confidence only after evidence is registered in `message_map.csv` and synchronized into schema/docs.
+
 ## Stage Iteration Discipline
 
 When a stage closes (for example S3A, S3B):
