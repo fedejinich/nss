@@ -755,6 +755,14 @@ pub fn parse_login_response(payload: &[u8]) -> Result<LoginResponsePayload> {
 }
 
 pub fn parse_search_response_summary(payload: &[u8]) -> Result<SearchResponseSummary> {
+    if let Ok(summary) = parse_search_response_summary_v1(payload) {
+        return Ok(summary);
+    }
+
+    parse_search_response_summary_room_list(payload)
+}
+
+fn parse_search_response_summary_v1(payload: &[u8]) -> Result<SearchResponseSummary> {
     let mut reader = PayloadReader::new(payload);
     let username = reader.read_string()?;
     let token = reader.read_u32()?;
@@ -790,6 +798,37 @@ pub fn parse_search_response_summary(payload: &[u8]) -> Result<SearchResponseSum
         slots_free,
         speed,
         in_queue,
+        files,
+    })
+}
+
+fn parse_search_response_summary_room_list(payload: &[u8]) -> Result<SearchResponseSummary> {
+    let mut reader = PayloadReader::new(payload);
+    let room_count = reader.read_u32()?;
+    if room_count > 20_000 {
+        bail!("room_count exceeds sanity threshold: {room_count}");
+    }
+
+    let mut files = Vec::with_capacity(room_count.min(64) as usize);
+    for idx in 0..room_count {
+        let room_name = reader.read_string()?;
+        if idx < 64 {
+            files.push(SearchFileSummary {
+                file_path: room_name,
+                file_size: 0,
+                extension: "room".to_string(),
+                attr_count: 0,
+            });
+        }
+    }
+
+    Ok(SearchResponseSummary {
+        username: "<server_room_list>".to_string(),
+        token: 0,
+        files_count: room_count,
+        slots_free: 0,
+        speed: 0,
+        in_queue: false,
         files,
     })
 }

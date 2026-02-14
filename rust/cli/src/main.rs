@@ -424,28 +424,39 @@ fn reject_password_md5(password_md5: Option<&str>) -> Result<()> {
 }
 
 fn read_env_local() {
-    let path = PathBuf::from(".env.local");
-    if !path.exists() {
-        return;
-    }
-    let Ok(raw) = fs::read_to_string(path) else {
-        return;
-    };
-    for line in raw.lines() {
-        let trimmed = line.trim();
-        if trimmed.is_empty() || trimmed.starts_with('#') {
+    let manifest_repo = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .join(".env.local");
+    let candidates = [
+        PathBuf::from(".env.local"),
+        PathBuf::from("../.env.local"),
+        manifest_repo,
+    ];
+
+    for path in candidates {
+        if !path.exists() {
             continue;
         }
-        let Some((key, value)) = trimmed.split_once('=') else {
+        let Ok(raw) = fs::read_to_string(path) else {
             continue;
         };
-        let key = key.trim();
-        if key.is_empty() || env::var_os(key).is_some() {
-            continue;
+        for line in raw.lines() {
+            let trimmed = line.trim();
+            if trimmed.is_empty() || trimmed.starts_with('#') {
+                continue;
+            }
+            let Some((key, value)) = trimmed.split_once('=') else {
+                continue;
+            };
+            let key = key.trim();
+            if key.is_empty() || env::var_os(key).is_some() {
+                continue;
+            }
+            let value = value.trim().trim_matches('"').trim_matches('\'');
+            // SAFETY: key/value come from trusted local dotenv file and are UTF-8 strings.
+            unsafe { env::set_var(key, value) };
         }
-        let value = value.trim().trim_matches('"').trim_matches('\'');
-        // SAFETY: key/value come from trusted local dotenv file and are UTF-8 strings.
-        unsafe { env::set_var(key, value) };
+        break;
     }
 }
 

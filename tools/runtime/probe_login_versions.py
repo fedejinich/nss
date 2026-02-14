@@ -44,7 +44,10 @@ def find_login_response(frames: list[bytes]) -> dict:
     for wire in frames:
         code, payload = parse_frame(wire)
         if code == 1:
-            parsed = parse_login_response(payload)
+            try:
+                parsed = parse_login_response(payload)
+            except Exception:
+                continue
             parsed["raw_payload_hex"] = payload.hex()
             return parsed
     return {"ok": False, "reason": "NO_LOGIN_RESPONSE"}

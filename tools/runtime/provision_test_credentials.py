@@ -60,7 +60,10 @@ def probe_login(server: str, username: str, password: str) -> tuple[dict, tuple[
             code, payload = parse_frame(frame_bytes)
             if code != 1:
                 continue
-            result = parse_login_response(payload)
+            try:
+                result = parse_login_response(payload)
+            except Exception:
+                continue
             result["raw_payload_hex"] = payload.hex()
             result["client_version"] = client_version
             result["minor_version"] = minor_version

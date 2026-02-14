@@ -95,7 +95,10 @@ def read_n(sock: socket.socket, total: int) -> bytes:
     chunks: list[bytes] = []
     remaining = total
     while remaining > 0:
-        chunk = sock.recv(remaining)
+        try:
+            chunk = sock.recv(remaining)
+        except socket.timeout:
+            continue
         if not chunk:
             raise ConnectionError("socket closed")
         chunks.append(chunk)
@@ -104,18 +107,27 @@ def read_n(sock: socket.socket, total: int) -> bytes:
 
 
 def try_read_frame(sock: socket.socket) -> bytes | None:
-    try:
-        hdr = sock.recv(4)
-    except socket.timeout:
-        return None
-
-    if not hdr:
-        return None
-    if len(hdr) < 4:
-        raise ConnectionError("truncated frame header")
+    prev_timeout = sock.gettimeout()
+    hdr = b""
+    while len(hdr) < 4:
+        try:
+            chunk = sock.recv(4 - len(hdr))
+        except socket.timeout:
+            if not hdr:
+                return None
+            continue
+        if not chunk:
+            if not hdr:
+                return None
+            raise ConnectionError("truncated frame header")
+        hdr += chunk
 
     frame_len = struct.unpack("<I", hdr)[0]
+    if prev_timeout is not None and prev_timeout < 2.0:
+        sock.settimeout(2.0)
     body = read_n(sock, frame_len)
+    if prev_timeout is not None:
+        sock.settimeout(prev_timeout)
     return hdr + body
 
 
