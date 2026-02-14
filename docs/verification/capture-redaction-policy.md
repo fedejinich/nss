@@ -12,6 +12,7 @@ This policy defines how runtime capture artifacts are sanitized before commit.
 ## Mandatory redaction targets
 
 - Usernames and aliases.
+- Passwords / auth hashes.
 - IP addresses and ports.
 - Local and virtual file paths.
 - Private message or chat text.

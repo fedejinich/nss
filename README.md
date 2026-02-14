@@ -97,11 +97,19 @@ Comandos principales:
 
 ```bash
 cd rust
-cargo run -q -p soul-cli -- session login --server <host:port> --username <user> --password-md5 <md5>
-cargo run -q -p soul-cli -- session search --server <host:port> --username <user> --password-md5 <md5> --token 123 --query "aphex twin"
+cargo run -q -p soul-cli -- session login --server <host:port> --username <user> --password <plain>
+cargo run -q -p soul-cli -- session search --server <host:port> --username <user> --password <plain> --token 123 --query "aphex twin"
+cargo run -q -p soul-cli -- session probe-login-version --server <host:port> --username <user> --password <plain>
 cargo run -q -p soul-cli -- transfer download --peer <host:port> --token 555 --path "Music\\Track.flac" --size 1234 --output /tmp/out.bin
 cargo run -q -p soul-cli -- transfer serve-upload --manual --decision accept --source-file /tmp/file.bin
-cargo run -q -p soul-cli -- verify captures --run login-search-download --base-dir ../captures/redacted
+cargo run -q -p soul-cli -- verify captures --run login-search-download --base-dir ../captures/redacted --mode semantic
+```
+
+Credenciales por entorno (`.env.local` local-only):
+
+```bash
+cp .env.example .env.local
+# editar NSS_TEST_SERVER / NSS_TEST_USERNAME / NSS_TEST_PASSWORD
 ```
 
 ### 5. Verificación diferencial y regresión

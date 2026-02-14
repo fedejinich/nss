@@ -2,7 +2,7 @@
 
 ## Objective
 
-Asegurar trazabilidad de evidencia y paridad protocolar para el scope core de Stage 2.
+Asegurar trazabilidad de evidencia y paridad protocolar para Stage 3A (`auth+search real` + diff semantico).
 
 ## Gates
 
@@ -28,6 +28,7 @@ Runs:
 
 1. Fixture parity (`captures/fixtures/*`).
 2. Capture parity para runs obligatorios en `captures/redacted/*`.
+3. Modo por defecto: `semantic` (`VERIFY_MODE=semantic`), con compatibilidad `bytes`.
 
 ## Regression Suite
 
@@ -44,5 +45,16 @@ Includes:
 
 ## Residual Risk
 
-- Runs redacted actuales provienen de runtime (`captures/raw/*`) y validan `high=25` para core.
-- Login al servidor oficial en este lote devuelve `INVALIDVERSION`; se requiere ajustar tuple de versión para autenticación completa end-to-end.
+- `code=64` se normaliza con parser summary fallback (`room-list`) para mantener comparación semántica estable.
+- Búsqueda real en esta etapa usa parseo `summary` (no parseo exhaustivo de todos los atributos opcionales de resultados).
+
+## Current Auth Evidence
+
+- Login autenticado real verificado contra servidor oficial con tuple `160/1`.
+- `session.login` y `session.search` reales validados con credencial de prueba local (`.env.local` no versionado).
+- Capturas obligatorias redacted refrescadas y verificadas en modo semántico:
+  - `login-only`
+  - `login-search`
+  - `login-search-download`
+  - `upload-deny`
+  - `upload-accept`

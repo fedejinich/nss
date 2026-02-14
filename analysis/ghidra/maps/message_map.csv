@@ -1,5 +1,5 @@
 scope,code,name,confidence,source,status,notes
-server,1,SM_LOGIN,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
+server,1,SM_LOGIN,high,captures/redacted/login-only/official_frames.hex,verified_runtime,Observed authenticated runtime login request+response (code 1) with success payload on tuple 160/1.
 server,2,SM_SET_WAIT_PORT,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,3,SM_GET_PEER_ADDRESS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,18,SM_CONNECT_TO_PEER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch and peer connect path.

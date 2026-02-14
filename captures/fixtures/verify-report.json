@@ -2,8 +2,8 @@
   {
     "fixture": "server_login_request.hex",
     "matches": true,
-    "expected_len": 61,
-    "actual_len": 61,
+    "expected_len": 76,
+    "actual_len": 76,
     "first_diff_offset": null
   },
   {

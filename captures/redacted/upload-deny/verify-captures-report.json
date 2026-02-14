@@ -1,5 +1,6 @@
 {
   "run_id": "upload-deny",
+  "comparison_mode": "semantic",
   "total_pairs": 4,
   "matched_pairs": 4,
   "mismatched_pairs": 0,
@@ -9,6 +10,9 @@
     {
       "index": 0,
       "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
       "official_len": 49,
       "neo_len": 49,
       "first_diff_offset": null
@@ -16,6 +20,9 @@
     {
       "index": 1,
       "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
       "official_len": 58,
       "neo_len": 58,
       "first_diff_offset": null
@@ -23,6 +30,9 @@
     {
       "index": 2,
       "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
       "official_len": 72,
       "neo_len": 72,
       "first_diff_offset": null
@@ -30,6 +40,9 @@
     {
       "index": 3,
       "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
       "official_len": 69,
       "neo_len": 69,
       "first_diff_offset": null

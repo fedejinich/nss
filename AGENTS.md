@@ -38,3 +38,11 @@ A task is not done until:
 3. Zensical docs reflect the new state.
 4. Validation/regression scripts pass for the affected area.
 
+## Runtime Auth Discipline
+
+When work touches authenticated runtime flows:
+
+1. Keep credentials local-only via `.env.local` and never commit secrets.
+2. Update `.env.example` whenever required runtime vars change.
+3. Refresh redacted captures and re-run differential verification in semantic mode.
+4. Record accepted login tuple and evidence paths in state docs and ledger.
