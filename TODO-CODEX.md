@@ -124,5 +124,5 @@ Tasks:
 
 - id: S2R-T07
   description: Commit y push a main con evidencia runtime y promoción de confianza
-  status: in_progress
+  status: done
   depends_on: [S2R-T06]
