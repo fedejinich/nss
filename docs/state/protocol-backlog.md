@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4B)
+# Protocol Backlog (Post S4C)
 
 ## Objective
 
@@ -15,15 +15,13 @@ Continue protocol mapping toward full coverage by functional domains while keepi
 - `SM_ROOM_OPERATORS`
 - `SM_SAY_CHATROOM`
 
-## S4 Candidate Batch A - Recommendations and Discovery
+## Completed in S4A (Recommendations + Discovery Batch)
 
 - `SM_GET_RECOMMENDATIONS`
 - `SM_GET_MY_RECOMMENDATIONS`
 - `SM_GET_GLOBAL_RECOMMENDATIONS`
 - `SM_GET_USER_RECOMMENDATIONS`
 - `SM_GET_SIMILAR_TERMS`
-
-Status: completed in S4A with runtime-authenticated evidence and semantic verification coverage.
 
 ## Completed in S4B (Peer Advanced + Room Moderation Batch)
 
@@ -37,23 +35,37 @@ Status: completed in S4A with runtime-authenticated evidence and semantic verifi
 - `SM_ADD_ROOM_OPERATOR`
 - `SM_REMOVE_ROOM_OPERATOR`
 
-Status: completed in S4B with static/spec evidence, runtime captures (`login-room-moderation`, `peer-advanced-local`), protocol implementation, and semantic differential verification.
+## Completed in S4C (Privileges/Social + Peer Folder Batch)
 
-## S4C Candidate Batch - Privileges and Social Control
-
-- `SM_BAN_USER`
-- `SM_GET_USER_PRIVILEGES_STATUS`
+- `SM_IGNORE_USER`
+- `SM_UNIGNORE_USER`
 - `SM_GET_OWN_PRIVILEGES_STATUS`
+- `SM_GET_USER_PRIVILEGES_STATUS`
 - `SM_GIVE_PRIVILEGE`
 - `SM_INFORM_USER_OF_PRIVILEGES`
 - `SM_INFORM_USER_OF_PRIVILEGES_ACK`
-- `SM_IGNORE_USER`
-- `SM_UNIGNORE_USER`
-
-## S4C Candidate Batch - Peer Folder Domain
-
 - `PM_GET_SHARED_FILES_IN_FOLDER`
 - `PM_SHARED_FILES_IN_FOLDER`
+
+Status: completed in S4C with runtime captures (`login-privileges-social`, `peer-folder-local`), protocol implementation, and semantic differential verification.
+
+## Remaining S4D Candidate Batch - Privilege/Messaging Gaps
+
+- `SM_BAN_USER` (authoritative code unresolved)
+- `SM_PRIVILEGED_LIST`
+- `SM_GET_RECOMMENDATION_USERS`
+- `SM_GET_RECOMMENDED_USERS`
+- `SM_GET_TERM_RECOMMENDATIONS`
+
+## Remaining S4D Candidate Batch - Peer Legacy/Search Cleanup
+
+- `PM_INVITE_USER_TO_ROOM`
+- `PM_CANCELLED_QUEUED_TRANSFER`
+- `PM_QUEUED_DOWNLOADS`
+- `PM_MOVE_DOWNLOAD_TO_TOP`
+- Runtime promotion of medium-confidence:
+  - `PM_EXACT_FILE_SEARCH_REQUEST`
+  - `PM_INDIRECT_FILE_SEARCH_REQUEST`
 
 ## Execution Strategy
 
@@ -67,4 +79,4 @@ Status: completed in S4B with static/spec evidence, runtime captures (`login-roo
 
 ## Next Session Entry Point
 
-Start S4C with privileges/social-control messages because they are high-impact for real account behavior and reuse the same authenticated runtime harness established in S3A/S4A/S4B.
+Start S4D by resolving `SM_BAN_USER` code mapping and promoting the remaining medium-confidence peer legacy search messages with live runtime evidence.

@@ -18,6 +18,8 @@ REQUIRED_RUNS=(
   "login-similar-terms"
   "login-room-moderation"
   "peer-advanced-local"
+  "login-privileges-social"
+  "peer-folder-local"
 )
 
 cd "${ROOT_DIR}/rust"

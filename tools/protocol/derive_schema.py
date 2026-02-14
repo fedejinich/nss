@@ -40,6 +40,8 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_SET_WAIT_PORT"): 2,
     ("server", "SM_GET_PEER_ADDRESS"): 3,
     ("server", "SM_GET_USER_STATUS"): 7,
+    ("server", "SM_IGNORE_USER"): 11,
+    ("server", "SM_UNIGNORE_USER"): 12,
     ("server", "SM_SAY_CHATROOM"): 13,
     ("server", "SM_JOIN_ROOM"): 14,
     ("server", "SM_LEAVE_ROOM"): 15,
@@ -60,7 +62,12 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_GET_GLOBAL_RECOMMENDATIONS"): 56,
     ("server", "SM_GET_USER_RECOMMENDATIONS"): 57,
     ("server", "SM_EXACT_FILE_SEARCH"): 65,
+    ("server", "SM_GET_OWN_PRIVILEGES_STATUS"): 92,
     ("server", "SM_SEARCH_ROOM"): 120,
+    ("server", "SM_GET_USER_PRIVILEGES_STATUS"): 122,
+    ("server", "SM_GIVE_PRIVILEGE"): 123,
+    ("server", "SM_INFORM_USER_OF_PRIVILEGES"): 124,
+    ("server", "SM_INFORM_USER_OF_PRIVILEGES_ACK"): 125,
     ("server", "SM_UPLOAD_SPEED"): 121,
     ("server", "SM_ADD_ROOM_MEMBER"): 134,
     ("server", "SM_REMOVE_ROOM_MEMBER"): 135,
@@ -74,6 +81,8 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("peer", "PM_FILE_SEARCH_RESULT"): 9,
     ("peer", "PM_USER_INFO_REQUEST"): 15,
     ("peer", "PM_USER_INFO_REPLY"): 16,
+    ("peer", "PM_GET_SHARED_FILES_IN_FOLDER"): 36,
+    ("peer", "PM_SHARED_FILES_IN_FOLDER"): 37,
     ("peer", "PM_TRANSFER_REQUEST"): 40,
     ("peer", "PM_TRANSFER_RESPONSE"): 41,
     ("peer", "PM_QUEUE_UPLOAD"): 43,
@@ -95,6 +104,8 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ],
     ("server", "SM_SET_WAIT_PORT"): [{"name": "listen_port", "type": "u32"}],
     ("server", "SM_GET_PEER_ADDRESS"): [{"name": "username", "type": "string"}],
+    ("server", "SM_IGNORE_USER"): [{"name": "username", "type": "string"}],
+    ("server", "SM_UNIGNORE_USER"): [{"name": "username", "type": "string"}],
     ("server", "SM_SAY_CHATROOM"): [
         {"name": "room", "type": "string"},
         {"name": "username", "type": "optional_string"},
@@ -164,6 +175,24 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "unrecommendation.term", "type": "string"},
         {"name": "unrecommendation.score", "type": "i32"},
     ],
+    ("server", "SM_GET_OWN_PRIVILEGES_STATUS"): [
+        {"name": "time_left_seconds", "type": "u32"},
+    ],
+    ("server", "SM_GET_USER_PRIVILEGES_STATUS"): [
+        {"name": "username", "type": "string"},
+        {"name": "privileged", "type": "bool_u32"},
+    ],
+    ("server", "SM_GIVE_PRIVILEGE"): [
+        {"name": "username", "type": "string"},
+        {"name": "days", "type": "u32"},
+    ],
+    ("server", "SM_INFORM_USER_OF_PRIVILEGES"): [
+        {"name": "token", "type": "u32"},
+        {"name": "username", "type": "string"},
+    ],
+    ("server", "SM_INFORM_USER_OF_PRIVILEGES_ACK"): [
+        {"name": "token", "type": "u32"},
+    ],
     ("server", "SM_GET_USER_RECOMMENDATIONS"): [
         {"name": "username", "type": "string"},
         {"name": "recommendation_count", "type": "u32"},
@@ -215,6 +244,13 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "entries", "type": "array<shared_file_entry>"},
         {"name": "entry.virtual_path", "type": "string"},
         {"name": "entry.size", "type": "u64"},
+    ],
+    ("peer", "PM_GET_SHARED_FILES_IN_FOLDER"): [
+        {"name": "directory", "type": "string"},
+    ],
+    ("peer", "PM_SHARED_FILES_IN_FOLDER"): [
+        {"name": "directory", "type": "string"},
+        {"name": "compressed_listing", "type": "bytes_raw"},
     ],
     ("peer", "PM_FILE_SEARCH_REQUEST"): [
         {"name": "token", "type": "u32"},
@@ -358,6 +394,90 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "note": "Protocol list documents user recommendation/interests message mapping.",
         },
     ],
+    ("server", "SM_IGNORE_USER"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+            "note": "Server MessageCodeToString includes SM_IGNORE_USER.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 11 documents IgnoreUser (obsolete) with username payload.",
+        },
+    ],
+    ("server", "SM_UNIGNORE_USER"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+            "note": "Server MessageCodeToString includes SM_UNIGNORE_USER.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 12 documents UnignoreUser (obsolete) with username payload.",
+        },
+    ],
+    ("server", "SM_GET_OWN_PRIVILEGES_STATUS"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_GET_OWN_PRIVILEGES_STATUS.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 92 documents CheckPrivileges with response payload indicating remaining seconds.",
+        },
+    ],
+    ("server", "SM_GET_USER_PRIVILEGES_STATUS"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_GET_USER_PRIVILEGES_STATUS.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 122 documents UserPrivileged (deprecated) with username and bool response fields.",
+        },
+    ],
+    ("server", "SM_GIVE_PRIVILEGE"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_GIVE_PRIVILEGE.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 123 documents GivePrivileges with username and number of days.",
+        },
+    ],
+    ("server", "SM_INFORM_USER_OF_PRIVILEGES"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_INFORM_USER_OF_PRIVILEGES.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 124 documents NotifyPrivileges with token and username.",
+        },
+    ],
+    ("server", "SM_INFORM_USER_OF_PRIVILEGES_ACK"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_INFORM_USER_OF_PRIVILEGES_ACK.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 125 documents AckNotifyPrivileges with token payload.",
+        },
+    ],
     ("server", "SM_ADD_ROOM_MEMBER"): [
         {
             "kind": "string",
@@ -404,6 +524,30 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "kind": "spec",
             "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
             "note": "Server code 144 documents RemoveOperatorFromPrivileged operation with room+username fields.",
+        },
+    ],
+    ("peer", "PM_GET_SHARED_FILES_IN_FOLDER"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+            "note": "Peer MessageCodeToString includes PM_GET_SHARED_FILES_IN_FOLDER.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Peer code 36 documents folder contents request with directory string payload.",
+        },
+    ],
+    ("peer", "PM_SHARED_FILES_IN_FOLDER"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+            "note": "Peer MessageCodeToString includes PM_SHARED_FILES_IN_FOLDER.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Peer code 37 documents compressed folder listing response payload.",
         },
     ],
     ("peer", "PM_USER_INFO_REQUEST"): [

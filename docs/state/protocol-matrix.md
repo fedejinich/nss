@@ -4,14 +4,14 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-14T15:40:25+00:00`
+- Generated at: `2026-02-14T16:36:56+00:00`
 - Total messages tracked: `130`
 - Server messages: `105`
 - Peer messages: `25`
-- Implemented + mapped: `47`
+- Implemented + mapped: `56`
 - Mapped not implemented: `0`
 - Implemented not mapped: `0`
-- Missing: `83`
+- Missing: `74`
 
 Status legend:
 
@@ -30,6 +30,8 @@ Status legend:
 | peer | 9 | `PM_FILE_SEARCH_RESULT` | `implemented_mapped` | high | Observed inbound runtime frame in login-search-download scenario (code 9) with token+user+result_count. | `captures/redacted/login-search-download/official_frames.hex` |
 | peer | 15 | `PM_USER_INFO_REQUEST` | `implemented_mapped` | high | Peer code 15 UserInfoRequest with empty payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table. | `evidence/reverse/peer_messagecodetostring_otool.txt` |
 | peer | 16 | `PM_USER_INFO_REPLY` | `implemented_mapped` | high | Peer code 16 UserInfoReply with description/picture/uploads/queue/slots fields (code resolved from SLSK protocol spec); symbol confirmed in peer message code table. | `evidence/reverse/peer_messagecodetostring_otool.txt` |
+| peer | 36 | `PM_GET_SHARED_FILES_IN_FOLDER` | `implemented_mapped` | high | Deterministic peer-local runtime flow sends request for shared files in folder (code 36) with directory payload. | `captures/redacted/peer-folder-local/official_frames.hex` |
+| peer | 37 | `PM_SHARED_FILES_IN_FOLDER` | `implemented_mapped` | high | Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37) with directory plus compressed listing bytes. | `captures/redacted/peer-folder-local/official_frames.hex` |
 | peer | 40 | `PM_TRANSFER_REQUEST` | `implemented_mapped` | high | Transfer queue dispatcher handles transfer request negotiation. | `evidence/reverse/disasm/transfer_on_file_request.txt` |
 | peer | 41 | `PM_TRANSFER_RESPONSE` | `implemented_mapped` | high | Transfer queue dispatcher handles transfer response negotiation. | `evidence/reverse/disasm/transfer_on_file_request.txt` |
 | peer | 43 | `PM_QUEUE_UPLOAD` | `implemented_mapped` | high | Observed literal in PeerMessenger::MessageCodeToString dispatch. | `evidence/reverse/peer_messagecodetostring_otool.txt` |
@@ -40,7 +42,6 @@ Status legend:
 | peer | 50 | `PM_UPLOAD_DENIED` | `implemented_mapped` | high | Observed inbound runtime frame in upload-deny scenario (code 50) with deny reason payload. | `captures/redacted/upload-deny/official_frames.hex` |
 | peer | 51 | `PM_UPLOAD_PLACE_IN_LINE_REQUEST` | `implemented_mapped` | high | Peer code 51 PlaceInQueueRequest with filename/path payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table. | `evidence/reverse/peer_messagecodetostring_otool.txt` |
 | peer |  | `PM_CANCELLED_QUEUED_TRANSFER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| peer |  | `PM_GET_SHARED_FILES_IN_FOLDER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | peer |  | `PM_INVITE_USER_TO_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | peer |  | `PM_MOVE_DOWNLOAD_TO_TOP` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | peer |  | `PM_NOTHING` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
@@ -48,11 +49,12 @@ Status legend:
 | peer |  | `PM_QUEUED_DOWNLOADS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | peer |  | `PM_SAY` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | peer |  | `PM_SEND_CONNECT_TOKEN` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| peer |  | `PM_SHARED_FILES_IN_FOLDER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server | 1 | `SM_LOGIN` | `implemented_mapped` | high | Observed authenticated runtime login request+response (code 1) with success payload on tuple 160/1. | `captures/redacted/login-only/official_frames.hex` |
 | server | 2 | `SM_SET_WAIT_PORT` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
 | server | 3 | `SM_GET_PEER_ADDRESS` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
 | server | 7 | `SM_GET_USER_STATUS` | `implemented_mapped` | high | Observed literal in Server::MessageCodeToString dispatch. | `evidence/reverse/server_messagecodetostring_otool.txt` |
+| server | 11 | `SM_IGNORE_USER` | `implemented_mapped` | high | Authenticated runtime flow sends ignore-user request (code 11); mapping aligns with server MessageCodeToString and SLSK spec obsolete ignore operation. | `captures/redacted/login-privileges-social/official_frames.hex` |
+| server | 12 | `SM_UNIGNORE_USER` | `implemented_mapped` | high | Authenticated runtime flow sends unignore-user request (code 12); mapping aligns with server MessageCodeToString and SLSK spec obsolete unignore operation. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 13 | `SM_SAY_CHATROOM` | `implemented_mapped` | high | Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 14 | `SM_JOIN_ROOM` | `implemented_mapped` | high | Observed runtime join-room request and server join payload during authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 15 | `SM_LEAVE_ROOM` | `implemented_mapped` | high | Observed runtime leave-room request and server leave acknowledgement payload. | `captures/redacted/login-leave-room/official_frames.hex` |
@@ -73,8 +75,13 @@ Status legend:
 | server | 57 | `SM_GET_USER_RECOMMENDATIONS` | `implemented_mapped` | high | Observed authenticated runtime user-recommendations flow (code 57) with user request and reply payload. | `captures/redacted/login-user-recommendations/official_frames.hex` |
 | server | 64 | `SM_ROOM_LIST` | `implemented_mapped` | high | Observed runtime room list request/response flow with authenticated session. | `captures/redacted/login-room-list/official_frames.hex` |
 | server | 65 | `SM_EXACT_FILE_SEARCH` | `implemented_mapped` | high | Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload. | `captures/redacted/login-search/official_frames.hex` |
+| server | 92 | `SM_GET_OWN_PRIVILEGES_STATUS` | `implemented_mapped` | high | Authenticated runtime flow sends own-privileges status request (code 92); spec defines CheckPrivileges response with remaining seconds. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 120 | `SM_SEARCH_ROOM` | `implemented_mapped` | high | Observed outbound runtime frame in login-search scenario (code 120) with room+query payload. | `captures/redacted/login-search/official_frames.hex` |
 | server | 121 | `SM_UPLOAD_SPEED` | `implemented_mapped` | high | String present and mirrored by upload code paths. | `evidence/reverse/message_name_strings.txt` |
+| server | 122 | `SM_GET_USER_PRIVILEGES_STATUS` | `implemented_mapped` | medium | Authenticated runtime flow sends user-privileges status request (code 122); response semantics are deprecated in spec and treated as username+privileged summary. | `captures/redacted/login-privileges-social/official_frames.hex` |
+| server | 123 | `SM_GIVE_PRIVILEGE` | `implemented_mapped` | high | Authenticated runtime flow sends give-privilege request (code 123) with username+days payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
+| server | 124 | `SM_INFORM_USER_OF_PRIVILEGES` | `implemented_mapped` | high | Authenticated runtime flow sends notify-privileges request (code 124) with token+username payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
+| server | 125 | `SM_INFORM_USER_OF_PRIVILEGES_ACK` | `implemented_mapped` | high | Authenticated runtime flow sends notify-privileges ack (code 125) with token payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 133 | `SM_ROOM_MEMBERS` | `implemented_mapped` | high | Observed runtime room-members request flow in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 134 | `SM_ADD_ROOM_MEMBER` | `implemented_mapped` | high | Server code 134 AddUserToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
 | server | 135 | `SM_REMOVE_ROOM_MEMBER` | `implemented_mapped` | high | Server code 135 RemoveUserFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
@@ -103,19 +110,13 @@ Status legend:
 | server |  | `SM_DNET_RESET` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_ENABLE_PRIVATE_ROOM_ADD` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_FLOOD` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_GET_OWN_PRIVILEGES_STATUS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GET_RECOMMENDATION_USERS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GET_RECOMMENDED_USERS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GET_ROOM_TICKER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GET_TERM_RECOMMENDATIONS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_GET_USER_PRIVILEGES_STATUS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_GIVE_PRIVILEGE` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GIVE_UP_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_GLOBAL_USER_LIST` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_HEARTBEAT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_IGNORE_USER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_INFORM_USER_OF_PRIVILEGES` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_INFORM_USER_OF_PRIVILEGES_ACK` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_JOIN_GLOBAL_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_LEAVE_GLOBAL_ROOM` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_LOW_PRIORITY_FILE_SEARCH` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
@@ -151,7 +152,6 @@ Status legend:
 | server |  | `SM_SET_STATUS` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_SET_TICKER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_TRANSFER_ROOM_OWNERSHIP` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
-| server |  | `SM_UNIGNORE_USER` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_USER_LIST` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 | server |  | `SM_WISHLIST_WAIT` | `missing` |  | Known message name from static string table; payload and behavior mapping pending. | `evidence/reverse/message_name_strings.txt` |
 

@@ -26,6 +26,7 @@ This documentation is the project memory for decompilation and parity work again
 - `docs/state/protocol-matrix.md`
 - `docs/state/roadmap.md`
 - `docs/runbooks/documentation-discipline.md`
+- `docs/runbooks/cli-download-example.md`
 
 ## Commands
 

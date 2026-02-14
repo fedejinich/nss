@@ -461,3 +461,77 @@ Notes:
 - Current matrix snapshot: total tracked `130`, implemented+mapped `47`, missing `83`.
 - S4B mapping batch landed with confidence gate satisfied: `high=7`, `medium=2`, `low=0`.
 - Validation gates passed: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.
+
+## Stage 4C - Privileges/social control + peer folder domain
+
+Dependency graph:
+
+- `S4C-R01 -> S4C-T01`
+- `S4C-T01 -> S4C-T02`
+- `S4C-T02 -> S4C-T03`
+- `S4C-T03 -> S4C-T04`
+- `S4C-T04 -> S4C-T05`
+- `S4C-T05 -> S4C-T06`
+- `S4C-T06 -> S4C-T07`
+- `S4C-T07 -> S4C-R02`
+- `S4C-R02 -> S4C-T08`
+
+Tasks:
+
+- id: S4C-R01
+  description: Initialize Stage 4C plan and mark roadmap baseline for active execution
+  status: done
+  depends_on: []
+
+- id: S4C-T01
+  description: Resolve message codes and evidence for S4C target set (privileges/social control + peer folder), deferring unresolved ban mapping if needed
+  status: done
+  depends_on: [S4C-R01]
+
+- id: S4C-T02
+  description: Generate S4C runtime captures (authenticated privilege/social requests + deterministic peer-folder exchange) and redact artifacts
+  status: done
+  depends_on: [S4C-T01]
+
+- id: S4C-T03
+  description: Update `message_map.csv` and `message_schema.json` for S4C targets with confidence and evidence links
+  status: done
+  depends_on: [S4C-T02]
+
+- id: S4C-T04
+  description: Implement protocol codecs/types/builders for S4C messages in `rust/protocol`
+  status: done
+  depends_on: [S4C-T03]
+
+- id: S4C-T05
+  description: Extend `rust/core` and `rust/cli` with privileges/social operations and peer-folder helpers
+  status: done
+  depends_on: [S4C-T04]
+
+- id: S4C-T06
+  description: Extend semantic differential verification and required run set for S4C scenarios
+  status: done
+  depends_on: [S4C-T05]
+
+- id: S4C-T07
+  description: Add S4C regression coverage (protocol contract tests + matrix integrity checks)
+  status: done
+  depends_on: [S4C-T06]
+
+- id: S4C-R02
+  description: Sync roadmap/project/verification/backlog docs with S4C outcomes and next-stage preview
+  status: done
+  depends_on: [S4C-T07]
+
+- id: S4C-T08
+  description: Run final validation gates, publish PR document, and open S4C PR
+  status: done
+  depends_on: [S4C-R02]
+
+Notes:
+
+- Stage 4C mapping batch landed with confidence gate satisfied: `high=8`, `medium=1`, `low=0`.
+- Runtime redacted runs were added for S4C: `login-privileges-social`, `peer-folder-local`.
+- Protocol matrix snapshot after S4C: tracked `130`, implemented+mapped `56`, missing `74`.
+- `SM_BAN_USER` remains deferred to backlog due unresolved authoritative code/evidence.
+- Validation gates passed on final S4C snapshot: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.

@@ -1,16 +1,21 @@
 use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
-    CODE_SM_LOGIN, CODE_SM_ROOM_LIST, Frame, LoginFailureReason, LoginResponsePayload, PeerMessage,
-    ProtocolMessage, RecommendationsPayload, RoomListPayload, RoomMembersPayload,
+    CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_LOGIN,
+    CODE_SM_ROOM_LIST, Frame, LoginFailureReason, LoginResponsePayload, OwnPrivilegesStatusPayload,
+    PeerMessage, ProtocolMessage, RecommendationsPayload, RoomListPayload, RoomMembersPayload,
     RoomOperatorsPayload, ServerMessage, SimilarTermsPayload, TransferDirection,
-    TransferRequestPayload, TransferResponsePayload, UserRecommendationsPayload,
-    build_add_room_member_request, build_add_room_operator_request, build_file_search_request,
-    build_get_global_recommendations_request, build_get_my_recommendations_request,
+    TransferRequestPayload, TransferResponsePayload, UserPrivilegesStatusPayload,
+    UserRecommendationsPayload, build_add_room_member_request, build_add_room_operator_request,
+    build_file_search_request, build_get_global_recommendations_request,
+    build_get_my_recommendations_request, build_get_own_privileges_status_request,
     build_get_recommendations_request, build_get_similar_terms_request,
-    build_get_user_recommendations_request, build_join_room_request, build_leave_room_request,
-    build_login_request, build_remove_room_member_request, build_remove_room_operator_request,
-    build_room_list_request, build_room_members_request, build_room_operators_request,
-    build_say_chatroom, build_transfer_request, decode_message, decode_server_message,
+    build_get_user_privileges_status_request, build_get_user_recommendations_request,
+    build_give_privilege_request, build_ignore_user_request,
+    build_inform_user_of_privileges_ack_request, build_inform_user_of_privileges_request,
+    build_join_room_request, build_leave_room_request, build_login_request,
+    build_remove_room_member_request, build_remove_room_operator_request, build_room_list_request,
+    build_room_members_request, build_room_operators_request, build_say_chatroom,
+    build_transfer_request, build_unignore_user_request, decode_message, decode_server_message,
     encode_peer_message, encode_server_message, split_first_frame,
 };
 use std::net::SocketAddr;
@@ -244,6 +249,111 @@ impl SessionClient {
     pub async fn remove_room_operator(&mut self, room: &str, username: &str) -> Result<()> {
         self.ensure_logged_in()?;
         let frame = build_remove_room_operator_request(room, username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn ignore_user(&mut self, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_ignore_user_request(username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn unignore_user(&mut self, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_unignore_user_request(username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn get_own_privileges_status(
+        &mut self,
+        timeout: Duration,
+    ) -> Result<OwnPrivilegesStatusPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_own_privileges_status_request();
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_OWN_PRIVILEGES_STATUS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::OwnPrivilegesStatus(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for own privileges status response")
+    }
+
+    pub async fn get_user_privileges_status(
+        &mut self,
+        username: &str,
+        timeout: Duration,
+    ) -> Result<UserPrivilegesStatusPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_user_privileges_status_request(username);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_GET_USER_PRIVILEGES_STATUS {
+                        continue;
+                    }
+                    let Ok(message) = decode_server_message(response.code, &response.payload)
+                    else {
+                        continue;
+                    };
+                    if let ServerMessage::UserPrivilegesStatus(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for user privileges status response")
+    }
+
+    pub async fn give_privilege(&mut self, username: &str, days: u32) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_give_privilege_request(username, days);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn inform_user_of_privileges(&mut self, token: u32, username: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_inform_user_of_privileges_request(token, username);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn inform_user_of_privileges_ack(&mut self, token: u32) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_inform_user_of_privileges_ack_request(token);
         write_frame(self.stream_mut()?, &frame).await
     }
 
@@ -895,13 +1005,16 @@ mod tests {
     use protocol::{
         CODE_SM_ADD_ROOM_MEMBER, CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_FILE_SEARCH,
         CODE_SM_GET_GLOBAL_RECOMMENDATIONS, CODE_SM_GET_MY_RECOMMENDATIONS,
-        CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_SIMILAR_TERMS, CODE_SM_GET_USER_RECOMMENDATIONS,
-        CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN, CODE_SM_REMOVE_ROOM_MEMBER,
-        CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST, LoginResponsePayload,
-        LoginResponseSuccessPayload, RecommendationEntry, RecommendationsPayload, RoomListPayload,
+        CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_SIMILAR_TERMS,
+        CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_GET_USER_RECOMMENDATIONS,
+        CODE_SM_GIVE_PRIVILEGE, CODE_SM_IGNORE_USER, CODE_SM_INFORM_USER_OF_PRIVILEGES,
+        CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK, CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM,
+        CODE_SM_LOGIN, CODE_SM_REMOVE_ROOM_MEMBER, CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST,
+        CODE_SM_UNIGNORE_USER, LoginResponsePayload, LoginResponseSuccessPayload,
+        OwnPrivilegesStatusPayload, RecommendationEntry, RecommendationsPayload, RoomListPayload,
         RoomPresenceEventPayload, ServerMessage, SimilarTermsPayload, SpeedPayload,
-        UserRecommendationsPayload, encode_server_message, parse_transfer_request,
-        parse_transfer_response,
+        UserPrivilegesStatusPayload, UserRecommendationsPayload, encode_server_message,
+        parse_transfer_request, parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -1143,6 +1256,159 @@ mod tests {
         assert_eq!(remove_member, CODE_SM_REMOVE_ROOM_MEMBER);
         assert_eq!(add_operator, CODE_SM_ADD_ROOM_OPERATOR);
         assert_eq!(remove_operator, CODE_SM_REMOVE_ROOM_OPERATOR);
+    }
+
+    #[tokio::test]
+    async fn social_control_operations_send_expected_codes() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let ignore = read_frame(&mut socket).await.expect("ignore user");
+            let unignore = read_frame(&mut socket).await.expect("unignore user");
+            let give = read_frame(&mut socket).await.expect("give privilege");
+            let inform = read_frame(&mut socket).await.expect("inform privilege");
+            let ack = read_frame(&mut socket).await.expect("inform ack");
+            (ignore.code, unignore.code, give.code, inform.code, ack.code)
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+        client.ignore_user("bob").await.expect("ignore");
+        client.unignore_user("bob").await.expect("unignore");
+        client
+            .give_privilege("bob", 7)
+            .await
+            .expect("give privilege");
+        client
+            .inform_user_of_privileges(42, "bob")
+            .await
+            .expect("inform privilege");
+        client
+            .inform_user_of_privileges_ack(42)
+            .await
+            .expect("inform ack");
+
+        let (ignore, unignore, give, inform, ack) = server.await.expect("server task");
+        assert_eq!(ignore, CODE_SM_IGNORE_USER);
+        assert_eq!(unignore, CODE_SM_UNIGNORE_USER);
+        assert_eq!(give, CODE_SM_GIVE_PRIVILEGE);
+        assert_eq!(inform, CODE_SM_INFORM_USER_OF_PRIVILEGES);
+        assert_eq!(ack, CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK);
+    }
+
+    #[tokio::test]
+    async fn get_own_privileges_status_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("own privileges request");
+            assert_eq!(request.code, CODE_SM_GET_OWN_PRIVILEGES_STATUS);
+
+            let response = encode_server_message(&ServerMessage::OwnPrivilegesStatus(
+                OwnPrivilegesStatusPayload {
+                    time_left_seconds: 7_200,
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write own privileges response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_own_privileges_status(Duration::from_secs(1))
+            .await
+            .expect("own privileges");
+        assert_eq!(payload.time_left_seconds, 7_200);
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_user_privileges_status_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("user privileges request");
+            assert_eq!(request.code, CODE_SM_GET_USER_PRIVILEGES_STATUS);
+
+            let response = encode_server_message(&ServerMessage::UserPrivilegesStatus(
+                UserPrivilegesStatusPayload {
+                    username: "bob".into(),
+                    privileged: true,
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write user privileges response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_user_privileges_status("bob", Duration::from_secs(1))
+            .await
+            .expect("user privileges");
+        assert_eq!(payload.username, "bob");
+        assert!(payload.privileged);
+        server.await.expect("server task");
     }
 
     #[tokio::test]

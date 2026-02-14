@@ -110,6 +110,10 @@ cargo run -q -p soul-cli -- transfer serve-upload --manual --decision accept --s
 cargo run -q -p soul-cli -- verify captures --run login-join-room-presence --base-dir ../captures/redacted --mode semantic
 ```
 
+Current download walkthrough:
+
+- `docs/runbooks/cli-download-example.md`
+
 Environment credentials (`.env.local`, local-only):
 
 ```bash

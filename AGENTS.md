@@ -47,6 +47,12 @@ When work touches authenticated runtime flows:
 3. Refresh redacted captures and re-run differential verification in semantic mode.
 4. Record accepted login tuple and evidence paths in state docs and ledger.
 
+## Protocol Decode Discipline
+
+1. Server and peer message code spaces overlap; generic `decode_message(...)` can be ambiguous without transport context.
+2. For deterministic protocol tests and feature logic, prefer scoped decoders (`decode_server_message(...)` or `decode_peer_message(...)`) when the channel is known.
+3. Keep semantic diff fallback behavior, but avoid using ambiguous generic decode output as authoritative protocol classification.
+
 ## Stage Iteration Discipline
 
 When a stage closes (for example S3A, S3B):
