@@ -47,6 +47,15 @@ When work touches authenticated runtime flows:
 3. Refresh redacted captures and re-run differential verification in semantic mode.
 4. Record accepted login tuple and evidence paths in state docs and ledger.
 
+## Stage Iteration Discipline
+
+When a stage closes (for example S3A, S3B):
+
+1. Update `docs/state/roadmap.md` status matrix and next-gate column.
+2. Sync `docs/state/project-status.md`, `docs/state/verification-status.md`, and `docs/state/protocol-backlog.md`.
+3. Persist stage task closure in `TODO-CODEX.md` with dependency graph + final statuses.
+4. Add or update a PR stage document under `docs/pr/` with validation commands and retrospective.
+
 ## Repository Language Policy
 
 - All repository code comments, commit-ready docs, runbooks, status files, and canonical artifacts must be written in English.

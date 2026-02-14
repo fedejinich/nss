@@ -24,7 +24,7 @@ class RuntimeRedactionTests(unittest.TestCase):
                 "password": "my-secret-password",
                 "peer_addr": "10.0.0.4:2234",
                 "download_path": "/Users/alice/Music/track.flac",
-                "private_message": "hola este es un mensaje privado",
+                "private_message": "hello this is a private message",
             }
             (raw_run / "manifest.raw.json").write_text(json.dumps(manifest), encoding="utf-8")
             (raw_run / "frida-events.raw.jsonl").write_text(
@@ -62,7 +62,7 @@ class RuntimeRedactionTests(unittest.TestCase):
             self.assertNotIn("my-secret-password", raw_text)
             self.assertNotIn("10.0.0.4", raw_text)
             self.assertNotIn("/Users/alice/Music/track.flac", raw_text)
-            self.assertNotIn("mensaje privado", raw_text)
+            self.assertNotIn("private message", raw_text)
 
             official = (run_dir / "official_frames.hex").read_text(encoding="utf-8").splitlines()
             neo = (run_dir / "neo_frames.hex").read_text(encoding="utf-8").splitlines()

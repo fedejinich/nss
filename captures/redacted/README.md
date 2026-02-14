@@ -20,8 +20,15 @@ Mandatory stage 2 scenarios:
 4. `upload-deny`
 5. `upload-accept`
 
+Mandatory stage 3B scenarios:
+
+1. `login-room-list`
+2. `login-join-room-presence`
+3. `login-leave-room`
+
 Current state:
 
 - Stage 2 scenarios were regenerated from runtime runs (`captures/raw/* -> captures/redacted/*`).
+- Stage 3B room/presence scenarios were generated from authenticated runtime sessions and redacted with the same policy.
 - `login-*` scenarios include live server socket traffic to `server.slsknet.org:2242`.
 - `download/upload` peer flows are runtime local-peer exchanges used for deterministic protocol evidence and regression.

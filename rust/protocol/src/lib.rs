@@ -7,11 +7,17 @@ pub const CODE_SM_LOGIN: u32 = 1;
 pub const CODE_SM_SET_WAIT_PORT: u32 = 2;
 pub const CODE_SM_GET_PEER_ADDRESS: u32 = 3;
 pub const CODE_SM_GET_USER_STATUS: u32 = 7;
+pub const CODE_SM_SAY_CHATROOM: u32 = 13;
+pub const CODE_SM_JOIN_ROOM: u32 = 14;
+pub const CODE_SM_LEAVE_ROOM: u32 = 15;
+pub const CODE_SM_USER_JOINED_ROOM: u32 = 16;
+pub const CODE_SM_USER_LEFT_ROOM: u32 = 17;
 pub const CODE_SM_CONNECT_TO_PEER: u32 = 18;
 pub const CODE_SM_MESSAGE_USER: u32 = 22;
 pub const CODE_SM_MESSAGE_ACKED: u32 = 23;
 pub const CODE_SM_FILE_SEARCH: u32 = 26;
-pub const CODE_SM_FILE_SEARCH_RESPONSE: u32 = 64;
+pub const CODE_SM_ROOM_LIST: u32 = 64;
+pub const CODE_SM_FILE_SEARCH_RESPONSE: u32 = CODE_SM_ROOM_LIST;
 pub const CODE_SM_DOWNLOAD_SPEED: u32 = 34;
 pub const CODE_SM_SHARED_FOLDERS_FILES: u32 = 35;
 pub const CODE_SM_GET_USER_STATS: u32 = 36;
@@ -19,6 +25,8 @@ pub const CODE_SM_SEARCH_USER_FILES: u32 = 42;
 pub const CODE_SM_EXACT_FILE_SEARCH: u32 = 65;
 pub const CODE_SM_SEARCH_ROOM: u32 = 120;
 pub const CODE_SM_UPLOAD_SPEED: u32 = 121;
+pub const CODE_SM_ROOM_MEMBERS: u32 = 133;
+pub const CODE_SM_ROOM_OPERATORS: u32 = 148;
 
 pub const CODE_PM_GET_SHARED_FILE_LIST: u32 = 4;
 pub const CODE_PM_SHARED_FILE_LIST: u32 = 5;
@@ -281,6 +289,48 @@ pub struct SearchUserFilesPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomListPayload {
+    pub room_count: u32,
+    pub rooms: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct JoinRoomPayload {
+    pub room: String,
+    pub users: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct LeaveRoomPayload {
+    pub room: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomPresenceEventPayload {
+    pub room: String,
+    pub username: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomMembersPayload {
+    pub room: String,
+    pub users: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomOperatorsPayload {
+    pub room: String,
+    pub operators: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SayChatRoomPayload {
+    pub room: String,
+    pub username: Option<String>,
+    pub message: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct MessageUserPayload {
     pub username: String,
     pub message: String,
@@ -408,12 +458,20 @@ pub enum ServerMessage {
     LoginResponse(LoginResponsePayload),
     SetWaitPort(SetWaitPortPayload),
     GetPeerAddress(UserLookupPayload),
+    SayChatRoom(SayChatRoomPayload),
+    JoinRoom(JoinRoomPayload),
+    LeaveRoom(LeaveRoomPayload),
+    UserJoinedRoom(RoomPresenceEventPayload),
+    UserLeftRoom(RoomPresenceEventPayload),
     ConnectToPeer(ConnectToPeerPayload),
     FileSearch(FileSearchPayload),
+    RoomList(RoomListPayload),
     FileSearchResponseSummary(SearchResponseSummary),
     SearchRoom(SearchRoomPayload),
     ExactFileSearch(ExactFileSearchPayload),
     SearchUserFiles(SearchUserFilesPayload),
+    RoomMembers(RoomMembersPayload),
+    RoomOperators(RoomOperatorsPayload),
     MessageUser(MessageUserPayload),
     MessageAcked(MessageAckedPayload),
     GetUserStats(UserLookupPayload),
@@ -515,6 +573,38 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.username);
             CODE_SM_GET_PEER_ADDRESS
         }
+        ServerMessage::SayChatRoom(payload) => {
+            writer.write_string(&payload.room);
+            if let Some(username) = &payload.username {
+                writer.write_string(username);
+            }
+            writer.write_string(&payload.message);
+            CODE_SM_SAY_CHATROOM
+        }
+        ServerMessage::JoinRoom(payload) => {
+            writer.write_string(&payload.room);
+            if !payload.users.is_empty() {
+                writer.write_u32(payload.users.len() as u32);
+                for user in &payload.users {
+                    writer.write_string(user);
+                }
+            }
+            CODE_SM_JOIN_ROOM
+        }
+        ServerMessage::LeaveRoom(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_LEAVE_ROOM
+        }
+        ServerMessage::UserJoinedRoom(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            CODE_SM_USER_JOINED_ROOM
+        }
+        ServerMessage::UserLeftRoom(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            CODE_SM_USER_LEFT_ROOM
+        }
         ServerMessage::ConnectToPeer(payload) => {
             writer.write_string(&payload.username);
             writer.write_u32(payload.token);
@@ -524,6 +614,13 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_u32(payload.search_token);
             writer.write_string(&payload.search_text);
             CODE_SM_FILE_SEARCH
+        }
+        ServerMessage::RoomList(payload) => {
+            writer.write_u32(payload.room_count);
+            for room in &payload.rooms {
+                writer.write_string(room);
+            }
+            CODE_SM_ROOM_LIST
         }
         ServerMessage::FileSearchResponseSummary(payload) => {
             writer.write_string(&payload.username);
@@ -553,6 +650,26 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.username);
             writer.write_string(&payload.search_text);
             CODE_SM_SEARCH_USER_FILES
+        }
+        ServerMessage::RoomMembers(payload) => {
+            writer.write_string(&payload.room);
+            if !payload.users.is_empty() {
+                writer.write_u32(payload.users.len() as u32);
+                for user in &payload.users {
+                    writer.write_string(user);
+                }
+            }
+            CODE_SM_ROOM_MEMBERS
+        }
+        ServerMessage::RoomOperators(payload) => {
+            writer.write_string(&payload.room);
+            if !payload.operators.is_empty() {
+                writer.write_u32(payload.operators.len() as u32);
+                for user in &payload.operators {
+                    writer.write_string(user);
+                }
+            }
+            CODE_SM_ROOM_OPERATORS
         }
         ServerMessage::MessageUser(payload) => {
             writer.write_string(&payload.username);
@@ -597,13 +714,17 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         return Ok(ServerMessage::LoginResponse(parse_login_response(payload)?));
     }
 
-    if code == CODE_SM_FILE_SEARCH_RESPONSE {
-        return Ok(ServerMessage::FileSearchResponseSummary(
-            parse_search_response_summary(payload)?,
-        ));
+    if code == CODE_SM_ROOM_LIST {
+        if let Ok(room_list) = parse_room_list_payload(payload) {
+            return Ok(ServerMessage::RoomList(room_list));
+        }
+        return Ok(ServerMessage::FileSearchResponseSummary(parse_search_response_summary(
+            payload,
+        )?));
     }
 
     let mut reader = PayloadReader::new(payload);
+    let mut allow_trailing_bytes = false;
 
     let message = match code {
         CODE_SM_SET_WAIT_PORT => {
@@ -617,6 +738,28 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                 username: reader.read_string()?,
             };
             ServerMessage::GetPeerAddress(payload)
+        }
+        CODE_SM_SAY_CHATROOM => {
+            allow_trailing_bytes = true;
+            ServerMessage::SayChatRoom(parse_say_chatroom_payload(payload)?)
+        }
+        CODE_SM_JOIN_ROOM => {
+            allow_trailing_bytes = true;
+            ServerMessage::JoinRoom(parse_join_room_payload(payload)?)
+        }
+        CODE_SM_LEAVE_ROOM => {
+            let payload = LeaveRoomPayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::LeaveRoom(payload)
+        }
+        CODE_SM_USER_JOINED_ROOM => {
+            allow_trailing_bytes = true;
+            ServerMessage::UserJoinedRoom(parse_room_presence_event_payload(payload)?)
+        }
+        CODE_SM_USER_LEFT_ROOM => {
+            allow_trailing_bytes = true;
+            ServerMessage::UserLeftRoom(parse_room_presence_event_payload(payload)?)
         }
         CODE_SM_CONNECT_TO_PEER => {
             let payload = ConnectToPeerPayload {
@@ -651,6 +794,14 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                 search_text: reader.read_string()?,
             };
             ServerMessage::SearchUserFiles(payload)
+        }
+        CODE_SM_ROOM_MEMBERS => {
+            allow_trailing_bytes = true;
+            ServerMessage::RoomMembers(parse_room_members_payload(payload)?)
+        }
+        CODE_SM_ROOM_OPERATORS => {
+            allow_trailing_bytes = true;
+            ServerMessage::RoomOperators(parse_room_operators_payload(payload)?)
         }
         CODE_SM_MESSAGE_USER => {
             let payload = MessageUserPayload {
@@ -699,8 +850,105 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         other => bail!("unsupported server message code {other}"),
     };
 
-    ensure_payload_consumed(&reader)?;
+    if !allow_trailing_bytes {
+        ensure_payload_consumed(&reader)?;
+    }
     Ok(message)
+}
+
+fn read_optional_string_list(reader: &mut PayloadReader<'_>, max_count: u32) -> Vec<String> {
+    let checkpoint = reader.clone();
+    let Ok(count) = reader.read_u32() else {
+        return Vec::new();
+    };
+
+    if count > max_count {
+        *reader = checkpoint;
+        return Vec::new();
+    }
+
+    let mut entries = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        let Ok(item) = reader.read_string() else {
+            *reader = checkpoint;
+            return Vec::new();
+        };
+        entries.push(item);
+    }
+    entries
+}
+
+pub fn parse_room_list_payload(payload: &[u8]) -> Result<RoomListPayload> {
+    if payload.is_empty() {
+        return Ok(RoomListPayload {
+            room_count: 0,
+            rooms: Vec::new(),
+        });
+    }
+
+    let mut reader = PayloadReader::new(payload);
+    let room_count = reader.read_u32()?;
+    if room_count > 50_000 {
+        bail!("room_count exceeds sanity threshold: {room_count}");
+    }
+
+    let mut rooms = Vec::with_capacity(room_count as usize);
+    for _ in 0..room_count {
+        rooms.push(reader.read_string()?);
+    }
+
+    Ok(RoomListPayload { room_count, rooms })
+}
+
+pub fn parse_join_room_payload(payload: &[u8]) -> Result<JoinRoomPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let room = reader.read_string()?;
+    let users = read_optional_string_list(&mut reader, 200_000);
+    Ok(JoinRoomPayload { room, users })
+}
+
+pub fn parse_room_presence_event_payload(payload: &[u8]) -> Result<RoomPresenceEventPayload> {
+    let mut reader = PayloadReader::new(payload);
+    Ok(RoomPresenceEventPayload {
+        room: reader.read_string()?,
+        username: reader.read_string()?,
+    })
+}
+
+pub fn parse_room_members_payload(payload: &[u8]) -> Result<RoomMembersPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let room = reader.read_string()?;
+    let users = read_optional_string_list(&mut reader, 300_000);
+    Ok(RoomMembersPayload { room, users })
+}
+
+pub fn parse_room_operators_payload(payload: &[u8]) -> Result<RoomOperatorsPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let room = reader.read_string()?;
+    let operators = read_optional_string_list(&mut reader, 300_000);
+    Ok(RoomOperatorsPayload { room, operators })
+}
+
+pub fn parse_say_chatroom_payload(payload: &[u8]) -> Result<SayChatRoomPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let room = reader.read_string()?;
+    let second = reader.read_string()?;
+
+    if reader.remaining() >= 4 {
+        if let Ok(message) = reader.read_string() {
+            return Ok(SayChatRoomPayload {
+                room,
+                username: Some(second),
+                message,
+            });
+        }
+    }
+
+    Ok(SayChatRoomPayload {
+        room,
+        username: None,
+        message: second,
+    })
 }
 
 fn decode_login_request_payload(payload: &[u8]) -> Result<LoginRequestPayload> {
@@ -1015,6 +1263,45 @@ pub fn build_file_search_request(token: u32, search_text: &str) -> Frame {
     }))
 }
 
+pub fn build_room_list_request() -> Frame {
+    Frame::new(CODE_SM_ROOM_LIST, Vec::new())
+}
+
+pub fn build_join_room_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::JoinRoom(JoinRoomPayload {
+        room: room.to_owned(),
+        users: Vec::new(),
+    }))
+}
+
+pub fn build_leave_room_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::LeaveRoom(LeaveRoomPayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_room_members_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RoomMembers(RoomMembersPayload {
+        room: room.to_owned(),
+        users: Vec::new(),
+    }))
+}
+
+pub fn build_room_operators_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RoomOperators(RoomOperatorsPayload {
+        room: room.to_owned(),
+        operators: Vec::new(),
+    }))
+}
+
+pub fn build_say_chatroom(room: &str, message: &str) -> Frame {
+    encode_server_message(&ServerMessage::SayChatRoom(SayChatRoomPayload {
+        room: room.to_owned(),
+        username: None,
+        message: message.to_owned(),
+    }))
+}
+
 pub fn build_transfer_request(
     direction: TransferDirection,
     token: u32,
@@ -1104,9 +1391,33 @@ mod tests {
             ProtocolMessage::Server(ServerMessage::GetPeerAddress(UserLookupPayload {
                 username: "bob".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::SayChatRoom(SayChatRoomPayload {
+                room: "nicotine".into(),
+                username: Some("alice".into()),
+                message: "hello room".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::JoinRoom(JoinRoomPayload {
+                room: "nicotine".into(),
+                users: vec!["alice".into(), "bob".into()],
+            })),
+            ProtocolMessage::Server(ServerMessage::LeaveRoom(LeaveRoomPayload {
+                room: "nicotine".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::UserJoinedRoom(RoomPresenceEventPayload {
+                room: "nicotine".into(),
+                username: "carol".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::UserLeftRoom(RoomPresenceEventPayload {
+                room: "nicotine".into(),
+                username: "dave".into(),
+            })),
             ProtocolMessage::Server(ServerMessage::ConnectToPeer(ConnectToPeerPayload {
                 username: "bob".into(),
                 token: 77,
+            })),
+            ProtocolMessage::Server(ServerMessage::RoomList(RoomListPayload {
+                room_count: 2,
+                rooms: vec!["nicotine".into(), "electronic".into()],
             })),
             ProtocolMessage::Server(ServerMessage::FileSearch(FileSearchPayload {
                 search_token: 12345,
@@ -1139,9 +1450,17 @@ mod tests {
                 username: "bob".into(),
                 search_text: "flac".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::RoomMembers(RoomMembersPayload {
+                room: "nicotine".into(),
+                users: vec!["alice".into(), "bob".into(), "carol".into()],
+            })),
+            ProtocolMessage::Server(ServerMessage::RoomOperators(RoomOperatorsPayload {
+                room: "nicotine".into(),
+                operators: vec!["alice".into()],
+            })),
             ProtocolMessage::Server(ServerMessage::MessageUser(MessageUserPayload {
                 username: "bob".into(),
-                message: "hola".into(),
+                message: "hello".into(),
             })),
             ProtocolMessage::Server(ServerMessage::MessageAcked(MessageAckedPayload {
                 message_id: 55,
@@ -1228,6 +1547,19 @@ mod tests {
             let decoded = decode_message(&frame).expect("decode message");
             assert_eq!(decoded, message);
         }
+    }
+
+    #[test]
+    fn room_request_builders_emit_expected_codes() {
+        assert_eq!(build_room_list_request().code, CODE_SM_ROOM_LIST);
+        assert_eq!(build_join_room_request("nicotine").code, CODE_SM_JOIN_ROOM);
+        assert_eq!(build_leave_room_request("nicotine").code, CODE_SM_LEAVE_ROOM);
+        assert_eq!(build_room_members_request("nicotine").code, CODE_SM_ROOM_MEMBERS);
+        assert_eq!(
+            build_room_operators_request("nicotine").code,
+            CODE_SM_ROOM_OPERATORS
+        );
+        assert_eq!(build_say_chatroom("nicotine", "hello").code, CODE_SM_SAY_CHATROOM);
     }
 
     #[test]

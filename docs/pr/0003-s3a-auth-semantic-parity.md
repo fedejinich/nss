@@ -72,18 +72,18 @@ scripts/run_regression.sh
 
 ## Retrospective
 
-### ¿Había una forma más mantenible?
+### Was there a more maintainable approach?
 
-Sí: centralizar helpers de framing/login en `tools/runtime/slsk_runtime.py` evitó mantener lógica duplicada en probe/provision/capture scripts y redujo errores en el cambio de formato de login.
+Yes. Centralizing framing/login helpers in `tools/runtime/slsk_runtime.py` avoided duplicated logic across probe/provision/capture scripts and reduced errors during the login format migration.
 
-### ¿Qué reutilizamos para evitar double writing?
+### What did we reuse to avoid double writing?
 
-1. `compute_login_md5hash` en `rust/protocol` y equivalente Python compartido para mantener paridad de request login.
-2. `compare_capture_sequences_with_mode` para reutilizar pipeline existente y extenderlo con modo semántico sin romper modo bytes.
-3. `scripts/kb_sync_docs.py` + `derive_message_schema.sh` para regenerar docs/schema sin editar manualmente múltiples artefactos.
+1. `compute_login_md5hash` in `rust/protocol` and the shared Python equivalent to keep login request parity.
+2. `compare_capture_sequences_with_mode` to extend the existing verifier with semantic mode while preserving bytes mode.
+3. `scripts/kb_sync_docs.py` + `derive_message_schema.sh` to regenerate docs/schema without manual edits in multiple artifacts.
 
-### ¿Qué eliminamos para reducir superficie de mantenimiento?
+### What did we remove to reduce maintenance surface?
 
-1. Dependencia runtime en `--password-md5` (deprecada con error explícito).
-2. Supuesto de login “fire-and-forget” en `core`; ahora handshake tipado y verificable.
-3. Acoplamiento de verificación a comparación byte-a-byte solamente; ahora hay un modo semántico reutilizable.
+1. Runtime dependency on `--password-md5` (deprecated with explicit error).
+2. The `fire-and-forget` login assumption in `core`; now replaced with typed, verifiable handshake flow.
+3. Verification coupling to byte-only comparison; now semantic mode is reusable and default-capable.

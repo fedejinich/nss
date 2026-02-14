@@ -1,10 +1,13 @@
 use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
-    CODE_SM_FILE_SEARCH_RESPONSE, CODE_SM_LOGIN, Frame, LoginFailureReason, LoginResponsePayload,
-    PeerMessage, ProtocolMessage, ServerMessage, TransferDirection, TransferRequestPayload,
-    TransferResponsePayload, build_file_search_request, build_login_request,
-    build_transfer_request, decode_message, decode_server_message, encode_peer_message,
-    encode_server_message, parse_search_response_summary, split_first_frame,
+    CODE_SM_LOGIN, CODE_SM_ROOM_LIST, Frame, LoginFailureReason, LoginResponsePayload,
+    PeerMessage, ProtocolMessage, RoomListPayload, RoomMembersPayload, RoomOperatorsPayload,
+    ServerMessage, TransferDirection, TransferRequestPayload, TransferResponsePayload,
+    build_file_search_request,
+    build_join_room_request, build_leave_room_request, build_login_request,
+    build_room_list_request, build_room_members_request, build_room_operators_request,
+    build_say_chatroom, build_transfer_request, decode_message, decode_server_message,
+    encode_peer_message, encode_server_message, split_first_frame,
 };
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
@@ -42,6 +45,25 @@ pub enum SessionState {
     Disconnected,
     Connected,
     LoggedIn,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum RoomEvent {
+    UserJoined {
+        room: String,
+        username: String,
+    },
+    UserLeft {
+        room: String,
+        username: String,
+    },
+    RoomMessage {
+        room: String,
+        username: Option<String>,
+        message: String,
+    },
+    MembersSnapshot(RoomMembersPayload),
+    OperatorsSnapshot(RoomOperatorsPayload),
 }
 
 #[derive(Debug)]
@@ -141,6 +163,68 @@ impl SessionClient {
         write_frame(self.stream_mut()?, &frame).await
     }
 
+    pub async fn list_rooms(&mut self, timeout: Duration) -> Result<RoomListPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_room_list_request();
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    if response.code != CODE_SM_ROOM_LIST {
+                        continue;
+                    }
+                    if let Ok(ServerMessage::RoomList(payload)) =
+                        decode_server_message(response.code, &response.payload)
+                    {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for room list")
+    }
+
+    pub async fn join_room(&mut self, room: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_join_room_request(room);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn leave_room(&mut self, room: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_leave_room_request(room);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn request_room_members(&mut self, room: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_room_members_request(room);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn request_room_operators(&mut self, room: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_room_operators_request(room);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn say_chatroom(&mut self, room: &str, message: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_say_chatroom(room, message);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
     pub async fn send_server_message(&mut self, message: &ServerMessage) -> Result<()> {
         self.ensure_connected()?;
         let frame = encode_server_message(message);
@@ -184,13 +268,6 @@ impl SessionClient {
             let remaining = deadline.saturating_duration_since(now);
             match tokio::time::timeout(remaining, self.read_next_frame()).await {
                 Ok(Ok(frame)) => {
-                    if frame.code == CODE_SM_FILE_SEARCH_RESPONSE {
-                        if let Ok(summary) = parse_search_response_summary(&frame.payload) {
-                            collected.push(ServerMessage::FileSearchResponseSummary(summary));
-                        }
-                        continue;
-                    }
-
                     if let Ok(msg) = decode_server_message(frame.code, &frame.payload) {
                         collected.push(msg);
                     }
@@ -206,6 +283,77 @@ impl SessionClient {
         }
 
         Ok(collected)
+    }
+
+    pub async fn collect_room_events(
+        &mut self,
+        timeout: Duration,
+        max_events: usize,
+    ) -> Result<Vec<RoomEvent>> {
+        self.ensure_logged_in()?;
+        let mut events = Vec::new();
+        let deadline = Instant::now() + timeout;
+
+        while events.len() < max_events {
+            let now = Instant::now();
+            if now >= deadline {
+                break;
+            }
+
+            let remaining = deadline.saturating_duration_since(now);
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(frame)) => {
+                    let Ok(msg) = decode_server_message(frame.code, &frame.payload) else {
+                        continue;
+                    };
+                    match msg {
+                        ServerMessage::UserJoinedRoom(payload) => {
+                            events.push(RoomEvent::UserJoined {
+                                room: payload.room,
+                                username: payload.username,
+                            });
+                        }
+                        ServerMessage::UserLeftRoom(payload) => {
+                            events.push(RoomEvent::UserLeft {
+                                room: payload.room,
+                                username: payload.username,
+                            });
+                        }
+                        ServerMessage::SayChatRoom(payload) => {
+                            events.push(RoomEvent::RoomMessage {
+                                room: payload.room,
+                                username: payload.username,
+                                message: payload.message,
+                            });
+                        }
+                        ServerMessage::RoomMembers(payload) => {
+                            events.push(RoomEvent::MembersSnapshot(payload));
+                        }
+                        ServerMessage::RoomOperators(payload) => {
+                            events.push(RoomEvent::OperatorsSnapshot(payload));
+                        }
+                        ServerMessage::JoinRoom(payload) => {
+                            if !payload.users.is_empty() {
+                                events.push(RoomEvent::MembersSnapshot(RoomMembersPayload {
+                                    room: payload.room,
+                                    users: payload.users,
+                                }));
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        Ok(events)
     }
 
     fn ensure_connected(&self) -> Result<()> {
@@ -540,9 +688,10 @@ impl UploadAgent {
 mod tests {
     use super::*;
     use protocol::{
-        CODE_SM_FILE_SEARCH, CODE_SM_LOGIN, LoginResponsePayload, LoginResponseSuccessPayload,
-        ServerMessage, SpeedPayload, encode_server_message, parse_transfer_request,
-        parse_transfer_response,
+        CODE_SM_FILE_SEARCH, CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN,
+        CODE_SM_ROOM_LIST, LoginResponsePayload, LoginResponseSuccessPayload, RoomListPayload,
+        RoomPresenceEventPayload, ServerMessage, SpeedPayload, encode_server_message,
+        parse_transfer_request, parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -638,6 +787,148 @@ mod tests {
             .await
             .expect("collect");
         assert!(!messages.is_empty());
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn list_rooms_returns_room_list_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+            let room_list_request = read_frame(&mut socket).await.expect("room list request");
+            assert_eq!(room_list_request.code, CODE_SM_ROOM_LIST);
+
+            let room_list_frame = encode_server_message(&ServerMessage::RoomList(RoomListPayload {
+                room_count: 2,
+                rooms: vec!["nicotine".into(), "electronic".into()],
+            }));
+            write_frame(&mut socket, &room_list_frame)
+                .await
+                .expect("write room list");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let room_list = client
+            .list_rooms(Duration::from_secs(1))
+            .await
+            .expect("list rooms");
+        assert_eq!(room_list.room_count, 2);
+        assert_eq!(room_list.rooms.len(), 2);
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn join_and_leave_room_send_expected_codes() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+            let join = read_frame(&mut socket).await.expect("join");
+            let leave = read_frame(&mut socket).await.expect("leave");
+            (join.code, leave.code)
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+        client.join_room("nicotine").await.expect("join room");
+        client.leave_room("nicotine").await.expect("leave room");
+
+        let (join_code, leave_code) = server.await.expect("server task");
+        assert_eq!(join_code, CODE_SM_JOIN_ROOM);
+        assert_eq!(leave_code, CODE_SM_LEAVE_ROOM);
+    }
+
+    #[tokio::test]
+    async fn collect_room_events_decodes_presence_messages() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let joined = encode_server_message(&ServerMessage::UserJoinedRoom(
+                RoomPresenceEventPayload {
+                    room: "nicotine".into(),
+                    username: "bob".into(),
+                },
+            ));
+            let left = encode_server_message(&ServerMessage::UserLeftRoom(RoomPresenceEventPayload {
+                room: "nicotine".into(),
+                username: "bob".into(),
+            }));
+
+            write_frame(&mut socket, &joined)
+                .await
+                .expect("write joined event");
+            write_frame(&mut socket, &left).await.expect("write left event");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let events = client
+            .collect_room_events(Duration::from_millis(400), 4)
+            .await
+            .expect("collect room events");
+        assert!(
+            events
+                .iter()
+                .any(|event| matches!(event, RoomEvent::UserJoined { room, username } if room == "nicotine" && username == "bob"))
+        );
+        assert!(
+            events
+                .iter()
+                .any(|event| matches!(event, RoomEvent::UserLeft { room, username } if room == "nicotine" && username == "bob"))
+        );
 
         server.await.expect("server task");
     }

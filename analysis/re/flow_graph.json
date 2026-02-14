@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T03:55:27+00:00",
+  "generated_at": "2026-02-14T14:50:18+00:00",
   "binary": "SoulseekQt",
   "architecture": "arm64",
   "sources": {
@@ -12,7 +12,7 @@
       "symbol": "Server::PrepareSearch(QString)",
       "address": "0x00000001000615c0",
       "stage": "server_tx",
-      "description": "Normaliza texto de busqueda antes de serializar.",
+      "description": "Normalizes search text before serialization.",
       "disassembly": "evidence/reverse/disasm/server_prepare_search.txt"
     },
     {
@@ -20,7 +20,7 @@
       "symbol": "Server::FileSearch(QString, QString)",
       "address": "0x0000000100060fa0",
       "stage": "server_tx",
-      "description": "Construye y envia mensaje de busqueda al servidor.",
+      "description": "Builds and sends search message to the server.",
       "disassembly": "evidence/reverse/disasm/server_file_search.txt"
     },
     {
@@ -28,7 +28,7 @@
       "symbol": "Server::SendMessage(MemStream&, bool)",
       "address": "0x0000000100054dac",
       "stage": "server_tx",
-      "description": "Serializa MemStream en socket de servidor.",
+      "description": "Serializes MemStream into the server socket.",
       "disassembly": "evidence/reverse/disasm/server_send_message.txt"
     },
     {
@@ -36,7 +36,7 @@
       "symbol": "Server::HandleMessage(int, MemStream&)",
       "address": "0x000000010005521c",
       "stage": "server_rx",
-      "description": "Despacha mensajes entrantes del servidor.",
+      "description": "Dispatches incoming server messages.",
       "disassembly": "evidence/reverse/disasm/server_handle_message.txt"
     },
     {
@@ -44,7 +44,7 @@
       "symbol": "PeerMessenger::QueueDownload(QString, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)",
       "address": "0x00000001000a4474",
       "stage": "peer_tx",
-      "description": "Encapsula solicitud inicial de descarga a peer.",
+      "description": "Builds the initial download request sent to a peer.",
       "disassembly": "evidence/reverse/disasm/peer_queue_download.txt"
     },
     {
@@ -52,7 +52,7 @@
       "symbol": "PeerMessenger::SendMessage(QTcpSocket*, MemStream&, bool)",
       "address": "0x00000001000a0328",
       "stage": "peer_tx",
-      "description": "Serializa mensajes sobre socket peer.",
+      "description": "Serializes messages on the peer socket.",
       "disassembly": "evidence/reverse/disasm/peer_send_message.txt"
     },
     {
@@ -60,7 +60,7 @@
       "symbol": "PeerMessenger::HandleMessage(QTcpSocket*, MemStream)",
       "address": "0x00000001000964ec",
       "stage": "peer_rx",
-      "description": "Despacha mensajes entrantes peer a manejadores de transferencia.",
+      "description": "Dispatches incoming peer messages to transfer handlers.",
       "disassembly": "evidence/reverse/disasm/peer_handle_message.txt"
     },
     {
@@ -68,7 +68,7 @@
       "symbol": "TransferQueueManager::OnQueueDownloadRequested(QString, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, long long)",
       "address": "0x00000001000f0478",
       "stage": "transfer_ctrl",
-      "description": "Materializa entrada de cola local y dispara conexion de archivo.",
+      "description": "Creates local queue entry and starts file connection flow.",
       "disassembly": "evidence/reverse/disasm/transfer_on_queue_download.txt"
     },
     {
@@ -76,7 +76,7 @@
       "symbol": "TransferQueueManager::OnFileTransferRequest(QString, int, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, long long)",
       "address": "0x00000001000d7114",
       "stage": "transfer_ctrl",
-      "description": "Negocia request/respuesta de transferencia con peer.",
+      "description": "Negotiates transfer request/response with peer.",
       "disassembly": "evidence/reverse/disasm/transfer_on_file_request.txt"
     },
     {
@@ -84,7 +84,7 @@
       "symbol": "DownloadTask::readSocket()",
       "address": "0x00000001000eb9fc",
       "stage": "download_rx",
-      "description": "Consume bytes del socket para escribir archivo destino.",
+      "description": "Consumes socket bytes and writes destination file.",
       "disassembly": "evidence/reverse/disasm/download_read_socket.txt"
     },
     {
@@ -92,7 +92,7 @@
       "symbol": "UploadTask::writeToSocket()",
       "address": "0x00000001000ea3cc",
       "stage": "upload_tx",
-      "description": "Publica bytes locales al peer remoto.",
+      "description": "Streams local bytes to the remote peer.",
       "disassembly": "evidence/reverse/disasm/upload_write_socket.txt"
     }
   ],
@@ -100,47 +100,47 @@
     {
       "from_id": "server_file_search",
       "to_id": "server_prepare_search",
-      "reason": "file_search prepara terminos antes de armar frame"
+      "reason": "file_search prepares terms before frame build"
     },
     {
       "from_id": "server_file_search",
       "to_id": "server_send_message",
-      "reason": "file_search termina en send_message"
+      "reason": "file_search ends in send_message"
     },
     {
       "from_id": "server_send_message",
       "to_id": "server_handle_message",
-      "reason": "request/response via socket servidor"
+      "reason": "request/response over server socket"
     },
     {
       "from_id": "peer_queue_download",
       "to_id": "transfer_on_queue_download",
-      "reason": "queue_download dispara alta en cola"
+      "reason": "queue_download creates transfer queue entry"
     },
     {
       "from_id": "transfer_on_queue_download",
       "to_id": "peer_send_message",
-      "reason": "cola de descarga emite request al peer"
+      "reason": "download queue emits request to peer"
     },
     {
       "from_id": "peer_send_message",
       "to_id": "peer_handle_message",
-      "reason": "response peer vuelve por handle_message"
+      "reason": "peer response returns through handle_message"
     },
     {
       "from_id": "peer_handle_message",
       "to_id": "transfer_on_file_request",
-      "reason": "dispatch de transfer_request"
+      "reason": "transfer_request dispatch"
     },
     {
       "from_id": "transfer_on_file_request",
       "to_id": "download_read_socket",
-      "reason": "request aceptado inicia descarga"
+      "reason": "accepted request starts download"
     },
     {
       "from_id": "transfer_on_file_request",
       "to_id": "upload_write_socket",
-      "reason": "request aceptado puede iniciar upload"
+      "reason": "accepted request may start upload"
     }
   ]
 }

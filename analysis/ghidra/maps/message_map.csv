@@ -3,10 +3,18 @@ server,1,SM_LOGIN,high,captures/redacted/login-only/official_frames.hex,verified
 server,2,SM_SET_WAIT_PORT,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,3,SM_GET_PEER_ADDRESS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,18,SM_CONNECT_TO_PEER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch and peer connect path.
+server,13,SM_SAY_CHATROOM,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session.
+server,14,SM_JOIN_ROOM,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime join-room request and server join payload during authenticated room session.
+server,15,SM_LEAVE_ROOM,high,captures/redacted/login-leave-room/official_frames.hex,verified_runtime,Observed runtime leave-room request and server leave acknowledgement payload.
+server,16,SM_USER_JOINED_ROOM,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime user-joined room presence events while watching authenticated room session.
+server,17,SM_USER_LEFT_ROOM,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime user-left room presence events while watching authenticated room session.
 server,26,SM_FILE_SEARCH,high,evidence/reverse/disasm/server_file_search.txt,verified_static,FileSearch writes constant 0x1a before Server::SendMessage.
+server,64,SM_ROOM_LIST,high,captures/redacted/login-room-list/official_frames.hex,verified_runtime,Observed runtime room list request/response flow with authenticated session.
 server,120,SM_SEARCH_ROOM,high,captures/redacted/login-search/official_frames.hex,verified_runtime,Observed outbound runtime frame in login-search scenario (code 120) with room+query payload.
 server,65,SM_EXACT_FILE_SEARCH,high,captures/redacted/login-search/official_frames.hex,verified_runtime,Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload.
 server,42,SM_SEARCH_USER_FILES,high,captures/redacted/login-search/official_frames.hex,verified_runtime,Observed outbound runtime frame in login-search scenario (code 42) with user+query payload.
+server,133,SM_ROOM_MEMBERS,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room-members request flow in authenticated room session.
+server,148,SM_ROOM_OPERATORS,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room-operators request flow in authenticated room session.
 server,22,SM_MESSAGE_USER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,23,SM_MESSAGE_ACKED,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.
 server,36,SM_GET_USER_STATS,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.

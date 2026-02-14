@@ -4,29 +4,29 @@
 
 - 2026-02-14
 
-## Scope Auditado
+## Audited Scope
 
 - Core P2P MVP:
-  - Login servidor.
-  - Búsqueda.
-  - Descarga single-file.
-  - Upload manual accept/deny.
-- Contrato de 25 mensajes core.
+  - Server login.
+  - Search.
+  - Single-file download.
+  - Manual accept/deny upload.
+- 25-message core protocol contract.
 
-## Resultado
+## Outcome
 
-- `message_map.csv`: `25/25` mensajes presentes.
-- Confianza: `high=25`, `medium=0`, `low=0`.
-- `message_schema.json`: cobertura `25/25` con evidencia enlazada.
-- `scripts/run_diff_verify.sh`: fixture diff + capture diff por escenario obligatorio.
-- `scripts/run_regression.sh`: verde con Python + Rust + KB validate + diff verify.
-- `captures/redacted/*`: reemplazado con runs runtime derivados desde `captures/raw/*`.
+- `message_map.csv`: `25/25` core messages present.
+- Confidence split: `high=25`, `medium=0`, `low=0`.
+- `message_schema.json`: `25/25` core coverage with linked evidence.
+- `scripts/run_diff_verify.sh`: fixture diff + capture diff over mandatory scenarios.
+- `scripts/run_regression.sh`: green with Python + Rust + KB validate + diff verify.
+- `captures/redacted/*`: refreshed from runtime runs derived from `captures/raw/*`.
 
-## Gaps abiertos
+## Open Gaps at Stage 2 Closure
 
-1. [Closed in Stage 3A] Tuple autenticado aceptado: `160/1`.
-2. [Closed in Stage 3A] Differential extendido a normalización semántica por campo.
+1. [Closed in Stage 3A] Accepted authenticated tuple: `160/1`.
+2. [Closed in Stage 3A] Differential verifier extended with semantic field-level normalization.
 
-## Recomendación siguiente
+## Next Recommendation from Stage 2 Audit
 
-- Resolver tuple de versión de login aceptada por servidor y repetir lote login/search/download con sesión autenticada completa.
+- Resolve accepted login tuple on official server and rerun login/search/download batch with fully authenticated sessions.

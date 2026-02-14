@@ -319,7 +319,9 @@ fn decode_hex(input: &str) -> Result<Vec<u8>> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use protocol::{CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED};
+    use protocol::{
+        CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED, CODE_SM_USER_JOINED_ROOM, PayloadWriter,
+    };
 
     fn transfer_response_frame_bytes(token: u32, allowed_raw: u32) -> Vec<u8> {
         let mut payload = Vec::new();
@@ -333,6 +335,13 @@ mod tests {
         let mut payload = Vec::new();
         payload.extend_from_slice(&speed.to_le_bytes());
         Frame::new(CODE_SM_DOWNLOAD_SPEED, payload).encode()
+    }
+
+    fn room_presence_frame_bytes(room: &str, username: &str) -> Vec<u8> {
+        let mut writer = PayloadWriter::new();
+        writer.write_string(room);
+        writer.write_string(username);
+        Frame::new(CODE_SM_USER_JOINED_ROOM, writer.into_inner()).encode()
     }
 
     #[test]
@@ -401,6 +410,29 @@ mod tests {
                 .as_deref()
                 .unwrap_or_default()
                 .contains("bytes_per_sec")
+        );
+    }
+
+    #[test]
+    fn semantic_mode_reports_room_presence_field_diff() {
+        let official = vec![room_presence_frame_bytes("nicotine", "alice")];
+        let neo = vec![room_presence_frame_bytes("nicotine", "bob")];
+        let report = compare_capture_sequences_with_mode(
+            "run-room-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        assert!(!report.frame_comparisons[0].semantic_matches);
+        assert!(
+            report.frame_comparisons[0]
+                .semantic_first_diff_field
+                .as_deref()
+                .unwrap_or_default()
+                .contains("username")
         );
     }
 }

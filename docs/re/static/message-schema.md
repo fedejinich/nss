@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T13:54:28+00:00`
+- Generated: `2026-02-14T14:44:43+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -132,6 +132,46 @@
 - Evidence:
   - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
 
+### `server` `SM_SAY_CHATROOM` (code `13`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `username`: `optional_string`
+  - `message`: `string`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session.)
+
+### `server` `SM_JOIN_ROOM` (code `14`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `users`: `array<string>`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime join-room request and server join payload during authenticated room session.)
+
+### `server` `SM_LEAVE_ROOM` (code `15`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-leave-room/official_frames.hex` (Observed runtime leave-room request and server leave acknowledgement payload.)
+
+### `server` `SM_USER_JOINED_ROOM` (code `16`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime user-joined room presence events while watching authenticated room session.)
+
+### `server` `SM_USER_LEFT_ROOM` (code `17`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime user-left room presence events while watching authenticated room session.)
+
 ### `server` `SM_CONNECT_TO_PEER` (code `18`)
 - Confidence: `high`
 - Payload fields:
@@ -196,6 +236,14 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 42) with user+query payload.)
 
+### `server` `SM_ROOM_LIST` (code `64`)
+- Confidence: `high`
+- Payload fields:
+  - `room_count`: `u32`
+  - `rooms`: `array<string>`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-room-list/official_frames.hex` (Observed runtime room list request/response flow with authenticated session.)
+
 ### `server` `SM_EXACT_FILE_SEARCH` (code `65`)
 - Confidence: `high`
 - Payload fields:
@@ -217,4 +265,20 @@
   - `bytes_per_sec`: `u32`
 - Evidence:
   - `string`: `evidence/reverse/message_name_strings.txt` (String present and mirrored by upload code paths.)
+
+### `server` `SM_ROOM_MEMBERS` (code `133`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `users`: `array<string>`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime room-members request flow in authenticated room session.)
+
+### `server` `SM_ROOM_OPERATORS` (code `148`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `operators`: `array<string>`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime room-operators request flow in authenticated room session.)
 
