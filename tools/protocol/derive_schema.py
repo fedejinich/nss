@@ -62,18 +62,27 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_EXACT_FILE_SEARCH"): 65,
     ("server", "SM_SEARCH_ROOM"): 120,
     ("server", "SM_UPLOAD_SPEED"): 121,
+    ("server", "SM_ADD_ROOM_MEMBER"): 134,
+    ("server", "SM_REMOVE_ROOM_MEMBER"): 135,
+    ("server", "SM_ADD_ROOM_OPERATOR"): 143,
+    ("server", "SM_REMOVE_ROOM_OPERATOR"): 144,
     ("server", "SM_ROOM_MEMBERS"): 133,
     ("server", "SM_ROOM_OPERATORS"): 148,
     ("peer", "PM_GET_SHARED_FILE_LIST"): 4,
     ("peer", "PM_SHARED_FILE_LIST"): 5,
     ("peer", "PM_FILE_SEARCH_REQUEST"): 8,
     ("peer", "PM_FILE_SEARCH_RESULT"): 9,
+    ("peer", "PM_USER_INFO_REQUEST"): 15,
+    ("peer", "PM_USER_INFO_REPLY"): 16,
     ("peer", "PM_TRANSFER_REQUEST"): 40,
     ("peer", "PM_TRANSFER_RESPONSE"): 41,
     ("peer", "PM_QUEUE_UPLOAD"): 43,
     ("peer", "PM_UPLOAD_PLACE_IN_LINE"): 44,
+    ("peer", "PM_EXACT_FILE_SEARCH_REQUEST"): 47,
+    ("peer", "PM_INDIRECT_FILE_SEARCH_REQUEST"): 49,
     ("peer", "PM_UPLOAD_FAILED"): 46,
     ("peer", "PM_UPLOAD_DENIED"): 50,
+    ("peer", "PM_UPLOAD_PLACE_IN_LINE_REQUEST"): 51,
 }
 
 KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
@@ -164,6 +173,22 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "unrecommendation.term", "type": "string"},
         {"name": "unrecommendation.score", "type": "i32"},
     ],
+    ("server", "SM_ADD_ROOM_MEMBER"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+    ],
+    ("server", "SM_REMOVE_ROOM_MEMBER"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+    ],
+    ("server", "SM_ADD_ROOM_OPERATOR"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+    ],
+    ("server", "SM_REMOVE_ROOM_OPERATOR"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+    ],
     ("server", "SM_ROOM_MEMBERS"): [
         {"name": "room", "type": "string"},
         {"name": "users", "type": "array<string>"},
@@ -200,6 +225,16 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "username", "type": "string"},
         {"name": "result_count", "type": "u32"},
     ],
+    ("peer", "PM_USER_INFO_REQUEST"): [],
+    ("peer", "PM_USER_INFO_REPLY"): [
+        {"name": "description", "type": "string"},
+        {"name": "has_picture", "type": "bool_u8"},
+        {"name": "picture", "type": "bytes_len_prefixed"},
+        {"name": "total_uploads", "type": "u32"},
+        {"name": "queue_size", "type": "u32"},
+        {"name": "slots_free", "type": "bool_u8"},
+        {"name": "upload_permissions", "type": "optional_u32"},
+    ],
     ("peer", "PM_TRANSFER_REQUEST"): [
         {"name": "direction", "type": "enum_u32"},
         {"name": "token", "type": "u32"},
@@ -229,6 +264,17 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "username", "type": "string"},
         {"name": "virtual_path", "type": "string"},
         {"name": "reason", "type": "string"},
+    ],
+    ("peer", "PM_EXACT_FILE_SEARCH_REQUEST"): [
+        {"name": "token", "type": "optional_u32"},
+        {"name": "query", "type": "string"},
+    ],
+    ("peer", "PM_INDIRECT_FILE_SEARCH_REQUEST"): [
+        {"name": "token", "type": "optional_u32"},
+        {"name": "query", "type": "string"},
+    ],
+    ("peer", "PM_UPLOAD_PLACE_IN_LINE_REQUEST"): [
+        {"name": "virtual_path", "type": "string"},
     ],
 }
 
@@ -310,6 +356,114 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "kind": "spec",
             "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
             "note": "Protocol list documents user recommendation/interests message mapping.",
+        },
+    ],
+    ("server", "SM_ADD_ROOM_MEMBER"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_ADD_ROOM_MEMBER.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 134 documents AddUserToPrivileged operation with room+username fields.",
+        },
+    ],
+    ("server", "SM_REMOVE_ROOM_MEMBER"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_REMOVE_ROOM_MEMBER.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 135 documents RemoveUserFromPrivileged operation with room+username fields.",
+        },
+    ],
+    ("server", "SM_ADD_ROOM_OPERATOR"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_ADD_ROOM_OPERATOR.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 143 documents AddOperatorToPrivileged operation with room+username fields.",
+        },
+    ],
+    ("server", "SM_REMOVE_ROOM_OPERATOR"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/message_name_strings.txt",
+            "note": "Server string table includes SM_REMOVE_ROOM_OPERATOR.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Server code 144 documents RemoveOperatorFromPrivileged operation with room+username fields.",
+        },
+    ],
+    ("peer", "PM_USER_INFO_REQUEST"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+            "note": "Peer MessageCodeToString includes PM_USER_INFO_REQUEST.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Peer code 15 documents user info request as empty payload.",
+        },
+    ],
+    ("peer", "PM_USER_INFO_REPLY"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+            "note": "Peer MessageCodeToString includes PM_USER_INFO_REPLY.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Peer code 16 documents user info reply payload fields.",
+        },
+    ],
+    ("peer", "PM_EXACT_FILE_SEARCH_REQUEST"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+            "note": "Peer MessageCodeToString includes PM_EXACT_FILE_SEARCH_REQUEST.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Peer code list includes code 47 for ExactFileSearchRequest (legacy/obsolete family).",
+        },
+    ],
+    ("peer", "PM_INDIRECT_FILE_SEARCH_REQUEST"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+            "note": "Peer MessageCodeToString includes PM_INDIRECT_FILE_SEARCH_REQUEST.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Peer code list includes code 49 for IndirectFileSearchRequest (legacy/obsolete family).",
+        },
+    ],
+    ("peer", "PM_UPLOAD_PLACE_IN_LINE_REQUEST"): [
+        {
+            "kind": "string",
+            "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+            "note": "Peer MessageCodeToString includes PM_UPLOAD_PLACE_IN_LINE_REQUEST.",
+        },
+        {
+            "kind": "spec",
+            "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+            "note": "Peer code 51 documents place-in-line request carrying filename/path.",
         },
     ],
     ("peer", "PM_TRANSFER_REQUEST"): [

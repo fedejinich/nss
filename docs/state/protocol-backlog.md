@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4A)
+# Protocol Backlog (Post S4B)
 
 ## Objective
 
@@ -25,20 +25,35 @@ Continue protocol mapping toward full coverage by functional domains while keepi
 
 Status: completed in S4A with runtime-authenticated evidence and semantic verification coverage.
 
-## S4B Candidate Batch - Peer Advanced
+## Completed in S4B (Peer Advanced + Room Moderation Batch)
 
 - `PM_USER_INFO_REQUEST`
 - `PM_USER_INFO_REPLY`
 - `PM_EXACT_FILE_SEARCH_REQUEST`
 - `PM_INDIRECT_FILE_SEARCH_REQUEST`
 - `PM_UPLOAD_PLACE_IN_LINE_REQUEST`
-
-## S4B Candidate Batch - Room Moderation (Deferred from S3B)
-
 - `SM_ADD_ROOM_MEMBER`
 - `SM_REMOVE_ROOM_MEMBER`
 - `SM_ADD_ROOM_OPERATOR`
 - `SM_REMOVE_ROOM_OPERATOR`
+
+Status: completed in S4B with static/spec evidence, runtime captures (`login-room-moderation`, `peer-advanced-local`), protocol implementation, and semantic differential verification.
+
+## S4C Candidate Batch - Privileges and Social Control
+
+- `SM_BAN_USER`
+- `SM_GET_USER_PRIVILEGES_STATUS`
+- `SM_GET_OWN_PRIVILEGES_STATUS`
+- `SM_GIVE_PRIVILEGE`
+- `SM_INFORM_USER_OF_PRIVILEGES`
+- `SM_INFORM_USER_OF_PRIVILEGES_ACK`
+- `SM_IGNORE_USER`
+- `SM_UNIGNORE_USER`
+
+## S4C Candidate Batch - Peer Folder Domain
+
+- `PM_GET_SHARED_FILES_IN_FOLDER`
+- `PM_SHARED_FILES_IN_FOLDER`
 
 ## Execution Strategy
 
@@ -52,4 +67,4 @@ Status: completed in S4A with runtime-authenticated evidence and semantic verifi
 
 ## Next Session Entry Point
 
-S4B should start with peer-advanced request/response mapping because it unlocks richer peer feature parity while reusing the existing S3A/S3B/S4A semantic verification pipeline.
+Start S4C with privileges/social-control messages because they are high-impact for real account behavior and reuse the same authenticated runtime harness established in S3A/S4A/S4B.

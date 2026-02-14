@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T15:10:04+00:00`
+- Generated: `2026-02-14T15:34:11+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -40,6 +40,29 @@
   - `result_count`: `u32`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-search-download/official_frames.hex` (Observed inbound runtime frame in login-search-download scenario (code 9) with token+user+result_count.)
+
+### `peer` `PM_USER_INFO_REQUEST` (code `15`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 15 UserInfoRequest with empty payload; symbol confirmed in peer message code table.)
+  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_USER_INFO_REQUEST.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 15 documents user info request as empty payload.)
+
+### `peer` `PM_USER_INFO_REPLY` (code `16`)
+- Confidence: `high`
+- Payload fields:
+  - `description`: `string`
+  - `has_picture`: `bool_u8`
+  - `picture`: `bytes_len_prefixed`
+  - `total_uploads`: `u32`
+  - `queue_size`: `u32`
+  - `slots_free`: `bool_u8`
+  - `upload_permissions`: `optional_u32`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 16 UserInfoReply with description/picture/uploads/queue/slots fields; symbol confirmed in peer message code table.)
+  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_USER_INFO_REPLY.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 16 documents user info reply payload fields.)
 
 ### `peer` `PM_TRANSFER_REQUEST` (code `40`)
 - Confidence: `high`
@@ -90,6 +113,26 @@
   - `runtime_capture`: `captures/redacted/upload-deny/official_frames.hex` (Observed inbound runtime frame in upload-deny scenario (code 46) with failure reason payload.)
   - `ghidra_decompile`: `evidence/reverse/disasm/upload_write_socket.txt` (Upload send path emits failure branch when transfer cannot continue.)
 
+### `peer` `PM_EXACT_FILE_SEARCH_REQUEST` (code `47`)
+- Confidence: `medium`
+- Payload fields:
+  - `token`: `optional_u32`
+  - `query`: `string`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code list maps 47 to ExactFileSearchRequest; payload shape treated as legacy optional-token+query until runtime evidence is captured.)
+  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_EXACT_FILE_SEARCH_REQUEST.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code list includes code 47 for ExactFileSearchRequest (legacy/obsolete family).)
+
+### `peer` `PM_INDIRECT_FILE_SEARCH_REQUEST` (code `49`)
+- Confidence: `medium`
+- Payload fields:
+  - `token`: `optional_u32`
+  - `query`: `string`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code list maps 49 to IndirectFileSearchRequest; payload shape treated as legacy optional-token+query until runtime evidence is captured.)
+  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_INDIRECT_FILE_SEARCH_REQUEST.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code list includes code 49 for IndirectFileSearchRequest (legacy/obsolete family).)
+
 ### `peer` `PM_UPLOAD_DENIED` (code `50`)
 - Confidence: `high`
 - Payload fields:
@@ -99,6 +142,15 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/upload-deny/official_frames.hex` (Observed inbound runtime frame in upload-deny scenario (code 50) with deny reason payload.)
   - `ghidra_decompile`: `evidence/reverse/disasm/upload_write_socket.txt` (Upload send path emits deny branch for rejected requests.)
+
+### `peer` `PM_UPLOAD_PLACE_IN_LINE_REQUEST` (code `51`)
+- Confidence: `high`
+- Payload fields:
+  - `virtual_path`: `string`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 51 PlaceInQueueRequest with filename/path payload; symbol confirmed in peer message code table.)
+  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_UPLOAD_PLACE_IN_LINE_REQUEST.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 51 documents place-in-line request carrying filename/path.)
 
 ### `server` `SM_LOGIN` (code `1`)
 - Confidence: `high`
@@ -342,6 +394,46 @@
   - `users`: `array<string>`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-join-room-presence/official_frames.hex` (Observed runtime room-members request flow in authenticated room session.)
+
+### `server` `SM_ADD_ROOM_MEMBER` (code `134`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 134 AddUserToPrivileged with room+username payload; symbol confirmed in binary string table.)
+  - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_ADD_ROOM_MEMBER.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 134 documents AddUserToPrivileged operation with room+username fields.)
+
+### `server` `SM_REMOVE_ROOM_MEMBER` (code `135`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 135 RemoveUserFromPrivileged with room+username payload; symbol confirmed in binary string table.)
+  - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_REMOVE_ROOM_MEMBER.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 135 documents RemoveUserFromPrivileged operation with room+username fields.)
+
+### `server` `SM_ADD_ROOM_OPERATOR` (code `143`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 143 AddOperatorToPrivileged with room+username payload; symbol confirmed in binary string table.)
+  - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_ADD_ROOM_OPERATOR.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 143 documents AddOperatorToPrivileged operation with room+username fields.)
+
+### `server` `SM_REMOVE_ROOM_OPERATOR` (code `144`)
+- Confidence: `high`
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
+- Evidence:
+  - `manual_note`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 144 RemoveOperatorFromPrivileged with room+username payload; symbol confirmed in binary string table.)
+  - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_REMOVE_ROOM_OPERATOR.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 144 documents RemoveOperatorFromPrivileged operation with room+username fields.)
 
 ### `server` `SM_ROOM_OPERATORS` (code `148`)
 - Confidence: `high`

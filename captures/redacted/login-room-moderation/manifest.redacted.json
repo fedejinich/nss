@@ -1,0 +1,24 @@
+{
+  "run_id": "login-room-moderation",
+  "scenario": "login-room-moderation",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-14T15:33:24+00:00",
+  "server": "<redacted:endpoint:f5849c83fca3>",
+  "frame_count": 12,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:a0b4954a8228>",
+    "neo_frames_raw": "<redacted:path:6a3697b225de>",
+    "frida_events_raw": "<redacted:path:2971db6cca17>"
+  },
+  "notes": "Stage 4B runtime capture generated for peer-advanced and room-moderation message mapping.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T15:33:29+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-room-moderation",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

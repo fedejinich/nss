@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity for Stage 4A (Recommendations/Discovery batch) while preserving all previous stage guarantees.
+Ensure evidence traceability and semantic protocol parity for Stage 4B (Peer advanced + room moderation batch) while preserving all previous stage guarantees.
 
 ## Validation Gates
 
@@ -39,6 +39,8 @@ Runs:
    - `login-recommendations`
    - `login-user-recommendations`
    - `login-similar-terms`
+   - `login-room-moderation`
+   - `peer-advanced-local`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -55,43 +57,49 @@ Includes:
 4. Differential verification gate.
 5. Zensical build check (if available).
 
-## Stage 4A Coverage Status
+## Stage 4B Coverage Status
 
-S4A 5-message discovery pack is present in:
+S4B 9-message batch is present in:
 
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
 
 Messages:
 
-- `SM_GET_SIMILAR_TERMS`
-- `SM_GET_RECOMMENDATIONS`
-- `SM_GET_MY_RECOMMENDATIONS`
-- `SM_GET_GLOBAL_RECOMMENDATIONS`
-- `SM_GET_USER_RECOMMENDATIONS`
+- `SM_ADD_ROOM_MEMBER`
+- `SM_REMOVE_ROOM_MEMBER`
+- `SM_ADD_ROOM_OPERATOR`
+- `SM_REMOVE_ROOM_OPERATOR`
+- `PM_USER_INFO_REQUEST`
+- `PM_USER_INFO_REPLY`
+- `PM_EXACT_FILE_SEARCH_REQUEST`
+- `PM_INDIRECT_FILE_SEARCH_REQUEST`
+- `PM_UPLOAD_PLACE_IN_LINE_REQUEST`
 
-Confidence distribution for S4A batch:
+Confidence distribution for S4B batch:
 
-- `high=5`
-- `medium=0`
+- `high=7`
+- `medium=2`
 - `low=0`
+
+Protocol matrix status:
+
+- Tracked message names from static string tables: `130`
+- Implemented + mapped: `47`
+- Missing: `83`
+- Matrix source: `docs/state/protocol-matrix.md`
 
 ## Runtime Evidence Snapshot
 
 - Official server: `server.slsknet.org:2242`
 - Auth tuple used: `160/1`
-- Discovery commands validated against authenticated runtime session:
-  - `discover recommendations`
-  - `discover mine`
-  - `discover global`
-  - `discover user --target-user <name>`
-  - `discover similar-terms --term <term>`
-- S4A runtime redacted runs:
-  - `captures/redacted/login-recommendations`
-  - `captures/redacted/login-user-recommendations`
-  - `captures/redacted/login-similar-terms`
+- S4B runtime redacted runs:
+  - `captures/redacted/login-room-moderation`
+  - `captures/redacted/peer-advanced-local`
+- Room moderation runtime scenario includes authenticated outbound frames for codes `134`, `135`, `143`, `144`.
+- Peer advanced deterministic runtime scenario includes peer frames `15`, `16`, `47`, `49`, `51`.
 
 ## Residual Risk
 
-- Recommendation/discovery payload parsing is summary-oriented and intentionally tolerant to preserve runtime compatibility while mapping coverage improves.
-- Additional optional fields in recommendation payloads may still exist and are candidates for deeper parsing in S4B/S4C iterations.
+- `PM_EXACT_FILE_SEARCH_REQUEST` and `PM_INDIRECT_FILE_SEARCH_REQUEST` remain `medium` confidence until live runtime captures are available from peers emitting those legacy flows.
+- `PM_USER_INFO_REPLY` optional tail fields can vary by client version; parser intentionally tolerates optional trailing fields for compatibility.

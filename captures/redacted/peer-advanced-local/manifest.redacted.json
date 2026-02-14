@@ -1,0 +1,24 @@
+{
+  "run_id": "peer-advanced-local",
+  "scenario": "peer-advanced-local",
+  "source_type": "runtime_peer_local_deterministic",
+  "created_at": "2026-02-14T15:33:24+00:00",
+  "server": "<redacted:endpoint:eb4fac1d6c50>",
+  "frame_count": 5,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:13f2d229f3bd>",
+    "neo_frames_raw": "<redacted:path:02793611d6b4>",
+    "frida_events_raw": "<redacted:path:c8c897b9e187>"
+  },
+  "notes": "Stage 4B runtime capture generated for peer-advanced and room-moderation message mapping.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T15:33:29+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-advanced-local",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

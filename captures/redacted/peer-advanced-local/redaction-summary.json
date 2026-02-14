@@ -1,0 +1,16 @@
+{
+  "run_id": "peer-advanced-local",
+  "created_at": "2026-02-14T15:33:29+00:00",
+  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-advanced-local",
+  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-advanced-local",
+  "stats": {
+    "endpoint": 1,
+    "path": 3
+  },
+  "artifacts": {
+    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-advanced-local/manifest.redacted.json",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-advanced-local/frida-events.redacted.jsonl",
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-advanced-local/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-advanced-local/neo_frames.hex"
+  }
+}

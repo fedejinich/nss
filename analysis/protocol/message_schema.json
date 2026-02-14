@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T15:10:04+00:00",
+  "generated_at": "2026-02-14T15:34:11+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -123,6 +123,83 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-search-download/official_frames.hex",
           "note": "Observed inbound runtime frame in login-search-download scenario (code 9) with token+user+result_count."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 15,
+      "name": "PM_USER_INFO_REQUEST",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code 15 UserInfoRequest with empty payload; symbol confirmed in peer message code table."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Peer MessageCodeToString includes PM_USER_INFO_REQUEST."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code 15 documents user info request as empty payload."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 16,
+      "name": "PM_USER_INFO_REPLY",
+      "payload": [
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "has_picture",
+          "type": "bool_u8"
+        },
+        {
+          "name": "picture",
+          "type": "bytes_len_prefixed"
+        },
+        {
+          "name": "total_uploads",
+          "type": "u32"
+        },
+        {
+          "name": "queue_size",
+          "type": "u32"
+        },
+        {
+          "name": "slots_free",
+          "type": "bool_u8"
+        },
+        {
+          "name": "upload_permissions",
+          "type": "optional_u32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code 16 UserInfoReply with description/picture/uploads/queue/slots fields; symbol confirmed in peer message code table."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Peer MessageCodeToString includes PM_USER_INFO_REPLY."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code 16 documents user info reply payload fields."
         }
       ]
     },
@@ -283,6 +360,72 @@
     },
     {
       "scope": "peer",
+      "code": 47,
+      "name": "PM_EXACT_FILE_SEARCH_REQUEST",
+      "payload": [
+        {
+          "name": "token",
+          "type": "optional_u32"
+        },
+        {
+          "name": "query",
+          "type": "string"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code list maps 47 to ExactFileSearchRequest; payload shape treated as legacy optional-token+query until runtime evidence is captured."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Peer MessageCodeToString includes PM_EXACT_FILE_SEARCH_REQUEST."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code list includes code 47 for ExactFileSearchRequest (legacy/obsolete family)."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 49,
+      "name": "PM_INDIRECT_FILE_SEARCH_REQUEST",
+      "payload": [
+        {
+          "name": "token",
+          "type": "optional_u32"
+        },
+        {
+          "name": "query",
+          "type": "string"
+        }
+      ],
+      "confidence": "medium",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code list maps 49 to IndirectFileSearchRequest; payload shape treated as legacy optional-token+query until runtime evidence is captured."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Peer MessageCodeToString includes PM_INDIRECT_FILE_SEARCH_REQUEST."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code list includes code 49 for IndirectFileSearchRequest (legacy/obsolete family)."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
       "code": 50,
       "name": "PM_UPLOAD_DENIED",
       "payload": [
@@ -310,6 +453,35 @@
           "kind": "ghidra_decompile",
           "source": "evidence/reverse/disasm/upload_write_socket.txt",
           "note": "Upload send path emits deny branch for rejected requests."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 51,
+      "name": "PM_UPLOAD_PLACE_IN_LINE_REQUEST",
+      "payload": [
+        {
+          "name": "virtual_path",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code 51 PlaceInQueueRequest with filename/path payload; symbol confirmed in peer message code table."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/peer_messagecodetostring_otool.txt",
+          "note": "Peer MessageCodeToString includes PM_UPLOAD_PLACE_IN_LINE_REQUEST."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Peer code 51 documents place-in-line request carrying filename/path."
         }
       ]
     },
@@ -1052,6 +1224,138 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-join-room-presence/official_frames.hex",
           "note": "Observed runtime room-members request flow in authenticated room session."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 134,
+      "name": "SM_ADD_ROOM_MEMBER",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 134 AddUserToPrivileged with room+username payload; symbol confirmed in binary string table."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "Server string table includes SM_ADD_ROOM_MEMBER."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 134 documents AddUserToPrivileged operation with room+username fields."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 135,
+      "name": "SM_REMOVE_ROOM_MEMBER",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 135 RemoveUserFromPrivileged with room+username payload; symbol confirmed in binary string table."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "Server string table includes SM_REMOVE_ROOM_MEMBER."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 135 documents RemoveUserFromPrivileged operation with room+username fields."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 143,
+      "name": "SM_ADD_ROOM_OPERATOR",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 143 AddOperatorToPrivileged with room+username payload; symbol confirmed in binary string table."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "Server string table includes SM_ADD_ROOM_OPERATOR."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 143 documents AddOperatorToPrivileged operation with room+username fields."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 144,
+      "name": "SM_REMOVE_ROOM_OPERATOR",
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 144 RemoveOperatorFromPrivileged with room+username payload; symbol confirmed in binary string table."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "Server string table includes SM_REMOVE_ROOM_OPERATOR."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Server code 144 documents RemoveOperatorFromPrivileged operation with room+username fields."
         }
       ]
     },

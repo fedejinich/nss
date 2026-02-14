@@ -16,6 +16,8 @@ REQUIRED_RUNS=(
   "login-recommendations"
   "login-user-recommendations"
   "login-similar-terms"
+  "login-room-moderation"
+  "peer-advanced-local"
 )
 
 cd "${ROOT_DIR}/rust"
