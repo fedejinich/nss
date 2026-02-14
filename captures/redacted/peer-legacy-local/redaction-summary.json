@@ -1,0 +1,16 @@
+{
+  "run_id": "peer-legacy-local",
+  "created_at": "2026-02-14T17:27:40+00:00",
+  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-legacy-local",
+  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-legacy-local",
+  "stats": {
+    "endpoint": 1,
+    "path": 4
+  },
+  "artifacts": {
+    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-legacy-local/manifest.redacted.json",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-legacy-local/frida-events.redacted.jsonl",
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-legacy-local/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-legacy-local/neo_frames.hex"
+  }
+}

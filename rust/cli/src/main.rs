@@ -207,6 +207,40 @@ enum SessionCommand {
         #[arg(long, default_value_t = 1)]
         minor_version: u32,
     },
+    BanUser {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        target_user: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
+    PrivilegedList {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
     OwnPrivileges {
         #[arg(long)]
         server: Option<String>,
@@ -609,6 +643,64 @@ enum DiscoverCommand {
         #[arg(long)]
         verbose: bool,
     },
+    RecommendedUsers {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
+    TermRecommendations {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        term: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
+    RecommendationUsers {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        term: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long, default_value_t = 5)]
+        timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
 }
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
@@ -810,6 +902,45 @@ async fn main() -> Result<()> {
                 )
                 .await?;
                 run_unignore_user(&mut client, &target_user).await?;
+            }
+            SessionCommand::BanUser {
+                server,
+                username,
+                password,
+                password_md5,
+                target_user,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_ban_user(&mut client, &target_user).await?;
+            }
+            SessionCommand::PrivilegedList {
+                server,
+                username,
+                password,
+                password_md5,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_privileged_list(&mut client, timeout_secs, verbose).await?;
             }
             SessionCommand::OwnPrivileges {
                 server,
@@ -1236,6 +1367,70 @@ async fn main() -> Result<()> {
                 .await?;
                 run_discover_similar_terms(&mut client, &term, timeout_secs, verbose).await?;
             }
+            DiscoverCommand::RecommendedUsers {
+                server,
+                username,
+                password,
+                password_md5,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_recommended_users(&mut client, timeout_secs, verbose).await?;
+            }
+            DiscoverCommand::TermRecommendations {
+                server,
+                username,
+                password,
+                password_md5,
+                term,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_term_recommendations(&mut client, &term, timeout_secs, verbose)
+                    .await?;
+            }
+            DiscoverCommand::RecommendationUsers {
+                server,
+                username,
+                password,
+                password_md5,
+                term,
+                client_version,
+                minor_version,
+                timeout_secs,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_recommendation_users(&mut client, &term, timeout_secs, verbose)
+                    .await?;
+            }
         },
         Commands::Verify { command } => match command {
             VerifyCommand::Fixtures {
@@ -1437,6 +1632,32 @@ async fn run_ignore_user(client: &mut SessionClient, target_user: &str) -> Resul
 async fn run_unignore_user(client: &mut SessionClient, target_user: &str) -> Result<()> {
     client.unignore_user(target_user).await?;
     println!("session.unignore-user sent target_user={}", target_user);
+    Ok(())
+}
+
+async fn run_ban_user(client: &mut SessionClient, target_user: &str) -> Result<()> {
+    client.ban_user(target_user).await?;
+    println!("session.ban-user sent target_user={}", target_user);
+    Ok(())
+}
+
+async fn run_privileged_list(
+    client: &mut SessionClient,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_privileged_list(Duration::from_secs(timeout_secs))
+        .await?;
+    let sample = payload.users.iter().take(5).cloned().collect::<Vec<_>>();
+    println!(
+        "session.privileged-list ok users={} sample={}",
+        payload.users.len(),
+        sample.join(", ")
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
     Ok(())
 }
 
@@ -1740,6 +1961,15 @@ fn summarize_recommendation_terms(entries: &[protocol::RecommendationEntry]) -> 
         .join(", ")
 }
 
+fn summarize_scored_users(entries: &[protocol::ScoredUserEntry]) -> String {
+    entries
+        .iter()
+        .take(5)
+        .map(|entry| format!("{}:{}", entry.username, entry.score))
+        .collect::<Vec<_>>()
+        .join(", ")
+}
+
 fn print_recommendations_summary(
     label: &str,
     payload: &protocol::RecommendationsPayload,
@@ -1828,6 +2058,67 @@ async fn run_discover_similar_terms(
         payload.term,
         payload.entries.len(),
         summarize_recommendation_terms(&payload.entries),
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_discover_recommended_users(
+    client: &mut SessionClient,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_recommended_users(Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "discover.recommended-users ok users={} sample={}",
+        payload.users.len(),
+        summarize_scored_users(&payload.users),
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_discover_term_recommendations(
+    client: &mut SessionClient,
+    term: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_term_recommendations(term, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "discover.term-recommendations ok term={} entries={} sample={}",
+        payload.term,
+        payload.recommendations.len(),
+        summarize_recommendation_terms(&payload.recommendations),
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_discover_recommendation_users(
+    client: &mut SessionClient,
+    term: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    let payload = client
+        .get_recommendation_users(term, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "discover.recommendation-users ok term={} users={} sample={}",
+        payload.term,
+        payload.users.len(),
+        summarize_scored_users(&payload.users),
     );
     if verbose {
         println!("{payload:#?}");

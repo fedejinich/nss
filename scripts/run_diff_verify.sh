@@ -20,6 +20,8 @@ REQUIRED_RUNS=(
   "peer-advanced-local"
   "login-privileges-social"
   "peer-folder-local"
+  "login-privilege-messaging"
+  "peer-legacy-local"
 )
 
 cd "${ROOT_DIR}/rust"

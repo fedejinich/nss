@@ -57,10 +57,10 @@ No approved data labels yet.
 
 Review queue is empty.
 
-## Protocol Coverage (Stage 2)
+## Protocol Coverage Snapshot
 
-- Message rows: `56`
-- Confidence split: `high=53` `medium=3` `low=0`
+- Message rows: `65`
+- Confidence split: `high=64` `medium=1` `low=0`
 - Latest mapped messages:
   - `server` `SM_LOGIN` code `1` confidence `high`
   - `server` `SM_SET_WAIT_PORT` code `2` confidence `high`
@@ -81,9 +81,9 @@ Review queue is empty.
   - `server` `SM_GET_MY_RECOMMENDATIONS` code `55` confidence `high`
   - `server` `SM_GET_GLOBAL_RECOMMENDATIONS` code `56` confidence `high`
   - `server` `SM_GET_USER_RECOMMENDATIONS` code `57` confidence `high`
+  - `server` `SM_PRIVILEGED_LIST` code `69` confidence `high`
+  - `server` `SM_GET_RECOMMENDED_USERS` code `110` confidence `high`
+  - `server` `SM_GET_TERM_RECOMMENDATIONS` code `111` confidence `high`
+  - `server` `SM_GET_RECOMMENDATION_USERS` code `112` confidence `high`
   - `server` `SM_ROOM_MEMBERS` code `133` confidence `high`
   - `server` `SM_ROOM_OPERATORS` code `148` confidence `high`
-  - `server` `SM_MESSAGE_USER` code `22` confidence `high`
-  - `server` `SM_MESSAGE_ACKED` code `23` confidence `high`
-  - `server` `SM_GET_USER_STATS` code `36` confidence `high`
-  - `server` `SM_GET_USER_STATUS` code `7` confidence `high`

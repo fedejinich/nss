@@ -13,43 +13,45 @@
 - Stage 4A complete: Recommendations/Discovery batch with runtime-authenticated evidence and CLI support.
 - Stage 4B complete: Peer advanced + room moderation batch with protocol matrix publication and runtime evidence.
 - Stage 4C complete: Privileges/social control + peer-folder batch with runtime evidence and CLI support.
+- Stage 4D complete: privilege/messaging gaps + peer legacy cleanup with runtime captures, protocol promotion, and CLI support.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
-## Stage 4C Completion
+## Stage 4D Completion
 
-1. Expanded protocol mapping from 47 to 56 rows (`+9` S4C messages):
-   - `SM_IGNORE_USER`
-   - `SM_UNIGNORE_USER`
-   - `SM_GET_OWN_PRIVILEGES_STATUS`
-   - `SM_GET_USER_PRIVILEGES_STATUS`
-   - `SM_GIVE_PRIVILEGE`
-   - `SM_INFORM_USER_OF_PRIVILEGES`
-   - `SM_INFORM_USER_OF_PRIVILEGES_ACK`
-   - `PM_GET_SHARED_FILES_IN_FOLDER`
-   - `PM_SHARED_FILES_IN_FOLDER`
-2. Added S4C runtime scenarios and redacted artifacts:
-   - `login-privileges-social`
-   - `peer-folder-local`
-3. Extended `rust/protocol` with S4C constants, payloads, codecs, and builders for privileges/social and peer-folder messages.
-4. Extended `rust/core` with social-control and privileges operations:
-   - `ignore_user(...)`
-   - `unignore_user(...)`
-   - `get_own_privileges_status(...)`
-   - `get_user_privileges_status(...)`
-   - `give_privilege(...)`
-   - `inform_user_of_privileges(...)`
-   - `inform_user_of_privileges_ack(...)`
-5. Extended `rust/cli` session commands:
-   - `session ignore-user --target-user <name>`
-   - `session unignore-user --target-user <name>`
-   - `session own-privileges`
-   - `session user-privileges --target-user <name>`
-   - `session give-privilege --target-user <name> --days <n>`
-   - `session inform-privileges --token <n> --target-user <name>`
-   - `session inform-privileges-ack --token <n>`
-6. Added peer-folder frame helper command:
-   - `build-peer-folder-request --directory <path>`
-7. Extended differential verification required-run set to include S4C scenarios and kept all validation gates green.
+1. Expanded protocol mapping from 56 to 65 rows (`+9` new S4D messages):
+   - `SM_BAN_USER`
+   - `SM_PRIVILEGED_LIST`
+   - `SM_GET_RECOMMENDED_USERS`
+   - `SM_GET_TERM_RECOMMENDATIONS`
+   - `SM_GET_RECOMMENDATION_USERS`
+   - `PM_INVITE_USER_TO_ROOM`
+   - `PM_CANCELLED_QUEUED_TRANSFER`
+   - `PM_MOVE_DOWNLOAD_TO_TOP`
+   - `PM_QUEUED_DOWNLOADS`
+2. Promoted two legacy peer-search mappings from medium to high using runtime evidence:
+   - `PM_EXACT_FILE_SEARCH_REQUEST`
+   - `PM_INDIRECT_FILE_SEARCH_REQUEST`
+3. Added S4D runtime scenarios and redacted artifacts:
+   - `login-privilege-messaging`
+   - `peer-legacy-local`
+4. Added authoritative static extraction for unresolved code mapping:
+   - `tools/re/extract_message_codes.py`
+   - `evidence/reverse/message_codes_jump_table.json`
+   - `evidence/reverse/message_codes_jump_table.md`
+5. Extended `rust/protocol` with S4D constants, payloads, codecs, and builders for privilege-messaging and peer-legacy messages.
+6. Extended `rust/core` with S4D operations:
+   - `ban_user(...)`
+   - `get_privileged_list(...)`
+   - `get_recommended_users(...)`
+   - `get_term_recommendations(...)`
+   - `get_recommendation_users(...)`
+7. Extended `rust/cli` command surface:
+   - `session ban-user --target-user <name>`
+   - `session privileged-list`
+   - `discover recommended-users`
+   - `discover term-recommendations --term <value>`
+   - `discover recommendation-users --term <value>`
+8. Extended differential verification required-run set with S4D scenarios and kept all validation gates green.
 
 ## Core Artifacts
 
@@ -59,14 +61,14 @@
 - `docs/re/static/message-schema.md`
 - `docs/verification/evidence-ledger.md`
 - `docs/state/roadmap.md`
-- `captures/redacted/login-privileges-social/manifest.redacted.json`
-- `captures/redacted/peer-folder-local/manifest.redacted.json`
-- `tools/runtime/generate_stage4c_privileges_social_captures.py`
+- `captures/redacted/login-privilege-messaging/manifest.redacted.json`
+- `captures/redacted/peer-legacy-local/manifest.redacted.json`
+- `tools/runtime/generate_stage4d_privilege_legacy_captures.py`
+- `evidence/reverse/message_codes_jump_table.md`
 
 ## Operational Notes
 
 - Stage 2 core contract remains intact (`25/25`, `high=25`, `medium=0`, `low=0`).
-- Total mapped protocol rows: `56`.
-- Protocol matrix snapshot: tracked `130`, implemented+mapped `56`, missing `74`.
+- Total mapped protocol rows: `65`.
+- Protocol matrix snapshot: tracked `130`, implemented+mapped `65`, missing `65`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.
-- `SM_BAN_USER` remains deferred until authoritative code/evidence is resolved.

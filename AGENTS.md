@@ -53,6 +53,14 @@ When work touches authenticated runtime flows:
 2. For deterministic protocol tests and feature logic, prefer scoped decoders (`decode_server_message(...)` or `decode_peer_message(...)`) when the channel is known.
 3. Keep semantic diff fallback behavior, but avoid using ambiguous generic decode output as authoritative protocol classification.
 
+## Message-Code Resolution Discipline
+
+When a protocol code mapping is unresolved but the symbol name exists in static tables:
+
+1. Prefer deterministic jump-table extraction from the binary before runtime-only assumptions.
+2. Persist extractor tooling under `tools/re/` and commit machine-readable + human-readable evidence outputs.
+3. Promote mapping confidence only after evidence is registered in `message_map.csv` and synchronized into schema/docs.
+
 ## Stage Iteration Discipline
 
 When a stage closes (for example S3A, S3B):
@@ -64,6 +72,18 @@ When a stage closes (for example S3A, S3B):
 5. Add or refresh stage-specific runtime capture generator tooling under `tools/runtime/` when new runtime scenarios are required.
 6. Add or refresh protocol contract tests under `tests/protocol/` for every new mapped message batch.
 7. Regenerate `docs/state/protocol-matrix.md` whenever message coverage or protocol constants change.
+
+## Branch Start Discipline
+
+Before starting work on a new branch/PR, use this default flow unless explicitly instructed otherwise:
+
+1. Checkout `main`.
+2. Pull latest changes from `origin/main`.
+3. Create the new working branch from the updated `main`.
+
+Exception:
+
+1. If the user explicitly requests another base branch or commit, branch from that specified base.
 
 ## Repository Language Policy
 

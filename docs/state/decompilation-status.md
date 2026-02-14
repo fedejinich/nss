@@ -11,7 +11,8 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4A discovery addendum: `+5` messages.
 - Stage 4B peer advanced + room moderation addendum: `+9` messages.
 - Stage 4C privileges/social + peer-folder addendum: `+9` messages.
-- Total mapped protocol rows: `56`.
+- Stage 4D privilege/messaging gaps + peer legacy addendum: `+9` new messages and `+2` confidence promotions.
+- Total mapped protocol rows: `65`.
 
 ## Static Evidence Sources
 
@@ -24,6 +25,7 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - `evidence/reverse/disasm/transfer_on_file_request.txt`
 - `evidence/reverse/disasm/transfer_on_queue_download.txt`
 - `evidence/reverse/disasm/upload_write_socket.txt`
+- `evidence/reverse/message_codes_jump_table.md`
 
 ## Runtime Evidence Paths
 
@@ -33,10 +35,11 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4A capture generator: `tools/runtime/generate_stage4a_discovery_captures.py`
 - Stage 4B capture generator: `tools/runtime/generate_stage4b_peer_room_captures.py`
 - Stage 4C capture generator: `tools/runtime/generate_stage4c_privileges_social_captures.py`
+- Stage 4D capture generator: `tools/runtime/generate_stage4d_privilege_legacy_captures.py`
 - Redacted run storage: `captures/redacted/*`
 
 ## Next Reverse Focus
 
-- Resolve authoritative mapping for `SM_BAN_USER`.
-- Promote remaining medium-confidence legacy peer search messages with runtime evidence.
+- Map and validate private messaging runtime flows (`SM_MESSAGE_USER`, `SM_MESSAGE_ACKED`) with typed field coverage.
+- Expand runtime evidence for user-state/status domains (`SM_GET_USER_STATUS`, `SM_GET_USER_STATS`, peer address/connect interactions).
 - Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.

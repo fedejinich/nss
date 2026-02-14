@@ -1,0 +1,24 @@
+{
+  "run_id": "peer-legacy-local",
+  "scenario": "peer-legacy-local",
+  "source_type": "runtime_peer_local_deterministic",
+  "created_at": "2026-02-14T17:27:34+00:00",
+  "server": "<redacted:endpoint:e9aff2e26715>",
+  "frame_count": 6,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:b1a97b9dac3e>",
+    "neo_frames_raw": "<redacted:path:6c7bc9186a77>",
+    "frida_events_raw": "<redacted:path:ff4fe97654d3>"
+  },
+  "notes": "Stage 4D runtime capture generated for privilege/messaging gaps and peer legacy cleanup.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-14T17:27:40+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-legacy-local",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T16:32:37+00:00`
+- Generated: `2026-02-14T17:37:14+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -41,6 +41,18 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-search-download/official_frames.hex` (Observed inbound runtime frame in login-search-download scenario (code 9) with token+user+result_count.)
 
+### `peer` `PM_INVITE_USER_TO_ROOM` (code `10`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/peer-legacy-local/official_frames.hex` (Deterministic peer-local runtime flow emits invite-to-room frame (code 10) with room payload.)
+
+### `peer` `PM_CANCELLED_QUEUED_TRANSFER` (code `14`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/peer-legacy-local/official_frames.hex` (Deterministic peer-local runtime flow emits cancelled-queued-transfer frame (code 14) with virtual path payload.)
+
 ### `peer` `PM_USER_INFO_REQUEST` (code `15`)
 - Confidence: `high`
 - Payload fields: pending derivation
@@ -63,6 +75,12 @@
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer code 16 UserInfoReply with description/picture/uploads/queue/slots fields (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.)
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_USER_INFO_REPLY.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 16 documents user info reply payload fields.)
+
+### `peer` `PM_MOVE_DOWNLOAD_TO_TOP` (code `34`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/peer-legacy-local/official_frames.hex` (Deterministic peer-local runtime flow emits move-download-to-top frame (code 34) with virtual path payload.)
 
 ### `peer` `PM_GET_SHARED_FILES_IN_FOLDER` (code `36`)
 - Confidence: `high`
@@ -133,22 +151,28 @@
   - `ghidra_decompile`: `evidence/reverse/disasm/upload_write_socket.txt` (Upload send path emits failure branch when transfer cannot continue.)
 
 ### `peer` `PM_EXACT_FILE_SEARCH_REQUEST` (code `47`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `token`: `optional_u32`
   - `query`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer code list maps 47 to ExactFileSearchRequest (code resolved from SLSK protocol spec); payload shape treated as legacy optional-token+query until runtime evidence is captured.)
+  - `runtime_capture`: `captures/redacted/peer-legacy-local/official_frames.hex` (Deterministic peer-local runtime flow emits exact-file-search frame (code 47) with token+query payload.)
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_EXACT_FILE_SEARCH_REQUEST.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code list includes code 47 for ExactFileSearchRequest (legacy/obsolete family).)
 
+### `peer` `PM_QUEUED_DOWNLOADS` (code `48`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/peer-legacy-local/official_frames.hex` (Deterministic peer-local runtime flow emits queued-downloads frame (code 48) with list payload.)
+
 ### `peer` `PM_INDIRECT_FILE_SEARCH_REQUEST` (code `49`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `token`: `optional_u32`
   - `query`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer code list maps 49 to IndirectFileSearchRequest (code resolved from SLSK protocol spec); payload shape treated as legacy optional-token+query until runtime evidence is captured.)
+  - `runtime_capture`: `captures/redacted/peer-legacy-local/official_frames.hex` (Deterministic peer-local runtime flow emits indirect-file-search frame (code 49) with query payload.)
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_INDIRECT_FILE_SEARCH_REQUEST.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code list includes code 49 for IndirectFileSearchRequest (legacy/obsolete family).)
 
@@ -409,6 +433,12 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload.)
 
+### `server` `SM_PRIVILEGED_LIST` (code `69`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-privilege-messaging/official_frames.hex` (Authenticated runtime flow includes privileged-list request and response frames (code 69) with user-list style payloads.)
+
 ### `server` `SM_GET_OWN_PRIVILEGES_STATUS` (code `92`)
 - Confidence: `high`
 - Payload fields:
@@ -417,6 +447,24 @@
   - `runtime_capture`: `captures/redacted/login-privileges-social/official_frames.hex` (Authenticated runtime flow sends own-privileges status request (code 92); spec defines CheckPrivileges response with remaining seconds.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_GET_OWN_PRIVILEGES_STATUS.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 92 documents CheckPrivileges with response payload indicating remaining seconds.)
+
+### `server` `SM_GET_RECOMMENDED_USERS` (code `110`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-privilege-messaging/official_frames.hex` (Authenticated runtime flow includes code 110 request/response for similar users with scored user entries.)
+
+### `server` `SM_GET_TERM_RECOMMENDATIONS` (code `111`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-privilege-messaging/official_frames.hex` (Authenticated runtime flow includes code 111 request with term payload and recommendation-entry response.)
+
+### `server` `SM_GET_RECOMMENDATION_USERS` (code `112`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-privilege-messaging/official_frames.hex` (Authenticated runtime flow includes code 112 request with term payload and scored-user response entries.)
 
 ### `server` `SM_SEARCH_ROOM` (code `120`)
 - Confidence: `high`
@@ -471,6 +519,12 @@
   - `runtime_capture`: `captures/redacted/login-privileges-social/official_frames.hex` (Authenticated runtime flow sends notify-privileges ack (code 125) with token payload.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_INFORM_USER_OF_PRIVILEGES_ACK.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 125 documents AckNotifyPrivileges with token payload.)
+
+### `server` `SM_BAN_USER` (code `132`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 132 to SM_BAN_USER (x86_64 binary disassembly).)
 
 ### `server` `SM_ROOM_MEMBERS` (code `133`)
 - Confidence: `high`

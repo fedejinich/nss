@@ -19,8 +19,9 @@ gantt
     S4A Recommendations + Discovery batch :done, s4a, after s3b, 1d
     S4B Peer advanced + room moderation :done, s4b, after s4a, 2d
     S4C Privileges + social control + peer folder domains :done, s4c, after s4b, 2d
-    section Preview
-    S4D Privilege/messaging gaps + peer legacy cleanup :s4d, after s4c, 3d
+    S4D Privilege/messaging gaps + peer legacy cleanup :done, s4d, after s4c, 2d
+    section Planned
+    S4E Private messaging + user-state domain batch :crit, s4e, after s4d, 3d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -39,7 +40,7 @@ graph TD
     R03 --> T08["S4B-T08 Final validation + PR publication"]
 ```
 
-## S4C Dependency Graph (Planned)
+## S4C Dependency Graph (Executed)
 
 ```mermaid
 graph TD
@@ -54,6 +55,21 @@ graph TD
     R02 --> T08["S4C-T08 Final validation + PR publication"]
 ```
 
+## S4D Dependency Graph (Executed)
+
+```mermaid
+graph TD
+    R01["S4D-R01 Initialize plan + roadmap baseline"] --> T01["S4D-T01 Resolve authoritative codes/evidence"]
+    T01 --> T02["S4D-T02 Runtime captures + redaction"]
+    T02 --> T03["S4D-T03 message_map + schema updates + promotion"]
+    T03 --> T04["S4D-T04 rust/protocol privilege+legacy codec/types"]
+    T04 --> T05["S4D-T05 rust/core + rust/cli operations"]
+    T05 --> T06["S4D-T06 rust/verify required-run updates"]
+    T06 --> T07["S4D-T07 Regression coverage for S4D"]
+    T07 --> R02["S4D-R02 Sync roadmap/status/backlog/matrix docs"]
+    R02 --> T08["S4D-T08 Final validation + PR publication"]
+```
+
 ## Stage Status Matrix
 
 | Stage | Owner area | Status | Evidence | Next gate |
@@ -65,7 +81,8 @@ graph TD
 | S4A | recommendations/discovery batch | done | `docs/pr/0005-s4a-recommendations-discovery.md` | select S4B scope |
 | S4B | peer advanced + room moderation | done | `docs/pr/0006-s4b-peer-room-matrix.md` | define S4C message batch |
 | S4C | privileges/social control + peer folder domains | done | `docs/pr/0007-s4c-privileges-social-peer-folder.md` | define S4D batch |
-| S4D preview | privilege/messaging gaps + peer legacy cleanup | preview | `docs/state/protocol-backlog.md` | publish S4D dependency graph |
+| S4D | privilege/messaging gaps + peer legacy cleanup | done | `docs/pr/0008-s4d-privilege-messaging-peer-legacy.md` | define S4E batch |
+| S4E | private messaging + user-state domain batch | planned | `docs/state/protocol-backlog.md` | start S4E plan |
 
 ## S4B Target Contract
 
@@ -109,6 +126,37 @@ Confidence gate for this batch:
 - `medium <= 2`
 - `low = 0`
 
-Backlog note:
+## S4D Target Contract (Executed)
 
-- `SM_BAN_USER` remains deferred pending authoritative code/evidence resolution.
+Required new-message pack:
+
+1. `SM_BAN_USER`
+2. `SM_PRIVILEGED_LIST`
+3. `SM_GET_RECOMMENDED_USERS`
+4. `SM_GET_TERM_RECOMMENDATIONS`
+5. `SM_GET_RECOMMENDATION_USERS`
+6. `PM_INVITE_USER_TO_ROOM`
+7. `PM_CANCELLED_QUEUED_TRANSFER`
+8. `PM_MOVE_DOWNLOAD_TO_TOP`
+9. `PM_QUEUED_DOWNLOADS`
+
+Runtime-promotion carryover from prior stage:
+
+1. `PM_EXACT_FILE_SEARCH_REQUEST`
+2. `PM_INDIRECT_FILE_SEARCH_REQUEST`
+
+Final confidence result for this batch:
+
+- `high = 11`
+- `medium = 0`
+- `low = 0`
+
+All entries must include valid evidence links.
+
+## S4E Preview (Not Started)
+
+Target focus for the next stage:
+
+1. Private messaging + acknowledgement domain (`SM_MESSAGE_USER`, `SM_MESSAGE_ACKED`) with runtime flow decoding and typed SDK surfaces.
+2. User-state/status enrichment around already mapped status/stat messages with stronger runtime field validation.
+3. Optional carryover from backlog if runtime evidence is available in the same cycle.
