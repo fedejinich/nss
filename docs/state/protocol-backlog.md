@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S4E)
+# Protocol Backlog (Post S4F)
 
 ## Objective
 
@@ -79,27 +79,35 @@ Status: completed in S4D with runtime captures (`login-privilege-messaging`, `pe
 
 Status: completed in S4E with runtime captures (`login-private-message`, `login-user-state`, `login-peer-address-connect`, `login-message-users`, `login-peer-message`), protocol implementation, and semantic verification updates.
 
-## Next Candidate Stage (S4F) - Global/Admin/Distributed Control Domain
+## Completed in S4F (Global/Admin/Distributed Control Mapping Batch)
 
-- `SM_ADMIN_MESSAGE`
-- `SM_DNET_MESSAGE`
-- `SM_GLOBAL_USER_LIST`
 - `SM_COMMAND`
-- `SM_CHILD_PARENT_MAP`
+- `SM_ADMIN_MESSAGE`
+- `SM_GLOBAL_USER_LIST`
 - `SM_SEND_DISTRIBUTIONS`
 - `SM_NOTE_PARENT`
+- `SM_CHILD_PARENT_MAP`
+- `SM_DNET_MESSAGE`
+- `SM_DNET_RESET`
+
+Status: completed in S4F with authoritative static mapping evidence from jump-table extraction and synchronized schema/docs/matrix artifacts.
+
+## Next Candidate Stage (S4G) - Parent/Distributed Tuning Continuation
+
 - `SM_SET_PARENT_MIN_SPEED`
 - `SM_SET_PARENT_SPEED_CONNECTION_RATIO`
 - `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`
 - `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`
 - `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`
 - `SM_SET_SECONDS_BEFORE_PING_CHILDREN`
+- `SM_CAN_PARENT`
+- `SM_POSSIBLE_PARENTS`
 - carryover parser-depth follow-up:
   - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
 
 ## Execution Strategy
 
-1. Add S4F batch rows to `analysis/ghidra/maps/message_map.csv` with explicit confidence and evidence.
+1. Add next-stage batch rows to `analysis/ghidra/maps/message_map.csv` with explicit confidence and evidence.
 2. Collect runtime captures first for high-confidence promotion when feasible.
 3. Regenerate schema/docs from authoritative maps:
    - `scripts/derive_message_schema.sh`
@@ -109,4 +117,4 @@ Status: completed in S4E with runtime captures (`login-private-message`, `login-
 
 ## Next Session Entry Point
 
-Start S4F by capturing reachable global/admin/distributed-control flows and promoting mappings with runtime-first evidence where feasible.
+Start S4G by extending parent/distributed control mappings and begin typed codec implementation for mapped-not-implemented S4F rows.

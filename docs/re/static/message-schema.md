@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T19:10:23+00:00`
+- Generated: `2026-02-14T19:56:59+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -443,6 +443,12 @@
   - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Server MessageCodeToString includes SM_GET_USER_RECOMMENDATIONS.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Protocol list documents user recommendation/interests message mapping.)
 
+### `server` `SM_COMMAND` (code `58`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 58 to SM_COMMAND (x86_64 binary disassembly).)
+
 ### `server` `SM_ROOM_LIST` (code `64`)
 - Confidence: `high`
 - Payload fields:
@@ -457,6 +463,18 @@
   - `virtual_path`: `string`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload.)
+
+### `server` `SM_ADMIN_MESSAGE` (code `66`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 66 to SM_ADMIN_MESSAGE (x86_64 binary disassembly).)
+
+### `server` `SM_GLOBAL_USER_LIST` (code `67`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 67 to SM_GLOBAL_USER_LIST (x86_64 binary disassembly).)
 
 ### `server` `SM_PEER_MESSAGE` (code `68`)
 - Confidence: `high`
@@ -477,6 +495,24 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-privilege-messaging/official_frames.hex` (Authenticated runtime flow includes privileged-list request and response frames (code 69) with user-list style payloads.)
 
+### `server` `SM_SEND_DISTRIBUTIONS` (code `71`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly).)
+
+### `server` `SM_NOTE_PARENT` (code `73`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly).)
+
+### `server` `SM_CHILD_PARENT_MAP` (code `82`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly).)
+
 ### `server` `SM_GET_OWN_PRIVILEGES_STATUS` (code `92`)
 - Confidence: `high`
 - Payload fields:
@@ -485,6 +521,12 @@
   - `runtime_capture`: `captures/redacted/login-privileges-social/official_frames.hex` (Authenticated runtime flow sends own-privileges status request (code 92); spec defines CheckPrivileges response with remaining seconds.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_GET_OWN_PRIVILEGES_STATUS.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 92 documents CheckPrivileges with response payload indicating remaining seconds.)
+
+### `server` `SM_DNET_MESSAGE` (code `93`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly).)
 
 ### `server` `SM_GET_RECOMMENDED_USERS` (code `110`)
 - Confidence: `high`
@@ -557,6 +599,12 @@
   - `runtime_capture`: `captures/redacted/login-privileges-social/official_frames.hex` (Authenticated runtime flow sends notify-privileges ack (code 125) with token payload.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_INFORM_USER_OF_PRIVILEGES_ACK.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 125 documents AckNotifyPrivileges with token payload.)
+
+### `server` `SM_DNET_RESET` (code `130`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 130 to SM_DNET_RESET (x86_64 binary disassembly).)
 
 ### `server` `SM_BAN_USER` (code `132`)
 - Confidence: `high`

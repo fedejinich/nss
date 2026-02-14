@@ -15,7 +15,29 @@
 - Stage 4C complete: Privileges/social control + peer-folder batch with runtime evidence and CLI support.
 - Stage 4D complete: privilege/messaging gaps + peer legacy cleanup with runtime captures, protocol promotion, and CLI support.
 - Stage 4E complete: private messaging + user-state batch with runtime evidence, typed SDK/CLI operations, and semantic verification updates.
+- Stage 4F complete: global/admin/distributed-control mapping batch with authoritative jump-table evidence (mapping-first expansion).
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Stage 4F Completion
+
+1. Expanded protocol mapping from 67 to 75 rows (`+8` S4F messages) using authoritative jump-table evidence:
+   - `SM_COMMAND`
+   - `SM_ADMIN_MESSAGE`
+   - `SM_GLOBAL_USER_LIST`
+   - `SM_SEND_DISTRIBUTIONS`
+   - `SM_NOTE_PARENT`
+   - `SM_CHILD_PARENT_MAP`
+   - `SM_DNET_MESSAGE`
+   - `SM_DNET_RESET`
+2. Regenerated canonical schema/docs/matrix from authoritative maps:
+   - `analysis/protocol/message_schema.json`
+   - `docs/re/static/message-schema.md`
+   - `docs/re/static/detangling.md`
+   - `docs/verification/evidence-ledger.md`
+   - `docs/state/protocol-matrix.md`
+3. Preserved runtime+semantic verification baseline while expanding mapping-only coverage.
+4. Marked new S4F rows as `mapped_not_implemented` in protocol matrix to keep implementation state explicit.
+5. Updated roadmap/backlog/status artifacts for next domain iteration planning.
 
 ## Stage 4E Completion
 
@@ -74,10 +96,11 @@
 - `captures/redacted/login-peer-message/manifest.redacted.json`
 - `tools/runtime/generate_stage4e_private_userstate_captures.py`
 - `docs/pr/0009-s4e-private-messaging-user-state.md`
+- `docs/pr/0010-s4f-global-admin-distributed-map.md`
 
 ## Operational Notes
 
 - Stage 2 core contract remains intact (`25/25`, `high=25`, `medium=0`, `low=0`).
-- Total mapped protocol rows: `67`.
-- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, missing `63`.
+- Total mapped protocol rows: `75`.
+- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `8`, missing `55`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.

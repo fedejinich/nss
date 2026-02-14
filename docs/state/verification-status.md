@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity for Stage 4E (private messaging + user-state domain) while preserving all previous stage guarantees.
+Ensure evidence traceability and semantic protocol parity baseline while expanding Stage 4F (global/admin/distributed-control) mapping coverage.
 
 ## Validation Gates
 
@@ -66,25 +66,25 @@ Includes:
 4. Differential verification gate.
 5. Zensical build check (if available).
 
-## Stage 4E Coverage Status
+## Stage 4F Coverage Status
 
-S4E 8-message contract set is present in:
+S4F 8-message mapping contract set is present in:
 
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
 
 Messages:
 
-- `SM_MESSAGE_USER`
-- `SM_MESSAGE_ACKED`
-- `SM_GET_USER_STATUS`
-- `SM_GET_USER_STATS`
-- `SM_GET_PEER_ADDRESS`
-- `SM_CONNECT_TO_PEER`
-- `SM_MESSAGE_USERS`
-- `SM_PEER_MESSAGE`
+- `SM_COMMAND`
+- `SM_ADMIN_MESSAGE`
+- `SM_GLOBAL_USER_LIST`
+- `SM_SEND_DISTRIBUTIONS`
+- `SM_NOTE_PARENT`
+- `SM_CHILD_PARENT_MAP`
+- `SM_DNET_MESSAGE`
+- `SM_DNET_RESET`
 
-Confidence distribution for the S4E contract set:
+Confidence distribution for the S4F contract set:
 
 - `high=8`
 - `medium=0`
@@ -94,7 +94,8 @@ Protocol matrix status:
 
 - Tracked message names from static string tables: `131`
 - Implemented + mapped: `67`
-- Missing: `63`
+- Mapped not implemented: `8`
+- Missing: `55`
 - Matrix source: `docs/state/protocol-matrix.md`
 
 ## Runtime Evidence Snapshot
@@ -112,10 +113,12 @@ Protocol matrix status:
 - Peer-address/connect scenario includes code `3` and `18` request/response payloads.
 - Message-users scenario includes code `149`.
 - Peer-message deterministic scenario includes code `68` plus compatibility alias `292`.
+- Stage 4F is mapping-first and currently static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
 
 ## Residual Risk
 
 - `SM_GET_USER_PRIVILEGES_STATUS` remains `medium` from S4C because code `122` is deprecated in public specs and behavior can vary by server implementation.
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- Several protocol names in string tables remain unmapped (`63` missing in matrix); S4F should prioritize global/admin/distributed-control domains.
+- S4F currently adds mapped-not-implemented rows; typed codec/core/CLI support for this domain remains a follow-up stage objective.
+- Several protocol names in string tables remain unmapped (`55` missing in matrix); S4G should prioritize parent/distributed tuning and global control continuation.
 - `PM_SHARED_FILES_IN_FOLDER` response payload is still represented as `directory + compressed bytes`; deep decompression schema remains a follow-up parser task.
