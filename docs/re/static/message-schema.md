@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-14T14:44:43+00:00`
+- Generated: `2026-02-14T15:10:04+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -235,6 +235,75 @@
   - `search_text`: `string`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-search/official_frames.hex` (Observed outbound runtime frame in login-search scenario (code 42) with user+query payload.)
+
+### `server` `SM_GET_SIMILAR_TERMS` (code `50`)
+- Confidence: `high`
+- Payload fields:
+  - `term`: `string`
+  - `recommendation_count`: `u32`
+  - `recommendation.term`: `string`
+  - `recommendation.score`: `i32`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-similar-terms/official_frames.hex` (Observed authenticated runtime request/response for similar-terms discovery flow (code 50).)
+  - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_GET_SIMILAR_TERMS.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Protocol list documents similar recommendation request/response message family.)
+
+### `server` `SM_GET_RECOMMENDATIONS` (code `54`)
+- Confidence: `high`
+- Payload fields:
+  - `recommendation_count`: `u32`
+  - `recommendation.term`: `string`
+  - `recommendation.score`: `i32`
+  - `unrecommendation_count`: `u32`
+  - `unrecommendation.term`: `string`
+  - `unrecommendation.score`: `i32`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-recommendations/official_frames.hex` (Observed authenticated runtime recommendations flow (code 54) including outbound request and inbound summary payload.)
+  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Server MessageCodeToString includes SM_GET_RECOMMENDATIONS.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Protocol list documents recommendation request/response code mapping.)
+
+### `server` `SM_GET_MY_RECOMMENDATIONS` (code `55`)
+- Confidence: `high`
+- Payload fields:
+  - `recommendation_count`: `u32`
+  - `recommendation.term`: `string`
+  - `recommendation.score`: `i32`
+  - `unrecommendation_count`: `u32`
+  - `unrecommendation.term`: `string`
+  - `unrecommendation.score`: `i32`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-recommendations/official_frames.hex` (Observed outbound authenticated runtime request for my-recommendations (code 55) in recommendation batch.)
+  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Server MessageCodeToString includes SM_GET_MY_RECOMMENDATIONS.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Protocol list documents my-recommendations request code mapping.)
+
+### `server` `SM_GET_GLOBAL_RECOMMENDATIONS` (code `56`)
+- Confidence: `high`
+- Payload fields:
+  - `recommendation_count`: `u32`
+  - `recommendation.term`: `string`
+  - `recommendation.score`: `i32`
+  - `unrecommendation_count`: `u32`
+  - `unrecommendation.term`: `string`
+  - `unrecommendation.score`: `i32`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-recommendations/official_frames.hex` (Observed authenticated runtime global-recommendations flow (code 56) with populated inbound payload.)
+  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Server MessageCodeToString includes SM_GET_GLOBAL_RECOMMENDATIONS.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Protocol list documents global recommendations message mapping.)
+
+### `server` `SM_GET_USER_RECOMMENDATIONS` (code `57`)
+- Confidence: `high`
+- Payload fields:
+  - `username`: `string`
+  - `recommendation_count`: `u32`
+  - `recommendation.term`: `string`
+  - `recommendation.score`: `i32`
+  - `unrecommendation_count`: `u32`
+  - `unrecommendation.term`: `string`
+  - `unrecommendation.score`: `i32`
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-user-recommendations/official_frames.hex` (Observed authenticated runtime user-recommendations flow (code 57) with user request and reply payload.)
+  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Server MessageCodeToString includes SM_GET_USER_RECOMMENDATIONS.)
+  - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Protocol list documents user recommendation/interests message mapping.)
 
 ### `server` `SM_ROOM_LIST` (code `64`)
 - Confidence: `high`

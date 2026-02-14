@@ -1,9 +1,12 @@
 use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
     CODE_SM_LOGIN, CODE_SM_ROOM_LIST, Frame, LoginFailureReason, LoginResponsePayload,
-    PeerMessage, ProtocolMessage, RoomListPayload, RoomMembersPayload, RoomOperatorsPayload,
-    ServerMessage, TransferDirection, TransferRequestPayload, TransferResponsePayload,
-    build_file_search_request,
+    PeerMessage, ProtocolMessage, RecommendationsPayload, RoomListPayload, RoomMembersPayload,
+    RoomOperatorsPayload, ServerMessage, SimilarTermsPayload, TransferDirection,
+    TransferRequestPayload, TransferResponsePayload, UserRecommendationsPayload,
+    build_file_search_request, build_get_global_recommendations_request,
+    build_get_my_recommendations_request, build_get_recommendations_request,
+    build_get_similar_terms_request, build_get_user_recommendations_request,
     build_join_room_request, build_leave_room_request, build_login_request,
     build_room_list_request, build_room_members_request, build_room_operators_request,
     build_say_chatroom, build_transfer_request, decode_message, decode_server_message,
@@ -225,6 +228,127 @@ impl SessionClient {
         write_frame(self.stream_mut()?, &frame).await
     }
 
+    pub async fn get_recommendations(&mut self, timeout: Duration) -> Result<RecommendationsPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_recommendations_request();
+        write_frame(self.stream_mut()?, &frame).await?;
+        self.wait_for_recommendations_response(timeout, RecommendationKind::General)
+            .await
+    }
+
+    pub async fn get_my_recommendations(
+        &mut self,
+        timeout: Duration,
+    ) -> Result<RecommendationsPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_my_recommendations_request();
+        write_frame(self.stream_mut()?, &frame).await?;
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                        continue;
+                    };
+                    if let ServerMessage::GetMyRecommendationsResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+        Ok(RecommendationsPayload {
+            recommendations: Vec::new(),
+            unrecommendations: Vec::new(),
+        })
+    }
+
+    pub async fn get_global_recommendations(
+        &mut self,
+        timeout: Duration,
+    ) -> Result<RecommendationsPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_global_recommendations_request();
+        write_frame(self.stream_mut()?, &frame).await?;
+        self.wait_for_recommendations_response(timeout, RecommendationKind::Global)
+            .await
+    }
+
+    pub async fn get_user_recommendations(
+        &mut self,
+        username: &str,
+        timeout: Duration,
+    ) -> Result<UserRecommendationsPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_user_recommendations_request(username);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                        continue;
+                    };
+                    if let ServerMessage::GetUserRecommendationsResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for user recommendations response")
+    }
+
+    pub async fn get_similar_terms(
+        &mut self,
+        term: &str,
+        timeout: Duration,
+    ) -> Result<SimilarTermsPayload> {
+        self.ensure_logged_in()?;
+        let frame = build_get_similar_terms_request(term);
+        write_frame(self.stream_mut()?, &frame).await?;
+
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                        continue;
+                    };
+                    if let ServerMessage::GetSimilarTermsResponse(payload) = message {
+                        return Ok(payload);
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        bail!("timed out waiting for similar terms response")
+    }
+
     pub async fn send_server_message(&mut self, message: &ServerMessage) -> Result<()> {
         self.ensure_connected()?;
         let frame = encode_server_message(message);
@@ -375,6 +499,55 @@ impl SessionClient {
             .as_mut()
             .ok_or_else(|| anyhow!("session stream is unavailable"))
     }
+
+    async fn wait_for_recommendations_response(
+        &mut self,
+        timeout: Duration,
+        kind: RecommendationKind,
+    ) -> Result<RecommendationsPayload> {
+        let deadline = Instant::now() + timeout;
+        while Instant::now() < deadline {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            match tokio::time::timeout(remaining, self.read_next_frame()).await {
+                Ok(Ok(response)) => {
+                    let Ok(message) = decode_server_message(response.code, &response.payload) else {
+                        continue;
+                    };
+                    match (kind, message) {
+                        (
+                            RecommendationKind::General,
+                            ServerMessage::GetRecommendationsResponse(payload),
+                        ) => return Ok(payload),
+                        (
+                            RecommendationKind::Global,
+                            ServerMessage::GetGlobalRecommendationsResponse(payload),
+                        ) => return Ok(payload),
+                        _ => {}
+                    }
+                }
+                Ok(Err(err)) => {
+                    if is_connection_eof(&err) {
+                        break;
+                    }
+                    return Err(err);
+                }
+                Err(_) => break,
+            }
+        }
+
+        match kind {
+            RecommendationKind::General => bail!("timed out waiting for recommendations response"),
+            RecommendationKind::Global => {
+                bail!("timed out waiting for global recommendations response")
+            }
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+enum RecommendationKind {
+    General,
+    Global,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Error)]
@@ -688,9 +861,12 @@ impl UploadAgent {
 mod tests {
     use super::*;
     use protocol::{
+        CODE_SM_GET_GLOBAL_RECOMMENDATIONS, CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_SIMILAR_TERMS,
+        CODE_SM_GET_MY_RECOMMENDATIONS, CODE_SM_GET_USER_RECOMMENDATIONS,
         CODE_SM_FILE_SEARCH, CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM, CODE_SM_LOGIN,
-        CODE_SM_ROOM_LIST, LoginResponsePayload, LoginResponseSuccessPayload, RoomListPayload,
-        RoomPresenceEventPayload, ServerMessage, SpeedPayload, encode_server_message,
+        CODE_SM_ROOM_LIST, LoginResponsePayload, LoginResponseSuccessPayload, RecommendationEntry,
+        RecommendationsPayload, RoomListPayload, RoomPresenceEventPayload, ServerMessage,
+        SimilarTermsPayload, SpeedPayload, UserRecommendationsPayload, encode_server_message,
         parse_transfer_request, parse_transfer_response,
     };
 
@@ -929,6 +1105,260 @@ mod tests {
                 .iter()
                 .any(|event| matches!(event, RoomEvent::UserLeft { room, username } if room == "nicotine" && username == "bob"))
         );
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_recommendations_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket).await.expect("recommendations request");
+            assert_eq!(request.code, CODE_SM_GET_RECOMMENDATIONS);
+
+            let response = encode_server_message(&ServerMessage::GetRecommendationsResponse(
+                RecommendationsPayload {
+                    recommendations: vec![RecommendationEntry {
+                        term: "flac".into(),
+                        score: 3,
+                    }],
+                    unrecommendations: vec![],
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write recommendations response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_recommendations(Duration::from_secs(1))
+            .await
+            .expect("get recommendations");
+        assert_eq!(payload.recommendations.len(), 1);
+        assert_eq!(payload.recommendations[0].term, "flac");
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_global_recommendations_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket)
+                .await
+                .expect("global recommendations request");
+            assert_eq!(request.code, CODE_SM_GET_GLOBAL_RECOMMENDATIONS);
+
+            let response =
+                encode_server_message(&ServerMessage::GetGlobalRecommendationsResponse(
+                    RecommendationsPayload {
+                        recommendations: vec![RecommendationEntry {
+                            term: "lossless".into(),
+                            score: 8,
+                        }],
+                        unrecommendations: vec![],
+                    },
+                ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write global recommendations response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_global_recommendations(Duration::from_secs(1))
+            .await
+            .expect("get global recommendations");
+        assert_eq!(payload.recommendations.len(), 1);
+        assert_eq!(payload.recommendations[0].term, "lossless");
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_user_recommendations_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket).await.expect("user recommendations request");
+            assert_eq!(request.code, CODE_SM_GET_USER_RECOMMENDATIONS);
+
+            let response = encode_server_message(&ServerMessage::GetUserRecommendationsResponse(
+                UserRecommendationsPayload {
+                    username: "bob".into(),
+                    recommendations: RecommendationsPayload {
+                        recommendations: vec![RecommendationEntry {
+                            term: "ambient".into(),
+                            score: 7,
+                        }],
+                        unrecommendations: vec![],
+                    },
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write user recommendations response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_user_recommendations("bob", Duration::from_secs(1))
+            .await
+            .expect("get user recommendations");
+        assert_eq!(payload.username, "bob");
+        assert_eq!(payload.recommendations.recommendations.len(), 1);
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_similar_terms_returns_payload() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket).await.expect("similar terms request");
+            assert_eq!(request.code, CODE_SM_GET_SIMILAR_TERMS);
+
+            let response = encode_server_message(&ServerMessage::GetSimilarTermsResponse(
+                SimilarTermsPayload {
+                    term: "electronic".into(),
+                    entries: vec![RecommendationEntry {
+                        term: "idm".into(),
+                        score: 5,
+                    }],
+                },
+            ));
+            write_frame(&mut socket, &response)
+                .await
+                .expect("write similar terms response");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_similar_terms("electronic", Duration::from_secs(1))
+            .await
+            .expect("get similar terms");
+        assert_eq!(payload.term, "electronic");
+        assert_eq!(payload.entries.len(), 1);
+        assert_eq!(payload.entries[0].term, "idm");
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn get_my_recommendations_tolerates_no_response() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let request = read_frame(&mut socket).await.expect("my recommendations request");
+            assert_eq!(request.code, CODE_SM_GET_MY_RECOMMENDATIONS);
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let payload = client
+            .get_my_recommendations(Duration::from_millis(200))
+            .await
+            .expect("get my recommendations");
+        assert!(payload.recommendations.is_empty());
+        assert!(payload.unrecommendations.is_empty());
 
         server.await.expect("server task");
     }

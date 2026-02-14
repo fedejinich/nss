@@ -1,4 +1,4 @@
-# Protocol Backlog (Post S3B)
+# Protocol Backlog (Post S4A)
 
 ## Objective
 
@@ -23,7 +23,9 @@ Continue protocol mapping toward full coverage by functional domains while keepi
 - `SM_GET_USER_RECOMMENDATIONS`
 - `SM_GET_SIMILAR_TERMS`
 
-## S4 Candidate Batch B - Peer Advanced
+Status: completed in S4A with runtime-authenticated evidence and semantic verification coverage.
+
+## S4B Candidate Batch - Peer Advanced
 
 - `PM_USER_INFO_REQUEST`
 - `PM_USER_INFO_REPLY`
@@ -31,7 +33,7 @@ Continue protocol mapping toward full coverage by functional domains while keepi
 - `PM_INDIRECT_FILE_SEARCH_REQUEST`
 - `PM_UPLOAD_PLACE_IN_LINE_REQUEST`
 
-## S4 Candidate Batch C - Room Moderation (Deferred from S3B)
+## S4B Candidate Batch - Room Moderation (Deferred from S3B)
 
 - `SM_ADD_ROOM_MEMBER`
 - `SM_REMOVE_ROOM_MEMBER`
@@ -47,3 +49,7 @@ Continue protocol mapping toward full coverage by functional domains while keepi
    - `python3 scripts/kb_sync_docs.py`
 4. Extend SDK/CLI/verify only after mapping evidence is registered.
 5. Keep regression green (`scripts/run_regression.sh`) before stage closure.
+
+## Next Session Entry Point
+
+S4B should start with peer-advanced request/response mapping because it unlocks richer peer feature parity while reusing the existing S3A/S3B/S4A semantic verification pipeline.

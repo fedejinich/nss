@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T14:44:43+00:00",
+  "generated_at": "2026-02-14T15:10:04+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -704,6 +704,247 @@
           "kind": "runtime_capture",
           "source": "captures/redacted/login-search/official_frames.hex",
           "note": "Observed outbound runtime frame in login-search scenario (code 42) with user+query payload."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 50,
+      "name": "SM_GET_SIMILAR_TERMS",
+      "payload": [
+        {
+          "name": "term",
+          "type": "string"
+        },
+        {
+          "name": "recommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "recommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "recommendation.score",
+          "type": "i32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-similar-terms/official_frames.hex",
+          "note": "Observed authenticated runtime request/response for similar-terms discovery flow (code 50)."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/message_name_strings.txt",
+          "note": "Server string table includes SM_GET_SIMILAR_TERMS."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Protocol list documents similar recommendation request/response message family."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 54,
+      "name": "SM_GET_RECOMMENDATIONS",
+      "payload": [
+        {
+          "name": "recommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "recommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "recommendation.score",
+          "type": "i32"
+        },
+        {
+          "name": "unrecommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "unrecommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "unrecommendation.score",
+          "type": "i32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-recommendations/official_frames.hex",
+          "note": "Observed authenticated runtime recommendations flow (code 54) including outbound request and inbound summary payload."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Server MessageCodeToString includes SM_GET_RECOMMENDATIONS."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Protocol list documents recommendation request/response code mapping."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 55,
+      "name": "SM_GET_MY_RECOMMENDATIONS",
+      "payload": [
+        {
+          "name": "recommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "recommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "recommendation.score",
+          "type": "i32"
+        },
+        {
+          "name": "unrecommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "unrecommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "unrecommendation.score",
+          "type": "i32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-recommendations/official_frames.hex",
+          "note": "Observed outbound authenticated runtime request for my-recommendations (code 55) in recommendation batch."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Server MessageCodeToString includes SM_GET_MY_RECOMMENDATIONS."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Protocol list documents my-recommendations request code mapping."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 56,
+      "name": "SM_GET_GLOBAL_RECOMMENDATIONS",
+      "payload": [
+        {
+          "name": "recommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "recommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "recommendation.score",
+          "type": "i32"
+        },
+        {
+          "name": "unrecommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "unrecommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "unrecommendation.score",
+          "type": "i32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-recommendations/official_frames.hex",
+          "note": "Observed authenticated runtime global-recommendations flow (code 56) with populated inbound payload."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Server MessageCodeToString includes SM_GET_GLOBAL_RECOMMENDATIONS."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Protocol list documents global recommendations message mapping."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 57,
+      "name": "SM_GET_USER_RECOMMENDATIONS",
+      "payload": [
+        {
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "recommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "recommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "recommendation.score",
+          "type": "i32"
+        },
+        {
+          "name": "unrecommendation_count",
+          "type": "u32"
+        },
+        {
+          "name": "unrecommendation.term",
+          "type": "string"
+        },
+        {
+          "name": "unrecommendation.score",
+          "type": "i32"
+        }
+      ],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-user-recommendations/official_frames.hex",
+          "note": "Observed authenticated runtime user-recommendations flow (code 57) with user request and reply payload."
+        },
+        {
+          "kind": "string",
+          "source": "evidence/reverse/server_messagecodetostring_otool.txt",
+          "note": "Server MessageCodeToString includes SM_GET_USER_RECOMMENDATIONS."
+        },
+        {
+          "kind": "spec",
+          "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
+          "note": "Protocol list documents user recommendation/interests message mapping."
         }
       ]
     },

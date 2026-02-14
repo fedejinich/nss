@@ -13,6 +13,11 @@ server,64,SM_ROOM_LIST,high,captures/redacted/login-room-list/official_frames.he
 server,120,SM_SEARCH_ROOM,high,captures/redacted/login-search/official_frames.hex,verified_runtime,Observed outbound runtime frame in login-search scenario (code 120) with room+query payload.
 server,65,SM_EXACT_FILE_SEARCH,high,captures/redacted/login-search/official_frames.hex,verified_runtime,Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload.
 server,42,SM_SEARCH_USER_FILES,high,captures/redacted/login-search/official_frames.hex,verified_runtime,Observed outbound runtime frame in login-search scenario (code 42) with user+query payload.
+server,50,SM_GET_SIMILAR_TERMS,high,captures/redacted/login-similar-terms/official_frames.hex,verified_runtime,Observed authenticated runtime request/response for similar-terms discovery flow (code 50).
+server,54,SM_GET_RECOMMENDATIONS,high,captures/redacted/login-recommendations/official_frames.hex,verified_runtime,Observed authenticated runtime recommendations flow (code 54) including outbound request and inbound summary payload.
+server,55,SM_GET_MY_RECOMMENDATIONS,high,captures/redacted/login-recommendations/official_frames.hex,verified_runtime,Observed outbound authenticated runtime request for my-recommendations (code 55) in recommendation batch.
+server,56,SM_GET_GLOBAL_RECOMMENDATIONS,high,captures/redacted/login-recommendations/official_frames.hex,verified_runtime,Observed authenticated runtime global-recommendations flow (code 56) with populated inbound payload.
+server,57,SM_GET_USER_RECOMMENDATIONS,high,captures/redacted/login-user-recommendations/official_frames.hex,verified_runtime,Observed authenticated runtime user-recommendations flow (code 57) with user request and reply payload.
 server,133,SM_ROOM_MEMBERS,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room-members request flow in authenticated room session.
 server,148,SM_ROOM_OPERATORS,high,captures/redacted/login-join-room-presence/official_frames.hex,verified_runtime,Observed runtime room-operators request flow in authenticated room session.
 server,22,SM_MESSAGE_USER,high,evidence/reverse/server_messagecodetostring_otool.txt,verified_static,Observed literal in Server::MessageCodeToString dispatch.

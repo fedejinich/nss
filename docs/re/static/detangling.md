@@ -59,8 +59,8 @@ Review queue is empty.
 
 ## Protocol Coverage (Stage 2)
 
-- Message rows: `33`
-- Confidence split: `high=33` `medium=0` `low=0`
+- Message rows: `38`
+- Confidence split: `high=38` `medium=0` `low=0`
 - Latest mapped messages:
   - `server` `SM_LOGIN` code `1` confidence `high`
   - `server` `SM_SET_WAIT_PORT` code `2` confidence `high`
@@ -76,14 +76,14 @@ Review queue is empty.
   - `server` `SM_SEARCH_ROOM` code `120` confidence `high`
   - `server` `SM_EXACT_FILE_SEARCH` code `65` confidence `high`
   - `server` `SM_SEARCH_USER_FILES` code `42` confidence `high`
+  - `server` `SM_GET_SIMILAR_TERMS` code `50` confidence `high`
+  - `server` `SM_GET_RECOMMENDATIONS` code `54` confidence `high`
+  - `server` `SM_GET_MY_RECOMMENDATIONS` code `55` confidence `high`
+  - `server` `SM_GET_GLOBAL_RECOMMENDATIONS` code `56` confidence `high`
+  - `server` `SM_GET_USER_RECOMMENDATIONS` code `57` confidence `high`
   - `server` `SM_ROOM_MEMBERS` code `133` confidence `high`
   - `server` `SM_ROOM_OPERATORS` code `148` confidence `high`
   - `server` `SM_MESSAGE_USER` code `22` confidence `high`
   - `server` `SM_MESSAGE_ACKED` code `23` confidence `high`
   - `server` `SM_GET_USER_STATS` code `36` confidence `high`
   - `server` `SM_GET_USER_STATUS` code `7` confidence `high`
-  - `server` `SM_SHARED_FOLDERS_FILES` code `35` confidence `high`
-  - `server` `SM_DOWNLOAD_SPEED` code `34` confidence `high`
-  - `server` `SM_UPLOAD_SPEED` code `121` confidence `high`
-  - `peer` `PM_GET_SHARED_FILE_LIST` code `4` confidence `high`
-  - `peer` `PM_SHARED_FILE_LIST` code `5` confidence `high`

@@ -303,3 +303,82 @@ Notes:
 - Protocol mapping expanded to `33` rows total with S3B batch confidence `high=8`, `medium=0`, `low=0`.
 - CLI room commands were validated against the official server in summary mode (`room list/join/members/watch/leave`).
 - Validation gates passed: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.
+
+## Stage 4A - Recommendations/Discovery protocol batch
+
+Dependency graph:
+
+- `S4A-R01 -> S4A-T01`
+- `S4A-T01 -> S4A-T02`
+- `S4A-T02 -> S4A-T03`
+- `S4A-T03 -> S4A-T04`
+- `S4A-T04 -> S4A-T05`
+- `S4A-T05 -> S4A-T06`
+- `S4A-T06 -> S4A-T07`
+- `S4A-T07 -> S4A-T08`
+- `S4A-T08 -> S4A-R02`
+- `S4A-R02 -> S4A-T09`
+
+Tasks:
+
+- id: S4A-R01
+  description: Initialize Stage 4A execution plan and roadmap baseline (mark S4A as active batch)
+  status: done
+  depends_on: []
+
+- id: S4A-T01
+  description: Resolve codes/evidence for recommendation/discovery messages from static and runtime sources
+  status: done
+  depends_on: [S4A-R01]
+
+- id: S4A-T02
+  description: Capture authenticated runtime recommendation/discovery scenarios and redact artifacts
+  status: done
+  depends_on: [S4A-T01]
+
+- id: S4A-T03
+  description: Update message_map and message_schema for S4A messages with evidence links and confidence levels
+  status: done
+  depends_on: [S4A-T02]
+
+- id: S4A-T04
+  description: Implement recommendation/discovery codec and payload types in rust/protocol
+  status: done
+  depends_on: [S4A-T03]
+
+- id: S4A-T05
+  description: Extend SessionClient with recommendation/discovery operations in rust/core
+  status: done
+  depends_on: [S4A-T04]
+
+- id: S4A-T06
+  description: Add CLI discover commands for recommendation/discovery flows (summary + verbose)
+  status: done
+  depends_on: [S4A-T05]
+
+- id: S4A-T07
+  description: Extend semantic differential verification for recommendation/discovery payloads and runs
+  status: done
+  depends_on: [S4A-T06]
+
+- id: S4A-T08
+  description: Run full validation gates and fix any failures (kb_validate, diff_verify, regression)
+  status: done
+  depends_on: [S4A-T07]
+
+- id: S4A-R02
+  description: Refresh roadmap/status/backlog/docs with executed S4A outcomes and next-stage readiness
+  status: done
+  depends_on: [S4A-T08]
+
+- id: S4A-T09
+  description: Publish S4A PR doc with maintainability/reuse retrospective and open PR
+  status: done
+  depends_on: [S4A-R02]
+
+Notes:
+
+- Runtime-authenticated S4A runs were generated and redacted: `login-recommendations`, `login-user-recommendations`, `login-similar-terms`.
+- Protocol mapping expanded to `38` rows total with S4A batch confidence `high=5`, `medium=0`, `low=0`.
+- CLI discover commands were validated against the official server in summary mode (`discover recommendations/mine/global/user/similar-terms`).
+- Validation gates passed: `python3 scripts/kb_validate.py`, `scripts/run_diff_verify.sh`, `scripts/run_regression.sh`.

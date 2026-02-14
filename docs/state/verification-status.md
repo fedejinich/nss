@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity for Stage 3B (Rooms+Presence batch) while preserving Stage 2/S3A guarantees.
+Ensure evidence traceability and semantic protocol parity for Stage 4A (Recommendations/Discovery batch) while preserving all previous stage guarantees.
 
 ## Validation Gates
 
@@ -15,7 +15,7 @@ python3 scripts/kb_validate.py
 Checks:
 
 - Name/data maps contain valid evidence.
-- `message_map.csv` has valid links and confidence values.
+- `message_map.csv` has valid source links and confidence fields.
 - `message_schema.json` has valid evidence links and schema integrity.
 
 ### Differential verification
@@ -36,7 +36,10 @@ Runs:
    - `login-room-list`
    - `login-join-room-presence`
    - `login-leave-room`
-3. Default mode is semantic (`VERIFY_MODE=semantic`), with backward-compatible bytes mode.
+   - `login-recommendations`
+   - `login-user-recommendations`
+   - `login-similar-terms`
+3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
 
@@ -52,33 +55,43 @@ Includes:
 4. Differential verification gate.
 5. Zensical build check (if available).
 
-## Stage 3B Coverage Status
+## Stage 4A Coverage Status
 
-- S3B 8-message Rooms+Presence pack is present in both:
-  - `analysis/ghidra/maps/message_map.csv`
-  - `analysis/protocol/message_schema.json`
-- Confidence distribution for S3B pack:
-  - `high=8`
-  - `medium=0`
-  - `low=0`
-- Runtime evidence is linked for all S3B rows.
+S4A 5-message discovery pack is present in:
+
+- `analysis/ghidra/maps/message_map.csv`
+- `analysis/protocol/message_schema.json`
+
+Messages:
+
+- `SM_GET_SIMILAR_TERMS`
+- `SM_GET_RECOMMENDATIONS`
+- `SM_GET_MY_RECOMMENDATIONS`
+- `SM_GET_GLOBAL_RECOMMENDATIONS`
+- `SM_GET_USER_RECOMMENDATIONS`
+
+Confidence distribution for S4A batch:
+
+- `high=5`
+- `medium=0`
+- `low=0`
 
 ## Runtime Evidence Snapshot
 
 - Official server: `server.slsknet.org:2242`
 - Auth tuple used: `160/1`
-- Real room commands validated against authenticated session:
-  - `room list`
-  - `room join`
-  - `room members`
-  - `room watch`
-  - `room leave`
-- S3B runtime redacted scenarios:
-  - `captures/redacted/login-room-list`
-  - `captures/redacted/login-join-room-presence`
-  - `captures/redacted/login-leave-room`
+- Discovery commands validated against authenticated runtime session:
+  - `discover recommendations`
+  - `discover mine`
+  - `discover global`
+  - `discover user --target-user <name>`
+  - `discover similar-terms --term <term>`
+- S4A runtime redacted runs:
+  - `captures/redacted/login-recommendations`
+  - `captures/redacted/login-user-recommendations`
+  - `captures/redacted/login-similar-terms`
 
 ## Residual Risk
 
-- `SM_JOIN_ROOM`, `SM_ROOM_MEMBERS`, and `SM_ROOM_OPERATORS` payloads are currently summary-oriented parsers for CLI/verify stability; full field-level exhaustive parsing remains future work.
-- Unknown/partially mapped server messages continue to use semantic fallback normalization (`payload_md5`) in verifier mode.
+- Recommendation/discovery payload parsing is summary-oriented and intentionally tolerant to preserve runtime compatibility while mapping coverage improves.
+- Additional optional fields in recommendation payloads may still exist and are candidates for deeper parsing in S4B/S4C iterations.

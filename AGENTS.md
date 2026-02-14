@@ -55,6 +55,8 @@ When a stage closes (for example S3A, S3B):
 2. Sync `docs/state/project-status.md`, `docs/state/verification-status.md`, and `docs/state/protocol-backlog.md`.
 3. Persist stage task closure in `TODO-CODEX.md` with dependency graph + final statuses.
 4. Add or update a PR stage document under `docs/pr/` with validation commands and retrospective.
+5. Add or refresh stage-specific runtime capture generator tooling under `tools/runtime/` when new runtime scenarios are required.
+6. Add or refresh protocol contract tests under `tests/protocol/` for every new mapped message batch.
 
 ## Repository Language Policy
 

@@ -26,9 +26,16 @@ Mandatory stage 3B scenarios:
 2. `login-join-room-presence`
 3. `login-leave-room`
 
+Mandatory stage 4A scenarios:
+
+1. `login-recommendations`
+2. `login-user-recommendations`
+3. `login-similar-terms`
+
 Current state:
 
 - Stage 2 scenarios were regenerated from runtime runs (`captures/raw/* -> captures/redacted/*`).
 - Stage 3B room/presence scenarios were generated from authenticated runtime sessions and redacted with the same policy.
+- Stage 4A recommendations/discovery scenarios were generated from authenticated runtime sessions and redacted with the same policy.
 - `login-*` scenarios include live server socket traffic to `server.slsknet.org:2242`.
 - `download/upload` peer flows are runtime local-peer exchanges used for deterministic protocol evidence and regression.
