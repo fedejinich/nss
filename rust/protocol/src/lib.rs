@@ -1884,6 +1884,11 @@ fn parse_user_stats_response_payload(payload: &[u8]) -> Result<UserStatsResponse
         files: reader.read_u32()?,
         dirs: reader.read_u32()?,
     };
+    // Some server variants append extension counters after the canonical 4 fields.
+    // Consume trailing u32 words so runtime decode remains forward-compatible.
+    while reader.remaining() >= 4 {
+        let _ = reader.read_u32()?;
+    }
     ensure_payload_consumed(&reader)?;
     Ok(response)
 }
@@ -1906,21 +1911,43 @@ fn parse_connect_to_peer_response_payload(payload: &[u8]) -> Result<ConnectToPee
     let ip_address = Ipv4Addr::from(reader.read_u32()?.to_le_bytes()).to_string();
     let port = reader.read_u32()?;
     let token = reader.read_u32()?;
-    let privileged = if reader.remaining() >= 4 {
-        reader.read_bool_u32()?
-    } else {
-        false
-    };
-    let obfuscation_type = if reader.remaining() >= 4 {
-        reader.read_u32()?
-    } else {
-        0
-    };
-    let obfuscated_port = if reader.remaining() >= 4 {
-        reader.read_u32()?
-    } else {
-        0
-    };
+    let mut privileged = false;
+    let mut obfuscation_type = 0;
+    let mut obfuscated_port = 0;
+
+    let tail_len = reader.remaining();
+    if tail_len > 0 {
+        if tail_len >= 9 && tail_len % 4 == 1 {
+            privileged = reader.read_u8()? != 0;
+            if reader.remaining() >= 4 {
+                obfuscation_type = reader.read_u32()?;
+            }
+            if reader.remaining() >= 4 {
+                obfuscated_port = reader.read_u32()?;
+            }
+        } else if tail_len == 8 {
+            // Some variants omit privileged and include only obfuscation fields.
+            obfuscation_type = reader.read_u32()?;
+            obfuscated_port = reader.read_u32()?;
+        } else if tail_len >= 4 && tail_len % 4 == 0 {
+            privileged = reader.read_bool_u32()?;
+            if reader.remaining() >= 4 {
+                obfuscation_type = reader.read_u32()?;
+            }
+            if reader.remaining() >= 4 {
+                obfuscated_port = reader.read_u32()?;
+            }
+        } else if tail_len == 1 {
+            privileged = reader.read_u8()? != 0;
+        } else {
+            bail!("unexpected connect_to_peer tail length: {tail_len}");
+        }
+    }
+
+    // Consume extension words while preserving canonical fields.
+    while reader.remaining() >= 4 {
+        let _ = reader.read_u32()?;
+    }
     ensure_payload_consumed(&reader)?;
     Ok(ConnectToPeerResponsePayload {
         username,
@@ -3746,6 +3773,59 @@ mod tests {
         let stats =
             decode_server_message(stats_frame.code, &stats_frame.payload).expect("decode stats");
         assert!(matches!(stats, ServerMessage::GetUserStatsResponse(_)));
+    }
+
+    #[test]
+    fn decode_user_stats_response_accepts_extension_counter() {
+        let mut writer = PayloadWriter::new();
+        writer.write_string("alice");
+        writer.write_u32(2048);
+        writer.write_u32(3);
+        writer.write_u32(120);
+        writer.write_u32(12);
+        writer.write_u32(777); // runtime extension counter
+
+        let decoded =
+            decode_server_message(CODE_SM_GET_USER_STATS, &writer.into_inner()).expect("decode");
+        match decoded {
+            ServerMessage::GetUserStatsResponse(payload) => {
+                assert_eq!(payload.username, "alice");
+                assert_eq!(payload.avg_speed, 2048);
+                assert_eq!(payload.download_num, 3);
+                assert_eq!(payload.files, 120);
+                assert_eq!(payload.dirs, 12);
+            }
+            other => panic!("expected user stats response, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn decode_connect_to_peer_response_accepts_u8_privileged_variant() {
+        let mut writer = PayloadWriter::new();
+        writer.write_string("alice");
+        writer.write_string("P");
+        writer.write_u32(u32::from_le_bytes([203, 0, 113, 8]));
+        writer.write_u32(2242);
+        writer.write_u32(77);
+        writer.write_u8(1); // privileged as bool_u8
+        writer.write_u32(2);
+        writer.write_u32(40123);
+
+        let decoded =
+            decode_server_message(CODE_SM_CONNECT_TO_PEER, &writer.into_inner()).expect("decode");
+        match decoded {
+            ServerMessage::ConnectToPeerResponse(payload) => {
+                assert_eq!(payload.username, "alice");
+                assert_eq!(payload.connection_type, "P");
+                assert_eq!(payload.ip_address, "203.0.113.8");
+                assert_eq!(payload.port, 2242);
+                assert_eq!(payload.token, 77);
+                assert!(payload.privileged);
+                assert_eq!(payload.obfuscation_type, 2);
+                assert_eq!(payload.obfuscated_port, 40123);
+            }
+            other => panic!("expected connect_to_peer response, got {other:?}"),
+        }
     }
 
     #[test]
