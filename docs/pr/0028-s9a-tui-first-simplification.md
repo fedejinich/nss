@@ -85,25 +85,40 @@ Commands run for S9A:
 ```bash
 cd rust
 cargo test -p soul-tui
+cd ..
+scripts/sync_state_dashboards.sh
+python3 scripts/kb_validate.py
+scripts/run_regression.sh
+./.venv-tools/bin/zensical build -f zensical.toml
 ```
-
-Additional stage-level gates are documented in `TODO-CODEX.md` and executed before merge readiness.
 
 ## Review Loop Notes
 
-Round 1 (required):
+Round 1:
 
 1. `blockchain_protocol_engineer`
 2. `code_simplifier`
 3. `web3_security_review_expert`
 
-Round 2 (required):
+Actions and outcome:
+
+1. Protocol/flow review confirmed no protocol-surface drift in this stage (TUI remains on top of `soul-core`).
+2. Simplification review confirmed module split is materially clearer than prior single-file implementation.
+3. Security review confirmed:
+   - no plaintext password emission in logs,
+   - persisted state uses restrictive permissions (`0600` target),
+   - clear-history action only mutates local history state.
+
+Round 2:
 
 1. `blockchain_protocol_engineer`
 2. `code_simplifier`
 3. `web3_security_review_expert`
 
-All accepted feedback is applied; rejected feedback must be documented with rationale before merge.
+Actions and outcome:
+
+1. Re-checked after dashboard/state sync and gate reruns.
+2. No additional actionable findings were raised.
 
 ## Retrospective
 
