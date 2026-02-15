@@ -1,0 +1,16 @@
+{
+  "run_id": "peer-static-runtime",
+  "created_at": "2026-02-15T16:42:43+00:00",
+  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-static-runtime",
+  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-static-runtime",
+  "stats": {
+    "endpoint": 1,
+    "path": 3
+  },
+  "artifacts": {
+    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-static-runtime/manifest.redacted.json",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-static-runtime/frida-events.redacted.jsonl",
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-static-runtime/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-static-runtime/neo_frames.hex"
+  }
+}

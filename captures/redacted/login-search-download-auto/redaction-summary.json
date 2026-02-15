@@ -1,0 +1,16 @@
+{
+  "run_id": "login-search-download-auto",
+  "created_at": "2026-02-15T16:44:23+00:00",
+  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-search-download-auto",
+  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download-auto",
+  "stats": {
+    "endpoint": 1,
+    "path": 3
+  },
+  "artifacts": {
+    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download-auto/manifest.redacted.json",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download-auto/frida-events.redacted.jsonl",
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download-auto/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-search-download-auto/neo_frames.hex"
+  }
+}

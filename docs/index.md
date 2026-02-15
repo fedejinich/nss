@@ -4,9 +4,12 @@ This site is the canonical project memory for protocol mapping, runtime verifica
 
 ## Start Here
 
-- [Project Dashboard](state/project-dashboard/)
+- [Project Dashboard](state/project-dashboard.html)
 - [Roadmap](state/roadmap/)
 - [Protocol Matrix](state/protocol-matrix/)
+- [Runtime Coverage](state/runtime-coverage/)
+- [Capability Dashboard](state/capability-dashboard.html)
+- [Capability Matrix](state/capability-matrix/)
 - [Codebase Visualizer](state/codebase-visualizer/)
 - [Verification Status](state/verification-status/)
 - [S5A Closure Audit](state/s5a-closure-audit/)
@@ -28,8 +31,12 @@ This site is the canonical project memory for protocol mapping, runtime verifica
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
 - `analysis/state/stage_registry.json`
+- `analysis/state/runtime_coverage_registry.json`
+- `analysis/state/capability_registry.json`
 - `docs/state/protocol-matrix.md`
 - `docs/state/protocol-matrix.json`
+- `docs/state/runtime-coverage.json`
+- `docs/state/capability-matrix.json`
 - `docs/state/project-dashboard-data.json`
 - `docs/state/codebase-graph.json`
 - `docs/state/s5a-closure-audit.json`
@@ -44,6 +51,8 @@ python3 scripts/kb_promote.py
 python3 scripts/kb_sync_docs.py
 python3 scripts/kb_validate.py
 python3 tools/protocol/generate_protocol_matrix.py
+python3 tools/state/generate_runtime_coverage.py
+python3 tools/state/generate_capability_matrix.py
 python3 tools/state/generate_dashboard_data.py
 python3 tools/state/generate_codebase_graph.py
 python3 tools/state/verify_s5a_closure.py

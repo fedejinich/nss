@@ -1,0 +1,326 @@
+{
+  "generated_unix_secs": 1771174681,
+  "policy": {
+    "strict_runtime_complete_required": true,
+    "runtime_policy": "hybrid_official_plus_deterministic_harness",
+    "notes": "Official authenticated runtime is preferred. Deterministic local harness runtime is allowed when official triggers are unavailable."
+  },
+  "summary": {
+    "total_messages": 131,
+    "verified_runtime": 131,
+    "verified_static": 0,
+    "runtime_coverage_percent": 100.0,
+    "runtime_gap": 0,
+    "unresolved_semantic_tail_fields": 0,
+    "messages_with_unresolved_semantic_tail": 0
+  },
+  "targets": {
+    "runtime_targets": [
+      {
+        "scope": "peer",
+        "code": 1,
+        "name": "PM_SAY",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 4,
+        "name": "PM_GET_SHARED_FILE_LIST",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 5,
+        "name": "PM_SHARED_FILE_LIST",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 8,
+        "name": "PM_FILE_SEARCH_REQUEST",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 15,
+        "name": "PM_USER_INFO_REQUEST",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 16,
+        "name": "PM_USER_INFO_REPLY",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 33,
+        "name": "PM_SEND_CONNECT_TOKEN",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 40,
+        "name": "PM_TRANSFER_REQUEST",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 41,
+        "name": "PM_TRANSFER_RESPONSE",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 42,
+        "name": "PM_PLACEHOLD_UPLOAD",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 43,
+        "name": "PM_QUEUE_UPLOAD",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 51,
+        "name": "PM_UPLOAD_PLACE_IN_LINE_REQUEST",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "peer",
+        "code": 52,
+        "name": "PM_NOTHING",
+        "scenario": "peer-static-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/peer-static-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 2,
+        "name": "SM_SET_WAIT_PORT",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 5,
+        "name": "SM_ADD_USER",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 6,
+        "name": "SM_REMOVE_USER",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 26,
+        "name": "SM_FILE_SEARCH",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 33,
+        "name": "SM_SEND_CONNECT_TOKEN",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 34,
+        "name": "SM_DOWNLOAD_SPEED",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 35,
+        "name": "SM_SHARED_FOLDERS_FILES",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 59,
+        "name": "SM_PLACE_IN_LINE",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 60,
+        "name": "SM_PLACE_IN_LINE_RESPONSE",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 91,
+        "name": "SM_ADD_PRIVILEGED_USER",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 103,
+        "name": "SM_LOW_PRIORITY_FILE_SEARCH",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 104,
+        "name": "SM_WISHLIST_WAIT",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 132,
+        "name": "SM_BAN_USER",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 134,
+        "name": "SM_ADD_ROOM_MEMBER",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 135,
+        "name": "SM_REMOVE_ROOM_MEMBER",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 143,
+        "name": "SM_ADD_ROOM_OPERATOR",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      },
+      {
+        "scope": "server",
+        "code": 144,
+        "name": "SM_REMOVE_ROOM_OPERATOR",
+        "scenario": "login-static-server-runtime",
+        "current_status": "verified_runtime",
+        "source": "captures/redacted/login-static-server-runtime/official_frames.hex"
+      }
+    ],
+    "semantic_tail_targets": [
+      {
+        "scope": "server",
+        "code": 70,
+        "name": "SM_CONNECT_TO_CLIENT",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 82,
+        "name": "SM_CHILD_PARENT_MAP",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 126,
+        "name": "SM_DNET_LEVEL",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 127,
+        "name": "SM_DNET_GROUP_LEADER",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 128,
+        "name": "SM_DNET_DELIVERY_REPORT",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 129,
+        "name": "SM_DNET_CHILD_DEPTH",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 131,
+        "name": "SM_FLOOD",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 146,
+        "name": "SM_REMOVE_ROOM_OPERATORSHIP",
+        "scenario": "login-partial-tail-runtime"
+      },
+      {
+        "scope": "server",
+        "code": 147,
+        "name": "SM_REMOVE_OWN_ROOM_OPERATORSHIP",
+        "scenario": "login-partial-tail-runtime"
+      }
+    ]
+  },
+  "gaps": {
+    "static_only_messages": [],
+    "unresolved_tail_messages": []
+  },
+  "source_artifacts": {
+    "message_map": "analysis/ghidra/maps/message_map.csv",
+    "message_schema": "analysis/protocol/message_schema.json",
+    "runtime_coverage_registry": "analysis/state/runtime_coverage_registry.json"
+  }
+}

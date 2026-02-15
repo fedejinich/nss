@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `26`
+Total PR docs: `27`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -177,6 +177,13 @@ Total PR docs: `26`
 <summary>S6F (1 PRs)</summary>
 
 - [0025-s6f-residual-legacy-semantic-closure.md - S6f Residual Legacy Semantic Closure](0025-s6f-residual-legacy-semantic-closure/)
+
+</details>
+
+<details>
+<summary>S7R-S8B (1 PRs)</summary>
+
+- [0026-s7r-s8b-runtime-complete-minimal-tui.md - S7r S8b Runtime Complete Minimal Tui](0026-s7r-s8b-runtime-complete-minimal-tui/)
 
 </details>
 

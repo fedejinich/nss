@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T15:14:55+00:00`
+- Generated: `2026-02-15T16:54:55+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -12,14 +12,14 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 1 to PM_SAY (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_SAY (code 1) and validates codec directionality with redacted evidence.)
 
 ### `peer` `PM_GET_SHARED_FILE_LIST` (code `4`)
 - Confidence: `high`
 - Payload fields:
   - `username`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Observed literal in PeerMessenger::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_GET_SHARED_FILE_LIST (code 4) and validates codec directionality with redacted evidence.)
 
 ### `peer` `PM_SHARED_FILE_LIST` (code `5`)
 - Confidence: `high`
@@ -28,7 +28,7 @@
   - `entry.virtual_path`: `string`
   - `entry.size`: `u64`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Observed literal in PeerMessenger::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_SHARED_FILE_LIST (code 5) and validates codec directionality with redacted evidence.)
 
 ### `peer` `PM_FILE_SEARCH_REQUEST` (code `8`)
 - Confidence: `high`
@@ -36,7 +36,7 @@
   - `token`: `u32`
   - `query`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Observed literal in PeerMessenger::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_FILE_SEARCH_REQUEST (code 8) and validates codec directionality with redacted evidence.)
 
 ### `peer` `PM_FILE_SEARCH_RESULT` (code `9`)
 - Confidence: `high`
@@ -63,7 +63,7 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer code 15 UserInfoRequest with empty payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_USER_INFO_REQUEST (code 15) and validates codec directionality with redacted evidence.)
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_USER_INFO_REQUEST.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 15 documents user info request as empty payload.)
 
@@ -78,7 +78,7 @@
   - `slots_free`: `bool_u8`
   - `upload_permissions`: `optional_u32`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer code 16 UserInfoReply with description/picture/uploads/queue/slots fields (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_USER_INFO_REPLY (code 16) and validates codec directionality with redacted evidence.)
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_USER_INFO_REPLY.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 16 documents user info reply payload fields.)
 
@@ -86,7 +86,7 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 33 to PM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_SEND_CONNECT_TOKEN (code 33) and validates codec directionality with redacted evidence.)
 
 ### `peer` `PM_MOVE_DOWNLOAD_TO_TOP` (code `34`)
 - Confidence: `high`
@@ -125,7 +125,7 @@
   - `virtual_path`: `string`
   - `file_size`: `u64`
 - Evidence:
-  - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_file_request.txt` (Transfer queue dispatcher handles transfer request negotiation.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_TRANSFER_REQUEST (code 40) and validates codec directionality with redacted evidence.)
   - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_file_request.txt` (Transfer queue dispatcher handles transfer request negotiation path.)
 
 ### `peer` `PM_TRANSFER_RESPONSE` (code `41`)
@@ -135,14 +135,14 @@
   - `allowed`: `bool_u32`
   - `queue_or_reason`: `string`
 - Evidence:
-  - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_file_request.txt` (Transfer queue dispatcher handles transfer response negotiation.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_TRANSFER_RESPONSE (code 41) and validates codec directionality with redacted evidence.)
   - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_file_request.txt` (Transfer queue dispatcher handles transfer response negotiation path.)
 
 ### `peer` `PM_PLACEHOLD_UPLOAD` (code `42`)
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 42 to PM_PLACEHOLD_UPLOAD (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_PLACEHOLD_UPLOAD (code 42) and validates codec directionality with redacted evidence.)
 
 ### `peer` `PM_QUEUE_UPLOAD` (code `43`)
 - Confidence: `high`
@@ -150,7 +150,7 @@
   - `username`: `string`
   - `virtual_path`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Observed literal in PeerMessenger::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_QUEUE_UPLOAD (code 43) and validates codec directionality with redacted evidence.)
   - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_queue_download.txt` (Queue manager records upload queueing for pending peers.)
 
 ### `peer` `PM_UPLOAD_PLACE_IN_LINE` (code `44`)
@@ -213,7 +213,7 @@
 - Payload fields:
   - `virtual_path`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer code 51 PlaceInQueueRequest with filename/path payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_UPLOAD_PLACE_IN_LINE_REQUEST (code 51) and validates codec directionality with redacted evidence.)
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_UPLOAD_PLACE_IN_LINE_REQUEST.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 51 documents place-in-line request carrying filename/path.)
 
@@ -221,7 +221,7 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 52 to PM_NOTHING (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/peer-static-runtime/official_frames.hex` (Stage 7 deterministic local runtime harness captures peer message PM_NOTHING (code 52) and validates codec directionality with redacted evidence.)
 
 ### `server` `SM_LOGIN` (code `1`)
 - Confidence: `high`
@@ -239,7 +239,7 @@
 - Payload fields:
   - `listen_port`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_SET_WAIT_PORT (code 2) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_GET_PEER_ADDRESS` (code `3`)
 - Confidence: `high`
@@ -257,13 +257,13 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 5 to SM_ADD_USER (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_USER (code 5) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_REMOVE_USER` (code `6`)
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 6 to SM_REMOVE_USER (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_REMOVE_USER (code 6) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_GET_USER_STATUS` (code `7`)
 - Confidence: `high`
@@ -382,7 +382,7 @@
   - `search_token`: `u32`
   - `search_text`: `string`
 - Evidence:
-  - `ghidra_decompile`: `evidence/reverse/disasm/server_file_search.txt` (FileSearch writes constant 0x1a before Server::SendMessage.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_FILE_SEARCH (code 26) with official-first probing and deterministic fallback evidence.)
   - `ghidra_decompile`: `evidence/reverse/disasm/server_file_search.txt` (Function writes constant 0x1a before serializing search payload.)
   - `ghidra_decompile`: `evidence/reverse/disasm/server_prepare_search.txt` (PrepareSearch normalizes and emits search tokens/strings.)
 
@@ -404,14 +404,14 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 33 to SM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_SEND_CONNECT_TOKEN (code 33) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_DOWNLOAD_SPEED` (code `34`)
 - Confidence: `high`
 - Payload fields:
   - `bytes_per_sec`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_DOWNLOAD_SPEED (code 34) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_SHARED_FOLDERS_FILES` (code `35`)
 - Confidence: `high`
@@ -419,7 +419,7 @@
   - `folder_count`: `u32`
   - `file_count`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/server_messagecodetostring_otool.txt` (Observed literal in Server::MessageCodeToString dispatch.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_SHARED_FOLDERS_FILES (code 35) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_GET_USER_STATS` (code `36`)
 - Confidence: `high`
@@ -543,13 +543,13 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 59 to SM_PLACE_IN_LINE (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_PLACE_IN_LINE (code 59) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_PLACE_IN_LINE_RESPONSE` (code `60`)
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 60 to SM_PLACE_IN_LINE_RESPONSE (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_PLACE_IN_LINE_RESPONSE (code 60) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_USER_LIST` (code `61`)
 - Confidence: `high`
@@ -655,7 +655,7 @@
   - `token`: `u32`
   - `username`: `string`
   - `connection_type`: `string`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 runtime probe captures typed connect-to-client payload with token+username+connection_type fields.)
   - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 authenticated probe includes code 70 frame with token+username+connection_type payload shape.)
@@ -684,7 +684,7 @@
   - `entry_count`: `u32`
   - `entry.child_username`: `string`
   - `entry.parent_username`: `string`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 runtime probe captures typed child-parent map payload on code 82 with compatibility raw tail.)
   - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 authenticated probe includes code 82 payload with typed child->parent pair entries and raw-tail compatibility.)
@@ -735,7 +735,7 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 91 to SM_ADD_PRIVILEGED_USER (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_PRIVILEGED_USER (code 91) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_GET_OWN_PRIVILEGES_STATUS` (code `92`)
 - Confidence: `high`
@@ -779,13 +779,13 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 103 to SM_LOW_PRIORITY_FILE_SEARCH (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_LOW_PRIORITY_FILE_SEARCH (code 103) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_WISHLIST_WAIT` (code `104`)
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 104 to SM_WISHLIST_WAIT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_WISHLIST_WAIT (code 104) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_GET_RECOMMENDED_USERS` (code `110`)
 - Confidence: `high`
@@ -918,7 +918,7 @@
 - Confidence: `high`
 - Payload fields:
   - `level`: `optional_u32`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime+spec evidence confirms BranchLevel layout on code 126 (u32 level with optional residual tail).)
   - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class BranchLevel (code 126) serializes one u32 branch-level value.)
@@ -928,7 +928,7 @@
 - Confidence: `high`
 - Payload fields:
   - `username`: `optional_string`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime+spec evidence confirms BranchRoot layout on code 127 (string root username with optional residual tail).)
   - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class BranchRoot (code 127) serializes one root-username string.)
@@ -938,18 +938,18 @@
 - Confidence: `high`
 - Payload fields:
   - `report`: `optional_u32`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F runtime+static evidence confirms code 128 uses an int/u32 delivery-report payload with optional residual tail.)
   - `static_analysis`: `evidence/ui_audit/decomp/server_methods.txt` (Server::DNetDeliveryReport(int) symbol signature indicates a single int payload argument on the server handler path.)
   - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe confirms active code 128 wire path with 4-byte payload.)
-  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F authenticated runtime probe exercises code 128 with multi-value u32 payload variants (0,1,2), confirming typed optional_u32 + raw_tail layout.)
+  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F authenticated runtime probe exercises code 128 with multi-value u32 payload variants (0,1,2), confirming typed optional_u32 + extension-reserved bytes layout.)
 
 ### `server` `SM_DNET_CHILD_DEPTH` (code `129`)
 - Confidence: `high`
 - Payload fields:
   - `depth`: `optional_u32`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime+spec evidence confirms ChildDepth layout on code 129 (u32 depth with optional residual tail).)
   - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class ChildDepth (code 129) serializes one u32 depth value.)
@@ -966,17 +966,17 @@
 - Confidence: `high`
 - Payload fields:
   - `flood_code`: `optional_u32`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F runtime evidence confirms code 131 uses a stable u32 flood-control payload with optional residual tail.)
   - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe confirms active code 131 wire path with 4-byte payload.)
-  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F authenticated runtime probe exercises code 131 with multi-value u32 payload variants (0,1,2), promoting typed optional_u32 + raw_tail handling.)
+  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F authenticated runtime probe exercises code 131 with multi-value u32 payload variants (0,1,2), promoting typed optional_u32 + extension-reserved bytes handling.)
 
 ### `server` `SM_BAN_USER` (code `132`)
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 132 to SM_BAN_USER (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_BAN_USER (code 132) with official-first probing and deterministic fallback evidence.)
 
 ### `server` `SM_ROOM_MEMBERS` (code `133`)
 - Confidence: `high`
@@ -992,7 +992,7 @@
   - `room`: `string`
   - `username`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/message_name_strings.txt` (Server code 134 AddUserToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_ROOM_MEMBER (code 134) with official-first probing and deterministic fallback evidence.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_ADD_ROOM_MEMBER.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 134 documents AddUserToPrivileged operation with room+username fields.)
 
@@ -1002,7 +1002,7 @@
   - `room`: `string`
   - `username`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/message_name_strings.txt` (Server code 135 RemoveUserFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_REMOVE_ROOM_MEMBER (code 135) with official-first probing and deterministic fallback evidence.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_REMOVE_ROOM_MEMBER.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 135 documents RemoveUserFromPrivileged operation with room+username fields.)
 
@@ -1067,7 +1067,7 @@
   - `room`: `string`
   - `username`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/message_name_strings.txt` (Server code 143 AddOperatorToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_ROOM_OPERATOR (code 143) with official-first probing and deterministic fallback evidence.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_ADD_ROOM_OPERATOR.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 143 documents AddOperatorToPrivileged operation with room+username fields.)
 
@@ -1077,7 +1077,7 @@
   - `room`: `string`
   - `username`: `string`
 - Evidence:
-  - `string`: `evidence/reverse/message_name_strings.txt` (Server code 144 RemoveOperatorFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.)
+  - `runtime_capture`: `captures/redacted/login-static-server-runtime/official_frames.hex` (Stage 7 hybrid authenticated runtime probe captures server message SM_REMOVE_ROOM_OPERATOR (code 144) with official-first probing and deterministic fallback evidence.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_REMOVE_ROOM_OPERATOR.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 144 documents RemoveOperatorFromPrivileged operation with room+username fields.)
 
@@ -1092,7 +1092,7 @@
 - Confidence: `high`
 - Payload fields:
   - `room`: `optional_string`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` (S6E runtime+spec evidence confirms room-string payload on code 146 for room operatorship revocation.)
   - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class RoomOperatorshipRevoked (code 146) parses room string payload.)
@@ -1102,7 +1102,7 @@
 - Confidence: `high`
 - Payload fields:
   - `room`: `optional_string`
-  - `raw_tail`: `bytes_raw`
+  - `extension_reserved_bytes`: `bytes_raw`
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` (S6E runtime evidence confirms room-string wire layout on code 147 (same layout family as code 146).)
   - `runtime_capture`: `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` (S6E authenticated runtime probe includes code 147 with same room-string wire layout used by code 146.)

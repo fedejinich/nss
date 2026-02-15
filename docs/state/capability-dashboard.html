@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NeoSoulSeek Capability Dashboard</title>
+    <style>
+      :root {
+        --bg: #f6efe5;
+        --text: #1d2a37;
+        --muted: #5c6975;
+        --panel: rgba(255, 253, 248, 0.95);
+        --panel-strong: rgba(255, 255, 255, 0.98);
+        --border: rgba(31, 46, 60, 0.15);
+        --accent: #1f8a70;
+        --warn: #d17d2f;
+        --danger: #b44842;
+        --done: #2f9e64;
+        --planned: #8ea0b2;
+        --shadow: 0 16px 30px rgba(29, 42, 55, 0.11);
+        --font-title: "Avenir Next", "Gill Sans", "Trebuchet MS", sans-serif;
+        --font-ui: "Trebuchet MS", "Segoe UI", sans-serif;
+        --font-mono: "IBM Plex Mono", "Menlo", monospace;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: var(--font-ui);
+        color: var(--text);
+        min-height: 100vh;
+        background:
+          radial-gradient(1000px 560px at 3% -8%, rgba(111, 196, 174, 0.26), transparent 68%),
+          radial-gradient(960px 500px at 98% 0%, rgba(236, 167, 98, 0.26), transparent 66%),
+          var(--bg);
+      }
+
+      .page {
+        width: min(1380px, 100% - 30px);
+        margin: 0 auto;
+        padding: 16px 0 28px;
+      }
+
+      .hero {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(255, 253, 248, 0.97), rgba(248, 240, 227, 0.96));
+        box-shadow: var(--shadow);
+        padding: 18px;
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 16px;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: var(--font-title);
+        font-size: clamp(1.2rem, 2.1vw, 1.84rem);
+      }
+
+      .sub {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .chips {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.77);
+        font-size: 0.76rem;
+        padding: 5px 10px;
+      }
+
+      .chip a { color: inherit; text-decoration: none; }
+      .chip a:hover { text-decoration: underline; }
+
+      .state-box {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel-strong);
+        padding: 12px;
+      }
+
+      .state-box h2 {
+        margin: 0;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .state-box p {
+        margin: 8px 0 0;
+        font-size: 0.84rem;
+        line-height: 1.45;
+      }
+
+      .kpis {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .kpi {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel);
+        padding: 10px;
+      }
+
+      .kpi .k {
+        text-transform: uppercase;
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+
+      .kpi .v {
+        margin-top: 4px;
+        font-family: var(--font-mono);
+        font-size: 1.02rem;
+      }
+
+      .section {
+        margin-top: 15px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--panel);
+        box-shadow: 0 10px 24px rgba(30, 44, 54, 0.08);
+        padding: 14px;
+      }
+
+      .section h2 {
+        margin: 0;
+        font-family: var(--font-title);
+        font-size: 1.02rem;
+      }
+
+      .desc {
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .filters {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+      }
+
+      .filters input,
+      .filters select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.92);
+        font-family: var(--font-ui);
+        font-size: 0.82rem;
+        color: var(--text);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 0.81rem;
+      }
+
+      th, td {
+        border: 1px solid var(--border);
+        padding: 6px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th { background: rgba(245, 240, 228, 0.88); }
+
+      .badge {
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        padding: 3px 8px;
+        font-size: 0.69rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .badge.done {
+        color: #205f3f;
+        border-color: rgba(47, 158, 100, 0.36);
+        background: rgba(47, 158, 100, 0.16);
+      }
+
+      .badge.in_progress {
+        color: #7a4918;
+        border-color: rgba(228, 143, 55, 0.42);
+        background: rgba(228, 143, 55, 0.15);
+      }
+
+      .badge.planned {
+        color: #4f5d68;
+        border-color: rgba(142, 160, 178, 0.35);
+        background: rgba(142, 160, 178, 0.16);
+      }
+
+      .gate-pass {
+        color: #205f3f;
+        background: rgba(47, 158, 100, 0.16);
+      }
+
+      .gate-blocked {
+        color: #7d2f2a;
+        background: rgba(180, 72, 66, 0.16);
+      }
+
+      .list {
+        margin-top: 10px;
+        display: grid;
+        gap: 7px;
+      }
+
+      .item {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.78);
+        padding: 8px;
+      }
+
+      .item .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .item .title {
+        font-weight: 700;
+        font-size: 0.86rem;
+      }
+
+      .item .meta {
+        margin-top: 4px;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+      }
+
+      @media (max-width: 1120px) {
+        .hero { grid-template-columns: 1fr; }
+        .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .split { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 760px) {
+        .page { width: min(1320px, 100% - 18px); }
+        .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .filters { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <h1>NeoSoulSeek Capability Dashboard</h1>
+          <p class="sub">Capability matrix, final gates, and critical path for protocol-runtime closure and minimal TUI delivery.</p>
+          <div class="chips">
+            <span class="chip"><a href="capability-matrix/">Capability matrix</a></span>
+            <span class="chip"><a href="runtime-coverage/">Runtime coverage</a></span>
+            <span class="chip"><a href="project-dashboard.html">Project dashboard</a></span>
+            <span class="chip"><a href="roadmap/">Roadmap</a></span>
+            <span class="chip"><a href="verification-status/">Verification status</a></span>
+          </div>
+        </div>
+        <aside class="state-box">
+          <h2>Final State</h2>
+          <p id="finalState">Loading capability state...</p>
+          <p class="mono" id="updatedAt">updated: --</p>
+        </aside>
+      </section>
+
+      <section class="kpis" id="kpis"></section>
+
+      <section class="section">
+        <h2>Final Gates</h2>
+        <p class="desc">All gates must pass before project closure for minimal TUI v1.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Gate</th>
+              <th>Status</th>
+              <th>Required</th>
+              <th>Linked capabilities</th>
+              <th>Blockers</th>
+            </tr>
+          </thead>
+          <tbody id="gateRows"></tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>Capabilities</h2>
+        <p class="desc">Filter by domain, status, and blockers.</p>
+        <div class="filters">
+          <input id="search" placeholder="Search id/title/notes/blockers" />
+          <select id="domainFilter"><option value="all">All domains</option></select>
+          <select id="statusFilter"><option value="all">All statuses</option></select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Domain</th>
+              <th>Status</th>
+              <th>Required final</th>
+              <th>Depends on</th>
+              <th>Blockers</th>
+            </tr>
+          </thead>
+          <tbody id="capRows"></tbody>
+        </table>
+      </section>
+
+      <section class="section split">
+        <div>
+          <h2>Critical Path</h2>
+          <p class="desc">Ordered required capabilities that still block final completion.</p>
+          <div class="list" id="criticalPath"></div>
+        </div>
+        <div>
+          <h2>Current Blockers</h2>
+          <p class="desc">Consolidated blockers from gates and capabilities.</p>
+          <div class="list" id="blockers"></div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const DATA_URL = "capability-matrix.json";
+
+      const kpisEl = document.getElementById("kpis");
+      const gateRowsEl = document.getElementById("gateRows");
+      const capRowsEl = document.getElementById("capRows");
+      const criticalPathEl = document.getElementById("criticalPath");
+      const blockersEl = document.getElementById("blockers");
+      const finalStateEl = document.getElementById("finalState");
+      const updatedAtEl = document.getElementById("updatedAt");
+      const searchEl = document.getElementById("search");
+      const domainFilterEl = document.getElementById("domainFilter");
+      const statusFilterEl = document.getElementById("statusFilter");
+
+      let matrix = null;
+
+      function fmt(n) {
+        return new Intl.NumberFormat("en-US").format(Number(n) || 0);
+      }
+
+      function unixToLocal(unixSecs) {
+        if (!unixSecs) return "--";
+        const d = new Date(unixSecs * 1000);
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleString();
+      }
+
+      function normalize(value) {
+        return String(value || "").toLowerCase();
+      }
+
+      function badge(status) {
+        if (status === "done") return '<span class="badge done">done</span>';
+        if (status === "in_progress") return '<span class="badge in_progress">in progress</span>';
+        return '<span class="badge planned">planned</span>';
+      }
+
+      function renderKpis(summary) {
+        const cards = [
+          ["Capabilities", summary.total_capabilities],
+          ["Done", summary.done],
+          ["In progress", summary.in_progress],
+          ["Required final", summary.required_for_final],
+          ["Runtime verified", summary.runtime_verified],
+          ["Runtime static", summary.runtime_static],
+          ["Semantic tail gaps", summary.semantic_tail_gaps],
+          ["Protocol messages", summary.protocol_messages],
+        ];
+
+        kpisEl.innerHTML = cards
+          .map(([k, v]) => `<article class="kpi"><div class="k">${k}</div><div class="v">${fmt(v)}</div></article>`)
+          .join("");
+      }
+
+      function renderGates(finalGates) {
+        gateRowsEl.innerHTML = (finalGates || [])
+          .map((gate) => {
+            const blockers = (gate.blockers || []).length ? gate.blockers.join("; ") : "-";
+            const cls = gate.status === "pass" ? "gate-pass" : "gate-blocked";
+            return `
+              <tr>
+                <td><code>${gate.id}</code><div>${gate.title}</div></td>
+                <td><span class="badge ${cls}">${gate.status}</span></td>
+                <td>${gate.required}</td>
+                <td>${(gate.linked_capabilities || []).map((v) => `<code>${v}</code>`).join(", ")}</td>
+                <td>${blockers}</td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+
+      function populateFilters(capabilities) {
+        const domains = [...new Set((capabilities || []).map((cap) => String(cap.domain || "unknown")))].sort();
+        const statuses = [...new Set((capabilities || []).map((cap) => String(cap.status || "unknown")))].sort();
+
+        domainFilterEl.innerHTML =
+          '<option value="all">All domains</option>' +
+          domains.map((value) => `<option value="${value}">${value}</option>`).join("");
+
+        statusFilterEl.innerHTML =
+          '<option value="all">All statuses</option>' +
+          statuses.map((value) => `<option value="${value}">${value}</option>`).join("");
+      }
+
+      function filteredCapabilities(capabilities) {
+        const query = normalize(searchEl.value).trim();
+        const domain = domainFilterEl.value;
+        const status = statusFilterEl.value;
+
+        return (capabilities || []).filter((cap) => {
+          const text = normalize([
+            cap.id,
+            cap.title,
+            cap.domain,
+            cap.status,
+            cap.notes,
+            (cap.blockers || []).join(" "),
+          ].join(" "));
+
+          if (query && !text.includes(query)) return false;
+          if (domain !== "all" && String(cap.domain) !== domain) return false;
+          if (status !== "all" && String(cap.status) !== status) return false;
+          return true;
+        });
+      }
+
+      function renderCapabilities(capabilities) {
+        capRowsEl.innerHTML = filteredCapabilities(capabilities)
+          .map((cap) => {
+            const blockers = (cap.blockers || []).length ? cap.blockers.join("; ") : "-";
+            const deps = (cap.depends_on || []).length ? cap.depends_on.join(", ") : "-";
+            return `
+              <tr>
+                <td><code>${cap.id}</code></td>
+                <td>${cap.title}</td>
+                <td><code>${cap.domain}</code></td>
+                <td>${badge(cap.status)}</td>
+                <td>${cap.required_for_final ? "yes" : "no"}</td>
+                <td>${deps}</td>
+                <td>${blockers}</td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+
+      function renderCriticalPath(items) {
+        if (!(items || []).length) {
+          criticalPathEl.innerHTML = '<div class="item">No pending required capabilities.</div>';
+          return;
+        }
+
+        criticalPathEl.innerHTML = items
+          .map((item) => {
+            const deps = (item.depends_on || []).length ? item.depends_on.join(", ") : "-";
+            const blockers = (item.blockers || []).length ? item.blockers.join("; ") : "-";
+            return `
+              <article class="item">
+                <div class="head">
+                  <div class="title"><code>${item.id}</code> ${item.title}</div>
+                  ${badge(item.status)}
+                </div>
+                <div class="meta">depends_on: <code>${deps}</code></div>
+                <div class="meta">blockers: ${blockers}</div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function renderBlockers(payload) {
+        const blockerRows = [];
+        for (const gate of payload.final_gates || []) {
+          for (const blocker of gate.blockers || []) {
+            blockerRows.push(`gate ${gate.id}: ${blocker}`);
+          }
+        }
+        for (const cap of payload.capabilities || []) {
+          for (const blocker of cap.blockers || []) {
+            blockerRows.push(`${cap.id}: ${blocker}`);
+          }
+        }
+
+        if (!blockerRows.length) {
+          blockersEl.innerHTML = '<div class="item">No active blockers.</div>';
+          return;
+        }
+
+        blockersEl.innerHTML = blockerRows
+          .map((row) => `<div class="item"><div class="meta">${row}</div></div>`)
+          .join("");
+      }
+
+      function bindFilters() {
+        const rerender = () => renderCapabilities(matrix.capabilities || []);
+        searchEl.addEventListener("input", rerender);
+        domainFilterEl.addEventListener("change", rerender);
+        statusFilterEl.addEventListener("change", rerender);
+      }
+
+      async function loadData() {
+        const response = await fetch(DATA_URL, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`could not load ${DATA_URL}: HTTP ${response.status}`);
+        }
+        return response.json();
+      }
+
+      async function main() {
+        try {
+          matrix = await loadData();
+          const summary = matrix.summary || {};
+          renderKpis(summary);
+          renderGates(matrix.final_gates || []);
+          populateFilters(matrix.capabilities || []);
+          renderCapabilities(matrix.capabilities || []);
+          renderCriticalPath(matrix.critical_path || []);
+          renderBlockers(matrix);
+          bindFilters();
+
+          const allPass = (matrix.final_gates || []).length > 0 &&
+            (matrix.final_gates || []).every((gate) => gate.status === "pass");
+          finalStateEl.textContent = allPass
+            ? "All final gates pass. Project is closure-ready."
+            : "Final gates still blocked. Use critical path and blockers to drive next stage.";
+          updatedAtEl.textContent = `updated: ${unixToLocal(matrix.generated_unix_secs)}`;
+        } catch (error) {
+          finalStateEl.textContent = `failed to load capability dashboard data: ${String(error)}`;
+        }
+      }
+
+      main();
+    </script>
+  </body>
+</html>

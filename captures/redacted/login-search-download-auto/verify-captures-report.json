@@ -1,0 +1,71 @@
+{
+  "run_id": "login-search-download-auto",
+  "comparison_mode": "semantic",
+  "total_pairs": 6,
+  "matched_pairs": 6,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 61,
+      "neo_len": 61,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 37,
+      "neo_len": 37,
+      "first_diff_offset": null
+    },
+    {
+      "index": 3,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 97,
+      "neo_len": 97,
+      "first_diff_offset": null
+    },
+    {
+      "index": 4,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 57,
+      "neo_len": 57,
+      "first_diff_offset": null
+    },
+    {
+      "index": 5,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 20,
+      "neo_len": 20,
+      "first_diff_offset": null
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "run_id": "login-partial-tail-runtime",
+  "scenario": "login-partial-tail-runtime",
+  "source_type": "runtime_hybrid_official_plus_deterministic_harness",
+  "created_at": "2026-02-15T16:42:31+00:00",
+  "server": "<redacted:endpoint:ddb66d5ae892>",
+  "frame_count": 18,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:fb304ec76d9f>",
+    "neo_frames_raw": "<redacted:path:e3dd039f2104>",
+    "frida_events_raw": "<redacted:path:7a550f5ccec1>"
+  },
+  "notes": "Stage 7 runtime semantic-depth probe set for payload families with extension-tail semantics. Hybrid policy: official authenticated probe first, deterministic fallback when required.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T16:42:43+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-partial-tail-runtime",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

@@ -47,7 +47,7 @@ class Stage6FResidualSemanticClosureContractTests(unittest.TestCase):
             entry = index[key]
             fields = [field.get("name") for field in entry.get("payload", [])]
             self.assertIn(expectations["field"], fields)
-            self.assertIn("raw_tail", fields)
+            self.assertIn("extension_reserved_bytes", fields)
 
             evidence = entry.get("evidence", [])
             self.assertTrue(evidence)

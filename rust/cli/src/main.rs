@@ -5,8 +5,9 @@ use protocol::{
     build_login_request, build_transfer_request, build_transfer_response,
 };
 use soul_core::{
-    Credentials, DownloadPlan, ManualUploadDecision, PrivateEvent, RoomEvent, SessionClient,
-    UploadAgent, UploadDecisionKind, download_single_file, probe_login_versions,
+    Credentials, DownloadPlan, ManualUploadDecision, PrivateEvent, RoomEvent,
+    SearchSelectDownloadRequest, SessionClient, UploadAgent, UploadDecisionKind,
+    download_single_file, probe_login_versions,
 };
 use std::env;
 use std::fs;
@@ -174,6 +175,46 @@ enum SessionCommand {
         client_version: u32,
         #[arg(long, default_value_t = 19)]
         minor_version: u32,
+    },
+    DownloadAuto {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        token: u32,
+        #[arg(long)]
+        query: String,
+        #[arg(long)]
+        output: PathBuf,
+        #[arg(long)]
+        transfer_token: u32,
+        #[arg(long, default_value_t = 0)]
+        result_index: usize,
+        #[arg(long, default_value_t = 0)]
+        file_index: usize,
+        #[arg(long, default_value_t = 6)]
+        search_timeout_secs: u64,
+        #[arg(long, default_value_t = 32)]
+        max_messages: usize,
+        #[arg(long)]
+        peer: Option<String>,
+        #[arg(long, default_value_t = 5)]
+        peer_lookup_timeout_secs: u64,
+        #[arg(long, default_value = "P")]
+        connection_type: String,
+        #[arg(long, default_value_t = false)]
+        skip_connect_probe: bool,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
     },
     Message {
         #[arg(long)]
@@ -1096,6 +1137,53 @@ async fn main() -> Result<()> {
                     max_messages,
                 )
                 .await?
+            }
+            SessionCommand::DownloadAuto {
+                server,
+                username,
+                password,
+                password_md5,
+                token,
+                query,
+                output,
+                transfer_token,
+                result_index,
+                file_index,
+                search_timeout_secs,
+                max_messages,
+                peer,
+                peer_lookup_timeout_secs,
+                connection_type,
+                skip_connect_probe,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_download_auto(
+                    &mut client,
+                    token,
+                    &query,
+                    output,
+                    transfer_token,
+                    result_index,
+                    file_index,
+                    search_timeout_secs,
+                    max_messages,
+                    peer,
+                    peer_lookup_timeout_secs,
+                    &connection_type,
+                    skip_connect_probe,
+                    verbose,
+                )
+                .await?;
             }
             SessionCommand::Message {
                 server,
@@ -2107,6 +2195,55 @@ async fn run_search(
     );
     for (idx, msg) in messages.iter().enumerate() {
         println!("[{idx}] {:?}", msg);
+    }
+    Ok(())
+}
+
+#[allow(clippy::too_many_arguments)]
+async fn run_download_auto(
+    client: &mut SessionClient,
+    token: u32,
+    query: &str,
+    output: PathBuf,
+    transfer_token: u32,
+    result_index: usize,
+    file_index: usize,
+    search_timeout_secs: u64,
+    max_messages: usize,
+    peer: Option<String>,
+    peer_lookup_timeout_secs: u64,
+    connection_type: &str,
+    skip_connect_probe: bool,
+    verbose: bool,
+) -> Result<()> {
+    let request = SearchSelectDownloadRequest {
+        search_token: token,
+        query: query.to_owned(),
+        search_timeout: Duration::from_secs(search_timeout_secs),
+        max_messages,
+        result_index,
+        file_index,
+        transfer_token,
+        output_path: output,
+        peer_addr_override: peer,
+        peer_lookup_timeout: Duration::from_secs(peer_lookup_timeout_secs),
+        connection_type: connection_type.to_owned(),
+        skip_connect_probe,
+    };
+
+    let result = client.search_select_and_download(&request).await?;
+    println!(
+        "session.download-auto ok user={} path={} size={} peer={} token={} bytes={} output={}",
+        result.selected_username,
+        result.selected_virtual_path,
+        result.selected_file_size,
+        result.peer_addr,
+        result.transfer_token,
+        result.bytes_written,
+        result.output_path.display()
+    );
+    if verbose {
+        println!("{result:#?}");
     }
     Ok(())
 }
