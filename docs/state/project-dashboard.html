@@ -344,11 +344,11 @@
           <div class="chips">
             <span class="chip status" id="currentStage">Current: loading...</span>
             <span class="chip" id="updatedAt">Updated: --</span>
-            <span class="chip"><a href="roadmap.md">Roadmap text</a></span>
-            <span class="chip"><a href="protocol-matrix.md">Protocol matrix</a></span>
-            <span class="chip"><a href="codebase-visualizer.md">Codebase visualizer</a></span>
-            <span class="chip"><a href="verification-status.md">Verification status</a></span>
-            <span class="chip"><a href="../pr/index.md">PR catalog</a></span>
+            <span class="chip"><a href="roadmap/">Roadmap text</a></span>
+            <span class="chip"><a href="protocol-matrix/">Protocol matrix</a></span>
+            <span class="chip"><a href="codebase-visualizer/">Codebase visualizer</a></span>
+            <span class="chip"><a href="verification-status/">Verification status</a></span>
+            <span class="chip"><a href="../pr/">PR catalog</a></span>
           </div>
         </div>
         <aside class="hero-aside">
@@ -500,13 +500,14 @@
 
       function renderMatrix(stages) {
         function evidenceHref(path) {
-          if (path.startsWith("docs/state/")) {
-            return path.replace("docs/state/", "");
+          let clean = String(path || "").replace(/^docs\//, "");
+          if (clean.endsWith(".md")) {
+            clean = `${clean.slice(0, -3)}/`;
           }
-          if (path.startsWith("docs/")) {
-            return `../${path.slice("docs/".length)}`;
+          if (clean.startsWith("state/")) {
+            return clean.slice("state/".length);
           }
-          return `../${path}`;
+          return `../${clean}`;
         }
 
         matrixRowsEl.innerHTML = stages
