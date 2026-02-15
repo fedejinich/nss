@@ -1,8 +1,8 @@
 {
-  "generated_unix_secs": 1771144468,
+  "generated_unix_secs": 1771144823,
   "stage_summary": {
-    "total": 23,
-    "done": 22,
+    "total": 24,
+    "done": 23,
     "in_progress": 0,
     "planned": 1
   },
@@ -21,7 +21,7 @@
     "status": "planned",
     "owner_area": "protocol/runtime/verification",
     "depends_on": [
-      "S6B"
+      "S6C"
     ],
     "evidence": "docs/state/roadmap.md",
     "next_gate": "S6 implementation",
@@ -291,12 +291,24 @@
       "notes": "Adds an executable closure audit for S5A objectives (runtime evidence, decompression parser, residual hypotheses) with regression coverage."
     },
     {
+      "id": "S6C",
+      "title": "Opaque-tail executable baseline and batch plan",
+      "status": "done",
+      "owner_area": "state/tooling/protocol-backlog",
+      "depends_on": [
+        "S6B"
+      ],
+      "evidence": "docs/pr/0022-s6c-opaque-tail-baseline-plan.md",
+      "next_gate": "S6",
+      "notes": "Adds executable inventory for remaining opaque control codes and publishes batch plan to drive S6 typed-promotion iterations."
+    },
+    {
       "id": "S6",
       "title": "Opaque-tail reduction for remaining generic and legacy control payloads",
       "status": "planned",
       "owner_area": "protocol/runtime/verification",
       "depends_on": [
-        "S6B"
+        "S6C"
       ],
       "evidence": "docs/state/roadmap.md",
       "next_gate": "S6 implementation",
@@ -390,6 +402,10 @@
     },
     {
       "from": "S6B",
+      "to": "S6C"
+    },
+    {
+      "from": "S6C",
       "to": "S6"
     }
   ],

@@ -10,6 +10,7 @@ This roadmap tracks staged execution with protocol mapping first, then increment
 - [Codebase Visualizer](codebase-visualizer.md)
 - [Protocol Matrix](protocol-matrix.md)
 - [S5A Closure Audit](s5a-closure-audit.md)
+- [S6 Opaque-Tail Plan](opaque-tail-plan.md)
 
 ## Stage Timeline
 
@@ -45,8 +46,9 @@ gantt
     S5H Typed runtime hardening wave 7 (system-control payloads) :done, s5h, after s5g, 1d
     S6A Dashboard UX + codebase visualizer + PR catalog collapse :done, s6a, after s5h, 1d
     S6B S5A closure hardening audit + regression gate :done, s6b, after s6a, 1d
+    S6C Opaque-tail executable baseline + batch plan :done, s6c, after s6b, 1d
     section Planned
-    S6 Opaque-tail reduction (remaining generic/dedicated controls) :crit, s6, after s6b, 2d
+    S6 Opaque-tail reduction (remaining generic/dedicated controls) :crit, s6, after s6c, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -147,6 +149,7 @@ graph TD
 | S5H | typed runtime hardening wave 7 | done | `docs/pr/0019-s5d-s5h-control-typing-pack.md` | start S6 opaque-tail reduction |
 | S6A | dashboard/state UX + codebase visualizer + collapsed PR catalog | done | `docs/pr/0020-s6a-dashboard-codebase-visualizer-pr-catalog.md` | start S6 opaque-tail reduction |
 | S6B | executable closure gate for S5A hardening objectives | done | `docs/pr/0021-s6b-s5a-closure-hardening-audit.md` | start S6 opaque-tail reduction |
+| S6C | opaque-tail executable inventory and batch plan baseline | done | `docs/pr/0022-s6c-opaque-tail-baseline-plan.md` | start S6 opaque-tail reduction |
 
 ## S4B Target Contract
 

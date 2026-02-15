@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, and Stage 6B executable closure gates.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, and Stage 6C opaque-tail baseline observability.
 
 ## Validation Gates
 
@@ -158,6 +158,22 @@ Protocol matrix status:
   - `tests/state/test_s5a_closure_audit.py`
 - Workflow integration:
   - `scripts/sync_state_dashboards.sh` now regenerates closure report together with dashboard artifacts.
+
+## Stage 6C Opaque-Tail Baseline Verification
+
+- Opaque-tail report generator:
+  - `tools/state/report_opaque_tail.py`
+- Generated report:
+  - `docs/state/opaque-tail-report.json`
+- Published execution plan:
+  - `docs/state/opaque-tail-plan.md`
+- Regression coverage:
+  - `tests/state/test_opaque_tail_report.py`
+- Workflow integration:
+  - `scripts/sync_state_dashboards.sh` now regenerates opaque-tail report in the same run.
+- Current baseline:
+  - `opaque_tail_count=15` (`OPAQUE_SERVER_CONTROL_CODES`)
+  - ready for S6 typed-promotion implementation batches.
 
 ## Stage 5B Verification Status
 

@@ -23,6 +23,16 @@ Maintain full protocol coverage (`implemented+mapped=131`) while replacing opaqu
 - Stage 6B also added regression coverage:
   - `tests/state/test_s5a_closure_audit.py`
 
+## Stage 6C Note (Opaque-Tail Baseline + Batch Plan)
+
+- Stage 6C introduced no protocol message additions or removals.
+- Stage 6C added executable opaque-tail inventory and S6 batch plan artifacts:
+  - `tools/state/report_opaque_tail.py`
+  - `docs/state/opaque-tail-report.json`
+  - `docs/state/opaque-tail-plan.md`
+- Stage 6C also added regression coverage:
+  - `tests/state/test_opaque_tail_report.py`
+
 ## Stage 5B Note (UI/Feature Audit)
 
 - Stage 5B added no new protocol codes/messages.

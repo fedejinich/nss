@@ -1,5 +1,90 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## Stage 6C - Opaque-Tail Executable Baseline and Batch Plan
+
+Dependency graph:
+
+- `S6C-W01 -> S6C-W02`
+- `S6C-W02 -> S6C-T01`
+- `S6C-T01 -> S6C-T02`
+- `S6C-T02 -> S6C-T03`
+- `S6C-T03 -> S6C-T04`
+- `S6C-T04 -> S6C-T05`
+- `S6C-T05 -> S6C-T06`
+- `S6C-T06 -> S6C-T07`
+- `S6C-T07 -> S6C-Q01`
+- `S6C-Q01 -> S6C-Q02`
+- `S6C-Q02 -> S6C-T08`
+
+Tasks:
+
+- id: S6C-W01
+  description: Start from updated `main` and create branch `codex/s6c-opaque-tail-report`
+  status: done
+  depends_on: []
+
+- id: S6C-W02
+  description: Create PR doc scaffold `docs/pr/0022-s6c-opaque-tail-baseline-plan.md`
+  status: done
+  depends_on: [S6C-W01]
+
+- id: S6C-T01
+  description: Implement opaque-tail baseline report generator (`tools/state/report_opaque_tail.py`)
+  status: done
+  depends_on: [S6C-W02]
+
+- id: S6C-T02
+  description: Generate opaque-tail baseline artifact (`docs/state/opaque-tail-report.json`)
+  status: done
+  depends_on: [S6C-T01]
+
+- id: S6C-T03
+  description: Publish S6 opaque-tail plan page (`docs/state/opaque-tail-plan.md`)
+  status: done
+  depends_on: [S6C-T02]
+
+- id: S6C-T04
+  description: Add regression test for opaque-tail report generation (`tests/state/test_opaque_tail_report.py`)
+  status: done
+  depends_on: [S6C-T03]
+
+- id: S6C-T05
+  description: Wire opaque-tail report generation into `scripts/sync_state_dashboards.sh`
+  status: done
+  depends_on: [S6C-T04]
+
+- id: S6C-T06
+  description: Sync stage/roadmap/status/backlog/index/nav artifacts for S6C baseline
+  status: done
+  depends_on: [S6C-T05]
+
+- id: S6C-T07
+  description: Run validation gates (`report_opaque_tail`, `kb_validate`, `run_regression`, `zensical build`)
+  status: done
+  depends_on: [S6C-T06]
+
+- id: S6C-Q01
+  description: Review loop round 1 (security best-practices + code-simplifier)
+  status: done
+  depends_on: [S6C-T07]
+
+- id: S6C-Q02
+  description: Review loop round 2 (security best-practices + code-simplifier)
+  status: done
+  depends_on: [S6C-Q01]
+
+- id: S6C-T08
+  description: Finalize merge-ready PR and retrospective for S6C
+  status: done
+  depends_on: [S6C-Q02]
+
+Notes:
+
+- S6C introduces no protocol message additions; it creates executable observability for the remaining opaque-tail set.
+- Baseline produced:
+  - `opaque_tail_count=15`
+  - three implementation batches (`S6-Batch-1`, `S6-Batch-2`, `S6-Batch-3`) ready for typed-promotion execution.
+
 ## Stage 6B - S5A Closure Hardening Audit
 
 Dependency graph:

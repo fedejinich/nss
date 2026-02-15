@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `22`
+Total PR docs: `23`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -149,6 +149,13 @@ Total PR docs: `22`
 <summary>S6B-S5A (1 PRs)</summary>
 
 - [0021-s6b-s5a-closure-hardening-audit.md - S6b S5a Closure Hardening Audit](0021-s6b-s5a-closure-hardening-audit.md)
+
+</details>
+
+<details>
+<summary>S6C (1 PRs)</summary>
+
+- [0022-s6c-opaque-tail-baseline-plan.md - S6c Opaque Tail Baseline Plan](0022-s6c-opaque-tail-baseline-plan.md)
 
 </details>
 
