@@ -18,11 +18,8 @@ class OpaqueTailReportTests(unittest.TestCase):
         self.assertIn("opaque_tail_count", report)
         self.assertIn("entries", report)
         self.assertEqual(report["opaque_tail_count"], len(report["entries"]))
-        self.assertGreater(report["opaque_tail_count"], 0)
-
-        codes = {entry["code"] for entry in report["entries"]}
-        self.assertIn(67, codes)
-        self.assertIn(142, codes)
+        self.assertEqual(report["opaque_tail_count"], 0)
+        self.assertEqual(report["entries"], [])
 
 
 if __name__ == "__main__":

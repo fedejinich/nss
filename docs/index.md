@@ -4,14 +4,14 @@ This site is the canonical project memory for protocol mapping, runtime verifica
 
 ## Start Here
 
-- [Project Dashboard](state/project-dashboard.html)
-- [Roadmap](state/roadmap.md)
-- [Protocol Matrix](state/protocol-matrix.md)
-- [Codebase Visualizer](state/codebase-visualizer.md)
-- [Verification Status](state/verification-status.md)
-- [S5A Closure Audit](state/s5a-closure-audit.md)
-- [S6 Opaque-Tail Plan](state/opaque-tail-plan.md)
-- [PR Catalog](pr/index.md)
+- [Project Dashboard](state/project-dashboard/)
+- [Roadmap](state/roadmap/)
+- [Protocol Matrix](state/protocol-matrix/)
+- [Codebase Visualizer](state/codebase-visualizer/)
+- [Verification Status](state/verification-status/)
+- [S5A Closure Audit](state/s5a-closure-audit/)
+- [S6 Opaque-Tail Plan](state/opaque-tail-plan/)
+- [PR Catalog](pr/)
 
 ## Core Rules
 

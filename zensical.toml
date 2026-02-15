@@ -4,18 +4,18 @@ site_description = "Reverse engineering knowledge base for SoulseekQt decompilat
 site_author = "void_rsk + codex"
 copyright = "Copyright &copy; 2026 NeoSoulSeek"
 nav = [
-  { "Home" = "index.md" },
-  { "Project Dashboard" = "state/project-dashboard.html" },
-  { "Roadmap" = "state/roadmap.md" },
-  { "Project Status" = "state/project-status.md" },
-  { "Protocol Matrix" = "state/protocol-matrix.md" },
-  { "Codebase Visualizer" = "state/codebase-visualizer.md" },
-  { "Verification Status" = "state/verification-status.md" },
-  { "S5A Closure Audit" = "state/s5a-closure-audit.md" },
-  { "S6 Opaque-Tail Plan" = "state/opaque-tail-plan.md" },
-  { "Protocol Backlog" = "state/protocol-backlog.md" },
-  { "Evidence Ledger" = "verification/evidence-ledger.md" },
-  { "PR Catalog" = "pr/index.md" },
+  { "Home" = "/" },
+  { "Project Dashboard" = "state/project-dashboard/" },
+  { "Roadmap" = "state/roadmap/" },
+  { "Project Status" = "state/project-status/" },
+  { "Protocol Matrix" = "state/protocol-matrix/" },
+  { "Codebase Visualizer" = "state/codebase-visualizer/" },
+  { "Verification Status" = "state/verification-status/" },
+  { "S5A Closure Audit" = "state/s5a-closure-audit/" },
+  { "S6 Opaque-Tail Plan" = "state/opaque-tail-plan/" },
+  { "Protocol Backlog" = "state/protocol-backlog/" },
+  { "Evidence Ledger" = "verification/evidence-ledger/" },
+  { "PR Catalog" = "pr/" },
 ]
 
 [project.theme]

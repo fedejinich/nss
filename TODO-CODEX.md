@@ -1,5 +1,82 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## Stage 6D - Opaque-Tail Typed Batches Execution
+
+Dependency graph:
+
+- `S6D-W01 -> S6D-W02`
+- `S6D-W02 -> S6D-T01`
+- `S6D-T01 -> S6D-T02`
+- `S6D-T02 -> S6D-T03`
+- `S6D-T03 -> S6D-T04`
+- `S6D-T04 -> S6D-T05`
+- `S6D-T05 -> S6D-T06`
+- `S6D-T06 -> S6D-Q01`
+- `S6D-Q01 -> S6D-Q02`
+- `S6D-Q02 -> S6D-T07`
+
+Tasks:
+
+- id: S6D-W01
+  description: Start from updated `main` and create branch `codex/s6d-opaque-tail-typed-batches`
+  status: done
+  depends_on: []
+
+- id: S6D-W02
+  description: Create PR doc scaffold `docs/pr/0023-s6d-opaque-tail-typed-batches.md`
+  status: done
+  depends_on: [S6D-W01]
+
+- id: S6D-T01
+  description: Implement typed payload variants and codec paths for S6-Batch-1/2/3 (`41,61,67,70,71,73,82,93,102,114,115,116,138,141,142`)
+  status: done
+  depends_on: [S6D-W02]
+
+- id: S6D-T02
+  description: Generate authenticated runtime captures for S6 batches and redact artifacts
+  status: done
+  depends_on: [S6D-T01]
+
+- id: S6D-T03
+  description: Update `message_map.csv`, `message_schema.json`, and evidence docs with runtime-backed payload fields
+  status: done
+  depends_on: [S6D-T02]
+
+- id: S6D-T04
+  description: Regenerate protocol/state artifacts (`protocol-matrix`, `opaque-tail-report`, dashboard data) and sync status docs
+  status: done
+  depends_on: [S6D-T03]
+
+- id: S6D-T05
+  description: Add or update regression tests for typed S6 branches and opaque-tail closure
+  status: done
+  depends_on: [S6D-T04]
+
+- id: S6D-T06
+  description: Run stage gates (`kb_validate`, `run_diff_verify`, `run_regression`, `zensical build`)
+  status: done
+  depends_on: [S6D-T05]
+
+- id: S6D-Q01
+  description: Review loop round 1 (security best-practices + code-simplifier)
+  status: done
+  depends_on: [S6D-T06]
+
+- id: S6D-Q02
+  description: Review loop round 2 (security best-practices + code-simplifier)
+  status: done
+  depends_on: [S6D-Q01]
+
+- id: S6D-T07
+  description: Finalize merge-ready PR and retrospective for S6D
+  status: done
+  depends_on: [S6D-Q02]
+
+Notes:
+
+- S6D completes typed promotion of all remaining generic opaque-tail server controls.
+- Baseline moved from `opaque_tail_count=15` to `opaque_tail_count=0` in `docs/state/opaque-tail-report.json`.
+
 ## Stage 6C - Opaque-Tail Executable Baseline and Batch Plan
 
 Dependency graph:

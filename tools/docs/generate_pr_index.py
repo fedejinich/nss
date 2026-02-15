@@ -99,7 +99,8 @@ def render(entries: list[PrEntry]) -> str:
         lines.append(f"<summary>{stage} ({len(rows)} PRs)</summary>")
         lines.append("")
         for row in rows:
-            lines.append(f"- [{row.filename} - {row.title}]({row.filename})")
+            route = f"{Path(row.filename).stem}/"
+            lines.append(f"- [{row.filename} - {row.title}]({route})")
         lines.append("")
         lines.append("</details>")
         lines.append("")

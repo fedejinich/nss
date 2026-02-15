@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771144823,
+  "generated_unix_secs": 1771147022,
   "repo_root": "/Users/void_rsk/Projects/soul-dec",
   "scope": {
     "included_top_level_dirs": [
@@ -48,11 +48,11 @@
   "stats": {
     "domain_count": 9,
     "dir_count": 48,
-    "file_count": 209,
-    "node_count": 267,
-    "edge_count": 266,
-    "total_loc": 109859,
-    "total_size_bytes": 3838162
+    "file_count": 211,
+    "node_count": 269,
+    "edge_count": 268,
+    "total_loc": 111820,
+    "total_size_bytes": 3911000
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 109859,
-      "size_bytes": 3838162,
+      "loc": 111820,
+      "size_bytes": 3911000,
       "extension": null,
       "domain": "root"
     },
@@ -70,8 +70,8 @@
       "label": "analysis",
       "kind": "domain",
       "path": "analysis",
-      "loc": 35788,
-      "size_bytes": 517073,
+      "loc": 36153,
+      "size_bytes": 528801,
       "extension": null,
       "domain": "analysis"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 13828,
-      "size_bytes": 503603,
+      "loc": 14017,
+      "size_bytes": 513829,
       "extension": null,
       "domain": "docs"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 2498,
-      "size_bytes": 79211,
+      "loc": 2575,
+      "size_bytes": 81353,
       "extension": null,
       "domain": "repo-root"
     },
@@ -120,8 +120,8 @@
       "label": "rust",
       "kind": "domain",
       "path": "rust",
-      "loc": 12531,
-      "size_bytes": 435044,
+      "loc": 13296,
+      "size_bytes": 462301,
       "extension": null,
       "domain": "rust"
     },
@@ -130,8 +130,8 @@
       "label": "scripts",
       "kind": "domain",
       "path": "scripts",
-      "loc": 510,
-      "size_bytes": 17241,
+      "loc": 513,
+      "size_bytes": 17325,
       "extension": null,
       "domain": "scripts"
     },
@@ -140,8 +140,8 @@
       "label": "tests",
       "kind": "domain",
       "path": "tests",
-      "loc": 1341,
-      "size_bytes": 53076,
+      "loc": 1338,
+      "size_bytes": 52991,
       "extension": null,
       "domain": "tests"
     },
@@ -150,8 +150,8 @@
       "label": "tools",
       "kind": "domain",
       "path": "tools",
-      "loc": 7654,
-      "size_bytes": 256440,
+      "loc": 8219,
+      "size_bytes": 277926,
       "extension": null,
       "domain": "tools"
     },
@@ -160,8 +160,8 @@
       "label": "analysis",
       "kind": "dir",
       "path": "analysis",
-      "loc": 35788,
-      "size_bytes": 517073,
+      "loc": 36153,
+      "size_bytes": 528801,
       "extension": null,
       "domain": "analysis"
     },
@@ -171,7 +171,7 @@
       "kind": "dir",
       "path": "analysis/ghidra",
       "loc": 463,
-      "size_bytes": 38001,
+      "size_bytes": 38103,
       "extension": null,
       "domain": "analysis"
     },
@@ -181,7 +181,7 @@
       "kind": "dir",
       "path": "analysis/ghidra/maps",
       "loc": 301,
-      "size_bytes": 33344,
+      "size_bytes": 33446,
       "extension": null,
       "domain": "analysis"
     },
@@ -210,8 +210,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "analysis/protocol",
-      "loc": 3040,
-      "size_bytes": 86256,
+      "loc": 3405,
+      "size_bytes": 97809,
       "extension": null,
       "domain": "analysis"
     },
@@ -231,7 +231,7 @@
       "kind": "dir",
       "path": "analysis/state",
       "loc": 291,
-      "size_bytes": 9607,
+      "size_bytes": 9680,
       "extension": null,
       "domain": "analysis"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 13828,
-      "size_bytes": 503603,
+      "loc": 14017,
+      "size_bytes": 513829,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 2175,
-      "size_bytes": 72011,
+      "loc": 2310,
+      "size_bytes": 77092,
       "extension": null,
       "domain": "docs"
     },
@@ -270,8 +270,8 @@
       "label": "re",
       "kind": "dir",
       "path": "docs/re",
-      "loc": 1239,
-      "size_bytes": 60788,
+      "loc": 1320,
+      "size_bytes": 67131,
       "extension": null,
       "domain": "docs"
     },
@@ -280,8 +280,8 @@
       "label": "static",
       "kind": "dir",
       "path": "docs/re/static",
-      "loc": 1239,
-      "size_bytes": 60788,
+      "loc": 1320,
+      "size_bytes": 67131,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 9948,
-      "size_bytes": 358911,
+      "loc": 9921,
+      "size_bytes": 357737,
       "extension": null,
       "domain": "docs"
     },
@@ -410,8 +410,8 @@
       "label": "rust",
       "kind": "dir",
       "path": "rust",
-      "loc": 12531,
-      "size_bytes": 435044,
+      "loc": 13296,
+      "size_bytes": 462301,
       "extension": null,
       "domain": "rust"
     },
@@ -460,8 +460,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "rust/protocol",
-      "loc": 5560,
-      "size_bytes": 200718,
+      "loc": 6325,
+      "size_bytes": 227975,
       "extension": null,
       "domain": "rust"
     },
@@ -470,8 +470,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/protocol/src",
-      "loc": 5547,
-      "size_bytes": 200455,
+      "loc": 6312,
+      "size_bytes": 227712,
       "extension": null,
       "domain": "rust"
     },
@@ -500,8 +500,8 @@
       "label": "scripts",
       "kind": "dir",
       "path": "scripts",
-      "loc": 510,
-      "size_bytes": 17241,
+      "loc": 513,
+      "size_bytes": 17325,
       "extension": null,
       "domain": "scripts"
     },
@@ -510,8 +510,8 @@
       "label": "tests",
       "kind": "dir",
       "path": "tests",
-      "loc": 1341,
-      "size_bytes": 53076,
+      "loc": 1338,
+      "size_bytes": 52991,
       "extension": null,
       "domain": "tests"
     },
@@ -560,8 +560,8 @@
       "label": "state",
       "kind": "dir",
       "path": "tests/state",
-      "loc": 144,
-      "size_bytes": 5160,
+      "loc": 141,
+      "size_bytes": 5075,
       "extension": null,
       "domain": "tests"
     },
@@ -570,8 +570,8 @@
       "label": "tools",
       "kind": "dir",
       "path": "tools",
-      "loc": 7654,
-      "size_bytes": 256440,
+      "loc": 8219,
+      "size_bytes": 277926,
       "extension": null,
       "domain": "tools"
     },
@@ -580,8 +580,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "tools/docs",
-      "loc": 134,
-      "size_bytes": 3863,
+      "loc": 135,
+      "size_bytes": 3906,
       "extension": null,
       "domain": "tools"
     },
@@ -600,8 +600,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "tools/protocol",
-      "loc": 1300,
-      "size_bytes": 50504,
+      "loc": 1538,
+      "size_bytes": 61755,
       "extension": null,
       "domain": "tools"
     },
@@ -620,8 +620,8 @@
       "label": "runtime",
       "kind": "dir",
       "path": "tools/runtime",
-      "loc": 4304,
-      "size_bytes": 136913,
+      "loc": 4630,
+      "size_bytes": 147105,
       "extension": null,
       "domain": "tools"
     },
@@ -660,8 +660,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 2185,
-      "size_bytes": 67996,
+      "loc": 2262,
+      "size_bytes": 70175,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -681,7 +681,7 @@
       "kind": "file",
       "path": "analysis/ghidra/maps/message_map.csv",
       "loc": 132,
-      "size_bytes": 28193,
+      "size_bytes": 28295,
       "extension": ".csv",
       "domain": "analysis"
     },
@@ -750,8 +750,8 @@
       "label": "message_schema.json",
       "kind": "file",
       "path": "analysis/protocol/message_schema.json",
-      "loc": 3040,
-      "size_bytes": 86256,
+      "loc": 3405,
+      "size_bytes": 97809,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -771,7 +771,7 @@
       "kind": "file",
       "path": "analysis/state/stage_registry.json",
       "loc": 291,
-      "size_bytes": 9607,
+      "size_bytes": 9680,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -791,7 +791,7 @@
       "kind": "file",
       "path": "docs/index.md",
       "loc": 56,
-      "size_bytes": 1935,
+      "size_bytes": 1911,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1020,8 +1020,18 @@
       "label": "0022-s6c-opaque-tail-baseline-plan.md",
       "kind": "file",
       "path": "docs/pr/0022-s6c-opaque-tail-baseline-plan.md",
-      "loc": 37,
-      "size_bytes": 1048,
+      "loc": 81,
+      "size_bytes": 2648,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0023-s6d-opaque-tail-typed-batches.md",
+      "label": "0023-s6d-opaque-tail-typed-batches.md",
+      "kind": "file",
+      "path": "docs/pr/0023-s6d-opaque-tail-typed-batches.md",
+      "loc": 84,
+      "size_bytes": 3361,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1030,8 +1040,8 @@
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 166,
-      "size_bytes": 4036,
+      "loc": 173,
+      "size_bytes": 4156,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1050,8 +1060,8 @@
       "label": "message-schema.md",
       "kind": "file",
       "path": "docs/re/static/message-schema.md",
-      "loc": 1052,
-      "size_bytes": 52270,
+      "loc": 1133,
+      "size_bytes": 58613,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1110,8 +1120,8 @@
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 4046,
-      "size_bytes": 107911,
+      "loc": 4091,
+      "size_bytes": 109264,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1160,8 +1170,8 @@
       "label": "opaque-tail-plan.md",
       "kind": "file",
       "path": "docs/state/opaque-tail-plan.md",
-      "loc": 35,
-      "size_bytes": 1037,
+      "loc": 47,
+      "size_bytes": 1372,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1170,8 +1180,8 @@
       "label": "opaque-tail-report.json",
       "kind": "file",
       "path": "docs/state/opaque-tail-report.json",
-      "loc": 174,
-      "size_bytes": 6457,
+      "loc": 38,
+      "size_bytes": 694,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1180,8 +1190,8 @@
       "label": "project-dashboard-data.json",
       "kind": "file",
       "path": "docs/state/project-dashboard-data.json",
-      "loc": 416,
-      "size_bytes": 11738,
+      "loc": 405,
+      "size_bytes": 11386,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1200,8 +1210,8 @@
       "label": "project-status.md",
       "kind": "file",
       "path": "docs/state/project-status.md",
-      "loc": 399,
-      "size_bytes": 19537,
+      "loc": 422,
+      "size_bytes": 20734,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1210,8 +1220,8 @@
       "label": "protocol-backlog.md",
       "kind": "file",
       "path": "docs/state/protocol-backlog.md",
-      "loc": 331,
-      "size_bytes": 11570,
+      "loc": 345,
+      "size_bytes": 12221,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1221,7 +1231,7 @@
       "kind": "file",
       "path": "docs/state/protocol-matrix.json",
       "loc": 1193,
-      "size_bytes": 48129,
+      "size_bytes": 48216,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1231,7 +1241,7 @@
       "kind": "file",
       "path": "docs/state/protocol-matrix.md",
       "loc": 163,
-      "size_bytes": 32250,
+      "size_bytes": 32337,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1240,8 +1250,8 @@
       "label": "roadmap.md",
       "kind": "file",
       "path": "docs/state/roadmap.md",
-      "loc": 281,
-      "size_bytes": 13079,
+      "loc": 291,
+      "size_bytes": 13659,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1290,8 +1300,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 200,
-      "size_bytes": 8355,
+      "loc": 216,
+      "size_bytes": 9006,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1940,8 +1950,8 @@
       "label": "lib.rs",
       "kind": "file",
       "path": "rust/protocol/src/lib.rs",
-      "loc": 5547,
-      "size_bytes": 200455,
+      "loc": 6312,
+      "size_bytes": 227712,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2060,8 +2070,8 @@
       "label": "run_diff_verify.sh",
       "kind": "file",
       "path": "scripts/run_diff_verify.sh",
-      "loc": 50,
-      "size_bytes": 1394,
+      "loc": 53,
+      "size_bytes": 1478,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2310,8 +2320,8 @@
       "label": "test_opaque_tail_report.py",
       "kind": "file",
       "path": "tests/state/test_opaque_tail_report.py",
-      "loc": 29,
-      "size_bytes": 947,
+      "loc": 26,
+      "size_bytes": 862,
       "extension": ".py",
       "domain": "tests"
     },
@@ -2360,8 +2370,8 @@
       "label": "generate_pr_index.py",
       "kind": "file",
       "path": "tools/docs/generate_pr_index.py",
-      "loc": 133,
-      "size_bytes": 3821,
+      "loc": 134,
+      "size_bytes": 3864,
       "extension": ".py",
       "domain": "tools"
     },
@@ -2420,8 +2430,8 @@
       "label": "derive_schema.py",
       "kind": "file",
       "path": "tools/protocol/derive_schema.py",
-      "loc": 1068,
-      "size_bytes": 42356,
+      "loc": 1306,
+      "size_bytes": 53607,
       "extension": ".py",
       "domain": "tools"
     },
@@ -2626,6 +2636,16 @@
       "domain": "tools"
     },
     {
+      "id": "file:tools/runtime/generate_stage6_typed_batches_captures.py",
+      "label": "generate_stage6_typed_batches_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage6_typed_batches_captures.py",
+      "loc": 326,
+      "size_bytes": 10192,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
       "id": "file:tools/runtime/probe_login_versions.py",
       "label": "probe_login_versions.py",
       "kind": "file",
@@ -2721,7 +2741,7 @@
       "kind": "file",
       "path": "zensical.toml",
       "loc": 30,
-      "size_bytes": 1059,
+      "size_bytes": 1022,
       "extension": ".toml",
       "domain": "repo-root"
     }
@@ -2970,6 +2990,11 @@
     {
       "source": "dir:docs/pr",
       "target": "file:docs/pr/0022-s6c-opaque-tail-baseline-plan.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0023-s6d-opaque-tail-typed-batches.md",
       "kind": "contains"
     },
     {
@@ -3905,6 +3930,11 @@
     {
       "source": "dir:tools/runtime",
       "target": "file:tools/runtime/generate_stage5h_system_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage6_typed_batches_captures.py",
       "kind": "contains"
     },
     {

@@ -33,6 +33,21 @@ Maintain full protocol coverage (`implemented+mapped=131`) while replacing opaqu
 - Stage 6C also added regression coverage:
   - `tests/state/test_opaque_tail_report.py`
 
+## Stage 6D Note (Opaque-Tail Typed Batches Execution)
+
+- Stage 6D promoted the full S6 batch closure from generic opaque handling to typed payload coverage:
+  - Batch 1: `41`, `61`, `67`, `70`
+  - Batch 2: `71`, `73`, `82`, `93`, `102`
+  - Batch 3: `114`, `115`, `116`, `138`, `141`, `142`
+- Stage 6D added runtime capture tooling and artifacts:
+  - `tools/runtime/generate_stage6_typed_batches_captures.py`
+  - `captures/redacted/login-s6-batch1-control`
+  - `captures/redacted/login-s6-batch2-control`
+  - `captures/redacted/login-s6-batch3-control`
+- Generic opaque closure baseline is now:
+  - `OPAQUE_SERVER_CONTROL_CODES = []`
+  - `docs/state/opaque-tail-report.json` -> `opaque_tail_count=0`
+
 ## Stage 5B Note (UI/Feature Audit)
 
 - Stage 5B added no new protocol codes/messages.
@@ -308,11 +323,10 @@ Status:
   - `mapped_not_implemented=0`
   - `missing=0`
 
-## Next Candidate Stage (S6) - Opaque Tail Reduction
+## Next Candidate Stage (S6E) - Dedicated Legacy Opaque Reduction
 
 Target focus:
 
-- Continue reducing remaining generic opaque server-control codes (`15` currently in `OPAQUE_SERVER_CONTROL_CODES`).
 - Evaluate dedicated legacy opaque variants (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, distributed/flood tail) for typed promotion based on runtime/static evidence quality.
 - Keep semantic parity regression and KB evidence linkage constraints unchanged.
 
@@ -328,4 +342,4 @@ Target focus:
 
 ## Next Session Entry Point
 
-Start S6 by selecting the next opaque tail subset with feasible runtime evidence and typed parser promotion path.
+Start S6E by selecting one dedicated legacy opaque family (room-operatorship revocation or distributed/flood tail) and promoting it with runtime-backed typed decoding.

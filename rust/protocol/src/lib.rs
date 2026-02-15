@@ -749,6 +749,109 @@ pub struct SpeedPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ReloggedPayload;
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserListEntryPayload {
+    pub username: String,
+    pub status: Option<u32>,
+    pub avg_speed: Option<u32>,
+    pub upload_num: Option<u32>,
+    pub unknown: Option<u32>,
+    pub files: Option<u32>,
+    pub dirs: Option<u32>,
+    pub slots_full: Option<u32>,
+    pub country: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct UserListPayload {
+    pub users: Vec<UserListEntryPayload>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ConnectToClientPayload {
+    pub token: u32,
+    pub username: String,
+    pub connection_type: String,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SendDistributionsPayload {
+    pub no_parent: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NoteParentPayload {
+    pub parent_ip: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ChildParentMapEntryPayload {
+    pub child_username: String,
+    pub parent_username: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ChildParentMapPayload {
+    pub mappings: Vec<ChildParentMapEntryPayload>,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DnetMessagePayload {
+    pub distrib_code: u8,
+    pub distrib_payload: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ParentCandidatePayload {
+    pub username: String,
+    pub ip_address: String,
+    pub port: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PossibleParentsPayload {
+    pub parents: Vec<ParentCandidatePayload>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomTickerUserAddedPayload {
+    pub room: String,
+    pub username: String,
+    pub ticker: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomTickerUserRemovedPayload {
+    pub room: String,
+    pub username: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SetTickerPayload {
+    pub room: String,
+    pub ticker: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TransferRoomOwnershipPayload {
+    pub room: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct EnablePrivateRoomAddPayload {
+    pub enabled: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ChangePasswordPayload {
+    pub password: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SharedFileEntry {
     pub virtual_path: String,
     pub size: u64,
@@ -1027,6 +1130,21 @@ pub enum ServerMessage {
     SharedFoldersFiles(SharedFoldersFilesPayload),
     DownloadSpeed(SpeedPayload),
     UploadSpeed(SpeedPayload),
+    Relogged(ReloggedPayload),
+    UserList(UserListPayload),
+    GlobalUserList(UserListPayload),
+    ConnectToClient(ConnectToClientPayload),
+    SendDistributions(SendDistributionsPayload),
+    NoteParent(NoteParentPayload),
+    ChildParentMap(ChildParentMapPayload),
+    DnetMessage(DnetMessagePayload),
+    PossibleParents(PossibleParentsPayload),
+    RoomTickerUserAdded(RoomTickerUserAddedPayload),
+    RoomTickerUserRemoved(RoomTickerUserRemovedPayload),
+    SetTicker(SetTickerPayload),
+    TransferRoomOwnership(TransferRoomOwnershipPayload),
+    EnablePrivateRoomAdd(EnablePrivateRoomAddPayload),
+    ChangePassword(ChangePasswordPayload),
     OpaqueControl(OpaqueServerControlPayload),
 }
 
@@ -1072,28 +1190,316 @@ fn ensure_payload_consumed(reader: &PayloadReader<'_>) -> Result<()> {
     Ok(())
 }
 
-pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 15] = [
-    CODE_SM_RELOGGED,
-    CODE_SM_USER_LIST,
-    CODE_SM_GLOBAL_USER_LIST,
-    CODE_SM_CONNECT_TO_CLIENT,
-    CODE_SM_SEND_DISTRIBUTIONS,
-    CODE_SM_NOTE_PARENT,
-    CODE_SM_CHILD_PARENT_MAP,
-    CODE_SM_DNET_MESSAGE,
-    CODE_SM_POSSIBLE_PARENTS,
-    CODE_SM_ROOM_TICKER_USER_ADDED,
-    CODE_SM_ROOM_TICKER_USER_REMOVED,
-    CODE_SM_SET_TICKER,
-    CODE_SM_TRANSFER_ROOM_OWNERSHIP,
-    CODE_SM_ENABLE_PRIVATE_ROOM_ADD,
-    CODE_SM_CHANGE_PASSWORD,
-];
+pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 0] = [];
 
 const MAX_SHARED_FILES_IN_FOLDER_DECOMPRESSED_BYTES: usize = 16 * 1024 * 1024;
 
 pub fn is_opaque_server_control_code(code: u32) -> bool {
     OPAQUE_SERVER_CONTROL_CODES.contains(&code)
+}
+
+fn parse_reversed_ipv4_u32(raw: u32) -> String {
+    Ipv4Addr::from(raw.to_be_bytes()).to_string()
+}
+
+fn write_reversed_ipv4_u32(writer: &mut PayloadWriter, ip_address: &str) {
+    let parsed = ip_address
+        .parse::<Ipv4Addr>()
+        .unwrap_or(Ipv4Addr::UNSPECIFIED);
+    writer.write_u32(u32::from_be_bytes(parsed.octets()));
+}
+
+fn parse_bool_u8_or_u32(payload: &[u8]) -> Result<bool> {
+    let mut reader = PayloadReader::new(payload);
+    if reader.remaining() >= 4 {
+        return Ok(reader.read_u32()? != 0);
+    }
+    if reader.remaining() >= 1 {
+        return Ok(reader.read_u8()? != 0);
+    }
+    Ok(false)
+}
+
+fn encode_user_list_payload(writer: &mut PayloadWriter, payload: &UserListPayload) {
+    writer.write_u32(payload.users.len() as u32);
+    for user in &payload.users {
+        writer.write_string(&user.username);
+    }
+
+    writer.write_u32(payload.users.len() as u32);
+    for user in &payload.users {
+        writer.write_u32(user.status.unwrap_or(0));
+    }
+
+    writer.write_u32(payload.users.len() as u32);
+    for user in &payload.users {
+        writer.write_u32(user.avg_speed.unwrap_or(0));
+        writer.write_u32(user.upload_num.unwrap_or(0));
+        writer.write_u32(user.unknown.unwrap_or(0));
+        writer.write_u32(user.files.unwrap_or(0));
+        writer.write_u32(user.dirs.unwrap_or(0));
+    }
+
+    writer.write_u32(payload.users.len() as u32);
+    for user in &payload.users {
+        writer.write_u32(user.slots_full.unwrap_or(0));
+    }
+
+    writer.write_u32(payload.users.len() as u32);
+    for user in &payload.users {
+        writer.write_string(user.country.as_deref().unwrap_or(""));
+    }
+}
+
+fn parse_user_list_payload(payload: &[u8]) -> Result<UserListPayload> {
+    if payload.is_empty() {
+        return Ok(UserListPayload { users: Vec::new() });
+    }
+
+    let mut reader = PayloadReader::new(payload);
+    let user_count = reader.read_u32()? as usize;
+    if user_count > 50_000 {
+        bail!("user_count exceeds sanity threshold: {user_count}");
+    }
+
+    let mut users = Vec::with_capacity(user_count);
+    for _ in 0..user_count {
+        users.push(UserListEntryPayload {
+            username: reader.read_string()?,
+            status: None,
+            avg_speed: None,
+            upload_num: None,
+            unknown: None,
+            files: None,
+            dirs: None,
+            slots_full: None,
+            country: None,
+        });
+    }
+
+    let status_len = reader.read_u32()? as usize;
+    if status_len > users.len() {
+        bail!(
+            "status list exceeds user count: {status_len} > {}",
+            users.len()
+        );
+    }
+    for user in users.iter_mut().take(status_len) {
+        user.status = Some(reader.read_u32()?);
+    }
+
+    let stats_len = reader.read_u32()? as usize;
+    if stats_len > users.len() {
+        bail!(
+            "stats list exceeds user count: {stats_len} > {}",
+            users.len()
+        );
+    }
+    for user in users.iter_mut().take(stats_len) {
+        user.avg_speed = Some(reader.read_u32()?);
+        user.upload_num = Some(reader.read_u32()?);
+        user.unknown = Some(reader.read_u32()?);
+        user.files = Some(reader.read_u32()?);
+        user.dirs = Some(reader.read_u32()?);
+    }
+
+    let slots_len = reader.read_u32()? as usize;
+    if slots_len > users.len() {
+        bail!(
+            "slots list exceeds user count: {slots_len} > {}",
+            users.len()
+        );
+    }
+    for user in users.iter_mut().take(slots_len) {
+        user.slots_full = Some(reader.read_u32()?);
+    }
+
+    let country_len = reader.read_u32()? as usize;
+    if country_len > users.len() {
+        bail!(
+            "country list exceeds user count: {country_len} > {}",
+            users.len()
+        );
+    }
+    for user in users.iter_mut().take(country_len) {
+        user.country = Some(reader.read_string()?);
+    }
+
+    ensure_payload_consumed(&reader)?;
+    Ok(UserListPayload { users })
+}
+
+fn parse_connect_to_client_payload(payload: &[u8]) -> Result<ConnectToClientPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let token = if reader.remaining() >= 4 {
+        reader.read_u32()?
+    } else {
+        0
+    };
+    let username = if reader.remaining() >= 4 {
+        reader.read_string()?
+    } else {
+        String::new()
+    };
+    let connection_type = if reader.remaining() >= 4 {
+        reader.read_string()?
+    } else {
+        String::new()
+    };
+    let raw_tail = reader.read_remaining_bytes();
+
+    Ok(ConnectToClientPayload {
+        token,
+        username,
+        connection_type,
+        raw_tail,
+    })
+}
+
+fn parse_send_distributions_payload(payload: &[u8]) -> Result<SendDistributionsPayload> {
+    Ok(SendDistributionsPayload {
+        no_parent: parse_bool_u8_or_u32(payload)?,
+    })
+}
+
+fn parse_note_parent_payload(payload: &[u8]) -> Result<NoteParentPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let parent_ip = if reader.remaining() >= 4 {
+        parse_reversed_ipv4_u32(reader.read_u32()?)
+    } else {
+        Ipv4Addr::UNSPECIFIED.to_string()
+    };
+    Ok(NoteParentPayload { parent_ip })
+}
+
+fn parse_child_parent_map_payload(payload: &[u8]) -> Result<ChildParentMapPayload> {
+    if payload.is_empty() {
+        return Ok(ChildParentMapPayload {
+            mappings: Vec::new(),
+            raw_tail: Vec::new(),
+        });
+    }
+
+    let mut reader = PayloadReader::new(payload);
+    let count = reader.read_u32()? as usize;
+    if count > 50_000 {
+        bail!("child-parent map count exceeds sanity threshold: {count}");
+    }
+
+    let mut mappings = Vec::with_capacity(count);
+    for _ in 0..count {
+        mappings.push(ChildParentMapEntryPayload {
+            child_username: reader.read_string()?,
+            parent_username: reader.read_string()?,
+        });
+    }
+
+    let raw_tail = reader.read_remaining_bytes();
+    Ok(ChildParentMapPayload { mappings, raw_tail })
+}
+
+fn parse_dnet_message_payload(payload: &[u8]) -> Result<DnetMessagePayload> {
+    let mut reader = PayloadReader::new(payload);
+    let distrib_code = if reader.remaining() >= 1 {
+        reader.read_u8()?
+    } else {
+        0
+    };
+    let distrib_payload = reader.read_remaining_bytes();
+    Ok(DnetMessagePayload {
+        distrib_code,
+        distrib_payload,
+    })
+}
+
+fn parse_possible_parents_payload(payload: &[u8]) -> Result<PossibleParentsPayload> {
+    if payload.is_empty() {
+        return Ok(PossibleParentsPayload {
+            parents: Vec::new(),
+        });
+    }
+
+    let mut reader = PayloadReader::new(payload);
+    let parent_count = reader.read_u32()? as usize;
+    if parent_count > 10_000 {
+        bail!("possible parent count exceeds sanity threshold: {parent_count}");
+    }
+
+    let mut parents = Vec::with_capacity(parent_count);
+    for _ in 0..parent_count {
+        let username = reader.read_string()?;
+        let ip_address = parse_reversed_ipv4_u32(reader.read_u32()?);
+        let port = reader.read_u32()?;
+        parents.push(ParentCandidatePayload {
+            username,
+            ip_address,
+            port,
+        });
+    }
+    ensure_payload_consumed(&reader)?;
+
+    Ok(PossibleParentsPayload { parents })
+}
+
+fn parse_room_ticker_user_added_payload(payload: &[u8]) -> Result<RoomTickerUserAddedPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let parsed = RoomTickerUserAddedPayload {
+        room: reader.read_string()?,
+        username: reader.read_string()?,
+        ticker: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(parsed)
+}
+
+fn parse_room_ticker_user_removed_payload(payload: &[u8]) -> Result<RoomTickerUserRemovedPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let parsed = RoomTickerUserRemovedPayload {
+        room: reader.read_string()?,
+        username: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(parsed)
+}
+
+fn parse_set_ticker_payload(payload: &[u8]) -> Result<SetTickerPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let parsed = SetTickerPayload {
+        room: reader.read_string()?,
+        ticker: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(parsed)
+}
+
+fn parse_transfer_room_ownership_payload(payload: &[u8]) -> Result<TransferRoomOwnershipPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let parsed = TransferRoomOwnershipPayload {
+        room: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(parsed)
+}
+
+fn parse_enable_private_room_add_payload(payload: &[u8]) -> Result<EnablePrivateRoomAddPayload> {
+    Ok(EnablePrivateRoomAddPayload {
+        enabled: parse_bool_u8_or_u32(payload)?,
+    })
+}
+
+fn parse_change_password_payload(payload: &[u8]) -> Result<ChangePasswordPayload> {
+    if payload.is_empty() {
+        return Ok(ChangePasswordPayload {
+            password: String::new(),
+        });
+    }
+
+    let mut reader = PayloadReader::new(payload);
+    let parsed = ChangePasswordPayload {
+        password: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(parsed)
 }
 
 fn encode_recommendations_payload(writer: &mut PayloadWriter, payload: &RecommendationsPayload) {
@@ -1717,6 +2123,81 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_u32(payload.bytes_per_sec);
             CODE_SM_UPLOAD_SPEED
         }
+        ServerMessage::Relogged(_) => CODE_SM_RELOGGED,
+        ServerMessage::UserList(payload) => {
+            encode_user_list_payload(&mut writer, payload);
+            CODE_SM_USER_LIST
+        }
+        ServerMessage::GlobalUserList(payload) => {
+            encode_user_list_payload(&mut writer, payload);
+            CODE_SM_GLOBAL_USER_LIST
+        }
+        ServerMessage::ConnectToClient(payload) => {
+            writer.write_u32(payload.token);
+            writer.write_string(&payload.username);
+            writer.write_string(&payload.connection_type);
+            writer.write_raw_bytes(&payload.raw_tail);
+            CODE_SM_CONNECT_TO_CLIENT
+        }
+        ServerMessage::SendDistributions(payload) => {
+            writer.write_u8(u8::from(payload.no_parent));
+            CODE_SM_SEND_DISTRIBUTIONS
+        }
+        ServerMessage::NoteParent(payload) => {
+            write_reversed_ipv4_u32(&mut writer, &payload.parent_ip);
+            CODE_SM_NOTE_PARENT
+        }
+        ServerMessage::ChildParentMap(payload) => {
+            writer.write_u32(payload.mappings.len() as u32);
+            for mapping in &payload.mappings {
+                writer.write_string(&mapping.child_username);
+                writer.write_string(&mapping.parent_username);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
+            CODE_SM_CHILD_PARENT_MAP
+        }
+        ServerMessage::DnetMessage(payload) => {
+            writer.write_u8(payload.distrib_code);
+            writer.write_raw_bytes(&payload.distrib_payload);
+            CODE_SM_DNET_MESSAGE
+        }
+        ServerMessage::PossibleParents(payload) => {
+            writer.write_u32(payload.parents.len() as u32);
+            for parent in &payload.parents {
+                writer.write_string(&parent.username);
+                write_reversed_ipv4_u32(&mut writer, &parent.ip_address);
+                writer.write_u32(parent.port);
+            }
+            CODE_SM_POSSIBLE_PARENTS
+        }
+        ServerMessage::RoomTickerUserAdded(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            writer.write_string(&payload.ticker);
+            CODE_SM_ROOM_TICKER_USER_ADDED
+        }
+        ServerMessage::RoomTickerUserRemoved(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.username);
+            CODE_SM_ROOM_TICKER_USER_REMOVED
+        }
+        ServerMessage::SetTicker(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_string(&payload.ticker);
+            CODE_SM_SET_TICKER
+        }
+        ServerMessage::TransferRoomOwnership(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_TRANSFER_ROOM_OWNERSHIP
+        }
+        ServerMessage::EnablePrivateRoomAdd(payload) => {
+            writer.write_u8(u8::from(payload.enabled));
+            CODE_SM_ENABLE_PRIVATE_ROOM_ADD
+        }
+        ServerMessage::ChangePassword(payload) => {
+            writer.write_string(&payload.password);
+            CODE_SM_CHANGE_PASSWORD
+        }
         ServerMessage::OpaqueControl(payload) => {
             writer.write_raw_bytes(&payload.bytes);
             payload.code
@@ -2287,6 +2768,71 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::UploadSpeed(payload)
         }
+        CODE_SM_RELOGGED => {
+            if !payload.is_empty() {
+                bail!(
+                    "SM_RELOGGED expects empty payload, got {} bytes",
+                    payload.len()
+                );
+            }
+            ServerMessage::Relogged(ReloggedPayload)
+        }
+        CODE_SM_USER_LIST => {
+            allow_trailing_bytes = true;
+            ServerMessage::UserList(parse_user_list_payload(payload)?)
+        }
+        CODE_SM_GLOBAL_USER_LIST => {
+            allow_trailing_bytes = true;
+            ServerMessage::GlobalUserList(parse_user_list_payload(payload)?)
+        }
+        CODE_SM_CONNECT_TO_CLIENT => {
+            allow_trailing_bytes = true;
+            ServerMessage::ConnectToClient(parse_connect_to_client_payload(payload)?)
+        }
+        CODE_SM_SEND_DISTRIBUTIONS => {
+            allow_trailing_bytes = true;
+            ServerMessage::SendDistributions(parse_send_distributions_payload(payload)?)
+        }
+        CODE_SM_NOTE_PARENT => {
+            allow_trailing_bytes = true;
+            ServerMessage::NoteParent(parse_note_parent_payload(payload)?)
+        }
+        CODE_SM_CHILD_PARENT_MAP => {
+            allow_trailing_bytes = true;
+            ServerMessage::ChildParentMap(parse_child_parent_map_payload(payload)?)
+        }
+        CODE_SM_DNET_MESSAGE => {
+            allow_trailing_bytes = true;
+            ServerMessage::DnetMessage(parse_dnet_message_payload(payload)?)
+        }
+        CODE_SM_POSSIBLE_PARENTS => {
+            allow_trailing_bytes = true;
+            ServerMessage::PossibleParents(parse_possible_parents_payload(payload)?)
+        }
+        CODE_SM_ROOM_TICKER_USER_ADDED => {
+            allow_trailing_bytes = true;
+            ServerMessage::RoomTickerUserAdded(parse_room_ticker_user_added_payload(payload)?)
+        }
+        CODE_SM_ROOM_TICKER_USER_REMOVED => {
+            allow_trailing_bytes = true;
+            ServerMessage::RoomTickerUserRemoved(parse_room_ticker_user_removed_payload(payload)?)
+        }
+        CODE_SM_SET_TICKER => {
+            allow_trailing_bytes = true;
+            ServerMessage::SetTicker(parse_set_ticker_payload(payload)?)
+        }
+        CODE_SM_TRANSFER_ROOM_OWNERSHIP => {
+            allow_trailing_bytes = true;
+            ServerMessage::TransferRoomOwnership(parse_transfer_room_ownership_payload(payload)?)
+        }
+        CODE_SM_ENABLE_PRIVATE_ROOM_ADD => {
+            allow_trailing_bytes = true;
+            ServerMessage::EnablePrivateRoomAdd(parse_enable_private_room_add_payload(payload)?)
+        }
+        CODE_SM_CHANGE_PASSWORD => {
+            allow_trailing_bytes = true;
+            ServerMessage::ChangePassword(parse_change_password_payload(payload)?)
+        }
         CODE_SM_DNET_LEVEL => {
             allow_trailing_bytes = true;
             ServerMessage::DnetLevel(OpaquePayload {
@@ -2461,14 +3007,14 @@ pub fn parse_say_chatroom_payload(payload: &[u8]) -> Result<SayChatRoomPayload> 
     let room = reader.read_string()?;
     let second = reader.read_string()?;
 
-    if reader.remaining() >= 4 {
-        if let Ok(message) = reader.read_string() {
-            return Ok(SayChatRoomPayload {
-                room,
-                username: Some(second),
-                message,
-            });
-        }
+    if reader.remaining() >= 4
+        && let Ok(message) = reader.read_string()
+    {
+        return Ok(SayChatRoomPayload {
+            room,
+            username: Some(second),
+            message,
+        });
     }
 
     Ok(SayChatRoomPayload {
@@ -2726,7 +3272,7 @@ fn parse_connect_to_peer_response_payload(payload: &[u8]) -> Result<ConnectToPee
             // Some variants omit privileged and include only obfuscation fields.
             obfuscation_type = reader.read_u32()?;
             obfuscated_port = reader.read_u32()?;
-        } else if tail_len >= 4 && tail_len % 4 == 0 {
+        } else if tail_len >= 4 && tail_len.is_multiple_of(4) {
             privileged = reader.read_bool_u32()?;
             if reader.remaining() >= 4 {
                 obfuscation_type = reader.read_u32()?;
@@ -3067,15 +3613,14 @@ fn parse_peer_search_query_payload(payload: &[u8]) -> Result<PeerSearchQueryPayl
     let mut reader = PayloadReader::new(payload);
     if reader.remaining() >= 8 {
         let checkpoint = reader.clone();
-        if let Ok(token) = reader.read_u32() {
-            if let Ok(query) = reader.read_string() {
-                if reader.remaining() == 0 {
-                    return Ok(PeerSearchQueryPayload {
-                        token: Some(token),
-                        query,
-                    });
-                }
-            }
+        if let Ok(token) = reader.read_u32()
+            && let Ok(query) = reader.read_string()
+            && reader.remaining() == 0
+        {
+            return Ok(PeerSearchQueryPayload {
+                token: Some(token),
+                query,
+            });
         }
         reader = checkpoint;
     }
@@ -3095,23 +3640,23 @@ fn parse_queued_downloads_payload(payload: &[u8]) -> Result<PeerQueuedDownloadsP
     let mut reader = PayloadReader::new(payload);
     let checkpoint = reader.clone();
 
-    if let Ok(count) = reader.read_u32() {
-        if count <= 100_000 {
-            let mut virtual_paths = Vec::with_capacity(count as usize);
-            let mut ok = true;
-            for _ in 0..count {
-                match reader.read_string() {
-                    Ok(path) => virtual_paths.push(path),
-                    Err(_) => {
-                        ok = false;
-                        break;
-                    }
+    if let Ok(count) = reader.read_u32()
+        && count <= 100_000
+    {
+        let mut virtual_paths = Vec::with_capacity(count as usize);
+        let mut ok = true;
+        for _ in 0..count {
+            match reader.read_string() {
+                Ok(path) => virtual_paths.push(path),
+                Err(_) => {
+                    ok = false;
+                    break;
                 }
             }
+        }
 
-            if ok && reader.remaining() == 0 {
-                return Ok(PeerQueuedDownloadsPayload { virtual_paths });
-            }
+        if ok && reader.remaining() == 0 {
+            return Ok(PeerQueuedDownloadsPayload { virtual_paths });
         }
     }
 
@@ -3724,6 +4269,62 @@ pub fn build_set_seconds_before_ping_children_request(seconds: u32) -> Frame {
 
 pub fn build_can_parent_request(can_parent: bool) -> Frame {
     encode_server_message(&ServerMessage::CanParent(CanParentPayload { can_parent }))
+}
+
+pub fn build_user_list_request() -> Frame {
+    Frame::new(CODE_SM_USER_LIST, Vec::new())
+}
+
+pub fn build_global_user_list_request() -> Frame {
+    Frame::new(CODE_SM_GLOBAL_USER_LIST, Vec::new())
+}
+
+pub fn build_connect_to_client_request(token: u32, username: &str, connection_type: &str) -> Frame {
+    encode_server_message(&ServerMessage::ConnectToClient(ConnectToClientPayload {
+        token,
+        username: username.to_owned(),
+        connection_type: connection_type.to_owned(),
+        raw_tail: Vec::new(),
+    }))
+}
+
+pub fn build_send_distributions_request(no_parent: bool) -> Frame {
+    encode_server_message(&ServerMessage::SendDistributions(
+        SendDistributionsPayload { no_parent },
+    ))
+}
+
+pub fn build_note_parent_request(parent_ip: &str) -> Frame {
+    encode_server_message(&ServerMessage::NoteParent(NoteParentPayload {
+        parent_ip: parent_ip.to_owned(),
+    }))
+}
+
+pub fn build_set_ticker_request(room: &str, ticker: &str) -> Frame {
+    encode_server_message(&ServerMessage::SetTicker(SetTickerPayload {
+        room: room.to_owned(),
+        ticker: ticker.to_owned(),
+    }))
+}
+
+pub fn build_transfer_room_ownership_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::TransferRoomOwnership(
+        TransferRoomOwnershipPayload {
+            room: room.to_owned(),
+        },
+    ))
+}
+
+pub fn build_enable_private_room_add_request(enabled: bool) -> Frame {
+    encode_server_message(&ServerMessage::EnablePrivateRoomAdd(
+        EnablePrivateRoomAddPayload { enabled },
+    ))
+}
+
+pub fn build_change_password_request(password: &str) -> Frame {
+    encode_server_message(&ServerMessage::ChangePassword(ChangePasswordPayload {
+        password: password.to_owned(),
+    }))
 }
 
 pub fn build_remove_own_room_membership_request(room: &str) -> Frame {
@@ -5109,25 +5710,174 @@ mod tests {
     }
 
     #[test]
-    fn s4l_opaque_server_control_codes_roundtrip() {
-        for code in OPAQUE_SERVER_CONTROL_CODES {
-            let payload = vec![code as u8, 0x55, 0xaa];
-            let decoded = decode_server_message(code, &payload).expect("decode opaque control");
-            let ServerMessage::OpaqueControl(control) = decoded else {
-                panic!("expected opaque control variant for code {code}");
-            };
-            assert_eq!(control.code, code);
-            assert_eq!(control.bytes, payload);
+    fn s6d_batch1_messages_decode_typed_payloads() {
+        let relogged = decode_server_message(CODE_SM_RELOGGED, &[]).expect("decode relogged");
+        assert!(matches!(relogged, ServerMessage::Relogged(ReloggedPayload)));
 
-            let rebuilt = encode_server_message(&ServerMessage::OpaqueControl(control.clone()));
-            assert_eq!(rebuilt.code, code);
-            assert_eq!(rebuilt.payload, payload);
+        let mut user_list_writer = PayloadWriter::new();
+        user_list_writer.write_u32(1);
+        user_list_writer.write_string("alice");
+        user_list_writer.write_u32(1);
+        user_list_writer.write_u32(2);
+        user_list_writer.write_u32(1);
+        user_list_writer.write_u32(320);
+        user_list_writer.write_u32(12);
+        user_list_writer.write_u32(0);
+        user_list_writer.write_u32(2_000);
+        user_list_writer.write_u32(100);
+        user_list_writer.write_u32(1);
+        user_list_writer.write_u32(0);
+        user_list_writer.write_u32(1);
+        user_list_writer.write_string("AR");
+        let global_list =
+            decode_server_message(CODE_SM_GLOBAL_USER_LIST, &user_list_writer.into_inner())
+                .expect("decode global user list");
+        let ServerMessage::GlobalUserList(global_payload) = global_list else {
+            panic!("expected typed global user list payload");
+        };
+        assert_eq!(global_payload.users.len(), 1);
+        assert_eq!(global_payload.users[0].username, "alice");
+        assert_eq!(global_payload.users[0].status, Some(2));
+        assert_eq!(global_payload.users[0].avg_speed, Some(320));
+        assert_eq!(global_payload.users[0].country.as_deref(), Some("AR"));
 
-            let built = build_opaque_server_control_request(code, &payload)
-                .expect("builder should accept closure code");
-            assert_eq!(built.code, code);
-            assert_eq!(built.payload, payload);
-        }
+        let connect_frame = build_connect_to_client_request(9, "bob", "P");
+        let connect_decoded = decode_server_message(connect_frame.code, &connect_frame.payload)
+            .expect("decode connect-to-client");
+        let ServerMessage::ConnectToClient(connect_payload) = connect_decoded else {
+            panic!("expected connect-to-client payload");
+        };
+        assert_eq!(connect_payload.token, 9);
+        assert_eq!(connect_payload.username, "bob");
+        assert_eq!(connect_payload.connection_type, "P");
+        assert!(connect_payload.raw_tail.is_empty());
+
+        let send_distributions =
+            decode_server_message(CODE_SM_SEND_DISTRIBUTIONS, &[1]).expect("decode distributions");
+        let ServerMessage::SendDistributions(distributions_payload) = send_distributions else {
+            panic!("expected send-distributions payload");
+        };
+        assert!(distributions_payload.no_parent);
+
+        let note_parent_frame = build_note_parent_request("1.2.3.4");
+        let note_parent_decoded =
+            decode_server_message(note_parent_frame.code, &note_parent_frame.payload)
+                .expect("decode note parent");
+        let ServerMessage::NoteParent(note_parent_payload) = note_parent_decoded else {
+            panic!("expected note-parent payload");
+        };
+        assert_eq!(note_parent_payload.parent_ip, "1.2.3.4");
+    }
+
+    #[test]
+    fn s6d_batch2_messages_decode_typed_payloads() {
+        let mut map_writer = PayloadWriter::new();
+        map_writer.write_u32(1);
+        map_writer.write_string("child-a");
+        map_writer.write_string("parent-a");
+        let child_parent_map =
+            decode_server_message(CODE_SM_CHILD_PARENT_MAP, &map_writer.into_inner())
+                .expect("decode child-parent map");
+        let ServerMessage::ChildParentMap(map_payload) = child_parent_map else {
+            panic!("expected child-parent map payload");
+        };
+        assert_eq!(map_payload.mappings.len(), 1);
+        assert_eq!(map_payload.mappings[0].child_username, "child-a");
+        assert_eq!(map_payload.mappings[0].parent_username, "parent-a");
+        assert!(map_payload.raw_tail.is_empty());
+
+        let dnet_message =
+            decode_server_message(CODE_SM_DNET_MESSAGE, &[3, 0xaa, 0xbb]).expect("decode dnet");
+        let ServerMessage::DnetMessage(dnet_payload) = dnet_message else {
+            panic!("expected dnet message payload");
+        };
+        assert_eq!(dnet_payload.distrib_code, 3);
+        assert_eq!(dnet_payload.distrib_payload, vec![0xaa, 0xbb]);
+
+        let mut parents_writer = PayloadWriter::new();
+        parents_writer.write_u32(1);
+        parents_writer.write_string("parent-a");
+        parents_writer.write_u32(u32::from_be_bytes([1, 2, 3, 4]));
+        parents_writer.write_u32(2234);
+        let possible_parents =
+            decode_server_message(CODE_SM_POSSIBLE_PARENTS, &parents_writer.into_inner())
+                .expect("decode possible parents");
+        let ServerMessage::PossibleParents(parents_payload) = possible_parents else {
+            panic!("expected possible-parents payload");
+        };
+        assert_eq!(parents_payload.parents.len(), 1);
+        assert_eq!(parents_payload.parents[0].username, "parent-a");
+        assert_eq!(parents_payload.parents[0].ip_address, "1.2.3.4");
+        assert_eq!(parents_payload.parents[0].port, 2234);
+    }
+
+    #[test]
+    fn s6d_batch3_messages_decode_typed_payloads() {
+        let mut added_writer = PayloadWriter::new();
+        added_writer.write_string("electro");
+        added_writer.write_string("alice");
+        added_writer.write_string("new release");
+        let added =
+            decode_server_message(CODE_SM_ROOM_TICKER_USER_ADDED, &added_writer.into_inner())
+                .expect("decode room ticker added");
+        let ServerMessage::RoomTickerUserAdded(added_payload) = added else {
+            panic!("expected room ticker user added payload");
+        };
+        assert_eq!(added_payload.room, "electro");
+        assert_eq!(added_payload.username, "alice");
+        assert_eq!(added_payload.ticker, "new release");
+
+        let mut removed_writer = PayloadWriter::new();
+        removed_writer.write_string("electro");
+        removed_writer.write_string("alice");
+        let removed = decode_server_message(
+            CODE_SM_ROOM_TICKER_USER_REMOVED,
+            &removed_writer.into_inner(),
+        )
+        .expect("decode room ticker removed");
+        let ServerMessage::RoomTickerUserRemoved(removed_payload) = removed else {
+            panic!("expected room ticker user removed payload");
+        };
+        assert_eq!(removed_payload.room, "electro");
+        assert_eq!(removed_payload.username, "alice");
+
+        let set_ticker_frame = build_set_ticker_request("electro", "now playing");
+        let set_ticker = decode_server_message(set_ticker_frame.code, &set_ticker_frame.payload)
+            .expect("decode set ticker");
+        let ServerMessage::SetTicker(set_ticker_payload) = set_ticker else {
+            panic!("expected set ticker payload");
+        };
+        assert_eq!(set_ticker_payload.room, "electro");
+        assert_eq!(set_ticker_payload.ticker, "now playing");
+
+        let transfer_frame = build_transfer_room_ownership_request("private-room");
+        let transfer = decode_server_message(transfer_frame.code, &transfer_frame.payload)
+            .expect("decode transfer room ownership");
+        let ServerMessage::TransferRoomOwnership(transfer_payload) = transfer else {
+            panic!("expected transfer-room-ownership payload");
+        };
+        assert_eq!(transfer_payload.room, "private-room");
+
+        let enable_frame = build_enable_private_room_add_request(true);
+        let enable = decode_server_message(enable_frame.code, &enable_frame.payload)
+            .expect("decode enable private room add");
+        let ServerMessage::EnablePrivateRoomAdd(enable_payload) = enable else {
+            panic!("expected enable private room add payload");
+        };
+        assert!(enable_payload.enabled);
+
+        let change_frame = build_change_password_request("new-pass");
+        let change = decode_server_message(change_frame.code, &change_frame.payload)
+            .expect("decode change password");
+        let ServerMessage::ChangePassword(change_payload) = change else {
+            panic!("expected change password payload");
+        };
+        assert_eq!(change_payload.password, "new-pass");
+    }
+
+    #[test]
+    fn s6d_opaque_server_control_tail_is_empty() {
+        assert!(OPAQUE_SERVER_CONTROL_CODES.is_empty());
     }
 
     #[test]
@@ -5171,6 +5921,21 @@ mod tests {
             CODE_SM_SET_STATUS,
             CODE_SM_HEARTBEAT,
             CODE_SM_DNET_RESET,
+            CODE_SM_RELOGGED,
+            CODE_SM_USER_LIST,
+            CODE_SM_GLOBAL_USER_LIST,
+            CODE_SM_CONNECT_TO_CLIENT,
+            CODE_SM_SEND_DISTRIBUTIONS,
+            CODE_SM_NOTE_PARENT,
+            CODE_SM_CHILD_PARENT_MAP,
+            CODE_SM_DNET_MESSAGE,
+            CODE_SM_POSSIBLE_PARENTS,
+            CODE_SM_ROOM_TICKER_USER_ADDED,
+            CODE_SM_ROOM_TICKER_USER_REMOVED,
+            CODE_SM_SET_TICKER,
+            CODE_SM_TRANSFER_ROOM_OWNERSHIP,
+            CODE_SM_ENABLE_PRIVATE_ROOM_ADD,
+            CODE_SM_CHANGE_PASSWORD,
         ] {
             let err = build_opaque_server_control_request(code, &[0x00]).expect_err("must reject");
             assert!(
