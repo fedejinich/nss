@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T09:08:47+00:00`
+- Generated: `2026-02-15T14:53:49+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -916,27 +916,40 @@
 
 ### `server` `SM_DNET_LEVEL` (code `126`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `level`: `optional_u32`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 126 to SM_DNET_LEVEL (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime+spec evidence confirms BranchLevel layout on code 126 (u32 level with optional residual tail).)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class BranchLevel (code 126) serializes one u32 branch-level value.)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe includes code 126 frame with u32 payload and no residual tail.)
 
 ### `server` `SM_DNET_GROUP_LEADER` (code `127`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `username`: `optional_string`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 127 to SM_DNET_GROUP_LEADER (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime+spec evidence confirms BranchRoot layout on code 127 (string root username with optional residual tail).)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class BranchRoot (code 127) serializes one root-username string.)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe includes code 127 frame with root-username string payload.)
 
 ### `server` `SM_DNET_DELIVERY_REPORT` (code `128`)
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 128 to SM_DNET_DELIVERY_REPORT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime probe confirms active code 128 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe includes code 128 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.)
 
 ### `server` `SM_DNET_CHILD_DEPTH` (code `129`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `depth`: `optional_u32`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 129 to SM_DNET_CHILD_DEPTH (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime+spec evidence confirms ChildDepth layout on code 129 (u32 depth with optional residual tail).)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class ChildDepth (code 129) serializes one u32 depth value.)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe includes code 129 frame with u32 depth payload.)
 
 ### `server` `SM_DNET_RESET` (code `130`)
 - Confidence: `high`
@@ -949,7 +962,8 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 131 to SM_FLOOD (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime probe confirms active code 131 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe includes code 131 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.)
 
 ### `server` `SM_BAN_USER` (code `132`)
 - Confidence: `high`
@@ -1069,15 +1083,22 @@
 
 ### `server` `SM_REMOVE_ROOM_OPERATORSHIP` (code `146`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `optional_string`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 146 to SM_REMOVE_ROOM_OPERATORSHIP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` (S6E runtime+spec evidence confirms room-string payload on code 146 for room operatorship revocation.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class RoomOperatorshipRevoked (code 146) parses room string payload.)
+  - `runtime_capture`: `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` (S6E authenticated runtime probe includes code 146 with len-prefixed room string payload.)
 
 ### `server` `SM_REMOVE_OWN_ROOM_OPERATORSHIP` (code `147`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `optional_string`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 147 to SM_REMOVE_OWN_ROOM_OPERATORSHIP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` (S6E runtime evidence confirms room-string wire layout on code 147 (same layout family as code 146).)
+  - `runtime_capture`: `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` (S6E authenticated runtime probe includes code 147 with same room-string wire layout used by code 146.)
 
 ### `server` `SM_ROOM_OPERATORS` (code `148`)
 - Confidence: `high`

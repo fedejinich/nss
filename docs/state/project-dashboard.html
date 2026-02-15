@@ -500,14 +500,18 @@
 
       function renderMatrix(stages) {
         function evidenceHref(path) {
-          let clean = String(path || "").replace(/^docs\//, "");
+          let clean = String(path || "").trim();
+          if (!clean) {
+            return "#";
+          }
+          clean = clean.replace(/^docs\//, "");
           if (clean.endsWith(".md")) {
             clean = `${clean.slice(0, -3)}/`;
           }
-          if (clean.startsWith("state/")) {
-            return clean.slice("state/".length);
+          if (clean.startsWith("/")) {
+            return clean;
           }
-          return `../${clean}`;
+          return `/${clean}`;
         }
 
         matrixRowsEl.innerHTML = stages

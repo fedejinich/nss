@@ -695,6 +695,30 @@ pub struct DnetResetPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DnetLevelPayload {
+    pub level: Option<u32>,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DnetGroupLeaderPayload {
+    pub username: Option<String>,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DnetChildDepthPayload {
+    pub depth: Option<u32>,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomOperatorshipRevocationPayload {
+    pub room: Option<String>,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SayChatRoomPayload {
     pub room: String,
     pub username: Option<String>,
@@ -1105,18 +1129,18 @@ pub enum ServerMessage {
     AddRoomMembership(RoomNamePayload),
     RemoveRoomMembership(RoomNamePayload),
     AddRoomOperatorship(RoomNamePayload),
-    RemoveRoomOperatorship(OpaquePayload),
-    RemoveOwnRoomOperatorship(OpaquePayload),
+    RemoveRoomOperatorship(RoomOperatorshipRevocationPayload),
+    RemoveOwnRoomOperatorship(RoomOperatorshipRevocationPayload),
     RoomMembers(RoomMembersPayload),
     RoomOperators(RoomOperatorsPayload),
     JoinGlobalRoom(GlobalRoomTogglePayload),
     LeaveGlobalRoom(GlobalRoomTogglePayload),
     SayGlobalRoom(GlobalRoomMessagePayload),
     SearchCorrelations(SearchCorrelationsPayload),
-    DnetLevel(OpaquePayload),
-    DnetGroupLeader(OpaquePayload),
+    DnetLevel(DnetLevelPayload),
+    DnetGroupLeader(DnetGroupLeaderPayload),
     DnetDeliveryReport(OpaquePayload),
-    DnetChildDepth(OpaquePayload),
+    DnetChildDepth(DnetChildDepthPayload),
     Flood(OpaquePayload),
     MessageUserIncoming(MessageUserIncomingPayload),
     MessageUser(MessageUserPayload),
@@ -1500,6 +1524,65 @@ fn parse_change_password_payload(payload: &[u8]) -> Result<ChangePasswordPayload
     };
     ensure_payload_consumed(&reader)?;
     Ok(parsed)
+}
+
+fn parse_room_operatorship_revocation_payload(payload: &[u8]) -> RoomOperatorshipRevocationPayload {
+    let mut reader = PayloadReader::new(payload);
+    let checkpoint = reader.clone();
+    let room = if reader.remaining() >= 4 {
+        match reader.read_string() {
+            Ok(room) => Some(room),
+            Err(_) => {
+                reader = checkpoint;
+                None
+            }
+        }
+    } else {
+        None
+    };
+    let raw_tail = reader.read_remaining_bytes();
+
+    RoomOperatorshipRevocationPayload { room, raw_tail }
+}
+
+fn parse_dnet_level_payload(payload: &[u8]) -> DnetLevelPayload {
+    let mut reader = PayloadReader::new(payload);
+    let level = if reader.remaining() >= 4 {
+        reader.read_u32().ok()
+    } else {
+        None
+    };
+    let raw_tail = reader.read_remaining_bytes();
+    DnetLevelPayload { level, raw_tail }
+}
+
+fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
+    let mut reader = PayloadReader::new(payload);
+    let checkpoint = reader.clone();
+    let username = if reader.remaining() >= 4 {
+        match reader.read_string() {
+            Ok(username) => Some(username),
+            Err(_) => {
+                reader = checkpoint;
+                None
+            }
+        }
+    } else {
+        None
+    };
+    let raw_tail = reader.read_remaining_bytes();
+    DnetGroupLeaderPayload { username, raw_tail }
+}
+
+fn parse_dnet_child_depth_payload(payload: &[u8]) -> DnetChildDepthPayload {
+    let mut reader = PayloadReader::new(payload);
+    let depth = if reader.remaining() >= 4 {
+        reader.read_u32().ok()
+    } else {
+        None
+    };
+    let raw_tail = reader.read_remaining_bytes();
+    DnetChildDepthPayload { depth, raw_tail }
 }
 
 fn encode_recommendations_payload(writer: &mut PayloadWriter, payload: &RecommendationsPayload) {
@@ -1981,11 +2064,17 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             CODE_SM_ADD_ROOM_OPERATORSHIP
         }
         ServerMessage::RemoveRoomOperatorship(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(room) = &payload.room {
+                writer.write_string(room);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
             CODE_SM_REMOVE_ROOM_OPERATORSHIP
         }
         ServerMessage::RemoveOwnRoomOperatorship(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(room) = &payload.room {
+                writer.write_string(room);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
             CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP
         }
         ServerMessage::RoomMembers(payload) => {
@@ -2029,11 +2118,17 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             CODE_SM_SEARCH_CORRELATIONS
         }
         ServerMessage::DnetLevel(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(level) = payload.level {
+                writer.write_u32(level);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
             CODE_SM_DNET_LEVEL
         }
         ServerMessage::DnetGroupLeader(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(username) = &payload.username {
+                writer.write_string(username);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
             CODE_SM_DNET_GROUP_LEADER
         }
         ServerMessage::DnetDeliveryReport(payload) => {
@@ -2041,7 +2136,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             CODE_SM_DNET_DELIVERY_REPORT
         }
         ServerMessage::DnetChildDepth(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(depth) = payload.depth {
+                writer.write_u32(depth);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
             CODE_SM_DNET_CHILD_DEPTH
         }
         ServerMessage::Flood(payload) => {
@@ -2670,15 +2768,15 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         }
         CODE_SM_REMOVE_ROOM_OPERATORSHIP => {
             allow_trailing_bytes = true;
-            ServerMessage::RemoveRoomOperatorship(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            ServerMessage::RemoveRoomOperatorship(parse_room_operatorship_revocation_payload(
+                payload,
+            ))
         }
         CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP => {
             allow_trailing_bytes = true;
-            ServerMessage::RemoveOwnRoomOperatorship(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            ServerMessage::RemoveOwnRoomOperatorship(parse_room_operatorship_revocation_payload(
+                payload,
+            ))
         }
         CODE_SM_ROOM_MEMBERS => {
             allow_trailing_bytes = true;
@@ -2835,15 +2933,11 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         }
         CODE_SM_DNET_LEVEL => {
             allow_trailing_bytes = true;
-            ServerMessage::DnetLevel(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            ServerMessage::DnetLevel(parse_dnet_level_payload(payload))
         }
         CODE_SM_DNET_GROUP_LEADER => {
             allow_trailing_bytes = true;
-            ServerMessage::DnetGroupLeader(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            ServerMessage::DnetGroupLeader(parse_dnet_group_leader_payload(payload))
         }
         CODE_SM_DNET_DELIVERY_REPORT => {
             allow_trailing_bytes = true;
@@ -2853,9 +2947,7 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         }
         CODE_SM_DNET_CHILD_DEPTH => {
             allow_trailing_bytes = true;
-            ServerMessage::DnetChildDepth(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            ServerMessage::DnetChildDepth(parse_dnet_child_depth_payload(payload))
         }
         CODE_SM_FLOOD => {
             allow_trailing_bytes = true;
@@ -4357,6 +4449,45 @@ pub fn build_add_room_operatorship_request(room: &str) -> Frame {
     }))
 }
 
+pub fn build_remove_room_operatorship_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveRoomOperatorship(
+        RoomOperatorshipRevocationPayload {
+            room: Some(room.to_owned()),
+            raw_tail: Vec::new(),
+        },
+    ))
+}
+
+pub fn build_remove_own_room_operatorship_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveOwnRoomOperatorship(
+        RoomOperatorshipRevocationPayload {
+            room: Some(room.to_owned()),
+            raw_tail: Vec::new(),
+        },
+    ))
+}
+
+pub fn build_dnet_level_request(level: u32) -> Frame {
+    encode_server_message(&ServerMessage::DnetLevel(DnetLevelPayload {
+        level: Some(level),
+        raw_tail: Vec::new(),
+    }))
+}
+
+pub fn build_dnet_group_leader_request(username: &str) -> Frame {
+    encode_server_message(&ServerMessage::DnetGroupLeader(DnetGroupLeaderPayload {
+        username: Some(username.to_owned()),
+        raw_tail: Vec::new(),
+    }))
+}
+
+pub fn build_dnet_child_depth_request(depth: u32) -> Frame {
+    encode_server_message(&ServerMessage::DnetChildDepth(DnetChildDepthPayload {
+        depth: Some(depth),
+        raw_tail: Vec::new(),
+    }))
+}
+
 pub fn build_inform_user_of_privileges_request(token: u32, username: &str) -> Frame {
     encode_server_message(&ServerMessage::InformUserOfPrivileges(
         InformUserOfPrivilegesPayload {
@@ -5114,27 +5245,36 @@ mod tests {
             ProtocolMessage::Server(ServerMessage::WishlistWait(OpaquePayload {
                 bytes: vec![0x3c, 0x00, 0x00, 0x00],
             })),
-            ProtocolMessage::Server(ServerMessage::DnetLevel(OpaquePayload {
-                bytes: vec![0x01, 0x00, 0x00, 0x00],
+            ProtocolMessage::Server(ServerMessage::DnetLevel(DnetLevelPayload {
+                level: Some(1),
+                raw_tail: Vec::new(),
             })),
-            ProtocolMessage::Server(ServerMessage::DnetGroupLeader(OpaquePayload {
-                bytes: vec![0x02, 0x00, 0x00, 0x00],
+            ProtocolMessage::Server(ServerMessage::DnetGroupLeader(DnetGroupLeaderPayload {
+                username: Some("branch-root".into()),
+                raw_tail: Vec::new(),
             })),
             ProtocolMessage::Server(ServerMessage::DnetDeliveryReport(OpaquePayload {
                 bytes: vec![0x03, 0x00, 0x00, 0x00],
             })),
-            ProtocolMessage::Server(ServerMessage::DnetChildDepth(OpaquePayload {
-                bytes: vec![0x04, 0x00, 0x00, 0x00],
+            ProtocolMessage::Server(ServerMessage::DnetChildDepth(DnetChildDepthPayload {
+                depth: Some(4),
+                raw_tail: Vec::new(),
             })),
             ProtocolMessage::Server(ServerMessage::Flood(OpaquePayload {
                 bytes: vec![0x05, 0x00, 0x00, 0x00],
             })),
-            ProtocolMessage::Server(ServerMessage::RemoveRoomOperatorship(OpaquePayload {
-                bytes: vec![0x06, 0x00, 0x00, 0x00],
-            })),
-            ProtocolMessage::Server(ServerMessage::RemoveOwnRoomOperatorship(OpaquePayload {
-                bytes: vec![0x07, 0x00, 0x00, 0x00],
-            })),
+            ProtocolMessage::Server(ServerMessage::RemoveRoomOperatorship(
+                RoomOperatorshipRevocationPayload {
+                    room: Some("private-room".into()),
+                    raw_tail: Vec::new(),
+                },
+            )),
+            ProtocolMessage::Server(ServerMessage::RemoveOwnRoomOperatorship(
+                RoomOperatorshipRevocationPayload {
+                    room: Some("private-room".into()),
+                    raw_tail: Vec::new(),
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::JoinGlobalRoom(GlobalRoomTogglePayload {
                 room: None,
             })),
@@ -5515,12 +5655,29 @@ mod tests {
             CODE_SM_ADD_ROOM_OPERATORSHIP
         );
         assert_eq!(
+            build_remove_room_operatorship_request("private").code,
+            CODE_SM_REMOVE_ROOM_OPERATORSHIP
+        );
+        assert_eq!(
+            build_remove_own_room_operatorship_request("private").code,
+            CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP
+        );
+        assert_eq!(
             build_add_hate_term_request("noise").code,
             CODE_SM_ADD_HATE_TERM
         );
         assert_eq!(
             build_remove_hate_term_request("noise").code,
             CODE_SM_REMOVE_HATE_TERM
+        );
+        assert_eq!(build_dnet_level_request(2).code, CODE_SM_DNET_LEVEL);
+        assert_eq!(
+            build_dnet_group_leader_request("branch-root").code,
+            CODE_SM_DNET_GROUP_LEADER
+        );
+        assert_eq!(
+            build_dnet_child_depth_request(3).code,
+            CODE_SM_DNET_CHILD_DEPTH
         );
         assert_eq!(build_set_status_request(2).code, CODE_SM_SET_STATUS);
         assert_eq!(build_heartbeat_request(Some(1)).code, CODE_SM_HEARTBEAT);
@@ -5876,6 +6033,56 @@ mod tests {
     }
 
     #[test]
+    fn s6e_legacy_control_messages_decode_typed_payloads() {
+        let level_frame = build_dnet_level_request(2);
+        let level_message = decode_server_message(level_frame.code, &level_frame.payload)
+            .expect("decode dnet level");
+        let ServerMessage::DnetLevel(level_payload) = level_message else {
+            panic!("expected dnet level payload");
+        };
+        assert_eq!(level_payload.level, Some(2));
+        assert!(level_payload.raw_tail.is_empty());
+
+        let leader_frame = build_dnet_group_leader_request("branch-root");
+        let leader_message = decode_server_message(leader_frame.code, &leader_frame.payload)
+            .expect("decode dnet group leader");
+        let ServerMessage::DnetGroupLeader(leader_payload) = leader_message else {
+            panic!("expected dnet group leader payload");
+        };
+        assert_eq!(leader_payload.username.as_deref(), Some("branch-root"));
+        assert!(leader_payload.raw_tail.is_empty());
+
+        let depth_frame = build_dnet_child_depth_request(3);
+        let depth_message = decode_server_message(depth_frame.code, &depth_frame.payload)
+            .expect("decode dnet child depth");
+        let ServerMessage::DnetChildDepth(depth_payload) = depth_message else {
+            panic!("expected dnet child depth payload");
+        };
+        assert_eq!(depth_payload.depth, Some(3));
+        assert!(depth_payload.raw_tail.is_empty());
+
+        let remove_frame = build_remove_room_operatorship_request("private-room");
+        let remove_message = decode_server_message(remove_frame.code, &remove_frame.payload)
+            .expect("decode remove room operatorship");
+        let ServerMessage::RemoveRoomOperatorship(remove_payload) = remove_message else {
+            panic!("expected remove room operatorship payload");
+        };
+        assert_eq!(remove_payload.room.as_deref(), Some("private-room"));
+        assert!(remove_payload.raw_tail.is_empty());
+
+        let remove_own_frame = build_remove_own_room_operatorship_request("private-room");
+        let remove_own_message =
+            decode_server_message(remove_own_frame.code, &remove_own_frame.payload)
+                .expect("decode remove own room operatorship");
+        let ServerMessage::RemoveOwnRoomOperatorship(remove_own_payload) = remove_own_message
+        else {
+            panic!("expected remove own room operatorship payload");
+        };
+        assert_eq!(remove_own_payload.room.as_deref(), Some("private-room"));
+        assert!(remove_own_payload.raw_tail.is_empty());
+    }
+
+    #[test]
     fn s6d_opaque_server_control_tail_is_empty() {
         assert!(OPAQUE_SERVER_CONTROL_CODES.is_empty());
     }
@@ -5936,6 +6143,11 @@ mod tests {
             CODE_SM_TRANSFER_ROOM_OWNERSHIP,
             CODE_SM_ENABLE_PRIVATE_ROOM_ADD,
             CODE_SM_CHANGE_PASSWORD,
+            CODE_SM_DNET_LEVEL,
+            CODE_SM_DNET_GROUP_LEADER,
+            CODE_SM_DNET_CHILD_DEPTH,
+            CODE_SM_REMOVE_ROOM_OPERATORSHIP,
+            CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP,
         ] {
             let err = build_opaque_server_control_request(code, &[0x00]).expect_err("must reject");
             assert!(

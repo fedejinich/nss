@@ -1,0 +1,24 @@
+{
+  "run_id": "login-legacy-room-operatorship-control",
+  "scenario": "login-legacy-room-operatorship-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T14:47:19+00:00",
+  "server": "<redacted:endpoint:1c59d4352a0d>",
+  "frame_count": 20,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:8a7529e6f2c8>",
+    "neo_frames_raw": "<redacted:path:ee37e21c9da7>",
+    "frida_events_raw": "<redacted:path:5e8208e5bc22>"
+  },
+  "notes": "Stage 6E runtime probe for room operatorship revocation controls (SM_REMOVE_ROOM_OPERATORSHIP, SM_REMOVE_OWN_ROOM_OPERATORSHIP).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T14:47:34+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-legacy-room-operatorship-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

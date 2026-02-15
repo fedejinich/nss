@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `24`
+Total PR docs: `25`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -163,6 +163,13 @@ Total PR docs: `24`
 <summary>S6D (1 PRs)</summary>
 
 - [0023-s6d-opaque-tail-typed-batches.md - S6d Opaque Tail Typed Batches](0023-s6d-opaque-tail-typed-batches/)
+
+</details>
+
+<details>
+<summary>S6E (1 PRs)</summary>
+
+- [0024-s6e-legacy-opaque-reduction.md - S6e Legacy Opaque Reduction](0024-s6e-legacy-opaque-reduction/)
 
 </details>
 

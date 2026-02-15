@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, and Stage 6D typed-batch opaque-tail closure.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, and Stage 6E dedicated legacy opaque reduction.
 
 ## Validation Gates
 
@@ -60,6 +60,8 @@ Runs:
    - `login-s6-batch1-control`
    - `login-s6-batch2-control`
    - `login-s6-batch3-control`
+   - `login-legacy-room-operatorship-control`
+   - `login-legacy-distributed-control`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -123,6 +125,8 @@ Protocol matrix status:
 - Stage 5F authenticated runtime scenario `login-private-room-membership-control` provides runtime evidence for codes `136`, `137`, `139`, `140`, and `145`.
 - Stage 5G authenticated runtime scenario `login-text-control` provides runtime evidence for codes `58`, `62`, `63`, `66`, `117`, and `118`.
 - Stage 5H authenticated runtime scenario `login-system-control` provides runtime evidence for codes `28`, `32`, and `130`.
+- Stage 6E authenticated runtime scenario `login-legacy-room-operatorship-control` provides runtime evidence for codes `146` and `147`.
+- Stage 6E authenticated runtime scenario `login-legacy-distributed-control` provides runtime evidence for codes `126`, `127`, `128`, `129`, and `131`.
 - `SM_GET_USER_PRIVILEGES_STATUS` was promoted to `high` with authenticated request/response runtime evidence.
 - `PM_SHARED_FILES_IN_FOLDER` parser now has decompression-aware coverage with zlib safety limits and typed listing classification.
 - Stage 4F/S4G/S4H/S4I/S4J are mapping-first and static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
@@ -191,6 +195,23 @@ Protocol matrix status:
 - Batch-3 caveat:
   - server-side connection resets occurred after login; attempted outbound probe frames are retained and explicitly marked in run metadata.
 
+## Stage 6E Dedicated Legacy Opaque Reduction Verification
+
+- Runtime capture generator:
+  - `tools/runtime/generate_stage6e_legacy_control_captures.py`
+- Redacted runtime runs:
+  - `captures/redacted/login-legacy-room-operatorship-control`
+  - `captures/redacted/login-legacy-distributed-control`
+- Typed promotion scope:
+  - `SM_REMOVE_ROOM_OPERATORSHIP` (`146`)
+  - `SM_REMOVE_OWN_ROOM_OPERATORSHIP` (`147`)
+  - `SM_DNET_LEVEL` (`126`)
+  - `SM_DNET_GROUP_LEADER` (`127`)
+  - `SM_DNET_CHILD_DEPTH` (`129`)
+- Residual dedicated opaque semantics:
+  - `SM_DNET_DELIVERY_REPORT` (`128`)
+  - `SM_FLOOD` (`131`)
+
 ## Stage 5B Verification Status
 
 - Feature inventory artifact: `docs/state/soulseek-feature-inventory.md`
@@ -212,5 +233,5 @@ Protocol matrix status:
 ## Residual Risk
 
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- Generic opaque server-control closure is now `0`; dedicated legacy opaque variants still remain (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, `SM_DNET_LEVEL`, `SM_DNET_GROUP_LEADER`, `SM_DNET_DELIVERY_REPORT`, `SM_DNET_CHILD_DEPTH`, `SM_FLOOD`).
+- Generic opaque server-control closure is now `0`; dedicated legacy opaque residuals are reduced to two unresolved semantics (`SM_DNET_DELIVERY_REPORT`, `SM_FLOOD`).
 - Stage 5B still has one UI-runtime visibility gap: live menu tree extraction requires macOS assistive-access permission (captured denial: `evidence/ui_audit/ui_menu_bar_items.err`).

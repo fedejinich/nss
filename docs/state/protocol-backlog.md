@@ -323,12 +323,20 @@ Status:
   - `mapped_not_implemented=0`
   - `missing=0`
 
-## Next Candidate Stage (S6E) - Dedicated Legacy Opaque Reduction
+## Stage 6E Completion Note (Dedicated Legacy Opaque Reduction)
 
-Target focus:
-
-- Evaluate dedicated legacy opaque variants (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, distributed/flood tail) for typed promotion based on runtime/static evidence quality.
-- Keep semantic parity regression and KB evidence linkage constraints unchanged.
+- Stage 6E added authenticated runtime runs for dedicated legacy control families:
+  - `captures/redacted/login-legacy-room-operatorship-control`
+  - `captures/redacted/login-legacy-distributed-control`
+- Stage 6E promoted these dedicated legacy variants from opaque to typed payload handling:
+  - `SM_REMOVE_ROOM_OPERATORSHIP` (`146`)
+  - `SM_REMOVE_OWN_ROOM_OPERATORSHIP` (`147`)
+  - `SM_DNET_LEVEL` (`126`)
+  - `SM_DNET_GROUP_LEADER` (`127`)
+  - `SM_DNET_CHILD_DEPTH` (`129`)
+- Dedicated residual semantics that remain intentionally unresolved:
+  - `SM_DNET_DELIVERY_REPORT` (`128`)
+  - `SM_FLOOD` (`131`)
 
 ## Execution Strategy
 
@@ -340,6 +348,9 @@ Target focus:
 4. Extend SDK/CLI/verify for newly typed message families once protocol decode is stable.
 5. Keep regression green (`scripts/run_regression.sh`) before stage closure.
 
-## Next Session Entry Point
+## Next Candidate Stage (S6F) - Dedicated Residual Semantic Closure
 
-Start S6E by selecting one dedicated legacy opaque family (room-operatorship revocation or distributed/flood tail) and promoting it with runtime-backed typed decoding.
+Entry point:
+
+1. Target `SM_DNET_DELIVERY_REPORT` (`128`) and `SM_FLOOD` (`131`) with runtime+static evidence to close field semantics.
+2. Keep semantic parity and matrix closure gates green while removing remaining dedicated opaque ambiguity.

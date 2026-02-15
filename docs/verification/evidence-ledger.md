@@ -26,5 +26,7 @@ Project-level evidence summaries and provenance tracking.
 - `evidence/reverse/disasm/transfer_on_file_request.txt`
 - `captures/redacted/login-private-room-membership-control/official_frames.hex`
 - `evidence/reverse/message_codes_jump_table.md`
+- `captures/redacted/login-legacy-distributed-control/official_frames.hex`
+- `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex`
 - `captures/redacted/login-global-room-control/official_frames.hex`
 - `captures/redacted/login-peer-message/official_frames.hex`
