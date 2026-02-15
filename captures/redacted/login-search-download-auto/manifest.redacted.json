@@ -1,0 +1,24 @@
+{
+  "run_id": "login-search-download-auto",
+  "scenario": "login-search-download-auto",
+  "source_type": "runtime_deterministic_local_harness",
+  "created_at": "2026-02-15T16:44:23+00:00",
+  "server": "<redacted:endpoint:401944a0ada3>",
+  "frame_count": 6,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:5a77dad6164d>",
+    "neo_frames_raw": "<redacted:path:d692b7395166>",
+    "frida_events_raw": "<redacted:path:6a80a530c2d0>"
+  },
+  "notes": "Stage 7C deterministic runtime harness for search-select-download orchestration. Captures login, search request/summary, and transfer request/response sequence used by session download-auto.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T16:44:23+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-search-download-auto",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

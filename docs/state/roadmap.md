@@ -6,9 +6,12 @@ This roadmap tracks staged execution with protocol mapping first, then increment
 
 ## Visual Surfaces
 
-- [Project Dashboard](project-dashboard/)
+- [Project Dashboard](project-dashboard.html)
 - [Codebase Visualizer](codebase-visualizer/)
 - [Protocol Matrix](protocol-matrix/)
+- [Runtime Coverage](runtime-coverage/)
+- [Capability Dashboard](capability-dashboard.html)
+- [Capability Matrix](capability-matrix/)
 - [S5A Closure Audit](s5a-closure-audit/)
 - [S6 Opaque-Tail Plan](opaque-tail-plan/)
 
@@ -50,6 +53,27 @@ gantt
     S6D Opaque-tail typed batches execution :done, s6d, after s6c, 2d
     S6E Legacy dedicated opaque-variant reduction :done, s6e, after s6d, 2d
     S6F Dedicated residual semantic closure (128/131) :done, s6f, after s6e, 2d
+    S7R Roadmap rebaseline for runtime-complete closure :done, s7r, after s6f, 1d
+    S7A Strict runtime closure to 131 runtime-verified :done, s7a, after s7r, 1d
+    S7B Semantic-tail closure for residual extension fields :done, s7b, after s7a, 1d
+    S7C Core transfer orchestration (download-auto) :done, s7c, after s7b, 1d
+    S8A Capability matrix + critical-path dashboard :done, s8a, after s7c, 1d
+    S8B Minimal TUI v1 (core transfer) :active, s8b, after s8a, 2d
+    S8C Release hardening + final closure gates :s8c, after s8b, 2d
+```
+
+## S7/S8 Dependency Graph
+
+```mermaid
+graph TD
+    S7R["S7R roadmap rebaseline"] --> S7A["S7A runtime closure"]
+    S7A --> S7B["S7B semantic-tail closure"]
+    S7B --> S7C["S7C orchestration API + CLI auto-download"]
+    S7C --> S8A["S8A capability matrix/dashboard"]
+    S8A --> S8B["S8B minimal TUI v1"]
+    S8B --> S8C["S8C release hardening + final closure"]
+    S7A --> S8A
+    S7C --> S8B
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -154,6 +178,13 @@ graph TD
 | S6D | opaque-tail typed batches execution (S6-Batch-1/2/3) | done | `docs/pr/0023-s6d-opaque-tail-typed-batches.md` | start S6E dedicated-opaque cleanup |
 | S6E | dedicated legacy opaque-variant reduction | done | `docs/pr/0024-s6e-legacy-opaque-reduction.md` | start S6F residual semantic closure |
 | S6F | dedicated residual semantic closure (`128`/`131`) | done | `docs/pr/0025-s6f-residual-legacy-semantic-closure.md` | plan S7 closure/audit wave |
+| S7R | roadmap rebaseline for runtime-complete closure and TUI transition | done | `docs/state/roadmap.md` | start S7A strict runtime closure |
+| S7A | strict runtime closure to `verified_runtime=131` and `verified_static=0` | done | `docs/state/runtime-coverage.md` | start S7B semantic-tail closure |
+| S7B | semantic-tail closure for residual extension fields | done | `analysis/protocol/message_schema.json` | start S7C orchestration flow |
+| S7C | core transfer orchestration + `session download-auto` | done | `docs/runbooks/cli-download-example.md` | start S8A capability dashboard |
+| S8A | capability registry/matrix + critical-path dashboard | done | `docs/state/capability-dashboard.html` | start S8B minimal TUI |
+| S8B | minimal TUI v1 for core transfer workflows | in_progress | `docs/runbooks/tui-core-transfer.md` | start S8C release hardening |
+| S8C | release hardening and final v1 closure gates | planned | `docs/state/verification-status.md` | final release closure |
 
 ## S4B Target Contract
 

@@ -10,15 +10,21 @@ class DashboardGeneratorTests(unittest.TestCase):
     def test_dashboard_data_generation(self) -> None:
         repo_root = Path(__file__).resolve().parents[2]
         matrix_script = repo_root / "tools/protocol/generate_protocol_matrix.py"
+        runtime_script = repo_root / "tools/state/generate_runtime_coverage.py"
+        capability_script = repo_root / "tools/state/generate_capability_matrix.py"
         dashboard_script = repo_root / "tools/state/generate_dashboard_data.py"
         out = repo_root / "docs/state/project-dashboard-data.json"
 
         subprocess.run(["python3", str(matrix_script)], check=True, cwd=repo_root)
+        subprocess.run(["python3", str(runtime_script)], check=True, cwd=repo_root)
+        subprocess.run(["python3", str(capability_script)], check=True, cwd=repo_root)
         subprocess.run(["python3", str(dashboard_script)], check=True, cwd=repo_root)
 
         payload = json.loads(out.read_text(encoding="utf-8"))
         self.assertIn("stage_summary", payload)
         self.assertIn("protocol_summary", payload)
+        self.assertIn("runtime_summary", payload)
+        self.assertIn("capability_summary", payload)
         self.assertIn("stages", payload)
         self.assertIn("dependencies", payload)
         self.assertGreater(payload["stage_summary"]["total"], 0)

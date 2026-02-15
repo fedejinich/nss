@@ -1,0 +1,191 @@
+{
+  "run_id": "login-partial-tail-runtime",
+  "comparison_mode": "semantic",
+  "total_pairs": 18,
+  "matched_pairs": 18,
+  "mismatched_pairs": 0,
+  "official_only": 0,
+  "neo_only": 0,
+  "frame_comparisons": [
+    {
+      "index": 0,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 1,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 35,
+      "neo_len": 35,
+      "first_diff_offset": null
+    },
+    {
+      "index": 2,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 3,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 48,
+      "neo_len": 48,
+      "first_diff_offset": null
+    },
+    {
+      "index": 4,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 5,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 13,
+      "neo_len": 13,
+      "first_diff_offset": null
+    },
+    {
+      "index": 6,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 7,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 27,
+      "neo_len": 27,
+      "first_diff_offset": null
+    },
+    {
+      "index": 8,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 9,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 14,
+      "neo_len": 14,
+      "first_diff_offset": null
+    },
+    {
+      "index": 10,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 11,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 13,
+      "neo_len": 13,
+      "first_diff_offset": null
+    },
+    {
+      "index": 12,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 13,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 13,
+      "neo_len": 13,
+      "first_diff_offset": null
+    },
+    {
+      "index": 14,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 15,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 25,
+      "neo_len": 25,
+      "first_diff_offset": null
+    },
+    {
+      "index": 16,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 94,
+      "neo_len": 94,
+      "first_diff_offset": null
+    },
+    {
+      "index": 17,
+      "matches": true,
+      "bytes_match": true,
+      "semantic_matches": true,
+      "semantic_first_diff_field": null,
+      "official_len": 25,
+      "neo_len": 25,
+      "first_diff_offset": null
+    }
+  ]
+}

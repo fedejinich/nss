@@ -216,7 +216,7 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "token", "type": "u32"},
         {"name": "username", "type": "string"},
         {"name": "connection_type", "type": "string"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_SEND_DISTRIBUTIONS"): [{"name": "no_parent", "type": "bool_u8"}],
     ("server", "SM_NOTE_PARENT"): [{"name": "parent_ip", "type": "ipv4_u32_reversed"}],
@@ -224,7 +224,7 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "entry_count", "type": "u32"},
         {"name": "entry.child_username", "type": "string"},
         {"name": "entry.parent_username", "type": "string"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_DNET_MESSAGE"): [
         {"name": "distrib_code", "type": "u8"},
@@ -422,23 +422,23 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ("server", "SM_DNET_RESET"): [{"name": "reason", "type": "optional_u32"}],
     ("server", "SM_DNET_LEVEL"): [
         {"name": "level", "type": "optional_u32"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_DNET_GROUP_LEADER"): [
         {"name": "username", "type": "optional_string"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_DNET_DELIVERY_REPORT"): [
         {"name": "report", "type": "optional_u32"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_DNET_CHILD_DEPTH"): [
         {"name": "depth", "type": "optional_u32"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_FLOOD"): [
         {"name": "flood_code", "type": "optional_u32"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_UPLOAD_SPEED"): [{"name": "bytes_per_sec", "type": "u32"}],
     ("server", "SM_REMOVE_OWN_ROOM_MEMBERSHIP"): [{"name": "room", "type": "string"}],
@@ -448,11 +448,11 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ("server", "SM_ADD_ROOM_OPERATORSHIP"): [{"name": "room", "type": "string"}],
     ("server", "SM_REMOVE_ROOM_OPERATORSHIP"): [
         {"name": "room", "type": "optional_string"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_REMOVE_OWN_ROOM_OPERATORSHIP"): [
         {"name": "room", "type": "optional_string"},
-        {"name": "raw_tail", "type": "bytes_raw"},
+        {"name": "extension_reserved_bytes", "type": "bytes_raw"},
     ],
     ("server", "SM_JOIN_GLOBAL_ROOM"): [{"name": "room", "type": "optional_string"}],
     ("server", "SM_LEAVE_GLOBAL_ROOM"): [{"name": "room", "type": "optional_string"}],
@@ -688,7 +688,7 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
         {
             "kind": "runtime_capture",
             "source": "captures/redacted/login-legacy-residual-control/official_frames.hex",
-            "note": "S6F authenticated runtime probe exercises code 128 with multi-value u32 payload variants (0,1,2), confirming typed optional_u32 + raw_tail layout.",
+            "note": "S6F authenticated runtime probe exercises code 128 with multi-value u32 payload variants (0,1,2), confirming typed optional_u32 + extension-reserved bytes layout.",
         },
     ],
     ("server", "SM_DNET_CHILD_DEPTH"): [
@@ -712,7 +712,7 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
         {
             "kind": "runtime_capture",
             "source": "captures/redacted/login-legacy-residual-control/official_frames.hex",
-            "note": "S6F authenticated runtime probe exercises code 131 with multi-value u32 payload variants (0,1,2), promoting typed optional_u32 + raw_tail handling.",
+            "note": "S6F authenticated runtime probe exercises code 131 with multi-value u32 payload variants (0,1,2), promoting typed optional_u32 + extension-reserved bytes handling.",
         },
     ],
     ("server", "SM_POSSIBLE_PARENTS"): [

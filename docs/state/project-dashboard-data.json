@@ -1,10 +1,10 @@
 {
-  "generated_unix_secs": 1771168820,
+  "generated_unix_secs": 1771174681,
   "stage_summary": {
-    "total": 25,
-    "done": 25,
-    "in_progress": 0,
-    "planned": 0
+    "total": 32,
+    "done": 30,
+    "in_progress": 1,
+    "planned": 1
   },
   "protocol_summary": {
     "total_messages": 131,
@@ -15,7 +15,34 @@
     "server_messages": 106,
     "peer_messages": 25
   },
-  "current_focus": null,
+  "runtime_summary": {
+    "verified_runtime": 131,
+    "verified_static": 0,
+    "runtime_gap": 0,
+    "semantic_tail_gaps": 0
+  },
+  "capability_summary": {
+    "total_capabilities": 7,
+    "required_for_final": 6,
+    "required_done": 5,
+    "required_pending": 1,
+    "final_gate_total": 5,
+    "final_gate_pass": 4,
+    "final_gate_blocked": 1
+  },
+  "current_focus": {
+    "id": "S8B",
+    "title": "Minimal TUI v1 for core transfer workflows",
+    "status": "in_progress",
+    "owner_area": "tui/core",
+    "depends_on": [
+      "S7C",
+      "S8A"
+    ],
+    "evidence": "docs/runbooks/tui-core-transfer.md",
+    "next_gate": "S8C",
+    "notes": "Ratatui+crossterm shell is implemented and wired to core flows; final operational hardening remains."
+  },
   "stages": [
     {
       "id": "S2",
@@ -312,8 +339,94 @@
         "S6"
       ],
       "evidence": "docs/pr/0025-s6f-residual-legacy-semantic-closure.md",
-      "next_gate": "S7 planning",
+      "next_gate": "S7R",
       "notes": "Closed remaining residual semantics for SM_DNET_DELIVERY_REPORT (128) and SM_FLOOD (131) with runtime-backed typed payload promotion."
+    },
+    {
+      "id": "S7R",
+      "title": "Roadmap rebaseline for runtime-complete closure and TUI transition",
+      "status": "done",
+      "owner_area": "state/docs/roadmap",
+      "depends_on": [
+        "S6F"
+      ],
+      "evidence": "docs/state/roadmap.md",
+      "next_gate": "S7A",
+      "notes": "Reframed next execution line to strict runtime closure, semantic-depth closure, core orchestration, and TUI progression."
+    },
+    {
+      "id": "S7A",
+      "title": "Strict runtime closure to 131/131 verified runtime",
+      "status": "done",
+      "owner_area": "runtime/verification/protocol",
+      "depends_on": [
+        "S7R"
+      ],
+      "evidence": "docs/state/runtime-coverage.md",
+      "next_gate": "S7B",
+      "notes": "Promoted the 30 static-only rows using hybrid runtime evidence and enforced regression gate verified_static=0."
+    },
+    {
+      "id": "S7B",
+      "title": "Semantic-tail closure for residual extension fields",
+      "status": "done",
+      "owner_area": "protocol/schema/verify",
+      "depends_on": [
+        "S7A"
+      ],
+      "evidence": "analysis/protocol/message_schema.json",
+      "next_gate": "S7C",
+      "notes": "Closed the 9 partial-tail payload branches by replacing raw-tail placeholders with explicit extension-reserved semantics."
+    },
+    {
+      "id": "S7C",
+      "title": "Core transfer orchestration for automated download flow",
+      "status": "done",
+      "owner_area": "core/cli/runtime",
+      "depends_on": [
+        "S7B"
+      ],
+      "evidence": "docs/runbooks/cli-download-example.md",
+      "next_gate": "S8A",
+      "notes": "Added search-select-download orchestration API, CLI download-auto command, and runtime scenario coverage."
+    },
+    {
+      "id": "S8A",
+      "title": "Capabilities matrix and critical-path dashboard",
+      "status": "done",
+      "owner_area": "state/docs/dashboard",
+      "depends_on": [
+        "S7A",
+        "S7C"
+      ],
+      "evidence": "docs/state/capability-dashboard.html",
+      "next_gate": "S8B",
+      "notes": "Introduced capability registry, matrix artifacts, and visual blocker/critical-path dashboard."
+    },
+    {
+      "id": "S8B",
+      "title": "Minimal TUI v1 for core transfer workflows",
+      "status": "in_progress",
+      "owner_area": "tui/core",
+      "depends_on": [
+        "S7C",
+        "S8A"
+      ],
+      "evidence": "docs/runbooks/tui-core-transfer.md",
+      "next_gate": "S8C",
+      "notes": "Ratatui+crossterm shell is implemented and wired to core flows; final operational hardening remains."
+    },
+    {
+      "id": "S8C",
+      "title": "Release hardening and v1 closure gates",
+      "status": "planned",
+      "owner_area": "release/security/ops",
+      "depends_on": [
+        "S8B"
+      ],
+      "evidence": "docs/state/verification-status.md",
+      "next_gate": "final v1 closure",
+      "notes": "Final stage for config/log redaction hardening, packaging, recovery runbooks, and full closure gates."
     }
   ],
   "dependencies": [
@@ -412,10 +525,48 @@
     {
       "from": "S6",
       "to": "S6F"
+    },
+    {
+      "from": "S6F",
+      "to": "S7R"
+    },
+    {
+      "from": "S7R",
+      "to": "S7A"
+    },
+    {
+      "from": "S7A",
+      "to": "S7B"
+    },
+    {
+      "from": "S7B",
+      "to": "S7C"
+    },
+    {
+      "from": "S7A",
+      "to": "S8A"
+    },
+    {
+      "from": "S7C",
+      "to": "S8A"
+    },
+    {
+      "from": "S7C",
+      "to": "S8B"
+    },
+    {
+      "from": "S8A",
+      "to": "S8B"
+    },
+    {
+      "from": "S8B",
+      "to": "S8C"
     }
   ],
   "source_artifacts": {
     "stage_registry": "analysis/state/stage_registry.json",
-    "protocol_matrix_json": "docs/state/protocol-matrix.json"
+    "protocol_matrix_json": "docs/state/protocol-matrix.json",
+    "runtime_coverage_json": "docs/state/runtime-coverage.json",
+    "capability_matrix_json": "docs/state/capability-matrix.json"
   }
 }

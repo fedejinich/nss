@@ -1,5 +1,198 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## Replan v2 - Protocol Runtime-Complete to Minimal TUI (S7R..S8C)
+
+Dependency graph:
+
+- `S7R-T01 -> S7R-T02`
+- `S7R-T02 -> S7A-T01`
+- `S7A-T01 -> S7A-T02`
+- `S7A-T01 -> S7A-T03`
+- `S7A-T02 -> S7A-T04`
+- `S7A-T03 -> S7A-T04`
+- `S7A-T04 -> S7A-T05`
+- `S7A-T05 -> S7A-T06`
+- `S7A-T06 -> S7B-T01`
+- `S7B-T01 -> S7B-T02`
+- `S7B-T02 -> S7B-T03`
+- `S7B-T03 -> S7B-T04`
+- `S7B-T04 -> S7B-T05`
+- `S7B-T05 -> S7C-T01`
+- `S7C-T01 -> S7C-T02`
+- `S7C-T02 -> S7C-T03`
+- `S7C-T03 -> S7C-T04`
+- `S7C-T04 -> S7C-T05`
+- `S7C-T05 -> S8A-T01`
+- `S8A-T01 -> S8A-T02`
+- `S8A-T02 -> S8A-T03`
+- `S8A-T03 -> S8A-T04`
+- `S8A-T04 -> S8A-T05`
+- `S8A-T05 -> S8B-T01`
+- `S8B-T01 -> S8B-T02`
+- `S8B-T02 -> S8B-T03`
+- `S8B-T03 -> S8B-T04`
+- `S8B-T04 -> S8B-T05`
+- `S8B-T05 -> S8C-T01`
+- `S8C-T01 -> S8C-T02`
+- `S8C-T02 -> S8C-T03`
+
+Tasks:
+
+- id: S7R-T01
+  description: Rebaseline roadmap/TODO/state docs with post-S6 plan (S7A..S8C)
+  status: done
+  depends_on: []
+
+- id: S7R-T02
+  description: Add planned stages to stage registry and set current focus to S7A
+  status: done
+  depends_on: [S7R-T01]
+
+- id: S7A-T01
+  description: Implement runtime coverage generator and publish runtime gap inventory
+  status: done
+  depends_on: [S7R-T02]
+
+- id: S7A-T02
+  description: Capture/redact runtime evidence for static peer pack using deterministic local harness
+  status: done
+  depends_on: [S7A-T01]
+
+- id: S7A-T03
+  description: Capture/redact runtime evidence for static server pack using official auth + deterministic harness fallback
+  status: done
+  depends_on: [S7A-T01]
+
+- id: S7A-T04
+  description: Promote static-only messages from verified_static to verified_runtime in map/schema/ledger
+  status: done
+  depends_on: [S7A-T02, S7A-T03]
+
+- id: S7A-T05
+  description: Add regression test enforcing static-only count = 0 and run stage gates
+  status: done
+  depends_on: [S7A-T04]
+
+- id: S7A-T06
+  description: Open stage PR, run 2 mandatory review loops, merge
+  status: todo
+  depends_on: [S7A-T05]
+
+- id: S7B-T01
+  description: Implement semantic-depth reporting for prior partial-tail payload set
+  status: done
+  depends_on: [S7A-T06]
+
+- id: S7B-T02
+  description: Capture/redact targeted runtime for the partial-tail messages
+  status: done
+  depends_on: [S7B-T01]
+
+- id: S7B-T03
+  description: Replace raw-tail schema fields with explicit extension semantics per message
+  status: done
+  depends_on: [S7B-T02]
+
+- id: S7B-T04
+  description: Extend semantic verifier/contracts and enforce unresolved raw-tail count = 0
+  status: done
+  depends_on: [S7B-T03]
+
+- id: S7B-T05
+  description: Run gates, PR loop x2, merge
+  status: todo
+  depends_on: [S7B-T04]
+
+- id: S7C-T01
+  description: Implement core orchestration API for search -> select -> download
+  status: done
+  depends_on: [S7B-T05]
+
+- id: S7C-T02
+  description: Add CLI command `session download-auto` with deterministic error handling
+  status: done
+  depends_on: [S7C-T01]
+
+- id: S7C-T03
+  description: Add runtime scenario login-search-download-auto and differential verify wiring
+  status: done
+  depends_on: [S7C-T02]
+
+- id: S7C-T04
+  description: Add integration/regression tests and update download runbook
+  status: done
+  depends_on: [S7C-T03]
+
+- id: S7C-T05
+  description: Run gates, PR loop x2, merge
+  status: todo
+  depends_on: [S7C-T04]
+
+- id: S8A-T01
+  description: Add capability registry and capability matrix generator
+  status: done
+  depends_on: [S7C-T05]
+
+- id: S8A-T02
+  description: Implement capability dashboard (filters, blockers, critical path, final gates)
+  status: done
+  depends_on: [S8A-T01]
+
+- id: S8A-T03
+  description: Extend project dashboard with capability KPIs and route-safe links
+  status: done
+  depends_on: [S8A-T02]
+
+- id: S8A-T04
+  description: Update nav/index/sync scripts/tests for runtime+capability artifacts
+  status: done
+  depends_on: [S8A-T03]
+
+- id: S8A-T05
+  description: Run gates, PR loop x2, merge
+  status: todo
+  depends_on: [S8A-T04]
+
+- id: S8B-T01
+  description: Create `rust/tui` crate and app shell using ratatui+crossterm
+  status: done
+  depends_on: [S8A-T05]
+
+- id: S8B-T02
+  description: Implement TUI v1 core transfer views (login, search, results, transfers, upload decisions)
+  status: done
+  depends_on: [S8B-T01]
+
+- id: S8B-T03
+  description: Wire TUI actions to `soul-core` orchestration APIs without protocol duplication
+  status: done
+  depends_on: [S8B-T02]
+
+- id: S8B-T04
+  description: Add TUI smoke tests and operator runbook
+  status: done
+  depends_on: [S8B-T03]
+
+- id: S8B-T05
+  description: Run gates, PR loop x2, merge
+  status: in_progress
+  depends_on: [S8B-T04]
+
+- id: S8C-T01
+  description: Release hardening (config/log redaction, packaging, failure recovery)
+  status: todo
+  depends_on: [S8B-T05]
+
+- id: S8C-T02
+  description: Publish final completion gates in capability dashboard and close residual backlog split
+  status: todo
+  depends_on: [S8C-T01]
+
+- id: S8C-T03
+  description: Final full gates, closure PR, merge to main
+  status: todo
+  depends_on: [S8C-T02]
+
 ## Stage 6F - Dedicated Residual Semantic Closure (`128`/`131`)
 
 Dependency graph:

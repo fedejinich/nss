@@ -36,7 +36,84 @@
 - Stage 6D complete: executed S6 typed batches (S6-Batch-1/2/3) and closed generic opaque-tail control coverage to zero.
 - Stage 6E complete: reduced dedicated legacy opaque variants with runtime-backed typing for room-operatorship and distributed legacy control families.
 - Stage 6F complete: closed final dedicated residual semantics (`SM_DNET_DELIVERY_REPORT`, `SM_FLOOD`) with runtime-backed typed payload promotion.
+- Stage 7R complete: roadmap/state rebaseline for strict runtime-complete closure before TUI expansion.
+- Stage 7A complete: strict runtime closure achieved (`verified_runtime=131`, `verified_static=0`) with hybrid runtime evidence.
+- Stage 7B complete: semantic-tail closure achieved (`raw_tail/raw_payload` unresolved fields reduced to `0`).
+- Stage 7C complete: core orchestration flow added with `search_select_and_download(...)` and CLI `session download-auto`.
+- Stage 8A complete: capability registry, capability matrix, and critical-path dashboard were added and wired into state sync.
+- Stage 8B in progress: minimal TUI v1 exists and is wired to core transfer operations; release hardening remains in S8C.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Stage 7A Completion
+
+1. Added runtime-coverage registry and generator:
+   - `analysis/state/runtime_coverage_registry.json`
+   - `tools/state/generate_runtime_coverage.py`
+2. Published runtime coverage artifacts:
+   - `docs/state/runtime-coverage.json`
+   - `docs/state/runtime-coverage.md`
+3. Generated runtime-evidence runs for static-only closure:
+   - `captures/redacted/login-static-server-runtime`
+   - `captures/redacted/peer-static-runtime`
+4. Promoted remaining static rows in `analysis/ghidra/maps/message_map.csv` to runtime-verified.
+5. Added stage gate regression contract:
+   - `tests/protocol/test_stage7_runtime_semantic_contract.py`
+
+## Stage 7B Completion
+
+1. Captured targeted residual-tail runtime evidence:
+   - `captures/redacted/login-partial-tail-runtime`
+2. Replaced unresolved schema placeholders (`raw_tail`) with explicit `extension_reserved_bytes` semantics.
+3. Updated protocol derivation logic:
+   - `tools/protocol/derive_schema.py`
+4. Regenerated canonical schema/docs:
+   - `analysis/protocol/message_schema.json`
+   - `docs/re/static/message-schema.md`
+
+## Stage 7C Completion
+
+1. Added core orchestration API:
+   - `SessionClient::search_select_and_download(...)`
+   - `SearchSelectDownloadRequest`
+   - `SearchSelectDownloadResult`
+   - `SearchSelectDownloadError`
+2. Added CLI operation:
+   - `soul-cli session download-auto ...`
+3. Added runtime scenario and differential verify wiring:
+   - `captures/redacted/login-search-download-auto`
+   - `scripts/run_diff_verify.sh`
+4. Updated operator documentation:
+   - `docs/runbooks/cli-download-example.md`
+
+## Stage 8A Completion
+
+1. Added capability registry and generators:
+   - `analysis/state/capability_registry.json`
+   - `tools/state/generate_capability_matrix.py`
+2. Published capability artifacts:
+   - `docs/state/capability-matrix.json`
+   - `docs/state/capability-matrix.md`
+   - `docs/state/capability-dashboard.html`
+3. Extended dashboard data pipeline:
+   - `tools/state/generate_dashboard_data.py`
+   - `scripts/sync_state_dashboards.sh`
+4. Updated navigation/start pages:
+   - `zensical.toml`
+   - `docs/index.md`
+
+## Stage 8B Progress
+
+1. Added `rust/tui` crate with `ratatui` + `crossterm` shell.
+2. Implemented core transfer workflow controls in TUI:
+   - login
+   - search
+   - result selection
+   - download selected item via core orchestration
+   - transfer monitoring
+   - upload accept/deny mode toggles
+3. Added TUI runbook and unit tests:
+   - `docs/runbooks/tui-core-transfer.md`
+   - `rust/tui/src/main.rs` test module
 
 ## Stage 4L Completion
 

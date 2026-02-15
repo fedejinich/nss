@@ -40,6 +40,10 @@ REQUIRED_RUNS=(
   "login-legacy-room-operatorship-control"
   "login-legacy-distributed-control"
   "login-legacy-residual-control"
+  "login-static-server-runtime"
+  "peer-static-runtime"
+  "login-partial-tail-runtime"
+  "login-search-download-auto"
 )
 
 cd "${ROOT_DIR}/rust"

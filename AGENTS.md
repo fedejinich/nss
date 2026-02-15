@@ -89,14 +89,20 @@ When stage status, protocol coverage, or PR documentation changes:
 2. Regenerate state artifacts with `scripts/sync_state_dashboards.sh`:
    - `docs/state/protocol-matrix.md`
    - `docs/state/protocol-matrix.json`
+   - `docs/state/runtime-coverage.json`
+   - `docs/state/runtime-coverage.md`
+   - `docs/state/capability-matrix.json`
+   - `docs/state/capability-matrix.md`
    - `docs/state/project-dashboard-data.json`
    - `docs/state/codebase-graph.json`
    - `docs/state/s5a-closure-audit.json`
    - `docs/state/opaque-tail-report.json`
    - `docs/pr/index.md`
 3. Keep `docs/state/project-dashboard.html` and `docs/state/codebase-visualizer.html` aligned with generated JSON schemas.
-4. Keep individual PR docs in `docs/pr/*.md` and expose only `docs/pr/index.md` in top-level Zensical navigation.
-5. Validate the regenerated artifacts via `scripts/run_regression.sh` and `zensical build` before merge.
+4. Keep `docs/state/capability-dashboard.html` aligned with `docs/state/capability-matrix.json`.
+5. Keep individual PR docs in `docs/pr/*.md` and expose only `docs/pr/index.md` in top-level Zensical navigation.
+6. Use route-safe navigation links (`.../slug/`) instead of direct `.md` links in dashboard and nav pages.
+7. Validate the regenerated artifacts via `scripts/run_regression.sh` and `zensical build` before merge.
 
 ## PR Review Loop Discipline
 

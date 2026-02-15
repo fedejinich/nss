@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771168820,
+  "generated_unix_secs": 1771174681,
   "repo_root": "/Users/void_rsk/Projects/soul-dec",
   "scope": {
     "included_top_level_dirs": [
@@ -47,12 +47,12 @@
   },
   "stats": {
     "domain_count": 9,
-    "dir_count": 48,
-    "file_count": 217,
-    "node_count": 275,
-    "edge_count": 274,
-    "total_loc": 113623,
-    "total_size_bytes": 3980741
+    "dir_count": 50,
+    "file_count": 234,
+    "node_count": 294,
+    "edge_count": 293,
+    "total_loc": 118082,
+    "total_size_bytes": 4151181
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 113623,
-      "size_bytes": 3980741,
+      "loc": 118082,
+      "size_bytes": 4151181,
       "extension": null,
       "domain": "root"
     },
@@ -70,8 +70,8 @@
       "label": "analysis",
       "kind": "domain",
       "path": "analysis",
-      "loc": 36298,
-      "size_bytes": 534426,
+      "loc": 36550,
+      "size_bytes": 550761,
       "extension": null,
       "domain": "analysis"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 14414,
-      "size_bytes": 532406,
+      "loc": 16427,
+      "size_bytes": 607510,
       "extension": null,
       "domain": "docs"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 2753,
-      "size_bytes": 87730,
+      "loc": 2955,
+      "size_bytes": 93268,
       "extension": null,
       "domain": "repo-root"
     },
@@ -120,8 +120,8 @@
       "label": "rust",
       "kind": "domain",
       "path": "rust",
-      "loc": 13579,
-      "size_bytes": 472763,
+      "loc": 14405,
+      "size_bytes": 500893,
       "extension": null,
       "domain": "rust"
     },
@@ -130,8 +130,8 @@
       "label": "scripts",
       "kind": "domain",
       "path": "scripts",
-      "loc": 516,
-      "size_bytes": 17439,
+      "loc": 522,
+      "size_bytes": 17684,
       "extension": null,
       "domain": "scripts"
     },
@@ -140,8 +140,8 @@
       "label": "tests",
       "kind": "domain",
       "path": "tests",
-      "loc": 1500,
-      "size_bytes": 59361,
+      "loc": 1614,
+      "size_bytes": 64005,
       "extension": null,
       "domain": "tests"
     },
@@ -150,8 +150,8 @@
       "label": "tools",
       "kind": "domain",
       "path": "tools",
-      "loc": 8854,
-      "size_bytes": 300142,
+      "loc": 9900,
+      "size_bytes": 340586,
       "extension": null,
       "domain": "tools"
     },
@@ -160,8 +160,8 @@
       "label": "analysis",
       "kind": "dir",
       "path": "analysis",
-      "loc": 36298,
-      "size_bytes": 534426,
+      "loc": 36550,
+      "size_bytes": 550761,
       "extension": null,
       "domain": "analysis"
     },
@@ -171,7 +171,7 @@
       "kind": "dir",
       "path": "analysis/ghidra",
       "loc": 463,
-      "size_bytes": 38211,
+      "size_bytes": 40398,
       "extension": null,
       "domain": "analysis"
     },
@@ -181,7 +181,7 @@
       "kind": "dir",
       "path": "analysis/ghidra/maps",
       "loc": 301,
-      "size_bytes": 33554,
+      "size_bytes": 35741,
       "extension": null,
       "domain": "analysis"
     },
@@ -211,7 +211,7 @@
       "kind": "dir",
       "path": "analysis/protocol",
       "loc": 3538,
-      "size_bytes": 102920,
+      "size_bytes": 105296,
       "extension": null,
       "domain": "analysis"
     },
@@ -230,8 +230,8 @@
       "label": "state",
       "kind": "dir",
       "path": "analysis/state",
-      "loc": 303,
-      "size_bytes": 10086,
+      "loc": 555,
+      "size_bytes": 21858,
       "extension": null,
       "domain": "analysis"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 14414,
-      "size_bytes": 532406,
+      "loc": 16427,
+      "size_bytes": 607510,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 2463,
-      "size_bytes": 83569,
+      "loc": 2555,
+      "size_bytes": 86965,
       "extension": null,
       "domain": "docs"
     },
@@ -271,7 +271,7 @@
       "kind": "dir",
       "path": "docs/re",
       "loc": 1348,
-      "size_bytes": 70289,
+      "size_bytes": 72665,
       "extension": null,
       "domain": "docs"
     },
@@ -281,7 +281,7 @@
       "kind": "dir",
       "path": "docs/re/static",
       "loc": 1348,
-      "size_bytes": 70289,
+      "size_bytes": 72665,
       "extension": null,
       "domain": "docs"
     },
@@ -290,8 +290,8 @@
       "label": "runbooks",
       "kind": "dir",
       "path": "docs/runbooks",
-      "loc": 322,
-      "size_bytes": 7721,
+      "loc": 405,
+      "size_bytes": 9864,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 10134,
-      "size_bytes": 366451,
+      "loc": 11962,
+      "size_bytes": 433133,
       "extension": null,
       "domain": "docs"
     },
@@ -310,8 +310,8 @@
       "label": "verification",
       "kind": "dir",
       "path": "docs/verification",
-      "loc": 91,
-      "size_bytes": 2465,
+      "loc": 92,
+      "size_bytes": 2548,
       "extension": null,
       "domain": "docs"
     },
@@ -410,8 +410,8 @@
       "label": "rust",
       "kind": "dir",
       "path": "rust",
-      "loc": 13579,
-      "size_bytes": 472763,
+      "loc": 14405,
+      "size_bytes": 500893,
       "extension": null,
       "domain": "rust"
     },
@@ -420,8 +420,8 @@
       "label": "cli",
       "kind": "dir",
       "path": "rust/cli",
-      "loc": 3032,
-      "size_bytes": 92178,
+      "loc": 3169,
+      "size_bytes": 96402,
       "extension": null,
       "domain": "rust"
     },
@@ -430,8 +430,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/cli/src",
-      "loc": 3016,
-      "size_bytes": 91839,
+      "loc": 3153,
+      "size_bytes": 96063,
       "extension": null,
       "domain": "rust"
     },
@@ -440,8 +440,8 @@
       "label": "core",
       "kind": "dir",
       "path": "rust/core",
-      "loc": 3185,
-      "size_bytes": 117898,
+      "loc": 3431,
+      "size_bytes": 126864,
       "extension": null,
       "domain": "rust"
     },
@@ -450,8 +450,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/core/src",
-      "loc": 3170,
-      "size_bytes": 117612,
+      "loc": 3416,
+      "size_bytes": 126578,
       "extension": null,
       "domain": "rust"
     },
@@ -461,7 +461,7 @@
       "kind": "dir",
       "path": "rust/protocol",
       "loc": 6608,
-      "size_bytes": 238437,
+      "size_bytes": 239477,
       "extension": null,
       "domain": "rust"
     },
@@ -471,7 +471,27 @@
       "kind": "dir",
       "path": "rust/protocol/src",
       "loc": 6595,
-      "size_bytes": 238174,
+      "size_bytes": 239214,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/tui",
+      "label": "tui",
+      "kind": "dir",
+      "path": "rust/tui",
+      "loc": 440,
+      "size_bytes": 13855,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/tui/src",
+      "label": "src",
+      "kind": "dir",
+      "path": "rust/tui/src",
+      "loc": 426,
+      "size_bytes": 13559,
       "extension": null,
       "domain": "rust"
     },
@@ -500,8 +520,8 @@
       "label": "scripts",
       "kind": "dir",
       "path": "scripts",
-      "loc": 516,
-      "size_bytes": 17439,
+      "loc": 522,
+      "size_bytes": 17684,
       "extension": null,
       "domain": "scripts"
     },
@@ -510,8 +530,8 @@
       "label": "tests",
       "kind": "dir",
       "path": "tests",
-      "loc": 1500,
-      "size_bytes": 59361,
+      "loc": 1614,
+      "size_bytes": 64005,
       "extension": null,
       "domain": "tests"
     },
@@ -540,8 +560,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "tests/protocol",
-      "loc": 1040,
-      "size_bytes": 40802,
+      "loc": 1093,
+      "size_bytes": 42705,
       "extension": null,
       "domain": "tests"
     },
@@ -560,8 +580,8 @@
       "label": "state",
       "kind": "dir",
       "path": "tests/state",
-      "loc": 149,
-      "size_bytes": 5453,
+      "loc": 210,
+      "size_bytes": 8194,
       "extension": null,
       "domain": "tests"
     },
@@ -570,8 +590,8 @@
       "label": "tools",
       "kind": "dir",
       "path": "tools",
-      "loc": 8854,
-      "size_bytes": 300142,
+      "loc": 9900,
+      "size_bytes": 340586,
       "extension": null,
       "domain": "tools"
     },
@@ -601,7 +621,7 @@
       "kind": "dir",
       "path": "tools/protocol",
       "loc": 1657,
-      "size_bytes": 67377,
+      "size_bytes": 67553,
       "extension": null,
       "domain": "tools"
     },
@@ -620,8 +640,8 @@
       "label": "runtime",
       "kind": "dir",
       "path": "tools/runtime",
-      "loc": 5146,
-      "size_bytes": 163699,
+      "loc": 5640,
+      "size_bytes": 181103,
       "extension": null,
       "domain": "tools"
     },
@@ -630,8 +650,8 @@
       "label": "state",
       "kind": "dir",
       "path": "tools/state",
-      "loc": 754,
-      "size_bytes": 25211,
+      "loc": 1306,
+      "size_bytes": 48075,
       "extension": null,
       "domain": "tools"
     },
@@ -640,8 +660,8 @@
       "label": "AGENTS.md",
       "kind": "file",
       "path": "AGENTS.md",
-      "loc": 146,
-      "size_bytes": 6924,
+      "loc": 152,
+      "size_bytes": 7286,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -660,8 +680,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 2437,
-      "size_bytes": 76351,
+      "loc": 2630,
+      "size_bytes": 81347,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -681,7 +701,7 @@
       "kind": "file",
       "path": "analysis/ghidra/maps/message_map.csv",
       "loc": 132,
-      "size_bytes": 28403,
+      "size_bytes": 30590,
       "extension": ".csv",
       "domain": "analysis"
     },
@@ -751,7 +771,7 @@
       "kind": "file",
       "path": "analysis/protocol/message_schema.json",
       "loc": 3538,
-      "size_bytes": 102920,
+      "size_bytes": 105296,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -766,12 +786,32 @@
       "domain": "analysis"
     },
     {
+      "id": "file:analysis/state/capability_registry.json",
+      "label": "capability_registry.json",
+      "kind": "file",
+      "path": "analysis/state/capability_registry.json",
+      "loc": 115,
+      "size_bytes": 4215,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/state/runtime_coverage_registry.json",
+      "label": "runtime_coverage_registry.json",
+      "kind": "file",
+      "path": "analysis/state/runtime_coverage_registry.json",
+      "loc": 51,
+      "size_bytes": 4582,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
       "id": "file:analysis/state/stage_registry.json",
       "label": "stage_registry.json",
       "kind": "file",
       "path": "analysis/state/stage_registry.json",
-      "loc": 303,
-      "size_bytes": 10086,
+      "loc": 389,
+      "size_bytes": 13061,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -790,8 +830,8 @@
       "label": "index.md",
       "kind": "file",
       "path": "docs/index.md",
-      "loc": 56,
-      "size_bytes": 1911,
+      "loc": 65,
+      "size_bytes": 2335,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1056,12 +1096,22 @@
       "domain": "docs"
     },
     {
+      "id": "file:docs/pr/0026-s7r-s8b-runtime-complete-minimal-tui.md",
+      "label": "0026-s7r-s8b-runtime-complete-minimal-tui.md",
+      "kind": "file",
+      "path": "docs/pr/0026-s7r-s8b-runtime-complete-minimal-tui.md",
+      "loc": 85,
+      "size_bytes": 3205,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
       "id": "file:docs/pr/index.md",
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 187,
-      "size_bytes": 4503,
+      "loc": 194,
+      "size_bytes": 4694,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1081,7 +1131,7 @@
       "kind": "file",
       "path": "docs/re/static/message-schema.md",
       "loc": 1161,
-      "size_bytes": 61771,
+      "size_bytes": 64147,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1100,8 +1150,8 @@
       "label": "cli-download-example.md",
       "kind": "file",
       "path": "docs/runbooks/cli-download-example.md",
-      "loc": 104,
-      "size_bytes": 2507,
+      "loc": 142,
+      "size_bytes": 3508,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1136,12 +1186,52 @@
       "domain": "docs"
     },
     {
+      "id": "file:docs/runbooks/tui-core-transfer.md",
+      "label": "tui-core-transfer.md",
+      "kind": "file",
+      "path": "docs/runbooks/tui-core-transfer.md",
+      "loc": 45,
+      "size_bytes": 1142,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/capability-dashboard.html",
+      "label": "capability-dashboard.html",
+      "kind": "file",
+      "path": "docs/state/capability-dashboard.html",
+      "loc": 575,
+      "size_bytes": 17707,
+      "extension": ".html",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/capability-matrix.json",
+      "label": "capability-matrix.json",
+      "kind": "file",
+      "path": "docs/state/capability-matrix.json",
+      "loc": 198,
+      "size_bytes": 5648,
+      "extension": ".json",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/capability-matrix.md",
+      "label": "capability-matrix.md",
+      "kind": "file",
+      "path": "docs/state/capability-matrix.md",
+      "loc": 47,
+      "size_bytes": 2475,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
       "id": "file:docs/state/codebase-graph.json",
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 4181,
-      "size_bytes": 112228,
+      "loc": 4466,
+      "size_bytes": 120181,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1210,8 +1300,8 @@
       "label": "project-dashboard-data.json",
       "kind": "file",
       "path": "docs/state/project-dashboard-data.json",
-      "loc": 421,
-      "size_bytes": 11843,
+      "loc": 572,
+      "size_bytes": 16154,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1220,8 +1310,8 @@
       "label": "project-dashboard.html",
       "kind": "file",
       "path": "docs/state/project-dashboard.html",
-      "loc": 571,
-      "size_bytes": 16488,
+      "loc": 580,
+      "size_bytes": 17145,
       "extension": ".html",
       "domain": "docs"
     },
@@ -1230,8 +1320,8 @@
       "label": "project-status.md",
       "kind": "file",
       "path": "docs/state/project-status.md",
-      "loc": 471,
-      "size_bytes": 23209,
+      "loc": 548,
+      "size_bytes": 26463,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1240,8 +1330,8 @@
       "label": "protocol-backlog.md",
       "kind": "file",
       "path": "docs/state/protocol-backlog.md",
-      "loc": 362,
-      "size_bytes": 12904,
+      "loc": 397,
+      "size_bytes": 14281,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1251,7 +1341,7 @@
       "kind": "file",
       "path": "docs/state/protocol-matrix.json",
       "loc": 1193,
-      "size_bytes": 48317,
+      "size_bytes": 50342,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1261,7 +1351,7 @@
       "kind": "file",
       "path": "docs/state/protocol-matrix.md",
       "loc": 163,
-      "size_bytes": 32438,
+      "size_bytes": 34463,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1270,8 +1360,28 @@
       "label": "roadmap.md",
       "kind": "file",
       "path": "docs/state/roadmap.md",
-      "loc": 294,
-      "size_bytes": 14067,
+      "loc": 325,
+      "size_bytes": 16136,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/runtime-coverage.json",
+      "label": "runtime-coverage.json",
+      "kind": "file",
+      "path": "docs/state/runtime-coverage.json",
+      "loc": 326,
+      "size_bytes": 10694,
+      "extension": ".json",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/runtime-coverage.md",
+      "label": "runtime-coverage.md",
+      "kind": "file",
+      "path": "docs/state/runtime-coverage.md",
+      "loc": 61,
+      "size_bytes": 5275,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1320,8 +1430,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 247,
-      "size_bytes": 10365,
+      "loc": 280,
+      "size_bytes": 11577,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1340,8 +1450,8 @@
       "label": "evidence-ledger.md",
       "kind": "file",
       "path": "docs/verification/evidence-ledger.md",
-      "loc": 33,
-      "size_bytes": 1162,
+      "loc": 34,
+      "size_bytes": 1245,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1900,8 +2010,8 @@
       "label": "Cargo.toml",
       "kind": "file",
       "path": "rust/Cargo.toml",
-      "loc": 28,
-      "size_bytes": 582,
+      "loc": 31,
+      "size_bytes": 627,
       "extension": ".toml",
       "domain": "rust"
     },
@@ -1930,8 +2040,8 @@
       "label": "main.rs",
       "kind": "file",
       "path": "rust/cli/src/main.rs",
-      "loc": 3016,
-      "size_bytes": 91839,
+      "loc": 3153,
+      "size_bytes": 96063,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -1950,8 +2060,8 @@
       "label": "lib.rs",
       "kind": "file",
       "path": "rust/core/src/lib.rs",
-      "loc": 3170,
-      "size_bytes": 117612,
+      "loc": 3416,
+      "size_bytes": 126578,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -1971,7 +2081,27 @@
       "kind": "file",
       "path": "rust/protocol/src/lib.rs",
       "loc": 6595,
-      "size_bytes": 238174,
+      "size_bytes": 239214,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/tui/Cargo.toml",
+      "label": "Cargo.toml",
+      "kind": "file",
+      "path": "rust/tui/Cargo.toml",
+      "loc": 14,
+      "size_bytes": 296,
+      "extension": ".toml",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/tui/src/main.rs",
+      "label": "main.rs",
+      "kind": "file",
+      "path": "rust/tui/src/main.rs",
+      "loc": 426,
+      "size_bytes": 13559,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2090,8 +2220,8 @@
       "label": "run_diff_verify.sh",
       "kind": "file",
       "path": "scripts/run_diff_verify.sh",
-      "loc": 56,
-      "size_bytes": 1592,
+      "loc": 60,
+      "size_bytes": 1710,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2130,8 +2260,8 @@
       "label": "sync_state_dashboards.sh",
       "kind": "file",
       "path": "scripts/sync_state_dashboards.sh",
-      "loc": 13,
-      "size_bytes": 504,
+      "loc": 15,
+      "size_bytes": 631,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2311,7 +2441,17 @@
       "kind": "file",
       "path": "tests/protocol/test_stage6f_residual_semantic_closure_contract.py",
       "loc": 63,
-      "size_bytes": 2484,
+      "size_bytes": 2500,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage7_runtime_semantic_contract.py",
+      "label": "test_stage7_runtime_semantic_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage7_runtime_semantic_contract.py",
+      "loc": 53,
+      "size_bytes": 1887,
       "extension": ".py",
       "domain": "tests"
     },
@@ -2350,8 +2490,8 @@
       "label": "test_dashboard_generators.py",
       "kind": "file",
       "path": "tests/state/test_dashboard_generators.py",
-      "loc": 53,
-      "size_bytes": 2294,
+      "loc": 59,
+      "size_bytes": 2732,
       "extension": ".py",
       "domain": "tests"
     },
@@ -2362,6 +2502,16 @@
       "path": "tests/state/test_opaque_tail_report.py",
       "loc": 26,
       "size_bytes": 862,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/state/test_runtime_and_capability_generators.py",
+      "label": "test_runtime_and_capability_generators.py",
+      "kind": "file",
+      "path": "tests/state/test_runtime_and_capability_generators.py",
+      "loc": 55,
+      "size_bytes": 2303,
       "extension": ".py",
       "domain": "tests"
     },
@@ -2471,7 +2621,7 @@
       "kind": "file",
       "path": "tools/protocol/derive_schema.py",
       "loc": 1425,
-      "size_bytes": 59229,
+      "size_bytes": 59405,
       "extension": ".py",
       "domain": "tools"
     },
@@ -2706,6 +2856,26 @@
       "domain": "tools"
     },
     {
+      "id": "file:tools/runtime/generate_stage7_runtime_closure_captures.py",
+      "label": "generate_stage7_runtime_closure_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage7_runtime_closure_captures.py",
+      "loc": 333,
+      "size_bytes": 11862,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage7c_download_auto_capture.py",
+      "label": "generate_stage7c_download_auto_capture.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage7c_download_auto_capture.py",
+      "loc": 161,
+      "size_bytes": 5542,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
       "id": "file:tools/runtime/probe_login_versions.py",
       "label": "probe_login_versions.py",
       "kind": "file",
@@ -2756,6 +2926,16 @@
       "domain": "tools"
     },
     {
+      "id": "file:tools/state/generate_capability_matrix.py",
+      "label": "generate_capability_matrix.py",
+      "kind": "file",
+      "path": "tools/state/generate_capability_matrix.py",
+      "loc": 261,
+      "size_bytes": 10618,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
       "id": "file:tools/state/generate_codebase_graph.py",
       "label": "generate_codebase_graph.py",
       "kind": "file",
@@ -2770,8 +2950,18 @@
       "label": "generate_dashboard_data.py",
       "kind": "file",
       "path": "tools/state/generate_dashboard_data.py",
-      "loc": 128,
-      "size_bytes": 4786,
+      "loc": 163,
+      "size_bytes": 7155,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/state/generate_runtime_coverage.py",
+      "label": "generate_runtime_coverage.py",
+      "kind": "file",
+      "path": "tools/state/generate_runtime_coverage.py",
+      "loc": 256,
+      "size_bytes": 9877,
       "extension": ".py",
       "domain": "tools"
     },
@@ -2800,8 +2990,8 @@
       "label": "zensical.toml",
       "kind": "file",
       "path": "zensical.toml",
-      "loc": 30,
-      "size_bytes": 1022,
+      "loc": 33,
+      "size_bytes": 1202,
       "extension": ".toml",
       "domain": "repo-root"
     }
@@ -2895,6 +3085,16 @@
     {
       "source": "dir:analysis/re",
       "target": "file:analysis/re/flow_graph.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/state",
+      "target": "file:analysis/state/capability_registry.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/state",
+      "target": "file:analysis/state/runtime_coverage_registry.json",
       "kind": "contains"
     },
     {
@@ -3069,6 +3269,11 @@
     },
     {
       "source": "dir:docs/pr",
+      "target": "file:docs/pr/0026-s7r-s8b-runtime-complete-minimal-tui.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
       "target": "file:docs/pr/index.md",
       "kind": "contains"
     },
@@ -3110,6 +3315,26 @@
     {
       "source": "dir:docs/runbooks",
       "target": "file:docs/runbooks/runtime-capture.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/runbooks",
+      "target": "file:docs/runbooks/tui-core-transfer.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/capability-dashboard.html",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/capability-matrix.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/capability-matrix.md",
       "kind": "contains"
     },
     {
@@ -3180,6 +3405,16 @@
     {
       "source": "dir:docs/state",
       "target": "file:docs/state/roadmap.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/runtime-coverage.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/runtime-coverage.md",
       "kind": "contains"
     },
     {
@@ -3544,6 +3779,11 @@
     },
     {
       "source": "dir:rust",
+      "target": "dir:rust/tui",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust",
       "target": "dir:rust/verify",
       "kind": "contains"
     },
@@ -3600,6 +3840,21 @@
     {
       "source": "dir:rust/protocol/src",
       "target": "file:rust/protocol/src/lib.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/tui",
+      "target": "dir:rust/tui/src",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/tui",
+      "target": "file:rust/tui/Cargo.toml",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/tui/src",
+      "target": "file:rust/tui/src/main.rs",
       "kind": "contains"
     },
     {
@@ -3803,6 +4058,11 @@
       "kind": "contains"
     },
     {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage7_runtime_semantic_contract.py",
+      "kind": "contains"
+    },
+    {
       "source": "dir:tests/runtime",
       "target": "file:tests/runtime/__init__.py",
       "kind": "contains"
@@ -3825,6 +4085,11 @@
     {
       "source": "dir:tests/state",
       "target": "file:tests/state/test_opaque_tail_report.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/state",
+      "target": "file:tests/state/test_runtime_and_capability_generators.py",
       "kind": "contains"
     },
     {
@@ -4029,6 +4294,16 @@
     },
     {
       "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage7_runtime_closure_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage7c_download_auto_capture.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
       "target": "file:tools/runtime/probe_login_versions.py",
       "kind": "contains"
     },
@@ -4054,12 +4329,22 @@
     },
     {
       "source": "dir:tools/state",
+      "target": "file:tools/state/generate_capability_matrix.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/state",
       "target": "file:tools/state/generate_codebase_graph.py",
       "kind": "contains"
     },
     {
       "source": "dir:tools/state",
       "target": "file:tools/state/generate_dashboard_data.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/state",
+      "target": "file:tools/state/generate_runtime_coverage.py",
       "kind": "contains"
     },
     {

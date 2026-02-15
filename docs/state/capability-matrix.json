@@ -1,0 +1,198 @@
+{
+  "generated_unix_secs": 1771174681,
+  "summary": {
+    "total_capabilities": 7,
+    "done": 6,
+    "in_progress": 1,
+    "planned": 0,
+    "required_for_final": 6,
+    "required_done": 5,
+    "required_pending": 1,
+    "protocol_messages": 131,
+    "protocol_implemented_mapped": 131,
+    "runtime_verified": 131,
+    "runtime_static": 0,
+    "semantic_tail_gaps": 0
+  },
+  "final_gates": [
+    {
+      "id": "FG-RUNTIME-100",
+      "title": "Runtime coverage completion",
+      "required": "verified_runtime=131 and verified_static=0",
+      "status": "pass",
+      "linked_capabilities": [
+        "CAP-RUNTIME-COMPLETE"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "FG-SEMANTIC-DEPTH",
+      "title": "Semantic payload depth completion",
+      "required": "no raw_tail/raw_payload unresolved schema fields",
+      "status": "pass",
+      "linked_capabilities": [
+        "CAP-SEMANTIC-DEPTH"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "FG-CORE-AUTO-DL",
+      "title": "Core download automation",
+      "required": "session download-auto succeeds in authenticated flow",
+      "status": "pass",
+      "linked_capabilities": [
+        "CAP-CLI-DOWNLOAD-AUTO"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "FG-TUI-V1",
+      "title": "Minimal TUI v1",
+      "required": "login/search/select/download/monitor/upload-decision available in TUI",
+      "status": "pass",
+      "linked_capabilities": [
+        "CAP-TUI-V1"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "FG-RELEASE-HARDENING",
+      "title": "Release hardening and final closure",
+      "required": "config/log redaction, packaging, recovery runbooks, and closure checklist complete",
+      "status": "blocked",
+      "linked_capabilities": [
+        "CAP-RELEASE-HARDENING"
+      ],
+      "blockers": [
+        "CAP-RELEASE-HARDENING status=in_progress",
+        "CAP-RELEASE-HARDENING: Pending final hardening pass and closure checklist"
+      ]
+    }
+  ],
+  "critical_path": [
+    {
+      "id": "CAP-RELEASE-HARDENING",
+      "title": "Release hardening and final gates",
+      "status": "in_progress",
+      "depends_on": [
+        "CAP-TUI-V1"
+      ],
+      "blockers": [
+        "Pending final hardening pass and closure checklist"
+      ]
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "CAP-PROTOCOL-MAPPED",
+      "title": "Protocol mapped and implemented",
+      "domain": "protocol",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [],
+      "evidence": [
+        "docs/state/protocol-matrix.md"
+      ],
+      "blockers": [],
+      "notes": "131/131 implemented+mapped baseline reached in S4L and preserved."
+    },
+    {
+      "id": "CAP-RUNTIME-COMPLETE",
+      "title": "Runtime evidence for all protocol messages",
+      "domain": "runtime",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-PROTOCOL-MAPPED"
+      ],
+      "evidence": [
+        "docs/state/runtime-coverage.md"
+      ],
+      "blockers": [],
+      "notes": "Strict runtime closure is complete: verified_runtime=131 and verified_static=0."
+    },
+    {
+      "id": "CAP-SEMANTIC-DEPTH",
+      "title": "Semantic depth closure for partial tails",
+      "domain": "schema",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-RUNTIME-COMPLETE"
+      ],
+      "evidence": [
+        "analysis/protocol/message_schema.json"
+      ],
+      "blockers": [],
+      "notes": "Stage 7 replaced residual raw tails with explicit extension-reserved semantics."
+    },
+    {
+      "id": "CAP-CLI-DOWNLOAD-AUTO",
+      "title": "Automated search-select-download flow in CLI/core",
+      "domain": "cli_core",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-SEMANTIC-DEPTH"
+      ],
+      "evidence": [
+        "docs/runbooks/cli-download-example.md"
+      ],
+      "blockers": [],
+      "notes": "Core orchestration and `session download-auto` are implemented and regression-covered."
+    },
+    {
+      "id": "CAP-DASHBOARD-OPS",
+      "title": "Capabilities and critical-path dashboard",
+      "domain": "docs",
+      "status": "done",
+      "required_for_final": false,
+      "depends_on": [
+        "CAP-RUNTIME-COMPLETE"
+      ],
+      "evidence": [
+        "docs/state/capability-dashboard.html"
+      ],
+      "blockers": [],
+      "notes": "Expose blockers, gates, and critical path similarly to rsk_rs dashboards."
+    },
+    {
+      "id": "CAP-TUI-V1",
+      "title": "Minimal TUI for core transfer",
+      "domain": "tui",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-CLI-DOWNLOAD-AUTO",
+        "CAP-DASHBOARD-OPS"
+      ],
+      "evidence": [
+        "rust/tui/src/main.rs"
+      ],
+      "blockers": [],
+      "notes": "TUI v1 shell is available for login/search/select/download/monitor/upload decision flows."
+    },
+    {
+      "id": "CAP-RELEASE-HARDENING",
+      "title": "Release hardening and final gates",
+      "domain": "release",
+      "status": "in_progress",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-TUI-V1"
+      ],
+      "evidence": [
+        "docs/state/verification-status.md"
+      ],
+      "blockers": [
+        "Pending final hardening pass and closure checklist"
+      ],
+      "notes": "Includes redaction safety, packaging, recovery runbooks, and closure audits."
+    }
+  ],
+  "source_artifacts": {
+    "capability_registry": "analysis/state/capability_registry.json",
+    "protocol_matrix_json": "docs/state/protocol-matrix.json",
+    "runtime_coverage_json": "docs/state/runtime-coverage.json"
+  }
+}

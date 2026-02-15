@@ -2,7 +2,35 @@
 
 ## Objective
 
-Maintain full protocol coverage (`implemented+mapped=131`) while replacing opaque control-message handling with richer typed payloads backed by runtime evidence.
+Maintain full protocol coverage (`implemented+mapped=131`) while preserving runtime-complete evidence (`verified_runtime=131`, `verified_static=0`) and semantic-depth closure (no unresolved `raw_tail/raw_payload` schema fields).
+
+## Stage 7A Note (Strict Runtime Closure)
+
+- Stage 7A introduced no new protocol codes/messages.
+- Stage 7A closed runtime provenance for the prior static-only set (`30` rows) and promoted all rows to `verified_runtime`.
+- New runtime closure artifacts:
+  - `analysis/state/runtime_coverage_registry.json`
+  - `docs/state/runtime-coverage.json`
+  - `docs/state/runtime-coverage.md`
+  - `captures/redacted/login-static-server-runtime`
+  - `captures/redacted/peer-static-runtime`
+
+## Stage 7B Note (Semantic-Tail Closure)
+
+- Stage 7B introduced no new protocol codes/messages.
+- Stage 7B replaced residual placeholder tails with explicit extension semantics in schema/protocol:
+  - `raw_tail` -> `extension_reserved_bytes`
+- Runtime-tail evidence scenario:
+  - `captures/redacted/login-partial-tail-runtime`
+
+## Stage 7C Note (Core Transfer Orchestration)
+
+- Stage 7C introduced no new protocol codes/messages.
+- Stage 7C added higher-level core/CLI orchestration surfaces:
+  - `SessionClient::search_select_and_download(...)`
+  - `soul-cli session download-auto ...`
+- Runtime orchestration scenario:
+  - `captures/redacted/login-search-download-auto`
 
 ## Stage 6A Note (State UX + Dashboard Tooling)
 
@@ -354,9 +382,16 @@ Status:
 4. Extend SDK/CLI/verify for newly typed message families once protocol decode is stable.
 5. Keep regression green (`scripts/run_regression.sh`) before stage closure.
 
-## Next Candidate Stage (S7) - Post-Closure Audit/Expansion
+## Remaining Backlog After S7
 
-Entry point:
+Protocol mapping and implementation backlog is closed.
 
-1. Run a full closure audit pass over typed payload quality (field names, directional constraints, optional tails) after S6F.
-2. Keep semantic parity and matrix closure gates green while preparing the next protocol expansion wave.
+Remaining large-scale work is productization and hardening:
+
+1. Stage 8B completion hardening:
+   - operational soak checks for TUI flow handling
+   - tighter recovery behavior around transient disconnects
+2. Stage 8C release hardening:
+   - config and log redaction review
+   - packaging and operator lifecycle runbooks
+   - final closure gate execution and release checklist

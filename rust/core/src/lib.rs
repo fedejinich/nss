@@ -7,10 +7,11 @@ use protocol::{
     LoginFailureReason, LoginResponsePayload, MessageAckedPayload, MessageUserIncomingPayload,
     OwnPrivilegesStatusPayload, PeerAddressResponsePayload, PeerMessage, PrivilegedListPayload,
     ProtocolMessage, RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
-    RoomListPayload, RoomMembersPayload, RoomOperatorsPayload, RoomTickerPayload, ServerMessage,
-    SimilarTermsPayload, TermRecommendationsPayload, TransferDirection, TransferRequestPayload,
-    TransferResponsePayload, UserPrivilegesStatusPayload, UserRecommendationsPayload,
-    UserStatsResponsePayload, UserStatusResponsePayload, build_add_chatroom_request,
+    RoomListPayload, RoomMembersPayload, RoomOperatorsPayload, RoomTickerPayload,
+    SearchResponseSummary, ServerMessage, SimilarTermsPayload, TermRecommendationsPayload,
+    TransferDirection, TransferRequestPayload, TransferResponsePayload, UserPrivilegesStatusPayload,
+    UserRecommendationsPayload, UserStatsResponsePayload, UserStatusResponsePayload,
+    build_add_chatroom_request,
     build_add_like_term_request, build_add_room_member_request, build_add_room_operator_request,
     build_ban_user_request, build_connect_to_peer_request, build_file_search_request,
     build_get_global_recommendations_request, build_get_my_recommendations_request,
@@ -57,6 +58,33 @@ pub struct DownloadPlan {
 
 #[derive(Debug, Clone)]
 pub struct DownloadResult {
+    pub output_path: PathBuf,
+    pub bytes_written: u64,
+}
+
+#[derive(Debug, Clone)]
+pub struct SearchSelectDownloadRequest {
+    pub search_token: u32,
+    pub query: String,
+    pub search_timeout: Duration,
+    pub max_messages: usize,
+    pub result_index: usize,
+    pub file_index: usize,
+    pub transfer_token: u32,
+    pub output_path: PathBuf,
+    pub peer_addr_override: Option<String>,
+    pub peer_lookup_timeout: Duration,
+    pub connection_type: String,
+    pub skip_connect_probe: bool,
+}
+
+#[derive(Debug, Clone)]
+pub struct SearchSelectDownloadResult {
+    pub selected_username: String,
+    pub selected_virtual_path: String,
+    pub selected_file_size: u64,
+    pub peer_addr: String,
+    pub transfer_token: u32,
     pub output_path: PathBuf,
     pub bytes_written: u64,
 }
@@ -1018,6 +1046,85 @@ impl SessionClient {
         Ok(collected)
     }
 
+    pub async fn search_select_and_download(
+        &mut self,
+        request: &SearchSelectDownloadRequest,
+    ) -> std::result::Result<SearchSelectDownloadResult, SearchSelectDownloadError> {
+        self.ensure_logged_in()
+            .map_err(|err| SearchSelectDownloadError::Session(err.to_string()))?;
+
+        let collected = self
+            .search_and_collect(
+                request.search_token,
+                &request.query,
+                request.search_timeout,
+                request.max_messages,
+            )
+            .await
+            .map_err(|err| SearchSelectDownloadError::Search(err.to_string()))?;
+        let summaries = collect_search_summaries(&collected);
+        if summaries.is_empty() {
+            return Err(SearchSelectDownloadError::NoSearchResults {
+                query: request.query.clone(),
+            });
+        }
+
+        let selected_summary = summaries.get(request.result_index).ok_or_else(|| {
+            SearchSelectDownloadError::InvalidSearchResultIndex {
+                index: request.result_index,
+                available: summaries.len(),
+            }
+        })?;
+
+        let selected_file = selected_summary.files.get(request.file_index).ok_or_else(|| {
+            SearchSelectDownloadError::InvalidSearchFileIndex {
+                result_index: request.result_index,
+                file_index: request.file_index,
+                available: selected_summary.files.len(),
+            }
+        })?;
+
+        let peer_addr = if let Some(override_addr) = request.peer_addr_override.clone() {
+            override_addr
+        } else {
+            let payload = self
+                .get_peer_address(&selected_summary.username, request.peer_lookup_timeout)
+                .await
+                .map_err(|err| SearchSelectDownloadError::PeerLookup(err.to_string()))?;
+            format!("{}:{}", payload.ip_address, payload.port)
+        };
+
+        if !request.skip_connect_probe {
+            self.connect_to_peer(
+                &selected_summary.username,
+                request.transfer_token,
+                &request.connection_type,
+            )
+            .await
+            .map_err(|err| SearchSelectDownloadError::ConnectToPeer(err.to_string()))?;
+        }
+
+        let download_result = download_single_file(&DownloadPlan {
+            peer_addr: peer_addr.clone(),
+            token: request.transfer_token,
+            virtual_path: selected_file.file_path.clone(),
+            file_size: selected_file.file_size,
+            output_path: request.output_path.clone(),
+        })
+        .await
+        .map_err(|err| SearchSelectDownloadError::Download(err.to_string()))?;
+
+        Ok(SearchSelectDownloadResult {
+            selected_username: selected_summary.username.clone(),
+            selected_virtual_path: selected_file.file_path.clone(),
+            selected_file_size: selected_file.file_size,
+            peer_addr,
+            transfer_token: request.transfer_token,
+            output_path: download_result.output_path,
+            bytes_written: download_result.bytes_written,
+        })
+    }
+
     pub async fn collect_room_events(
         &mut self,
         timeout: Duration,
@@ -1193,6 +1300,45 @@ impl AuthError {
             }
         }
     }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Error)]
+pub enum SearchSelectDownloadError {
+    #[error("session precondition failed: {0}")]
+    Session(String),
+    #[error("search request failed: {0}")]
+    Search(String),
+    #[error("no search results were decoded for query: {query}")]
+    NoSearchResults { query: String },
+    #[error("search result index out of range: index={index} available={available}")]
+    InvalidSearchResultIndex { index: usize, available: usize },
+    #[error(
+        "search file index out of range: result_index={result_index} file_index={file_index} available={available}"
+    )]
+    InvalidSearchFileIndex {
+        result_index: usize,
+        file_index: usize,
+        available: usize,
+    },
+    #[error("peer address lookup failed: {0}")]
+    PeerLookup(String),
+    #[error("connect-to-peer probe failed: {0}")]
+    ConnectToPeer(String),
+    #[error("download execution failed: {0}")]
+    Download(String),
+}
+
+fn collect_search_summaries(messages: &[ServerMessage]) -> Vec<SearchResponseSummary> {
+    messages
+        .iter()
+        .filter_map(|message| {
+            if let ServerMessage::FileSearchResponseSummary(summary) = message {
+                Some(summary.clone())
+            } else {
+                None
+            }
+        })
+        .collect()
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -1491,10 +1637,11 @@ mod tests {
         OwnPrivilegesStatusPayload, PeerAddressResponsePayload, PrivilegedListPayload,
         RecommendationEntry, RecommendationUsersPayload, RecommendationsPayload,
         RecommendedUsersPayload, RoomListPayload, RoomPresenceEventPayload, RoomTickerEntry,
-        RoomTickerPayload, ServerMessage, SimilarTermsPayload, SimilarTermsRequestPayload,
-        SpeedPayload, TermRecommendationsPayload, UserPrivilegesStatusPayload,
-        UserRecommendationsPayload, UserStatsResponsePayload, UserStatusResponsePayload,
-        encode_server_message, parse_transfer_request, parse_transfer_response,
+        RoomTickerPayload, SearchFileSummary, SearchResponseSummary, ServerMessage,
+        SimilarTermsPayload, SimilarTermsRequestPayload, SpeedPayload,
+        TermRecommendationsPayload, UserPrivilegesStatusPayload, UserRecommendationsPayload,
+        UserStatsResponsePayload, UserStatusResponsePayload, encode_server_message,
+        parse_transfer_request, parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -1513,6 +1660,105 @@ mod tests {
         payload.write_u8(0);
         payload.write_string(reason);
         Frame::new(CODE_SM_LOGIN, payload.into_inner())
+    }
+
+    #[test]
+    fn collect_search_summaries_returns_only_summary_rows() {
+        let messages = vec![
+            ServerMessage::DownloadSpeed(SpeedPayload { bytes_per_sec: 9 }),
+            ServerMessage::FileSearchResponseSummary(SearchResponseSummary {
+                username: "alice".into(),
+                token: 9001,
+                files_count: 1,
+                slots_free: 2,
+                speed: 10,
+                in_queue: false,
+                files: vec![SearchFileSummary {
+                    file_path: "Music\\\\Runtime\\\\track.flac".into(),
+                    file_size: 123,
+                    extension: "flac".into(),
+                    attr_count: 0,
+                }],
+            }),
+        ];
+
+        let summaries = super::collect_search_summaries(&messages);
+        assert_eq!(summaries.len(), 1);
+        assert_eq!(summaries[0].username, "alice");
+        assert_eq!(summaries[0].files.len(), 1);
+    }
+
+    #[tokio::test]
+    async fn search_select_and_download_reports_invalid_result_index() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+            let request = read_frame(&mut socket).await.expect("search request");
+            assert_eq!(request.code, CODE_SM_FILE_SEARCH);
+            let summary = encode_server_message(&ServerMessage::FileSearchResponseSummary(
+                SearchResponseSummary {
+                    username: "alice".into(),
+                    token: 9001,
+                    files_count: 1,
+                    slots_free: 1,
+                    speed: 10,
+                    in_queue: false,
+                    files: vec![SearchFileSummary {
+                        file_path: "Music\\\\Runtime\\\\track.flac".into(),
+                        file_size: 123,
+                        extension: "flac".into(),
+                        attr_count: 0,
+                    }],
+                },
+            ));
+            write_frame(&mut socket, &summary)
+                .await
+                .expect("write summary");
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+
+        let request = SearchSelectDownloadRequest {
+            search_token: 9001,
+            query: "runtime query".into(),
+            search_timeout: Duration::from_secs(1),
+            max_messages: 16,
+            result_index: 1,
+            file_index: 0,
+            transfer_token: 555,
+            output_path: PathBuf::from("/tmp/soul-core-test-unused.bin"),
+            peer_addr_override: Some("127.0.0.1:2242".into()),
+            peer_lookup_timeout: Duration::from_secs(1),
+            connection_type: "P".into(),
+            skip_connect_probe: true,
+        };
+        let err = client
+            .search_select_and_download(&request)
+            .await
+            .expect_err("invalid index expected");
+        assert!(matches!(
+            err,
+            SearchSelectDownloadError::InvalidSearchResultIndex { .. }
+        ));
+
+        server.await.expect("server task");
     }
 
     #[tokio::test]

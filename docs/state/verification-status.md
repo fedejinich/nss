@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, Stage 6E dedicated legacy opaque reduction, and Stage 6F dedicated residual semantic closure.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, Stage 6E dedicated legacy opaque reduction, Stage 6F dedicated residual semantic closure, Stage 7 runtime/semantic strict-closure gates, and Stage 8 dashboard/TUI rollout gates.
 
 ## Validation Gates
 
@@ -63,6 +63,10 @@ Runs:
    - `login-legacy-room-operatorship-control`
    - `login-legacy-distributed-control`
    - `login-legacy-residual-control`
+   - `login-static-server-runtime`
+   - `peer-static-runtime`
+   - `login-partial-tail-runtime`
+   - `login-search-download-auto`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -128,6 +132,13 @@ Protocol matrix status:
 - Stage 5H authenticated runtime scenario `login-system-control` provides runtime evidence for codes `28`, `32`, and `130`.
 - Stage 6E authenticated runtime scenario `login-legacy-room-operatorship-control` provides runtime evidence for codes `146` and `147`.
 - Stage 6E authenticated runtime scenario `login-legacy-distributed-control` provides runtime evidence for codes `126`, `127`, `128`, `129`, and `131`.
+- Stage 7A authenticated runtime closure scenarios:
+  - `login-static-server-runtime`
+  - `peer-static-runtime`
+- Stage 7B authenticated runtime semantic-tail scenario:
+  - `login-partial-tail-runtime`
+- Stage 7C authenticated orchestration runtime scenario:
+  - `login-search-download-auto`
 - `SM_GET_USER_PRIVILEGES_STATUS` was promoted to `high` with authenticated request/response runtime evidence.
 - `PM_SHARED_FILES_IN_FOLDER` parser now has decompression-aware coverage with zlib safety limits and typed listing classification.
 - Stage 4F/S4G/S4H/S4I/S4J are mapping-first and static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
@@ -217,10 +228,32 @@ Protocol matrix status:
 - Redacted runtime runs:
   - `captures/redacted/login-legacy-residual-control`
 - Typed closure scope:
-  - `SM_DNET_DELIVERY_REPORT` (`128`) -> `report: optional_u32`, `raw_tail`
-  - `SM_FLOOD` (`131`) -> `flood_code: optional_u32`, `raw_tail`
+  - `SM_DNET_DELIVERY_REPORT` (`128`) -> `report: optional_u32`, `extension_reserved_bytes`
+  - `SM_FLOOD` (`131`) -> `flood_code: optional_u32`, `extension_reserved_bytes`
 - Static reinforcement:
   - `evidence/ui_audit/decomp/server_methods.txt` (`Server::DNetDeliveryReport(int)`)
+
+## Stage 7 Runtime/Semantic Closure Verification
+
+- Runtime closure contract:
+  - `tests/protocol/test_stage7_runtime_semantic_contract.py`
+- Runtime coverage artifact:
+  - `docs/state/runtime-coverage.json`
+  - `docs/state/runtime-coverage.md`
+- Current closure snapshot:
+  - `verified_runtime=131`
+  - `verified_static=0`
+  - unresolved `raw_tail/raw_payload` schema fields = `0`
+
+## Stage 8 Dashboard and TUI Verification
+
+- Capability artifacts:
+  - `docs/state/capability-matrix.json`
+  - `docs/state/capability-matrix.md`
+  - `docs/state/capability-dashboard.html`
+- TUI implementation and runbook:
+  - `rust/tui/src/main.rs`
+  - `docs/runbooks/tui-core-transfer.md`
 
 ## Stage 5B Verification Status
 

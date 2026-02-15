@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-15T15:20:20+00:00",
+  "generated_at": "2026-02-15T16:58:01+00:00",
   "snapshot": {
     "total_messages": 131,
     "server_messages": 106,
@@ -16,8 +16,8 @@
       "message": "PM_SAY",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Peer MessageCodeToString jump-table extraction resolves code 1 to PM_SAY (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_SAY (code 1) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -25,8 +25,8 @@
       "message": "PM_GET_SHARED_FILE_LIST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
-      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_GET_SHARED_FILE_LIST (code 4) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -34,8 +34,8 @@
       "message": "PM_SHARED_FILE_LIST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
-      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_SHARED_FILE_LIST (code 5) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -43,8 +43,8 @@
       "message": "PM_FILE_SEARCH_REQUEST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
-      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_FILE_SEARCH_REQUEST (code 8) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -79,8 +79,8 @@
       "message": "PM_USER_INFO_REQUEST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Peer code 15 UserInfoRequest with empty payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.",
-      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_USER_INFO_REQUEST (code 15) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -88,8 +88,8 @@
       "message": "PM_USER_INFO_REPLY",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Peer code 16 UserInfoReply with description/picture/uploads/queue/slots fields (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.",
-      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_USER_INFO_REPLY (code 16) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -97,8 +97,8 @@
       "message": "PM_SEND_CONNECT_TOKEN",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Peer MessageCodeToString jump-table extraction resolves code 33 to PM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_SEND_CONNECT_TOKEN (code 33) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -133,8 +133,8 @@
       "message": "PM_TRANSFER_REQUEST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Transfer queue dispatcher handles transfer request negotiation.",
-      "evidence": "evidence/reverse/disasm/transfer_on_file_request.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_TRANSFER_REQUEST (code 40) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -142,8 +142,8 @@
       "message": "PM_TRANSFER_RESPONSE",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Transfer queue dispatcher handles transfer response negotiation.",
-      "evidence": "evidence/reverse/disasm/transfer_on_file_request.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_TRANSFER_RESPONSE (code 41) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -151,8 +151,8 @@
       "message": "PM_PLACEHOLD_UPLOAD",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Peer MessageCodeToString jump-table extraction resolves code 42 to PM_PLACEHOLD_UPLOAD (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_PLACEHOLD_UPLOAD (code 42) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -160,8 +160,8 @@
       "message": "PM_QUEUE_UPLOAD",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
-      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_QUEUE_UPLOAD (code 43) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -223,8 +223,8 @@
       "message": "PM_UPLOAD_PLACE_IN_LINE_REQUEST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Peer code 51 PlaceInQueueRequest with filename/path payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.",
-      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_UPLOAD_PLACE_IN_LINE_REQUEST (code 51) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "peer",
@@ -232,8 +232,8 @@
       "message": "PM_NOTHING",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Peer MessageCodeToString jump-table extraction resolves code 52 to PM_NOTHING (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 deterministic local runtime harness captures peer message PM_NOTHING (code 52) and validates codec directionality with redacted evidence.",
+      "evidence": "captures/redacted/peer-static-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -250,8 +250,8 @@
       "message": "SM_SET_WAIT_PORT",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Observed literal in Server::MessageCodeToString dispatch.",
-      "evidence": "evidence/reverse/server_messagecodetostring_otool.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_SET_WAIT_PORT (code 2) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -268,8 +268,8 @@
       "message": "SM_ADD_USER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 5 to SM_ADD_USER (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_USER (code 5) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -277,8 +277,8 @@
       "message": "SM_REMOVE_USER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 6 to SM_REMOVE_USER (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_REMOVE_USER (code 6) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -394,8 +394,8 @@
       "message": "SM_FILE_SEARCH",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "FileSearch writes constant 0x1a before Server::SendMessage.",
-      "evidence": "evidence/reverse/disasm/server_file_search.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_FILE_SEARCH (code 26) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -421,8 +421,8 @@
       "message": "SM_SEND_CONNECT_TOKEN",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 33 to SM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_SEND_CONNECT_TOKEN (code 33) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -430,8 +430,8 @@
       "message": "SM_DOWNLOAD_SPEED",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Observed literal in Server::MessageCodeToString dispatch.",
-      "evidence": "evidence/reverse/server_messagecodetostring_otool.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_DOWNLOAD_SPEED (code 34) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -439,8 +439,8 @@
       "message": "SM_SHARED_FOLDERS_FILES",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Observed literal in Server::MessageCodeToString dispatch.",
-      "evidence": "evidence/reverse/server_messagecodetostring_otool.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_SHARED_FOLDERS_FILES (code 35) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -547,8 +547,8 @@
       "message": "SM_PLACE_IN_LINE",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 59 to SM_PLACE_IN_LINE (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_PLACE_IN_LINE (code 59) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -556,8 +556,8 @@
       "message": "SM_PLACE_IN_LINE_RESPONSE",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 60 to SM_PLACE_IN_LINE_RESPONSE (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_PLACE_IN_LINE_RESPONSE (code 60) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -736,8 +736,8 @@
       "message": "SM_ADD_PRIVILEGED_USER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 91 to SM_ADD_PRIVILEGED_USER (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_PRIVILEGED_USER (code 91) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -781,8 +781,8 @@
       "message": "SM_LOW_PRIORITY_FILE_SEARCH",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 103 to SM_LOW_PRIORITY_FILE_SEARCH (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_LOW_PRIORITY_FILE_SEARCH (code 103) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -790,8 +790,8 @@
       "message": "SM_WISHLIST_WAIT",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 104 to SM_WISHLIST_WAIT (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_WISHLIST_WAIT (code 104) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -988,8 +988,8 @@
       "message": "SM_BAN_USER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 132 to SM_BAN_USER (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_BAN_USER (code 132) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1006,8 +1006,8 @@
       "message": "SM_ADD_ROOM_MEMBER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server code 134 AddUserToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
-      "evidence": "evidence/reverse/message_name_strings.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_ROOM_MEMBER (code 134) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1015,8 +1015,8 @@
       "message": "SM_REMOVE_ROOM_MEMBER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server code 135 RemoveUserFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
-      "evidence": "evidence/reverse/message_name_strings.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_REMOVE_ROOM_MEMBER (code 135) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1087,8 +1087,8 @@
       "message": "SM_ADD_ROOM_OPERATOR",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server code 143 AddOperatorToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
-      "evidence": "evidence/reverse/message_name_strings.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_ADD_ROOM_OPERATOR (code 143) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1096,8 +1096,8 @@
       "message": "SM_REMOVE_ROOM_OPERATOR",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server code 144 RemoveOperatorFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
-      "evidence": "evidence/reverse/message_name_strings.txt"
+      "summary": "Stage 7 hybrid authenticated runtime probe captures server message SM_REMOVE_ROOM_OPERATOR (code 144) with official-first probing and deterministic fallback evidence.",
+      "evidence": "captures/redacted/login-static-server-runtime/official_frames.hex"
     },
     {
       "scope": "server",

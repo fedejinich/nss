@@ -346,6 +346,8 @@
             <span class="chip" id="updatedAt">Updated: --</span>
             <span class="chip"><a href="roadmap/">Roadmap text</a></span>
             <span class="chip"><a href="protocol-matrix/">Protocol matrix</a></span>
+            <span class="chip"><a href="runtime-coverage/">Runtime coverage</a></span>
+            <span class="chip"><a href="capability-dashboard.html">Capability dashboard</a></span>
             <span class="chip"><a href="codebase-visualizer/">Codebase visualizer</a></span>
             <span class="chip"><a href="verification-status/">Verification status</a></span>
             <span class="chip"><a href="../pr/">PR catalog</a></span>
@@ -444,6 +446,8 @@
       function renderKpis(data) {
         const stage = data.stage_summary || {};
         const protocol = data.protocol_summary || {};
+        const runtime = data.runtime_summary || {};
+        const capability = data.capability_summary || {};
 
         const cards = [
           { k: "Stages total", v: fmt(stage.total) },
@@ -451,6 +455,11 @@
           { k: "In progress", v: fmt(stage.in_progress) },
           { k: "Protocol total", v: fmt(protocol.total_messages) },
           { k: "Implemented+mapped", v: fmt(protocol.implemented_mapped) },
+          { k: "Runtime verified", v: fmt(runtime.verified_runtime) },
+          { k: "Runtime static", v: fmt(runtime.verified_static) },
+          { k: "Semantic gaps", v: fmt(runtime.semantic_tail_gaps) },
+          { k: "Final gates pass", v: fmt(capability.final_gate_pass) },
+          { k: "Final gates blocked", v: fmt(capability.final_gate_blocked) },
           { k: "Missing", v: fmt(protocol.missing) },
         ];
 

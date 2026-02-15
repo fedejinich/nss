@@ -697,37 +697,37 @@ pub struct DnetResetPayload {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DnetLevelPayload {
     pub level: Option<u32>,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DnetGroupLeaderPayload {
     pub username: Option<String>,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DnetChildDepthPayload {
     pub depth: Option<u32>,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DnetDeliveryReportPayload {
     pub report: Option<u32>,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct FloodPayload {
     pub flood_code: Option<u32>,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RoomOperatorshipRevocationPayload {
     pub room: Option<String>,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -810,7 +810,7 @@ pub struct ConnectToClientPayload {
     pub token: u32,
     pub username: String,
     pub connection_type: String,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -832,7 +832,7 @@ pub struct ChildParentMapEntryPayload {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ChildParentMapPayload {
     pub mappings: Vec<ChildParentMapEntryPayload>,
-    pub raw_tail: Vec<u8>,
+    pub extension_reserved_bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1382,13 +1382,13 @@ fn parse_connect_to_client_payload(payload: &[u8]) -> Result<ConnectToClientPayl
     } else {
         String::new()
     };
-    let raw_tail = reader.read_remaining_bytes();
+    let extension_reserved_bytes = reader.read_remaining_bytes();
 
     Ok(ConnectToClientPayload {
         token,
         username,
         connection_type,
-        raw_tail,
+        extension_reserved_bytes,
     })
 }
 
@@ -1412,7 +1412,7 @@ fn parse_child_parent_map_payload(payload: &[u8]) -> Result<ChildParentMapPayloa
     if payload.is_empty() {
         return Ok(ChildParentMapPayload {
             mappings: Vec::new(),
-            raw_tail: Vec::new(),
+            extension_reserved_bytes: Vec::new(),
         });
     }
 
@@ -1430,8 +1430,8 @@ fn parse_child_parent_map_payload(payload: &[u8]) -> Result<ChildParentMapPayloa
         });
     }
 
-    let raw_tail = reader.read_remaining_bytes();
-    Ok(ChildParentMapPayload { mappings, raw_tail })
+    let extension_reserved_bytes = reader.read_remaining_bytes();
+    Ok(ChildParentMapPayload { mappings, extension_reserved_bytes })
 }
 
 fn parse_dnet_message_payload(payload: &[u8]) -> Result<DnetMessagePayload> {
@@ -1552,14 +1552,14 @@ fn parse_room_operatorship_revocation_payload(payload: &[u8]) -> RoomOperatorshi
     } else {
         None
     };
-    let raw_tail = reader.read_remaining_bytes();
+    let extension_reserved_bytes = reader.read_remaining_bytes();
 
-    RoomOperatorshipRevocationPayload { room, raw_tail }
+    RoomOperatorshipRevocationPayload { room, extension_reserved_bytes }
 }
 
 fn parse_dnet_level_payload(payload: &[u8]) -> DnetLevelPayload {
-    let (level, raw_tail) = parse_optional_u32_with_raw_tail(payload);
-    DnetLevelPayload { level, raw_tail }
+    let (level, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetLevelPayload { level, extension_reserved_bytes }
 }
 
 fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
@@ -1576,37 +1576,37 @@ fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
     } else {
         None
     };
-    let raw_tail = reader.read_remaining_bytes();
-    DnetGroupLeaderPayload { username, raw_tail }
+    let extension_reserved_bytes = reader.read_remaining_bytes();
+    DnetGroupLeaderPayload { username, extension_reserved_bytes }
 }
 
 fn parse_dnet_child_depth_payload(payload: &[u8]) -> DnetChildDepthPayload {
-    let (depth, raw_tail) = parse_optional_u32_with_raw_tail(payload);
-    DnetChildDepthPayload { depth, raw_tail }
+    let (depth, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetChildDepthPayload { depth, extension_reserved_bytes }
 }
 
 fn parse_dnet_delivery_report_payload(payload: &[u8]) -> DnetDeliveryReportPayload {
-    let (report, raw_tail) = parse_optional_u32_with_raw_tail(payload);
-    DnetDeliveryReportPayload { report, raw_tail }
+    let (report, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetDeliveryReportPayload { report, extension_reserved_bytes }
 }
 
 fn parse_flood_payload(payload: &[u8]) -> FloodPayload {
-    let (flood_code, raw_tail) = parse_optional_u32_with_raw_tail(payload);
+    let (flood_code, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
     FloodPayload {
         flood_code,
-        raw_tail,
+        extension_reserved_bytes,
     }
 }
 
-fn parse_optional_u32_with_raw_tail(payload: &[u8]) -> (Option<u32>, Vec<u8>) {
+fn parse_optional_u32_with_extension_reserved_bytes(payload: &[u8]) -> (Option<u32>, Vec<u8>) {
     let mut reader = PayloadReader::new(payload);
     let value = if reader.remaining() >= 4 {
         reader.read_u32().ok()
     } else {
         None
     };
-    let raw_tail = reader.read_remaining_bytes();
-    (value, raw_tail)
+    let extension_reserved_bytes = reader.read_remaining_bytes();
+    (value, extension_reserved_bytes)
 }
 
 fn encode_recommendations_payload(writer: &mut PayloadWriter, payload: &RecommendationsPayload) {
@@ -2091,14 +2091,14 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             if let Some(room) = &payload.room {
                 writer.write_string(room);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_REMOVE_ROOM_OPERATORSHIP
         }
         ServerMessage::RemoveOwnRoomOperatorship(payload) => {
             if let Some(room) = &payload.room {
                 writer.write_string(room);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP
         }
         ServerMessage::RoomMembers(payload) => {
@@ -2145,35 +2145,35 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             if let Some(level) = payload.level {
                 writer.write_u32(level);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_DNET_LEVEL
         }
         ServerMessage::DnetGroupLeader(payload) => {
             if let Some(username) = &payload.username {
                 writer.write_string(username);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_DNET_GROUP_LEADER
         }
         ServerMessage::DnetDeliveryReport(payload) => {
             if let Some(report) = payload.report {
                 writer.write_u32(report);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_DNET_DELIVERY_REPORT
         }
         ServerMessage::DnetChildDepth(payload) => {
             if let Some(depth) = payload.depth {
                 writer.write_u32(depth);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_DNET_CHILD_DEPTH
         }
         ServerMessage::Flood(payload) => {
             if let Some(flood_code) = payload.flood_code {
                 writer.write_u32(flood_code);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_FLOOD
         }
         ServerMessage::MessageUserIncoming(payload) => {
@@ -2264,7 +2264,7 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_u32(payload.token);
             writer.write_string(&payload.username);
             writer.write_string(&payload.connection_type);
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_CONNECT_TO_CLIENT
         }
         ServerMessage::SendDistributions(payload) => {
@@ -2281,7 +2281,7 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
                 writer.write_string(&mapping.child_username);
                 writer.write_string(&mapping.parent_username);
             }
-            writer.write_raw_bytes(&payload.raw_tail);
+            writer.write_raw_bytes(&payload.extension_reserved_bytes);
             CODE_SM_CHILD_PARENT_MAP
         }
         ServerMessage::DnetMessage(payload) => {
@@ -4402,7 +4402,7 @@ pub fn build_connect_to_client_request(token: u32, username: &str, connection_ty
         token,
         username: username.to_owned(),
         connection_type: connection_type.to_owned(),
-        raw_tail: Vec::new(),
+        extension_reserved_bytes: Vec::new(),
     }))
 }
 
@@ -4479,7 +4479,7 @@ pub fn build_remove_room_operatorship_request(room: &str) -> Frame {
     encode_server_message(&ServerMessage::RemoveRoomOperatorship(
         RoomOperatorshipRevocationPayload {
             room: Some(room.to_owned()),
-            raw_tail: Vec::new(),
+            extension_reserved_bytes: Vec::new(),
         },
     ))
 }
@@ -4488,7 +4488,7 @@ pub fn build_remove_own_room_operatorship_request(room: &str) -> Frame {
     encode_server_message(&ServerMessage::RemoveOwnRoomOperatorship(
         RoomOperatorshipRevocationPayload {
             room: Some(room.to_owned()),
-            raw_tail: Vec::new(),
+            extension_reserved_bytes: Vec::new(),
         },
     ))
 }
@@ -4496,21 +4496,21 @@ pub fn build_remove_own_room_operatorship_request(room: &str) -> Frame {
 pub fn build_dnet_level_request(level: u32) -> Frame {
     encode_server_message(&ServerMessage::DnetLevel(DnetLevelPayload {
         level: Some(level),
-        raw_tail: Vec::new(),
+        extension_reserved_bytes: Vec::new(),
     }))
 }
 
 pub fn build_dnet_group_leader_request(username: &str) -> Frame {
     encode_server_message(&ServerMessage::DnetGroupLeader(DnetGroupLeaderPayload {
         username: Some(username.to_owned()),
-        raw_tail: Vec::new(),
+        extension_reserved_bytes: Vec::new(),
     }))
 }
 
 pub fn build_dnet_child_depth_request(depth: u32) -> Frame {
     encode_server_message(&ServerMessage::DnetChildDepth(DnetChildDepthPayload {
         depth: Some(depth),
-        raw_tail: Vec::new(),
+        extension_reserved_bytes: Vec::new(),
     }))
 }
 
@@ -4518,7 +4518,7 @@ pub fn build_dnet_delivery_report_request(report: u32) -> Frame {
     encode_server_message(&ServerMessage::DnetDeliveryReport(
         DnetDeliveryReportPayload {
             report: Some(report),
-            raw_tail: Vec::new(),
+            extension_reserved_bytes: Vec::new(),
         },
     ))
 }
@@ -4526,7 +4526,7 @@ pub fn build_dnet_delivery_report_request(report: u32) -> Frame {
 pub fn build_flood_request(flood_code: u32) -> Frame {
     encode_server_message(&ServerMessage::Flood(FloodPayload {
         flood_code: Some(flood_code),
-        raw_tail: Vec::new(),
+        extension_reserved_bytes: Vec::new(),
     }))
 }
 
@@ -5289,36 +5289,36 @@ mod tests {
             })),
             ProtocolMessage::Server(ServerMessage::DnetLevel(DnetLevelPayload {
                 level: Some(1),
-                raw_tail: Vec::new(),
+                extension_reserved_bytes: Vec::new(),
             })),
             ProtocolMessage::Server(ServerMessage::DnetGroupLeader(DnetGroupLeaderPayload {
                 username: Some("branch-root".into()),
-                raw_tail: Vec::new(),
+                extension_reserved_bytes: Vec::new(),
             })),
             ProtocolMessage::Server(ServerMessage::DnetDeliveryReport(
                 DnetDeliveryReportPayload {
                     report: Some(3),
-                    raw_tail: Vec::new(),
+                    extension_reserved_bytes: Vec::new(),
                 },
             )),
             ProtocolMessage::Server(ServerMessage::DnetChildDepth(DnetChildDepthPayload {
                 depth: Some(4),
-                raw_tail: Vec::new(),
+                extension_reserved_bytes: Vec::new(),
             })),
             ProtocolMessage::Server(ServerMessage::Flood(FloodPayload {
                 flood_code: Some(5),
-                raw_tail: Vec::new(),
+                extension_reserved_bytes: Vec::new(),
             })),
             ProtocolMessage::Server(ServerMessage::RemoveRoomOperatorship(
                 RoomOperatorshipRevocationPayload {
                     room: Some("private-room".into()),
-                    raw_tail: Vec::new(),
+                    extension_reserved_bytes: Vec::new(),
                 },
             )),
             ProtocolMessage::Server(ServerMessage::RemoveOwnRoomOperatorship(
                 RoomOperatorshipRevocationPayload {
                     room: Some("private-room".into()),
-                    raw_tail: Vec::new(),
+                    extension_reserved_bytes: Vec::new(),
                 },
             )),
             ProtocolMessage::Server(ServerMessage::JoinGlobalRoom(GlobalRoomTogglePayload {
@@ -5958,7 +5958,7 @@ mod tests {
         assert_eq!(connect_payload.token, 9);
         assert_eq!(connect_payload.username, "bob");
         assert_eq!(connect_payload.connection_type, "P");
-        assert!(connect_payload.raw_tail.is_empty());
+        assert!(connect_payload.extension_reserved_bytes.is_empty());
 
         let send_distributions =
             decode_server_message(CODE_SM_SEND_DISTRIBUTIONS, &[1]).expect("decode distributions");
@@ -5992,7 +5992,7 @@ mod tests {
         assert_eq!(map_payload.mappings.len(), 1);
         assert_eq!(map_payload.mappings[0].child_username, "child-a");
         assert_eq!(map_payload.mappings[0].parent_username, "parent-a");
-        assert!(map_payload.raw_tail.is_empty());
+        assert!(map_payload.extension_reserved_bytes.is_empty());
 
         let dnet_message =
             decode_server_message(CODE_SM_DNET_MESSAGE, &[3, 0xaa, 0xbb]).expect("decode dnet");
@@ -6092,7 +6092,7 @@ mod tests {
             panic!("expected dnet level payload");
         };
         assert_eq!(level_payload.level, Some(2));
-        assert!(level_payload.raw_tail.is_empty());
+        assert!(level_payload.extension_reserved_bytes.is_empty());
 
         let leader_frame = build_dnet_group_leader_request("branch-root");
         let leader_message = decode_server_message(leader_frame.code, &leader_frame.payload)
@@ -6101,7 +6101,7 @@ mod tests {
             panic!("expected dnet group leader payload");
         };
         assert_eq!(leader_payload.username.as_deref(), Some("branch-root"));
-        assert!(leader_payload.raw_tail.is_empty());
+        assert!(leader_payload.extension_reserved_bytes.is_empty());
 
         let depth_frame = build_dnet_child_depth_request(3);
         let depth_message = decode_server_message(depth_frame.code, &depth_frame.payload)
@@ -6110,7 +6110,7 @@ mod tests {
             panic!("expected dnet child depth payload");
         };
         assert_eq!(depth_payload.depth, Some(3));
-        assert!(depth_payload.raw_tail.is_empty());
+        assert!(depth_payload.extension_reserved_bytes.is_empty());
 
         let delivery_frame = build_dnet_delivery_report_request(7);
         let delivery_message = decode_server_message(delivery_frame.code, &delivery_frame.payload)
@@ -6119,7 +6119,7 @@ mod tests {
             panic!("expected dnet delivery report payload");
         };
         assert_eq!(delivery_payload.report, Some(7));
-        assert!(delivery_payload.raw_tail.is_empty());
+        assert!(delivery_payload.extension_reserved_bytes.is_empty());
 
         let flood_frame = build_flood_request(9);
         let flood_message =
@@ -6128,7 +6128,7 @@ mod tests {
             panic!("expected flood payload");
         };
         assert_eq!(flood_payload.flood_code, Some(9));
-        assert!(flood_payload.raw_tail.is_empty());
+        assert!(flood_payload.extension_reserved_bytes.is_empty());
 
         let remove_frame = build_remove_room_operatorship_request("private-room");
         let remove_message = decode_server_message(remove_frame.code, &remove_frame.payload)
@@ -6137,7 +6137,7 @@ mod tests {
             panic!("expected remove room operatorship payload");
         };
         assert_eq!(remove_payload.room.as_deref(), Some("private-room"));
-        assert!(remove_payload.raw_tail.is_empty());
+        assert!(remove_payload.extension_reserved_bytes.is_empty());
 
         let remove_own_frame = build_remove_own_room_operatorship_request("private-room");
         let remove_own_message =
@@ -6148,7 +6148,7 @@ mod tests {
             panic!("expected remove own room operatorship payload");
         };
         assert_eq!(remove_own_payload.room.as_deref(), Some("private-room"));
-        assert!(remove_own_payload.raw_tail.is_empty());
+        assert!(remove_own_payload.extension_reserved_bytes.is_empty());
     }
 
     #[test]
