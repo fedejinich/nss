@@ -10,6 +10,7 @@ This site is the canonical project memory for protocol mapping, runtime verifica
 - [Codebase Visualizer](state/codebase-visualizer.md)
 - [Verification Status](state/verification-status.md)
 - [S5A Closure Audit](state/s5a-closure-audit.md)
+- [S6 Opaque-Tail Plan](state/opaque-tail-plan.md)
 - [PR Catalog](pr/index.md)
 
 ## Core Rules
@@ -32,6 +33,7 @@ This site is the canonical project memory for protocol mapping, runtime verifica
 - `docs/state/project-dashboard-data.json`
 - `docs/state/codebase-graph.json`
 - `docs/state/s5a-closure-audit.json`
+- `docs/state/opaque-tail-report.json`
 - `docs/verification/evidence-ledger.md`
 - `docs/re/static/detangling.md`
 
@@ -45,6 +47,7 @@ python3 tools/protocol/generate_protocol_matrix.py
 python3 tools/state/generate_dashboard_data.py
 python3 tools/state/generate_codebase_graph.py
 python3 tools/state/verify_s5a_closure.py
+python3 tools/state/report_opaque_tail.py
 python3 tools/docs/generate_pr_index.py
 scripts/sync_state_dashboards.sh
 scripts/run_diff_verify.sh

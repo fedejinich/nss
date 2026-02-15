@@ -12,6 +12,7 @@ nav = [
   { "Codebase Visualizer" = "state/codebase-visualizer.md" },
   { "Verification Status" = "state/verification-status.md" },
   { "S5A Closure Audit" = "state/s5a-closure-audit.md" },
+  { "S6 Opaque-Tail Plan" = "state/opaque-tail-plan.md" },
   { "Protocol Backlog" = "state/protocol-backlog.md" },
   { "Evidence Ledger" = "verification/evidence-ledger.md" },
   { "PR Catalog" = "pr/index.md" },

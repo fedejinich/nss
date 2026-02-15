@@ -32,6 +32,7 @@
 - Stage 5H complete: typed runtime hardening wave 7 for system-control payloads (`28/32/130`) with authenticated runtime evidence.
 - Stage 6A complete: dashboard-first KB UX with visual project dashboard, interactive codebase visualizer, and collapsed PR catalog navigation.
 - Stage 6B complete: executable closure audit for S5A hardening objectives with regression enforcement and state-sync integration.
+- Stage 6C complete: executable opaque-tail baseline report and batch plan to drive S6 typed-promotion work.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -150,6 +151,23 @@
    - runtime captures for parent/distributed and global/distributed control
    - decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER`
    - residual hypotheses closed for `SM_GET_USER_PRIVILEGES_STATUS` and `SM_UPLOAD_SPEED`
+
+## Stage 6C Completion
+
+1. Added executable opaque-tail baseline report generator:
+   - `tools/state/report_opaque_tail.py`
+2. Added generated opaque-tail inventory artifact:
+   - `docs/state/opaque-tail-report.json`
+3. Added S6 plan page for batch execution:
+   - `docs/state/opaque-tail-plan.md`
+4. Added regression coverage:
+   - `tests/state/test_opaque_tail_report.py`
+5. Wired opaque-tail report generation into sync workflow:
+   - `scripts/sync_state_dashboards.sh`
+6. Published execution batches for S6 implementation:
+   - `S6-Batch-1`: `41`, `61`, `67`, `70`
+   - `S6-Batch-2`: `71`, `73`, `82`, `93`, `102`
+   - `S6-Batch-3`: `114`, `115`, `116`, `138`, `141`, `142`
 
 ## Stage 5A Completion
 
