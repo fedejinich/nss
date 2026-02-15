@@ -26,3 +26,4 @@ Project-level evidence summaries and provenance tracking.
 - `evidence/reverse/disasm/transfer_on_file_request.txt`
 - `evidence/reverse/message_codes_jump_table.md`
 - `captures/redacted/login-peer-message/official_frames.hex`
+- `captures/redacted/login-room-term-control/official_frames.hex`

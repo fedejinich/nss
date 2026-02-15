@@ -214,7 +214,27 @@ Status: completed in S4K with authoritative static mapping evidence from jump-ta
   - `mapped_not_implemented=0`
   - `missing=0`
 
-## Next Candidate Stage (S5C) - Typed Runtime Hardening Wave 2
+## Completed in S5C (Typed Runtime Hardening Wave 2)
+
+- Runtime-promoted typed control messages:
+  - `SM_ADD_CHATROOM` (`10`)
+  - `SM_ADD_LIKE_TERM` (`51`)
+  - `SM_REMOVE_LIKE_TERM` (`52`)
+- Runtime scenario added:
+  - `login-room-term-control`
+- SDK/CLI additions:
+  - `SessionClient::add_chatroom(...)`
+  - `SessionClient::add_like_term(...)`
+  - `SessionClient::remove_like_term(...)`
+  - `soul-cli room add --room ...`
+  - `soul-cli discover add-like-term --term ...`
+  - `soul-cli discover remove-like-term --term ...`
+- Coverage baseline preserved:
+  - `implemented+mapped=131`
+  - `mapped_not_implemented=0`
+  - `missing=0`
+
+## Next Candidate Stage (S5D) - Typed Runtime Hardening Wave 3
 
 Target focus:
 

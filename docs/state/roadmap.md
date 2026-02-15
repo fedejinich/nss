@@ -30,8 +30,9 @@ gantt
     S4L Mapped-not-implemented closure to full protocol coverage :done, s4l, after s4k, 2d
     S5A Typed runtime hardening for opaque control payloads :done, s5a, after s4l, 2d
     S5B Soulseek UI + functionality audit (research/evidence) :done, s5b, after s4l, 1d
+    S5C Typed runtime hardening wave 2 (room/term control) :done, s5c, after s5a, 1d
     section Planned
-    S5C Typed runtime hardening wave 2 (global/distributed remainder) :crit, s5c, after s5a, 2d
+    S5D Typed runtime hardening wave 3 (global/distributed remainder) :crit, s5d, after s5c, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -124,7 +125,7 @@ graph TD
 | S4L | mapped-not-implemented closure to full protocol coverage | done | `docs/pr/0016-s4l-mapped-not-implemented-closure.md` | start S5A typed-hardening batch |
 | S5A | typed runtime hardening wave 1 | done | `docs/pr/0017-s5a-typed-runtime-hardening.md` | start S5C typed-hardening wave 2 |
 | S5B | Soulseek UI + functionality exhaustive audit (research/evidence) | done | `docs/state/soulseek-feature-inventory.md` | none |
-| S5C | typed runtime hardening wave 2 | planned | `docs/state/protocol-backlog.md` | start S5C plan |
+| S5C | typed runtime hardening wave 2 | done | `docs/pr/0018-s5c-typed-runtime-hardening-wave2.md` | start S5D typed-hardening wave 3 |
 
 ## S4B Target Contract
 
@@ -222,12 +223,12 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S5C Preview (Not Started)
+## S5D Preview (Planned)
 
 Target focus for the next stage:
 
-1. Replace additional `OpaqueServerControlPayload` messages with typed payload schemas based on runtime evidence.
-2. Add runtime capture scenarios for global/distributed control families still encoded as opaque payloads.
+1. Replace additional `OpaqueServerControlPayload` messages with typed payload schemas based on runtime evidence from global/distributed control families.
+2. Add runtime capture scenarios for remaining distributed-control families still encoded as opaque payloads.
 3. Preserve full matrix coverage baseline (`implemented+mapped=131`, `missing=0`) while increasing typed semantic depth.
 
 ## S5B Target Contract (Executed)
