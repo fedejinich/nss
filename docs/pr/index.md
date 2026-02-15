@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `21`
+Total PR docs: `22`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -142,6 +142,13 @@ Total PR docs: `21`
 <summary>S6A (1 PRs)</summary>
 
 - [0020-s6a-dashboard-codebase-visualizer-pr-catalog.md - S6a Dashboard Codebase Visualizer Pr Catalog](0020-s6a-dashboard-codebase-visualizer-pr-catalog.md)
+
+</details>
+
+<details>
+<summary>S6B-S5A (1 PRs)</summary>
+
+- [0021-s6b-s5a-closure-hardening-audit.md - S6b S5a Closure Hardening Audit](0021-s6b-s5a-closure-hardening-audit.md)
 
 </details>
 

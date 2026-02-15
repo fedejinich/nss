@@ -1,5 +1,92 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## Stage 6B - S5A Closure Hardening Audit
+
+Dependency graph:
+
+- `S6B-W01 -> S6B-W02`
+- `S6B-W02 -> S6B-T01`
+- `S6B-T01 -> S6B-T02`
+- `S6B-T02 -> S6B-T03`
+- `S6B-T03 -> S6B-T04`
+- `S6B-T04 -> S6B-T05`
+- `S6B-T05 -> S6B-T06`
+- `S6B-T06 -> S6B-T07`
+- `S6B-T07 -> S6B-Q01`
+- `S6B-Q01 -> S6B-Q02`
+- `S6B-Q02 -> S6B-T08`
+
+Tasks:
+
+- id: S6B-W01
+  description: Start from updated `main` and create branch `codex/s6b-s5a-runtime-closure`
+  status: done
+  depends_on: []
+
+- id: S6B-W02
+  description: Create PR doc scaffold `docs/pr/0021-s6b-s5a-closure-hardening-audit.md`
+  status: done
+  depends_on: [S6B-W01]
+
+- id: S6B-T01
+  description: Implement executable S5A closure verifier (`tools/state/verify_s5a_closure.py`)
+  status: done
+  depends_on: [S6B-W02]
+
+- id: S6B-T02
+  description: Generate closure artifact `docs/state/s5a-closure-audit.json`
+  status: done
+  depends_on: [S6B-T01]
+
+- id: S6B-T03
+  description: Publish closure audit page `docs/state/s5a-closure-audit.md`
+  status: done
+  depends_on: [S6B-T02]
+
+- id: S6B-T04
+  description: Add regression test `tests/state/test_s5a_closure_audit.py`
+  status: done
+  depends_on: [S6B-T03]
+
+- id: S6B-T05
+  description: Wire closure verification into `scripts/sync_state_dashboards.sh`
+  status: done
+  depends_on: [S6B-T04]
+
+- id: S6B-T06
+  description: Sync stage/roadmap/status/backlog/index/nav artifacts for S6B closure
+  status: done
+  depends_on: [S6B-T05]
+
+- id: S6B-T07
+  description: Run validation gates (`kb_validate`, `run_regression`, `zensical build`)
+  status: done
+  depends_on: [S6B-T06]
+
+- id: S6B-Q01
+  description: Review loop round 1 (security best-practices + code-simplifier)
+  status: done
+  depends_on: [S6B-T07]
+
+- id: S6B-Q02
+  description: Review loop round 2 (security best-practices + code-simplifier)
+  status: done
+  depends_on: [S6B-Q01]
+
+- id: S6B-T08
+  description: Finalize merge-ready PR and retrospective for S6B
+  status: done
+  depends_on: [S6B-Q02]
+
+Notes:
+
+- S6B introduces no new protocol messages; it hardens closure guarantees for already completed S5A objectives.
+- Closure scope validated:
+  - opaque -> typed runtime evidence
+  - runtime captures for parent/distributed and global/distributed control
+  - decompression-aware parser for `PM_SHARED_FILES_IN_FOLDER`
+  - residual hypothesis closure for `SM_GET_USER_PRIVILEGES_STATUS` and `SM_UPLOAD_SPEED`
+
 ## Stage 6A - Visual Dashboard + Codebase Visualizer + Collapsed PR Catalog
 
 Dependency graph:

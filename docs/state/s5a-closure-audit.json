@@ -1,0 +1,148 @@
+{
+  "generated_unix_secs": 1771144468,
+  "stage": "S5A closure verification",
+  "overall_ok": true,
+  "objectives": {
+    "opaque_to_typed_runtime_evidence": {
+      "ok": true,
+      "details": [
+        {
+          "message": "SM_SET_PARENT_MIN_SPEED",
+          "ok": true,
+          "confidence": "high",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "checks": {
+            "confidence_high": true,
+            "runtime_source": true,
+            "source_file_exists": true
+          }
+        },
+        {
+          "message": "SM_SET_PARENT_SPEED_CONNECTION_RATIO",
+          "ok": true,
+          "confidence": "high",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "checks": {
+            "confidence_high": true,
+            "runtime_source": true,
+            "source_file_exists": true
+          }
+        },
+        {
+          "message": "SM_GET_ROOM_TICKER",
+          "ok": true,
+          "confidence": "high",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "checks": {
+            "confidence_high": true,
+            "runtime_source": true,
+            "source_file_exists": true
+          }
+        },
+        {
+          "message": "SM_UPLOAD_SPEED",
+          "ok": true,
+          "confidence": "high",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "checks": {
+            "confidence_high": true,
+            "runtime_source": true,
+            "source_file_exists": true
+          }
+        },
+        {
+          "message": "SM_GET_USER_PRIVILEGES_STATUS",
+          "ok": true,
+          "confidence": "high",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "checks": {
+            "confidence_high": true,
+            "runtime_source": true,
+            "source_file_exists": true
+          }
+        }
+      ]
+    },
+    "global_distributed_runtime_captures": {
+      "ok": true,
+      "details": [
+        {
+          "run_id": "login-parent-distributed-control",
+          "ok": true,
+          "checks": {
+            "run_dir_exists": true,
+            "required_files_exist": true,
+            "source_type_runtime": true
+          },
+          "source_type": "runtime_socket_server_authenticated"
+        },
+        {
+          "run_id": "login-global-room-control",
+          "ok": true,
+          "checks": {
+            "run_dir_exists": true,
+            "required_files_exist": true,
+            "source_type_runtime": true
+          },
+          "source_type": "runtime_socket_server_authenticated"
+        }
+      ]
+    },
+    "pm_shared_files_decompression_parser": {
+      "ok": true,
+      "checks": {
+        "has_decode_helper": true,
+        "has_decompress_function": true,
+        "has_zlib_context": true,
+        "has_binary_entries_test": true,
+        "has_utf8_entries_test": true,
+        "has_oversized_guard_test": true
+      },
+      "message_row": {
+        "message": "PM_SHARED_FILES_IN_FOLDER",
+        "ok": true,
+        "confidence": "high",
+        "source": "captures/redacted/peer-folder-local/official_frames.hex",
+        "checks": {
+          "confidence_high": true,
+          "runtime_source": true,
+          "source_file_exists": true
+        }
+      }
+    },
+    "residual_hypotheses_closed": {
+      "ok": true,
+      "details": [
+        {
+          "message": "SM_GET_USER_PRIVILEGES_STATUS",
+          "ok": true,
+          "confidence": "high",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "checks": {
+            "confidence_high": true,
+            "runtime_parent_distributed_source": true,
+            "source_file_exists": true,
+            "notes_non_empty": true
+          }
+        },
+        {
+          "message": "SM_UPLOAD_SPEED",
+          "ok": true,
+          "confidence": "high",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "checks": {
+            "confidence_high": true,
+            "runtime_parent_distributed_source": true,
+            "source_file_exists": true,
+            "notes_non_empty": true
+          }
+        }
+      ]
+    }
+  },
+  "inputs": {
+    "message_map": "analysis/ghidra/maps/message_map.csv",
+    "protocol_lib": "rust/protocol/src/lib.rs",
+    "capture_base": "captures/redacted"
+  }
+}

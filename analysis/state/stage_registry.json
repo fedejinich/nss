@@ -252,12 +252,24 @@
       "notes": "Introduce dashboard-first navigation and high-signal project observability views in Zensical."
     },
     {
+      "id": "S6B",
+      "title": "S5A closure hardening audit and regression gate",
+      "status": "done",
+      "owner_area": "state/tooling/verification",
+      "depends_on": [
+        "S6A"
+      ],
+      "evidence": "docs/pr/0021-s6b-s5a-closure-hardening-audit.md",
+      "next_gate": "S6",
+      "notes": "Adds an executable closure audit for S5A objectives (runtime evidence, decompression parser, residual hypotheses) with regression coverage."
+    },
+    {
       "id": "S6",
       "title": "Opaque-tail reduction for remaining generic and legacy control payloads",
       "status": "planned",
       "owner_area": "protocol/runtime/verification",
       "depends_on": [
-        "S6A"
+        "S6B"
       ],
       "evidence": "docs/state/roadmap.md",
       "next_gate": "S6 implementation",

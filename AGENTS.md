@@ -91,6 +91,7 @@ When stage status, protocol coverage, or PR documentation changes:
    - `docs/state/protocol-matrix.json`
    - `docs/state/project-dashboard-data.json`
    - `docs/state/codebase-graph.json`
+   - `docs/state/s5a-closure-audit.json`
    - `docs/pr/index.md`
 3. Keep `docs/state/project-dashboard.html` and `docs/state/codebase-visualizer.html` aligned with generated JSON schemas.
 4. Keep individual PR docs in `docs/pr/*.md` and expose only `docs/pr/index.md` in top-level Zensical navigation.

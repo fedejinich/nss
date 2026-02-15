@@ -31,6 +31,7 @@
 - Stage 5G complete: typed runtime hardening wave 6 for text-control payloads (`58/62/63/66/117/118`) with authenticated runtime evidence.
 - Stage 5H complete: typed runtime hardening wave 7 for system-control payloads (`28/32/130`) with authenticated runtime evidence.
 - Stage 6A complete: dashboard-first KB UX with visual project dashboard, interactive codebase visualizer, and collapsed PR catalog navigation.
+- Stage 6B complete: executable closure audit for S5A hardening objectives with regression enforcement and state-sync integration.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -131,6 +132,24 @@
    - `scripts/sync_state_dashboards.sh`
 6. Curated Zensical nav for high-signal state surfaces:
    - dashboard, roadmap, protocol matrix, visualizer, verification status, and PR catalog.
+
+## Stage 6B Completion
+
+1. Added executable S5A closure verifier:
+   - `tools/state/verify_s5a_closure.py`
+2. Added generated closure artifact:
+   - `docs/state/s5a-closure-audit.json`
+3. Added closure audit documentation page:
+   - `docs/state/s5a-closure-audit.md`
+4. Added regression coverage:
+   - `tests/state/test_s5a_closure_audit.py`
+5. Wired closure verification into state sync workflow:
+   - `scripts/sync_state_dashboards.sh`
+6. Verified closure objectives are all green:
+   - opaque -> typed runtime evidence for S5A set
+   - runtime captures for parent/distributed and global/distributed control
+   - decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER`
+   - residual hypotheses closed for `SM_GET_USER_PRIVILEGES_STATUS` and `SM_UPLOAD_SPEED`
 
 ## Stage 5A Completion
 

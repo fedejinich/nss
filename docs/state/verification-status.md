@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, and Stage 6A dashboard-state observability artifacts.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, and Stage 6B executable closure gates.
 
 ## Validation Gates
 
@@ -141,6 +141,23 @@ Protocol matrix status:
   - `tests/state/test_dashboard_generators.py`
   - `tests/docs/test_pr_index.py`
 - `run_regression.sh` includes all above tests and remains green.
+
+## Stage 6B S5A Closure Verification
+
+- Closure verifier:
+  - `tools/state/verify_s5a_closure.py`
+- Generated report:
+  - `docs/state/s5a-closure-audit.json`
+  - `docs/state/s5a-closure-audit.md`
+- Enforced objectives:
+  1. Opaque -> typed runtime evidence closure for S5A target message set.
+  2. Runtime capture closure for `login-parent-distributed-control` and `login-global-room-control`.
+  3. Decompression-aware parser and guard-test closure for `PM_SHARED_FILES_IN_FOLDER`.
+  4. Residual hypothesis closure for `SM_GET_USER_PRIVILEGES_STATUS` and `SM_UPLOAD_SPEED`.
+- Regression coverage:
+  - `tests/state/test_s5a_closure_audit.py`
+- Workflow integration:
+  - `scripts/sync_state_dashboards.sh` now regenerates closure report together with dashboard artifacts.
 
 ## Stage 5B Verification Status
 

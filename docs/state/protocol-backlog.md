@@ -13,6 +13,16 @@ Maintain full protocol coverage (`implemented+mapped=131`) while replacing opaqu
   - `docs/state/codebase-graph.json`
   - `docs/pr/index.md`
 
+## Stage 6B Note (S5A Closure Hardening Audit)
+
+- Stage 6B introduced no protocol message additions or removals.
+- Stage 6B added executable closure verification for S5A objectives:
+  - `tools/state/verify_s5a_closure.py`
+  - `docs/state/s5a-closure-audit.json`
+  - `docs/state/s5a-closure-audit.md`
+- Stage 6B also added regression coverage:
+  - `tests/state/test_s5a_closure_audit.py`
+
 ## Stage 5B Note (UI/Feature Audit)
 
 - Stage 5B added no new protocol codes/messages.

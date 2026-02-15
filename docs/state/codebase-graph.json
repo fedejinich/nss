@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771141928,
+  "generated_unix_secs": 1771144468,
   "repo_root": "/Users/void_rsk/Projects/soul-dec",
   "scope": {
     "included_top_level_dirs": [
@@ -48,11 +48,11 @@
   "stats": {
     "domain_count": 9,
     "dir_count": 48,
-    "file_count": 199,
-    "node_count": 257,
-    "edge_count": 256,
-    "total_loc": 108462,
-    "total_size_bytes": 3790949
+    "file_count": 204,
+    "node_count": 262,
+    "edge_count": 261,
+    "total_loc": 109228,
+    "total_size_bytes": 3816643
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 108462,
-      "size_bytes": 3790949,
+      "loc": 109228,
+      "size_bytes": 3816643,
       "extension": null,
       "domain": "root"
     },
@@ -70,8 +70,8 @@
       "label": "analysis",
       "kind": "domain",
       "path": "analysis",
-      "loc": 35764,
-      "size_bytes": 516150,
+      "loc": 35776,
+      "size_bytes": 516618,
       "extension": null,
       "domain": "analysis"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 13046,
-      "size_bytes": 477269,
+      "loc": 13448,
+      "size_bytes": 490456,
       "extension": null,
       "domain": "docs"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 2322,
-      "size_bytes": 74308,
+      "loc": 2411,
+      "size_bytes": 76763,
       "extension": null,
       "domain": "repo-root"
     },
@@ -130,8 +130,8 @@
       "label": "scripts",
       "kind": "domain",
       "path": "scripts",
-      "loc": 508,
-      "size_bytes": 17129,
+      "loc": 509,
+      "size_bytes": 17185,
       "extension": null,
       "domain": "scripts"
     },
@@ -140,8 +140,8 @@
       "label": "tests",
       "kind": "domain",
       "path": "tests",
-      "loc": 1286,
-      "size_bytes": 51141,
+      "loc": 1312,
+      "size_bytes": 52129,
       "extension": null,
       "domain": "tests"
     },
@@ -150,8 +150,8 @@
       "label": "tools",
       "kind": "domain",
       "path": "tools",
-      "loc": 7296,
-      "size_bytes": 243434,
+      "loc": 7532,
+      "size_bytes": 251974,
       "extension": null,
       "domain": "tools"
     },
@@ -160,8 +160,8 @@
       "label": "analysis",
       "kind": "dir",
       "path": "analysis",
-      "loc": 35764,
-      "size_bytes": 516150,
+      "loc": 35776,
+      "size_bytes": 516618,
       "extension": null,
       "domain": "analysis"
     },
@@ -230,8 +230,8 @@
       "label": "state",
       "kind": "dir",
       "path": "analysis/state",
-      "loc": 267,
-      "size_bytes": 8684,
+      "loc": 279,
+      "size_bytes": 9152,
       "extension": null,
       "domain": "analysis"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 13046,
-      "size_bytes": 477269,
+      "loc": 13448,
+      "size_bytes": 490456,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 2046,
-      "size_bytes": 67899,
+      "loc": 2131,
+      "size_bytes": 70795,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 9301,
-      "size_bytes": 336951,
+      "loc": 9615,
+      "size_bytes": 347112,
       "extension": null,
       "domain": "docs"
     },
@@ -500,8 +500,8 @@
       "label": "scripts",
       "kind": "dir",
       "path": "scripts",
-      "loc": 508,
-      "size_bytes": 17129,
+      "loc": 509,
+      "size_bytes": 17185,
       "extension": null,
       "domain": "scripts"
     },
@@ -510,8 +510,8 @@
       "label": "tests",
       "kind": "dir",
       "path": "tests",
-      "loc": 1286,
-      "size_bytes": 51141,
+      "loc": 1312,
+      "size_bytes": 52129,
       "extension": null,
       "domain": "tests"
     },
@@ -560,8 +560,8 @@
       "label": "state",
       "kind": "dir",
       "path": "tests/state",
-      "loc": 89,
-      "size_bytes": 3225,
+      "loc": 115,
+      "size_bytes": 4213,
       "extension": null,
       "domain": "tests"
     },
@@ -570,8 +570,8 @@
       "label": "tools",
       "kind": "dir",
       "path": "tools",
-      "loc": 7296,
-      "size_bytes": 243434,
+      "loc": 7532,
+      "size_bytes": 251974,
       "extension": null,
       "domain": "tools"
     },
@@ -630,8 +630,8 @@
       "label": "state",
       "kind": "dir",
       "path": "tools/state",
-      "loc": 396,
-      "size_bytes": 12205,
+      "loc": 632,
+      "size_bytes": 20745,
       "extension": null,
       "domain": "tools"
     },
@@ -640,8 +640,8 @@
       "label": "AGENTS.md",
       "kind": "file",
       "path": "AGENTS.md",
-      "loc": 141,
-      "size_bytes": 6640,
+      "loc": 142,
+      "size_bytes": 6681,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -660,8 +660,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 2013,
-      "size_bytes": 63293,
+      "loc": 2100,
+      "size_bytes": 65649,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -770,8 +770,8 @@
       "label": "stage_registry.json",
       "kind": "file",
       "path": "analysis/state/stage_registry.json",
-      "loc": 267,
-      "size_bytes": 8684,
+      "loc": 279,
+      "size_bytes": 9152,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -790,8 +790,8 @@
       "label": "index.md",
       "kind": "file",
       "path": "docs/index.md",
-      "loc": 50,
-      "size_bytes": 1673,
+      "loc": 53,
+      "size_bytes": 1803,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1006,12 +1006,22 @@
       "domain": "docs"
     },
     {
+      "id": "file:docs/pr/0021-s6b-s5a-closure-hardening-audit.md",
+      "label": "0021-s6b-s5a-closure-hardening-audit.md",
+      "kind": "file",
+      "path": "docs/pr/0021-s6b-s5a-closure-hardening-audit.md",
+      "loc": 78,
+      "size_bytes": 2718,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
       "id": "file:docs/pr/index.md",
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 152,
-      "size_bytes": 3690,
+      "loc": 159,
+      "size_bytes": 3868,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1090,8 +1100,8 @@
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 3911,
-      "size_bytes": 104156,
+      "loc": 3986,
+      "size_bytes": 106241,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1140,8 +1150,8 @@
       "label": "project-dashboard-data.json",
       "kind": "file",
       "path": "docs/state/project-dashboard-data.json",
-      "loc": 384,
-      "size_bytes": 10711,
+      "loc": 400,
+      "size_bytes": 11231,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1150,8 +1160,8 @@
       "label": "project-dashboard.html",
       "kind": "file",
       "path": "docs/state/project-dashboard.html",
-      "loc": 566,
-      "size_bytes": 16395,
+      "loc": 567,
+      "size_bytes": 16426,
       "extension": ".html",
       "domain": "docs"
     },
@@ -1160,8 +1170,8 @@
       "label": "project-status.md",
       "kind": "file",
       "path": "docs/state/project-status.md",
-      "loc": 362,
-      "size_bytes": 17844,
+      "loc": 381,
+      "size_bytes": 18749,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1170,8 +1180,8 @@
       "label": "protocol-backlog.md",
       "kind": "file",
       "path": "docs/state/protocol-backlog.md",
-      "loc": 311,
-      "size_bytes": 10777,
+      "loc": 321,
+      "size_bytes": 11165,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1200,8 +1210,28 @@
       "label": "roadmap.md",
       "kind": "file",
       "path": "docs/state/roadmap.md",
-      "loc": 275,
-      "size_bytes": 12519,
+      "loc": 277,
+      "size_bytes": 12754,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/s5a-closure-audit.json",
+      "label": "s5a-closure-audit.json",
+      "kind": "file",
+      "path": "docs/state/s5a-closure-audit.json",
+      "loc": 148,
+      "size_bytes": 4516,
+      "extension": ".json",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/s5a-closure-audit.md",
+      "label": "s5a-closure-audit.md",
+      "kind": "file",
+      "path": "docs/state/s5a-closure-audit.md",
+      "loc": 26,
+      "size_bytes": 675,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1230,8 +1260,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 167,
-      "size_bytes": 6939,
+      "loc": 184,
+      "size_bytes": 7745,
       "extension": ".md",
       "domain": "docs"
     },
@@ -2040,8 +2070,8 @@
       "label": "sync_state_dashboards.sh",
       "kind": "file",
       "path": "scripts/sync_state_dashboards.sh",
-      "loc": 11,
-      "size_bytes": 392,
+      "loc": 12,
+      "size_bytes": 448,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2242,6 +2272,16 @@
       "path": "tests/state/test_dashboard_generators.py",
       "loc": 45,
       "size_bytes": 1916,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/state/test_s5a_closure_audit.py",
+      "label": "test_s5a_closure_audit.py",
+      "kind": "file",
+      "path": "tests/state/test_s5a_closure_audit.py",
+      "loc": 26,
+      "size_bytes": 988,
       "extension": ".py",
       "domain": "tests"
     },
@@ -2616,12 +2656,22 @@
       "domain": "tools"
     },
     {
+      "id": "file:tools/state/verify_s5a_closure.py",
+      "label": "verify_s5a_closure.py",
+      "kind": "file",
+      "path": "tools/state/verify_s5a_closure.py",
+      "loc": 236,
+      "size_bytes": 8540,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
       "id": "file:zensical.toml",
       "label": "zensical.toml",
       "kind": "file",
       "path": "zensical.toml",
-      "loc": 28,
-      "size_bytes": 942,
+      "loc": 29,
+      "size_bytes": 1000,
       "extension": ".toml",
       "domain": "repo-root"
     }
@@ -2864,6 +2914,11 @@
     },
     {
       "source": "dir:docs/pr",
+      "target": "file:docs/pr/0021-s6b-s5a-closure-hardening-audit.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
       "target": "file:docs/pr/index.md",
       "kind": "contains"
     },
@@ -2965,6 +3020,16 @@
     {
       "source": "dir:docs/state",
       "target": "file:docs/state/roadmap.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/s5a-closure-audit.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/s5a-closure-audit.md",
       "kind": "contains"
     },
     {
@@ -3589,6 +3654,11 @@
     },
     {
       "source": "dir:tests/state",
+      "target": "file:tests/state/test_s5a_closure_audit.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/state",
       "target": "file:tests/state/test_stage_registry.py",
       "kind": "contains"
     },
@@ -3800,6 +3870,11 @@
     {
       "source": "dir:tools/state",
       "target": "file:tools/state/generate_dashboard_data.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/state",
+      "target": "file:tools/state/verify_s5a_closure.py",
       "kind": "contains"
     },
     {
