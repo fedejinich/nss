@@ -64,14 +64,14 @@ Observed result:
 
 ## Mandatory Blocking Review Loops
 
-1. Round 1 (pending on PR):
-   - `blockchain_protocol_engineer`
-   - `code_simplifier`
-   - `web3_security_review_expert`
-2. Round 2 (pending on PR after round-1 fixes):
-   - `blockchain_protocol_engineer`
-   - `code_simplifier`
-   - `web3_security_review_expert`
+1. Round 1:
+   - `blockchain_protocol_engineer`: accepted the stage shape and payload evolution path (`raw_tail` -> `extension_reserved_bytes`) with runtime-backed closure constraints.
+   - `code_simplifier`: accepted orchestration/TUI integration without additional simplification requests after compile/test pass.
+   - `web3_security_review_expert`: validated no plaintext credential logging and redacted-only committed runtime captures; flagged path-redaction hardening as S8C follow-up.
+2. Round 2:
+   - `blockchain_protocol_engineer`: no further protocol/directional decode issues after full gate rerun.
+   - `code_simplifier`: no additional maintainability findings after dashboard/state sync regeneration.
+   - `web3_security_review_expert`: no additional security findings after final regression/build rerun.
 
 ## Retrospective
 
