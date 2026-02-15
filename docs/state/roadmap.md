@@ -6,11 +6,11 @@ This roadmap tracks staged execution with protocol mapping first, then increment
 
 ## Visual Surfaces
 
-- [Project Dashboard](project-dashboard.html)
-- [Codebase Visualizer](codebase-visualizer.md)
-- [Protocol Matrix](protocol-matrix.md)
-- [S5A Closure Audit](s5a-closure-audit.md)
-- [S6 Opaque-Tail Plan](opaque-tail-plan.md)
+- [Project Dashboard](project-dashboard/)
+- [Codebase Visualizer](codebase-visualizer/)
+- [Protocol Matrix](protocol-matrix/)
+- [S5A Closure Audit](s5a-closure-audit/)
+- [S6 Opaque-Tail Plan](opaque-tail-plan/)
 
 ## Stage Timeline
 
@@ -47,8 +47,9 @@ gantt
     S6A Dashboard UX + codebase visualizer + PR catalog collapse :done, s6a, after s5h, 1d
     S6B S5A closure hardening audit + regression gate :done, s6b, after s6a, 1d
     S6C Opaque-tail executable baseline + batch plan :done, s6c, after s6b, 1d
+    S6D Opaque-tail typed batches execution :done, s6d, after s6c, 2d
     section Planned
-    S6 Opaque-tail reduction (remaining generic/dedicated controls) :crit, s6, after s6c, 2d
+    S6E Legacy dedicated opaque-variant reduction :crit, s6e, after s6d, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -150,6 +151,7 @@ graph TD
 | S6A | dashboard/state UX + codebase visualizer + collapsed PR catalog | done | `docs/pr/0020-s6a-dashboard-codebase-visualizer-pr-catalog.md` | start S6 opaque-tail reduction |
 | S6B | executable closure gate for S5A hardening objectives | done | `docs/pr/0021-s6b-s5a-closure-hardening-audit.md` | start S6 opaque-tail reduction |
 | S6C | opaque-tail executable inventory and batch plan baseline | done | `docs/pr/0022-s6c-opaque-tail-baseline-plan.md` | start S6 opaque-tail reduction |
+| S6D | opaque-tail typed batches execution (S6-Batch-1/2/3) | done | `docs/pr/0023-s6d-opaque-tail-typed-batches.md` | start S6E dedicated-opaque cleanup |
 
 ## S4B Target Contract
 
@@ -260,11 +262,19 @@ Execution result:
    - `login-system-control`
 3. Reduced generic opaque control bucket from `34` to `15` codes while preserving full protocol matrix closure.
 
-## S6 Preview (Planned)
+## S6 Completion Snapshot
 
-1. Continue typed promotion for remaining `OPAQUE_SERVER_CONTROL_CODES` closure (`15` codes).
-2. Revisit dedicated legacy opaque variants (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, distributed/flood tail) for runtime-backed schema promotion.
-3. Preserve matrix closure (`implemented+mapped=131`) and semantic diff parity gates.
+1. Executed S6 batches and promoted the generic opaque-tail closure set to typed payload coverage:
+   - Batch 1: `41`, `61`, `67`, `70`
+   - Batch 2: `71`, `73`, `82`, `93`, `102`
+   - Batch 3: `114`, `115`, `116`, `138`, `141`, `142`
+2. `OPAQUE_SERVER_CONTROL_CODES` generic closure is now `0`.
+3. Protocol matrix closure remains preserved (`implemented+mapped=131`) with semantic diff parity intact.
+
+## S6E Preview (Planned)
+
+1. Revisit dedicated legacy opaque variants (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, distributed/flood tail) for runtime-backed schema promotion.
+2. Keep matrix closure (`implemented+mapped=131`) and semantic parity gates green while reducing remaining legacy opaque branches.
 
 ## S5B Target Contract (Executed)
 

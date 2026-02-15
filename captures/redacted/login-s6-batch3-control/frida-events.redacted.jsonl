@@ -1,0 +1,6 @@
+{"ts": "2026-02-15T09:05:02+00:00", "event": "s6.typed-batch.probe", "batch": 3, "label": "SM_ROOM_TICKER_USER_ADDED", "wire_frame_count": 2, "code_counts": {"1": 1, "114": 1}, "warning": "[Errno 32] Broken pipe"}
+{"ts": "2026-02-15T09:05:03+00:00", "event": "s6.typed-batch.probe", "batch": 3, "label": "SM_ROOM_TICKER_USER_REMOVED", "wire_frame_count": 2, "code_counts": {"1": 1, "115": 1}, "warning": "[Errno 32] Broken pipe"}
+{"ts": "2026-02-15T09:05:04+00:00", "event": "s6.typed-batch.probe", "batch": 3, "label": "SM_SET_TICKER", "wire_frame_count": 2, "code_counts": {"1": 1, "116": 1}, "warning": "[Errno 32] Broken pipe"}
+{"ts": "2026-02-15T09:05:05+00:00", "event": "s6.typed-batch.probe", "batch": 3, "label": "SM_TRANSFER_ROOM_OWNERSHIP", "wire_frame_count": 2, "code_counts": {"1": 1, "138": 1}, "warning": "[Errno 32] Broken pipe"}
+{"ts": "2026-02-15T09:05:06+00:00", "event": "s6.typed-batch.probe", "batch": 3, "label": "SM_ENABLE_PRIVATE_ROOM_ADD", "wire_frame_count": 2, "code_counts": {"1": 1, "141": 1}, "warning": "[Errno 32] Broken pipe"}
+{"ts": "2026-02-15T09:05:06+00:00", "event": "s6.typed-batch.probe", "batch": 3, "label": "SM_CHANGE_PASSWORD", "wire_frame_count": 2, "code_counts": {"1": 1, "142": 1}, "warning": "[Errno 32] Broken pipe"}

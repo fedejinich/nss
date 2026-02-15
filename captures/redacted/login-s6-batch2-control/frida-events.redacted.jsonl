@@ -1,0 +1,5 @@
+{"ts": "2026-02-15T09:02:04+00:00", "event": "s6.typed-batch.probe", "batch": 2, "label": "SM_SEND_DISTRIBUTIONS", "wire_frame_count": 10, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "71": 1, "160": 1}}
+{"ts": "2026-02-15T09:02:06+00:00", "event": "s6.typed-batch.probe", "batch": 2, "label": "SM_NOTE_PARENT", "wire_frame_count": 10, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "73": 1, "160": 1}}
+{"ts": "2026-02-15T09:02:09+00:00", "event": "s6.typed-batch.probe", "batch": 2, "label": "SM_CHILD_PARENT_MAP", "wire_frame_count": 11, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "82": 2, "160": 1}}
+{"ts": "2026-02-15T09:02:10+00:00", "event": "s6.typed-batch.probe", "batch": 2, "label": "SM_DNET_MESSAGE", "wire_frame_count": 10, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "93": 1, "160": 1}}
+{"ts": "2026-02-15T09:02:12+00:00", "event": "s6.typed-batch.probe", "batch": 2, "label": "SM_POSSIBLE_PARENTS", "wire_frame_count": 10, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "102": 1, "160": 1}}

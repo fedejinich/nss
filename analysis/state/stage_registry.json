@@ -278,14 +278,14 @@
     {
       "id": "S6",
       "title": "Opaque-tail reduction for remaining generic and legacy control payloads",
-      "status": "planned",
+      "status": "done",
       "owner_area": "protocol/runtime/verification",
       "depends_on": [
         "S6C"
       ],
-      "evidence": "docs/state/roadmap.md",
-      "next_gate": "S6 implementation",
-      "notes": "Continue replacing residual opaque payload handling with typed runtime-backed schemas without breaking parity."
+      "evidence": "docs/pr/0023-s6d-opaque-tail-typed-batches.md",
+      "next_gate": "S6E legacy dedicated opaque variants",
+      "notes": "Completed typed promotion for S6 batch closure (41,61,67,70,71,73,82,93,102,114,115,116,138,141,142); generic opaque-tail baseline is now zero."
     }
   ]
 }

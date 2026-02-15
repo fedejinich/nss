@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-15T08:40:23+00:00",
+  "generated_at": "2026-02-15T09:17:02+00:00",
   "snapshot": {
     "total_messages": 131,
     "server_messages": 106,
@@ -457,8 +457,8 @@
       "message": "SM_RELOGGED",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-1 runtime probe includes relogged control frame and validates empty typed payload decode path.",
+      "evidence": "captures/redacted/login-s6-batch1-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -565,8 +565,8 @@
       "message": "SM_USER_LIST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 61 to SM_USER_LIST (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-1 runtime probe includes code 61 frame and validates typed user-list payload schema support.",
+      "evidence": "captures/redacted/login-s6-batch1-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -619,8 +619,8 @@
       "message": "SM_GLOBAL_USER_LIST",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 67 to SM_GLOBAL_USER_LIST (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-1 runtime probe captures typed global-user-list payload activity (request/response multiplexing on code 67).",
+      "evidence": "captures/redacted/login-s6-batch1-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -646,8 +646,8 @@
       "message": "SM_CONNECT_TO_CLIENT",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 70 to SM_CONNECT_TO_CLIENT (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-1 runtime probe captures typed connect-to-client payload with token+username+connection_type fields.",
+      "evidence": "captures/redacted/login-s6-batch1-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -655,8 +655,8 @@
       "message": "SM_SEND_DISTRIBUTIONS",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-2 runtime probe captures typed no-parent bool control payload on code 71.",
+      "evidence": "captures/redacted/login-s6-batch2-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -664,8 +664,8 @@
       "message": "SM_NOTE_PARENT",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-2 runtime probe captures typed reversed-IPv4 parent note payload on code 73.",
+      "evidence": "captures/redacted/login-s6-batch2-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -673,8 +673,8 @@
       "message": "SM_CHILD_PARENT_MAP",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-2 runtime probe captures typed child-parent map payload on code 82 with compatibility raw tail.",
+      "evidence": "captures/redacted/login-s6-batch2-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -754,8 +754,8 @@
       "message": "SM_DNET_MESSAGE",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-2 runtime probe captures typed distributed embedded message payload on code 93.",
+      "evidence": "captures/redacted/login-s6-batch2-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -772,8 +772,8 @@
       "message": "SM_POSSIBLE_PARENTS",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-2 runtime probe captures typed possible-parents candidate list payload on code 102.",
+      "evidence": "captures/redacted/login-s6-batch2-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -835,8 +835,8 @@
       "message": "SM_ROOM_TICKER_USER_ADDED",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 114 to SM_ROOM_TICKER_USER_ADDED (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-3 probe captures typed room-ticker-added payload (room+username+ticker) on code 114.",
+      "evidence": "captures/redacted/login-s6-batch3-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -844,8 +844,8 @@
       "message": "SM_ROOM_TICKER_USER_REMOVED",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 115 to SM_ROOM_TICKER_USER_REMOVED (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-3 probe captures attempted room-ticker-removed outbound payload shape on code 115 under server reset constraints.",
+      "evidence": "captures/redacted/login-s6-batch3-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -853,8 +853,8 @@
       "message": "SM_SET_TICKER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 116 to SM_SET_TICKER (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-3 probe captures attempted set-ticker outbound payload shape (room+ticker) on code 116 under server reset constraints.",
+      "evidence": "captures/redacted/login-s6-batch3-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1042,8 +1042,8 @@
       "message": "SM_TRANSFER_ROOM_OWNERSHIP",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 138 to SM_TRANSFER_ROOM_OWNERSHIP (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-3 probe captures attempted transfer-room-ownership outbound payload shape (room) on code 138 under server reset constraints.",
+      "evidence": "captures/redacted/login-s6-batch3-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1069,8 +1069,8 @@
       "message": "SM_ENABLE_PRIVATE_ROOM_ADD",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 141 to SM_ENABLE_PRIVATE_ROOM_ADD (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-3 probe captures attempted enable-private-room-add bool payload shape on code 141 under server reset constraints.",
+      "evidence": "captures/redacted/login-s6-batch3-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1078,8 +1078,8 @@
       "message": "SM_CHANGE_PASSWORD",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 142 to SM_CHANGE_PASSWORD (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6 batch-3 probe captures attempted change-password string payload shape on code 142 under server reset constraints.",
+      "evidence": "captures/redacted/login-s6-batch3-control/official_frames.hex"
     },
     {
       "scope": "server",

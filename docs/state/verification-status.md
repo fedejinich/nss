@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, and Stage 6C opaque-tail baseline observability.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, and Stage 6D typed-batch opaque-tail closure.
 
 ## Validation Gates
 
@@ -57,6 +57,9 @@ Runs:
    - `login-private-room-membership-control`
    - `login-text-control`
    - `login-system-control`
+   - `login-s6-batch1-control`
+   - `login-s6-batch2-control`
+   - `login-s6-batch3-control`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -172,8 +175,21 @@ Protocol matrix status:
 - Workflow integration:
   - `scripts/sync_state_dashboards.sh` now regenerates opaque-tail report in the same run.
 - Current baseline:
-  - `opaque_tail_count=15` (`OPAQUE_SERVER_CONTROL_CODES`)
-  - ready for S6 typed-promotion implementation batches.
+  - `opaque_tail_count=0` (`OPAQUE_SERVER_CONTROL_CODES`)
+  - generic opaque-tail closure completed by S6D typed batches.
+
+## Stage 6D Typed-Batch Closure Verification
+
+- Runtime capture generator:
+  - `tools/runtime/generate_stage6_typed_batches_captures.py`
+- Redacted runtime runs:
+  - `captures/redacted/login-s6-batch1-control`
+  - `captures/redacted/login-s6-batch2-control`
+  - `captures/redacted/login-s6-batch3-control`
+- Typed promotion scope:
+  - `41`, `61`, `67`, `70`, `71`, `73`, `82`, `93`, `102`, `114`, `115`, `116`, `138`, `141`, `142`
+- Batch-3 caveat:
+  - server-side connection resets occurred after login; attempted outbound probe frames are retained and explicitly marked in run metadata.
 
 ## Stage 5B Verification Status
 
@@ -196,5 +212,5 @@ Protocol matrix status:
 ## Residual Risk
 
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- After S5D-S5H, unresolved generic opaque server-control closure is reduced to `15` codes in `OPAQUE_SERVER_CONTROL_CODES`; dedicated opaque variants remain for legacy families (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, `SM_DNET_LEVEL`, `SM_DNET_GROUP_LEADER`, `SM_DNET_DELIVERY_REPORT`, `SM_DNET_CHILD_DEPTH`, `SM_FLOOD`).
+- Generic opaque server-control closure is now `0`; dedicated legacy opaque variants still remain (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, `SM_DNET_LEVEL`, `SM_DNET_GROUP_LEADER`, `SM_DNET_DELIVERY_REPORT`, `SM_DNET_CHILD_DEPTH`, `SM_FLOOD`).
 - Stage 5B still has one UI-runtime visibility gap: live menu tree extraction requires macOS assistive-access permission (captured denial: `evidence/ui_audit/ui_menu_bar_items.err`).

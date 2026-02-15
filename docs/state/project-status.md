@@ -33,6 +33,7 @@
 - Stage 6A complete: dashboard-first KB UX with visual project dashboard, interactive codebase visualizer, and collapsed PR catalog navigation.
 - Stage 6B complete: executable closure audit for S5A hardening objectives with regression enforcement and state-sync integration.
 - Stage 6C complete: executable opaque-tail baseline report and batch plan to drive S6 typed-promotion work.
+- Stage 6D complete: executed S6 typed batches (S6-Batch-1/2/3) and closed generic opaque-tail control coverage to zero.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -168,6 +169,28 @@
    - `S6-Batch-1`: `41`, `61`, `67`, `70`
    - `S6-Batch-2`: `71`, `73`, `82`, `93`, `102`
    - `S6-Batch-3`: `114`, `115`, `116`, `138`, `141`, `142`
+
+## Stage 6D Completion
+
+1. Promoted the full S6 batch closure from generic opaque control handling to typed payload variants in `rust/protocol`:
+   - `41`, `61`, `67`, `70`, `71`, `73`, `82`, `93`, `102`, `114`, `115`, `116`, `138`, `141`, `142`
+2. Added typed decode/encode coverage and builders for the promoted families, plus protocol regression tests:
+   - `s6d_batch1_messages_decode_typed_payloads`
+   - `s6d_batch2_messages_decode_typed_payloads`
+   - `s6d_batch3_messages_decode_typed_payloads`
+   - `s6d_opaque_server_control_tail_is_empty`
+3. Added Stage 6 runtime capture tooling and artifacts:
+   - `tools/runtime/generate_stage6_typed_batches_captures.py`
+   - `captures/redacted/login-s6-batch1-control`
+   - `captures/redacted/login-s6-batch2-control`
+   - `captures/redacted/login-s6-batch3-control`
+4. Closed generic opaque-tail baseline:
+   - `OPAQUE_SERVER_CONTROL_CODES`: `0`
+   - `docs/state/opaque-tail-report.json`: `opaque_tail_count=0`
+5. Preserved full matrix baseline:
+   - `implemented+mapped=131`
+   - `mapped_not_implemented=0`
+   - `missing=0`
 
 ## Stage 5A Completion
 

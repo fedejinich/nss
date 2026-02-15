@@ -1,10 +1,10 @@
 {
-  "generated_unix_secs": 1771144823,
+  "generated_unix_secs": 1771147022,
   "stage": "S6 opaque-tail baseline",
-  "opaque_tail_count": 15,
+  "opaque_tail_count": 0,
   "summary": {
     "runtime_evidence_count": 0,
-    "static_evidence_count": 15,
+    "static_evidence_count": 0,
     "target": "Promote opaque tail to typed runtime-backed payloads without parity regressions."
   },
   "recommended_batches": {
@@ -30,143 +30,7 @@
       142
     ]
   },
-  "entries": [
-    {
-      "symbol": "CODE_SM_RELOGGED",
-      "code": 41,
-      "message": "SM_RELOGGED",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-1"
-    },
-    {
-      "symbol": "CODE_SM_USER_LIST",
-      "code": 61,
-      "message": "SM_USER_LIST",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 61 to SM_USER_LIST (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-1"
-    },
-    {
-      "symbol": "CODE_SM_GLOBAL_USER_LIST",
-      "code": 67,
-      "message": "SM_GLOBAL_USER_LIST",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 67 to SM_GLOBAL_USER_LIST (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-1"
-    },
-    {
-      "symbol": "CODE_SM_CONNECT_TO_CLIENT",
-      "code": 70,
-      "message": "SM_CONNECT_TO_CLIENT",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 70 to SM_CONNECT_TO_CLIENT (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-1"
-    },
-    {
-      "symbol": "CODE_SM_SEND_DISTRIBUTIONS",
-      "code": 71,
-      "message": "SM_SEND_DISTRIBUTIONS",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-2"
-    },
-    {
-      "symbol": "CODE_SM_NOTE_PARENT",
-      "code": 73,
-      "message": "SM_NOTE_PARENT",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-2"
-    },
-    {
-      "symbol": "CODE_SM_CHILD_PARENT_MAP",
-      "code": 82,
-      "message": "SM_CHILD_PARENT_MAP",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-2"
-    },
-    {
-      "symbol": "CODE_SM_DNET_MESSAGE",
-      "code": 93,
-      "message": "SM_DNET_MESSAGE",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-2"
-    },
-    {
-      "symbol": "CODE_SM_POSSIBLE_PARENTS",
-      "code": 102,
-      "message": "SM_POSSIBLE_PARENTS",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-2"
-    },
-    {
-      "symbol": "CODE_SM_ROOM_TICKER_USER_ADDED",
-      "code": 114,
-      "message": "SM_ROOM_TICKER_USER_ADDED",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 114 to SM_ROOM_TICKER_USER_ADDED (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-3"
-    },
-    {
-      "symbol": "CODE_SM_ROOM_TICKER_USER_REMOVED",
-      "code": 115,
-      "message": "SM_ROOM_TICKER_USER_REMOVED",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 115 to SM_ROOM_TICKER_USER_REMOVED (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-3"
-    },
-    {
-      "symbol": "CODE_SM_SET_TICKER",
-      "code": 116,
-      "message": "SM_SET_TICKER",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 116 to SM_SET_TICKER (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-3"
-    },
-    {
-      "symbol": "CODE_SM_TRANSFER_ROOM_OWNERSHIP",
-      "code": 138,
-      "message": "SM_TRANSFER_ROOM_OWNERSHIP",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 138 to SM_TRANSFER_ROOM_OWNERSHIP (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-3"
-    },
-    {
-      "symbol": "CODE_SM_ENABLE_PRIVATE_ROOM_ADD",
-      "code": 141,
-      "message": "SM_ENABLE_PRIVATE_ROOM_ADD",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 141 to SM_ENABLE_PRIVATE_ROOM_ADD (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-3"
-    },
-    {
-      "symbol": "CODE_SM_CHANGE_PASSWORD",
-      "code": 142,
-      "message": "SM_CHANGE_PASSWORD",
-      "confidence": "high",
-      "source": "evidence/reverse/message_codes_jump_table.md",
-      "notes": "Server MessageCodeToString jump-table extraction resolves code 142 to SM_CHANGE_PASSWORD (x86_64 binary disassembly).",
-      "recommended_batch": "S6-Batch-3"
-    }
-  ],
+  "entries": [],
   "inputs": {
     "protocol_lib": "rust/protocol/src/lib.rs",
     "message_map": "analysis/ghidra/maps/message_map.csv"

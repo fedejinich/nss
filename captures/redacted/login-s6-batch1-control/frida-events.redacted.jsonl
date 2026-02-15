@@ -1,0 +1,4 @@
+{"ts": "2026-02-15T09:01:57+00:00", "event": "s6.typed-batch.probe", "batch": 1, "label": "SM_RELOGGED", "wire_frame_count": 10, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "41": 1, "160": 1}}
+{"ts": "2026-02-15T09:01:58+00:00", "event": "s6.typed-batch.probe", "batch": 1, "label": "SM_USER_LIST", "wire_frame_count": 10, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "61": 1, "160": 1}}
+{"ts": "2026-02-15T09:02:02+00:00", "event": "s6.typed-batch.probe", "batch": 1, "label": "SM_GLOBAL_USER_LIST", "wire_frame_count": 11, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "67": 2, "160": 1}}
+{"ts": "2026-02-15T09:02:03+00:00", "event": "s6.typed-batch.probe", "batch": 1, "label": "SM_CONNECT_TO_CLIENT", "wire_frame_count": 10, "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "70": 1, "160": 1}}

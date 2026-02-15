@@ -34,6 +34,9 @@ REQUIRED_RUNS=(
   "login-private-room-membership-control"
   "login-text-control"
   "login-system-control"
+  "login-s6-batch1-control"
+  "login-s6-batch2-control"
+  "login-s6-batch3-control"
 )
 
 cd "${ROOT_DIR}/rust"

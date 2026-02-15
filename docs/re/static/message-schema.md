@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T06:58:48+00:00`
+- Generated: `2026-02-15T09:08:47+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -437,7 +437,9 @@
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 runtime probe includes relogged control frame and validates empty typed payload decode path.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class Relogged (code 41) documents empty payload semantics.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 probe includes relogged control code frame for typed decode coverage.)
 
 ### `server` `SM_SEARCH_USER_FILES` (code `42`)
 - Confidence: `high`
@@ -551,9 +553,24 @@
 
 ### `server` `SM_USER_LIST` (code `61`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `user_count`: `u32`
+  - `entry.username`: `string`
+  - `status_count`: `u32`
+  - `entry.status`: `u32`
+  - `stats_count`: `u32`
+  - `entry.avg_speed`: `u32`
+  - `entry.upload_num`: `u32`
+  - `entry.unknown`: `u32`
+  - `entry.files`: `u32`
+  - `entry.dirs`: `u32`
+  - `slots_count`: `u32`
+  - `entry.slots_full`: `u32`
+  - `country_count`: `u32`
+  - `entry.country`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 61 to SM_USER_LIST (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 runtime probe includes code 61 frame and validates typed user-list payload schema support.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 authenticated probe includes code 61 frame with typed user-list schema layout.)
 
 ### `server` `SM_ROOM_ADDED` (code `62`)
 - Confidence: `high`
@@ -593,9 +610,25 @@
 
 ### `server` `SM_GLOBAL_USER_LIST` (code `67`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `user_count`: `u32`
+  - `entry.username`: `string`
+  - `status_count`: `u32`
+  - `entry.status`: `u32`
+  - `stats_count`: `u32`
+  - `entry.avg_speed`: `u32`
+  - `entry.upload_num`: `u32`
+  - `entry.unknown`: `u32`
+  - `entry.files`: `u32`
+  - `entry.dirs`: `u32`
+  - `slots_count`: `u32`
+  - `entry.slots_full`: `u32`
+  - `country_count`: `u32`
+  - `entry.country`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 67 to SM_GLOBAL_USER_LIST (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 runtime probe captures typed global-user-list payload activity (request/response multiplexing on code 67).)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class GlobalUserList (code 67) parses UsersMessage list payload layout.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 authenticated probe includes code 67 request/response activity.)
 
 ### `server` `SM_PEER_MESSAGE` (code `68`)
 - Confidence: `high`
@@ -618,27 +651,43 @@
 
 ### `server` `SM_CONNECT_TO_CLIENT` (code `70`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `token`: `u32`
+  - `username`: `string`
+  - `connection_type`: `string`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 70 to SM_CONNECT_TO_CLIENT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 runtime probe captures typed connect-to-client payload with token+username+connection_type fields.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch1-control/official_frames.hex` (S6 batch-1 authenticated probe includes code 70 frame with token+username+connection_type payload shape.)
 
 ### `server` `SM_SEND_DISTRIBUTIONS` (code `71`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `no_parent`: `bool_u8`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 runtime probe captures typed no-parent bool control payload on code 71.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class HaveNoParent (code 71) serializes one bool payload flag.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 authenticated probe includes code 71 bool payload.)
 
 ### `server` `SM_NOTE_PARENT` (code `73`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `parent_ip`: `ipv4_u32_reversed`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 runtime probe captures typed reversed-IPv4 parent note payload on code 73.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class ParentIP (code 73) uses reversed IPv4 u32 payload representation.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 authenticated probe includes code 73 payload with reversed IPv4 encoding.)
 
 ### `server` `SM_CHILD_PARENT_MAP` (code `82`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `entry_count`: `u32`
+  - `entry.child_username`: `string`
+  - `entry.parent_username`: `string`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 runtime probe captures typed child-parent map payload on code 82 with compatibility raw tail.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 authenticated probe includes code 82 payload with typed child->parent pair entries and raw-tail compatibility.)
 
 ### `server` `SM_SET_PARENT_MIN_SPEED` (code `83`)
 - Confidence: `high`
@@ -699,9 +748,13 @@
 
 ### `server` `SM_DNET_MESSAGE` (code `93`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `distrib_code`: `u8`
+  - `distrib_payload`: `bytes_raw`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 runtime probe captures typed distributed embedded message payload on code 93.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class EmbeddedMessage (code 93) parses u8 distributed code followed by embedded payload bytes.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 authenticated probe includes code 93 payload with typed distributed code and bytes.)
 
 ### `server` `SM_CAN_PARENT` (code `100`)
 - Confidence: `high`
@@ -712,9 +765,15 @@
 
 ### `server` `SM_POSSIBLE_PARENTS` (code `102`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `parent_count`: `u32`
+  - `entry.username`: `string`
+  - `entry.ip_address`: `ipv4_u32_reversed`
+  - `entry.port`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 runtime probe captures typed possible-parents candidate list payload on code 102.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class PossibleParents (code 102) parses username + ip + port candidate tuples.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch2-control/official_frames.hex` (S6 batch-2 authenticated probe includes code 102 candidate list payload shape.)
 
 ### `server` `SM_LOW_PRIORITY_FILE_SEARCH` (code `103`)
 - Confidence: `high`
@@ -758,21 +817,34 @@
 
 ### `server` `SM_ROOM_TICKER_USER_ADDED` (code `114`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
+  - `ticker`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 114 to SM_ROOM_TICKER_USER_ADDED (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe captures typed room-ticker-added payload (room+username+ticker) on code 114.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class RoomTickerAdded (code 114) parses room+user+ticker strings.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe includes code 114 payload for typed ticker-added decode.)
 
 ### `server` `SM_ROOM_TICKER_USER_REMOVED` (code `115`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
+  - `username`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 115 to SM_ROOM_TICKER_USER_REMOVED (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe captures attempted room-ticker-removed outbound payload shape on code 115 under server reset constraints.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class RoomTickerRemoved (code 115) parses room+user strings.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe includes attempted code 115 outbound payload while server resets were observed.)
 
 ### `server` `SM_SET_TICKER` (code `116`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
+  - `ticker`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 116 to SM_SET_TICKER (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe captures attempted set-ticker outbound payload shape (room+ticker) on code 116 under server reset constraints.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class SetRoomTicker (code 116) serializes room+ticker strings.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe includes attempted code 116 outbound payload while server resets were observed.)
 
 ### `server` `SM_ADD_HATE_TERM` (code `117`)
 - Confidence: `high`
@@ -929,9 +1001,12 @@
 
 ### `server` `SM_TRANSFER_ROOM_OWNERSHIP` (code `138`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 138 to SM_TRANSFER_ROOM_OWNERSHIP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe captures attempted transfer-room-ownership outbound payload shape (room) on code 138 under server reset constraints.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class RoomSomething (code 138, obsolete) uses room string payload.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe includes attempted code 138 outbound payload while server resets were observed.)
 
 ### `server` `SM_ADD_ROOM_MEMBERSHIP` (code `139`)
 - Confidence: `high`
@@ -949,15 +1024,21 @@
 
 ### `server` `SM_ENABLE_PRIVATE_ROOM_ADD` (code `141`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `enabled`: `bool_u8`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 141 to SM_ENABLE_PRIVATE_ROOM_ADD (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe captures attempted enable-private-room-add bool payload shape on code 141 under server reset constraints.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class EnableRoomInvitations (code 141) serializes a bool flag payload.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe includes attempted code 141 outbound payload while server resets were observed.)
 
 ### `server` `SM_CHANGE_PASSWORD` (code `142`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `password`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 142 to SM_CHANGE_PASSWORD (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe captures attempted change-password string payload shape on code 142 under server reset constraints.)
+  - `spec`: `https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py` (Nicotine+ class ChangePassword (code 142) serializes one password string payload.)
+  - `runtime_capture`: `captures/redacted/login-s6-batch3-control/official_frames.hex` (S6 batch-3 probe includes attempted code 142 outbound payload while server resets were observed.)
 
 ### `server` `SM_ADD_ROOM_OPERATOR` (code `143`)
 - Confidence: `high`

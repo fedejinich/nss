@@ -172,6 +172,79 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "obfuscation_type", "type": "u32"},
         {"name": "obfuscated_port", "type": "u32"},
     ],
+    ("server", "SM_RELOGGED"): [],
+    ("server", "SM_USER_LIST"): [
+        {"name": "user_count", "type": "u32"},
+        {"name": "entry.username", "type": "string"},
+        {"name": "status_count", "type": "u32"},
+        {"name": "entry.status", "type": "u32"},
+        {"name": "stats_count", "type": "u32"},
+        {"name": "entry.avg_speed", "type": "u32"},
+        {"name": "entry.upload_num", "type": "u32"},
+        {"name": "entry.unknown", "type": "u32"},
+        {"name": "entry.files", "type": "u32"},
+        {"name": "entry.dirs", "type": "u32"},
+        {"name": "slots_count", "type": "u32"},
+        {"name": "entry.slots_full", "type": "u32"},
+        {"name": "country_count", "type": "u32"},
+        {"name": "entry.country", "type": "string"},
+    ],
+    ("server", "SM_GLOBAL_USER_LIST"): [
+        {"name": "user_count", "type": "u32"},
+        {"name": "entry.username", "type": "string"},
+        {"name": "status_count", "type": "u32"},
+        {"name": "entry.status", "type": "u32"},
+        {"name": "stats_count", "type": "u32"},
+        {"name": "entry.avg_speed", "type": "u32"},
+        {"name": "entry.upload_num", "type": "u32"},
+        {"name": "entry.unknown", "type": "u32"},
+        {"name": "entry.files", "type": "u32"},
+        {"name": "entry.dirs", "type": "u32"},
+        {"name": "slots_count", "type": "u32"},
+        {"name": "entry.slots_full", "type": "u32"},
+        {"name": "country_count", "type": "u32"},
+        {"name": "entry.country", "type": "string"},
+    ],
+    ("server", "SM_CONNECT_TO_CLIENT"): [
+        {"name": "token", "type": "u32"},
+        {"name": "username", "type": "string"},
+        {"name": "connection_type", "type": "string"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
+    ("server", "SM_SEND_DISTRIBUTIONS"): [{"name": "no_parent", "type": "bool_u8"}],
+    ("server", "SM_NOTE_PARENT"): [{"name": "parent_ip", "type": "ipv4_u32_reversed"}],
+    ("server", "SM_CHILD_PARENT_MAP"): [
+        {"name": "entry_count", "type": "u32"},
+        {"name": "entry.child_username", "type": "string"},
+        {"name": "entry.parent_username", "type": "string"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
+    ("server", "SM_DNET_MESSAGE"): [
+        {"name": "distrib_code", "type": "u8"},
+        {"name": "distrib_payload", "type": "bytes_raw"},
+    ],
+    ("server", "SM_POSSIBLE_PARENTS"): [
+        {"name": "parent_count", "type": "u32"},
+        {"name": "entry.username", "type": "string"},
+        {"name": "entry.ip_address", "type": "ipv4_u32_reversed"},
+        {"name": "entry.port", "type": "u32"},
+    ],
+    ("server", "SM_ROOM_TICKER_USER_ADDED"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+        {"name": "ticker", "type": "string"},
+    ],
+    ("server", "SM_ROOM_TICKER_USER_REMOVED"): [
+        {"name": "room", "type": "string"},
+        {"name": "username", "type": "string"},
+    ],
+    ("server", "SM_SET_TICKER"): [
+        {"name": "room", "type": "string"},
+        {"name": "ticker", "type": "string"},
+    ],
+    ("server", "SM_TRANSFER_ROOM_OWNERSHIP"): [{"name": "room", "type": "string"}],
+    ("server", "SM_ENABLE_PRIVATE_ROOM_ADD"): [{"name": "enabled", "type": "bool_u8"}],
+    ("server", "SM_CHANGE_PASSWORD"): [{"name": "password", "type": "string"}],
     ("server", "SM_ROOM_LIST"): [
         {"name": "room_count", "type": "u32"},
         {"name": "rooms", "type": "array<string>"},
@@ -460,6 +533,171 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
             "note": "Server code 18 documents ConnectToPeer request and response payload shape.",
         }
+    ],
+    ("server", "SM_RELOGGED"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class Relogged (code 41) documents empty payload semantics.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch1-control/official_frames.hex",
+            "note": "S6 batch-1 probe includes relogged control code frame for typed decode coverage.",
+        },
+    ],
+    ("server", "SM_USER_LIST"): [
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch1-control/official_frames.hex",
+            "note": "S6 batch-1 authenticated probe includes code 61 frame with typed user-list schema layout.",
+        },
+    ],
+    ("server", "SM_GLOBAL_USER_LIST"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class GlobalUserList (code 67) parses UsersMessage list payload layout.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch1-control/official_frames.hex",
+            "note": "S6 batch-1 authenticated probe includes code 67 request/response activity.",
+        },
+    ],
+    ("server", "SM_CONNECT_TO_CLIENT"): [
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch1-control/official_frames.hex",
+            "note": "S6 batch-1 authenticated probe includes code 70 frame with token+username+connection_type payload shape.",
+        },
+    ],
+    ("server", "SM_SEND_DISTRIBUTIONS"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class HaveNoParent (code 71) serializes one bool payload flag.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch2-control/official_frames.hex",
+            "note": "S6 batch-2 authenticated probe includes code 71 bool payload.",
+        },
+    ],
+    ("server", "SM_NOTE_PARENT"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class ParentIP (code 73) uses reversed IPv4 u32 payload representation.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch2-control/official_frames.hex",
+            "note": "S6 batch-2 authenticated probe includes code 73 payload with reversed IPv4 encoding.",
+        },
+    ],
+    ("server", "SM_CHILD_PARENT_MAP"): [
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch2-control/official_frames.hex",
+            "note": "S6 batch-2 authenticated probe includes code 82 payload with typed child->parent pair entries and raw-tail compatibility.",
+        },
+    ],
+    ("server", "SM_DNET_MESSAGE"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class EmbeddedMessage (code 93) parses u8 distributed code followed by embedded payload bytes.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch2-control/official_frames.hex",
+            "note": "S6 batch-2 authenticated probe includes code 93 payload with typed distributed code and bytes.",
+        },
+    ],
+    ("server", "SM_POSSIBLE_PARENTS"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class PossibleParents (code 102) parses username + ip + port candidate tuples.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch2-control/official_frames.hex",
+            "note": "S6 batch-2 authenticated probe includes code 102 candidate list payload shape.",
+        },
+    ],
+    ("server", "SM_ROOM_TICKER_USER_ADDED"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class RoomTickerAdded (code 114) parses room+user+ticker strings.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch3-control/official_frames.hex",
+            "note": "S6 batch-3 probe includes code 114 payload for typed ticker-added decode.",
+        },
+    ],
+    ("server", "SM_ROOM_TICKER_USER_REMOVED"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class RoomTickerRemoved (code 115) parses room+user strings.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch3-control/official_frames.hex",
+            "note": "S6 batch-3 probe includes attempted code 115 outbound payload while server resets were observed.",
+        },
+    ],
+    ("server", "SM_SET_TICKER"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class SetRoomTicker (code 116) serializes room+ticker strings.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch3-control/official_frames.hex",
+            "note": "S6 batch-3 probe includes attempted code 116 outbound payload while server resets were observed.",
+        },
+    ],
+    ("server", "SM_TRANSFER_ROOM_OWNERSHIP"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class RoomSomething (code 138, obsolete) uses room string payload.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch3-control/official_frames.hex",
+            "note": "S6 batch-3 probe includes attempted code 138 outbound payload while server resets were observed.",
+        },
+    ],
+    ("server", "SM_ENABLE_PRIVATE_ROOM_ADD"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class EnableRoomInvitations (code 141) serializes a bool flag payload.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch3-control/official_frames.hex",
+            "note": "S6 batch-3 probe includes attempted code 141 outbound payload while server resets were observed.",
+        },
+    ],
+    ("server", "SM_CHANGE_PASSWORD"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class ChangePassword (code 142) serializes one password string payload.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-s6-batch3-control/official_frames.hex",
+            "note": "S6 batch-3 probe includes attempted code 142 outbound payload while server resets were observed.",
+        },
     ],
     ("server", "SM_MESSAGE_USER"): [
         {
