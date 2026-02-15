@@ -1,5 +1,88 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## Stage 6F - Dedicated Residual Semantic Closure (`128`/`131`)
+
+Dependency graph:
+
+- `S6F-W01 -> S6F-W02`
+- `S6F-W02 -> S6F-T01`
+- `S6F-T01 -> S6F-T02`
+- `S6F-T02 -> S6F-T03`
+- `S6F-T03 -> S6F-T04`
+- `S6F-T04 -> S6F-T05`
+- `S6F-T05 -> S6F-T06`
+- `S6F-T06 -> S6F-R01`
+- `S6F-R01 -> S6F-Q01`
+- `S6F-Q01 -> S6F-Q02`
+- `S6F-Q02 -> S6F-T07`
+
+Tasks:
+
+- id: S6F-W01
+  description: Start from updated `main`, pull `origin/main`, and create branch `codex/s6f-residual-legacy-semantic-closure`
+  status: done
+  depends_on: []
+
+- id: S6F-W02
+  description: Create PR doc scaffold `docs/pr/0025-s6f-residual-legacy-semantic-closure.md`
+  status: done
+  depends_on: [S6F-W01]
+
+- id: S6F-T01
+  description: Build authoritative static+runtime evidence inventory for `SM_DNET_DELIVERY_REPORT (128)` and `SM_FLOOD (131)` payload semantics
+  status: done
+  depends_on: [S6F-W02]
+
+- id: S6F-T02
+  description: Generate authenticated runtime captures for dedicated residual probes and redact artifacts (`login-legacy-residual-control`)
+  status: done
+  depends_on: [S6F-T01]
+
+- id: S6F-T03
+  description: Replace residual dedicated opaque branches for `128` and `131` with typed payloads/codecs/builders in `rust/protocol`
+  status: done
+  depends_on: [S6F-T02]
+
+- id: S6F-T04
+  description: Update `message_map.csv`, `message_schema.json`, and KB docs with S6F field evidence and residual closure notes
+  status: done
+  depends_on: [S6F-T03]
+
+- id: S6F-T05
+  description: Add or update protocol and contract regression tests for S6F typed residual closure
+  status: done
+  depends_on: [S6F-T04]
+
+- id: S6F-T06
+  description: Run full stage gates (`kb_validate`, `run_diff_verify`, `run_regression`, `zensical build`)
+  status: done
+  depends_on: [S6F-T05]
+
+- id: S6F-R01
+  description: Sync roadmap/status/backlog/dashboard artifacts and regenerate indexes (`sync_state_dashboards.sh`)
+  status: done
+  depends_on: [S6F-T06]
+
+- id: S6F-Q01
+  description: Mandatory blocking review loop round 1 (`blockchain_protocol_engineer`, `code_simplifier`, `web3_security_review_expert`) and apply useful fixes
+  status: done
+  depends_on: [S6F-R01]
+
+- id: S6F-Q02
+  description: Mandatory blocking review loop round 2 (`blockchain_protocol_engineer`, `code_simplifier`, `web3_security_review_expert`), resolve feedback or dismiss with rationale
+  status: done
+  depends_on: [S6F-Q01]
+
+- id: S6F-T07
+  description: Finalize merge-ready S6F PR with retrospective (maintainability, reuse, surface reduction)
+  status: done
+  depends_on: [S6F-Q02]
+
+Notes:
+
+- S6F closes the final dedicated residual semantics currently tracked as unresolved after S6E (`SM_DNET_DELIVERY_REPORT`, `SM_FLOOD`).
+- Matrix baseline must remain stable: `implemented+mapped=131`, `mapped_not_implemented=0`, `missing=0`.
+
 ## Stage 6E - Legacy Dedicated Opaque Variant Reduction
 
 Dependency graph:

@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, and Stage 6E dedicated legacy opaque reduction.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, Stage 6E dedicated legacy opaque reduction, and Stage 6F dedicated residual semantic closure.
 
 ## Validation Gates
 
@@ -62,6 +62,7 @@ Runs:
    - `login-s6-batch3-control`
    - `login-legacy-room-operatorship-control`
    - `login-legacy-distributed-control`
+   - `login-legacy-residual-control`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -208,9 +209,18 @@ Protocol matrix status:
   - `SM_DNET_LEVEL` (`126`)
   - `SM_DNET_GROUP_LEADER` (`127`)
   - `SM_DNET_CHILD_DEPTH` (`129`)
-- Residual dedicated opaque semantics:
-  - `SM_DNET_DELIVERY_REPORT` (`128`)
-  - `SM_FLOOD` (`131`)
+
+## Stage 6F Dedicated Residual Semantic Closure Verification
+
+- Runtime capture generator:
+  - `tools/runtime/generate_stage6f_residual_captures.py`
+- Redacted runtime runs:
+  - `captures/redacted/login-legacy-residual-control`
+- Typed closure scope:
+  - `SM_DNET_DELIVERY_REPORT` (`128`) -> `report: optional_u32`, `raw_tail`
+  - `SM_FLOOD` (`131`) -> `flood_code: optional_u32`, `raw_tail`
+- Static reinforcement:
+  - `evidence/ui_audit/decomp/server_methods.txt` (`Server::DNetDeliveryReport(int)`)
 
 ## Stage 5B Verification Status
 
@@ -233,5 +243,5 @@ Protocol matrix status:
 ## Residual Risk
 
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- Generic opaque server-control closure is now `0`; dedicated legacy opaque residuals are reduced to two unresolved semantics (`SM_DNET_DELIVERY_REPORT`, `SM_FLOOD`).
+- Generic opaque server-control closure is now `0`; dedicated legacy residual semantic closure is complete for S6.
 - Stage 5B still has one UI-runtime visibility gap: live menu tree extraction requires macOS assistive-access permission (captured denial: `evidence/ui_audit/ui_menu_bar_items.err`).

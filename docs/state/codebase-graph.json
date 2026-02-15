@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771167682,
+  "generated_unix_secs": 1771168820,
   "repo_root": "/Users/void_rsk/Projects/soul-dec",
   "scope": {
     "included_top_level_dirs": [
@@ -48,11 +48,11 @@
   "stats": {
     "domain_count": 9,
     "dir_count": 48,
-    "file_count": 214,
-    "node_count": 272,
-    "edge_count": 271,
-    "total_loc": 112911,
-    "total_size_bytes": 3955031
+    "file_count": 217,
+    "node_count": 275,
+    "edge_count": 274,
+    "total_loc": 113623,
+    "total_size_bytes": 3980741
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 112911,
-      "size_bytes": 3955031,
+      "loc": 113623,
+      "size_bytes": 3980741,
       "extension": null,
       "domain": "root"
     },
@@ -70,8 +70,8 @@
       "label": "analysis",
       "kind": "domain",
       "path": "analysis",
-      "loc": 36253,
-      "size_bytes": 533152,
+      "loc": 36298,
+      "size_bytes": 534426,
       "extension": null,
       "domain": "analysis"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 14232,
-      "size_bytes": 524819,
+      "loc": 14414,
+      "size_bytes": 532406,
       "extension": null,
       "domain": "docs"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 2670,
-      "size_bytes": 84964,
+      "loc": 2753,
+      "size_bytes": 87730,
       "extension": null,
       "domain": "repo-root"
     },
@@ -120,8 +120,8 @@
       "label": "rust",
       "kind": "domain",
       "path": "rust",
-      "loc": 13508,
-      "size_bytes": 470120,
+      "loc": 13579,
+      "size_bytes": 472763,
       "extension": null,
       "domain": "rust"
     },
@@ -130,8 +130,8 @@
       "label": "scripts",
       "kind": "domain",
       "path": "scripts",
-      "loc": 515,
-      "size_bytes": 17405,
+      "loc": 516,
+      "size_bytes": 17439,
       "extension": null,
       "domain": "scripts"
     },
@@ -140,8 +140,8 @@
       "label": "tests",
       "kind": "domain",
       "path": "tests",
-      "loc": 1437,
-      "size_bytes": 56877,
+      "loc": 1500,
+      "size_bytes": 59361,
       "extension": null,
       "domain": "tests"
     },
@@ -150,8 +150,8 @@
       "label": "tools",
       "kind": "domain",
       "path": "tools",
-      "loc": 8587,
-      "size_bytes": 291220,
+      "loc": 8854,
+      "size_bytes": 300142,
       "extension": null,
       "domain": "tools"
     },
@@ -160,8 +160,8 @@
       "label": "analysis",
       "kind": "dir",
       "path": "analysis",
-      "loc": 36253,
-      "size_bytes": 533152,
+      "loc": 36298,
+      "size_bytes": 534426,
       "extension": null,
       "domain": "analysis"
     },
@@ -171,7 +171,7 @@
       "kind": "dir",
       "path": "analysis/ghidra",
       "loc": 463,
-      "size_bytes": 38414,
+      "size_bytes": 38211,
       "extension": null,
       "domain": "analysis"
     },
@@ -181,7 +181,7 @@
       "kind": "dir",
       "path": "analysis/ghidra/maps",
       "loc": 301,
-      "size_bytes": 33757,
+      "size_bytes": 33554,
       "extension": null,
       "domain": "analysis"
     },
@@ -210,8 +210,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "analysis/protocol",
-      "loc": 3505,
-      "size_bytes": 101830,
+      "loc": 3538,
+      "size_bytes": 102920,
       "extension": null,
       "domain": "analysis"
     },
@@ -230,8 +230,8 @@
       "label": "state",
       "kind": "dir",
       "path": "analysis/state",
-      "loc": 291,
-      "size_bytes": 9699,
+      "loc": 303,
+      "size_bytes": 10086,
       "extension": null,
       "domain": "analysis"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 14232,
-      "size_bytes": 524819,
+      "loc": 14414,
+      "size_bytes": 532406,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 2389,
-      "size_bytes": 80469,
+      "loc": 2463,
+      "size_bytes": 83569,
       "extension": null,
       "domain": "docs"
     },
@@ -270,8 +270,8 @@
       "label": "re",
       "kind": "dir",
       "path": "docs/re",
-      "loc": 1341,
-      "size_bytes": 69683,
+      "loc": 1348,
+      "size_bytes": 70289,
       "extension": null,
       "domain": "docs"
     },
@@ -280,8 +280,8 @@
       "label": "static",
       "kind": "dir",
       "path": "docs/re/static",
-      "loc": 1341,
-      "size_bytes": 69683,
+      "loc": 1348,
+      "size_bytes": 70289,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 10034,
-      "size_bytes": 362642,
+      "loc": 10134,
+      "size_bytes": 366451,
       "extension": null,
       "domain": "docs"
     },
@@ -310,8 +310,8 @@
       "label": "verification",
       "kind": "dir",
       "path": "docs/verification",
-      "loc": 90,
-      "size_bytes": 2393,
+      "loc": 91,
+      "size_bytes": 2465,
       "extension": null,
       "domain": "docs"
     },
@@ -410,8 +410,8 @@
       "label": "rust",
       "kind": "dir",
       "path": "rust",
-      "loc": 13508,
-      "size_bytes": 470120,
+      "loc": 13579,
+      "size_bytes": 472763,
       "extension": null,
       "domain": "rust"
     },
@@ -460,8 +460,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "rust/protocol",
-      "loc": 6537,
-      "size_bytes": 235794,
+      "loc": 6608,
+      "size_bytes": 238437,
       "extension": null,
       "domain": "rust"
     },
@@ -470,8 +470,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/protocol/src",
-      "loc": 6524,
-      "size_bytes": 235531,
+      "loc": 6595,
+      "size_bytes": 238174,
       "extension": null,
       "domain": "rust"
     },
@@ -500,8 +500,8 @@
       "label": "scripts",
       "kind": "dir",
       "path": "scripts",
-      "loc": 515,
-      "size_bytes": 17405,
+      "loc": 516,
+      "size_bytes": 17439,
       "extension": null,
       "domain": "scripts"
     },
@@ -510,8 +510,8 @@
       "label": "tests",
       "kind": "dir",
       "path": "tests",
-      "loc": 1437,
-      "size_bytes": 56877,
+      "loc": 1500,
+      "size_bytes": 59361,
       "extension": null,
       "domain": "tests"
     },
@@ -540,8 +540,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "tests/protocol",
-      "loc": 977,
-      "size_bytes": 38318,
+      "loc": 1040,
+      "size_bytes": 40802,
       "extension": null,
       "domain": "tests"
     },
@@ -570,8 +570,8 @@
       "label": "tools",
       "kind": "dir",
       "path": "tools",
-      "loc": 8587,
-      "size_bytes": 291220,
+      "loc": 8854,
+      "size_bytes": 300142,
       "extension": null,
       "domain": "tools"
     },
@@ -600,8 +600,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "tools/protocol",
-      "loc": 1634,
-      "size_bytes": 66238,
+      "loc": 1657,
+      "size_bytes": 67377,
       "extension": null,
       "domain": "tools"
     },
@@ -620,8 +620,8 @@
       "label": "runtime",
       "kind": "dir",
       "path": "tools/runtime",
-      "loc": 4902,
-      "size_bytes": 155916,
+      "loc": 5146,
+      "size_bytes": 163699,
       "extension": null,
       "domain": "tools"
     },
@@ -660,8 +660,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 2354,
-      "size_bytes": 73585,
+      "loc": 2437,
+      "size_bytes": 76351,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -681,7 +681,7 @@
       "kind": "file",
       "path": "analysis/ghidra/maps/message_map.csv",
       "loc": 132,
-      "size_bytes": 28606,
+      "size_bytes": 28403,
       "extension": ".csv",
       "domain": "analysis"
     },
@@ -750,8 +750,8 @@
       "label": "message_schema.json",
       "kind": "file",
       "path": "analysis/protocol/message_schema.json",
-      "loc": 3505,
-      "size_bytes": 101830,
+      "loc": 3538,
+      "size_bytes": 102920,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -770,8 +770,8 @@
       "label": "stage_registry.json",
       "kind": "file",
       "path": "analysis/state/stage_registry.json",
-      "loc": 291,
-      "size_bytes": 9699,
+      "loc": 303,
+      "size_bytes": 10086,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -1046,12 +1046,22 @@
       "domain": "docs"
     },
     {
+      "id": "file:docs/pr/0025-s6f-residual-legacy-semantic-closure.md",
+      "label": "0025-s6f-residual-legacy-semantic-closure.md",
+      "kind": "file",
+      "path": "docs/pr/0025-s6f-residual-legacy-semantic-closure.md",
+      "loc": 67,
+      "size_bytes": 2913,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
       "id": "file:docs/pr/index.md",
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 180,
-      "size_bytes": 4316,
+      "loc": 187,
+      "size_bytes": 4503,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1070,8 +1080,8 @@
       "label": "message-schema.md",
       "kind": "file",
       "path": "docs/re/static/message-schema.md",
-      "loc": 1154,
-      "size_bytes": 61165,
+      "loc": 1161,
+      "size_bytes": 61771,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1130,8 +1140,8 @@
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 4136,
-      "size_bytes": 110736,
+      "loc": 4181,
+      "size_bytes": 112228,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1180,8 +1190,8 @@
       "label": "opaque-tail-plan.md",
       "kind": "file",
       "path": "docs/state/opaque-tail-plan.md",
-      "loc": 47,
-      "size_bytes": 1372,
+      "loc": 50,
+      "size_bytes": 1476,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1200,8 +1210,8 @@
       "label": "project-dashboard-data.json",
       "kind": "file",
       "path": "docs/state/project-dashboard-data.json",
-      "loc": 405,
-      "size_bytes": 11405,
+      "loc": 421,
+      "size_bytes": 11843,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1220,8 +1230,8 @@
       "label": "project-status.md",
       "kind": "file",
       "path": "docs/state/project-status.md",
-      "loc": 452,
-      "size_bytes": 22183,
+      "loc": 471,
+      "size_bytes": 23209,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1230,8 +1240,8 @@
       "label": "protocol-backlog.md",
       "kind": "file",
       "path": "docs/state/protocol-backlog.md",
-      "loc": 356,
-      "size_bytes": 12651,
+      "loc": 362,
+      "size_bytes": 12904,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1241,7 +1251,7 @@
       "kind": "file",
       "path": "docs/state/protocol-matrix.json",
       "loc": 1193,
-      "size_bytes": 48388,
+      "size_bytes": 48317,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1251,7 +1261,7 @@
       "kind": "file",
       "path": "docs/state/protocol-matrix.md",
       "loc": 163,
-      "size_bytes": 32509,
+      "size_bytes": 32438,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1260,8 +1270,8 @@
       "label": "roadmap.md",
       "kind": "file",
       "path": "docs/state/roadmap.md",
-      "loc": 293,
-      "size_bytes": 13863,
+      "loc": 294,
+      "size_bytes": 14067,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1310,8 +1320,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 237,
-      "size_bytes": 9931,
+      "loc": 247,
+      "size_bytes": 10365,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1330,8 +1340,8 @@
       "label": "evidence-ledger.md",
       "kind": "file",
       "path": "docs/verification/evidence-ledger.md",
-      "loc": 32,
-      "size_bytes": 1090,
+      "loc": 33,
+      "size_bytes": 1162,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1960,8 +1970,8 @@
       "label": "lib.rs",
       "kind": "file",
       "path": "rust/protocol/src/lib.rs",
-      "loc": 6524,
-      "size_bytes": 235531,
+      "loc": 6595,
+      "size_bytes": 238174,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2080,8 +2090,8 @@
       "label": "run_diff_verify.sh",
       "kind": "file",
       "path": "scripts/run_diff_verify.sh",
-      "loc": 55,
-      "size_bytes": 1558,
+      "loc": 56,
+      "size_bytes": 1592,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2296,6 +2306,16 @@
       "domain": "tests"
     },
     {
+      "id": "file:tests/protocol/test_stage6f_residual_semantic_closure_contract.py",
+      "label": "test_stage6f_residual_semantic_closure_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage6f_residual_semantic_closure_contract.py",
+      "loc": 63,
+      "size_bytes": 2484,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
       "id": "file:tests/runtime/__init__.py",
       "label": "__init__.py",
       "kind": "file",
@@ -2450,8 +2470,8 @@
       "label": "derive_schema.py",
       "kind": "file",
       "path": "tools/protocol/derive_schema.py",
-      "loc": 1402,
-      "size_bytes": 58090,
+      "loc": 1425,
+      "size_bytes": 59229,
       "extension": ".py",
       "domain": "tools"
     },
@@ -2672,6 +2692,16 @@
       "path": "tools/runtime/generate_stage6e_legacy_control_captures.py",
       "loc": 272,
       "size_bytes": 8811,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage6f_residual_captures.py",
+      "label": "generate_stage6f_residual_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage6f_residual_captures.py",
+      "loc": 244,
+      "size_bytes": 7783,
       "extension": ".py",
       "domain": "tools"
     },
@@ -3030,6 +3060,11 @@
     {
       "source": "dir:docs/pr",
       "target": "file:docs/pr/0024-s6e-legacy-opaque-reduction.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0025-s6f-residual-legacy-semantic-closure.md",
       "kind": "contains"
     },
     {
@@ -3763,6 +3798,11 @@
       "kind": "contains"
     },
     {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage6f_residual_semantic_closure_contract.py",
+      "kind": "contains"
+    },
+    {
       "source": "dir:tests/runtime",
       "target": "file:tests/runtime/__init__.py",
       "kind": "contains"
@@ -3980,6 +4020,11 @@
     {
       "source": "dir:tools/runtime",
       "target": "file:tools/runtime/generate_stage6e_legacy_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage6f_residual_captures.py",
       "kind": "contains"
     },
     {

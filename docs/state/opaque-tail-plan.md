@@ -30,9 +30,12 @@ Runtime artifacts:
 2. `captures/redacted/login-s6-batch2-control`
 3. `captures/redacted/login-s6-batch3-control`
 
-Next focus after S6:
+Post-S6 status:
 
-1. Reduce dedicated legacy opaque variants not covered by `OPAQUE_SERVER_CONTROL_CODES` (room-operatorship revocation and distributed/flood tail families).
+1. Dedicated legacy follow-up from S6E and S6F is complete:
+   - room-operatorship revocation families (`146`, `147`)
+   - distributed residual families (`128`, `131`)
+2. Remaining protocol work continues as post-closure audit/expansion, not opaque-tail reduction.
 
 ## Regeneration
 

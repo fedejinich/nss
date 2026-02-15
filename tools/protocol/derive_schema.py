@@ -428,8 +428,16 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "username", "type": "optional_string"},
         {"name": "raw_tail", "type": "bytes_raw"},
     ],
+    ("server", "SM_DNET_DELIVERY_REPORT"): [
+        {"name": "report", "type": "optional_u32"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
     ("server", "SM_DNET_CHILD_DEPTH"): [
         {"name": "depth", "type": "optional_u32"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
+    ("server", "SM_FLOOD"): [
+        {"name": "flood_code", "type": "optional_u32"},
         {"name": "raw_tail", "type": "bytes_raw"},
     ],
     ("server", "SM_UPLOAD_SPEED"): [{"name": "bytes_per_sec", "type": "u32"}],
@@ -668,9 +676,19 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
     ],
     ("server", "SM_DNET_DELIVERY_REPORT"): [
         {
+            "kind": "static_analysis",
+            "source": "evidence/ui_audit/decomp/server_methods.txt",
+            "note": "Server::DNetDeliveryReport(int) symbol signature indicates a single int payload argument on the server handler path.",
+        },
+        {
             "kind": "runtime_capture",
             "source": "captures/redacted/login-legacy-distributed-control/official_frames.hex",
-            "note": "S6E authenticated runtime probe includes code 128 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.",
+            "note": "S6E authenticated runtime probe confirms active code 128 wire path with 4-byte payload.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-residual-control/official_frames.hex",
+            "note": "S6F authenticated runtime probe exercises code 128 with multi-value u32 payload variants (0,1,2), confirming typed optional_u32 + raw_tail layout.",
         },
     ],
     ("server", "SM_DNET_CHILD_DEPTH"): [
@@ -689,7 +707,12 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
         {
             "kind": "runtime_capture",
             "source": "captures/redacted/login-legacy-distributed-control/official_frames.hex",
-            "note": "S6E authenticated runtime probe includes code 131 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.",
+            "note": "S6E authenticated runtime probe confirms active code 131 wire path with 4-byte payload.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-residual-control/official_frames.hex",
+            "note": "S6F authenticated runtime probe exercises code 131 with multi-value u32 payload variants (0,1,2), promoting typed optional_u32 + raw_tail handling.",
         },
     ],
     ("server", "SM_POSSIBLE_PARENTS"): [

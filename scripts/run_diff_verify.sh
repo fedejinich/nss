@@ -39,6 +39,7 @@ REQUIRED_RUNS=(
   "login-s6-batch3-control"
   "login-legacy-room-operatorship-control"
   "login-legacy-distributed-control"
+  "login-legacy-residual-control"
 )
 
 cd "${ROOT_DIR}/rust"

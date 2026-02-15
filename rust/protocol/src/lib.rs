@@ -713,6 +713,18 @@ pub struct DnetChildDepthPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DnetDeliveryReportPayload {
+    pub report: Option<u32>,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct FloodPayload {
+    pub flood_code: Option<u32>,
+    pub raw_tail: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RoomOperatorshipRevocationPayload {
     pub room: Option<String>,
     pub raw_tail: Vec<u8>,
@@ -1139,9 +1151,9 @@ pub enum ServerMessage {
     SearchCorrelations(SearchCorrelationsPayload),
     DnetLevel(DnetLevelPayload),
     DnetGroupLeader(DnetGroupLeaderPayload),
-    DnetDeliveryReport(OpaquePayload),
+    DnetDeliveryReport(DnetDeliveryReportPayload),
     DnetChildDepth(DnetChildDepthPayload),
-    Flood(OpaquePayload),
+    Flood(FloodPayload),
     MessageUserIncoming(MessageUserIncomingPayload),
     MessageUser(MessageUserPayload),
     MessageAcked(MessageAckedPayload),
@@ -1546,13 +1558,7 @@ fn parse_room_operatorship_revocation_payload(payload: &[u8]) -> RoomOperatorshi
 }
 
 fn parse_dnet_level_payload(payload: &[u8]) -> DnetLevelPayload {
-    let mut reader = PayloadReader::new(payload);
-    let level = if reader.remaining() >= 4 {
-        reader.read_u32().ok()
-    } else {
-        None
-    };
-    let raw_tail = reader.read_remaining_bytes();
+    let (level, raw_tail) = parse_optional_u32_with_raw_tail(payload);
     DnetLevelPayload { level, raw_tail }
 }
 
@@ -1575,14 +1581,32 @@ fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
 }
 
 fn parse_dnet_child_depth_payload(payload: &[u8]) -> DnetChildDepthPayload {
+    let (depth, raw_tail) = parse_optional_u32_with_raw_tail(payload);
+    DnetChildDepthPayload { depth, raw_tail }
+}
+
+fn parse_dnet_delivery_report_payload(payload: &[u8]) -> DnetDeliveryReportPayload {
+    let (report, raw_tail) = parse_optional_u32_with_raw_tail(payload);
+    DnetDeliveryReportPayload { report, raw_tail }
+}
+
+fn parse_flood_payload(payload: &[u8]) -> FloodPayload {
+    let (flood_code, raw_tail) = parse_optional_u32_with_raw_tail(payload);
+    FloodPayload {
+        flood_code,
+        raw_tail,
+    }
+}
+
+fn parse_optional_u32_with_raw_tail(payload: &[u8]) -> (Option<u32>, Vec<u8>) {
     let mut reader = PayloadReader::new(payload);
-    let depth = if reader.remaining() >= 4 {
+    let value = if reader.remaining() >= 4 {
         reader.read_u32().ok()
     } else {
         None
     };
     let raw_tail = reader.read_remaining_bytes();
-    DnetChildDepthPayload { depth, raw_tail }
+    (value, raw_tail)
 }
 
 fn encode_recommendations_payload(writer: &mut PayloadWriter, payload: &RecommendationsPayload) {
@@ -2132,7 +2156,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             CODE_SM_DNET_GROUP_LEADER
         }
         ServerMessage::DnetDeliveryReport(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(report) = payload.report {
+                writer.write_u32(report);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
             CODE_SM_DNET_DELIVERY_REPORT
         }
         ServerMessage::DnetChildDepth(payload) => {
@@ -2143,7 +2170,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             CODE_SM_DNET_CHILD_DEPTH
         }
         ServerMessage::Flood(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(flood_code) = payload.flood_code {
+                writer.write_u32(flood_code);
+            }
+            writer.write_raw_bytes(&payload.raw_tail);
             CODE_SM_FLOOD
         }
         ServerMessage::MessageUserIncoming(payload) => {
@@ -2941,9 +2971,7 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         }
         CODE_SM_DNET_DELIVERY_REPORT => {
             allow_trailing_bytes = true;
-            ServerMessage::DnetDeliveryReport(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            ServerMessage::DnetDeliveryReport(parse_dnet_delivery_report_payload(payload))
         }
         CODE_SM_DNET_CHILD_DEPTH => {
             allow_trailing_bytes = true;
@@ -2951,9 +2979,7 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         }
         CODE_SM_FLOOD => {
             allow_trailing_bytes = true;
-            ServerMessage::Flood(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            ServerMessage::Flood(parse_flood_payload(payload))
         }
         other if is_opaque_server_control_code(other) => {
             allow_trailing_bytes = true;
@@ -4488,6 +4514,22 @@ pub fn build_dnet_child_depth_request(depth: u32) -> Frame {
     }))
 }
 
+pub fn build_dnet_delivery_report_request(report: u32) -> Frame {
+    encode_server_message(&ServerMessage::DnetDeliveryReport(
+        DnetDeliveryReportPayload {
+            report: Some(report),
+            raw_tail: Vec::new(),
+        },
+    ))
+}
+
+pub fn build_flood_request(flood_code: u32) -> Frame {
+    encode_server_message(&ServerMessage::Flood(FloodPayload {
+        flood_code: Some(flood_code),
+        raw_tail: Vec::new(),
+    }))
+}
+
 pub fn build_inform_user_of_privileges_request(token: u32, username: &str) -> Frame {
     encode_server_message(&ServerMessage::InformUserOfPrivileges(
         InformUserOfPrivilegesPayload {
@@ -5253,15 +5295,19 @@ mod tests {
                 username: Some("branch-root".into()),
                 raw_tail: Vec::new(),
             })),
-            ProtocolMessage::Server(ServerMessage::DnetDeliveryReport(OpaquePayload {
-                bytes: vec![0x03, 0x00, 0x00, 0x00],
-            })),
+            ProtocolMessage::Server(ServerMessage::DnetDeliveryReport(
+                DnetDeliveryReportPayload {
+                    report: Some(3),
+                    raw_tail: Vec::new(),
+                },
+            )),
             ProtocolMessage::Server(ServerMessage::DnetChildDepth(DnetChildDepthPayload {
                 depth: Some(4),
                 raw_tail: Vec::new(),
             })),
-            ProtocolMessage::Server(ServerMessage::Flood(OpaquePayload {
-                bytes: vec![0x05, 0x00, 0x00, 0x00],
+            ProtocolMessage::Server(ServerMessage::Flood(FloodPayload {
+                flood_code: Some(5),
+                raw_tail: Vec::new(),
             })),
             ProtocolMessage::Server(ServerMessage::RemoveRoomOperatorship(
                 RoomOperatorshipRevocationPayload {
@@ -5679,6 +5725,11 @@ mod tests {
             build_dnet_child_depth_request(3).code,
             CODE_SM_DNET_CHILD_DEPTH
         );
+        assert_eq!(
+            build_dnet_delivery_report_request(1).code,
+            CODE_SM_DNET_DELIVERY_REPORT
+        );
+        assert_eq!(build_flood_request(1).code, CODE_SM_FLOOD);
         assert_eq!(build_set_status_request(2).code, CODE_SM_SET_STATUS);
         assert_eq!(build_heartbeat_request(Some(1)).code, CODE_SM_HEARTBEAT);
         assert_eq!(build_dnet_reset_request(Some(1)).code, CODE_SM_DNET_RESET);
@@ -6061,6 +6112,24 @@ mod tests {
         assert_eq!(depth_payload.depth, Some(3));
         assert!(depth_payload.raw_tail.is_empty());
 
+        let delivery_frame = build_dnet_delivery_report_request(7);
+        let delivery_message = decode_server_message(delivery_frame.code, &delivery_frame.payload)
+            .expect("decode dnet delivery report");
+        let ServerMessage::DnetDeliveryReport(delivery_payload) = delivery_message else {
+            panic!("expected dnet delivery report payload");
+        };
+        assert_eq!(delivery_payload.report, Some(7));
+        assert!(delivery_payload.raw_tail.is_empty());
+
+        let flood_frame = build_flood_request(9);
+        let flood_message =
+            decode_server_message(flood_frame.code, &flood_frame.payload).expect("decode flood");
+        let ServerMessage::Flood(flood_payload) = flood_message else {
+            panic!("expected flood payload");
+        };
+        assert_eq!(flood_payload.flood_code, Some(9));
+        assert!(flood_payload.raw_tail.is_empty());
+
         let remove_frame = build_remove_room_operatorship_request("private-room");
         let remove_message = decode_server_message(remove_frame.code, &remove_frame.payload)
             .expect("decode remove room operatorship");
@@ -6145,7 +6214,9 @@ mod tests {
             CODE_SM_CHANGE_PASSWORD,
             CODE_SM_DNET_LEVEL,
             CODE_SM_DNET_GROUP_LEADER,
+            CODE_SM_DNET_DELIVERY_REPORT,
             CODE_SM_DNET_CHILD_DEPTH,
+            CODE_SM_FLOOD,
             CODE_SM_REMOVE_ROOM_OPERATORSHIP,
             CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP,
         ] {
