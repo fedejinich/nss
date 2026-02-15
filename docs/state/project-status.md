@@ -22,6 +22,7 @@
 - Stage 4J complete: private-room ownership/membership mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4K complete: missing-code closure and protocol implementation for global/distributed tail + peer control with authoritative jump-table evidence.
 - Stage 4L complete: mapped-not-implemented closure to full matrix implementation coverage (`implemented+mapped=131`).
+- Stage 5A complete: typed runtime hardening wave 1 for parent/distributed control and folder decompression parsing with authenticated evidence.
 - Stage 5B complete: exhaustive SoulseekQt UI + functionality research pass with pass-2 verification and decompilation addendum artifacts.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
@@ -49,6 +50,34 @@
    - `evidence/ui_audit/decomp/server_methods.txt`
    - `evidence/ui_audit/decomp/peer_methods.txt`
    - `evidence/ui_audit/decomp/transfer_methods.txt`
+
+## Stage 5A Completion
+
+1. Promoted runtime-backed evidence and confidence closure for previously static/hypothesis rows:
+   - `SM_SET_PARENT_MIN_SPEED` (`83`)
+   - `SM_SET_PARENT_SPEED_CONNECTION_RATIO` (`84`)
+   - `SM_GET_ROOM_TICKER` (`113`)
+   - `SM_UPLOAD_SPEED` (`121`)
+   - `SM_GET_USER_PRIVILEGES_STATUS` (`122`, `medium -> high`)
+2. Added authenticated runtime capture scenario:
+   - `captures/redacted/login-parent-distributed-control`
+3. Replaced selected opaque protocol handling with typed payloads:
+   - `ParentMinSpeedPayload`
+   - `ParentSpeedConnectionRatioPayload`
+   - `RoomTickerRequestPayload`
+   - `RoomTickerPayload`
+4. Added decompression-aware parser support for `PM_SHARED_FILES_IN_FOLDER`:
+   - zlib decompression with safety limit guard
+   - typed listing classification (`BinaryEntries`, `Utf8Lines`, `OpaqueBytes`)
+5. Extended core/CLI/verify surfaces:
+   - `SessionClient::request_room_ticker(...)`
+   - `SessionClient::set_upload_speed(...)`
+   - CLI `room ticker ...`
+   - semantic verifier test coverage for room-ticker field diffs
+6. Preserved full protocol matrix coverage while increasing semantic depth:
+   - `implemented+mapped=131`
+   - `mapped_not_implemented=0`
+   - `missing=0`
 
 ## Stage 4K Completion
 

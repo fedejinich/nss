@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-15T04:56:43+00:00",
+  "generated_at": "2026-02-15T06:03:56+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -314,6 +314,22 @@
         {
           "name": "compressed_listing",
           "type": "bytes_raw"
+        },
+        {
+          "name": "decompressed_listing",
+          "type": "bytes_raw"
+        },
+        {
+          "name": "listing_format",
+          "type": "enum"
+        },
+        {
+          "name": "entry.virtual_path",
+          "type": "string"
+        },
+        {
+          "name": "entry.size",
+          "type": "u64"
         }
       ],
       "confidence": "high",
@@ -321,7 +337,7 @@
         {
           "kind": "runtime_capture",
           "source": "captures/redacted/peer-folder-local/official_frames.hex",
-          "note": "Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37) with directory plus compressed listing bytes."
+          "note": "Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37); protocol parser now performs zlib decompression-aware decoding."
         },
         {
           "kind": "string",
@@ -1856,13 +1872,18 @@
       "scope": "server",
       "code": 83,
       "name": "SM_SET_PARENT_MIN_SPEED",
-      "payload": [],
+      "payload": [
+        {
+          "name": "min_speed",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 83 to SM_SET_PARENT_MIN_SPEED (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "note": "Authenticated runtime flow observes server-issued parent min speed tuning frame (code 83) with typed `u32` payload."
         }
       ]
     },
@@ -1870,13 +1891,18 @@
       "scope": "server",
       "code": 84,
       "name": "SM_SET_PARENT_SPEED_CONNECTION_RATIO",
-      "payload": [],
+      "payload": [
+        {
+          "name": "ratio",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 84 to SM_SET_PARENT_SPEED_CONNECTION_RATIO (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "note": "Authenticated runtime flow observes server-issued parent speed ratio tuning frame (code 84) with typed `u32` payload."
         }
       ]
     },
@@ -2095,13 +2121,30 @@
       "scope": "server",
       "code": 113,
       "name": "SM_GET_ROOM_TICKER",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        },
+        {
+          "name": "ticker_count",
+          "type": "u32"
+        },
+        {
+          "name": "entry.username",
+          "type": "string"
+        },
+        {
+          "name": "entry.ticker",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 113 to SM_GET_ROOM_TICKER (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "note": "Authenticated runtime flow captures request+response multiplexing on code 113 and validates typed room ticker payload decoding."
         }
       ]
     },
@@ -2211,9 +2254,9 @@
       "confidence": "high",
       "evidence": [
         {
-          "kind": "string",
-          "source": "evidence/reverse/message_name_strings.txt",
-          "note": "String present and mirrored by upload code paths."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends upload-speed control frame (code 121) with typed `bytes_per_sec` payload."
         }
       ]
     },
@@ -2231,12 +2274,12 @@
           "type": "bool_u32"
         }
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         {
           "kind": "runtime_capture",
-          "source": "captures/redacted/login-privileges-social/official_frames.hex",
-          "note": "Authenticated runtime flow sends user-privileges status request (code 122); response semantics are deprecated in spec and treated as username+privileged summary."
+          "source": "captures/redacted/login-parent-distributed-control/official_frames.hex",
+          "note": "Authenticated runtime flow captures both request and response on code 122 with typed `username + privileged` semantics."
         },
         {
           "kind": "string",

@@ -53,6 +53,14 @@ When work touches authenticated runtime flows:
 2. For deterministic protocol tests and feature logic, prefer scoped decoders (`decode_server_message(...)` or `decode_peer_message(...)`) when the channel is known.
 3. Keep semantic diff fallback behavior, but avoid using ambiguous generic decode output as authoritative protocol classification.
 
+## Compressed Payload Safety Discipline
+
+When promoting compressed protocol payloads from opaque to typed:
+
+1. Enforce explicit decompression size limits to prevent memory-amplification regressions.
+2. Preserve format fallback classification (`typed`, `text`, `opaque`) instead of failing hard on unknown shapes.
+3. Add regression tests for oversized compressed payload rejection and at least one valid decompression path.
+
 ## Message-Code Resolution Discipline
 
 When a protocol code mapping is unresolved but the symbol name exists in static tables:

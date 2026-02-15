@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T04:56:43+00:00`
+- Generated: `2026-02-15T06:03:56+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -108,8 +108,12 @@
 - Payload fields:
   - `directory`: `string`
   - `compressed_listing`: `bytes_raw`
+  - `decompressed_listing`: `bytes_raw`
+  - `listing_format`: `enum`
+  - `entry.virtual_path`: `string`
+  - `entry.size`: `u64`
 - Evidence:
-  - `runtime_capture`: `captures/redacted/peer-folder-local/official_frames.hex` (Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37) with directory plus compressed listing bytes.)
+  - `runtime_capture`: `captures/redacted/peer-folder-local/official_frames.hex` (Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37); protocol parser now performs zlib decompression-aware decoding.)
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_SHARED_FILES_IN_FOLDER.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 37 documents compressed folder listing response payload.)
 
@@ -629,15 +633,17 @@
 
 ### `server` `SM_SET_PARENT_MIN_SPEED` (code `83`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `min_speed`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 83 to SM_SET_PARENT_MIN_SPEED (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-distributed-control/official_frames.hex` (Authenticated runtime flow observes server-issued parent min speed tuning frame (code 83) with typed `u32` payload.)
 
 ### `server` `SM_SET_PARENT_SPEED_CONNECTION_RATIO` (code `84`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `ratio`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 84 to SM_SET_PARENT_SPEED_CONNECTION_RATIO (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-distributed-control/official_frames.hex` (Authenticated runtime flow observes server-issued parent speed ratio tuning frame (code 84) with typed `u32` payload.)
 
 ### `server` `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT` (code `86`)
 - Confidence: `high`
@@ -728,9 +734,13 @@
 
 ### `server` `SM_GET_ROOM_TICKER` (code `113`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
+  - `ticker_count`: `u32`
+  - `entry.username`: `string`
+  - `entry.ticker`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 113 to SM_GET_ROOM_TICKER (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-distributed-control/official_frames.hex` (Authenticated runtime flow captures request+response multiplexing on code 113 and validates typed room ticker payload decoding.)
 
 ### `server` `SM_ROOM_TICKER_USER_ADDED` (code `114`)
 - Confidence: `high`
@@ -775,15 +785,15 @@
 - Payload fields:
   - `bytes_per_sec`: `u32`
 - Evidence:
-  - `string`: `evidence/reverse/message_name_strings.txt` (String present and mirrored by upload code paths.)
+  - `runtime_capture`: `captures/redacted/login-parent-distributed-control/official_frames.hex` (Authenticated runtime flow sends upload-speed control frame (code 121) with typed `bytes_per_sec` payload.)
 
 ### `server` `SM_GET_USER_PRIVILEGES_STATUS` (code `122`)
-- Confidence: `medium`
+- Confidence: `high`
 - Payload fields:
   - `username`: `string`
   - `privileged`: `bool_u32`
 - Evidence:
-  - `runtime_capture`: `captures/redacted/login-privileges-social/official_frames.hex` (Authenticated runtime flow sends user-privileges status request (code 122); response semantics are deprecated in spec and treated as username+privileged summary.)
+  - `runtime_capture`: `captures/redacted/login-parent-distributed-control/official_frames.hex` (Authenticated runtime flow captures both request and response on code 122 with typed `username + privileged` semantics.)
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_GET_USER_PRIVILEGES_STATUS.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 122 documents UserPrivileged (deprecated) with username and bool response fields.)
 

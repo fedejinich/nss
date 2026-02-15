@@ -42,6 +42,23 @@ Mandatory stage 4C scenarios:
 1. `login-privileges-social`
 2. `peer-folder-local`
 
+Mandatory stage 4D scenarios:
+
+1. `login-privilege-messaging`
+2. `peer-legacy-local`
+
+Mandatory stage 4E scenarios:
+
+1. `login-private-message`
+2. `login-user-state`
+3. `login-peer-address-connect`
+4. `login-message-users`
+5. `login-peer-message`
+
+Mandatory stage 5A scenarios:
+
+1. `login-parent-distributed-control`
+
 Current state:
 
 - Stage 2 scenarios were regenerated from runtime runs (`captures/raw/* -> captures/redacted/*`).
@@ -51,5 +68,8 @@ Current state:
 - Stage 4B peer-advanced scenario is a deterministic local peer runtime run for protocol coverage and semantic verification.
 - Stage 4C privileges/social scenario is generated from authenticated runtime sessions and redacted with the same policy.
 - Stage 4C peer-folder scenario is a deterministic local peer runtime run for protocol coverage and semantic verification.
+- Stage 4D privilege/messaging scenario is generated from authenticated runtime sessions; peer-legacy is deterministic local runtime for parser coverage.
+- Stage 4E private messaging and user-state scenarios are generated from authenticated runtime sessions plus deterministic local peer-message alias coverage.
+- Stage 5A parent/distributed control scenario is generated from authenticated runtime sessions and includes evidence for codes `83`, `84`, `113`, `121`, and `122`.
 - `login-*` scenarios include live server socket traffic to `server.slsknet.org:2242`.
 - `download/upload` peer flows are runtime local-peer exchanges used for deterministic protocol evidence and regression.

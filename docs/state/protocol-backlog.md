@@ -193,13 +193,34 @@ Status: completed in S4K with authoritative static mapping evidence from jump-ta
   - `mapped_not_implemented=0`
   - `missing=0`
 
-## Next Candidate Stage (S5A) - Typed Runtime Hardening Wave 1
+## Completed in S5A (Typed Runtime Hardening Wave 1)
+
+- Runtime-promoted typed control messages:
+  - `SM_SET_PARENT_MIN_SPEED` (`83`)
+  - `SM_SET_PARENT_SPEED_CONNECTION_RATIO` (`84`)
+  - `SM_GET_ROOM_TICKER` (`113`)
+  - `SM_UPLOAD_SPEED` (`121`)
+  - `SM_GET_USER_PRIVILEGES_STATUS` (`122`, promoted `medium -> high`)
+- Runtime scenario added:
+  - `login-parent-distributed-control`
+- Parser hardening:
+  - `PM_SHARED_FILES_IN_FOLDER` now supports decompression-aware parsing with zlib safety limit and typed listing format classification.
+- SDK/CLI hardening:
+  - `SessionClient::request_room_ticker(...)`
+  - `SessionClient::set_upload_speed(...)`
+  - `soul-cli room ticker --room ...`
+- Coverage baseline preserved:
+  - `implemented+mapped=131`
+  - `mapped_not_implemented=0`
+  - `missing=0`
+
+## Next Candidate Stage (S5C) - Typed Runtime Hardening Wave 2
 
 Target focus:
 
-- Replace `OpaqueServerControlPayload` handling with typed payload parsers for high-traffic control families where runtime captures are feasible.
-- Add runtime capture scenarios for global/distributed control flows currently represented as opaque payloads.
-- Improve `PM_SHARED_FILES_IN_FOLDER` by adding decompression-aware parser coverage.
+- Continue replacing `OpaqueServerControlPayload` handling for global/distributed control codes with typed payloads.
+- Add runtime scenarios that exercise additional distributed control frames currently verified only by static jump-table evidence.
+- Extend semantic verifier normalization for newly typed control payload families.
 
 ## Execution Strategy
 
@@ -213,4 +234,4 @@ Target focus:
 
 ## Next Session Entry Point
 
-Start S5A by selecting the first opaque-control subdomain and collecting runtime evidence needed for typed payload promotion.
+Start S5C by selecting the next opaque global/distributed control subset with feasible runtime evidence and typed parser promotion path.

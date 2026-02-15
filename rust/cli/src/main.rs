@@ -421,6 +421,22 @@ enum SessionCommand {
         #[arg(long)]
         verbose: bool,
     },
+    UploadSpeed {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        bytes_per_sec: u32,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+    },
     GivePrivilege {
         #[arg(long)]
         server: Option<String>,
@@ -568,6 +584,26 @@ enum RoomCommand {
         verbose: bool,
     },
     Members {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long, default_value_t = 6)]
+        timeout_secs: u64,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    Ticker {
         #[arg(long)]
         server: Option<String>,
         #[arg(long)]
@@ -1281,6 +1317,25 @@ async fn main() -> Result<()> {
                 .await?;
                 run_user_privileges(&mut client, &target_user, timeout_secs, verbose).await?;
             }
+            SessionCommand::UploadSpeed {
+                server,
+                username,
+                password,
+                password_md5,
+                bytes_per_sec,
+                client_version,
+                minor_version,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_upload_speed(&mut client, bytes_per_sec).await?;
+            }
             SessionCommand::GivePrivilege {
                 server,
                 username,
@@ -1455,6 +1510,27 @@ async fn main() -> Result<()> {
                 )
                 .await?;
                 run_room_members(&mut client, &room, timeout_secs, verbose).await?;
+            }
+            RoomCommand::Ticker {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                timeout_secs,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_ticker(&mut client, &room, timeout_secs, verbose).await?;
             }
             RoomCommand::Watch {
                 server,
@@ -2163,6 +2239,12 @@ async fn run_user_privileges(
     Ok(())
 }
 
+async fn run_upload_speed(client: &mut SessionClient, bytes_per_sec: u32) -> Result<()> {
+    client.set_upload_speed(bytes_per_sec).await?;
+    println!("session.upload-speed sent bytes_per_sec={}", bytes_per_sec);
+    Ok(())
+}
+
 async fn run_give_privilege(
     client: &mut SessionClient,
     target_user: &str,
@@ -2295,6 +2377,34 @@ async fn run_room_members(
     Ok(())
 }
 
+async fn run_room_ticker(
+    client: &mut SessionClient,
+    room: &str,
+    timeout_secs: u64,
+    verbose: bool,
+) -> Result<()> {
+    client.join_room(room).await?;
+    let payload = client
+        .request_room_ticker(room, Duration::from_secs(timeout_secs))
+        .await?;
+    println!(
+        "room.ticker ok room={} entries={} sample={}",
+        payload.room,
+        payload.entries.len(),
+        payload
+            .entries
+            .iter()
+            .take(3)
+            .map(|entry| format!("{}:{}", entry.username, entry.ticker))
+            .collect::<Vec<_>>()
+            .join(", ")
+    );
+    if verbose {
+        println!("{payload:#?}");
+    }
+    Ok(())
+}
+
 async fn run_room_watch(
     client: &mut SessionClient,
     room: &str,
@@ -2320,14 +2430,19 @@ async fn run_room_watch(
         .iter()
         .filter(|event| matches!(event, RoomEvent::RoomMessage { .. }))
         .count();
+    let tickers = events
+        .iter()
+        .filter(|event| matches!(event, RoomEvent::TickerSnapshot(_)))
+        .count();
 
     println!(
-        "room.watch ok room={} timeout_secs={} joined={} left={} messages={} total_events={}",
+        "room.watch ok room={} timeout_secs={} joined={} left={} messages={} tickers={} total_events={}",
         room,
         timeout_secs,
         joined,
         left,
         messages,
+        tickers,
         events.len()
     );
     if verbose {

@@ -1,0 +1,24 @@
+{
+  "run_id": "login-parent-distributed-control",
+  "scenario": "login-parent-distributed-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T05:57:10+00:00",
+  "server": "<redacted:endpoint:fa5936bae1f4>",
+  "frame_count": 19,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:fcd80962d934>",
+    "neo_frames_raw": "<redacted:path:9fefbd0cfa52>",
+    "frida_events_raw": "<redacted:path:922df7cfc150>"
+  },
+  "notes": "Stage 5A runtime capture for typed hardening: parent/distributed control observations + upload speed + user privileges status.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T05:57:14+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-parent-distributed-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

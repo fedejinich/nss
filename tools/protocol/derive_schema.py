@@ -69,6 +69,9 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_GIVE_PRIVILEGE"): 123,
     ("server", "SM_INFORM_USER_OF_PRIVILEGES"): 124,
     ("server", "SM_INFORM_USER_OF_PRIVILEGES_ACK"): 125,
+    ("server", "SM_SET_PARENT_MIN_SPEED"): 83,
+    ("server", "SM_SET_PARENT_SPEED_CONNECTION_RATIO"): 84,
+    ("server", "SM_GET_ROOM_TICKER"): 113,
     ("server", "SM_UPLOAD_SPEED"): 121,
     ("server", "SM_ADD_ROOM_MEMBER"): 134,
     ("server", "SM_REMOVE_ROOM_MEMBER"): 135,
@@ -278,6 +281,14 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "file_count", "type": "u32"},
     ],
     ("server", "SM_DOWNLOAD_SPEED"): [{"name": "bytes_per_sec", "type": "u32"}],
+    ("server", "SM_SET_PARENT_MIN_SPEED"): [{"name": "min_speed", "type": "u32"}],
+    ("server", "SM_SET_PARENT_SPEED_CONNECTION_RATIO"): [{"name": "ratio", "type": "u32"}],
+    ("server", "SM_GET_ROOM_TICKER"): [
+        {"name": "room", "type": "string"},
+        {"name": "ticker_count", "type": "u32"},
+        {"name": "entry.username", "type": "string"},
+        {"name": "entry.ticker", "type": "string"},
+    ],
     ("server", "SM_UPLOAD_SPEED"): [{"name": "bytes_per_sec", "type": "u32"}],
     ("peer", "PM_GET_SHARED_FILE_LIST"): [{"name": "username", "type": "string"}],
     ("peer", "PM_SHARED_FILE_LIST"): [
@@ -291,6 +302,10 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ("peer", "PM_SHARED_FILES_IN_FOLDER"): [
         {"name": "directory", "type": "string"},
         {"name": "compressed_listing", "type": "bytes_raw"},
+        {"name": "decompressed_listing", "type": "bytes_raw"},
+        {"name": "listing_format", "type": "enum"},
+        {"name": "entry.virtual_path", "type": "string"},
+        {"name": "entry.size", "type": "u64"},
     ],
     ("peer", "PM_FILE_SEARCH_REQUEST"): [
         {"name": "token", "type": "u32"},
