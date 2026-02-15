@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import re
 from collections import Counter
 from datetime import datetime, timezone
@@ -167,12 +168,44 @@ def render_markdown(rows: list[dict[str, str]]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def render_json(rows: list[dict[str, str]]) -> dict[str, object]:
+    counts = Counter(row["status"] for row in rows)
+    server_total = sum(1 for row in rows if row["scope"] == "server")
+    peer_total = sum(1 for row in rows if row["scope"] == "peer")
+
+    return {
+        "generated_at": now_iso(),
+        "snapshot": {
+            "total_messages": len(rows),
+            "server_messages": server_total,
+            "peer_messages": peer_total,
+            "implemented_mapped": counts.get("implemented_mapped", 0),
+            "mapped_not_implemented": counts.get("mapped_not_implemented", 0),
+            "implemented_not_mapped": counts.get("implemented_not_mapped", 0),
+            "missing": counts.get("missing", 0),
+        },
+        "rows": [
+            {
+                "scope": row["scope"],
+                "code": int(row["code"]) if row["code"].isdigit() else None,
+                "message": row["name"],
+                "status": row["status"],
+                "confidence": row["confidence"] or None,
+                "summary": row["summary"],
+                "evidence": row["evidence"],
+            }
+            for row in rows
+        ],
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate protocol coverage matrix markdown")
     parser.add_argument("--message-names", default="evidence/reverse/message_name_strings.txt")
     parser.add_argument("--message-map", default="analysis/ghidra/maps/message_map.csv")
     parser.add_argument("--protocol-lib", default="rust/protocol/src/lib.rs")
     parser.add_argument("--out", default="docs/state/protocol-matrix.md")
+    parser.add_argument("--out-json", default="docs/state/protocol-matrix.json")
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent.parent
@@ -180,6 +213,7 @@ def main() -> int:
     map_path = (repo_root / args.message_map).resolve()
     protocol_path = (repo_root / args.protocol_lib).resolve()
     out_path = (repo_root / args.out).resolve()
+    out_json_path = (repo_root / args.out_json).resolve()
 
     rows = build_rows(
         known_names=read_message_names(names_path),
@@ -188,6 +222,8 @@ def main() -> int:
     )
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(render_markdown(rows), encoding="utf-8")
+    out_json_path.parent.mkdir(parents=True, exist_ok=True)
+    out_json_path.write_text(json.dumps(render_json(rows), indent=2) + "\n", encoding="utf-8")
     return 0
 
 

@@ -1,0 +1,3911 @@
+{
+  "generated_unix_secs": 1771141928,
+  "repo_root": "/Users/void_rsk/Projects/soul-dec",
+  "scope": {
+    "included_top_level_dirs": [
+      "analysis",
+      "docs",
+      "evidence",
+      "frida",
+      "overrides",
+      "rust",
+      "scripts",
+      "tests",
+      "tools"
+    ],
+    "included_root_files": [
+      "AGENTS.md",
+      "README.md",
+      "TODO-CODEX.md",
+      "zensical.toml"
+    ],
+    "excluded_dir_names": [
+      ".cache",
+      ".git",
+      ".venv-tools",
+      "__pycache__",
+      "captures",
+      "site",
+      "target"
+    ],
+    "allowed_extensions": [
+      ".css",
+      ".csv",
+      ".html",
+      ".js",
+      ".json",
+      ".jsonl",
+      ".md",
+      ".py",
+      ".rs",
+      ".sh",
+      ".toml",
+      ".txt",
+      ".yaml",
+      ".yml"
+    ]
+  },
+  "stats": {
+    "domain_count": 9,
+    "dir_count": 48,
+    "file_count": 199,
+    "node_count": 257,
+    "edge_count": 256,
+    "total_loc": 108462,
+    "total_size_bytes": 3790949
+  },
+  "nodes": [
+    {
+      "id": "root:neosoulseek",
+      "label": "NeoSoulSeek",
+      "kind": "root",
+      "path": ".",
+      "loc": 108462,
+      "size_bytes": 3790949,
+      "extension": null,
+      "domain": "root"
+    },
+    {
+      "id": "domain:analysis",
+      "label": "analysis",
+      "kind": "domain",
+      "path": "analysis",
+      "loc": 35764,
+      "size_bytes": 516150,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "domain:docs",
+      "label": "docs",
+      "kind": "domain",
+      "path": "docs",
+      "loc": 13046,
+      "size_bytes": 477269,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "domain:evidence",
+      "label": "evidence",
+      "kind": "domain",
+      "path": "evidence",
+      "loc": 35616,
+      "size_bytes": 1974140,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "domain:frida",
+      "label": "frida",
+      "kind": "domain",
+      "path": "frida",
+      "loc": 93,
+      "size_bytes": 2334,
+      "extension": null,
+      "domain": "frida"
+    },
+    {
+      "id": "domain:repo-root",
+      "label": "repo-root",
+      "kind": "domain",
+      "path": "repo-root",
+      "loc": 2322,
+      "size_bytes": 74308,
+      "extension": null,
+      "domain": "repo-root"
+    },
+    {
+      "id": "domain:rust",
+      "label": "rust",
+      "kind": "domain",
+      "path": "rust",
+      "loc": 12531,
+      "size_bytes": 435044,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "domain:scripts",
+      "label": "scripts",
+      "kind": "domain",
+      "path": "scripts",
+      "loc": 508,
+      "size_bytes": 17129,
+      "extension": null,
+      "domain": "scripts"
+    },
+    {
+      "id": "domain:tests",
+      "label": "tests",
+      "kind": "domain",
+      "path": "tests",
+      "loc": 1286,
+      "size_bytes": 51141,
+      "extension": null,
+      "domain": "tests"
+    },
+    {
+      "id": "domain:tools",
+      "label": "tools",
+      "kind": "domain",
+      "path": "tools",
+      "loc": 7296,
+      "size_bytes": 243434,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "dir:analysis",
+      "label": "analysis",
+      "kind": "dir",
+      "path": "analysis",
+      "loc": 35764,
+      "size_bytes": 516150,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/ghidra",
+      "label": "ghidra",
+      "kind": "dir",
+      "path": "analysis/ghidra",
+      "loc": 463,
+      "size_bytes": 38001,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/ghidra/maps",
+      "label": "maps",
+      "kind": "dir",
+      "path": "analysis/ghidra/maps",
+      "loc": 301,
+      "size_bytes": 33344,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/ghidra/queue",
+      "label": "queue",
+      "kind": "dir",
+      "path": "analysis/ghidra/queue",
+      "loc": 0,
+      "size_bytes": 0,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/ghidra/schemas",
+      "label": "schemas",
+      "kind": "dir",
+      "path": "analysis/ghidra/schemas",
+      "loc": 162,
+      "size_bytes": 4657,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/protocol",
+      "label": "protocol",
+      "kind": "dir",
+      "path": "analysis/protocol",
+      "loc": 3040,
+      "size_bytes": 86256,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/re",
+      "label": "re",
+      "kind": "dir",
+      "path": "analysis/re",
+      "loc": 146,
+      "size_bytes": 5545,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/state",
+      "label": "state",
+      "kind": "dir",
+      "path": "analysis/state",
+      "loc": 267,
+      "size_bytes": 8684,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:analysis/ui",
+      "label": "ui",
+      "kind": "dir",
+      "path": "analysis/ui",
+      "loc": 31848,
+      "size_bytes": 377664,
+      "extension": null,
+      "domain": "analysis"
+    },
+    {
+      "id": "dir:docs",
+      "label": "docs",
+      "kind": "dir",
+      "path": "docs",
+      "loc": 13046,
+      "size_bytes": 477269,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "dir:docs/pr",
+      "label": "pr",
+      "kind": "dir",
+      "path": "docs/pr",
+      "loc": 2046,
+      "size_bytes": 67899,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "dir:docs/re",
+      "label": "re",
+      "kind": "dir",
+      "path": "docs/re",
+      "loc": 1239,
+      "size_bytes": 60788,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "dir:docs/re/static",
+      "label": "static",
+      "kind": "dir",
+      "path": "docs/re/static",
+      "loc": 1239,
+      "size_bytes": 60788,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "dir:docs/runbooks",
+      "label": "runbooks",
+      "kind": "dir",
+      "path": "docs/runbooks",
+      "loc": 322,
+      "size_bytes": 7721,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "dir:docs/state",
+      "label": "state",
+      "kind": "dir",
+      "path": "docs/state",
+      "loc": 9301,
+      "size_bytes": 336951,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "dir:docs/verification",
+      "label": "verification",
+      "kind": "dir",
+      "path": "docs/verification",
+      "loc": 88,
+      "size_bytes": 2237,
+      "extension": null,
+      "domain": "docs"
+    },
+    {
+      "id": "dir:evidence",
+      "label": "evidence",
+      "kind": "dir",
+      "path": "evidence",
+      "loc": 35616,
+      "size_bytes": 1974140,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "dir:evidence/intake",
+      "label": "intake",
+      "kind": "dir",
+      "path": "evidence/intake",
+      "loc": 246,
+      "size_bytes": 11924,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "dir:evidence/reverse",
+      "label": "reverse",
+      "kind": "dir",
+      "path": "evidence/reverse",
+      "loc": 17447,
+      "size_bytes": 845296,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "dir:evidence/reverse/disasm",
+      "label": "disasm",
+      "kind": "dir",
+      "path": "evidence/reverse/disasm",
+      "loc": 9874,
+      "size_bytes": 679027,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "dir:evidence/ui_audit",
+      "label": "ui_audit",
+      "kind": "dir",
+      "path": "evidence/ui_audit",
+      "loc": 17923,
+      "size_bytes": 1116920,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "dir:evidence/ui_audit/decomp",
+      "label": "decomp",
+      "kind": "dir",
+      "path": "evidence/ui_audit/decomp",
+      "loc": 8195,
+      "size_bytes": 771352,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "dir:evidence/ui_audit/external",
+      "label": "external",
+      "kind": "dir",
+      "path": "evidence/ui_audit/external",
+      "loc": 1520,
+      "size_bytes": 95615,
+      "extension": null,
+      "domain": "evidence"
+    },
+    {
+      "id": "dir:frida",
+      "label": "frida",
+      "kind": "dir",
+      "path": "frida",
+      "loc": 93,
+      "size_bytes": 2334,
+      "extension": null,
+      "domain": "frida"
+    },
+    {
+      "id": "dir:frida/hooks",
+      "label": "hooks",
+      "kind": "dir",
+      "path": "frida/hooks",
+      "loc": 93,
+      "size_bytes": 2334,
+      "extension": null,
+      "domain": "frida"
+    },
+    {
+      "id": "dir:rust",
+      "label": "rust",
+      "kind": "dir",
+      "path": "rust",
+      "loc": 12531,
+      "size_bytes": 435044,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/cli",
+      "label": "cli",
+      "kind": "dir",
+      "path": "rust/cli",
+      "loc": 3032,
+      "size_bytes": 92178,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/cli/src",
+      "label": "src",
+      "kind": "dir",
+      "path": "rust/cli/src",
+      "loc": 3016,
+      "size_bytes": 91839,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/core",
+      "label": "core",
+      "kind": "dir",
+      "path": "rust/core",
+      "loc": 3185,
+      "size_bytes": 117898,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/core/src",
+      "label": "src",
+      "kind": "dir",
+      "path": "rust/core/src",
+      "loc": 3170,
+      "size_bytes": 117612,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/protocol",
+      "label": "protocol",
+      "kind": "dir",
+      "path": "rust/protocol",
+      "loc": 5560,
+      "size_bytes": 200718,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/protocol/src",
+      "label": "src",
+      "kind": "dir",
+      "path": "rust/protocol/src",
+      "loc": 5547,
+      "size_bytes": 200455,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/verify",
+      "label": "verify",
+      "kind": "dir",
+      "path": "rust/verify",
+      "loc": 705,
+      "size_bytes": 22977,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/verify/src",
+      "label": "src",
+      "kind": "dir",
+      "path": "rust/verify/src",
+      "loc": 691,
+      "size_bytes": 22692,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:scripts",
+      "label": "scripts",
+      "kind": "dir",
+      "path": "scripts",
+      "loc": 508,
+      "size_bytes": 17129,
+      "extension": null,
+      "domain": "scripts"
+    },
+    {
+      "id": "dir:tests",
+      "label": "tests",
+      "kind": "dir",
+      "path": "tests",
+      "loc": 1286,
+      "size_bytes": 51141,
+      "extension": null,
+      "domain": "tests"
+    },
+    {
+      "id": "dir:tests/docs",
+      "label": "docs",
+      "kind": "dir",
+      "path": "tests/docs",
+      "loc": 25,
+      "size_bytes": 818,
+      "extension": null,
+      "domain": "tests"
+    },
+    {
+      "id": "dir:tests/kb",
+      "label": "kb",
+      "kind": "dir",
+      "path": "tests/kb",
+      "loc": 211,
+      "size_bytes": 9246,
+      "extension": null,
+      "domain": "tests"
+    },
+    {
+      "id": "dir:tests/protocol",
+      "label": "protocol",
+      "kind": "dir",
+      "path": "tests/protocol",
+      "loc": 886,
+      "size_bytes": 34810,
+      "extension": null,
+      "domain": "tests"
+    },
+    {
+      "id": "dir:tests/runtime",
+      "label": "runtime",
+      "kind": "dir",
+      "path": "tests/runtime",
+      "loc": 75,
+      "size_bytes": 3042,
+      "extension": null,
+      "domain": "tests"
+    },
+    {
+      "id": "dir:tests/state",
+      "label": "state",
+      "kind": "dir",
+      "path": "tests/state",
+      "loc": 89,
+      "size_bytes": 3225,
+      "extension": null,
+      "domain": "tests"
+    },
+    {
+      "id": "dir:tools",
+      "label": "tools",
+      "kind": "dir",
+      "path": "tools",
+      "loc": 7296,
+      "size_bytes": 243434,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "dir:tools/docs",
+      "label": "docs",
+      "kind": "dir",
+      "path": "tools/docs",
+      "loc": 134,
+      "size_bytes": 3863,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "dir:tools/kb",
+      "label": "kb",
+      "kind": "dir",
+      "path": "tools/kb",
+      "loc": 680,
+      "size_bytes": 23573,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "dir:tools/protocol",
+      "label": "protocol",
+      "kind": "dir",
+      "path": "tools/protocol",
+      "loc": 1300,
+      "size_bytes": 50504,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "dir:tools/re",
+      "label": "re",
+      "kind": "dir",
+      "path": "tools/re",
+      "loc": 482,
+      "size_bytes": 16376,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "dir:tools/runtime",
+      "label": "runtime",
+      "kind": "dir",
+      "path": "tools/runtime",
+      "loc": 4304,
+      "size_bytes": 136913,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "dir:tools/state",
+      "label": "state",
+      "kind": "dir",
+      "path": "tools/state",
+      "loc": 396,
+      "size_bytes": 12205,
+      "extension": null,
+      "domain": "tools"
+    },
+    {
+      "id": "file:AGENTS.md",
+      "label": "AGENTS.md",
+      "kind": "file",
+      "path": "AGENTS.md",
+      "loc": 141,
+      "size_bytes": 6640,
+      "extension": ".md",
+      "domain": "repo-root"
+    },
+    {
+      "id": "file:README.md",
+      "label": "README.md",
+      "kind": "file",
+      "path": "README.md",
+      "loc": 140,
+      "size_bytes": 3433,
+      "extension": ".md",
+      "domain": "repo-root"
+    },
+    {
+      "id": "file:TODO-CODEX.md",
+      "label": "TODO-CODEX.md",
+      "kind": "file",
+      "path": "TODO-CODEX.md",
+      "loc": 2013,
+      "size_bytes": 63293,
+      "extension": ".md",
+      "domain": "repo-root"
+    },
+    {
+      "id": "file:analysis/ghidra/maps/data_map.json",
+      "label": "data_map.json",
+      "kind": "file",
+      "path": "analysis/ghidra/maps/data_map.json",
+      "loc": 6,
+      "size_bytes": 129,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ghidra/maps/message_map.csv",
+      "label": "message_map.csv",
+      "kind": "file",
+      "path": "analysis/ghidra/maps/message_map.csv",
+      "loc": 132,
+      "size_bytes": 28193,
+      "extension": ".csv",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ghidra/maps/name_map.json",
+      "label": "name_map.json",
+      "kind": "file",
+      "path": "analysis/ghidra/maps/name_map.json",
+      "loc": 163,
+      "size_bytes": 5022,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ghidra/queue/data_candidates.jsonl",
+      "label": "data_candidates.jsonl",
+      "kind": "file",
+      "path": "analysis/ghidra/queue/data_candidates.jsonl",
+      "loc": 0,
+      "size_bytes": 0,
+      "extension": ".jsonl",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ghidra/queue/name_candidates.jsonl",
+      "label": "name_candidates.jsonl",
+      "kind": "file",
+      "path": "analysis/ghidra/queue/name_candidates.jsonl",
+      "loc": 0,
+      "size_bytes": 0,
+      "extension": ".jsonl",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ghidra/queue/review_queue.jsonl",
+      "label": "review_queue.jsonl",
+      "kind": "file",
+      "path": "analysis/ghidra/queue/review_queue.jsonl",
+      "loc": 0,
+      "size_bytes": 0,
+      "extension": ".jsonl",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ghidra/schemas/data_map.schema.json",
+      "label": "data_map.schema.json",
+      "kind": "file",
+      "path": "analysis/ghidra/schemas/data_map.schema.json",
+      "loc": 80,
+      "size_bytes": 2290,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ghidra/schemas/name_map.schema.json",
+      "label": "name_map.schema.json",
+      "kind": "file",
+      "path": "analysis/ghidra/schemas/name_map.schema.json",
+      "loc": 82,
+      "size_bytes": 2367,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/protocol/message_schema.json",
+      "label": "message_schema.json",
+      "kind": "file",
+      "path": "analysis/protocol/message_schema.json",
+      "loc": 3040,
+      "size_bytes": 86256,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/re/flow_graph.json",
+      "label": "flow_graph.json",
+      "kind": "file",
+      "path": "analysis/re/flow_graph.json",
+      "loc": 146,
+      "size_bytes": 5545,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/state/stage_registry.json",
+      "label": "stage_registry.json",
+      "kind": "file",
+      "path": "analysis/state/stage_registry.json",
+      "loc": 267,
+      "size_bytes": 8684,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/ui/soulseekqt_strings_full.txt",
+      "label": "soulseekqt_strings_full.txt",
+      "kind": "file",
+      "path": "analysis/ui/soulseekqt_strings_full.txt",
+      "loc": 31848,
+      "size_bytes": 377664,
+      "extension": ".txt",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:docs/index.md",
+      "label": "index.md",
+      "kind": "file",
+      "path": "docs/index.md",
+      "loc": 50,
+      "size_bytes": 1673,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0001-kb-runtime.md",
+      "label": "0001-kb-runtime.md",
+      "kind": "file",
+      "path": "docs/pr/0001-kb-runtime.md",
+      "loc": 36,
+      "size_bytes": 1058,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0002-rust-parity.md",
+      "label": "0002-rust-parity.md",
+      "kind": "file",
+      "path": "docs/pr/0002-rust-parity.md",
+      "loc": 34,
+      "size_bytes": 871,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0003-s3a-auth-semantic-parity.md",
+      "label": "0003-s3a-auth-semantic-parity.md",
+      "kind": "file",
+      "path": "docs/pr/0003-s3a-auth-semantic-parity.md",
+      "loc": 89,
+      "size_bytes": 3923,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0004-s3b-rooms-presence-roadmap.md",
+      "label": "0004-s3b-rooms-presence-roadmap.md",
+      "kind": "file",
+      "path": "docs/pr/0004-s3b-rooms-presence-roadmap.md",
+      "loc": 131,
+      "size_bytes": 4168,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0005-s4a-recommendations-discovery.md",
+      "label": "0005-s4a-recommendations-discovery.md",
+      "kind": "file",
+      "path": "docs/pr/0005-s4a-recommendations-discovery.md",
+      "loc": 119,
+      "size_bytes": 3639,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0006-s4b-peer-room-matrix.md",
+      "label": "0006-s4b-peer-room-matrix.md",
+      "kind": "file",
+      "path": "docs/pr/0006-s4b-peer-room-matrix.md",
+      "loc": 133,
+      "size_bytes": 4221,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0007-s4c-privileges-social-peer-folder.md",
+      "label": "0007-s4c-privileges-social-peer-folder.md",
+      "kind": "file",
+      "path": "docs/pr/0007-s4c-privileges-social-peer-folder.md",
+      "loc": 145,
+      "size_bytes": 4770,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0008-s4d-privilege-messaging-peer-legacy.md",
+      "label": "0008-s4d-privilege-messaging-peer-legacy.md",
+      "kind": "file",
+      "path": "docs/pr/0008-s4d-privilege-messaging-peer-legacy.md",
+      "loc": 155,
+      "size_bytes": 4989,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0009-s4e-private-messaging-user-state.md",
+      "label": "0009-s4e-private-messaging-user-state.md",
+      "kind": "file",
+      "path": "docs/pr/0009-s4e-private-messaging-user-state.md",
+      "loc": 165,
+      "size_bytes": 5839,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0010-s4f-global-admin-distributed-map.md",
+      "label": "0010-s4f-global-admin-distributed-map.md",
+      "kind": "file",
+      "path": "docs/pr/0010-s4f-global-admin-distributed-map.md",
+      "loc": 57,
+      "size_bytes": 1648,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0011-s4g-parent-distributed-tuning-map.md",
+      "label": "0011-s4g-parent-distributed-tuning-map.md",
+      "kind": "file",
+      "path": "docs/pr/0011-s4g-parent-distributed-tuning-map.md",
+      "loc": 57,
+      "size_bytes": 1652,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0012-s4h-global-system-control-map.md",
+      "label": "0012-s4h-global-system-control-map.md",
+      "kind": "file",
+      "path": "docs/pr/0012-s4h-global-system-control-map.md",
+      "loc": 57,
+      "size_bytes": 1511,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0013-s4i-ticker-term-control-map.md",
+      "label": "0013-s4i-ticker-term-control-map.md",
+      "kind": "file",
+      "path": "docs/pr/0013-s4i-ticker-term-control-map.md",
+      "loc": 57,
+      "size_bytes": 1546,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0014-s4j-private-room-ownership-map.md",
+      "label": "0014-s4j-private-room-ownership-map.md",
+      "kind": "file",
+      "path": "docs/pr/0014-s4j-private-room-ownership-map.md",
+      "loc": 57,
+      "size_bytes": 1611,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md",
+      "label": "0015-s4k-missing-code-closure-protocol-implementation.md",
+      "kind": "file",
+      "path": "docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md",
+      "loc": 80,
+      "size_bytes": 2745,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0016-s4l-mapped-not-implemented-closure.md",
+      "label": "0016-s4l-mapped-not-implemented-closure.md",
+      "kind": "file",
+      "path": "docs/pr/0016-s4l-mapped-not-implemented-closure.md",
+      "loc": 62,
+      "size_bytes": 2315,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0016-s5b-soulseek-ui-feature-audit.md",
+      "label": "0016-s5b-soulseek-ui-feature-audit.md",
+      "kind": "file",
+      "path": "docs/pr/0016-s5b-soulseek-ui-feature-audit.md",
+      "loc": 88,
+      "size_bytes": 2602,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0017-s5a-typed-runtime-hardening.md",
+      "label": "0017-s5a-typed-runtime-hardening.md",
+      "kind": "file",
+      "path": "docs/pr/0017-s5a-typed-runtime-hardening.md",
+      "loc": 89,
+      "size_bytes": 3458,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0018-s5c-typed-runtime-hardening-wave2.md",
+      "label": "0018-s5c-typed-runtime-hardening-wave2.md",
+      "kind": "file",
+      "path": "docs/pr/0018-s5c-typed-runtime-hardening-wave2.md",
+      "loc": 86,
+      "size_bytes": 3266,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0019-s5d-s5h-control-typing-pack.md",
+      "label": "0019-s5d-s5h-control-typing-pack.md",
+      "kind": "file",
+      "path": "docs/pr/0019-s5d-s5h-control-typing-pack.md",
+      "loc": 103,
+      "size_bytes": 4571,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/0020-s6a-dashboard-codebase-visualizer-pr-catalog.md",
+      "label": "0020-s6a-dashboard-codebase-visualizer-pr-catalog.md",
+      "kind": "file",
+      "path": "docs/pr/0020-s6a-dashboard-codebase-visualizer-pr-catalog.md",
+      "loc": 94,
+      "size_bytes": 3806,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/pr/index.md",
+      "label": "index.md",
+      "kind": "file",
+      "path": "docs/pr/index.md",
+      "loc": 152,
+      "size_bytes": 3690,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/re/static/detangling.md",
+      "label": "detangling.md",
+      "kind": "file",
+      "path": "docs/re/static/detangling.md",
+      "loc": 89,
+      "size_bytes": 4245,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/re/static/message-schema.md",
+      "label": "message-schema.md",
+      "kind": "file",
+      "path": "docs/re/static/message-schema.md",
+      "loc": 1052,
+      "size_bytes": 52270,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/re/static/search-download-flow.md",
+      "label": "search-download-flow.md",
+      "kind": "file",
+      "path": "docs/re/static/search-download-flow.md",
+      "loc": 98,
+      "size_bytes": 4273,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/runbooks/cli-download-example.md",
+      "label": "cli-download-example.md",
+      "kind": "file",
+      "path": "docs/runbooks/cli-download-example.md",
+      "loc": 104,
+      "size_bytes": 2507,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/runbooks/documentation-discipline.md",
+      "label": "documentation-discipline.md",
+      "kind": "file",
+      "path": "docs/runbooks/documentation-discipline.md",
+      "loc": 42,
+      "size_bytes": 973,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/runbooks/kb-first.md",
+      "label": "kb-first.md",
+      "kind": "file",
+      "path": "docs/runbooks/kb-first.md",
+      "loc": 70,
+      "size_bytes": 2012,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/runbooks/runtime-capture.md",
+      "label": "runtime-capture.md",
+      "kind": "file",
+      "path": "docs/runbooks/runtime-capture.md",
+      "loc": 106,
+      "size_bytes": 2229,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/codebase-graph.json",
+      "label": "codebase-graph.json",
+      "kind": "file",
+      "path": "docs/state/codebase-graph.json",
+      "loc": 3911,
+      "size_bytes": 104156,
+      "extension": ".json",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/codebase-visualizer.html",
+      "label": "codebase-visualizer.html",
+      "kind": "file",
+      "path": "docs/state/codebase-visualizer.html",
+      "loc": 975,
+      "size_bytes": 28479,
+      "extension": ".html",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/codebase-visualizer.md",
+      "label": "codebase-visualizer.md",
+      "kind": "file",
+      "path": "docs/state/codebase-visualizer.md",
+      "loc": 26,
+      "size_bytes": 662,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/decompilation-status.md",
+      "label": "decompilation-status.md",
+      "kind": "file",
+      "path": "docs/state/decompilation-status.md",
+      "loc": 63,
+      "size_bytes": 3833,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/intake-report.md",
+      "label": "intake-report.md",
+      "kind": "file",
+      "path": "docs/state/intake-report.md",
+      "loc": 23,
+      "size_bytes": 883,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/project-dashboard-data.json",
+      "label": "project-dashboard-data.json",
+      "kind": "file",
+      "path": "docs/state/project-dashboard-data.json",
+      "loc": 384,
+      "size_bytes": 10711,
+      "extension": ".json",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/project-dashboard.html",
+      "label": "project-dashboard.html",
+      "kind": "file",
+      "path": "docs/state/project-dashboard.html",
+      "loc": 566,
+      "size_bytes": 16395,
+      "extension": ".html",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/project-status.md",
+      "label": "project-status.md",
+      "kind": "file",
+      "path": "docs/state/project-status.md",
+      "loc": 362,
+      "size_bytes": 17844,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/protocol-backlog.md",
+      "label": "protocol-backlog.md",
+      "kind": "file",
+      "path": "docs/state/protocol-backlog.md",
+      "loc": 311,
+      "size_bytes": 10777,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/protocol-matrix.json",
+      "label": "protocol-matrix.json",
+      "kind": "file",
+      "path": "docs/state/protocol-matrix.json",
+      "loc": 1193,
+      "size_bytes": 48129,
+      "extension": ".json",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/protocol-matrix.md",
+      "label": "protocol-matrix.md",
+      "kind": "file",
+      "path": "docs/state/protocol-matrix.md",
+      "loc": 163,
+      "size_bytes": 32250,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/roadmap.md",
+      "label": "roadmap.md",
+      "kind": "file",
+      "path": "docs/state/roadmap.md",
+      "loc": 275,
+      "size_bytes": 12519,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/soulseek-feature-inventory.md",
+      "label": "soulseek-feature-inventory.md",
+      "kind": "file",
+      "path": "docs/state/soulseek-feature-inventory.md",
+      "loc": 850,
+      "size_bytes": 42368,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/stage2-parity-audit.md",
+      "label": "stage2-parity-audit.md",
+      "kind": "file",
+      "path": "docs/state/stage2-parity-audit.md",
+      "loc": 32,
+      "size_bytes": 1006,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/state/verification-status.md",
+      "label": "verification-status.md",
+      "kind": "file",
+      "path": "docs/state/verification-status.md",
+      "loc": 167,
+      "size_bytes": 6939,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/verification/capture-redaction-policy.md",
+      "label": "capture-redaction-policy.md",
+      "kind": "file",
+      "path": "docs/verification/capture-redaction-policy.md",
+      "loc": 58,
+      "size_bytes": 1303,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/verification/evidence-ledger.md",
+      "label": "evidence-ledger.md",
+      "kind": "file",
+      "path": "docs/verification/evidence-ledger.md",
+      "loc": 30,
+      "size_bytes": 934,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:evidence/intake/binary_file.txt",
+      "label": "binary_file.txt",
+      "kind": "file",
+      "path": "evidence/intake/binary_file.txt",
+      "loc": 3,
+      "size_bytes": 407,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/binary_otool_L.txt",
+      "label": "binary_otool_L.txt",
+      "kind": "file",
+      "path": "evidence/intake/binary_otool_L.txt",
+      "loc": 34,
+      "size_bytes": 3639,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/binary_otool_hv.txt",
+      "label": "binary_otool_hv.txt",
+      "kind": "file",
+      "path": "evidence/intake/binary_otool_hv.txt",
+      "loc": 8,
+      "size_bytes": 609,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/codesign.txt",
+      "label": "codesign.txt",
+      "kind": "file",
+      "path": "evidence/intake/codesign.txt",
+      "loc": 28,
+      "size_bytes": 1105,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/contents_files.txt",
+      "label": "contents_files.txt",
+      "kind": "file",
+      "path": "evidence/intake/contents_files.txt",
+      "loc": 25,
+      "size_bytes": 2057,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/file_type.txt",
+      "label": "file_type.txt",
+      "kind": "file",
+      "path": "evidence/intake/file_type.txt",
+      "loc": 1,
+      "size_bytes": 82,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/imageinfo.txt",
+      "label": "imageinfo.txt",
+      "kind": "file",
+      "path": "evidence/intake/imageinfo.txt",
+      "loc": 133,
+      "size_bytes": 3466,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/info_plist.txt",
+      "label": "info_plist.txt",
+      "kind": "file",
+      "path": "evidence/intake/info_plist.txt",
+      "loc": 13,
+      "size_bytes": 433,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/intake/sha256.txt",
+      "label": "sha256.txt",
+      "kind": "file",
+      "path": "evidence/intake/sha256.txt",
+      "loc": 1,
+      "size_bytes": 126,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/download_read_socket.txt",
+      "label": "download_read_socket.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/download_read_socket.txt",
+      "loc": 311,
+      "size_bytes": 20851,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/peer_handle_message.txt",
+      "label": "peer_handle_message.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/peer_handle_message.txt",
+      "loc": 4984,
+      "size_bytes": 348060,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/peer_queue_download.txt",
+      "label": "peer_queue_download.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/peer_queue_download.txt",
+      "loc": 114,
+      "size_bytes": 6890,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/peer_send_message.txt",
+      "label": "peer_send_message.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/peer_send_message.txt",
+      "loc": 279,
+      "size_bytes": 18439,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/server_file_search.txt",
+      "label": "server_file_search.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/server_file_search.txt",
+      "loc": 394,
+      "size_bytes": 26142,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/server_handle_message.txt",
+      "label": "server_handle_message.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/server_handle_message.txt",
+      "loc": 242,
+      "size_bytes": 15316,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/server_prepare_search.txt",
+      "label": "server_prepare_search.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/server_prepare_search.txt",
+      "loc": 290,
+      "size_bytes": 19620,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/server_send_message.txt",
+      "label": "server_send_message.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/server_send_message.txt",
+      "loc": 106,
+      "size_bytes": 6474,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/transfer_on_file_request.txt",
+      "label": "transfer_on_file_request.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/transfer_on_file_request.txt",
+      "loc": 2586,
+      "size_bytes": 179632,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/transfer_on_queue_download.txt",
+      "label": "transfer_on_queue_download.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/transfer_on_queue_download.txt",
+      "loc": 309,
+      "size_bytes": 20857,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/disasm/upload_write_socket.txt",
+      "label": "upload_write_socket.txt",
+      "kind": "file",
+      "path": "evidence/reverse/disasm/upload_write_socket.txt",
+      "loc": 259,
+      "size_bytes": 16746,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/message_codes_jump_table.json",
+      "label": "message_codes_jump_table.json",
+      "kind": "file",
+      "path": "evidence/reverse/message_codes_jump_table.json",
+      "loc": 6330,
+      "size_bytes": 123688,
+      "extension": ".json",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/message_codes_jump_table.md",
+      "label": "message_codes_jump_table.md",
+      "kind": "file",
+      "path": "evidence/reverse/message_codes_jump_table.md",
+      "loc": 147,
+      "size_bytes": 7717,
+      "extension": ".md",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/message_name_strings.txt",
+      "label": "message_name_strings.txt",
+      "kind": "file",
+      "path": "evidence/reverse/message_name_strings.txt",
+      "loc": 130,
+      "size_bytes": 2724,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/peer_messagecodetostring_otool.txt",
+      "label": "peer_messagecodetostring_otool.txt",
+      "kind": "file",
+      "path": "evidence/reverse/peer_messagecodetostring_otool.txt",
+      "loc": 127,
+      "size_bytes": 6394,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/search_download_strings.txt",
+      "label": "search_download_strings.txt",
+      "kind": "file",
+      "path": "evidence/reverse/search_download_strings.txt",
+      "loc": 712,
+      "size_bytes": 17162,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/search_download_symbols_nm.txt",
+      "label": "search_download_symbols_nm.txt",
+      "kind": "file",
+      "path": "evidence/reverse/search_download_symbols_nm.txt",
+      "loc": 15,
+      "size_bytes": 1610,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/server_messagecodetostring_otool.txt",
+      "label": "server_messagecodetostring_otool.txt",
+      "kind": "file",
+      "path": "evidence/reverse/server_messagecodetostring_otool.txt",
+      "loc": 90,
+      "size_bytes": 5393,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/reverse/ui_handler_symbols_nm.txt",
+      "label": "ui_handler_symbols_nm.txt",
+      "kind": "file",
+      "path": "evidence/reverse/ui_handler_symbols_nm.txt",
+      "loc": 22,
+      "size_bytes": 1581,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/baseline_timestamp_utc.txt",
+      "label": "baseline_timestamp_utc.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/baseline_timestamp_utc.txt",
+      "loc": 1,
+      "size_bytes": 21,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/mainwindow_methods.txt",
+      "label": "mainwindow_methods.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+      "loc": 141,
+      "size_bytes": 6017,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/method_inventory_summary.json",
+      "label": "method_inventory_summary.json",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/method_inventory_summary.json",
+      "loc": 6,
+      "size_bytes": 97,
+      "extension": ".json",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/nm_demangled_full.txt",
+      "label": "nm_demangled_full.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+      "loc": 6398,
+      "size_bytes": 606376,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/peer_methods.txt",
+      "label": "peer_methods.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/peer_methods.txt",
+      "loc": 74,
+      "size_bytes": 5806,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/server_methods.txt",
+      "label": "server_methods.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/server_methods.txt",
+      "loc": 91,
+      "size_bytes": 3291,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/transfer_methods.txt",
+      "label": "transfer_methods.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/transfer_methods.txt",
+      "loc": 114,
+      "size_bytes": 7399,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/ui_related_symbols_nm.txt",
+      "label": "ui_related_symbols_nm.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/ui_related_symbols_nm.txt",
+      "loc": 1371,
+      "size_bytes": 142366,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/external/changelog_structured.json",
+      "label": "changelog_structured.json",
+      "kind": "file",
+      "path": "evidence/ui_audit/external/changelog_structured.json",
+      "loc": 374,
+      "size_bytes": 19868,
+      "extension": ".json",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/external/forum_topics_structured.json",
+      "label": "forum_topics_structured.json",
+      "kind": "file",
+      "path": "evidence/ui_audit/external/forum_topics_structured.json",
+      "loc": 212,
+      "size_bytes": 9599,
+      "extension": ".json",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/external/news_structured.json",
+      "label": "news_structured.json",
+      "kind": "file",
+      "path": "evidence/ui_audit/external/news_structured.json",
+      "loc": 62,
+      "size_bytes": 4622,
+      "extension": ".json",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/external/slsk_changelog.html",
+      "label": "slsk_changelog.html",
+      "kind": "file",
+      "path": "evidence/ui_audit/external/slsk_changelog.html",
+      "loc": 468,
+      "size_bytes": 32521,
+      "extension": ".html",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/external/slsk_news.html",
+      "label": "slsk_news.html",
+      "kind": "file",
+      "path": "evidence/ui_audit/external/slsk_news.html",
+      "loc": 404,
+      "size_bytes": 29005,
+      "extension": ".html",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/host_sw_vers.txt",
+      "label": "host_sw_vers.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/host_sw_vers.txt",
+      "loc": 3,
+      "size_bytes": 63,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/soulseekqt_binary_sha256.txt",
+      "label": "soulseekqt_binary_sha256.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/soulseekqt_binary_sha256.txt",
+      "loc": 1,
+      "size_bytes": 121,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/soulseekqt_codesign.txt",
+      "label": "soulseekqt_codesign.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/soulseekqt_codesign.txt",
+      "loc": 14,
+      "size_bytes": 589,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/soulseekqt_contents_tree.txt",
+      "label": "soulseekqt_contents_tree.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/soulseekqt_contents_tree.txt",
+      "loc": 227,
+      "size_bytes": 5489,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/soulseekqt_file_type.txt",
+      "label": "soulseekqt_file_type.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/soulseekqt_file_type.txt",
+      "loc": 3,
+      "size_bytes": 377,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/soulseekqt_info_plist.json",
+      "label": "soulseekqt_info_plist.json",
+      "kind": "file",
+      "path": "evidence/ui_audit/soulseekqt_info_plist.json",
+      "loc": 13,
+      "size_bytes": 453,
+      "extension": ".json",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/soulseekqt_otool_L.txt",
+      "label": "soulseekqt_otool_L.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/soulseekqt_otool_L.txt",
+      "loc": 34,
+      "size_bytes": 3531,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/soulseekqt_stat.txt",
+      "label": "soulseekqt_stat.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/soulseekqt_stat.txt",
+      "loc": 2,
+      "size_bytes": 149,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/ui_labels_likely.txt",
+      "label": "ui_labels_likely.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/ui_labels_likely.txt",
+      "loc": 1360,
+      "size_bytes": 34714,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/ui_menu_bar_items.txt",
+      "label": "ui_menu_bar_items.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/ui_menu_bar_items.txt",
+      "loc": 0,
+      "size_bytes": 0,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/ui_strings_feature_candidates.txt",
+      "label": "ui_strings_feature_candidates.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+      "loc": 3949,
+      "size_bytes": 135817,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/ui_strings_feature_candidates_clean.txt",
+      "label": "ui_strings_feature_candidates_clean.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/ui_strings_feature_candidates_clean.txt",
+      "loc": 1326,
+      "size_bytes": 34973,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/ui_strings_feature_candidates_normalized.txt",
+      "label": "ui_strings_feature_candidates_normalized.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/ui_strings_feature_candidates_normalized.txt",
+      "loc": 1275,
+      "size_bytes": 33656,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:frida/hooks/soulseek_trace.js",
+      "label": "soulseek_trace.js",
+      "kind": "file",
+      "path": "frida/hooks/soulseek_trace.js",
+      "loc": 93,
+      "size_bytes": 2334,
+      "extension": ".js",
+      "domain": "frida"
+    },
+    {
+      "id": "file:rust/Cargo.toml",
+      "label": "Cargo.toml",
+      "kind": "file",
+      "path": "rust/Cargo.toml",
+      "loc": 28,
+      "size_bytes": 582,
+      "extension": ".toml",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/README.md",
+      "label": "README.md",
+      "kind": "file",
+      "path": "rust/README.md",
+      "loc": 21,
+      "size_bytes": 691,
+      "extension": ".md",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/cli/Cargo.toml",
+      "label": "Cargo.toml",
+      "kind": "file",
+      "path": "rust/cli/Cargo.toml",
+      "loc": 16,
+      "size_bytes": 339,
+      "extension": ".toml",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/cli/src/main.rs",
+      "label": "main.rs",
+      "kind": "file",
+      "path": "rust/cli/src/main.rs",
+      "loc": 3016,
+      "size_bytes": 91839,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/core/Cargo.toml",
+      "label": "Cargo.toml",
+      "kind": "file",
+      "path": "rust/core/Cargo.toml",
+      "loc": 15,
+      "size_bytes": 286,
+      "extension": ".toml",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/core/src/lib.rs",
+      "label": "lib.rs",
+      "kind": "file",
+      "path": "rust/core/src/lib.rs",
+      "loc": 3170,
+      "size_bytes": 117612,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/protocol/Cargo.toml",
+      "label": "Cargo.toml",
+      "kind": "file",
+      "path": "rust/protocol/Cargo.toml",
+      "loc": 13,
+      "size_bytes": 263,
+      "extension": ".toml",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/protocol/src/lib.rs",
+      "label": "lib.rs",
+      "kind": "file",
+      "path": "rust/protocol/src/lib.rs",
+      "loc": 5547,
+      "size_bytes": 200455,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/verify/Cargo.toml",
+      "label": "Cargo.toml",
+      "kind": "file",
+      "path": "rust/verify/Cargo.toml",
+      "loc": 14,
+      "size_bytes": 285,
+      "extension": ".toml",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/verify/src/lib.rs",
+      "label": "lib.rs",
+      "kind": "file",
+      "path": "rust/verify/src/lib.rs",
+      "loc": 691,
+      "size_bytes": 22692,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:scripts/capture_golden.sh",
+      "label": "capture_golden.sh",
+      "kind": "file",
+      "path": "scripts/capture_golden.sh",
+      "loc": 40,
+      "size_bytes": 1044,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/capture_session.sh",
+      "label": "capture_session.sh",
+      "kind": "file",
+      "path": "scripts/capture_session.sh",
+      "loc": 39,
+      "size_bytes": 967,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/derive_message_schema.sh",
+      "label": "derive_message_schema.sh",
+      "kind": "file",
+      "path": "scripts/derive_message_schema.sh",
+      "loc": 5,
+      "size_bytes": 153,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/extract_search_download_flow.sh",
+      "label": "extract_search_download_flow.sh",
+      "kind": "file",
+      "path": "scripts/extract_search_download_flow.sh",
+      "loc": 95,
+      "size_bytes": 4363,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/ghidra_pipeline.sh",
+      "label": "ghidra_pipeline.sh",
+      "kind": "file",
+      "path": "scripts/ghidra_pipeline.sh",
+      "loc": 47,
+      "size_bytes": 1623,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/kb_promote.py",
+      "label": "kb_promote.py",
+      "kind": "file",
+      "path": "scripts/kb_promote.py",
+      "loc": 50,
+      "size_bytes": 1682,
+      "extension": ".py",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/kb_sync_docs.py",
+      "label": "kb_sync_docs.py",
+      "kind": "file",
+      "path": "scripts/kb_sync_docs.py",
+      "loc": 39,
+      "size_bytes": 1468,
+      "extension": ".py",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/kb_validate.py",
+      "label": "kb_validate.py",
+      "kind": "file",
+      "path": "scripts/kb_validate.py",
+      "loc": 40,
+      "size_bytes": 1365,
+      "extension": ".py",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/redact_capture_run.sh",
+      "label": "redact_capture_run.sh",
+      "kind": "file",
+      "path": "scripts/redact_capture_run.sh",
+      "loc": 25,
+      "size_bytes": 595,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/run_diff_verify.sh",
+      "label": "run_diff_verify.sh",
+      "kind": "file",
+      "path": "scripts/run_diff_verify.sh",
+      "loc": 50,
+      "size_bytes": 1394,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/run_regression.sh",
+      "label": "run_regression.sh",
+      "kind": "file",
+      "path": "scripts/run_regression.sh",
+      "loc": 17,
+      "size_bytes": 444,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/setup_toolchain.sh",
+      "label": "setup_toolchain.sh",
+      "kind": "file",
+      "path": "scripts/setup_toolchain.sh",
+      "loc": 21,
+      "size_bytes": 511,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/setup_zensical.sh",
+      "label": "setup_zensical.sh",
+      "kind": "file",
+      "path": "scripts/setup_zensical.sh",
+      "loc": 29,
+      "size_bytes": 1128,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/sync_state_dashboards.sh",
+      "label": "sync_state_dashboards.sh",
+      "kind": "file",
+      "path": "scripts/sync_state_dashboards.sh",
+      "loc": 11,
+      "size_bytes": 392,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:tests/docs/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tests/docs/__init__.py",
+      "loc": 1,
+      "size_bytes": 40,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/docs/test_pr_index.py",
+      "label": "test_pr_index.py",
+      "kind": "file",
+      "path": "tests/docs/test_pr_index.py",
+      "loc": 24,
+      "size_bytes": 778,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/kb/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tests/kb/__init__.py",
+      "loc": 0,
+      "size_bytes": 0,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/kb/test_kb_workflow.py",
+      "label": "test_kb_workflow.py",
+      "kind": "file",
+      "path": "tests/kb/test_kb_workflow.py",
+      "loc": 211,
+      "size_bytes": 9246,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tests/protocol/__init__.py",
+      "loc": 1,
+      "size_bytes": 1,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_protocol_matrix.py",
+      "label": "test_protocol_matrix.py",
+      "kind": "file",
+      "path": "tests/protocol/test_protocol_matrix.py",
+      "loc": 30,
+      "size_bytes": 1116,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage2_contract.py",
+      "label": "test_stage2_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage2_contract.py",
+      "loc": 101,
+      "size_bytes": 3993,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage3b_rooms_contract.py",
+      "label": "test_stage3b_rooms_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage3b_rooms_contract.py",
+      "loc": 82,
+      "size_bytes": 3178,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage4a_discovery_contract.py",
+      "label": "test_stage4a_discovery_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage4a_discovery_contract.py",
+      "loc": 79,
+      "size_bytes": 3115,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage4b_peer_room_contract.py",
+      "label": "test_stage4b_peer_room_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage4b_peer_room_contract.py",
+      "loc": 83,
+      "size_bytes": 3267,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage4c_privileges_social_contract.py",
+      "label": "test_stage4c_privileges_social_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage4c_privileges_social_contract.py",
+      "loc": 83,
+      "size_bytes": 3289,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage4d_privilege_legacy_contract.py",
+      "label": "test_stage4d_privilege_legacy_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage4d_privilege_legacy_contract.py",
+      "loc": 85,
+      "size_bytes": 3362,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage4e_private_user_state_contract.py",
+      "label": "test_stage4e_private_user_state_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage4e_private_user_state_contract.py",
+      "loc": 82,
+      "size_bytes": 3189,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage5a_typed_hardening_contract.py",
+      "label": "test_stage5a_typed_hardening_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage5a_typed_hardening_contract.py",
+      "loc": 80,
+      "size_bytes": 3157,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage5c_room_term_control_contract.py",
+      "label": "test_stage5c_room_term_control_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage5c_room_term_control_contract.py",
+      "loc": 77,
+      "size_bytes": 3004,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/protocol/test_stage5d_s5h_typed_control_contract.py",
+      "label": "test_stage5d_s5h_typed_control_contract.py",
+      "kind": "file",
+      "path": "tests/protocol/test_stage5d_s5h_typed_control_contract.py",
+      "loc": 103,
+      "size_bytes": 4139,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/runtime/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tests/runtime/__init__.py",
+      "loc": 1,
+      "size_bytes": 1,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/runtime/test_redaction.py",
+      "label": "test_redaction.py",
+      "kind": "file",
+      "path": "tests/runtime/test_redaction.py",
+      "loc": 74,
+      "size_bytes": 3041,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/state/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tests/state/__init__.py",
+      "loc": 1,
+      "size_bytes": 40,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/state/test_dashboard_generators.py",
+      "label": "test_dashboard_generators.py",
+      "kind": "file",
+      "path": "tests/state/test_dashboard_generators.py",
+      "loc": 45,
+      "size_bytes": 1916,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/state/test_stage_registry.py",
+      "label": "test_stage_registry.py",
+      "kind": "file",
+      "path": "tests/state/test_stage_registry.py",
+      "loc": 43,
+      "size_bytes": 1269,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tools/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tools/__init__.py",
+      "loc": 0,
+      "size_bytes": 0,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/docs/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tools/docs/__init__.py",
+      "loc": 1,
+      "size_bytes": 42,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/docs/generate_pr_index.py",
+      "label": "generate_pr_index.py",
+      "kind": "file",
+      "path": "tools/docs/generate_pr_index.py",
+      "loc": 133,
+      "size_bytes": 3821,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/kb/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tools/kb/__init__.py",
+      "loc": 7,
+      "size_bytes": 230,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/kb/docs_sync.py",
+      "label": "docs_sync.py",
+      "kind": "file",
+      "path": "tools/kb/docs_sync.py",
+      "loc": 174,
+      "size_bytes": 7210,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/kb/validate.py",
+      "label": "validate.py",
+      "kind": "file",
+      "path": "tools/kb/validate.py",
+      "loc": 292,
+      "size_bytes": 9402,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/kb/workflow.py",
+      "label": "workflow.py",
+      "kind": "file",
+      "path": "tools/kb/workflow.py",
+      "loc": 207,
+      "size_bytes": 6731,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/protocol/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tools/protocol/__init__.py",
+      "loc": 1,
+      "size_bytes": 35,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/protocol/derive_schema.py",
+      "label": "derive_schema.py",
+      "kind": "file",
+      "path": "tools/protocol/derive_schema.py",
+      "loc": 1068,
+      "size_bytes": 42356,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/protocol/generate_protocol_matrix.py",
+      "label": "generate_protocol_matrix.py",
+      "kind": "file",
+      "path": "tools/protocol/generate_protocol_matrix.py",
+      "loc": 231,
+      "size_bytes": 8113,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/re/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tools/re/__init__.py",
+      "loc": 1,
+      "size_bytes": 40,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/re/extract_message_codes.py",
+      "label": "extract_message_codes.py",
+      "kind": "file",
+      "path": "tools/re/extract_message_codes.py",
+      "loc": 239,
+      "size_bytes": 7920,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/re/flow_extract.py",
+      "label": "flow_extract.py",
+      "kind": "file",
+      "path": "tools/re/flow_extract.py",
+      "loc": 242,
+      "size_bytes": 8416,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/capture_harness.py",
+      "label": "capture_harness.py",
+      "kind": "file",
+      "path": "tools/runtime/capture_harness.py",
+      "loc": 157,
+      "size_bytes": 5242,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/frida_capture.py",
+      "label": "frida_capture.py",
+      "kind": "file",
+      "path": "tools/runtime/frida_capture.py",
+      "loc": 89,
+      "size_bytes": 2530,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage2_real_captures.py",
+      "label": "generate_stage2_real_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage2_real_captures.py",
+      "loc": 408,
+      "size_bytes": 13501,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage3b_room_captures.py",
+      "label": "generate_stage3b_room_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage3b_room_captures.py",
+      "loc": 269,
+      "size_bytes": 8309,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage4a_discovery_captures.py",
+      "label": "generate_stage4a_discovery_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage4a_discovery_captures.py",
+      "loc": 263,
+      "size_bytes": 8247,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage4b_peer_room_captures.py",
+      "label": "generate_stage4b_peer_room_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage4b_peer_room_captures.py",
+      "loc": 266,
+      "size_bytes": 8573,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage4c_privileges_social_captures.py",
+      "label": "generate_stage4c_privileges_social_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage4c_privileges_social_captures.py",
+      "loc": 263,
+      "size_bytes": 8498,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage4d_privilege_legacy_captures.py",
+      "label": "generate_stage4d_privilege_legacy_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage4d_privilege_legacy_captures.py",
+      "loc": 274,
+      "size_bytes": 8821,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage4e_private_userstate_captures.py",
+      "label": "generate_stage4e_private_userstate_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage4e_private_userstate_captures.py",
+      "loc": 399,
+      "size_bytes": 12451,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage5a_typed_hardening_captures.py",
+      "label": "generate_stage5a_typed_hardening_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage5a_typed_hardening_captures.py",
+      "loc": 184,
+      "size_bytes": 5742,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage5c_room_term_control_captures.py",
+      "label": "generate_stage5c_room_term_control_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage5c_room_term_control_captures.py",
+      "loc": 177,
+      "size_bytes": 5329,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage5d_global_control_captures.py",
+      "label": "generate_stage5d_global_control_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage5d_global_control_captures.py",
+      "loc": 181,
+      "size_bytes": 5622,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage5e_parent_disconnect_control_captures.py",
+      "label": "generate_stage5e_parent_disconnect_control_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage5e_parent_disconnect_control_captures.py",
+      "loc": 196,
+      "size_bytes": 6500,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage5f_private_room_membership_control_captures.py",
+      "label": "generate_stage5f_private_room_membership_control_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage5f_private_room_membership_control_captures.py",
+      "loc": 181,
+      "size_bytes": 5641,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage5g_text_control_captures.py",
+      "label": "generate_stage5g_text_control_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage5g_text_control_captures.py",
+      "loc": 188,
+      "size_bytes": 5808,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/generate_stage5h_system_control_captures.py",
+      "label": "generate_stage5h_system_control_captures.py",
+      "kind": "file",
+      "path": "tools/runtime/generate_stage5h_system_control_captures.py",
+      "loc": 176,
+      "size_bytes": 5423,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/probe_login_versions.py",
+      "label": "probe_login_versions.py",
+      "kind": "file",
+      "path": "tools/runtime/probe_login_versions.py",
+      "loc": 106,
+      "size_bytes": 3323,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/provision_test_credentials.py",
+      "label": "provision_test_credentials.py",
+      "kind": "file",
+      "path": "tools/runtime/provision_test_credentials.py",
+      "loc": 147,
+      "size_bytes": 4852,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/redact_capture_run.py",
+      "label": "redact_capture_run.py",
+      "kind": "file",
+      "path": "tools/runtime/redact_capture_run.py",
+      "loc": 220,
+      "size_bytes": 7950,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/slsk_runtime.py",
+      "label": "slsk_runtime.py",
+      "kind": "file",
+      "path": "tools/runtime/slsk_runtime.py",
+      "loc": 160,
+      "size_bytes": 4551,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/state/__init__.py",
+      "label": "__init__.py",
+      "kind": "file",
+      "path": "tools/state/__init__.py",
+      "loc": 1,
+      "size_bytes": 43,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/state/generate_codebase_graph.py",
+      "label": "generate_codebase_graph.py",
+      "kind": "file",
+      "path": "tools/state/generate_codebase_graph.py",
+      "loc": 267,
+      "size_bytes": 7376,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/state/generate_dashboard_data.py",
+      "label": "generate_dashboard_data.py",
+      "kind": "file",
+      "path": "tools/state/generate_dashboard_data.py",
+      "loc": 128,
+      "size_bytes": 4786,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:zensical.toml",
+      "label": "zensical.toml",
+      "kind": "file",
+      "path": "zensical.toml",
+      "loc": 28,
+      "size_bytes": 942,
+      "extension": ".toml",
+      "domain": "repo-root"
+    }
+  ],
+  "edges": [
+    {
+      "source": "dir:analysis",
+      "target": "dir:analysis/ghidra",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis",
+      "target": "dir:analysis/protocol",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis",
+      "target": "dir:analysis/re",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis",
+      "target": "dir:analysis/state",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis",
+      "target": "dir:analysis/ui",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra",
+      "target": "dir:analysis/ghidra/maps",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra",
+      "target": "dir:analysis/ghidra/queue",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra",
+      "target": "dir:analysis/ghidra/schemas",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/maps",
+      "target": "file:analysis/ghidra/maps/data_map.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/maps",
+      "target": "file:analysis/ghidra/maps/message_map.csv",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/maps",
+      "target": "file:analysis/ghidra/maps/name_map.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/queue",
+      "target": "file:analysis/ghidra/queue/data_candidates.jsonl",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/queue",
+      "target": "file:analysis/ghidra/queue/name_candidates.jsonl",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/queue",
+      "target": "file:analysis/ghidra/queue/review_queue.jsonl",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/schemas",
+      "target": "file:analysis/ghidra/schemas/data_map.schema.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ghidra/schemas",
+      "target": "file:analysis/ghidra/schemas/name_map.schema.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/protocol",
+      "target": "file:analysis/protocol/message_schema.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/re",
+      "target": "file:analysis/re/flow_graph.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/state",
+      "target": "file:analysis/state/stage_registry.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/ui",
+      "target": "file:analysis/ui/soulseekqt_strings_full.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs",
+      "target": "dir:docs/pr",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs",
+      "target": "dir:docs/re",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs",
+      "target": "dir:docs/runbooks",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs",
+      "target": "dir:docs/state",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs",
+      "target": "dir:docs/verification",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs",
+      "target": "file:docs/index.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0001-kb-runtime.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0002-rust-parity.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0003-s3a-auth-semantic-parity.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0004-s3b-rooms-presence-roadmap.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0005-s4a-recommendations-discovery.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0006-s4b-peer-room-matrix.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0007-s4c-privileges-social-peer-folder.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0008-s4d-privilege-messaging-peer-legacy.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0009-s4e-private-messaging-user-state.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0010-s4f-global-admin-distributed-map.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0011-s4g-parent-distributed-tuning-map.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0012-s4h-global-system-control-map.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0013-s4i-ticker-term-control-map.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0014-s4j-private-room-ownership-map.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0016-s4l-mapped-not-implemented-closure.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0016-s5b-soulseek-ui-feature-audit.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0017-s5a-typed-runtime-hardening.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0018-s5c-typed-runtime-hardening-wave2.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0019-s5d-s5h-control-typing-pack.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/0020-s6a-dashboard-codebase-visualizer-pr-catalog.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
+      "target": "file:docs/pr/index.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/re",
+      "target": "dir:docs/re/static",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/re/static",
+      "target": "file:docs/re/static/detangling.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/re/static",
+      "target": "file:docs/re/static/message-schema.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/re/static",
+      "target": "file:docs/re/static/search-download-flow.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/runbooks",
+      "target": "file:docs/runbooks/cli-download-example.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/runbooks",
+      "target": "file:docs/runbooks/documentation-discipline.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/runbooks",
+      "target": "file:docs/runbooks/kb-first.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/runbooks",
+      "target": "file:docs/runbooks/runtime-capture.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/codebase-graph.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/codebase-visualizer.html",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/codebase-visualizer.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/decompilation-status.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/intake-report.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/project-dashboard-data.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/project-dashboard.html",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/project-status.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/protocol-backlog.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/protocol-matrix.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/protocol-matrix.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/roadmap.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/soulseek-feature-inventory.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/stage2-parity-audit.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/state",
+      "target": "file:docs/state/verification-status.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/verification",
+      "target": "file:docs/verification/capture-redaction-policy.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/verification",
+      "target": "file:docs/verification/evidence-ledger.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence",
+      "target": "dir:evidence/intake",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence",
+      "target": "dir:evidence/reverse",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence",
+      "target": "dir:evidence/ui_audit",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/binary_file.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/binary_otool_L.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/binary_otool_hv.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/codesign.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/contents_files.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/file_type.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/imageinfo.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/info_plist.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/intake",
+      "target": "file:evidence/intake/sha256.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "dir:evidence/reverse/disasm",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/message_codes_jump_table.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/message_codes_jump_table.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/message_name_strings.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/peer_messagecodetostring_otool.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/search_download_strings.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/search_download_symbols_nm.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/server_messagecodetostring_otool.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse",
+      "target": "file:evidence/reverse/ui_handler_symbols_nm.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/download_read_socket.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/peer_handle_message.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/peer_queue_download.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/peer_send_message.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/server_file_search.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/server_handle_message.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/server_prepare_search.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/server_send_message.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/transfer_on_file_request.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/transfer_on_queue_download.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/reverse/disasm",
+      "target": "file:evidence/reverse/disasm/upload_write_socket.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "dir:evidence/ui_audit/decomp",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "dir:evidence/ui_audit/external",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/baseline_timestamp_utc.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/host_sw_vers.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/soulseekqt_binary_sha256.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/soulseekqt_codesign.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/soulseekqt_contents_tree.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/soulseekqt_file_type.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/soulseekqt_info_plist.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/soulseekqt_otool_L.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/soulseekqt_stat.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/ui_labels_likely.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/ui_menu_bar_items.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/ui_strings_feature_candidates.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/ui_strings_feature_candidates_clean.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit",
+      "target": "file:evidence/ui_audit/ui_strings_feature_candidates_normalized.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/mainwindow_methods.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/method_inventory_summary.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/nm_demangled_full.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/peer_methods.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/server_methods.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/transfer_methods.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/ui_related_symbols_nm.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/external",
+      "target": "file:evidence/ui_audit/external/changelog_structured.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/external",
+      "target": "file:evidence/ui_audit/external/forum_topics_structured.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/external",
+      "target": "file:evidence/ui_audit/external/news_structured.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/external",
+      "target": "file:evidence/ui_audit/external/slsk_changelog.html",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/external",
+      "target": "file:evidence/ui_audit/external/slsk_news.html",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:frida",
+      "target": "dir:frida/hooks",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:frida/hooks",
+      "target": "file:frida/hooks/soulseek_trace.js",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust",
+      "target": "dir:rust/cli",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust",
+      "target": "dir:rust/core",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust",
+      "target": "dir:rust/protocol",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust",
+      "target": "dir:rust/verify",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust",
+      "target": "file:rust/Cargo.toml",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust",
+      "target": "file:rust/README.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/cli",
+      "target": "dir:rust/cli/src",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/cli",
+      "target": "file:rust/cli/Cargo.toml",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/cli/src",
+      "target": "file:rust/cli/src/main.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/core",
+      "target": "dir:rust/core/src",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/core",
+      "target": "file:rust/core/Cargo.toml",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/core/src",
+      "target": "file:rust/core/src/lib.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/protocol",
+      "target": "dir:rust/protocol/src",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/protocol",
+      "target": "file:rust/protocol/Cargo.toml",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/protocol/src",
+      "target": "file:rust/protocol/src/lib.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/verify",
+      "target": "dir:rust/verify/src",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/verify",
+      "target": "file:rust/verify/Cargo.toml",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/verify/src",
+      "target": "file:rust/verify/src/lib.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/capture_golden.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/capture_session.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/derive_message_schema.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/extract_search_download_flow.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/ghidra_pipeline.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/kb_promote.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/kb_sync_docs.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/kb_validate.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/redact_capture_run.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/run_diff_verify.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/run_regression.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/setup_toolchain.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/setup_zensical.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/sync_state_dashboards.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests",
+      "target": "dir:tests/docs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests",
+      "target": "dir:tests/kb",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests",
+      "target": "dir:tests/protocol",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests",
+      "target": "dir:tests/runtime",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests",
+      "target": "dir:tests/state",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/docs",
+      "target": "file:tests/docs/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/docs",
+      "target": "file:tests/docs/test_pr_index.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/kb",
+      "target": "file:tests/kb/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/kb",
+      "target": "file:tests/kb/test_kb_workflow.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_protocol_matrix.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage2_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage3b_rooms_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage4a_discovery_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage4b_peer_room_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage4c_privileges_social_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage4d_privilege_legacy_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage4e_private_user_state_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage5a_typed_hardening_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage5c_room_term_control_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/protocol",
+      "target": "file:tests/protocol/test_stage5d_s5h_typed_control_contract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/runtime",
+      "target": "file:tests/runtime/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/runtime",
+      "target": "file:tests/runtime/test_redaction.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/state",
+      "target": "file:tests/state/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/state",
+      "target": "file:tests/state/test_dashboard_generators.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/state",
+      "target": "file:tests/state/test_stage_registry.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools",
+      "target": "dir:tools/docs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools",
+      "target": "dir:tools/kb",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools",
+      "target": "dir:tools/protocol",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools",
+      "target": "dir:tools/re",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools",
+      "target": "dir:tools/runtime",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools",
+      "target": "dir:tools/state",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools",
+      "target": "file:tools/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/docs",
+      "target": "file:tools/docs/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/docs",
+      "target": "file:tools/docs/generate_pr_index.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/kb",
+      "target": "file:tools/kb/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/kb",
+      "target": "file:tools/kb/docs_sync.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/kb",
+      "target": "file:tools/kb/validate.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/kb",
+      "target": "file:tools/kb/workflow.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/protocol",
+      "target": "file:tools/protocol/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/protocol",
+      "target": "file:tools/protocol/derive_schema.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/protocol",
+      "target": "file:tools/protocol/generate_protocol_matrix.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/re",
+      "target": "file:tools/re/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/re",
+      "target": "file:tools/re/extract_message_codes.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/re",
+      "target": "file:tools/re/flow_extract.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/capture_harness.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/frida_capture.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage2_real_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage3b_room_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage4a_discovery_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage4b_peer_room_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage4c_privileges_social_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage4d_privilege_legacy_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage4e_private_userstate_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage5a_typed_hardening_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage5c_room_term_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage5d_global_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage5e_parent_disconnect_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage5f_private_room_membership_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage5g_text_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/generate_stage5h_system_control_captures.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/probe_login_versions.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/provision_test_credentials.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/redact_capture_run.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/slsk_runtime.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/state",
+      "target": "file:tools/state/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/state",
+      "target": "file:tools/state/generate_codebase_graph.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/state",
+      "target": "file:tools/state/generate_dashboard_data.py",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:analysis",
+      "target": "dir:analysis",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:docs",
+      "target": "dir:docs",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:evidence",
+      "target": "dir:evidence",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:frida",
+      "target": "dir:frida",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:repo-root",
+      "target": "file:AGENTS.md",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:repo-root",
+      "target": "file:README.md",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:repo-root",
+      "target": "file:TODO-CODEX.md",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:repo-root",
+      "target": "file:zensical.toml",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:rust",
+      "target": "dir:rust",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:scripts",
+      "target": "dir:scripts",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:tests",
+      "target": "dir:tests",
+      "kind": "contains"
+    },
+    {
+      "source": "domain:tools",
+      "target": "dir:tools",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:analysis",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:docs",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:evidence",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:frida",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:repo-root",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:rust",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:scripts",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:tests",
+      "kind": "contains"
+    },
+    {
+      "source": "root:neosoulseek",
+      "target": "domain:tools",
+      "kind": "contains"
+    }
+  ]
+}

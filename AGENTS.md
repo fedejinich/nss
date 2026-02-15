@@ -81,6 +81,21 @@ When a stage closes (for example S3A, S3B):
 6. Add or refresh protocol contract tests under `tests/protocol/` for every new mapped message batch.
 7. Regenerate `docs/state/protocol-matrix.md` whenever message coverage or protocol constants change.
 
+## Dashboard and Catalog Discipline
+
+When stage status, protocol coverage, or PR documentation changes:
+
+1. Update `analysis/state/stage_registry.json` as the canonical stage-state source.
+2. Regenerate state artifacts with `scripts/sync_state_dashboards.sh`:
+   - `docs/state/protocol-matrix.md`
+   - `docs/state/protocol-matrix.json`
+   - `docs/state/project-dashboard-data.json`
+   - `docs/state/codebase-graph.json`
+   - `docs/pr/index.md`
+3. Keep `docs/state/project-dashboard.html` and `docs/state/codebase-visualizer.html` aligned with generated JSON schemas.
+4. Keep individual PR docs in `docs/pr/*.md` and expose only `docs/pr/index.md` in top-level Zensical navigation.
+5. Validate the regenerated artifacts via `scripts/run_regression.sh` and `zensical build` before merge.
+
 ## PR Review Loop Discipline
 
 For each stage branch/PR, run two local review loops before final merge (without `@codex review` calls):

@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NeoSoulSeek Project Dashboard</title>
+    <style>
+      :root {
+        --bg: #f5f0e6;
+        --text: #1b2733;
+        --muted: #5d6a73;
+        --panel: rgba(255, 252, 247, 0.92);
+        --panel-strong: rgba(255, 253, 248, 0.98);
+        --border: rgba(27, 39, 51, 0.15);
+        --accent: #1f8a70;
+        --done: #2f9e64;
+        --in-progress: #e48f37;
+        --planned: #8ea0b2;
+        --shadow: 0 18px 36px rgba(28, 43, 53, 0.12);
+        --font-title: "Avenir Next", "Gill Sans", "Trebuchet MS", sans-serif;
+        --font-ui: "Trebuchet MS", "Segoe UI", sans-serif;
+        --font-mono: "IBM Plex Mono", "Menlo", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-ui);
+        color: var(--text);
+        min-height: 100vh;
+        background:
+          radial-gradient(1000px 550px at 5% -10%, rgba(127, 199, 182, 0.28), transparent 68%),
+          radial-gradient(900px 480px at 98% 0%, rgba(242, 187, 114, 0.28), transparent 64%),
+          var(--bg);
+      }
+
+      .page {
+        width: min(1320px, 100% - 32px);
+        margin: 0 auto;
+        padding: 18px 0 28px;
+      }
+
+      .hero {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: linear-gradient(138deg, rgba(255, 253, 249, 0.95), rgba(248, 241, 228, 0.95));
+        box-shadow: var(--shadow);
+        padding: 18px;
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 16px;
+      }
+
+      .headline {
+        margin: 0;
+        font-family: var(--font-title);
+        font-size: clamp(1.25rem, 1.8vw, 1.8rem);
+      }
+
+      .sub {
+        margin: 7px 0 0;
+        color: var(--muted);
+        font-size: 0.93rem;
+      }
+
+      .chips {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        padding: 5px 10px;
+        font-size: 0.76rem;
+        background: rgba(255, 255, 255, 0.76);
+      }
+
+      .chip a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .chip a:hover {
+        text-decoration: underline;
+      }
+
+      .chip.status {
+        border-color: rgba(228, 143, 55, 0.45);
+        color: #7c4918;
+        background: rgba(228, 143, 55, 0.15);
+      }
+
+      .hero-aside {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel-strong);
+        padding: 12px;
+      }
+
+      .aside-title {
+        margin: 0;
+        font-size: 0.85rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .aside-body {
+        margin-top: 7px;
+        font-size: 0.86rem;
+        line-height: 1.45;
+      }
+
+      .kpis {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .kpi {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel);
+        padding: 10px;
+      }
+
+      .kpi .k {
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      .kpi .v {
+        margin-top: 3px;
+        font-family: var(--font-mono);
+        font-size: 1.03rem;
+      }
+
+      .section {
+        margin-top: 16px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--panel);
+        box-shadow: 0 10px 24px rgba(30, 44, 54, 0.08);
+        padding: 14px;
+      }
+
+      .section h2 {
+        margin: 0;
+        font-family: var(--font-title);
+        font-size: 1.02rem;
+      }
+
+      .section .desc {
+        margin: 4px 0 0;
+        font-size: 0.84rem;
+        color: var(--muted);
+      }
+
+      .timeline {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .milestone {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.72);
+        padding: 10px;
+      }
+
+      .milestone .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .milestone .name {
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      .badge {
+        border-radius: 999px;
+        padding: 3px 8px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        border: 1px solid var(--border);
+      }
+
+      .badge.in_progress {
+        color: #7a4816;
+        background: rgba(228, 143, 55, 0.14);
+        border-color: rgba(228, 143, 55, 0.4);
+      }
+
+      .badge.planned {
+        color: #4f5d68;
+        background: rgba(142, 160, 178, 0.16);
+        border-color: rgba(142, 160, 178, 0.34);
+      }
+
+      .badge.done {
+        color: #1f633f;
+        background: rgba(47, 158, 100, 0.16);
+        border-color: rgba(47, 158, 100, 0.36);
+      }
+
+      .milestone .goal {
+        margin-top: 6px;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .bar {
+        margin-top: 8px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        overflow: hidden;
+        height: 10px;
+        background: rgba(228, 230, 223, 0.74);
+      }
+
+      .bar > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #1f8a70, #31a58d);
+      }
+
+      .network-grid {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .network {
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        background: rgba(255, 255, 255, 0.78);
+        padding: 9px;
+      }
+
+      .network .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .network .head .name {
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+
+      .network .head .meta {
+        font-family: var(--font-mono);
+        color: var(--muted);
+        font-size: 0.74rem;
+      }
+
+      .deps {
+        margin-top: 8px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .dep-row {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 8px;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 0.82rem;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 6px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: rgba(245, 240, 228, 0.88);
+      }
+
+      @media (max-width: 1100px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .kpis {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+
+        .network-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(1320px, 100% - 18px);
+          padding-top: 10px;
+        }
+
+        .kpis {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <h1 class="headline">NeoSoulSeek Project Dashboard</h1>
+          <p class="sub">Visual state for stage progress, protocol coverage, dependencies, and gates.</p>
+          <div class="chips">
+            <span class="chip status" id="currentStage">Current: loading...</span>
+            <span class="chip" id="updatedAt">Updated: --</span>
+            <span class="chip"><a href="roadmap.md">Roadmap text</a></span>
+            <span class="chip"><a href="protocol-matrix.md">Protocol matrix</a></span>
+            <span class="chip"><a href="codebase-visualizer.md">Codebase visualizer</a></span>
+            <span class="chip"><a href="verification-status.md">Verification status</a></span>
+            <span class="chip"><a href="../pr/index.md">PR catalog</a></span>
+          </div>
+        </div>
+        <aside class="hero-aside">
+          <h2 class="aside-title">Current Focus</h2>
+          <p class="aside-body" id="currentSummary">Loading stage focus and next gate details.</p>
+        </aside>
+      </section>
+
+      <section class="kpis" id="kpis"></section>
+
+      <section class="section">
+        <h2>Stage Timeline</h2>
+        <p class="desc">Ordered stage cards from registry status and dependency sequence.</p>
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <section class="section">
+        <h2>Dependencies and Next Gates</h2>
+        <p class="desc">Direct dependency edges and active gate progression.</p>
+        <div class="network-grid">
+          <article class="network">
+            <div class="head">
+              <div class="name">Stage dependency edges</div>
+              <div class="meta" id="depMeta">--</div>
+            </div>
+            <div class="deps" id="deps"></div>
+          </article>
+          <article class="network">
+            <div class="head">
+              <div class="name">Protocol coverage gate</div>
+              <div class="meta" id="coverageMeta">--</div>
+            </div>
+            <div class="deps" id="coveragePanel"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Stage Status Matrix</h2>
+        <p class="desc">Owner area, evidence links, and next gate for each stage.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Owner area</th>
+              <th>Evidence</th>
+              <th>Next gate</th>
+            </tr>
+          </thead>
+          <tbody id="matrixRows"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script>
+      const DATA_URL = "project-dashboard-data.json";
+      const kpisEl = document.getElementById("kpis");
+      const timelineEl = document.getElementById("timeline");
+      const depsEl = document.getElementById("deps");
+      const matrixRowsEl = document.getElementById("matrixRows");
+      const updatedAtEl = document.getElementById("updatedAt");
+      const currentStageEl = document.getElementById("currentStage");
+      const currentSummaryEl = document.getElementById("currentSummary");
+      const depMetaEl = document.getElementById("depMeta");
+      const coverageMetaEl = document.getElementById("coverageMeta");
+      const coveragePanelEl = document.getElementById("coveragePanel");
+
+      function fmt(n) {
+        return new Intl.NumberFormat("en-US").format(Number(n) || 0);
+      }
+
+      function unixToLocal(unixSecs) {
+        if (!unixSecs) return "--";
+        const d = new Date(unixSecs * 1000);
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleString();
+      }
+
+      function statusBadge(status) {
+        if (status === "done") return "done";
+        if (status === "in_progress") return "in_progress";
+        return "planned";
+      }
+
+      function stageProgress(status) {
+        if (status === "done") return 100;
+        if (status === "in_progress") return 55;
+        return 12;
+      }
+
+      function renderKpis(data) {
+        const stage = data.stage_summary || {};
+        const protocol = data.protocol_summary || {};
+
+        const cards = [
+          { k: "Stages total", v: fmt(stage.total) },
+          { k: "Stages done", v: fmt(stage.done) },
+          { k: "In progress", v: fmt(stage.in_progress) },
+          { k: "Protocol total", v: fmt(protocol.total_messages) },
+          { k: "Implemented+mapped", v: fmt(protocol.implemented_mapped) },
+          { k: "Missing", v: fmt(protocol.missing) },
+        ];
+
+        kpisEl.innerHTML = cards
+          .map((card) => `<article class="kpi"><div class="k">${card.k}</div><div class="v">${card.v}</div></article>`)
+          .join("");
+      }
+
+      function renderTimeline(stages) {
+        timelineEl.innerHTML = stages
+          .map((stage) => {
+            const progress = stageProgress(stage.status);
+            return `
+              <article class="milestone">
+                <div class="top">
+                  <div class="name">${stage.id}</div>
+                  <span class="badge ${statusBadge(stage.status)}">${stage.status.replace("_", " ")}</span>
+                </div>
+                <div class="goal">${stage.title}</div>
+                <div class="bar"><span style="width:${progress}%"></span></div>
+                <div class="goal">next gate: ${stage.next_gate}</div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function renderDependencies(data) {
+        const deps = data.dependencies || [];
+        depMetaEl.textContent = `${fmt(deps.length)} edges`;
+        depsEl.innerHTML = deps
+          .map((row) => `<div class="dep-row">${row.from} -> ${row.to}</div>`)
+          .join("");
+
+        const protocol = data.protocol_summary || {};
+        coverageMetaEl.textContent = `${fmt(protocol.implemented_mapped)}/${fmt(protocol.total_messages)} covered`;
+        const rows = [
+          `implemented_mapped: ${fmt(protocol.implemented_mapped)}`,
+          `mapped_not_implemented: ${fmt(protocol.mapped_not_implemented)}`,
+          `implemented_not_mapped: ${fmt(protocol.implemented_not_mapped)}`,
+          `missing: ${fmt(protocol.missing)}`,
+          `server_messages: ${fmt(protocol.server_messages)}`,
+          `peer_messages: ${fmt(protocol.peer_messages)}`,
+        ];
+        coveragePanelEl.innerHTML = rows.map((line) => `<div class="dep-row">${line}</div>`).join("");
+      }
+
+      function renderMatrix(stages) {
+        function evidenceHref(path) {
+          if (path.startsWith("docs/state/")) {
+            return path.replace("docs/state/", "");
+          }
+          if (path.startsWith("docs/")) {
+            return `../${path.slice("docs/".length)}`;
+          }
+          return `../${path}`;
+        }
+
+        matrixRowsEl.innerHTML = stages
+          .map(
+            (stage) => `
+            <tr>
+              <td><code>${stage.id}</code></td>
+              <td>${stage.title}</td>
+              <td><span class="badge ${statusBadge(stage.status)}">${stage.status.replace("_", " ")}</span></td>
+              <td><code>${stage.owner_area}</code></td>
+              <td><a href="${evidenceHref(stage.evidence)}"><code>${stage.evidence}</code></a></td>
+              <td>${stage.next_gate}</td>
+            </tr>
+          `,
+          )
+          .join("");
+      }
+
+      function renderCurrentFocus(data) {
+        const focus = data.current_focus;
+        if (!focus) {
+          currentStageEl.textContent = "Current: no in-progress stage";
+          currentSummaryEl.textContent = "No active stage is marked in progress.";
+          return;
+        }
+
+        currentStageEl.textContent = `Current: ${focus.id} (${focus.status.replace("_", " ")})`;
+        currentSummaryEl.textContent = `${focus.title}. ${focus.notes} Evidence: ${focus.evidence}. Next gate: ${focus.next_gate}.`;
+      }
+
+      async function loadData() {
+        const response = await fetch(DATA_URL, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`could not load ${DATA_URL}: HTTP ${response.status}`);
+        }
+        return response.json();
+      }
+
+      async function main() {
+        try {
+          const data = await loadData();
+          const stages = Array.isArray(data.stages) ? data.stages : [];
+          updatedAtEl.textContent = `Updated: ${unixToLocal(data.generated_unix_secs)}`;
+          renderKpis(data);
+          renderTimeline(stages);
+          renderDependencies(data);
+          renderMatrix(stages);
+          renderCurrentFocus(data);
+        } catch (error) {
+          currentSummaryEl.textContent = `Could not load dashboard data: ${String(error)}`;
+        }
+      }
+
+      main();
+    </script>
+  </body>
+</html>

@@ -3,6 +3,18 @@ site_name = "NeoSoulSeek Knowledge Base"
 site_description = "Reverse engineering knowledge base for SoulseekQt decompilation and protocol parity work."
 site_author = "void_rsk + codex"
 copyright = "Copyright &copy; 2026 NeoSoulSeek"
+nav = [
+  { "Home" = "index.md" },
+  { "Project Dashboard" = "state/project-dashboard.html" },
+  { "Roadmap" = "state/roadmap.md" },
+  { "Project Status" = "state/project-status.md" },
+  { "Protocol Matrix" = "state/protocol-matrix.md" },
+  { "Codebase Visualizer" = "state/codebase-visualizer.md" },
+  { "Verification Status" = "state/verification-status.md" },
+  { "Protocol Backlog" = "state/protocol-backlog.md" },
+  { "Evidence Ledger" = "verification/evidence-ledger.md" },
+  { "PR Catalog" = "pr/index.md" },
+]
 
 [project.theme]
 language = "en"

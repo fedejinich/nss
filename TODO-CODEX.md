@@ -1,5 +1,139 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## Stage 6A - Visual Dashboard + Codebase Visualizer + Collapsed PR Catalog
+
+Dependency graph:
+
+- `S6A-W01 -> S6A-W02`
+- `S6A-W02 -> S6A-T01`
+- `S6A-T01 -> S6A-T02`
+- `S6A-T02 -> S6A-T03`
+- `S6A-T03 -> S6A-T04`
+- `S6A-W02 -> S6A-V01`
+- `S6A-V01 -> S6A-V02`
+- `S6A-V02 -> S6A-V03`
+- `S6A-V03 -> S6A-V04`
+- `S6A-T03 -> S6A-T05`
+- `S6A-T05 -> S6A-T06`
+- `S6A-T04 -> S6A-T07`
+- `S6A-V04 -> S6A-T07`
+- `S6A-T06 -> S6A-T07`
+- `S6A-T07 -> S6A-T08`
+- `S6A-T08 -> S6A-T09`
+- `S6A-T09 -> S6A-T10`
+- `S6A-T10 -> S6A-T11`
+- `S6A-T11 -> S6A-Q01`
+- `S6A-Q01 -> S6A-Q02`
+- `S6A-Q02 -> S6A-T12`
+
+Tasks:
+
+- id: S6A-W01
+  description: Checkout `main`, pull `origin/main`, create branch `codex/s6a-dashboard-codebase-visualizer-pr-catalog`
+  status: done
+  depends_on: []
+
+- id: S6A-W02
+  description: Create PR doc scaffold at `docs/pr/0020-s6a-dashboard-codebase-visualizer-pr-catalog.md`
+  status: done
+  depends_on: [S6A-W01]
+
+- id: S6A-T01
+  description: Add `analysis/state/stage_registry.json` with stage metadata and dependencies
+  status: done
+  depends_on: [S6A-W02]
+
+- id: S6A-T02
+  description: Extend protocol matrix generator to emit `docs/state/protocol-matrix.json`
+  status: done
+  depends_on: [S6A-T01]
+
+- id: S6A-T03
+  description: Implement dashboard data generator (`tools/state/generate_dashboard_data.py`)
+  status: done
+  depends_on: [S6A-T02]
+
+- id: S6A-T04
+  description: Implement visual project dashboard (`docs/state/project-dashboard.html`)
+  status: done
+  depends_on: [S6A-T03]
+
+- id: S6A-V01
+  description: Define codebase graph schema and exclusion policy
+  status: done
+  depends_on: [S6A-W02]
+
+- id: S6A-V02
+  description: Implement codebase graph generator (`tools/state/generate_codebase_graph.py`)
+  status: done
+  depends_on: [S6A-V01]
+
+- id: S6A-V03
+  description: Implement codebase treemap visualizer (`docs/state/codebase-visualizer.html`)
+  status: done
+  depends_on: [S6A-V02]
+
+- id: S6A-V04
+  description: Add visualizer wrapper doc (`docs/state/codebase-visualizer.md`)
+  status: done
+  depends_on: [S6A-V03]
+
+- id: S6A-T05
+  description: Implement collapsed PR index generator (`tools/docs/generate_pr_index.py`)
+  status: done
+  depends_on: [S6A-T03]
+
+- id: S6A-T06
+  description: Generate `docs/pr/index.md` and use it as the only PR navigation entry
+  status: done
+  depends_on: [S6A-T05]
+
+- id: S6A-T07
+  description: Update `docs/index.md` to dashboard-first start page
+  status: done
+  depends_on: [S6A-T04, S6A-V04, S6A-T06]
+
+- id: S6A-T08
+  description: Curate explicit nav in `zensical.toml` and hide individual PR docs from top nav
+  status: done
+  depends_on: [S6A-T07]
+
+- id: S6A-T09
+  description: Update `TODO-CODEX.md` and `AGENTS.md` with dashboard regeneration workflow
+  status: done
+  depends_on: [S6A-T08]
+
+- id: S6A-T10
+  description: Add regression tests for matrix JSON, stage registry, codebase graph, and collapsed PR index generation
+  status: done
+  depends_on: [S6A-T09]
+
+- id: S6A-T11
+  description: Run validation gates (`kb_validate`, `run_regression`, `zensical build`)
+  status: done
+  depends_on: [S6A-T10]
+
+- id: S6A-Q01
+  description: Review loop round 1 (security best-practices + code simplification pass)
+  status: done
+  depends_on: [S6A-T11]
+
+- id: S6A-Q02
+  description: Review loop round 2 (security best-practices + code simplification pass)
+  status: done
+  depends_on: [S6A-Q01]
+
+- id: S6A-T12
+  description: Finalize merge-ready PR documentation and retrospective
+  status: done
+  depends_on: [S6A-Q02]
+
+Notes:
+
+- Added new sync entrypoint: `scripts/sync_state_dashboards.sh`.
+- Added generated state artifacts: `protocol-matrix.json`, `project-dashboard-data.json`, `codebase-graph.json`, and `docs/pr/index.md`.
+- Navigation now exposes a compact PR catalog and dashboard-first project-state entry points.
+
 ## Stage 2 - Core P2P MVP + 25 messages
 
 Dependency graph:
