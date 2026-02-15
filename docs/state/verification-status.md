@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while expanding Stage 4L (mapped-not-implemented closure) to full protocol implementation coverage.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure and closing Stage 5B UI/feature research verification.
 
 ## Validation Gates
 
@@ -110,9 +110,28 @@ Protocol matrix status:
 - Stage 4K closes all prior `missing` names by adding jump-table-backed mappings and protocol codec support.
 - Stage 4L closes the prior `mapped_not_implemented` bucket using `OpaqueServerControlPayload` coverage for unresolved runtime-shape control messages.
 
+## Stage 5B Verification Status
+
+- Feature inventory artifact: `docs/state/soulseek-feature-inventory.md`
+- Baseline evidence bundle: `evidence/ui_audit/*`
+- Structured external-source snapshots:
+  - `evidence/ui_audit/external/changelog_structured.json`
+  - `evidence/ui_audit/external/news_structured.json`
+  - `evidence/ui_audit/external/forum_topics_structured.json`
+- Static handler/protocol bridge evidence:
+  - `evidence/reverse/ui_handler_symbols_nm.txt`
+  - `evidence/ui_audit/decomp/mainwindow_methods.txt`
+  - `evidence/ui_audit/decomp/server_methods.txt`
+  - `evidence/ui_audit/decomp/peer_methods.txt`
+  - `evidence/ui_audit/decomp/transfer_methods.txt`
+- Pass-2 closure:
+  - `verified_pass2=41`
+  - `gap_found=1`
+
 ## Residual Risk
 
 - `SM_GET_USER_PRIVILEGES_STATUS` remains `medium` from S4C because code `122` is deprecated in public specs and behavior can vary by server implementation.
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
 - S4L introduces `OpaqueServerControlPayload` coverage for 40 control messages; runtime captures are still needed to replace opaque decoding with fully typed payload schemas where feasible.
 - `PM_SHARED_FILES_IN_FOLDER` response payload is still represented as `directory + compressed bytes`; deep decompression schema remains a follow-up parser task.
+- Stage 5B still has one UI-runtime visibility gap: live menu tree extraction requires macOS assistive-access permission (captured denial: `evidence/ui_audit/ui_menu_bar_items.err`).

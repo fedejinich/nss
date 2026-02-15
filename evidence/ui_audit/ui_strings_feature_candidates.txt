@@ -1,0 +1,3949 @@
+74:shared_fH
+75:d_folderH
+78:shared_fH
+79:d_folderH
+82:shared_fH
+83:d_folderH
+87:shared_fH
+88:d_folderH
+115:color_seL
+116:_settingL
+175:filter_wH
+220:chat_logL
+343:color_seL
+344:_settingL
+362:d_folderH
+363:shared_fH
+504:shared_fH
+505:d_folderH
+689:search_rH
+712:color_seH
+713:_settingH
+1612:away
+1614:room
+1615:room_autH
+1622:room
+1624:room_ownL
+1625:room_opeH
+1628:room_memH
+1646:_uploadsH
+1662:room
+1664:room
+1665:room
+1667:room
+1668:room
+1670:room
+1671:room
+1673:room_opeH
+1677:room_memH
+1679:room
+1681:room
+1682:room
+1684:room
+1688:room_ticL
+1692:room
+1694:room
+1701:room_autH
+1703:room
+1704:room_autH
+1713:_uploadsH
+1757:room
+1758:room
+1760:room_ticH
+1763:room
+1765:room
+1774:room
+1775:room
+1777:room
+1778:room
+1779:room
+1780:room
+1783:room
+1787:room
+1801:room
+1803:room_ticH
+1805:room
+1811:room
+1813:room
+1815:room
+1827:room
+1828:room
+1831:room
+1833:room
+1835:room
+1841:room
+1842:room
+1843:room
+1844:room
+1846:room
+1849:room
+1851:room
+1853:room
+1871:away
+1872:room
+1878:room
+1881:room
+1883:room
+1895:room_autH
+1925:room
+1936:search_rH
+2031:search_rH
+2042:search_rH
+2209:hare_tabH
+2268:hare_tabH
+2524:room
+2525:room
+2548:room
+2572:room
+2579:room
+2586:room
+2593:room
+2625:room
+2628:room
+2652:color_seH
+2653:_settingH
+2663:color_seH
+2664:_setting
+2665:color_seH
+2666:color_seH
+2668:color_seH
+2669:room
+2861:port
+2869:_messageL
+3004:_messageH
+3089:_messageH
+3413:shared_fH
+3414:d_folderH
+3415:shared_fH
+3416:d_folderH
+3417:search_rL
+3424:search_sH
+3458:shared_fH
+3460:shared_pL
+3462:shared_uL
+3465:n_sharedH
+3466:shared_fH
+3467:d_folderH
+3468:shared_fH
+3470:shared_fH
+3472:shared_fH
+3474:shared_fH
+3475:d_folderH
+3476:shared_fH
+3477:d_folderH
+3479:shared_fH
+3480:d_folderH
+3482:shared_fH
+3483:d_folderH
+3484:shared_fH
+3485:d_folderH
+3486:shared_fH
+3487:d_folderH
+3493:folder_nL
+3495:folder_cL
+3501:search_tH
+3505:shared_fH
+3508:shared_fH
+3510:shared_fH
+3513:shared_fH
+3515:shared_fH
+3518:shared_fH
+3521:shared_fH
+3523:shared_fH
+3524:d_folderH
+3525:shared_fH
+3527:shared_fH
+3531:shared_fH
+3535:shared_fH
+3539:shared_fH
+3543:shared_fH
+3547:shared_fH
+3549:unsharedH
+3552:n_sharedH
+3570:shared_fH
+3571:d_folderH
+3588:shared_fH
+3589:d_folderH
+3601:search_tH
+3603:search_tH
+3616:shared_pH
+3618:shared_uH
+3624:n_sharedH
+3644:search_tH
+3646:search_tH
+3667:folder_cH
+3706:shared_fH
+3717:shared_fH
+3718:d_folderH
+3724:shared_fH
+3725:d_folderL
+3726:shared_fH
+3728:shared_fH
+3732:shared_fL
+3733:d_folderH
+3749:d_folderH
+3750:shared_fH
+3752:d_folderH
+3753:shared_fH
+3768:search_rH
+3773:search_rH
+3775:search_rH
+3782:search_rH
+3789:search_sH
+3796:search_rH
+3814:folder_nH
+3816:folder_cH
+3819:folder_cH
+3821:folder_nH
+3895:color_seH
+3896:_setting
+3898:_settingH
+3899:_settingL
+3903:color_seH
+3904:_settingH
+3919:chat_logH
+3926:downloadH
+3930:e_folderH
+3931:downloadH
+3932:d_folderH
+3938:y_statusH
+3939:downloadH
+3944:upload_oH
+3950:downloadH
+3955:downloadH
+3958:ubfolderH
+3959:downloadH
+3961:downloadH
+3963:downloadH
+3965:downloadH
+3967:downloadH
+3969:downloadH
+3971:downloadH
+3973:downloadH
+3975:downloadH
+3977:downloadH
+3979:downloadH
+3981:downloadH
+3983:downloadH
+3985:downloadH
+3987:downloadH
+3989:downloadH
+3991:y_statusH
+3992:downloadH
+3994:downloadH
+3996:downloadH
+4011:downloadH
+4014:downloadH
+4017:downloadH
+4020:e_folderH
+4021:downloadH
+4024:downloadH
+4026:downloadH
+4027:d_folderH
+4029:y_statusH
+4030:downloadH
+4032:downloadH
+4036:downloadH
+4039:downloadH
+4041:ubfolderH
+4042:upload_eL
+4045:upload_tH
+4086:y_statusH
+4114:k_statusH
+4148:e_folderH
+4153:downloadL
+4158:e_folderH
+4162:ubfolderH
+4181:y_statusH
+4211:downloadL
+4216:e_folderH
+4252:upload_eH
+4257:upload_oH
+4267:k_statusH
+4284:downloadH
+4309:upload_eH
+4321:upload_tH
+4353:downloadH
+4355:y_statusH
+4399:y_statusH
+4402:y_statusH
+4413:downloadH
+4415:y_statusH
+4464:upload_tH
+4484:upload_tH
+4488:upload_tH
+4493:upload_tH
+4500:downloadH
+4511:downloadH
+4516:downloadH
+4520:downloadH
+4534:upload_eH
+4542:unsharedH
+4562:k_statusH
+4563:k_statusH
+4570:upload_eH
+4574:upload_oH
+4678:downloadH
+4682:upload_eH
+4732:color_seH
+4733:_setting
+4734:color_seH
+4735:_settingH
+4736:color_seH
+4737:_settingH
+4740:color_seH
+4741:_settingH
+4742:color_seH
+4743:_settingH
+4782:downloadH
+4788:y_statusH
+4910:upload_eH
+4941:hare_tabH
+5059:_foldersH
+5078:downloadH
+5086:search_rL
+5088:search_tL
+5108:search_rH
+5119:search_rH
+5122:search_rH
+5126:_foldersH
+5145:search_rL
+5147:search_tH
+5159:_foldersE
+5181:search_sH
+5765:search_rL
+5939:search_rH
+6132:_uploadsH
+6239:y_statusL
+6248:downloadH
+6271:y_statusH
+6275:y_statusH
+6381:color_seH
+6382:_settingH
+6398:chat_logH
+6408:color_seL
+6409:_settingL
+6601:private_H
+6602:_messageH
+6613:private_H
+6614:_messageH
+6620:private_H
+6621:_messageH
+6634:private_H
+6635:_messageH
+6685:private_L
+6686:_messageL
+6762:room
+6768:room
+6769:_settingH
+6770:color_seH
+6773:room_walH
+6799:room_nodH
+6800:room
+6801:room
+6804:room
+6815:room_forH
+6816:room
+6817:room_walL
+6820:room
+6823:room_nodH
+6850:room
+6851:room_walH
+6856:room
+6857:room
+6858:room
+6859:room
+6861:room
+6862:chat_logH
+6879:upload_eH
+6948:upload_eH
+7034:filter_wH
+7037:filter_wH
+7041:filter_wH
+7067:filter_wH
+7071:filter_wH
+7143:filter_wH
+10862:-minimized
+10866:Shared folder
+10876:shared_folders
+10877:set_download_folder
+10878:Set Download Folder
+10880:share_folder
+10881:Share Folder
+10882:rescan_shares
+10883:Rescan Shares
+10884:login_options
+10888:login_as
+10889:Login As
+10890:set_listening_port
+10891:Change Listening Port
+10895:message_user
+10896:Message User
+10897::/icons/chat_icon
+10899:Browse User's Files
+10901:Add User
+10906:1onTrayMenuTitleClicked()
+10909:user_chat_widget
+10910:2PrivateChat(QString,QString,time_t,bool)
+10911:1onPrivateChat(QString,QString,time_t,bool)
+10912:shared_folder
+10920:expand_new_shares
+10921:per_message_short
+10922:chat_timestamps
+10923:search
+10924:first_open_tab
+10925:show_away_status_in_application_icon
+10926:use_download_folder_dialog
+10928:minimize_on_close
+10929:color_setting
+10930:color_setting_value
+10931:color_setting_default_value
+10932:color_setting_text
+10939:transfer_queued
+10945:chat_username
+10946:chat_timestamp
+10947:chat_status
+10948:chat_own_messages
+10955:Transfers - Queued
+10961:Chat - Usernames
+10962:Chat - Timestamps
+10963:Chat - Statuses
+10964:Chat - Own Messages
+10966:1resetColorSettings()
+10967:application_font
+10969:default_application_font
+10970:log_room_chat
+10971:log_private_chat
+10972:show_private_search_results
+10973:show_privately_shared_files_in_shares
+10974:max_results_per_search
+10975:max_results_per_search_enabled
+10976:enable_listening_ports
+10977:auto_disable_listening_ports
+10978:auto_disable_listening_ports_connection_count
+10979:auto_disable_listening_ports_connection_seconds
+10980:auto_disable_listening_ports_for_seconds
+10982:notify_for_messages_from
+10984:1onLogRoomChatCheckBoxClicked(bool)
+10985:1onLogPrivateChatCheckBoxClicked(bool)
+10986:1onEmptyShareWarningMessageCheckBoxClicked(bool)
+10987:obfuscated_listening_port
+10989:1onMaxUploadsPerUserSpinBoxValueChanged(int)
+10991:1onMaxResultsPerSearchValueChanged(int)
+10992:1onImmediatelyUploadSmallFilesKBValueChanged(int)
+10993:1onMaxUploadsPerUserClicked(bool)
+10995:1onMaxResultsPerSearchClicked(bool)
+10996:1onImmediatelyUploadSmallFilesClicked(bool)
+10997:1onEnableListeningPortsClicked(bool)
+10998:1onAutoDisableListeningPortsClicked(bool)
+11003:User List
+11005:1onNotifyForMessagesFromSelected(int)
+11006:filter_word
+11022:download_folder
+11023:use_upnp
+11025:show_downloads_and_uploads_in_same_tab
+11027:use_old_style_search_results
+11028:dont_create_subfolders_for_single_downloads
+11029:dont_split_downloads
+11030:dont_create_username_folders
+11032:1onUseOldStyleSearchResultsCheckboxToggled(bool)
+11034:1onDontCreateSubfoldersForSingleDownloads(bool)
+11035:1onShowDownloadsAndUploadsInSameTabToggled(bool)
+11036:1onExpandNewSharesCheckboxToggled(bool)
+11037:1onChatTimestampsBoxIndexChanged(int)
+11038:1onShowAwayStatusClicked(bool)
+11039:1onSelectColors()
+11040:1onDontSplitDownloads(bool)
+11041:1onDontCreateUsernameFolders(bool)
+11042:1onAutoAwayOnIdleClicked(bool)
+11043:1onShowPrivateSearchResultsClicked(bool)
+11044:1onShowPrivatelySharedFilesInSharesClicked(bool)
+11045:1onUseDownloadFolderDialog(bool)
+11046:1minimizeToTrayOnCloseClicked(bool)
+11047:listening_port
+11048:new_listening_port
+11050:per_message_long
+11052:rooms
+11054:1onFirstOpenTabBoxIndexChanged(int)
+11058:2activated(QSystemTrayIcon::ActivationReason)
+11059:1onTrayIconActivated(QSystemTrayIcon::ActivationReason)
+11060:2sharedFilesRescanned(int,int)
+11061:1onSharedFilesRescanned(int,int)
+11062:2folderScanningStarted()
+11063:1onSharedFolderScanningStarted()
+11064:chat_log_form
+11065:room
+11066:chat_log
+11067:clear_chat_log
+11070:open_log_folder
+11071:Open Log Folder
+11072:user_chat
+11073:user_chat_log
+11074:Chat Log
+11076:user_chat_list
+11077:remove_all_chats
+11078:Clear Message List
+11080:check_for_empty_shares
+11081:empty_share_message
+11082:accept_userlist_uploads
+11084:1onEmptyShareWarningEditEdited(QString)
+11085:1onSaveEmptyShareWarningMessageButtonClicked()
+11088:max_queued_uploads_per_user_enabled
+11089:max_queued_mb_per_user_enabled
+11090:immediately_upload_small_files_enabled
+11091:max_queued_uploads_per_user
+11092:max_queued_mb_per_user
+11093:immediately_upload_small_files_kb
+11094:2customContextMenuRequested(QPoint)
+11095:1onSharedFoldersListContextMenuRequested(QPoint)
+11101:download_folders_on_double_click
+11103:1onDownloadFoldersOnDoubleClickClicked(bool)
+11104:2AdminMessage(QString)
+11105:1onAdminMessage(QString)
+11106:excluded_download_extension
+11110:private_chat
+11111:room_chat
+11112:wishlist
+11114:download
+11118:1onOptionsTabSelectionChanged(int)
+11120:1onUPnPCheckboxToggled(bool)
+11122:1onAcceptUserlistUploadsCheckboxToggled(bool)
+11127:1onCheckPortsClicked()
+11129:1onEditExcludedDownloadExtensionsClicked()
+11130:1onExportClientDataClicked()
+11131:1onImportClientDataClicked()
+11132:1onImportUserListClicked()
+11136:1onSelectPrivateChatSoundFile()
+11137:1onClearPrivateChatSoundFile()
+11138:1onSelectRoomChatSoundFile()
+11139:1onClearRoomChatSoundFile()
+11140:1onSelectWishlistSoundFile()
+11141:1onClearWishlistSoundFile()
+11142:1onSelectShareBrowseSoundFile()
+11143:1onClearShareBrowseSoundFile()
+11144:1onSelectDownloadAlertSoundFile()
+11145:1onClearDownloadAlertSoundFile()
+11150:1onSelectApplicationFontClicked()
+11151:1onDefaultFontClicked()
+11152:1onClearSearchHistoryClicked()
+11153:1onClearSizeSettingsButtonClicked()
+11155:1onServerPortBoxSelectionChanged(QString)
+11156:server_port
+11157:1onChatFilterWordsButtonClicked()
+11160:Share a folder?
+11161:Many Soulseek users require that you share something before downloading from them. Would you like to share a folder now?
+11163:You can always share additional folders by clicking the Share Folder button when viewing the Options->File Sharing tab.
+11176:1onAutoDisableListeningPortsConnectionCountValueChanged(int)
+11177:1onAutoDisableListeningPortsConnectionSecondsValueChanged(int)
+11178:1onAutoDisableListeningPortsForSecondsValueChanged(int)
+11179:reset_size_settings
+11182:unshare_folder
+11186:private: [%1] %2
+11192:Login Failure: Username is Invalid
+11193:Login failed. The username you supplied is invalid. Please change your login settings in the Options tab and try reconnecting.
+11194:Login Failure
+11195:Login failed. Reported failure reason: %1. Please change your login settings in the Options tab and try reconnecting.
+11196:shared_public
+11197:shared_userlist
+11201:Shared Files Rescanned
+11203:Obfuscated port is %1, if you're manually forwarding
+11204:your ports be sure to open it as well.
+11208::/icons/away_icon
+11209:no_timestamps
+11210:Set Folder Permissions
+11211:1onSetFolderPermissions()
+11212:Unshare Folder
+11213:1onUnshareFolder()
+11214:1onAddSharedFolder()
+11216:http://www.slsknet.org/porttest.php?port=%1
+11217:Importing user list from original Soulseek client
+11218:To import your user list, your original Soulseek client must be set not to save configuration data to the registry (under Options->General), and the hotlist.cfg file must then be located on your computer. The next dialog will ask you to navigate to the exact location of the hotlist.cfg file.
+11219:Find User List Configuration File
+11221:Import successful.
+11222:Import could not be completed successfully.
+11226:search_record
+11229:Reset color settings?
+11230:Are you sure you want to reset your client's color settings?
+11231:Reset Size Settings
+11232:Size settings will be reset the next time you run the client.
+11236:Language Setting
+11237:Your language setting will take effect next time you run SoulseekQt.
+11240:Client data exported
+11242:Client data export failed
+11247:ImportClientDataFrom
+11250:Data successfully imported
+11251:Client data successfully imported!
+11252:Data import failed
+11253:Client data could not be successfully imported.
+11254:shown_minimize_to_tray_message
+11255:showMinimizedToTrayMessage
+11256:SoulseekQt has been minimized to your tray. Click the tray icon to show it again, or select Quit from the tray icon menu to exit.
+11263:tabControl
+11264:transfersTab
+11267:roomsTab
+11269:roomsForm
+11270:chatTab
+11272:chatsForm
+11273:searchTab
+11275:searchForm
+11276:tab_2
+11279:sharesTab
+11281:sharesForm
+11282:optionsTab
+11284:optionsTabControl
+11285:loginOptionsTab
+11289:autoDisableListeningPortsCheckBox
+11290:autoDisableListeningPortsConnectionCountSpinBox
+11292:autoDisableListeningPortsConnectionSecondsSpinBox
+11294:autoDisableListeningPortsForSecondsSpinBox
+11296:listeningPortEdit
+11297:checkPortsButton
+11300:obfuscatedPortLabel
+11304:enableListeningPortsCheckBox
+11305:uPnPCheckBox
+11307:serverPortBox
+11308:fileSharingOptionsTab
+11312:downloadFolderEdit
+11313:downloadFolderSpacer
+11315:sharedFoldersList
+11317:maxUploadsPerUserCheckBox
+11319:maxUploadsPerUserSpinBox
+11325:immediatelyUploadSmallFilesCheckBox
+11327:immediatelyUploadSmallFilesSpinBox
+11329:acceptUserListUploadsCheckBox
+11330:emptyShareWarningCheckBox
+11332:emptyShareWarningEdit
+11333:saveEmptyShareWarningMessageButton
+11338:dontDownloadSingleFilesIntoSubfolders
+11339:dontSplitDownloadsCheckBox
+11340:dontCreateUsernameFoldersCheckBox
+11342:maxResultsPerSearchCheckBox
+11344:maxResultsPerSearchSpinBox
+11345:showPrivateResultsCheckBox
+11346:showPrivatelySharedFilesInSharesCheckBox
+11347:useDownloadFolderDialogCheckBox
+11352:minimizeToTrayOnCloseCheckBox
+11354:useOldStyleSearchResultsCheckBox
+11355:showDownloadsAndUploadsInSameTabCheckBox
+11356:autoExpandSharesCheckBox
+11359:firstOpenTabBox
+11362:chatTimestampsBox
+11363:showAwayStatusCheckBox
+11367:downloadFoldersOnDoubleClickCheckBox
+11369:selectColorsButton
+11370:defaultColorsButton
+11372:selectApplicationFontButton
+11373:defaultFontButton
+11378:clearSizeSettingsButton
+11379:tab_3
+11385:autoAwayOnIdleCheckBox
+11386:logRoomChatCheckBox
+11387:logPrivateChatCheckBox
+11390:notifyForMessagesFromBox
+11396:clearSearchHistoryButton
+11398:chatFilterWordsButton
+11399:tab_4
+11407:tab_5
+11417:privateChatSoundEdit
+11418:privateChatSoundSelectFileButton
+11419:privateChatSoundClearButton
+11422:roomChatSoundEdit
+11423:roomChatSoundSelectFileButton
+11424:roomChatSoundClearButton
+11427:wishlistResultsSoundEdit
+11428:wishlistResultsSoundSelectFileButton
+11429:wishlistResultsSoundClearButton
+11432:shareBrowseSoundEdit
+11433:shareBrowseSoundSelectFileButton
+11434:shareBrowseSoundClearButton
+11437:downloadAlertSoundEdit
+11438:downloadAlertSoundSelectFileButton
+11439:downloadAlertSoundClearButton
+11450:extrasTab
+11453:exportClientDataButton
+11455:importClientDataButton
+11457:importUserListButton
+11463:Rooms
+11464:Chat
+11465:Search
+11468:Automatically disable listening ports after
+11472:Check Ports
+11473:Server port
+11474:Listening port
+11475:Obfuscated port is...
+11476:Use NAT-PMP port mapping
+11477:Enable listening ports
+11478:Use UPnP port mapping
+11480:Login
+11481:Download Folder
+11482:Shared Folders
+11483:Limit maximum number of queued uploads per user
+11484:Limit maximum megabytes of queued uploads per user
+11485:Immediately upload files smaller than
+11487:Accept uploads from all user list users
+11488:Send warning message to downloading users with empty shares
+11490:Filename extensions excluded from folder downloads:
+11492:Don't create subfolders for single downloads
+11493:Don't put downloads in Downloading and Complete folders
+11494:Don't create username folders
+11495:Limit maximum number of search results per search
+11496:Show privately shared search results
+11497:Show privately shared files when browsing user shares
+11498:Show files in folder dialog when downloading folders from search results
+11500:Minimize to tray on close
+11502:Use old-style search results (list instead of tree, applies to new search windows)
+11503:Show uploads and downloads in same tab
+11504:Auto-expand newly browsed shares
+11505:First open tab when starting:
+11506:Chat timestamps:
+11508:Per message (short)
+11509:Per message (long)
+11510:No timestamps
+11511:Show Away status in application icon
+11515:Download folders on double-click
+11516:Select Application Colors
+11517:Default Colors
+11518:Select Application Font
+11519:Default Font
+11521:Reset Window and Column Size Settings
+11524:Automatically toggle away mode when idle
+11525:Log room chat
+11526:Log private chat
+11527:Notify when receiving private messages from
+11530:Clear Search History
+11531:Chat Filter Words
+11537:Private Chat:
+11538:Room Chat:
+11539:Wishlist Results:
+11540:Browsed Share:
+11541:Download Alert:
+11544:Notification Sounds
+11545:Export Client Configuration Data
+11546:Import Client Configuration Data
+11547:Import User List from original Soulseek client
+11549:Options
+11557:allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size
+11569:*mutable_rightmost() == parent->child(0)
+11610:last_online_status_change
+11612:is_privileged
+11613:is_away
+11614:room_autojoin
+11616:is_private
+11618:in_room
+11619:room_owner
+11620:room_operators
+11621:room_members
+11623:is_operator
+11624:average_download_speed
+11625:shared_file_count
+11627:group_download_priority
+11628:is_ignored
+11629:accept_uploads
+11631:room_ticker
+11632:room_ticker_text
+11633:room_ticker_order
+11634:ticker_order_counter
+11637:Attempting connection on port %1
+11641:is_supporter
+11642:accept_room_list
+11646:privileges
+11647:privileges_time_left
+11648:search_request_text
+11649:search_correlation
+11652:accept_private_room_add
+11653:search_request
+11655:DNet Server Messages
+11660:SM_LOGIN
+11661:SM_SET_WAIT_PORT
+11665:SM_GET_USER_STATUS
+11666:SM_ADD_CHATROOM
+11667:SM_IGNORE_USER
+11668:SM_UNIGNORE_USER
+11669:SM_SAY_CHATROOM
+11670:SM_JOIN_ROOM
+11671:SM_LEAVE_ROOM
+11672:SM_USER_JOINED_ROOM
+11673:SM_USER_LEFT_ROOM
+11675:SM_MESSAGE_USER
+11676:SM_MESSAGE_ACKED
+11677:SM_FILE_SEARCH
+11678:SM_SET_STATUS
+11681:SM_DOWNLOAD_SPEED
+11682:SM_SHARED_FOLDERS_FILES
+11685:SM_SEARCH_USER_FILES
+11686:SM_GET_SIMILAR_TERMS
+11687:SM_ADD_LIKE_TERM
+11688:SM_REMOVE_LIKE_TERM
+11689:SM_GET_RECOMMENDATIONS
+11690:SM_GET_MY_RECOMMENDATIONS
+11691:SM_GET_GLOBAL_RECOMMENDATIONS
+11692:SM_GET_USER_RECOMMENDATIONS
+11697:SM_ROOM_ADDED
+11698:SM_ROOM_REMOVED
+11699:SM_ROOM_LIST
+11700:SM_EXACT_FILE_SEARCH
+11701:SM_ADMIN_MESSAGE
+11703:SM_PEER_MESSAGE
+11704:SM_PRIVILEGED_LIST
+11715:SM_ADD_PRIVILEGED_USER
+11716:SM_GET_OWN_PRIVILEGES_STATUS
+11717:SM_DNET_MESSAGE
+11720:SM_LOW_PRIORITY_FILE_SEARCH
+11721:SM_WISHLIST_WAIT
+11722:SM_GET_RECOMMENDED_USERS
+11723:SM_GET_TERM_RECOMMENDATIONS
+11724:SM_GET_RECOMMENDATION_USERS
+11725:SM_GET_ROOM_TICKER
+11726:SM_ROOM_TICKER_USER_ADDED
+11727:SM_ROOM_TICKER_USER_REMOVED
+11728:SM_SET_TICKER
+11729:SM_ADD_HATE_TERM
+11730:SM_REMOVE_HATE_TERM
+11731:SM_SEARCH_ROOM
+11732:SM_UPLOAD_SPEED
+11733:SM_GET_USER_PRIVILEGES_STATUS
+11734:SM_GIVE_PRIVILEGE
+11735:SM_INFORM_USER_OF_PRIVILEGES
+11736:SM_INFORM_USER_OF_PRIVILEGES_ACK
+11739:SM_DNET_DELIVERY_REPORT
+11743:SM_BAN_USER
+11744:SM_ROOM_MEMBERS
+11745:SM_ADD_ROOM_MEMBER
+11746:SM_REMOVE_ROOM_MEMBER
+11747:SM_REMOVE_OWN_ROOM_MEMBERSHIP
+11748:SM_GIVE_UP_ROOM
+11749:SM_TRANSFER_ROOM_OWNERSHIP
+11750:SM_ADD_ROOM_MEMBERSHIP
+11751:SM_REMOVE_ROOM_MEMBERSHIP
+11752:SM_ENABLE_PRIVATE_ROOM_ADD
+11754:SM_ADD_ROOM_OPERATOR
+11755:SM_REMOVE_ROOM_OPERATOR
+11756:SM_ADD_ROOM_OPERATORSHIP
+11757:SM_REMOVE_ROOM_OPERATORSHIP
+11758:SM_REMOVE_OWN_ROOM_OPERATORSHIP
+11759:SM_ROOM_OPERATORS
+11760:SM_MESSAGE_USERS
+11761:SM_JOIN_GLOBAL_ROOM
+11762:SM_LEAVE_GLOBAL_ROOM
+11763:SM_SAY_GLOBAL_ROOM
+11764:SM_SEARCH_CORRELATIONS
+11766:SE_CANT_CREATE_ROOM
+11788:Folder
+11789:share_folders
+11790:share_files
+11794:user_share_tab
+11798:1OnFolderContextMenuRequested(QPoint)
+11799:1OnFileContextMenuRequested(QPoint)
+11800:share_form_splitter
+11801:share_form_file_list
+11802:No files returned. The user is either not sharing any files, or is sharing all of their files privately.
+11806:1OnFolderDoubleClicked(QTreeWidgetItem *,int)
+11812:Export Share To File
+11815::/icons/download_icon
+11818:A connection could not be successfully formed to the user. If this is happening to you a lot, <a href="http://www.slsknet.org/porttest.php?port=%1">Check here</a> to make sure that your port is open.
+11820:1OnDownloadFolder()
+11822:Queue Folder Paused
+11823:1OnQueueFolderPaused()
+11824:Download File(s)
+11825:1OnDownloadFile()
+11827:folder
+11832:ShareForm
+11833:messageBrowser
+11835:folderTree
+11837:SearchFilterSpacer
+11838:filterHelpButton
+11839:filterEdit
+11843:1OnFilterTextChanged(QString)
+11844:1OnFilterHelpClicked()
+11846:Filter Help
+11849:2RoomChat(QString, QString, QString)
+11850:1OnRoomChat(QString,QString,QString)
+11851:toggle_room_autojoin
+11854:room_activity_alert
+11855:toggle_room_activity_alert
+11861:1CheckChatInactivity()
+11862:room_splitter
+11863:room_user_list
+11870:%1 room: [%2] %3
+11873:Chat started 
+11875:[<font color="
+11877:</font>]
+11879:</font>] 
+11880:<b><font color="
+11881:</font></b>
+11882::/icons/room_icon
+11883:* <font color="
+11884:</font>
+11885:Chat ended 
+11886:RoomForm
+11888:chatView
+11889:chatEdit
+11895:1OnUserListContextMenuRequested(QPoint)
+11920:2ReceivedOwnPrivilegesStatus(int)
+11921:1onReceivedOwnPrivilegesStatus(int)
+11922:2AwaySet(bool)
+11923:1onAwaySet(bool)
+11929:Thank you for supporting Soulseek!
+11930:Support Soulseek!
+11932:1onSupportSoulseekButtonClicked()
+11934:Away
+11935:1onStatusButtonClicked()
+11936:http://www.slsknet.org/qtlogin.php?username=
+11945:user_port
+11946:user_obfuscated_port
+11948:unsent_message
+11952:connect_to_peer_request_status
+11962:HandleMessage on uninitialized socket: 0x%1
+11964:Failed to read direction from new %1peer connection. message parameters: read index=%2, write index=%3
+11973:Could not read message code on connection to user %1, disposing of socket
+11974:Received %1 message from user %2
+11975:unshared
+11987:Error writing message to socket: %1
+11988:Send %1 message to user %2
+11993:Did not find messaging connection to user, queueing unsent message
+12004:Sending %1 pending peer messages to user %2
+12009:PM_GET_SHARED_FILE_LIST
+12010:PM_SHARED_FILE_LIST
+12011:PM_FILE_SEARCH_REQUEST
+12012:PM_FILE_SEARCH_RESULT
+12013:PM_INVITE_USER_TO_ROOM
+12014:PM_CANCELLED_QUEUED_TRANSFER
+12018:PM_MOVE_DOWNLOAD_TO_TOP
+12019:PM_GET_SHARED_FILES_IN_FOLDER
+12020:PM_SHARED_FILES_IN_FOLDER
+12023:PM_PLACEHOLD_UPLOAD
+12024:PM_QUEUE_UPLOAD
+12025:PM_UPLOAD_PLACE_IN_LINE
+12026:PM_UPLOAD_FAILED
+12027:PM_EXACT_FILE_SEARCH_REQUEST
+12028:PM_QUEUED_DOWNLOADS
+12029:PM_INDIRECT_FILE_SEARCH_REQUEST
+12030:PM_UPLOAD_DENIED
+12031:PM_UPLOAD_PLACE_IN_LINE_REQUEST
+12038:auto_disable_ports_time
+12039:Auto Disable Ports
+12040:Re-enabling listening ports
+12049:Disabling listening ports, %1 connection attempts in last %2 seconds
+12061:visible_to_non_shared
+12063:Select Folder to Share
+12064:AddSharedFolderDialog
+12065:selectFolderButton
+12066:selectedFolderEdit
+12072:1OnSelectFolderClicked()
+12076:Add Shared Folder
+12077:Select &Folder
+12078:Folder accessible to everyone
+12079:Folder accessible to all user list users
+12080:Folder accessible to specific user list groups:
+12081:Folder is visible to everyone
+12083:search_results
+12084:search_result
+12085:search_results_user_available
+12086:search_results_user_speed
+12087:search_results_uploads_in_queue
+12088:search_result_file_name
+12089:search_result_file_folder
+12091:search_stopped
+12098:shared_file
+12099:shared_file_name
+12100:shared_file_lowercase_name
+12101:shared_file_folder
+12102:shared_file_folder_lowercase_name
+12103:shared_file_size
+12105:folder_name
+12106:folder_code
+12107:2ReceivedSearchResults(QString,quint32,list<FileInfo>&,list<FileInfo>&,bool,int,int)
+12108:1onReceivedSearchResults(QString,quint32,list<FileInfo>&,list<FileInfo>&,bool,int,int)
+12109:2SharedFilesInFolderRequested(QString,quint32,QString)
+12110:1onFilesInFoldersRequested(QString,quint32,QString)
+12111:search_token
+12112:2DNetSearchRequest(QString,quint32,QString)
+12113:1onDNetSearchRequest(QString,quint32,QString)
+12117:2DirectFileSearch(QString,quint32,QString)
+12118:1onDirectFileSearch(QString,quint32,QString)
+12119:2SearchFilters(list<QString>&)
+12120:1onSearchFilters(list<QString>&)
+12122:scanFolders
+12124:Shared
+12125:Adding folder %1 as part of sharing %2
+12128:Shared file list requested by user %1
+12129:finish_uploads_and_quit
+12130:Cancelling returning results for search %1 by user %2 due to search filters.
+12131:upload_speed
+12132:Sending search results to user %1 for search string %2
+12133:Discarding search result %1 due to filter %2
+12135:Shared File Not Found
+12141:onFoldersRescanned
+12142:Discarding search results from ignored user %1
+12144:Throwing away repeated search results from user %1
+12145:Filtered out search result %1 from user %2
+12146:Stopping search for %1 at %2 results.
+12152:sent_empty_share_warning_message
+12153: is away.
+12154:private_message
+12155:private_message_time
+12156:private_message_direction
+12158:private_message_text
+12160:/Soulseek Chat Logs/Users/
+12163:ChatForm
+12165:1OnContextMenuRequested(QPoint)
+12166:download_entry
+12168:remote_folder
+12172:download_entry_status
+12173:download_order
+12175:upload_entry_status
+12176:upload_order
+12181:last_queue_request_time
+12183:download_task
+12184:subfolder_save_level
+12185:last_status_change_time
+12186:single_download
+12187:download_retry_count
+12188:local_subfolder
+12189:upload_entry
+12191:upload_start_time
+12192:upload_task
+12193:effective_upload_order
+12194:immediate_upload
+12197:/Soulseek Downloads
+12200:2QueueUploadRequested(QString,QString)
+12201:1OnQueueUploadRequested(QString,QString)
+12202:2QueueDownloadRequested(QString,string,qint64)
+12203:1OnQueueDownloadRequested(QString,string,qint64)
+12208:2UploadFailed(QString,string)
+12209:1OnUploadFailedNotification(QString,string)
+12210:2UploadDenied(QString,string,QString)
+12211:1OnUploadDeniedNotification(QString,string, QString)
+12212:2UploadPlaceInLineRequested(QString,QString)
+12213:1OnUploadPlaceInLineRequested(QString,QString)
+12215:downloading
+12216:uploading
+12221:upload_speed_limit
+12222:upload_speed_limit_enabled
+12223:download_speed_limit
+12224:download_speed_limit_enabled
+12225:2DownloadPlaceInLine(QString,string,int)
+12226:1OnDownloadPlaceInLine(QString,string,int)
+12228:upload_slots
+12229:empty_share_check_status
+12230:2UserShare(QString,FileInfoMapPtr,FileInfoMapPtr,AttributeTranslationTable&)
+12231:1onUserShare(QString,FileInfoMapPtr,FileInfoMapPtr,AttributeTranslationTable&)
+12232:It looks like you're not sharing any files. Please share something before downloading anything from my own shares. Thanks.
+12235:queued
+12236:Transfer Queue
+12238:Queueing %1
+12239:Requeueing downloads from user %1
+12241:Received upload request from %1 for file %2, req %3
+12247:Transfer is already downloading, cancelling...
+12250:Queued
+12252:/downloading
+12254:Download not found, aborting
+12255:2downloadError(QString)
+12256:1OnDownloadError(QString)
+12257:2downloadProgress(qint64,int)
+12258:1OnDownloadProgress(qint64,int)
+12259:2downloadComplete()
+12260:1OnDownloadComplete()
+12261:Downloading
+12263:Download status %1, not re-queueing %2
+12264:User %1 offline, not re-queueing %2
+12265:User %1 appears to still be online, re-queueing %2
+12266:Queue upload requested by %1 for file %2
+12267:Denied, file not shared
+12268:File not shared.
+12271:%1, re-queueing
+12272:Already queued
+12273:Denied, too many files already queued by user
+12275:Denied, too many megabytes already queued by user
+12278:2uploadError(QString)
+12279:1OnUploadError(QString)
+12280:2uploadProgress(qint64,int)
+12281:1OnUploadProgress(qint64,int)
+12282:2uploadComplete()
+12283:1OnUploadComplete()
+12288:Found download, not processing
+12289:Found upload
+12290:Upload user %1 not the same as user who opened the connection, not doing anything
+12291:Upload was not accepted, marking denied. Reason: %1
+12292:Upload no longer in requesting phase, instead status is %1. Not processing.
+12293:File could not be opened, marking local error and sending denial message. Shouldn't we have done this before we requested the transfer?
+12296:Neither upload or download attached to req, weird
+12298:Received peer notification from %1 that upload of %2 failed
+12299:Download not found.
+12300:Download found!
+12301:Requeue denied.
+12302:Received peer notification from %1 that upload of %2 was denied, reason: %3
+12303:Download found, marking as denied.
+12306:Download found, too many files, marking as queued.
+12307:Upload of %1 to %2 aborted, sending upload failed notification.
+12308:last_upload_state_change
+12309:Upload of %1 to %2 timed out in %3 phase, aborting
+12314:Requesting place in line for download of %1 from %2
+12325:Error uploading %1 to %2. %3
+12326:Recording upload speed of %1
+12330:Error downloading %1 from %2. %3
+12332:Sent empty share warning message to user %1
+12334:Initiating upload to %1 of file %2
+12335:Can't upload, file is either not shared or not shared with that particular user.
+12336:Status
+12339:1onDownloadListItemDoubleClicked(QTreeWidgetItem *,int)
+12341:1onKeyPressedInDownloadList(QKeyEvent*)
+12342:1onKeyPressedInUploadList(QKeyEvent*)
+12343:1onDownloadsContextMenuRequested(QPoint)
+12344:1onUploadsContextMenuRequested(QPoint)
+12345:download_list_user_node
+12346:download_list_folder_node
+12347:download_list_node
+12348:2DownloadProgressed(Item)
+12349:1onDownloadProgress(Item)
+12350:2UploadProgressed(Item)
+12351:1onUploadProgress(Item)
+12352:upload_list_user_node
+12353:upload_list_folder_node
+12354:upload_list_node
+12357:downloads
+12358:expand_download_folders
+12359:Expand Folders
+12360::/icons/folder_icon
+12361:expand_download_users
+12364:clear_complete_downloads
+12367:open_download_folder
+12368:Open Download Folder
+12369:Expand Folders [on]
+12371:uploads
+12372:expand_upload_folders
+12373:expand_upload_users
+12374:clear_complete_and_aborted_uploads
+12376:Finish Uploads and Quit [off]
+12384:2downloadComplete(Item)
+12385:1onDownloadComplete(Item)
+12386:complete_download_alert
+12390:download_list
+12391:upload_list
+12392:remove_download
+12394:Finish Uploads and Quit [on]
+12396:clear_complete_aborted_uploads
+12397:1onUploadSpeedLimitSpinValueChanged(int)
+12398:1onUploadSpeedLimitCheckStateChanged(int)
+12399:1onDownloadSpeedLimitSpinValueChanged(int)
+12400:1onDownloadSpeedLimitCheckStateChanged(int)
+12401:1onClearDownloadsCheckStateChanged(int)
+12402:1onClearUploadsCheckStateChanged(int)
+12403:1onUploadSlotsSpinValueChanged(int)
+12404:Download of file %1 complete
+12405:Download of folder %1 complete
+12406:All download from user %1 complete
+12410:Uploading
+12416:banned
+12417:Banned
+12418:file not shared.
+12419:File not shared
+12420:file not shared
+12432:Expand Folders [off]
+12436:transfersTabControl
+12437:downloadsTab
+12438:downloadsTabLayout
+12439:downloadsWidget
+12440:downloadsList
+12441:downloadLimitCheckBox
+12442:downloadLimitSpinBox
+12443:clearDownloadsCheckBox
+12444:uploadsTab
+12445:uploadsTabLayout
+12446:uploadsWidget
+12447:uploadsList
+12448:uploadSlotsSpinBox
+12449:uploadLimitCheckBox
+12450:uploadLimitSpinBox
+12451:clearUploadsCheckBox
+12452:Limit Download Speed to
+12454:Clear Complete Downloads
+12455:Downloads
+12456:Upload Slots
+12457:Limit Upload Speed to
+12458:Clear Complete/Aborted Uploads
+12459:Uploads
+12460:upload_share_tab
+12461:2tabCloseRequested(int)
+12462:1OnTabCloseRequested(int)
+12467:Re-Browse User
+12469:upload_folders
+12470:SharesForm
+12477:1onSearchEntered()
+12478:1onWishListContextMenuRequested(QPoint)
+12479:2searchResults(Item)
+12480:1onUserSearchResults(Item)
+12481:search_results_widget
+12482:search_results_widget_alerted
+12483:expand_folders
+12485:search_results_user_node
+12486:search_results_folder_node
+12487:search_result_node
+12488:1onTabCloseRequested(int)
+12489:1onWishTabCloseRequested(int)
+12494::/icons/search_icon
+12497:add_remove_wishlist
+12498:Add to Wishlist
+12499::/icons/wishlist_icon
+12500:reenter_search
+12501:Re-enter Search
+12502:stop_search
+12503:Stop Search
+12505:close_all_searches
+12506:Close All Searches
+12507:search_results_old
+12508:Wish List Search
+12511:wish_list_item_filter_text
+12514:Enable All Wish List Searches
+12516:Disable All Wish List Searches
+12517:saved_filter
+12519:1onWishListItemChanged(QTreeWidgetItem*,int)
+12521:search_time
+12522:2DownloadAdded(Item)
+12523:1onDownloadAdded(Item)
+12526:default_search_filter
+12532:Room: 
+12533:1onWishListItemCheckStateChanged(int)
+12536:Search Stopped
+12538:Manual Search
+12539:1onManualSearch()
+12544:Remove Wish List Search
+12545:1onRemoveWishListItemRequested()
+12546:SearchForm
+12547:tabWidget
+12548:manualSearchesTab
+12549:searchEdit
+12550:searchButton
+12551:searchTargetBox
+12552:searchSplitter_2
+12553:searchTabControl
+12554:wishListSearchesTab
+12555:searchSplitter
+12556:wishListTabControl
+12557:wishList
+12558:Search target:
+12559:Manual Searches
+12560:Wish List Searches
+12561:Received Searches
+12569:2DNetMessage(MemStream&)
+12570:1OnDNetMessage(MemStream&)
+12571:2DNetDeliveryReport(int)
+12572:1OnDNetDeliveryReport(int)
+12596:Received DNet delivery report request, req %1
+12605:Error reading message code, closing parent/candidate connection
+12606:Received first search request from parent candidate %1, adopting as parent.
+12618:Error reading message code, closing child connection
+12619:Received message from child, code %1
+12621:Determining whether we can accept child connections.
+12624:Status changed, sending notification.
+12625:No status change, not notifying.
+12662:logTabWidget
+12671:unshared_list_node
+12672:ignored_list_node
+12677:message_users
+12678:Message Users
+12679:1OnUserInfoTabCloseRequested(int)
+12688:userListTab
+12690:userInfoTabs
+12691:unsharedListTab
+12692:unsharedList
+12693:ignoredList
+12694:onlineAlertsTab
+12696:1OnUnsharedListContextMenuRequested(QPoint)
+12697:1OnIgnoredListContextMenuRequested(QPoint)
+12698:1OnOnlineAlertListContextMenuRequested(QPoint)
+12699:Unshared
+12700:Ignored
+12712:SharedFilesRescannedDialog
+12715:addUPnPPortMapping
+12716:addNatPMPPortMapping
+12717:removeUPnPPortMapping
+12718:Initializing UPnP
+12719:No device list found during discovery. miniupnp error code: %1
+12728:Port Forwarding
+12730:Own address is reported as 127.0.0.1, checking all addresses.
+12733:Port %1 successfully mapped.
+12734:Port %1 mapping failure, miniupnp error: %2
+12735:Port already mapped, attempting to remove existing mapping before retrying.
+12737:Second mapping attempt failed, miniupnp error: %1
+12738:Removing mapping for port %1
+12739:UPnP appears to not have been initialized, aborting.
+12740:Port mapping successfully removed.
+12741:Port mapping removal failed, miniupnp error: %1
+12742:Successfully added NAT-PMP mapping for port %1
+12743:Attempted adding NAT-PMP mapping for port %1, failed with code %2
+12744:Message user
+12745:1OnMessageUser()
+12749:Remove user from list
+12751:Add user to list
+12753:Browse user's files
+12755:Upload to user
+12758:Add user note
+12762:Remove online status alert
+12766:Gift Privileges
+12767:1OnGiftPrivileges()
+12768:Unshare files from user
+12769:1OnUnshareFilesFromUser()
+12770:Re-share files with user
+12771:1OnReshareFilesWithUser()
+12772:Ignore user
+12773:1OnIgnoreUser()
+12774:Unignore user
+12775:1OnUnignoreUser()
+12776:Private Rooms
+12777:Remove User's Membership
+12781:Make User Operator
+12782:1OnAddUserOperatorship()
+12783:Remove User's Operator Status
+12784:1OnRemoveUserOperatorship()
+12788:related searches
+12789:2SearchCorrelations(QString)
+12790:1OnSearchCorrelations(QString)
+12796:Save Filter
+12797:Remove Filter
+12799:SearchResultsForm
+12800:searchResultsTreeWidget
+12804:savedFiltersBox
+12806:saveFilterButton
+12807:defaultFilterBox
+12808:1OnSaveFilterClicked()
+12809:1OnSavedFiltersBoxIndexChanged(int)
+12810:1OnClearFilterClicked()
+12811:1OnDefaultFilterBoxToggled(bool)
+12812:-- saved filters
+12813:Default Filter
+12817:Invalid Port Number
+12818:Port number must be in the range of 1 to 65535.
+12819:Port Number Not Changed
+12820:Port number has not been changed.
+12821:Change to Listening Port Pending
+12822:Changes to the listening port will take effect after a client restart.
+12823:ChangeListeningPortDialog
+12824:portEdit
+12827:New port:
+12855:2splitterMoved(int,int)
+12856:1OnSplitterMoved(int,int)
+12863:acceptUploadsCheckBox
+12869:1OnAcceptUploadsCheckboxToggled(bool)
+12871:Accept uploads from users in this group
+12872:Download Priority
+12873:Defines the download priority of users belonging to this group. Users who belong to more than one group will be prioritized by their highest-ranked group.
+12874:A priority of 0 will not affect the order of downloads by users of this group relative to other downloads. A priority of 1 or more will order downloads by users of this group ahead of all other downloads, except for ones with a higher priority.
+12878:2WishListWait(uint)
+12879:1OnWishListWait(uint)
+12880:wish_list_search_index
+12881:1OnSearchTimerTimeout()
+12884:Sent wish list search: %1
+12895:statusEdit
+12903:Open Folder
+12904:1OnOpenFolder()
+12905:Retry downloads
+12906:Retry download
+12907:1OnRetryDownloads()
+12908:Pause downloads
+12909:Pause download
+12910:1OnPauseDownloads()
+12911:Resume downloads
+12912:Resume download
+12913:1OnResumeDownloads()
+12914:Remove downloads
+12915:Remove download
+12916:1OnRemoveDownloads()
+12918:File download completes
+12919:1OnSetFileDownloadAlert()
+12920:Folder download completes
+12921:1OnSetFolderDownloadAlert()
+12922:All downloads from user complete
+12923:1OnSetUserDownloadAlert()
+12924:Re-run Search: 
+12925:1OnRerunSearch()
+12932:minfilesinfolder:
+12934:FilterHelpDialog
+12939:</style></head><body style=" font-family:'MS Shell Dlg 2'; font-size:13pt; font-weight:400; font-style:normal;">
+12940:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Enter words into the filter box to only show combinations of folders and files that contain those words. For example entering:</span></p>
+12941:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12942:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container</span></p>
+12943:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12944:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">into the filter box will only show files that either contain both those words (considering the folder they are in as well.)</span></p>
+12945:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12946:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Prefix a word with a dash to make sure files shown </span><span style=" font-size:8pt; font-weight:600;">don't</span><span style=" font-size:8pt;"> contain the word:</span></p>
+12947:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12948:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container -bothersome</span></p>
+12949:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12950:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Will show the same files as the first example, except for files that have &quot;bothersome&quot; in their name or in their folder name.</span></p>
+12951:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12952:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">In addition, these special tokens will filter files based on certain attributes:</span></p>
+12953:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12954:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">minbitrate</span><span style=" font-size:8pt;">:</span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> (show audio files with a minimum bitrate of </span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;">.)</span></p>
+12955:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">minfilesize</span><span style=" font-size:8pt;">:</span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> (show files with a minimum filesize of </span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> MB)</span></p>
+12956:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">minfilesinfolder</span><span style=" font-size:8pt;">:</span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> (show folders with at least </span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> files in them)</span></p>
+12957:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">isvbr</span><span style=" font-size:8pt;"> (show variable bitrate audio files)</span></p>
+12958:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">iscbr</span><span style=" font-size:8pt;"> (show constant bitrate audio files)</span></p>
+12959:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12960:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">(Acceptable shorthands: </span><span style=" font-size:8pt; font-weight:600;">mbr</span><span style=" font-size:8pt;"> instead of </span><span style=" font-size:8pt; font-weight:600;">minbitrate</span><span style=" font-size:8pt;">, </span><span style=" font-size:8pt; font-weight:600;">mfs</span><span style=" font-size:8pt; font-weight:600; font-style:italic;"> </span><span style=" font-size:8pt;">instead of </span><span style=" font-size:8pt; font-weight:600;">minfilesize</span><span style=" font-size:8pt; font-style:italic;">, </span><span style=" font-size:8pt; font-weight:600;">mfif</span><span style=" font-size:8pt;"> instead of </span><span style=" font-size:8pt; font-weight:600;">minfilesinfolder</span><span style=" font-size:8pt;">)</span></p>
+12961:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12962:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">For example typing this into the filter box:</span></p>
+12963:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12964:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container iscbr minbitrate:320 minfilesize:10 minfilesinfolder:8</span></p>
+12965:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12966:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Will show all files with 'lackluster' and 'container' in their name or folder name, that are constant bitrate encoded, of a minimum bitrate of 320, a minimum file size of 10 megabytes and that are in folders with at least 8 visible (non-filtered) files in them.</span></p>
+12967:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12968:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Using shorthands, this example is identical to the one above:</span></p>
+12969:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+12970:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container iscbr mbr:320 mfs:10 mfif:8</span></p>
+12971:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p></body></html>
+12972:1OnTabChanged(int)
+12973::/icons/downloads_icon
+12974:Download Folder(s)
+12975:Browse Folder
+12976:1OnBrowseFolder()
+12977:OnDownloadFolder
+12978:Initiating folder download for tree node %1
+12980:Recognized as folder node.
+12983:Folder item is null.
+12984:Folder item is not null.
+12990:<font color=green><b>[%1]</b></font> 
+13000:CreateRoomDialog
+13001:roomNameEdit
+13002:createPrivateCheckBox
+13003:createRoomButton
+13005:Create Room
+13006:Create private room
+13007:Create/Enter Room
+13015:1OnColorSelectionChanged(QString)
+13016:1OnChangeColorClicked()
+13017:ColorSelectionDialog
+13018:colorSelectionBox
+13019:colorDisplay
+13020:changeColorButton
+13021:Select Colors
+13028:ChatLogForm
+13029:searchBackButton
+13030:searchForwardButton
+13032:1OnSearchTextChanged(QString)
+13033:1OnSearchBack()
+13034:1OnSearchForward()
+13035:upload_form_splitter
+13036:upload_form_file_list
+13037:user_share_folder
+13038:user_share_folder_name
+13039:user_share_folder_node
+13040:1OnFolderDoubleClicked(QTreeWidgetItem*,int)
+13042:user_share_file_node
+13043:user_share_file
+13044:user_share_file_name
+13045::/icons/upload_icon
+13046:user_share_folder_child
+13047:user_share_folder_parent
+13048:Upload Folder
+13049:1OnUploadFolder()
+13050:Upload File(s)
+13051:1OnUploadFile()
+13052:UploadForm
+13066:downloadButton
+13067:1OnDownloadButtonClicked()
+13072:Download
+13073:2messageReceived(const QString&)
+13084:QtLocalPeer: Message reception failed %s
+13085:1OnPrivateChat(QString,QString,time_t,bool)
+13086:2PrivateChatSent(QString,QString)
+13087:1OnPrivateChatSent(QString,QString)
+13090:message_list_node
+13091:Remove chat from list
+13092:Remove chats from list
+13093:1OnRemoveChatFromList()
+13094:Remove chat?
+13095:Are you sure you want to remove all selected chats?
+13096:Are you sure you want to remove your chat with %1?
+13097:Remove all chats?
+13098:Are you sure you want to remove ALL of your chats?
+13099:MessageListForm
+13100:messageList
+13109:uploadSlotsEdit
+13110:freeToUploadEdit
+13111:queuedUploadsEdit
+13113:Upload slots
+13114:Free to upload?
+13115:Queued uploads
+13116:Message List
+13117:ChatsForm
+13118:chatTabControl
+13119:1OnChatTabClosed(int)
+13120:Gift Privileges to
+13122:GiftPrivilegesDialog
+13128:AdminMessageDialog
+13130:SoulseekQt Admin Message
+13133:2searchProcessed(QString,bool)
+13134:1OnSearchProcessed(QString,bool)
+13135:received_searches
+13139:ReceivedSearchesForm
+13140:searchList
+13141:1OnExtensionListContextMenuRequested(QPoint)
+13149:Excluded Download Extensions
+13151:room_wall_form
+13152:<table>
+13153:<tr width="%100"><td bgcolor=#ffffff>
+13154:<tr width="%100"><td bgcolor=#d3d3d3>
+13156:</big></b><font color="
+13159:</table>
+13160:RoomWallForm
+13162:Room Name
+13163:1OnRoomListContextMenuRequested(QPoint)
+13164:1OnRoomListItemDoubleClicked(QTreeWidgetItem*,int)
+13165:room_node
+13166:room_list
+13167:create_room
+13168:refresh_room_list
+13169:Refresh Room List
+13170:enable_private_room_add
+13171:Accept Private Room Invitations
+13174:room_chat_log
+13175:room_wall
+13176:Room Wall
+13179:Give Up Room
+13180:room_form
+13181:room_list_splitter
+13182:2PrivateRoomAddEnabled(bool)
+13183:1OnPrivateRoomAddEnabled(bool)
+13185:1OnRoomTabClosed(int)
+13186:Enter Room
+13187:1OnEnterRoom()
+13188:Reject Private Room Invitations
+13189:enter_room
+13190:/Soulseek Chat Logs/Rooms/
+13192:Are you sure you want to give up your membership to the %1 private room?
+13193:Are you SURE you want to give up your ownership of the %1 private room?
+13195:RoomsForm
+13196:roomSplitter
+13197:roomsTabControl
+13198:roomList
+13199:Remove uploads
+13200:Remove upload
+13201:1OnRemoveUploads()
+13207:1OnSendMessageClicked()
+13209:MessageUsersDialog
+13210:messageEdit
+13213:Message Multiple Users
+13214:Send Message
+13215:All User List Users
+13216:Downloading Users
+13222:availability_status
+13223:auto_away_on_idle
+13224:away
+13226:1OnLoginClicked()
+13227:LoginAsDialog
+13229:loginButton
+13230:Login As...
+13239:2ChatFiltered(QString)
+13240:1OnChatFiltered(QString)
+13241:FilterWordsDialog
+13246:filteredMessages
+13247:Filtered Messages
+13248:Filter Words
+13251:2folderScanningFinished()
+13252:1OnFolderScanningFinished()
+13253:SharedFolderScanningInProgressDialog
+13255:lastFolderLabel
+13256:Folder Scanning in Progress
+13259:Last folder scanned:
+13260:last folder
+13264:1OnDownloadClicked()
+13265:Requesting list of files in folder...
+13266:2FilesInFolder(QString,string,FileInfoSet&)
+13267:1OnReceivedFilesInFolder(QString,string,FileInfoSet&)
+13270:DownloadFilesInFolderDialog
+13271:requestStatusEdit
+13272:subfolderEdit
+13277:queuePausedCheckBox
+13278:downloadSelectedButton
+13279:Download Files in Folder
+13281:Save to subfolder:
+13284:Select Visible in Search Results
+13285:Queue paused
+13286:Download Selected
+13289:2RoomChat(QString,QString,QString)
+13295:support_soulseek_dialog_disabled_v2
+13299:SupportSoulseekDialog
+13307:</style></head><body style=" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;">
+13308:<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:10pt;">Dear Soulseek user,</span></p>
+13309:<p align="center" style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;"><br /></p>
+13310:<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:10pt;">Soulseek is free, and does not show any advertising or include any bundled software. We rely entirely on your support to keep the system alive! As a thank you for supporting us, we offer a number of permanent and temporary perks listed on our donation page.</span></p></body></html>
+13360:ASF::File::FilePrivate::FilePropertiesObject::parse() -- data is too short.
+13361:ASF::File::FilePrivate::StreamPropertiesObject::parse() -- data is too short.
+13362:ASF::File::FilePrivate::CodecListObject::parse() -- data is too short.
+13444:probably unsupported image type
+13463:FLAC::File::scan() -- First block should be the stream_info metadata
+13464:FLAC::File::scan() -- Zero-sized metadata block found
+13465:FLAC::File::scan() -- Failed to read a metadata block
+13466:FLAC::File::scan() -- multiple Vorbis Comment blocks found, discarding
+13468:A picture block must contain at least 5 bytes.
+13469:Invalid picture block.
+13586:Compressed frames are currently not supported.
+13587:Encrypted frames are currently not supported.
+13596:ID3v2.4 no longer supports the frame type 
+13623:A frame that is not supported in ID3v2.3 '
+13626:An ID3v2 frame of unsupported or unknown type '
+13711:MP4: We currently don't support values with multiple types
+13790:Ogg::FLAC::File::scan() -- Unknown metadata block
+13806:A private frame must contain at least 2 bytes.
+13838:FileStream::readBlock() -- invalid file.
+13839:FileStream::writeBlock() -- invalid file.
+13840:FileStream::writeBlock() -- read only file.
+13843:FileStream::removeBlock() -- invalid file.
+13848:Unsupported Data: 
+13878:WavPack::Properties::read() -- Block header not found.
+13896:METADATA_BLOCK_PICTURE=
+13897:Failed to decode FlacPicture block
+13908:A CHAP frame must contain at least 18 bytes (1 byte element ID terminated by null and 4x4 bytes for start and end time and offset).
+13911:A CTOC frame must contain at least 6 bytes (1 byte element ID terminated by null, 1 byte flags, 1 byte entry count and 1 byte child element ID terminated by null.
+13912:1onLoginAsButtonClicked(bool)
+13915:loginAsButton
+13920:</style></head><body style=" font-family:'.SF NS Text'; font-size:13pt; font-weight:400; font-style:normal;">
+13921:<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Login failed due to a wrong username/password combination. If you haven't logged in in a while, it's possible your username was recycled and taken by another user. Please try logging in with a different username and password using the button below, or via the 'Login As' button above the Options-&gt;Login tab.</p></body></html>
+13928:urn:schemas-upnp-org:service:WANCommonInterfaceConfig:
+13929:urn:schemas-upnp-org:service:WANIPv6FirewallControl:
+13930:urn:schemas-upnp-org:service:WANIPConnection:
+13931:urn:schemas-upnp-org:service:WANPPPConnection:
+13941:User-Agent: Darwin/18.6.0, UPnP/1.1, MiniUPnPc/2.1
+13972:urn:schemas-upnp-org:device:InternetGatewayDevice:1
+13973:urn:schemas-upnp-org:service:WANIPConnection:1
+13974:urn:schemas-upnp-org:service:WANPPPConnection:1
+13975:upnp:rootdevice
+13992:User-Agent: Darwin/18.6.0, UPnP/1.1, MiniUPnPc/2.1
+13995:PortMappingEntry
+13997:NewExternalPort
+13999:NewInternalPort
+14014:GetStatusInfo
+14016:NewConnectionStatus
+14026:NewPortMappingDescription
+14027:libminiupnpc
+14029:AddPortMapping
+14030:AddAnyPortMapping
+14031:NewReservedPort
+14032:DeletePortMapping
+14033:NewStartPort
+14034:NewEndPort
+14036:DeletePortMappingRange
+14037:NewPortMappingIndex
+14038:GetGenericPortMappingEntry
+14039:GetPortMappingNumberOfEntries
+14040:NewPortMappingNumberOfEntries
+14041:GetSpecificPortMappingEntry
+14042:NewNumberOfPorts
+14044:GetListOfPortMappings
+14045:GetFirewallStatus
+14049:RemotePort
+14051:InternalPort
+14064:NewPortListing
+14068:QSharedPointer(
+14085:26SharedUserFolderWidgetItem
+14086:12EventHandlerI9ShareForm4ItemE
+14088:19QRoomListItemWidget
+14089:P?QFont
+14090:12EventHandlerI8RoomForm4ItemE
+14091:23QRoomUserListItemWidget
+14100:@16SharedFolderInfo
+14101:12EventHandlerI20SharedFoldersManager4ItemE
+14102:12EventHandlerI8ChatForm4ItemE
+14103:12EventHandlerI20TransferQueueManager4ItemE
+14106:12EventHandlerI10SearchForm4ItemE
+14107:20SearchResultListItem
+14113:12EventHandlerI17SearchResultsForm4ItemE
+14116:12EventHandlerI19DownloadMenuOptions4ItemE
+14117:N12QtLP_Private12QtLockedFileE
+14120:12EventHandlerI9ChatsForm4ItemE
+14122:12EventHandlerI12RoomWallForm4ItemE
+14123:12EventHandlerI9RoomsForm4ItemE
+14126:12EventHandlerI17UploadMenuOptions4ItemE
+14128:12EventHandlerI17FilterWordsDialog4ItemE
+14129:21FilesInFolderListItem
+14139:N6TagLib3ASF9Attribute16AttributePrivateE
+14144:N6TagLib3ASF4File11FilePrivate10BaseObjectE
+14145:N6TagLib3ASF4File11FilePrivate13UnknownObjectE
+14146:N6TagLib3ASF4File11FilePrivate20FilePropertiesObjectE
+14147:N6TagLib3ASF4File11FilePrivate22StreamPropertiesObjectE
+14148:N6TagLib3ASF4File11FilePrivate24ContentDescriptionObjectE
+14149:N6TagLib3ASF4File11FilePrivate32ExtendedContentDescriptionObjectE
+14150:N6TagLib3ASF4File11FilePrivate14MetadataObjectE
+14151:N6TagLib3ASF4File11FilePrivate21MetadataLibraryObjectE
+14152:N6TagLib3ASF4File11FilePrivate21HeaderExtensionObjectE
+14153:N6TagLib3ASF4File11FilePrivate15CodecListObjectE
+14155:N6TagLib4ListIPNS_3ASF4File11FilePrivate10BaseObjectEEE
+14158:N6TagLib3ASF7Picture14PicturePrivateE
+14168:N6TagLib7FileRef14FileRefPrivateE
+14171:N6TagLib4ListIPNS_4FLAC13MetadataBlockEEE
+14173:N6TagLib4FLAC13MetadataBlockE
+14176:N6TagLib4FLAC20UnknownMetadataBlockE
+14200:N6TagLib3MP48CoverArt15CoverArtPrivateE
+14202:N6TagLib3MP44Item11ItemPrivateE
+14213:N6TagLib4MPEG6Header13HeaderPrivateE
+14227:N6TagLib5ID3v212PrivateFrameE
+14261:N6TagLib6String13StringPrivateE
+14299:N6TagLib5ID3v220TableOfContentsFrameE
+14300:M-SEARCH * HTTP/1.1
+18721:CC Attribution-ShareAlike http://creativecommons.org/licenses/by-sa/3.0/^
+19126:onPrivateChat
+19128:i_chat
+19135:onSharedFilesRescanned
+19138:onOptionsTabSelectionChanged
+19139:i_tabIndex
+19140:onUPnPCheckboxToggled
+19143:onShowDownloadsAndUploadsInSameTabToggled
+19144:onExpandNewSharesCheckboxToggled
+19146:onUseOldStyleSearchResultsCheckboxToggled
+19148:onDontCreateSubfoldersForSingleDownloads
+19149:onDontSplitDownloads
+19150:onDontCreateUsernameFolders
+19151:onShowPrivateSearchResultsClicked
+19152:onShowPrivatelySharedFilesInSharesClicked
+19156:onTrayIconActivated
+19157:QSystemTrayIcon::ActivationReason
+19158:onChatTimestampsBoxIndexChanged
+19160:onFirstOpenTabBoxIndexChanged
+19161:onSelectColors
+19162:onLogRoomChatCheckBoxClicked
+19164:onLogPrivateChatCheckBoxClicked
+19165:onEmptyShareWarningMessageCheckBoxClicked
+19166:onEmptyShareWarningEditEdited
+19168:onSaveEmptyShareWarningMessageButtonClicked
+19169:onAcceptUserlistUploadsCheckboxToggled
+19172:i_downloadLink
+19174:onMaxUploadsPerUserSpinBoxValueChanged
+19177:onMaxResultsPerSearchValueChanged
+19178:onImmediatelyUploadSmallFilesKBValueChanged
+19179:onMaxUploadsPerUserClicked
+19181:onMaxResultsPerSearchClicked
+19182:onImmediatelyUploadSmallFilesClicked
+19183:onSharedFoldersListContextMenuRequested
+19185:onAddSharedFolder
+19186:onSetFolderPermissions
+19187:onUnshareFolder
+19189:onNotifyForMessagesFromSelected
+19193:onCheckPortsClicked
+19194:onShowAwayStatusClicked
+19196:onAdminMessage
+19197:i_message
+19199:onEditExcludedDownloadExtensionsClicked
+19200:onExportClientDataClicked
+19201:onImportClientDataClicked
+19202:onImportUserListClicked
+19205:onSelectPrivateChatSoundFile
+19206:onClearPrivateChatSoundFile
+19207:onSelectRoomChatSoundFile
+19208:onClearRoomChatSoundFile
+19209:onSelectWishlistSoundFile
+19210:onClearWishlistSoundFile
+19211:onSelectShareBrowseSoundFile
+19212:onClearShareBrowseSoundFile
+19213:onSelectDownloadAlertSoundFile
+19214:onClearDownloadAlertSoundFile
+19221:onDownloadFoldersOnDoubleClickClicked
+19222:onSelectApplicationFontClicked
+19223:onDefaultFontClicked
+19224:onClearSearchHistoryClicked
+19226:onAutoAwayOnIdleClicked
+19227:resetColorSettings
+19228:onClearSizeSettingsButtonClicked
+19229:onServerPortBoxSelectionChanged
+19232:onSharedFolderScanningStarted
+19233:onChatFilterWordsButtonClicked
+19236:onUseDownloadFolderDialog
+19246:onTrayMenuTitleClicked
+19247:showMinimizedToTrayMessage
+19248:minimizeToTrayOnCloseClicked
+19249:onEnableListeningPortsClicked
+19250:onAutoDisableListeningPortsClicked
+19251:onAutoDisableListeningPortsConnectionCountValueChanged
+19252:onAutoDisableListeningPortsConnectionSecondsValueChanged
+19253:onAutoDisableListeningPortsForSecondsValueChanged
+19255:QSystemTrayIcon::ActivationReason
+19263:SearchRequested
+19265:i_search
+19266:i_wishListSearch
+19267:RoomChat
+19268:i_room
+19270:i_chat
+19271:PrivateChat
+19275:PrivateChatSent
+19284:DNetMessage
+19286:i_message
+19287:DNetDeliveryReport
+19292:WishListWait
+19296:ReceivedOwnPrivilegesStatus
+19298:SearchCorrelations
+19299:PrivateRoomAddEnabled
+19301:DirectFileSearch
+19302:AdminMessage
+19306:SearchFilters
+19308:i_filters
+19322:14StreamWritable
+19333:8RoomForm
+19334:RoomForm
+19335:OnRoomChat
+19336:i_room
+19338:i_chat
+19346:OnUserListContextMenuRequested
+19348:CheckChatInactivity
+19352:RoomForm
+19362:onSupportSoulseekButtonClicked
+19363:onReceivedOwnPrivilegesStatus
+19366:onStatusButtonClicked
+19367:onAwaySet
+19368:i_away
+19370:13RoomTabWidget
+19371:RoomTabWidget
+19372:RoomTabWidget
+19375:ReceivedSearchResults
+19380:i_privateResults
+19382:i_uploadSpeed
+19383:i_uploadsInQueue
+19388:UserShare
+19391:ip_share
+19392:ip_privateShare
+19393:AttributeTranslationTable&
+19394:i_translationTable
+19400:QueueUploadRequested
+19408:UploadFailed
+19409:UploadDenied
+19411:SharedFilesInFolderRequested
+19412:i_folder
+19413:DownloadPlaceInLine
+19417:UploadPlaceInLineRequested
+19419:QueueDownloadRequested
+19427:i_uploadSlots
+19428:i_queuedUPloads
+19429:i_freeUploadSlots
+19430:FilesInFolder
+19459:21AddSharedFolderDialog
+19460:AddSharedFolderDialog
+19461:OnSelectFolderClicked
+19468:AddSharedFolderDialog
+19470:20SharedFoldersManager
+19474:scanFolders
+19475:i_folders
+19477:SharedFoldersManager
+19478:searchResults
+19480:i_searchResults
+19481:sharedFilesRescanned
+19484:searchProcessed
+19485:i_search
+19487:folderScanningStarted
+19489:i_folderScanned
+19491:folderScanningFinished
+19492:onDNetSearchRequest
+19495:i_searchText
+19502:onFilesInFoldersRequested
+19503:i_folder
+19508:onDirectFileSearch
+19509:onSearchFilters
+19511:i_searchFilters
+19512:onFoldersRescanned
+19513:onReceivedSearchResults
+19516:i_privateResults
+19518:i_uploadSpeed
+19519:i_uploadsInQueue
+19520:SharedFoldersManager
+19524:8ChatForm
+19525:ChatForm
+19527:CheckChatInactivity
+19528:OnContextMenuRequested
+19536:ChatForm
+19537:TransferQueueManager
+19538:DownloadProgressed
+19540:i_download
+19541:UploadProgressed
+19542:i_upload
+19544:CompleteDownloadAdded
+19545:DownloadAdded
+19557:OnQueueUploadRequested
+19558:OnQueueDownloadRequested
+19565:OnUploadFailedNotification
+19566:OnUploadDeniedNotification
+19571:OnDownloadPlaceInLine
+19573:OnUploadError
+19574:OnUploadProgress
+19577:OnUploadComplete
+19578:OnDownloadError
+19579:OnDownloadProgress
+19580:OnDownloadComplete
+19581:DetermineUploadsEffectiveOrder
+19582:OnUploadPlaceInLineRequested
+19583:onUserShare
+19585:i_share
+19586:i_privateShare
+19587:AttributeTranslationTable&
+19588:i_translationTable
+19589:StartNewUploads
+19592:20TransferQueueManager
+19593:10UploadTask
+19594:12DownloadTask
+19595:TransferQueueManager
+19597:UploadTask
+19598:uploadError
+19600:uploadProgress
+19603:uploadComplete
+19611:UploadTask
+19613:DownloadTask
+19614:downloadError
+19616:downloadProgress
+19619:downloadComplete
+19625:DownloadTask
+19630:downloadComplete
+19632:i_download
+19633:onDownloadProgress
+19634:onUploadProgress
+19635:i_upload
+19644:onUploadSpeedLimitCheckStateChanged
+19646:onUploadSpeedLimitSpinValueChanged
+19648:onUploadSlotsSpinValueChanged
+19649:onDownloadSpeedLimitCheckStateChanged
+19650:onDownloadSpeedLimitSpinValueChanged
+19651:onDownloadsContextMenuRequested
+19653:onUploadsContextMenuRequested
+19658:onClearDownloadsCheckStateChanged
+19659:onClearUploadsCheckStateChanged
+19661:onDownloadComplete
+19662:onDownloadListItemDoubleClicked
+19664:onKeyPressedInDownloadList
+19667:onKeyPressedInUploadList
+19671:SharesForm
+19672:OnTabCloseRequested
+19673:i_tabIndex
+19674:onUserShare
+19677:ip_share
+19678:ip_privateShare
+19679:AttributeTranslationTable&
+19680:i_translationTable
+19681:10SharesForm
+19682:SharesForm
+19683:QSharedPointer<std::map<std::string,std::set<FileInfo>>>
+19684:ShareForm
+19693:OnFilterTextChanged
+19695:OnFilterHelpClicked
+19702:OnFolderContextMenuRequested
+19704:OnFileContextMenuRequested
+19705:OnDownloadFolder
+19706:OnQueueFolderPaused
+19707:OnDownloadFile
+19708:OnFolderDoubleClicked
+19709:9ShareForm
+19710:ShareForm
+19723:10SearchForm
+19724:SearchForm
+19725:onSearchEntered
+19726:onAddToWishListClicked
+19727:onTabCloseRequested
+19728:i_tabIndex
+19729:onWishTabCloseRequested
+19734:onUserSearchResults
+19736:i_searchResults
+19737:onWishListItemCheckStateChanged
+19743:onWishListItemChanged
+19746:onWishListContextMenuRequested
+19748:onManualSearch
+19750:onRemoveWishListItemRequested
+19751:onDownloadAdded
+19752:i_download
+19754:SearchForm
+19757:DNetSearchRequest
+19760:i_searchText
+19768:OnDNetMessage
+19770:i_message
+19771:OnDNetDeliveryReport
+19807:OnUserListContextMenuRequested
+19809:OnUnsharedListContextMenuRequested
+19810:OnIgnoredListContextMenuRequested
+19811:OnOnlineAlertListContextMenuRequested
+19812:OnUserInfoTabCloseRequested
+19830:26SharedFilesRescannedDialog
+19831:SharedFilesRescannedDialog
+19832:SharedFilesRescannedDialog
+19833:PortForwarder
+19837:13PortForwarder
+19840:addUPnPPortMapping
+19842:i_port
+19843:removeUPnPPortMapping
+19844:addNatPMPPortMapping
+19846:PortForwarder
+19847:15UserMenuOptions
+19848:UserMenuOptions
+19849:OnMessageUser
+19854:OnUploadToUser
+19856:OnUnshareFilesFromUser
+19857:OnReshareFilesWithUser
+19858:OnIgnoreUser
+19859:OnUnignoreUser
+19862:OnAddUserOperatorship
+19863:OnRemoveUserOperatorship
+19866:OnGiftPrivileges
+19868:UserMenuOptions
+19869:SearchResultsForm
+19871:OnFilterHelpClicked
+19872:OnSearchCorrelations
+19873:i_searchText
+19874:OnFilterTextChanged
+19876:OnSaveFilterClicked
+19877:OnSavedFiltersBoxIndexChanged
+19879:OnClearFilterClicked
+19880:OnDefaultFilterBoxToggled
+19882:OnContextMenuRequested
+19891:17SearchResultsForm
+19892:SearchResultsForm
+19893:25ChangeListeningPortDialog
+19894:ChangeListeningPortDialog
+19897:ChangeListeningPortDialog
+19910:OnSplitterMoved
+19933:OnAcceptUploadsCheckboxToggled
+19941:16WishListSearcher
+19942:WishListSearcher
+19943:OnWishListWait
+19945:OnSearchTimerTimeout
+19946:WishListSearcher
+19958:DownloadMenuOptions
+19959:OnRemoveDownloads
+19960:OnRerunSearch
+19962:OnOpenFolder
+19963:OnSetFileDownloadAlert
+19964:OnSetFolderDownloadAlert
+19965:OnSetUserDownloadAlert
+19966:OnRetryDownloads
+19967:OnPauseDownloads
+19968:OnResumeDownloads
+19969:19DownloadMenuOptions
+19970:DownloadMenuOptions
+19971:16FilterHelpDialog
+19972:FilterHelpDialog
+19973:FilterHelpDialog
+19981:9TabWidget
+19982:TabWidget
+19983:OnTabChanged
+19984:i_tab
+19985:TabWidget
+19986:SearchResultMenuOptions
+19987:OnDownloadFile
+19988:OnDownloadFolder
+19989:OnBrowseFolder
+19990:23SearchResultMenuOptions
+19991:SearchResultMenuOptions
+19998:16CreateRoomDialog
+19999:CreateRoomDialog
+20001:CreateRoomDialog
+20007:20ColorSelectionDialog
+20008:ColorSelectionDialog
+20009:OnColorSelectionChanged
+20010:i_colorText
+20011:OnChangeColorClicked
+20012:ColorSelectionDialog
+20013:11ChatLogForm
+20014:ChatLogForm
+20015:OnSearchTextChanged
+20017:OnSearchBack
+20018:OnSearchForward
+20023:ChatLogForm
+20024:UploadForm
+20029:OnFilterTextChanged
+20031:OnFilterHelpClicked
+20036:OnFolderDoubleClicked
+20040:OnFolderContextMenuRequested
+20042:OnFileContextMenuRequested
+20043:OnUploadFolder
+20044:OnUploadFile
+20045:10UploadForm
+20046:UploadForm
+20051:i_downloadLink
+20061:OnDownloadButtonClicked
+20066:messageReceived
+20067:message
+20068:sendMessage
+20072:messageReceived
+20073:message
+20074:sendMessage
+20081:messageReceived
+20082:message
+20085:15MessageListForm
+20086:MessageListForm
+20087:OnPrivateChat
+20089:i_chat
+20093:OnPrivateChatSent
+20097:OnContextMenuRequested
+20099:OnRemoveChatFromList
+20104:MessageListForm
+20115:i_uploadSlots
+20116:i_queuedUPloads
+20117:i_freeUploadSlots
+20121:9ChatsForm
+20122:ChatsForm
+20123:OnChatTabClosed
+20125:ChatsForm
+20126:GiftPrivilegesDialog
+20128:20GiftPrivilegesDialog
+20129:GiftPrivilegesDialog
+20130:18AdminMessageDialog
+20131:AdminMessageDialog
+20132:AdminMessageDialog
+20133:20ReceivedSearchesForm
+20134:ReceivedSearchesForm
+20135:OnSearchProcessed
+20136:i_search
+20142:ReceivedSearchesForm
+20145:OnExtensionListContextMenuRequested
+20150:12RoomWallForm
+20151:RoomWallForm
+20153:RoomWallForm
+20154:9RoomsForm
+20155:RoomsForm
+20156:OnRoomListContextMenuRequested
+20158:OnPrivateRoomAddEnabled
+20165:OnEnterRoom
+20166:OnRoomTabClosed
+20168:OnRoomListItemDoubleClicked
+20172:RoomsForm
+20173:17UploadMenuOptions
+20174:UploadMenuOptions
+20175:OnRemoveUploads
+20177:OnOpenFolder
+20178:UploadMenuOptions
+20179:ActivityEventFilter
+20181:19ActivityEventFilter
+20189:ActivityEventFilter
+20190:18MessageUsersDialog
+20191:MessageUsersDialog
+20194:OnSendMessageClicked
+20195:MessageUsersDialog
+20196:11AwayManager
+20197:AwayManager
+20198:AwaySet
+20199:i_away
+20203:AwayManager
+20207:13LoginAsDialog
+20208:LoginAsDialog
+20209:OnLoginClicked
+20211:LoginAsDialog
+20217:17FilterWordsDialog
+20218:FilterWordsDialog
+20221:OnChatFiltered
+20222:i_message
+20223:FilterWordsDialog
+20224:36SharedFolderScanningInProgressDialog
+20225:SharedFolderScanningInProgressDialog
+20227:i_folderScanned
+20229:OnFolderScanningFinished
+20230:SharedFolderScanningInProgressDialog
+20231:27DownloadFilesInFolderDialog
+20232:DownloadFilesInFolderDialog
+20233:OnReceivedFilesInFolder
+20236:i_folder
+20242:OnDownloadClicked
+20244:DownloadFilesInFolderDialog
+20246:ChatLogger
+20247:OnPrivateChat
+20249:i_chat
+20253:OnPrivateChatSent
+20254:OnRoomChat
+20255:i_room
+20256:10ChatLogger
+20257:ChatLogger
+20258:ChatFilter
+20259:ChatFiltered
+20260:i_chat
+20261:10ChatFilter
+20262:ChatFilter
+20271:27SupportSoulseekPopupManager
+20272:SupportSoulseekPopupManager
+20274:SupportSoulseekPopupManager
+20275:SupportSoulseekDialog
+20279:21SupportSoulseekDialog
+20280:SupportSoulseekDialog
+20283:onLoginAsButtonClicked
+21719:-minimized
+21723:Shared folder
+21733:shared_folders
+21734:set_download_folder
+21735:Set Download Folder
+21737:share_folder
+21738:Share Folder
+21739:rescan_shares
+21740:Rescan Shares
+21741:login_options
+21745:login_as
+21746:Login As
+21747:set_listening_port
+21748:Change Listening Port
+21752:message_user
+21753:Message User
+21754::/icons/chat_icon
+21756:Browse User's Files
+21758:Add User
+21763:1onTrayMenuTitleClicked()
+21766:user_chat_widget
+21767:2PrivateChat(QString,QString,time_t,bool)
+21768:1onPrivateChat(QString,QString,time_t,bool)
+21769:shared_folder
+21777:expand_new_shares
+21778:per_message_short
+21779:chat_timestamps
+21780:search
+21781:first_open_tab
+21782:show_away_status_in_application_icon
+21783:use_download_folder_dialog
+21785:minimize_on_close
+21786:color_setting
+21787:color_setting_value
+21788:color_setting_default_value
+21789:color_setting_text
+21796:transfer_queued
+21802:chat_username
+21803:chat_timestamp
+21804:chat_status
+21805:chat_own_messages
+21812:Transfers - Queued
+21818:Chat - Usernames
+21819:Chat - Timestamps
+21820:Chat - Statuses
+21821:Chat - Own Messages
+21823:1resetColorSettings()
+21824:application_font
+21826:default_application_font
+21827:log_room_chat
+21828:log_private_chat
+21829:show_private_search_results
+21830:show_privately_shared_files_in_shares
+21831:max_results_per_search
+21832:max_results_per_search_enabled
+21833:enable_listening_ports
+21834:auto_disable_listening_ports
+21835:auto_disable_listening_ports_connection_count
+21836:auto_disable_listening_ports_connection_seconds
+21837:auto_disable_listening_ports_for_seconds
+21839:notify_for_messages_from
+21841:1onLogRoomChatCheckBoxClicked(bool)
+21842:1onLogPrivateChatCheckBoxClicked(bool)
+21843:1onEmptyShareWarningMessageCheckBoxClicked(bool)
+21844:obfuscated_listening_port
+21846:1onMaxUploadsPerUserSpinBoxValueChanged(int)
+21848:1onMaxResultsPerSearchValueChanged(int)
+21849:1onImmediatelyUploadSmallFilesKBValueChanged(int)
+21850:1onMaxUploadsPerUserClicked(bool)
+21852:1onMaxResultsPerSearchClicked(bool)
+21853:1onImmediatelyUploadSmallFilesClicked(bool)
+21854:1onEnableListeningPortsClicked(bool)
+21855:1onAutoDisableListeningPortsClicked(bool)
+21860:User List
+21862:1onNotifyForMessagesFromSelected(int)
+21863:filter_word
+21879:download_folder
+21880:use_upnp
+21882:show_downloads_and_uploads_in_same_tab
+21884:use_old_style_search_results
+21885:dont_create_subfolders_for_single_downloads
+21886:dont_split_downloads
+21887:dont_create_username_folders
+21889:1onUseOldStyleSearchResultsCheckboxToggled(bool)
+21891:1onDontCreateSubfoldersForSingleDownloads(bool)
+21892:1onShowDownloadsAndUploadsInSameTabToggled(bool)
+21893:1onExpandNewSharesCheckboxToggled(bool)
+21894:1onChatTimestampsBoxIndexChanged(int)
+21895:1onShowAwayStatusClicked(bool)
+21896:1onSelectColors()
+21897:1onDontSplitDownloads(bool)
+21898:1onDontCreateUsernameFolders(bool)
+21899:1onAutoAwayOnIdleClicked(bool)
+21900:1onShowPrivateSearchResultsClicked(bool)
+21901:1onShowPrivatelySharedFilesInSharesClicked(bool)
+21902:1onUseDownloadFolderDialog(bool)
+21903:1minimizeToTrayOnCloseClicked(bool)
+21904:listening_port
+21905:new_listening_port
+21907:per_message_long
+21909:rooms
+21911:1onFirstOpenTabBoxIndexChanged(int)
+21915:2activated(QSystemTrayIcon::ActivationReason)
+21916:1onTrayIconActivated(QSystemTrayIcon::ActivationReason)
+21917:2sharedFilesRescanned(int,int)
+21918:1onSharedFilesRescanned(int,int)
+21919:2folderScanningStarted()
+21920:1onSharedFolderScanningStarted()
+21921:chat_log_form
+21922:room
+21923:chat_log
+21924:clear_chat_log
+21927:open_log_folder
+21928:Open Log Folder
+21929:user_chat
+21930:user_chat_log
+21931:Chat Log
+21933:user_chat_list
+21934:remove_all_chats
+21935:Clear Message List
+21937:check_for_empty_shares
+21938:empty_share_message
+21939:accept_userlist_uploads
+21941:1onEmptyShareWarningEditEdited(QString)
+21942:1onSaveEmptyShareWarningMessageButtonClicked()
+21945:max_queued_uploads_per_user_enabled
+21946:max_queued_mb_per_user_enabled
+21947:immediately_upload_small_files_enabled
+21948:max_queued_uploads_per_user
+21949:max_queued_mb_per_user
+21950:immediately_upload_small_files_kb
+21951:2customContextMenuRequested(QPoint)
+21952:1onSharedFoldersListContextMenuRequested(QPoint)
+21958:download_folders_on_double_click
+21960:1onDownloadFoldersOnDoubleClickClicked(bool)
+21961:2AdminMessage(QString)
+21962:1onAdminMessage(QString)
+21963:excluded_download_extension
+21967:private_chat
+21968:room_chat
+21969:wishlist
+21971:download
+21975:1onOptionsTabSelectionChanged(int)
+21977:1onUPnPCheckboxToggled(bool)
+21979:1onAcceptUserlistUploadsCheckboxToggled(bool)
+21984:1onCheckPortsClicked()
+21986:1onEditExcludedDownloadExtensionsClicked()
+21987:1onExportClientDataClicked()
+21988:1onImportClientDataClicked()
+21989:1onImportUserListClicked()
+21993:1onSelectPrivateChatSoundFile()
+21994:1onClearPrivateChatSoundFile()
+21995:1onSelectRoomChatSoundFile()
+21996:1onClearRoomChatSoundFile()
+21997:1onSelectWishlistSoundFile()
+21998:1onClearWishlistSoundFile()
+21999:1onSelectShareBrowseSoundFile()
+22000:1onClearShareBrowseSoundFile()
+22001:1onSelectDownloadAlertSoundFile()
+22002:1onClearDownloadAlertSoundFile()
+22007:1onSelectApplicationFontClicked()
+22008:1onDefaultFontClicked()
+22009:1onClearSearchHistoryClicked()
+22010:1onClearSizeSettingsButtonClicked()
+22012:1onServerPortBoxSelectionChanged(QString)
+22013:server_port
+22014:1onChatFilterWordsButtonClicked()
+22017:Share a folder?
+22018:Many Soulseek users require that you share something before downloading from them. Would you like to share a folder now?
+22020:You can always share additional folders by clicking the Share Folder button when viewing the Options->File Sharing tab.
+22033:1onAutoDisableListeningPortsConnectionCountValueChanged(int)
+22034:1onAutoDisableListeningPortsConnectionSecondsValueChanged(int)
+22035:1onAutoDisableListeningPortsForSecondsValueChanged(int)
+22036:reset_size_settings
+22039:unshare_folder
+22043:private: [%1] %2
+22049:Login Failure: Username is Invalid
+22050:Login failed. The username you supplied is invalid. Please change your login settings in the Options tab and try reconnecting.
+22051:Login Failure
+22052:Login failed. Reported failure reason: %1. Please change your login settings in the Options tab and try reconnecting.
+22053:shared_public
+22054:shared_userlist
+22058:Shared Files Rescanned
+22060:Obfuscated port is %1, if you're manually forwarding
+22061:your ports be sure to open it as well.
+22065::/icons/away_icon
+22066:no_timestamps
+22067:Set Folder Permissions
+22068:1onSetFolderPermissions()
+22069:Unshare Folder
+22070:1onUnshareFolder()
+22071:1onAddSharedFolder()
+22073:http://www.slsknet.org/porttest.php?port=%1
+22074:Importing user list from original Soulseek client
+22075:To import your user list, your original Soulseek client must be set not to save configuration data to the registry (under Options->General), and the hotlist.cfg file must then be located on your computer. The next dialog will ask you to navigate to the exact location of the hotlist.cfg file.
+22076:Find User List Configuration File
+22078:Import successful.
+22079:Import could not be completed successfully.
+22083:search_record
+22086:Reset color settings?
+22087:Are you sure you want to reset your client's color settings?
+22088:Reset Size Settings
+22089:Size settings will be reset the next time you run the client.
+22093:Language Setting
+22094:Your language setting will take effect next time you run SoulseekQt.
+22097:Client data exported
+22099:Client data export failed
+22104:ImportClientDataFrom
+22107:Data successfully imported
+22108:Client data successfully imported!
+22109:Data import failed
+22110:Client data could not be successfully imported.
+22111:shown_minimize_to_tray_message
+22112:showMinimizedToTrayMessage
+22113:SoulseekQt has been minimized to your tray. Click the tray icon to show it again, or select Quit from the tray icon menu to exit.
+22120:tabControl
+22121:transfersTab
+22124:roomsTab
+22126:roomsForm
+22127:chatTab
+22129:chatsForm
+22130:searchTab
+22132:searchForm
+22133:tab_2
+22136:sharesTab
+22138:sharesForm
+22139:optionsTab
+22141:optionsTabControl
+22142:loginOptionsTab
+22146:autoDisableListeningPortsCheckBox
+22147:autoDisableListeningPortsConnectionCountSpinBox
+22149:autoDisableListeningPortsConnectionSecondsSpinBox
+22151:autoDisableListeningPortsForSecondsSpinBox
+22153:listeningPortEdit
+22154:checkPortsButton
+22157:obfuscatedPortLabel
+22161:enableListeningPortsCheckBox
+22162:uPnPCheckBox
+22164:serverPortBox
+22165:fileSharingOptionsTab
+22169:downloadFolderEdit
+22170:downloadFolderSpacer
+22172:sharedFoldersList
+22174:maxUploadsPerUserCheckBox
+22176:maxUploadsPerUserSpinBox
+22182:immediatelyUploadSmallFilesCheckBox
+22184:immediatelyUploadSmallFilesSpinBox
+22186:acceptUserListUploadsCheckBox
+22187:emptyShareWarningCheckBox
+22189:emptyShareWarningEdit
+22190:saveEmptyShareWarningMessageButton
+22195:dontDownloadSingleFilesIntoSubfolders
+22196:dontSplitDownloadsCheckBox
+22197:dontCreateUsernameFoldersCheckBox
+22199:maxResultsPerSearchCheckBox
+22201:maxResultsPerSearchSpinBox
+22202:showPrivateResultsCheckBox
+22203:showPrivatelySharedFilesInSharesCheckBox
+22204:useDownloadFolderDialogCheckBox
+22209:minimizeToTrayOnCloseCheckBox
+22211:useOldStyleSearchResultsCheckBox
+22212:showDownloadsAndUploadsInSameTabCheckBox
+22213:autoExpandSharesCheckBox
+22216:firstOpenTabBox
+22219:chatTimestampsBox
+22220:showAwayStatusCheckBox
+22224:downloadFoldersOnDoubleClickCheckBox
+22226:selectColorsButton
+22227:defaultColorsButton
+22229:selectApplicationFontButton
+22230:defaultFontButton
+22235:clearSizeSettingsButton
+22236:tab_3
+22242:autoAwayOnIdleCheckBox
+22243:logRoomChatCheckBox
+22244:logPrivateChatCheckBox
+22247:notifyForMessagesFromBox
+22253:clearSearchHistoryButton
+22255:chatFilterWordsButton
+22256:tab_4
+22264:tab_5
+22274:privateChatSoundEdit
+22275:privateChatSoundSelectFileButton
+22276:privateChatSoundClearButton
+22279:roomChatSoundEdit
+22280:roomChatSoundSelectFileButton
+22281:roomChatSoundClearButton
+22284:wishlistResultsSoundEdit
+22285:wishlistResultsSoundSelectFileButton
+22286:wishlistResultsSoundClearButton
+22289:shareBrowseSoundEdit
+22290:shareBrowseSoundSelectFileButton
+22291:shareBrowseSoundClearButton
+22294:downloadAlertSoundEdit
+22295:downloadAlertSoundSelectFileButton
+22296:downloadAlertSoundClearButton
+22307:extrasTab
+22310:exportClientDataButton
+22312:importClientDataButton
+22314:importUserListButton
+22320:Rooms
+22321:Chat
+22322:Search
+22325:Automatically disable listening ports after
+22329:Check Ports
+22330:Server port
+22331:Listening port
+22332:Obfuscated port is...
+22333:Use NAT-PMP port mapping
+22334:Enable listening ports
+22335:Use UPnP port mapping
+22337:Login
+22338:Download Folder
+22339:Shared Folders
+22340:Limit maximum number of queued uploads per user
+22341:Limit maximum megabytes of queued uploads per user
+22342:Immediately upload files smaller than
+22344:Accept uploads from all user list users
+22345:Send warning message to downloading users with empty shares
+22347:Filename extensions excluded from folder downloads:
+22349:Don't create subfolders for single downloads
+22350:Don't put downloads in Downloading and Complete folders
+22351:Don't create username folders
+22352:Limit maximum number of search results per search
+22353:Show privately shared search results
+22354:Show privately shared files when browsing user shares
+22355:Show files in folder dialog when downloading folders from search results
+22357:Minimize to tray on close
+22359:Use old-style search results (list instead of tree, applies to new search windows)
+22360:Show uploads and downloads in same tab
+22361:Auto-expand newly browsed shares
+22362:First open tab when starting:
+22363:Chat timestamps:
+22365:Per message (short)
+22366:Per message (long)
+22367:No timestamps
+22368:Show Away status in application icon
+22372:Download folders on double-click
+22373:Select Application Colors
+22374:Default Colors
+22375:Select Application Font
+22376:Default Font
+22378:Reset Window and Column Size Settings
+22381:Automatically toggle away mode when idle
+22382:Log room chat
+22383:Log private chat
+22384:Notify when receiving private messages from
+22387:Clear Search History
+22388:Chat Filter Words
+22394:Private Chat:
+22395:Room Chat:
+22396:Wishlist Results:
+22397:Browsed Share:
+22398:Download Alert:
+22401:Notification Sounds
+22402:Export Client Configuration Data
+22403:Import Client Configuration Data
+22404:Import User List from original Soulseek client
+22406:Options
+22414:allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size
+22426:*mutable_rightmost() == parent->child(0)
+22467:last_online_status_change
+22469:is_privileged
+22470:is_away
+22471:room_autojoin
+22473:is_private
+22475:in_room
+22476:room_owner
+22477:room_operators
+22478:room_members
+22480:is_operator
+22481:average_download_speed
+22482:shared_file_count
+22484:group_download_priority
+22485:is_ignored
+22486:accept_uploads
+22488:room_ticker
+22489:room_ticker_text
+22490:room_ticker_order
+22491:ticker_order_counter
+22494:Attempting connection on port %1
+22498:is_supporter
+22499:accept_room_list
+22503:privileges
+22504:privileges_time_left
+22505:search_request_text
+22506:search_correlation
+22509:accept_private_room_add
+22510:search_request
+22512:DNet Server Messages
+22517:SM_LOGIN
+22518:SM_SET_WAIT_PORT
+22522:SM_GET_USER_STATUS
+22523:SM_ADD_CHATROOM
+22524:SM_IGNORE_USER
+22525:SM_UNIGNORE_USER
+22526:SM_SAY_CHATROOM
+22527:SM_JOIN_ROOM
+22528:SM_LEAVE_ROOM
+22529:SM_USER_JOINED_ROOM
+22530:SM_USER_LEFT_ROOM
+22532:SM_MESSAGE_USER
+22533:SM_MESSAGE_ACKED
+22534:SM_FILE_SEARCH
+22535:SM_SET_STATUS
+22538:SM_DOWNLOAD_SPEED
+22539:SM_SHARED_FOLDERS_FILES
+22542:SM_SEARCH_USER_FILES
+22543:SM_GET_SIMILAR_TERMS
+22544:SM_ADD_LIKE_TERM
+22545:SM_REMOVE_LIKE_TERM
+22546:SM_GET_RECOMMENDATIONS
+22547:SM_GET_MY_RECOMMENDATIONS
+22548:SM_GET_GLOBAL_RECOMMENDATIONS
+22549:SM_GET_USER_RECOMMENDATIONS
+22554:SM_ROOM_ADDED
+22555:SM_ROOM_REMOVED
+22556:SM_ROOM_LIST
+22557:SM_EXACT_FILE_SEARCH
+22558:SM_ADMIN_MESSAGE
+22560:SM_PEER_MESSAGE
+22561:SM_PRIVILEGED_LIST
+22572:SM_ADD_PRIVILEGED_USER
+22573:SM_GET_OWN_PRIVILEGES_STATUS
+22574:SM_DNET_MESSAGE
+22577:SM_LOW_PRIORITY_FILE_SEARCH
+22578:SM_WISHLIST_WAIT
+22579:SM_GET_RECOMMENDED_USERS
+22580:SM_GET_TERM_RECOMMENDATIONS
+22581:SM_GET_RECOMMENDATION_USERS
+22582:SM_GET_ROOM_TICKER
+22583:SM_ROOM_TICKER_USER_ADDED
+22584:SM_ROOM_TICKER_USER_REMOVED
+22585:SM_SET_TICKER
+22586:SM_ADD_HATE_TERM
+22587:SM_REMOVE_HATE_TERM
+22588:SM_SEARCH_ROOM
+22589:SM_UPLOAD_SPEED
+22590:SM_GET_USER_PRIVILEGES_STATUS
+22591:SM_GIVE_PRIVILEGE
+22592:SM_INFORM_USER_OF_PRIVILEGES
+22593:SM_INFORM_USER_OF_PRIVILEGES_ACK
+22596:SM_DNET_DELIVERY_REPORT
+22600:SM_BAN_USER
+22601:SM_ROOM_MEMBERS
+22602:SM_ADD_ROOM_MEMBER
+22603:SM_REMOVE_ROOM_MEMBER
+22604:SM_REMOVE_OWN_ROOM_MEMBERSHIP
+22605:SM_GIVE_UP_ROOM
+22606:SM_TRANSFER_ROOM_OWNERSHIP
+22607:SM_ADD_ROOM_MEMBERSHIP
+22608:SM_REMOVE_ROOM_MEMBERSHIP
+22609:SM_ENABLE_PRIVATE_ROOM_ADD
+22611:SM_ADD_ROOM_OPERATOR
+22612:SM_REMOVE_ROOM_OPERATOR
+22613:SM_ADD_ROOM_OPERATORSHIP
+22614:SM_REMOVE_ROOM_OPERATORSHIP
+22615:SM_REMOVE_OWN_ROOM_OPERATORSHIP
+22616:SM_ROOM_OPERATORS
+22617:SM_MESSAGE_USERS
+22618:SM_JOIN_GLOBAL_ROOM
+22619:SM_LEAVE_GLOBAL_ROOM
+22620:SM_SAY_GLOBAL_ROOM
+22621:SM_SEARCH_CORRELATIONS
+22623:SE_CANT_CREATE_ROOM
+22645:Folder
+22646:share_folders
+22647:share_files
+22651:user_share_tab
+22655:1OnFolderContextMenuRequested(QPoint)
+22656:1OnFileContextMenuRequested(QPoint)
+22657:share_form_splitter
+22658:share_form_file_list
+22659:No files returned. The user is either not sharing any files, or is sharing all of their files privately.
+22663:1OnFolderDoubleClicked(QTreeWidgetItem *,int)
+22669:Export Share To File
+22672::/icons/download_icon
+22675:A connection could not be successfully formed to the user. If this is happening to you a lot, <a href="http://www.slsknet.org/porttest.php?port=%1">Check here</a> to make sure that your port is open.
+22677:1OnDownloadFolder()
+22679:Queue Folder Paused
+22680:1OnQueueFolderPaused()
+22681:Download File(s)
+22682:1OnDownloadFile()
+22684:folder
+22689:ShareForm
+22690:messageBrowser
+22692:folderTree
+22694:SearchFilterSpacer
+22695:filterHelpButton
+22696:filterEdit
+22700:1OnFilterTextChanged(QString)
+22701:1OnFilterHelpClicked()
+22703:Filter Help
+22706:2RoomChat(QString, QString, QString)
+22707:1OnRoomChat(QString,QString,QString)
+22708:toggle_room_autojoin
+22711:room_activity_alert
+22712:toggle_room_activity_alert
+22718:1CheckChatInactivity()
+22719:room_splitter
+22720:room_user_list
+22727:%1 room: [%2] %3
+22730:Chat started 
+22732:[<font color="
+22734:</font>]
+22736:</font>] 
+22737:<b><font color="
+22738:</font></b>
+22739::/icons/room_icon
+22740:* <font color="
+22741:</font>
+22742:Chat ended 
+22743:RoomForm
+22745:chatView
+22746:chatEdit
+22752:1OnUserListContextMenuRequested(QPoint)
+22777:2ReceivedOwnPrivilegesStatus(int)
+22778:1onReceivedOwnPrivilegesStatus(int)
+22779:2AwaySet(bool)
+22780:1onAwaySet(bool)
+22786:Thank you for supporting Soulseek!
+22787:Support Soulseek!
+22789:1onSupportSoulseekButtonClicked()
+22791:Away
+22792:1onStatusButtonClicked()
+22793:http://www.slsknet.org/qtlogin.php?username=
+22802:user_port
+22803:user_obfuscated_port
+22805:unsent_message
+22809:connect_to_peer_request_status
+22819:HandleMessage on uninitialized socket: 0x%1
+22821:Failed to read direction from new %1peer connection. message parameters: read index=%2, write index=%3
+22830:Could not read message code on connection to user %1, disposing of socket
+22831:Received %1 message from user %2
+22832:unshared
+22844:Error writing message to socket: %1
+22845:Send %1 message to user %2
+22850:Did not find messaging connection to user, queueing unsent message
+22861:Sending %1 pending peer messages to user %2
+22866:PM_GET_SHARED_FILE_LIST
+22867:PM_SHARED_FILE_LIST
+22868:PM_FILE_SEARCH_REQUEST
+22869:PM_FILE_SEARCH_RESULT
+22870:PM_INVITE_USER_TO_ROOM
+22871:PM_CANCELLED_QUEUED_TRANSFER
+22875:PM_MOVE_DOWNLOAD_TO_TOP
+22876:PM_GET_SHARED_FILES_IN_FOLDER
+22877:PM_SHARED_FILES_IN_FOLDER
+22880:PM_PLACEHOLD_UPLOAD
+22881:PM_QUEUE_UPLOAD
+22882:PM_UPLOAD_PLACE_IN_LINE
+22883:PM_UPLOAD_FAILED
+22884:PM_EXACT_FILE_SEARCH_REQUEST
+22885:PM_QUEUED_DOWNLOADS
+22886:PM_INDIRECT_FILE_SEARCH_REQUEST
+22887:PM_UPLOAD_DENIED
+22888:PM_UPLOAD_PLACE_IN_LINE_REQUEST
+22895:auto_disable_ports_time
+22896:Auto Disable Ports
+22897:Re-enabling listening ports
+22906:Disabling listening ports, %1 connection attempts in last %2 seconds
+22918:visible_to_non_shared
+22920:Select Folder to Share
+22921:AddSharedFolderDialog
+22922:selectFolderButton
+22923:selectedFolderEdit
+22929:1OnSelectFolderClicked()
+22933:Add Shared Folder
+22934:Select &Folder
+22935:Folder accessible to everyone
+22936:Folder accessible to all user list users
+22937:Folder accessible to specific user list groups:
+22938:Folder is visible to everyone
+22940:search_results
+22941:search_result
+22942:search_results_user_available
+22943:search_results_user_speed
+22944:search_results_uploads_in_queue
+22945:search_result_file_name
+22946:search_result_file_folder
+22948:search_stopped
+22955:shared_file
+22956:shared_file_name
+22957:shared_file_lowercase_name
+22958:shared_file_folder
+22959:shared_file_folder_lowercase_name
+22960:shared_file_size
+22962:folder_name
+22963:folder_code
+22964:2ReceivedSearchResults(QString,quint32,list<FileInfo>&,list<FileInfo>&,bool,int,int)
+22965:1onReceivedSearchResults(QString,quint32,list<FileInfo>&,list<FileInfo>&,bool,int,int)
+22966:2SharedFilesInFolderRequested(QString,quint32,QString)
+22967:1onFilesInFoldersRequested(QString,quint32,QString)
+22968:search_token
+22969:2DNetSearchRequest(QString,quint32,QString)
+22970:1onDNetSearchRequest(QString,quint32,QString)
+22974:2DirectFileSearch(QString,quint32,QString)
+22975:1onDirectFileSearch(QString,quint32,QString)
+22976:2SearchFilters(list<QString>&)
+22977:1onSearchFilters(list<QString>&)
+22979:scanFolders
+22981:Shared
+22982:Adding folder %1 as part of sharing %2
+22985:Shared file list requested by user %1
+22986:finish_uploads_and_quit
+22987:Cancelling returning results for search %1 by user %2 due to search filters.
+22988:upload_speed
+22989:Sending search results to user %1 for search string %2
+22990:Discarding search result %1 due to filter %2
+22992:Shared File Not Found
+22998:onFoldersRescanned
+22999:Discarding search results from ignored user %1
+23001:Throwing away repeated search results from user %1
+23002:Filtered out search result %1 from user %2
+23003:Stopping search for %1 at %2 results.
+23009:sent_empty_share_warning_message
+23010: is away.
+23011:private_message
+23012:private_message_time
+23013:private_message_direction
+23015:private_message_text
+23017:/Soulseek Chat Logs/Users/
+23020:ChatForm
+23022:1OnContextMenuRequested(QPoint)
+23023:download_entry
+23025:remote_folder
+23029:download_entry_status
+23030:download_order
+23032:upload_entry_status
+23033:upload_order
+23038:last_queue_request_time
+23040:download_task
+23041:subfolder_save_level
+23042:last_status_change_time
+23043:single_download
+23044:download_retry_count
+23045:local_subfolder
+23046:upload_entry
+23048:upload_start_time
+23049:upload_task
+23050:effective_upload_order
+23051:immediate_upload
+23054:/Soulseek Downloads
+23057:2QueueUploadRequested(QString,QString)
+23058:1OnQueueUploadRequested(QString,QString)
+23059:2QueueDownloadRequested(QString,string,qint64)
+23060:1OnQueueDownloadRequested(QString,string,qint64)
+23065:2UploadFailed(QString,string)
+23066:1OnUploadFailedNotification(QString,string)
+23067:2UploadDenied(QString,string,QString)
+23068:1OnUploadDeniedNotification(QString,string, QString)
+23069:2UploadPlaceInLineRequested(QString,QString)
+23070:1OnUploadPlaceInLineRequested(QString,QString)
+23072:downloading
+23073:uploading
+23078:upload_speed_limit
+23079:upload_speed_limit_enabled
+23080:download_speed_limit
+23081:download_speed_limit_enabled
+23082:2DownloadPlaceInLine(QString,string,int)
+23083:1OnDownloadPlaceInLine(QString,string,int)
+23085:upload_slots
+23086:empty_share_check_status
+23087:2UserShare(QString,FileInfoMapPtr,FileInfoMapPtr,AttributeTranslationTable&)
+23088:1onUserShare(QString,FileInfoMapPtr,FileInfoMapPtr,AttributeTranslationTable&)
+23089:It looks like you're not sharing any files. Please share something before downloading anything from my own shares. Thanks.
+23092:queued
+23093:Transfer Queue
+23095:Queueing %1
+23096:Requeueing downloads from user %1
+23098:Received upload request from %1 for file %2, req %3
+23104:Transfer is already downloading, cancelling...
+23107:Queued
+23109:/downloading
+23111:Download not found, aborting
+23112:2downloadError(QString)
+23113:1OnDownloadError(QString)
+23114:2downloadProgress(qint64,int)
+23115:1OnDownloadProgress(qint64,int)
+23116:2downloadComplete()
+23117:1OnDownloadComplete()
+23118:Downloading
+23120:Download status %1, not re-queueing %2
+23121:User %1 offline, not re-queueing %2
+23122:User %1 appears to still be online, re-queueing %2
+23123:Queue upload requested by %1 for file %2
+23124:Denied, file not shared
+23125:File not shared.
+23128:%1, re-queueing
+23129:Already queued
+23130:Denied, too many files already queued by user
+23132:Denied, too many megabytes already queued by user
+23135:2uploadError(QString)
+23136:1OnUploadError(QString)
+23137:2uploadProgress(qint64,int)
+23138:1OnUploadProgress(qint64,int)
+23139:2uploadComplete()
+23140:1OnUploadComplete()
+23145:Found download, not processing
+23146:Found upload
+23147:Upload user %1 not the same as user who opened the connection, not doing anything
+23148:Upload was not accepted, marking denied. Reason: %1
+23149:Upload no longer in requesting phase, instead status is %1. Not processing.
+23150:File could not be opened, marking local error and sending denial message. Shouldn't we have done this before we requested the transfer?
+23153:Neither upload or download attached to req, weird
+23155:Received peer notification from %1 that upload of %2 failed
+23156:Download not found.
+23157:Download found!
+23158:Requeue denied.
+23159:Received peer notification from %1 that upload of %2 was denied, reason: %3
+23160:Download found, marking as denied.
+23163:Download found, too many files, marking as queued.
+23164:Upload of %1 to %2 aborted, sending upload failed notification.
+23165:last_upload_state_change
+23166:Upload of %1 to %2 timed out in %3 phase, aborting
+23171:Requesting place in line for download of %1 from %2
+23182:Error uploading %1 to %2. %3
+23183:Recording upload speed of %1
+23187:Error downloading %1 from %2. %3
+23189:Sent empty share warning message to user %1
+23191:Initiating upload to %1 of file %2
+23192:Can't upload, file is either not shared or not shared with that particular user.
+23193:Status
+23196:1onDownloadListItemDoubleClicked(QTreeWidgetItem *,int)
+23198:1onKeyPressedInDownloadList(QKeyEvent*)
+23199:1onKeyPressedInUploadList(QKeyEvent*)
+23200:1onDownloadsContextMenuRequested(QPoint)
+23201:1onUploadsContextMenuRequested(QPoint)
+23202:download_list_user_node
+23203:download_list_folder_node
+23204:download_list_node
+23205:2DownloadProgressed(Item)
+23206:1onDownloadProgress(Item)
+23207:2UploadProgressed(Item)
+23208:1onUploadProgress(Item)
+23209:upload_list_user_node
+23210:upload_list_folder_node
+23211:upload_list_node
+23214:downloads
+23215:expand_download_folders
+23216:Expand Folders
+23217::/icons/folder_icon
+23218:expand_download_users
+23221:clear_complete_downloads
+23224:open_download_folder
+23225:Open Download Folder
+23226:Expand Folders [on]
+23228:uploads
+23229:expand_upload_folders
+23230:expand_upload_users
+23231:clear_complete_and_aborted_uploads
+23233:Finish Uploads and Quit [off]
+23241:2downloadComplete(Item)
+23242:1onDownloadComplete(Item)
+23243:complete_download_alert
+23247:download_list
+23248:upload_list
+23249:remove_download
+23251:Finish Uploads and Quit [on]
+23253:clear_complete_aborted_uploads
+23254:1onUploadSpeedLimitSpinValueChanged(int)
+23255:1onUploadSpeedLimitCheckStateChanged(int)
+23256:1onDownloadSpeedLimitSpinValueChanged(int)
+23257:1onDownloadSpeedLimitCheckStateChanged(int)
+23258:1onClearDownloadsCheckStateChanged(int)
+23259:1onClearUploadsCheckStateChanged(int)
+23260:1onUploadSlotsSpinValueChanged(int)
+23261:Download of file %1 complete
+23262:Download of folder %1 complete
+23263:All download from user %1 complete
+23267:Uploading
+23273:banned
+23274:Banned
+23275:file not shared.
+23276:File not shared
+23277:file not shared
+23289:Expand Folders [off]
+23293:transfersTabControl
+23294:downloadsTab
+23295:downloadsTabLayout
+23296:downloadsWidget
+23297:downloadsList
+23298:downloadLimitCheckBox
+23299:downloadLimitSpinBox
+23300:clearDownloadsCheckBox
+23301:uploadsTab
+23302:uploadsTabLayout
+23303:uploadsWidget
+23304:uploadsList
+23305:uploadSlotsSpinBox
+23306:uploadLimitCheckBox
+23307:uploadLimitSpinBox
+23308:clearUploadsCheckBox
+23309:Limit Download Speed to
+23311:Clear Complete Downloads
+23312:Downloads
+23313:Upload Slots
+23314:Limit Upload Speed to
+23315:Clear Complete/Aborted Uploads
+23316:Uploads
+23317:upload_share_tab
+23318:2tabCloseRequested(int)
+23319:1OnTabCloseRequested(int)
+23324:Re-Browse User
+23326:upload_folders
+23327:SharesForm
+23334:1onSearchEntered()
+23335:1onWishListContextMenuRequested(QPoint)
+23336:2searchResults(Item)
+23337:1onUserSearchResults(Item)
+23338:search_results_widget
+23339:search_results_widget_alerted
+23340:expand_folders
+23342:search_results_user_node
+23343:search_results_folder_node
+23344:search_result_node
+23345:1onTabCloseRequested(int)
+23346:1onWishTabCloseRequested(int)
+23351::/icons/search_icon
+23354:add_remove_wishlist
+23355:Add to Wishlist
+23356::/icons/wishlist_icon
+23357:reenter_search
+23358:Re-enter Search
+23359:stop_search
+23360:Stop Search
+23362:close_all_searches
+23363:Close All Searches
+23364:search_results_old
+23365:Wish List Search
+23368:wish_list_item_filter_text
+23371:Enable All Wish List Searches
+23373:Disable All Wish List Searches
+23374:saved_filter
+23376:1onWishListItemChanged(QTreeWidgetItem*,int)
+23378:search_time
+23379:2DownloadAdded(Item)
+23380:1onDownloadAdded(Item)
+23383:default_search_filter
+23389:Room: 
+23390:1onWishListItemCheckStateChanged(int)
+23393:Search Stopped
+23395:Manual Search
+23396:1onManualSearch()
+23401:Remove Wish List Search
+23402:1onRemoveWishListItemRequested()
+23403:SearchForm
+23404:tabWidget
+23405:manualSearchesTab
+23406:searchEdit
+23407:searchButton
+23408:searchTargetBox
+23409:searchSplitter_2
+23410:searchTabControl
+23411:wishListSearchesTab
+23412:searchSplitter
+23413:wishListTabControl
+23414:wishList
+23415:Search target:
+23416:Manual Searches
+23417:Wish List Searches
+23418:Received Searches
+23426:2DNetMessage(MemStream&)
+23427:1OnDNetMessage(MemStream&)
+23428:2DNetDeliveryReport(int)
+23429:1OnDNetDeliveryReport(int)
+23453:Received DNet delivery report request, req %1
+23462:Error reading message code, closing parent/candidate connection
+23463:Received first search request from parent candidate %1, adopting as parent.
+23475:Error reading message code, closing child connection
+23476:Received message from child, code %1
+23478:Determining whether we can accept child connections.
+23481:Status changed, sending notification.
+23482:No status change, not notifying.
+23519:logTabWidget
+23528:unshared_list_node
+23529:ignored_list_node
+23534:message_users
+23535:Message Users
+23536:1OnUserInfoTabCloseRequested(int)
+23545:userListTab
+23547:userInfoTabs
+23548:unsharedListTab
+23549:unsharedList
+23550:ignoredList
+23551:onlineAlertsTab
+23553:1OnUnsharedListContextMenuRequested(QPoint)
+23554:1OnIgnoredListContextMenuRequested(QPoint)
+23555:1OnOnlineAlertListContextMenuRequested(QPoint)
+23556:Unshared
+23557:Ignored
+23569:SharedFilesRescannedDialog
+23572:addUPnPPortMapping
+23573:addNatPMPPortMapping
+23574:removeUPnPPortMapping
+23575:Initializing UPnP
+23576:No device list found during discovery. miniupnp error code: %1
+23585:Port Forwarding
+23587:Own address is reported as 127.0.0.1, checking all addresses.
+23590:Port %1 successfully mapped.
+23591:Port %1 mapping failure, miniupnp error: %2
+23592:Port already mapped, attempting to remove existing mapping before retrying.
+23594:Second mapping attempt failed, miniupnp error: %1
+23595:Removing mapping for port %1
+23596:UPnP appears to not have been initialized, aborting.
+23597:Port mapping successfully removed.
+23598:Port mapping removal failed, miniupnp error: %1
+23599:Successfully added NAT-PMP mapping for port %1
+23600:Attempted adding NAT-PMP mapping for port %1, failed with code %2
+23601:Message user
+23602:1OnMessageUser()
+23606:Remove user from list
+23608:Add user to list
+23610:Browse user's files
+23612:Upload to user
+23615:Add user note
+23619:Remove online status alert
+23623:Gift Privileges
+23624:1OnGiftPrivileges()
+23625:Unshare files from user
+23626:1OnUnshareFilesFromUser()
+23627:Re-share files with user
+23628:1OnReshareFilesWithUser()
+23629:Ignore user
+23630:1OnIgnoreUser()
+23631:Unignore user
+23632:1OnUnignoreUser()
+23633:Private Rooms
+23634:Remove User's Membership
+23638:Make User Operator
+23639:1OnAddUserOperatorship()
+23640:Remove User's Operator Status
+23641:1OnRemoveUserOperatorship()
+23645:related searches
+23646:2SearchCorrelations(QString)
+23647:1OnSearchCorrelations(QString)
+23653:Save Filter
+23654:Remove Filter
+23656:SearchResultsForm
+23657:searchResultsTreeWidget
+23661:savedFiltersBox
+23663:saveFilterButton
+23664:defaultFilterBox
+23665:1OnSaveFilterClicked()
+23666:1OnSavedFiltersBoxIndexChanged(int)
+23667:1OnClearFilterClicked()
+23668:1OnDefaultFilterBoxToggled(bool)
+23669:-- saved filters
+23670:Default Filter
+23674:Invalid Port Number
+23675:Port number must be in the range of 1 to 65535.
+23676:Port Number Not Changed
+23677:Port number has not been changed.
+23678:Change to Listening Port Pending
+23679:Changes to the listening port will take effect after a client restart.
+23680:ChangeListeningPortDialog
+23681:portEdit
+23684:New port:
+23712:2splitterMoved(int,int)
+23713:1OnSplitterMoved(int,int)
+23720:acceptUploadsCheckBox
+23726:1OnAcceptUploadsCheckboxToggled(bool)
+23728:Accept uploads from users in this group
+23729:Download Priority
+23730:Defines the download priority of users belonging to this group. Users who belong to more than one group will be prioritized by their highest-ranked group.
+23731:A priority of 0 will not affect the order of downloads by users of this group relative to other downloads. A priority of 1 or more will order downloads by users of this group ahead of all other downloads, except for ones with a higher priority.
+23735:2WishListWait(uint)
+23736:1OnWishListWait(uint)
+23737:wish_list_search_index
+23738:1OnSearchTimerTimeout()
+23741:Sent wish list search: %1
+23752:statusEdit
+23760:Open Folder
+23761:1OnOpenFolder()
+23762:Retry downloads
+23763:Retry download
+23764:1OnRetryDownloads()
+23765:Pause downloads
+23766:Pause download
+23767:1OnPauseDownloads()
+23768:Resume downloads
+23769:Resume download
+23770:1OnResumeDownloads()
+23771:Remove downloads
+23772:Remove download
+23773:1OnRemoveDownloads()
+23775:File download completes
+23776:1OnSetFileDownloadAlert()
+23777:Folder download completes
+23778:1OnSetFolderDownloadAlert()
+23779:All downloads from user complete
+23780:1OnSetUserDownloadAlert()
+23781:Re-run Search: 
+23782:1OnRerunSearch()
+23789:minfilesinfolder:
+23791:FilterHelpDialog
+23796:</style></head><body style=" font-family:'MS Shell Dlg 2'; font-size:13pt; font-weight:400; font-style:normal;">
+23797:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Enter words into the filter box to only show combinations of folders and files that contain those words. For example entering:</span></p>
+23798:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23799:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container</span></p>
+23800:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23801:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">into the filter box will only show files that either contain both those words (considering the folder they are in as well.)</span></p>
+23802:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23803:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Prefix a word with a dash to make sure files shown </span><span style=" font-size:8pt; font-weight:600;">don't</span><span style=" font-size:8pt;"> contain the word:</span></p>
+23804:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23805:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container -bothersome</span></p>
+23806:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23807:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Will show the same files as the first example, except for files that have &quot;bothersome&quot; in their name or in their folder name.</span></p>
+23808:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23809:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">In addition, these special tokens will filter files based on certain attributes:</span></p>
+23810:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23811:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">minbitrate</span><span style=" font-size:8pt;">:</span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> (show audio files with a minimum bitrate of </span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;">.)</span></p>
+23812:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">minfilesize</span><span style=" font-size:8pt;">:</span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> (show files with a minimum filesize of </span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> MB)</span></p>
+23813:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">minfilesinfolder</span><span style=" font-size:8pt;">:</span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> (show folders with at least </span><span style=" font-size:8pt; font-style:italic;">number</span><span style=" font-size:8pt;"> files in them)</span></p>
+23814:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">isvbr</span><span style=" font-size:8pt;"> (show variable bitrate audio files)</span></p>
+23815:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt; font-weight:600;">iscbr</span><span style=" font-size:8pt;"> (show constant bitrate audio files)</span></p>
+23816:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23817:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">(Acceptable shorthands: </span><span style=" font-size:8pt; font-weight:600;">mbr</span><span style=" font-size:8pt;"> instead of </span><span style=" font-size:8pt; font-weight:600;">minbitrate</span><span style=" font-size:8pt;">, </span><span style=" font-size:8pt; font-weight:600;">mfs</span><span style=" font-size:8pt; font-weight:600; font-style:italic;"> </span><span style=" font-size:8pt;">instead of </span><span style=" font-size:8pt; font-weight:600;">minfilesize</span><span style=" font-size:8pt; font-style:italic;">, </span><span style=" font-size:8pt; font-weight:600;">mfif</span><span style=" font-size:8pt;"> instead of </span><span style=" font-size:8pt; font-weight:600;">minfilesinfolder</span><span style=" font-size:8pt;">)</span></p>
+23818:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23819:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">For example typing this into the filter box:</span></p>
+23820:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23821:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container iscbr minbitrate:320 minfilesize:10 minfilesinfolder:8</span></p>
+23822:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23823:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Will show all files with 'lackluster' and 'container' in their name or folder name, that are constant bitrate encoded, of a minimum bitrate of 320, a minimum file size of 10 megabytes and that are in folders with at least 8 visible (non-filtered) files in them.</span></p>
+23824:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23825:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">Using shorthands, this example is identical to the one above:</span></p>
+23826:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p>
+23827:<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:8pt;">lackluster container iscbr mbr:320 mfs:10 mfif:8</span></p>
+23828:<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;"><br /></p></body></html>
+23829:1OnTabChanged(int)
+23830::/icons/downloads_icon
+23831:Download Folder(s)
+23832:Browse Folder
+23833:1OnBrowseFolder()
+23834:OnDownloadFolder
+23835:Initiating folder download for tree node %1
+23837:Recognized as folder node.
+23840:Folder item is null.
+23841:Folder item is not null.
+23847:<font color=green><b>[%1]</b></font> 
+23857:CreateRoomDialog
+23858:roomNameEdit
+23859:createPrivateCheckBox
+23860:createRoomButton
+23862:Create Room
+23863:Create private room
+23864:Create/Enter Room
+23872:1OnColorSelectionChanged(QString)
+23873:1OnChangeColorClicked()
+23874:ColorSelectionDialog
+23875:colorSelectionBox
+23876:colorDisplay
+23877:changeColorButton
+23878:Select Colors
+23885:ChatLogForm
+23886:searchBackButton
+23887:searchForwardButton
+23889:1OnSearchTextChanged(QString)
+23890:1OnSearchBack()
+23891:1OnSearchForward()
+23892:upload_form_splitter
+23893:upload_form_file_list
+23894:user_share_folder
+23895:user_share_folder_name
+23896:user_share_folder_node
+23897:1OnFolderDoubleClicked(QTreeWidgetItem*,int)
+23899:user_share_file_node
+23900:user_share_file
+23901:user_share_file_name
+23902::/icons/upload_icon
+23903:user_share_folder_child
+23904:user_share_folder_parent
+23905:Upload Folder
+23906:1OnUploadFolder()
+23907:Upload File(s)
+23908:1OnUploadFile()
+23909:UploadForm
+23923:downloadButton
+23924:1OnDownloadButtonClicked()
+23929:Download
+23930:2messageReceived(const QString&)
+23941:QtLocalPeer: Message reception failed %s
+23942:1OnPrivateChat(QString,QString,time_t,bool)
+23943:2PrivateChatSent(QString,QString)
+23944:1OnPrivateChatSent(QString,QString)
+23947:message_list_node
+23948:Remove chat from list
+23949:Remove chats from list
+23950:1OnRemoveChatFromList()
+23951:Remove chat?
+23952:Are you sure you want to remove all selected chats?
+23953:Are you sure you want to remove your chat with %1?
+23954:Remove all chats?
+23955:Are you sure you want to remove ALL of your chats?
+23956:MessageListForm
+23957:messageList
+23966:uploadSlotsEdit
+23967:freeToUploadEdit
+23968:queuedUploadsEdit
+23970:Upload slots
+23971:Free to upload?
+23972:Queued uploads
+23973:Message List
+23974:ChatsForm
+23975:chatTabControl
+23976:1OnChatTabClosed(int)
+23977:Gift Privileges to
+23979:GiftPrivilegesDialog
+23985:AdminMessageDialog
+23987:SoulseekQt Admin Message
+23990:2searchProcessed(QString,bool)
+23991:1OnSearchProcessed(QString,bool)
+23992:received_searches
+23996:ReceivedSearchesForm
+23997:searchList
+23998:1OnExtensionListContextMenuRequested(QPoint)
+24006:Excluded Download Extensions
+24008:room_wall_form
+24009:<table>
+24010:<tr width="%100"><td bgcolor=#ffffff>
+24011:<tr width="%100"><td bgcolor=#d3d3d3>
+24013:</big></b><font color="
+24016:</table>
+24017:RoomWallForm
+24019:Room Name
+24020:1OnRoomListContextMenuRequested(QPoint)
+24021:1OnRoomListItemDoubleClicked(QTreeWidgetItem*,int)
+24022:room_node
+24023:room_list
+24024:create_room
+24025:refresh_room_list
+24026:Refresh Room List
+24027:enable_private_room_add
+24028:Accept Private Room Invitations
+24031:room_chat_log
+24032:room_wall
+24033:Room Wall
+24036:Give Up Room
+24037:room_form
+24038:room_list_splitter
+24039:2PrivateRoomAddEnabled(bool)
+24040:1OnPrivateRoomAddEnabled(bool)
+24042:1OnRoomTabClosed(int)
+24043:Enter Room
+24044:1OnEnterRoom()
+24045:Reject Private Room Invitations
+24046:enter_room
+24047:/Soulseek Chat Logs/Rooms/
+24049:Are you sure you want to give up your membership to the %1 private room?
+24050:Are you SURE you want to give up your ownership of the %1 private room?
+24052:RoomsForm
+24053:roomSplitter
+24054:roomsTabControl
+24055:roomList
+24056:Remove uploads
+24057:Remove upload
+24058:1OnRemoveUploads()
+24064:1OnSendMessageClicked()
+24066:MessageUsersDialog
+24067:messageEdit
+24070:Message Multiple Users
+24071:Send Message
+24072:All User List Users
+24073:Downloading Users
+24079:availability_status
+24080:auto_away_on_idle
+24081:away
+24083:1OnLoginClicked()
+24084:LoginAsDialog
+24086:loginButton
+24087:Login As...
+24096:2ChatFiltered(QString)
+24097:1OnChatFiltered(QString)
+24098:FilterWordsDialog
+24103:filteredMessages
+24104:Filtered Messages
+24105:Filter Words
+24108:2folderScanningFinished()
+24109:1OnFolderScanningFinished()
+24110:SharedFolderScanningInProgressDialog
+24112:lastFolderLabel
+24113:Folder Scanning in Progress
+24116:Last folder scanned:
+24117:last folder
+24121:1OnDownloadClicked()
+24122:Requesting list of files in folder...
+24123:2FilesInFolder(QString,string,FileInfoSet&)
+24124:1OnReceivedFilesInFolder(QString,string,FileInfoSet&)
+24127:DownloadFilesInFolderDialog
+24128:requestStatusEdit
+24129:subfolderEdit
+24134:queuePausedCheckBox
+24135:downloadSelectedButton
+24136:Download Files in Folder
+24138:Save to subfolder:
+24141:Select Visible in Search Results
+24142:Queue paused
+24143:Download Selected
+24146:2RoomChat(QString,QString,QString)
+24152:support_soulseek_dialog_disabled_v2
+24156:SupportSoulseekDialog
+24164:</style></head><body style=" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;">
+24165:<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:10pt;">Dear Soulseek user,</span></p>
+24166:<p align="center" style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;"><br /></p>
+24167:<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:10pt;">Soulseek is free, and does not show any advertising or include any bundled software. We rely entirely on your support to keep the system alive! As a thank you for supporting us, we offer a number of permanent and temporary perks listed on our donation page.</span></p></body></html>
+24217:ASF::File::FilePrivate::FilePropertiesObject::parse() -- data is too short.
+24218:ASF::File::FilePrivate::StreamPropertiesObject::parse() -- data is too short.
+24219:ASF::File::FilePrivate::CodecListObject::parse() -- data is too short.
+24301:probably unsupported image type
+24320:FLAC::File::scan() -- First block should be the stream_info metadata
+24321:FLAC::File::scan() -- Zero-sized metadata block found
+24322:FLAC::File::scan() -- Failed to read a metadata block
+24323:FLAC::File::scan() -- multiple Vorbis Comment blocks found, discarding
+24325:A picture block must contain at least 5 bytes.
+24326:Invalid picture block.
+24443:Compressed frames are currently not supported.
+24444:Encrypted frames are currently not supported.
+24453:ID3v2.4 no longer supports the frame type 
+24480:A frame that is not supported in ID3v2.3 '
+24483:An ID3v2 frame of unsupported or unknown type '
+24568:MP4: We currently don't support values with multiple types
+24647:Ogg::FLAC::File::scan() -- Unknown metadata block
+24663:A private frame must contain at least 2 bytes.
+24695:FileStream::readBlock() -- invalid file.
+24696:FileStream::writeBlock() -- invalid file.
+24697:FileStream::writeBlock() -- read only file.
+24700:FileStream::removeBlock() -- invalid file.
+24705:Unsupported Data: 
+24735:WavPack::Properties::read() -- Block header not found.
+24753:METADATA_BLOCK_PICTURE=
+24754:Failed to decode FlacPicture block
+24765:A CHAP frame must contain at least 18 bytes (1 byte element ID terminated by null and 4x4 bytes for start and end time and offset).
+24768:A CTOC frame must contain at least 6 bytes (1 byte element ID terminated by null, 1 byte flags, 1 byte entry count and 1 byte child element ID terminated by null.
+24769:1onLoginAsButtonClicked(bool)
+24772:loginAsButton
+24777:</style></head><body style=" font-family:'.SF NS Text'; font-size:13pt; font-weight:400; font-style:normal;">
+24778:<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Login failed due to a wrong username/password combination. If you haven't logged in in a while, it's possible your username was recycled and taken by another user. Please try logging in with a different username and password using the button below, or via the 'Login As' button above the Options-&gt;Login tab.</p></body></html>
+24785:urn:schemas-upnp-org:service:WANCommonInterfaceConfig:
+24786:urn:schemas-upnp-org:service:WANIPv6FirewallControl:
+24787:urn:schemas-upnp-org:service:WANIPConnection:
+24788:urn:schemas-upnp-org:service:WANPPPConnection:
+24798:User-Agent: Darwin/18.6.0, UPnP/1.1, MiniUPnPc/2.1
+24829:urn:schemas-upnp-org:device:InternetGatewayDevice:1
+24830:urn:schemas-upnp-org:service:WANIPConnection:1
+24831:urn:schemas-upnp-org:service:WANPPPConnection:1
+24832:upnp:rootdevice
+24852:User-Agent: Darwin/18.6.0, UPnP/1.1, MiniUPnPc/2.1
+24855:PortMappingEntry
+24857:NewExternalPort
+24859:NewInternalPort
+24874:GetStatusInfo
+24876:NewConnectionStatus
+24886:NewPortMappingDescription
+24887:libminiupnpc
+24889:AddPortMapping
+24890:AddAnyPortMapping
+24891:NewReservedPort
+24892:DeletePortMapping
+24893:NewStartPort
+24894:NewEndPort
+24896:DeletePortMappingRange
+24897:NewPortMappingIndex
+24898:GetGenericPortMappingEntry
+24899:GetPortMappingNumberOfEntries
+24900:NewPortMappingNumberOfEntries
+24901:GetSpecificPortMappingEntry
+24902:NewNumberOfPorts
+24904:GetListOfPortMappings
+24905:GetFirewallStatus
+24909:RemotePort
+24911:InternalPort
+24924:NewPortListing
+24928:QSharedPointer(
+24945:26SharedUserFolderWidgetItem
+24946:12EventHandlerI9ShareForm4ItemE
+24948:19QRoomListItemWidget
+24949:QFont
+24950:12EventHandlerI8RoomForm4ItemE
+24951:23QRoomUserListItemWidget
+24963:16SharedFolderInfo
+24964:12EventHandlerI20SharedFoldersManager4ItemE
+24965:12EventHandlerI8ChatForm4ItemE
+24966:12EventHandlerI20TransferQueueManager4ItemE
+24969:12EventHandlerI10SearchForm4ItemE
+24970:20SearchResultListItem
+24976:12EventHandlerI17SearchResultsForm4ItemE
+24979:12EventHandlerI19DownloadMenuOptions4ItemE
+24980:N12QtLP_Private12QtLockedFileE
+24983:12EventHandlerI9ChatsForm4ItemE
+24985:12EventHandlerI12RoomWallForm4ItemE
+24986:12EventHandlerI9RoomsForm4ItemE
+24989:12EventHandlerI17UploadMenuOptions4ItemE
+24991:12EventHandlerI17FilterWordsDialog4ItemE
+24992:21FilesInFolderListItem
+25002:N6TagLib3ASF9Attribute16AttributePrivateE
+25007:N6TagLib3ASF4File11FilePrivate10BaseObjectE
+25008:N6TagLib3ASF4File11FilePrivate13UnknownObjectE
+25009:N6TagLib3ASF4File11FilePrivate20FilePropertiesObjectE
+25010:N6TagLib3ASF4File11FilePrivate22StreamPropertiesObjectE
+25011:N6TagLib3ASF4File11FilePrivate24ContentDescriptionObjectE
+25012:N6TagLib3ASF4File11FilePrivate32ExtendedContentDescriptionObjectE
+25013:N6TagLib3ASF4File11FilePrivate14MetadataObjectE
+25014:N6TagLib3ASF4File11FilePrivate21MetadataLibraryObjectE
+25015:N6TagLib3ASF4File11FilePrivate21HeaderExtensionObjectE
+25016:N6TagLib3ASF4File11FilePrivate15CodecListObjectE
+25018:N6TagLib4ListIPNS_3ASF4File11FilePrivate10BaseObjectEEE
+25021:N6TagLib3ASF7Picture14PicturePrivateE
+25031:N6TagLib7FileRef14FileRefPrivateE
+25034:N6TagLib4ListIPNS_4FLAC13MetadataBlockEEE
+25036:N6TagLib4FLAC13MetadataBlockE
+25039:N6TagLib4FLAC20UnknownMetadataBlockE
+25063:N6TagLib3MP48CoverArt15CoverArtPrivateE
+25065:N6TagLib3MP44Item11ItemPrivateE
+25075:N6TagLib4MPEG6Header13HeaderPrivateE
+25089:N6TagLib5ID3v212PrivateFrameE
+25124:N6TagLib6String13StringPrivateE
+25162:N6TagLib5ID3v220TableOfContentsFrameE
+25164:M-SEARCH * HTTP/1.1
+29587:CC Attribution-ShareAlike http://creativecommons.org/licenses/by-sa/3.0/^
+29992:onPrivateChat
+29994:i_chat
+30001:onSharedFilesRescanned
+30004:onOptionsTabSelectionChanged
+30005:i_tabIndex
+30006:onUPnPCheckboxToggled
+30009:onShowDownloadsAndUploadsInSameTabToggled
+30010:onExpandNewSharesCheckboxToggled
+30012:onUseOldStyleSearchResultsCheckboxToggled
+30014:onDontCreateSubfoldersForSingleDownloads
+30015:onDontSplitDownloads
+30016:onDontCreateUsernameFolders
+30017:onShowPrivateSearchResultsClicked
+30018:onShowPrivatelySharedFilesInSharesClicked
+30022:onTrayIconActivated
+30023:QSystemTrayIcon::ActivationReason
+30024:onChatTimestampsBoxIndexChanged
+30026:onFirstOpenTabBoxIndexChanged
+30027:onSelectColors
+30028:onLogRoomChatCheckBoxClicked
+30030:onLogPrivateChatCheckBoxClicked
+30031:onEmptyShareWarningMessageCheckBoxClicked
+30032:onEmptyShareWarningEditEdited
+30034:onSaveEmptyShareWarningMessageButtonClicked
+30035:onAcceptUserlistUploadsCheckboxToggled
+30038:i_downloadLink
+30040:onMaxUploadsPerUserSpinBoxValueChanged
+30043:onMaxResultsPerSearchValueChanged
+30044:onImmediatelyUploadSmallFilesKBValueChanged
+30045:onMaxUploadsPerUserClicked
+30047:onMaxResultsPerSearchClicked
+30048:onImmediatelyUploadSmallFilesClicked
+30049:onSharedFoldersListContextMenuRequested
+30051:onAddSharedFolder
+30052:onSetFolderPermissions
+30053:onUnshareFolder
+30055:onNotifyForMessagesFromSelected
+30059:onCheckPortsClicked
+30060:onShowAwayStatusClicked
+30062:onAdminMessage
+30063:i_message
+30065:onEditExcludedDownloadExtensionsClicked
+30066:onExportClientDataClicked
+30067:onImportClientDataClicked
+30068:onImportUserListClicked
+30071:onSelectPrivateChatSoundFile
+30072:onClearPrivateChatSoundFile
+30073:onSelectRoomChatSoundFile
+30074:onClearRoomChatSoundFile
+30075:onSelectWishlistSoundFile
+30076:onClearWishlistSoundFile
+30077:onSelectShareBrowseSoundFile
+30078:onClearShareBrowseSoundFile
+30079:onSelectDownloadAlertSoundFile
+30080:onClearDownloadAlertSoundFile
+30087:onDownloadFoldersOnDoubleClickClicked
+30088:onSelectApplicationFontClicked
+30089:onDefaultFontClicked
+30090:onClearSearchHistoryClicked
+30092:onAutoAwayOnIdleClicked
+30093:resetColorSettings
+30094:onClearSizeSettingsButtonClicked
+30095:onServerPortBoxSelectionChanged
+30098:onSharedFolderScanningStarted
+30099:onChatFilterWordsButtonClicked
+30102:onUseDownloadFolderDialog
+30112:onTrayMenuTitleClicked
+30113:showMinimizedToTrayMessage
+30114:minimizeToTrayOnCloseClicked
+30115:onEnableListeningPortsClicked
+30116:onAutoDisableListeningPortsClicked
+30117:onAutoDisableListeningPortsConnectionCountValueChanged
+30118:onAutoDisableListeningPortsConnectionSecondsValueChanged
+30119:onAutoDisableListeningPortsForSecondsValueChanged
+30121:QSystemTrayIcon::ActivationReason
+30128:SearchRequested
+30130:i_search
+30131:i_wishListSearch
+30132:RoomChat
+30133:i_room
+30135:i_chat
+30136:PrivateChat
+30140:PrivateChatSent
+30149:DNetMessage
+30151:i_message
+30152:DNetDeliveryReport
+30157:WishListWait
+30161:ReceivedOwnPrivilegesStatus
+30163:SearchCorrelations
+30164:PrivateRoomAddEnabled
+30166:DirectFileSearch
+30167:AdminMessage
+30171:SearchFilters
+30173:i_filters
+30187:14StreamWritable
+30200:8RoomForm
+30201:RoomForm
+30202:OnRoomChat
+30203:i_room
+30205:i_chat
+30213:OnUserListContextMenuRequested
+30215:CheckChatInactivity
+30219:RoomForm
+30230:onSupportSoulseekButtonClicked
+30231:onReceivedOwnPrivilegesStatus
+30234:onStatusButtonClicked
+30235:onAwaySet
+30236:i_away
+30238:13RoomTabWidget
+30239:RoomTabWidget
+30240:RoomTabWidget
+30243:ReceivedSearchResults
+30248:i_privateResults
+30250:i_uploadSpeed
+30251:i_uploadsInQueue
+30256:UserShare
+30259:ip_share
+30260:ip_privateShare
+30261:AttributeTranslationTable&
+30262:i_translationTable
+30268:QueueUploadRequested
+30276:UploadFailed
+30277:UploadDenied
+30279:SharedFilesInFolderRequested
+30280:i_folder
+30281:DownloadPlaceInLine
+30285:UploadPlaceInLineRequested
+30287:QueueDownloadRequested
+30295:i_uploadSlots
+30296:i_queuedUPloads
+30297:i_freeUploadSlots
+30298:FilesInFolder
+30327:21AddSharedFolderDialog
+30328:AddSharedFolderDialog
+30329:OnSelectFolderClicked
+30336:AddSharedFolderDialog
+30338:20SharedFoldersManager
+30342:scanFolders
+30343:i_folders
+30345:SharedFoldersManager
+30346:searchResults
+30348:i_searchResults
+30349:sharedFilesRescanned
+30352:searchProcessed
+30353:i_search
+30355:folderScanningStarted
+30357:i_folderScanned
+30359:folderScanningFinished
+30360:onDNetSearchRequest
+30363:i_searchText
+30370:onFilesInFoldersRequested
+30371:i_folder
+30376:onDirectFileSearch
+30377:onSearchFilters
+30379:i_searchFilters
+30380:onFoldersRescanned
+30381:onReceivedSearchResults
+30384:i_privateResults
+30386:i_uploadSpeed
+30387:i_uploadsInQueue
+30388:SharedFoldersManager
+30392:8ChatForm
+30393:ChatForm
+30395:CheckChatInactivity
+30396:OnContextMenuRequested
+30404:ChatForm
+30407:TransferQueueManager
+30408:DownloadProgressed
+30410:i_download
+30411:UploadProgressed
+30412:i_upload
+30414:CompleteDownloadAdded
+30415:DownloadAdded
+30427:OnQueueUploadRequested
+30428:OnQueueDownloadRequested
+30435:OnUploadFailedNotification
+30436:OnUploadDeniedNotification
+30441:OnDownloadPlaceInLine
+30443:OnUploadError
+30444:OnUploadProgress
+30447:OnUploadComplete
+30448:OnDownloadError
+30449:OnDownloadProgress
+30450:OnDownloadComplete
+30451:DetermineUploadsEffectiveOrder
+30452:OnUploadPlaceInLineRequested
+30453:onUserShare
+30455:i_share
+30456:i_privateShare
+30457:AttributeTranslationTable&
+30458:i_translationTable
+30459:StartNewUploads
+30462:20TransferQueueManager
+30463:10UploadTask
+30464:12DownloadTask
+30465:TransferQueueManager
+30467:UploadTask
+30468:uploadError
+30470:uploadProgress
+30473:uploadComplete
+30481:UploadTask
+30483:DownloadTask
+30484:downloadError
+30486:downloadProgress
+30489:downloadComplete
+30495:DownloadTask
+30499:downloadComplete
+30501:i_download
+30502:onDownloadProgress
+30503:onUploadProgress
+30504:i_upload
+30513:onUploadSpeedLimitCheckStateChanged
+30515:onUploadSpeedLimitSpinValueChanged
+30517:onUploadSlotsSpinValueChanged
+30518:onDownloadSpeedLimitCheckStateChanged
+30519:onDownloadSpeedLimitSpinValueChanged
+30520:onDownloadsContextMenuRequested
+30522:onUploadsContextMenuRequested
+30527:onClearDownloadsCheckStateChanged
+30528:onClearUploadsCheckStateChanged
+30530:onDownloadComplete
+30531:onDownloadListItemDoubleClicked
+30533:onKeyPressedInDownloadList
+30536:onKeyPressedInUploadList
+30540:SharesForm
+30541:OnTabCloseRequested
+30542:i_tabIndex
+30543:onUserShare
+30546:ip_share
+30547:ip_privateShare
+30548:AttributeTranslationTable&
+30549:i_translationTable
+30550:10SharesForm
+30551:SharesForm
+30552:QSharedPointer<std::map<std::string,std::set<FileInfo>>>
+30554:ShareForm
+30563:OnFilterTextChanged
+30565:OnFilterHelpClicked
+30572:OnFolderContextMenuRequested
+30574:OnFileContextMenuRequested
+30575:OnDownloadFolder
+30576:OnQueueFolderPaused
+30577:OnDownloadFile
+30578:OnFolderDoubleClicked
+30579:9ShareForm
+30580:ShareForm
+30594:10SearchForm
+30595:SearchForm
+30596:onSearchEntered
+30597:onAddToWishListClicked
+30598:onTabCloseRequested
+30599:i_tabIndex
+30600:onWishTabCloseRequested
+30605:onUserSearchResults
+30607:i_searchResults
+30608:onWishListItemCheckStateChanged
+30614:onWishListItemChanged
+30617:onWishListContextMenuRequested
+30619:onManualSearch
+30621:onRemoveWishListItemRequested
+30622:onDownloadAdded
+30623:i_download
+30625:SearchForm
+30628:DNetSearchRequest
+30631:i_searchText
+30639:OnDNetMessage
+30641:i_message
+30642:OnDNetDeliveryReport
+30678:OnUserListContextMenuRequested
+30680:OnUnsharedListContextMenuRequested
+30681:OnIgnoredListContextMenuRequested
+30682:OnOnlineAlertListContextMenuRequested
+30683:OnUserInfoTabCloseRequested
+30701:26SharedFilesRescannedDialog
+30702:SharedFilesRescannedDialog
+30703:SharedFilesRescannedDialog
+30704:PortForwarder
+30708:13PortForwarder
+30711:addUPnPPortMapping
+30713:i_port
+30714:removeUPnPPortMapping
+30715:addNatPMPPortMapping
+30717:PortForwarder
+30718:15UserMenuOptions
+30719:UserMenuOptions
+30720:OnMessageUser
+30725:OnUploadToUser
+30727:OnUnshareFilesFromUser
+30728:OnReshareFilesWithUser
+30729:OnIgnoreUser
+30730:OnUnignoreUser
+30733:OnAddUserOperatorship
+30734:OnRemoveUserOperatorship
+30737:OnGiftPrivileges
+30739:UserMenuOptions
+30741:SearchResultsForm
+30743:OnFilterHelpClicked
+30744:OnSearchCorrelations
+30745:i_searchText
+30746:OnFilterTextChanged
+30748:OnSaveFilterClicked
+30749:OnSavedFiltersBoxIndexChanged
+30751:OnClearFilterClicked
+30752:OnDefaultFilterBoxToggled
+30754:OnContextMenuRequested
+30763:17SearchResultsForm
+30764:SearchResultsForm
+30765:25ChangeListeningPortDialog
+30766:ChangeListeningPortDialog
+30769:ChangeListeningPortDialog
+30782:OnSplitterMoved
+30805:OnAcceptUploadsCheckboxToggled
+30813:16WishListSearcher
+30814:WishListSearcher
+30815:OnWishListWait
+30817:OnSearchTimerTimeout
+30818:WishListSearcher
+30830:DownloadMenuOptions
+30831:OnRemoveDownloads
+30832:OnRerunSearch
+30834:OnOpenFolder
+30835:OnSetFileDownloadAlert
+30836:OnSetFolderDownloadAlert
+30837:OnSetUserDownloadAlert
+30838:OnRetryDownloads
+30839:OnPauseDownloads
+30840:OnResumeDownloads
+30841:19DownloadMenuOptions
+30842:DownloadMenuOptions
+30843:16FilterHelpDialog
+30844:FilterHelpDialog
+30845:FilterHelpDialog
+30853:9TabWidget
+30854:TabWidget
+30855:OnTabChanged
+30856:i_tab
+30857:TabWidget
+30858:SearchResultMenuOptions
+30859:OnDownloadFile
+30860:OnDownloadFolder
+30861:OnBrowseFolder
+30862:23SearchResultMenuOptions
+30863:SearchResultMenuOptions
+30870:16CreateRoomDialog
+30871:CreateRoomDialog
+30873:CreateRoomDialog
+30879:20ColorSelectionDialog
+30880:ColorSelectionDialog
+30881:OnColorSelectionChanged
+30882:i_colorText
+30883:OnChangeColorClicked
+30884:ColorSelectionDialog
+30885:11ChatLogForm
+30886:ChatLogForm
+30887:OnSearchTextChanged
+30889:OnSearchBack
+30890:OnSearchForward
+30895:ChatLogForm
+30897:UploadForm
+30902:OnFilterTextChanged
+30904:OnFilterHelpClicked
+30909:OnFolderDoubleClicked
+30913:OnFolderContextMenuRequested
+30915:OnFileContextMenuRequested
+30916:OnUploadFolder
+30917:OnUploadFile
+30918:10UploadForm
+30919:UploadForm
+30924:i_downloadLink
+30934:OnDownloadButtonClicked
+30939:messageReceived
+30940:message
+30941:sendMessage
+30945:messageReceived
+30946:message
+30947:sendMessage
+30954:messageReceived
+30955:message
+30959:15MessageListForm
+30960:MessageListForm
+30961:OnPrivateChat
+30963:i_chat
+30967:OnPrivateChatSent
+30971:OnContextMenuRequested
+30973:OnRemoveChatFromList
+30978:MessageListForm
+30988:i_uploadSlots
+30989:i_queuedUPloads
+30990:i_freeUploadSlots
+30994:9ChatsForm
+30995:ChatsForm
+30996:OnChatTabClosed
+30998:ChatsForm
+30999:GiftPrivilegesDialog
+31001:20GiftPrivilegesDialog
+31002:GiftPrivilegesDialog
+31003:18AdminMessageDialog
+31004:AdminMessageDialog
+31005:AdminMessageDialog
+31006:20ReceivedSearchesForm
+31007:ReceivedSearchesForm
+31008:OnSearchProcessed
+31009:i_search
+31015:ReceivedSearchesForm
+31018:OnExtensionListContextMenuRequested
+31023:12RoomWallForm
+31024:RoomWallForm
+31026:RoomWallForm
+31027:9RoomsForm
+31028:RoomsForm
+31029:OnRoomListContextMenuRequested
+31031:OnPrivateRoomAddEnabled
+31038:OnEnterRoom
+31039:OnRoomTabClosed
+31041:OnRoomListItemDoubleClicked
+31045:RoomsForm
+31046:17UploadMenuOptions
+31047:UploadMenuOptions
+31048:OnRemoveUploads
+31050:OnOpenFolder
+31051:UploadMenuOptions
+31053:ActivityEventFilter
+31055:19ActivityEventFilter
+31063:ActivityEventFilter
+31064:18MessageUsersDialog
+31065:MessageUsersDialog
+31068:OnSendMessageClicked
+31069:MessageUsersDialog
+31070:11AwayManager
+31071:AwayManager
+31072:AwaySet
+31073:i_away
+31077:AwayManager
+31081:13LoginAsDialog
+31082:LoginAsDialog
+31083:OnLoginClicked
+31085:LoginAsDialog
+31091:17FilterWordsDialog
+31092:FilterWordsDialog
+31095:OnChatFiltered
+31096:i_message
+31097:FilterWordsDialog
+31098:36SharedFolderScanningInProgressDialog
+31099:SharedFolderScanningInProgressDialog
+31101:i_folderScanned
+31103:OnFolderScanningFinished
+31104:SharedFolderScanningInProgressDialog
+31106:27DownloadFilesInFolderDialog
+31107:DownloadFilesInFolderDialog
+31108:OnReceivedFilesInFolder
+31111:i_folder
+31117:OnDownloadClicked
+31119:DownloadFilesInFolderDialog
+31121:ChatLogger
+31122:OnPrivateChat
+31124:i_chat
+31128:OnPrivateChatSent
+31129:OnRoomChat
+31130:i_room
+31131:10ChatLogger
+31132:ChatLogger
+31133:ChatFilter
+31134:ChatFiltered
+31135:i_chat
+31136:10ChatFilter
+31137:ChatFilter
+31146:27SupportSoulseekPopupManager
+31147:SupportSoulseekPopupManager
+31149:SupportSoulseekPopupManager
+31150:SupportSoulseekDialog
+31154:21SupportSoulseekDialog
+31155:SupportSoulseekDialog
+31158:onLoginAsButtonClicked

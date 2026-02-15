@@ -1,0 +1,1360 @@
+user
+room
+_uploadsH
+port
+_messageL
+_messageH
+userlistL
+unsharedH
+userlistH
+downloadH
+ubfolderH
+downloadL
+_foldersH
+_foldersE
+Language
+Shared folder
+Set Download Folder
+Share Folder
+Rescan Shares
+Login As
+Change Listening Port
+Message User
+Browse User's Files
+Add User
+1onTrayMenuTitleClicked()
+username
+2LoggedInElsewhere()
+1onLoggedInElsewhere()
+search
+Chat - Usernames
+Chat - Timestamps
+Chat - Statuses
+Chat - Own Messages
+1resetColorSettings()
+1onLogRoomChatCheckBoxClicked(bool)
+1onLogPrivateChatCheckBoxClicked(bool)
+1onEmptyShareWarningMessageCheckBoxClicked(bool)
+1onMaxUploadsPerUserSpinBoxValueChanged(int)
+1onMaxMBPerUserSpinBoxValueChanged(int)
+1onMaxResultsPerSearchValueChanged(int)
+1onImmediatelyUploadSmallFilesKBValueChanged(int)
+1onMaxUploadsPerUserClicked(bool)
+1onMaxMBPerUserClicked(bool)
+1onMaxResultsPerSearchClicked(bool)
+1onImmediatelyUploadSmallFilesClicked(bool)
+1onEnableListeningPortsClicked(bool)
+1onAutoDisableListeningPortsClicked(bool)
+User List
+1onNotifyForMessagesFromSelected(int)
+1onUseOldStyleSearchResultsCheckboxToggled(bool)
+1onDontCreateSubfoldersForSingleDownloads(bool)
+1onShowDownloadsAndUploadsInSameTabToggled(bool)
+1onExpandNewSharesCheckboxToggled(bool)
+1onChatTimestampsBoxIndexChanged(int)
+1onShowAwayStatusClicked(bool)
+1onSelectColors()
+1onDontSplitDownloads(bool)
+1onDontCreateUsernameFolders(bool)
+1onShowPrivateSearchResultsClicked(bool)
+1onShowPrivatelySharedFilesInSharesClicked(bool)
+1onUseDownloadFolderDialog(bool)
+1minimizeToTrayOnCloseClicked(bool)
+rooms
+users
+1onFirstOpenTabBoxIndexChanged(int)
+2sharedFilesRescanned(int,int)
+1onSharedFilesRescanned(int,int)
+2folderScanningStarted()
+1onSharedFolderScanningStarted()
+Clear Log
+Open Log Folder
+Chat Log
+Clear Message List
+1onSaveEmptyShareWarningMessageButtonClicked()
+1onDownloadFoldersOnDoubleClickClicked(bool)
+wishlist
+download
+1onOptionsTabSelectionChanged(int)
+1onAcceptUserlistUploadsCheckboxToggled(bool)
+1onUserInfoTextChanged()
+1onCheckPortsClicked()
+1onUserLevelLoggingClicked(bool)
+1onEditExcludedDownloadExtensionsClicked()
+1onExportClientDataClicked()
+1onImportClientDataClicked()
+1onImportUserListClicked()
+1onOpenGroupsOnUserAddClicked(bool)
+1onSelectDefaultSoundFile()
+1onClearDefaultSoundFile()
+1onSelectPrivateChatSoundFile()
+1onClearPrivateChatSoundFile()
+1onSelectRoomChatSoundFile()
+1onClearRoomChatSoundFile()
+1onSelectWishlistSoundFile()
+1onClearWishlistSoundFile()
+1onSelectShareBrowseSoundFile()
+1onClearShareBrowseSoundFile()
+1onSelectDownloadAlertSoundFile()
+1onClearDownloadAlertSoundFile()
+1onSelectUserOnlineAlertSoundFile()
+1onClearUserOnlineAlertSoundFile()
+1onSelectUserInfoSoundFile()
+1onClearUserInfoSoundFile()
+1onSelectApplicationFontClicked()
+1onDefaultFontClicked()
+1onClearSearchHistoryClicked()
+1onClearSizeSettingsButtonClicked()
+1onChatFilterWordsButtonClicked()
+Share a folder?
+1onLanguageBoxIndexChanged(int)
+1onAutoDisableListeningPortsConnectionCountValueChanged(int)
+1onAutoDisableListeningPortsConnectionSecondsValueChanged(int)
+1onAutoDisableListeningPortsForSecondsValueChanged(int)
+Cannot change username while online
+You must be disconnected from the Soulseek server to change your username.
+private: [%1] %2
+INVALIDUSERNAME
+Login Failure: Username is Invalid
+Login Failure
+Shared Files Rescanned
+Obfuscated port is %1, if you're manually forwarding
+your ports be sure to open it as well.
+Set Folder Permissions
+1onSetFolderPermissions()
+Unshare Folder
+1onUnshareFolder()
+1onAddSharedFolder()
+Importing user list from original Soulseek client
+Find User List Configuration File
+Import successful.
+Import could not be completed successfully.
+Logged In Elsewhere
+Your Soulseek account was used to log in elsewhere.
+Reset color settings?
+Are you sure you want to reset your client's color settings?
+Reset Size Settings
+Size settings will be reset the next time you run the client.
+Language Setting
+Your language setting will take effect next time you run SoulseekQt.
+Client data exported
+Client data export failed
+ImportClientDataFrom
+Data successfully imported
+Client data successfully imported!
+Data import failed
+Client data could not be successfully imported.
+showMinimizedToTrayMessage
+tabControl
+transfersTab
+roomsTab
+roomsForm
+chatTab
+chatsForm
+searchTab
+searchForm
+tab_2
+userListForm
+sharesTab
+sharesForm
+optionsTab
+optionsTabControl
+loginOptionsTab
+autoDisableListeningPortsCheckBox
+autoDisableListeningPortsConnectionCountSpinBox
+autoDisableListeningPortsConnectionSecondsSpinBox
+autoDisableListeningPortsForSecondsSpinBox
+listeningPortEdit
+checkPortsButton
+obfuscatedPortLabel
+usernameEdit
+enableListeningPortsCheckBox
+serverPortBox
+fileSharingOptionsTab
+downloadFolderEdit
+downloadFolderSpacer
+sharedFoldersList
+maxUploadsPerUserCheckBox
+maxUploadsPerUserSpinBox
+maxMBPerUserCheckBox
+maxMBPerUserSpinBox
+immediatelyUploadSmallFilesCheckBox
+immediatelyUploadSmallFilesSpinBox
+acceptUserListUploadsCheckBox
+emptyShareWarningCheckBox
+emptyShareWarningEdit
+saveEmptyShareWarningMessageButton
+dontDownloadSingleFilesIntoSubfolders
+dontSplitDownloadsCheckBox
+dontCreateUsernameFoldersCheckBox
+maxResultsPerSearchCheckBox
+maxResultsPerSearchSpinBox
+showPrivateResultsCheckBox
+showPrivatelySharedFilesInSharesCheckBox
+useDownloadFolderDialogCheckBox
+languageBox
+minimizeToTrayOnCloseCheckBox
+useOldStyleSearchResultsCheckBox
+showDownloadsAndUploadsInSameTabCheckBox
+autoExpandSharesCheckBox
+firstOpenTabBox
+chatTimestampsBox
+showAwayStatusCheckBox
+openGroupsOnUserAddCheckBox
+downloadFoldersOnDoubleClickCheckBox
+selectColorsButton
+defaultColorsButton
+selectApplicationFontButton
+defaultFontButton
+clearSizeSettingsButton
+tab_3
+logRoomChatCheckBox
+logPrivateChatCheckBox
+notifyForMessagesFromBox
+userLevelLoggingCheckBox
+clearSearchHistoryButton
+chatFilterWordsButton
+tab_4
+userPictureFilenameEdit
+userDescriptionEdit
+tab_5
+defaultSoundEdit
+defaultSoundSelectFileButton
+defaultSoundClearButton
+privateChatSoundEdit
+privateChatSoundSelectFileButton
+privateChatSoundClearButton
+roomChatSoundEdit
+roomChatSoundSelectFileButton
+roomChatSoundClearButton
+wishlistResultsSoundEdit
+wishlistResultsSoundSelectFileButton
+wishlistResultsSoundClearButton
+shareBrowseSoundEdit
+shareBrowseSoundSelectFileButton
+shareBrowseSoundClearButton
+downloadAlertSoundEdit
+downloadAlertSoundSelectFileButton
+downloadAlertSoundClearButton
+userOnlineAlertSoundEdit
+userOnlineAlertSoundSelectFileButton
+userOnlineAlertSoundClearButton
+userInfoSoundEdit
+userInfoSoundSelectFileButton
+userInfoSoundClearButton
+extrasTab
+exportClientDataButton
+importClientDataButton
+importUserListButton
+Rooms
+Chat
+Search
+Users
+Automatically disable listening ports after
+connection attempts in
+Check Ports
+Server port
+Listening port
+Obfuscated port is...
+Use NAT-PMP port mapping
+Enable listening ports
+Use UPnP port mapping
+Username
+Login
+Download Folder
+Shared Folders
+Limit maximum number of queued uploads per user
+Limit maximum megabytes of queued uploads per user
+Immediately upload files smaller than
+Accept uploads from all user list users
+Send warning message to downloading users with empty shares
+Filename extensions excluded from folder downloads:
+Don't create subfolders for single downloads
+Don't put downloads in Downloading and Complete folders
+Don't create username folders
+Limit maximum number of search results per search
+Show privately shared search results
+Show privately shared files when browsing user shares
+Show files in folder dialog when downloading folders from search results
+Language:
+Minimize to tray on close
+Use old-style search results (list instead of tree, applies to new search windows)
+Show uploads and downloads in same tab
+Auto-expand newly browsed shares
+First open tab when starting:
+Chat timestamps:
+Per message (short)
+Per message (long)
+Show Away status in application icon
+Open groups dialog when a user is added to the list
+Download folders on double-click
+Select Application Colors
+Default Colors
+Select Application Font
+Default Font
+Reset Window and Column Size Settings
+Log room chat
+Log private chat
+Notify when receiving private messages from
+Enable user-level logging (only for special debugging purposes)
+Clear Search History
+Chat Filter Words
+User Info
+Default Sound:
+Private Chat:
+Room Chat:
+Wishlist Results:
+Browsed Share:
+Download Alert:
+User Online Alert:
+User Info:
+Notification Sounds
+Export Client Configuration Data
+Import Client Configuration Data
+Import User List from original Soulseek client
+Options
+Attempting connection on port %1
+privileges
+DNet Server Messages
+DataDialog
+Folder
+Export Share To File
+1OnDownloadFolder()
+1OnQueueFolderPaused()
+Download File(s)
+1OnDownloadFile()
+folder
+ShareForm
+messageBrowser
+folderTree
+SearchFilterSpacer
+filterHelpButton
+filterEdit
+1OnFilterHelpClicked()
+Filter Help
+User
+Activity Alert [on]
+Activity Alert [off]
+1CheckChatInactivity()
+%1 room: [%2] %3
+Chat started
+Chat ended
+RoomForm
+chatView
+chatEdit
+userList
+2ReceivedOwnPrivilegesStatus(int)
+1onReceivedOwnPrivilegesStatus(int)
+Thank you for supporting Soulseek!
+Support Soulseek!
+1onSupportSoulseekButtonClicked()
+1onStatusButtonClicked()
+2IndirectPeerConnectionFailure(uint)
+1OnIndirectPeerConnectionFailure(uint)
+HandleMessage on uninitialized socket: 0x%1
+Accepted %1messaging connection to user %2
+Accepted %1file connection to user %2
+Accepted %1DNet connection to user %2
+Peer %1connection of type %2 opened from user %3
+Failed to read req from %1indirect peer connection
+Req sent on %1indirect peer connection not found
+Found req, accepted %1indirect connection to user %2, connection type %3
+Failure initializing %1peer connection, disposing of socket
+Could not read message code on connection to user %1, disposing of socket
+Received %1 message from user %2
+unshared
+Identified as peer connection request socket
+Indirect %1peer connection requested from user %2
+Response %1connection to indirect request from %2, type %3 opened
+Error writing message to socket: %1
+Send %1 message to user %2
+Found one existing messaging connection to user
+Found %1 existing messaging connections to user, picking latest
+First connection opened %1
+Found connection opened %1, exchanging
+Did not find messaging connection to user, queueing unsent message
+Attempting peer connection of type %1 to user %2
+Connection attempt to same user of same type already in progress, not re-attempting.
+Also sending indirect connection request.
+User address not found, requesting address
+Direct connection of type %1 to user %2 failed
+Direct %1connection of type %2 to user %3 successful
+Sending %1 pending peer messages to user %2
+User %1 address arrived
+Attempting direct connection of type %1
+Indirect connection of type %1 to user %2 failed
+Indirect connection request of type %1 to %2 expired, removing.
+Direct connection attempt of type %1 to %2 timed out, closing.
+Indirect connection attempt of type %1 to %2 timed out, closing.
+Peer connection to user %1 expired, closing.
+Auto Disable Ports
+Re-enabling listening ports
+Disposing of peer connection request of type %1 to user %2
+Inspecting peer connection request of type %1 to user %2 for possible removal.
+2newConnection()
+1OnNewConnection()
+1OnNewObfuscatedConnection()
+Disabling listening ports, %1 connection attempts in last %2 seconds
+Select Folder to Share
+AddSharedFolderDialog
+selectFolderButton
+selectedFolderEdit
+userListCheckBox
+1OnSelectFolderClicked()
+1OnAccessibleToUserListCheckStateChanged(int)
+Add Shared Folder
+Folder accessible to everyone
+Folder accessible to all user list users
+Folder accessible to specific user list groups:
+Folder is visible to everyone
+scanFolders
+Shared
+Adding folder %1 as part of sharing %2
+Shared file list requested by user %1
+Cancelling returning results for search %1 by user %2 due to search filters.
+Sending search results to user %1 for search string %2
+Discarding search result %1 due to filter %2
+Shared File Not Found
+onFoldersRescanned
+Discarding search results from ignored user %1
+Throwing away repeated search results from user %1
+Filtered out search result %1 from user %2
+Stopping search for %1 at %2 results.
+/Soulseek Chat Logs/Users/
+.log
+ChatForm
+/Soulseek Downloads
+downloading
+uploading
+queued
+User %1 went online
+Requeueing downloads from user %1
+Received upload request from %1 for file %2, req %3
+Transfer is already downloading, cancelling...
+/downloading
+File connection created by user %1 for req %2
+Download not found, aborting
+2downloadProgress(qint64,int)
+1OnDownloadProgress(qint64,int)
+2downloadComplete()
+1OnDownloadComplete()
+Downloading
+Download status %1, not re-queueing %2
+User %1 offline, not re-queueing %2
+User %1 appears to still be online, re-queueing %2
+Denied, file not shared
+File not shared.
+%1, re-queueing
+Already queued
+Denied, too many files already queued by user
+Denied, too many megabytes already queued by user
+2uploadProgress(qint64,int)
+1OnUploadProgress(qint64,int)
+2uploadComplete()
+1OnUploadComplete()
+Received file transfer response from user %1 for req %2, transfer %3
+Found download, not processing
+Found upload
+Upload user %1 not the same as user who opened the connection, not doing anything
+Upload was not accepted, marking denied. Reason: %1
+Upload no longer in requesting phase, instead status is %1. Not processing.
+Requesting file connection to user
+Neither upload or download attached to req, weird
+Received peer notification from %1 that upload of %2 failed
+Download not found.
+Download found!
+Requeue denied.
+Received peer notification from %1 that upload of %2 was denied, reason: %3
+Download found, marking as denied.
+Download found, too many files, marking as queued.
+Upload of %1 to %2 aborted, sending upload failed notification.
+Upload of %1 to %2 timed out in %3 phase, aborting
+Requesting place in line for download of %1 from %2
+Error uploading %1 to %2. %3
+Recording upload speed of %1
+Error downloading %1 from %2. %3
+Sent empty share warning message to user %1
+Initiating upload to %1 of file %2
+Can't upload, file is either not shared or not shared with that particular user.
+Status
+2DownloadProgressed(Item)
+1onDownloadProgress(Item)
+2UploadProgressed(Item)
+1onUploadProgress(Item)
+downloads
+Expand Folders
+Expand Users
+Open Download Folder
+Expand Folders [on]
+Expand Users [on]
+uploads
+2downloadComplete(Item)
+1onDownloadComplete(Item)
+1onUploadSpeedLimitSpinValueChanged(int)
+1onUploadSpeedLimitCheckStateChanged(int)
+1onDownloadSpeedLimitSpinValueChanged(int)
+1onDownloadSpeedLimitCheckStateChanged(int)
+1onClearDownloadsCheckStateChanged(int)
+1onClearUploadsCheckStateChanged(int)
+1onUploadSlotsSpinValueChanged(int)
+Download of file %1 complete
+Download of folder %1 complete
+All download from user %1 complete
+Uploading
+banned
+Banned
+file not shared.
+File not shared
+file not shared
+Expand Folders [off]
+Expand Users [off]
+transfersTabControl
+downloadsTab
+downloadsTabLayout
+downloadsWidget
+downloadsList
+downloadLimitCheckBox
+downloadLimitSpinBox
+clearDownloadsCheckBox
+uploadsTab
+uploadsTabLayout
+uploadsWidget
+uploadsList
+uploadSlotsSpinBox
+uploadLimitCheckBox
+uploadLimitSpinBox
+clearUploadsCheckBox
+Limit Download Speed to
+Clear Complete Downloads
+Downloads
+Upload Slots
+Limit Upload Speed to
+Clear Complete/Aborted Uploads
+Uploads
+2tabCloseRequested(int)
+1OnTabCloseRequested(int)
+Re-Browse User
+SharesForm
+1OnIconAlertTimeout()
+1onSearchEntered()
+2searchResults(Item)
+1onUserSearchResults(Item)
+1onTabCloseRequested(int)
+1onWishTabCloseRequested(int)
+Add to Wishlist
+Re-enter Search
+Stop Search
+Close All Searches
+Wish List Search
+Enable All Wish List Searches
+Disable All Wish List Searches
+2DownloadAdded(Item)
+1onDownloadAdded(Item)
+Room:
+1onWishListItemCheckStateChanged(int)
+Search Stopped
+Manual Search
+1onManualSearch()
+Remove Wish List Search
+1onRemoveWishListItemRequested()
+SearchForm
+tabWidget
+manualSearchesTab
+searchEdit
+searchButton
+searchTargetBox
+searchSplitter_2
+searchTabControl
+wishListSearchesTab
+searchSplitter
+wishListTabControl
+wishList
+Search target:
+Manual Searches
+Wish List Searches
+Received Searches
+2DNetParentSpeedConnectionRatio(int)
+1OnDNetParentSpeedConnectionRatio(int)
+2DNetDeliveryReport(int)
+1OnDNetDeliveryReport(int)
+Received parent speed connection ratio %1, currently not processing
+Already attempted parent connection to %1, skipping
+Attempting parent connection to %1
+Received DNet delivery report request, req %1
+Parent connection to user %1 accepted
+Error reading message code, closing parent/candidate connection
+Received first search request from parent candidate %1, adopting as parent.
+Child connection accepted from %1
+Child connection already found, closing old connection.
+Error reading message code, closing child connection
+Received message from child, code %1
+Determining whether we can accept child connections.
+Currently have %1 child connections, max capacity %2
+Status changed, sending notification.
+No status change, not notifying.
+More than a minute elapsed without hearing from parent, closing connection.
+trackedUsersTree
+logTabWidget
+Tracked Users
+Logs
+LogForm
+Configure User Groups
+Message Users
+1OnUserInfoTabCloseRequested(int)
+UserListForm
+userListTab
+userInfoPage
+userInfoTabs
+unsharedListTab
+unsharedList
+ignoredList
+onlineAlertsTab
+onlineAlertList
+Unshared
+Ignored
+Online Alerts
+User Groups for
+UserGroupsDialog
+Dialog
+SharedFilesRescannedDialog
+addUPnPPortMapping
+addNatPMPPortMapping
+removeUPnPPortMapping
+logLines
+Port Forwarding
+Own address is reported as 127.0.0.1, checking all addresses.
+Port %1 successfully mapped.
+Port %1 mapping failure, miniupnp error: %2
+Port already mapped, attempting to remove existing mapping before retrying.
+Removing mapping for port %1
+Port mapping successfully removed.
+Port mapping removal failed, miniupnp error: %1
+Successfully added NAT-PMP mapping for port %1
+Attempted adding NAT-PMP mapping for port %1, failed with code %2
+Message user
+1OnMessageUser()
+Set user's groups
+1OnSetUserGroups()
+Remove user from list
+1OnRemoveUser()
+Add user to list
+1OnAddUser()
+Browse user's files
+1OnBrowseUser()
+Upload to user
+Get User Info
+1OnGetUserInfo()
+Add user note
+Edit user note
+1OnUserNote()
+Remove online status alert
+1OnAddRemoveOnlineAlert()
+Alert when user goes online
+Gift Privileges
+1OnGiftPrivileges()
+Unshare files from user
+1OnUnshareFilesFromUser()
+Re-share files with user
+1OnReshareFilesWithUser()
+Ignore user
+1OnIgnoreUser()
+Unignore user
+1OnUnignoreUser()
+Private Rooms
+Remove User's Membership
+1OnRemoveUserMembership()
+Give User Membership
+1OnAddUserMembership()
+Make User Operator
+1OnAddUserOperatorship()
+Remove User's Operator Status
+1OnRemoveUserOperatorship()
+See User Log
+1OnUserLog()
+related searches
+Save Filter
+Remove Filter
+SearchResultsForm
+searchResultsTreeWidget
+savedFiltersBox
+saveFilterButton
+defaultFilterBox
+1OnSaveFilterClicked()
+1OnSavedFiltersBoxIndexChanged(int)
+1OnClearFilterClicked()
+1OnDefaultFilterBoxToggled(bool)
+-- saved filters
+Default Filter
+Invalid Port Number
+Port number must be in the range of 1 to 65535.
+Port Number Not Changed
+Port number has not been changed.
+Change to Listening Port Pending
+Changes to the listening port will take effect after a client restart.
+ChangeListeningPortDialog
+portEdit
+New port:
+Are you sure you want to delete this user group?
+UserGroupConfigDialog
+acceptUploadsCheckBox
+1OnAcceptUploadsCheckboxToggled(bool)
+Accept uploads from users in this group
+Download Priority
+ItemLogDialog
+Item Log
+2WishListWait(uint)
+1OnWishListWait(uint)
+1OnSearchTimerTimeout()
+Sent wish list search: %1
+User name must not be empty.
+Must be online to add a user to your list.
+User already in list.
+Adding user...
+User name does not exist.
+User added to list.
+AddUserDialog
+userNameEdit
+statusEdit
+1OnAddUserClicked()
+User name:
+Open Folder
+1OnOpenFolder()
+Retry downloads
+Retry download
+1OnRetryDownloads()
+Pause downloads
+Pause download
+1OnPauseDownloads()
+Resume downloads
+Resume download
+1OnResumeDownloads()
+Remove downloads
+Remove download
+1OnRemoveDownloads()
+Notify me when...
+File download completes
+1OnSetFileDownloadAlert()
+Folder download completes
+1OnSetFolderDownloadAlert()
+All downloads from user complete
+1OnSetUserDownloadAlert()
+Re-run Search:
+1OnRerunSearch()
+minfilesinfolder:
+FilterHelpDialog
+1OnTabChanged(int)
+Download Folder(s)
+Browse Folder
+1OnBrowseFolder()
+OnDownloadFolder
+Initiating folder download for tree node %1
+Recognized as folder node.
+User item is null.
+User item is not null.
+Folder item is null.
+Folder item is not null.
+Opening dialog.
+TypeNavigatorDialog
+CreateRoomDialog
+roomNameEdit
+createPrivateCheckBox
+createRoomButton
+Create Room
+Create private room
+Create/Enter Room
+UserNoteDialog
+1OnChangeColorClicked()
+ColorSelectionDialog
+colorSelectionBox
+colorDisplay
+changeColorButton
+Select Colors
+Clear log?
+Are you sure you want to erase the contents of this log?
+ChatLogForm
+searchBackButton
+searchForwardButton
+logEdit
+1OnSearchBack()
+1OnSearchForward()
+Upload Folder
+1OnUploadFolder()
+Upload File(s)
+1OnUploadFile()
+UploadForm
+NewVersionDialog
+downloadButton
+1OnDownloadButtonClicked()
+Download
+1receiveConnection()
+Remove chat from list
+Remove chats from list
+1OnRemoveChatFromList()
+Remove chat?
+Are you sure you want to remove all selected chats?
+Are you sure you want to remove your chat with %1?
+Remove all chats?
+Are you sure you want to remove ALL of your chats?
+MessageListForm
+messageList
+UserImage
+No user info.
+A connection could not be successfully formed to the user.
+UserInfoForm
+uploadSlotsEdit
+freeToUploadEdit
+queuedUploadsEdit
+userInfoText
+Upload slots
+Free to upload?
+Message List
+ChatsForm
+chatTabControl
+1OnChatTabClosed(int)
+Gift Privileges to
+GiftPrivilegesDialog
+AdminMessageDialog
+SoulseekQt Admin Message
+ReceivedSearchesForm
+searchList
+ExcludedExtensionsDialog
+Excluded Download Extensions
+RoomWallForm
+Room Name
+Refresh Room List
+Accept Private Room Invitations
+Toggle Activity Alert
+Room Wall
+Give Up Room
+2PrivateRoomAddEnabled(bool)
+1OnPrivateRoomAddEnabled(bool)
+1OnRoomTabClosed(int)
+Enter Room
+1OnEnterRoom()
+Reject Private Room Invitations
+/Soulseek Chat Logs/Rooms/
+Are you sure you want to give up your membership to the %1 private room?
+Are you SURE you want to give up your ownership of the %1 private room?
+RoomsForm
+roomSplitter
+roomsTabControl
+roomList
+Remove uploads
+Remove upload
+1OnRemoveUploads()
+1OnSendMessageClicked()
+MessageUsersDialog
+messageEdit
+Message Multiple Users
+Send Message
+All User List Users
+Downloading Users
+2UserActivityIdle()
+1OnUserActivityIdle()
+2UserActivityResumed()
+1OnUserActivityResumed()
+Set Username/Password
+1OnLoginClicked()
+LoginAsDialog
+loginButton
+Login As...
+If you're a new user, please enter a username and password of your choosing:
+ChangePasswordDialog
+FilterWordsDialog
+filteredMessages
+Filtered Messages
+Filter Words
+2folderScanningFinished()
+1OnFolderScanningFinished()
+SharedFolderScanningInProgressDialog
+lastFolderLabel
+Folder Scanning in Progress
+Last folder scanned:
+last folder
+1OnDownloadClicked()
+Requesting list of files in folder...
+DownloadFilesInFolderDialog
+requestStatusEdit
+subfolderEdit
+queuePausedCheckBox
+downloadSelectedButton
+Download Files in Folder
+Save to subfolder:
+Select Visible in Search Results
+Download Selected
+support_soulseek_dialog_disabled_v2
+SupportSoulseekDialog
+WM/CatalogNo
+CATALOGNUMBER
+WM/Language
+LANGUAGE
+probably unsupported image type
+Compressed frames are currently not supported.
+Encrypted frames are currently not supported.
+ID3v2.4 no longer supports the frame type
+A frame that is not supported in ID3v2.3 '
+An ID3v2 frame of unsupported or unknown type '
+MP4: We currently don't support values with multiple types
+----:com.apple.iTunes:CATALOGNUMBER
+----:com.apple.iTunes:LANGUAGE
+A private frame must contain at least 2 bytes.
+Unsupported Data:
+A user URL link frame must contain at least 2 bytes.
+1onLoginAsButtonClicked(bool)
+InvalidPasswordDialog
+loginAsButton
+Invalid Username and Password
+Log In with Different Username/Password
+urn:schemas-upnp-org:service:WANIPConnection:
+urn:schemas-upnp-org:service:WANPPPConnection:
+User-Agent: Darwin/18.6.0, UPnP/1.1, MiniUPnPc/2.1
+Connection: Close
+urn:schemas-upnp-org:service:WANIPConnection:1
+urn:schemas-upnp-org:service:WANPPPConnection:1
+PortMappingEntry
+NewExternalPort
+NewInternalPort
+GetStatusInfo
+NewConnectionStatus
+NewLastConnectionError
+GetConnectionTypeInfo
+NewConnectionType
+NewPortMappingDescription
+AddPortMapping
+AddAnyPortMapping
+NewReservedPort
+DeletePortMapping
+NewStartPort
+NewEndPort
+DeletePortMappingRange
+NewPortMappingIndex
+GetGenericPortMappingEntry
+GetPortMappingNumberOfEntries
+NewPortMappingNumberOfEntries
+GetSpecificPortMappingEntry
+NewNumberOfPorts
+GetListOfPortMappings
+GetFirewallStatus
+RemotePort
+InternalPort
+NewPortListing
+12EventHandlerI10MainWindow14ConnectionInfoE
+16EventHandlerBaseI14ConnectionInfoE
+26SharedUserFolderWidgetItem
+12EventHandlerI9ShareForm4ItemE
+19QRoomListItemWidget
+12EventHandlerI8RoomForm4ItemE
+23QRoomUserListItemWidget
+12EventHandlerI20SharedFoldersManager4ItemE
+12EventHandlerI8ChatForm4ItemE
+12EventHandlerI20TransferQueueManager4ItemE
+12EventHandlerI10SearchForm4ItemE
+20SearchResultListItem
+18UserListItemWidget
+12EventHandlerI12UserListForm4ItemE
+12EventHandlerI16UserGroupsDialog4ItemE
+12EventHandlerI17SearchResultsForm4ItemE
+12EventHandlerI21UserGroupConfigDialog4ItemE
+12EventHandlerI13ItemLogDialog4ItemE
+12EventHandlerI19DownloadMenuOptions4ItemE
+N12QtLP_Private12QtLockedFileE
+12EventHandlerI9ChatsForm4ItemE
+12EventHandlerI24ExcludedExtensionsDialog4ItemE
+12EventHandlerI12RoomWallForm4ItemE
+12EventHandlerI9RoomsForm4ItemE
+12EventHandlerI17UploadMenuOptions4ItemE
+12EventHandlerI17FilterWordsDialog4ItemE
+21FilesInFolderListItem
+N6TagLib3ASF9Attribute16AttributePrivateE
+N6TagLib3ASF4File11FilePrivate10BaseObjectE
+N6TagLib3ASF4File11FilePrivate13UnknownObjectE
+N6TagLib3ASF4File11FilePrivate20FilePropertiesObjectE
+N6TagLib3ASF4File11FilePrivate22StreamPropertiesObjectE
+N6TagLib3ASF4File11FilePrivate24ContentDescriptionObjectE
+N6TagLib3ASF4File11FilePrivate32ExtendedContentDescriptionObjectE
+N6TagLib3ASF4File11FilePrivate14MetadataObjectE
+N6TagLib3ASF4File11FilePrivate21MetadataLibraryObjectE
+N6TagLib3ASF4File11FilePrivate21HeaderExtensionObjectE
+N6TagLib3ASF4File11FilePrivate15CodecListObjectE
+N6TagLib4ListIPNS_3ASF4File11FilePrivate10BaseObjectEEE
+N6TagLib3ASF7Picture14PicturePrivateE
+N6TagLib7FileRef14FileRefPrivateE
+N6TagLib4ListIPNS_4FLAC13MetadataBlockEEE
+N6TagLib4FLAC13MetadataBlockE
+N6TagLib4FLAC20UnknownMetadataBlockE
+N6TagLib3MP48CoverArt15CoverArtPrivateE
+N6TagLib3MP44Item11ItemPrivateE
+N6TagLib4MPEG6Header13HeaderPrivateE
+N6TagLib5ID3v212PrivateFrameE
+N6TagLib5ID3v227UserTextIdentificationFrameE
+N6TagLib6String13StringPrivateE
+N6TagLib5ID3v216UserUrlLinkFrameE
+N6TagLib5ID3v220TableOfContentsFrameE
+onPrivateChat
+onChangeUsernamePasswordClicked
+onConnectionFailed
+onSharedFilesRescanned
+onOptionsTabSelectionChanged
+onShowDownloadsAndUploadsInSameTabToggled
+onExpandNewSharesCheckboxToggled
+onUseOldStyleSearchResultsCheckboxToggled
+onDontCreateSubfoldersForSingleDownloads
+onDontSplitDownloads
+onDontCreateUsernameFolders
+onShowPrivateSearchResultsClicked
+onShowPrivatelySharedFilesInSharesClicked
+onTrayIconActivated
+onChatTimestampsBoxIndexChanged
+onFirstOpenTabBoxIndexChanged
+onSelectColors
+onLogRoomChatCheckBoxClicked
+onLogPrivateChatCheckBoxClicked
+onEmptyShareWarningMessageCheckBoxClicked
+onEmptyShareWarningEditEdited
+onSaveEmptyShareWarningMessageButtonClicked
+onAcceptUserlistUploadsCheckboxToggled
+onMaxUploadsPerUserSpinBoxValueChanged
+onMaxMBPerUserSpinBoxValueChanged
+onMaxResultsPerSearchValueChanged
+onImmediatelyUploadSmallFilesKBValueChanged
+onMaxUploadsPerUserClicked
+onMaxMBPerUserClicked
+onMaxResultsPerSearchClicked
+onImmediatelyUploadSmallFilesClicked
+onSharedFoldersListContextMenuRequested
+onAddSharedFolder
+onSetFolderPermissions
+onUnshareFolder
+onNotifyForMessagesFromSelected
+onUserInfoTextChanged
+onCheckPortsClicked
+onShowAwayStatusClicked
+onUserLevelLoggingClicked
+onAdminMessage
+onOpenGroupsOnUserAddClicked
+onEditExcludedDownloadExtensionsClicked
+onExportClientDataClicked
+onImportClientDataClicked
+onImportUserListClicked
+onSelectDefaultSoundFile
+onClearDefaultSoundFile
+onSelectPrivateChatSoundFile
+onClearPrivateChatSoundFile
+onSelectRoomChatSoundFile
+onClearRoomChatSoundFile
+onSelectWishlistSoundFile
+onClearWishlistSoundFile
+onSelectShareBrowseSoundFile
+onClearShareBrowseSoundFile
+onSelectDownloadAlertSoundFile
+onClearDownloadAlertSoundFile
+onSelectUserOnlineAlertSoundFile
+onClearUserOnlineAlertSoundFile
+onSelectUserInfoSoundFile
+onClearUserInfoSoundFile
+onDownloadFoldersOnDoubleClickClicked
+onSelectApplicationFontClicked
+onDefaultFontClicked
+onClearSearchHistoryClicked
+onLoggedInElsewhere
+resetColorSettings
+onClearSizeSettingsButtonClicked
+onServerPortBoxSelectionChanged
+onSharedFolderScanningStarted
+onChatFilterWordsButtonClicked
+onUseDownloadFolderDialog
+onLanguageBoxIndexChanged
+onTrayMenuTitleClicked
+minimizeToTrayOnCloseClicked
+onEnableListeningPortsClicked
+onAutoDisableListeningPortsClicked
+onAutoDisableListeningPortsConnectionCountValueChanged
+onAutoDisableListeningPortsConnectionSecondsValueChanged
+onAutoDisableListeningPortsForSecondsValueChanged
+ConnectionFailed
+SearchRequested
+RoomChat
+PrivateChat
+PrivateChatSent
+IndirectPeerConnectionFailure
+DNetParentSpeedConnectionRatio
+DNetMessage
+DNetDeliveryReport
+ReceivedUserStats
+UserStats
+WishListWait
+AddUserResponse
+ReceivedOwnPrivilegesStatus
+SearchCorrelations
+PrivateRoomAddEnabled
+DirectFileSearch
+AdminMessage
+LoggedInElsewhere
+SearchFilters
+14StreamWritable
+10DataDialog
+8RoomForm
+OnRoomChat
+OnUserItemClicked
+OnUserListContextMenuRequested
+CheckChatInactivity
+OnUserItemDoubleClicked
+onSupportSoulseekButtonClicked
+onReceivedOwnPrivilegesStatus
+onStatusButtonClicked
+13RoomTabWidget
+RoomTabWidget
+ReceivedSearchResults
+FileConnectionRequested
+UserShare
+FileConnectionAccepted
+DNetConnectionRequested
+DNetConnectionAccepted
+UploadFailed
+UploadDenied
+SharedFilesInFolderRequested
+DownloadPlaceInLine
+ConnectionToUserFailed
+UploadPlaceInLineRequested
+UserInfoRequested
+UserInfoReceived
+FilesInFolder
+OnNewConnection
+OnNewObfuscatedConnection
+OnIndirectPeerConnectionFailure
+21AddSharedFolderDialog
+OnSelectFolderClicked
+OnAccessibleToUserListCheckStateChanged
+20SharedFoldersManager
+SharedFoldersManager
+searchResults
+sharedFilesRescanned
+searchProcessed
+folderScanningStarted
+folderScanningFinished
+onDNetSearchRequest
+onFilesInFoldersRequested
+onReceivedUserStats
+onDirectFileSearch
+onSearchFilters
+onReceivedSearchResults
+9UserStats
+8ChatForm
+TransferQueueManager
+DownloadProgressed
+UploadProgressed
+CompleteDownloadAdded
+DownloadAdded
+OnFileConnection
+OnQueueUploadRequested
+OnQueueDownloadRequested
+OnFileConnectionAccepted
+OnUploadFailedNotification
+OnUploadDeniedNotification
+OnDownloadPlaceInLine
+OnUploadError
+OnUploadProgress
+OnUploadComplete
+OnDownloadError
+OnDownloadProgress
+OnDownloadComplete
+DetermineUploadsEffectiveOrder
+OnUploadPlaceInLineRequested
+onUserShare
+StartNewUploads
+20TransferQueueManager
+10UploadTask
+12DownloadTask
+UploadTask
+uploadError
+uploadProgress
+uploadComplete
+DownloadTask
+downloadError
+downloadProgress
+downloadComplete
+onDownloadProgress
+onUploadProgress
+onUserOnline
+onUserOffline
+onUploadSpeedLimitCheckStateChanged
+onUploadSpeedLimitSpinValueChanged
+onUploadSlotsSpinValueChanged
+onDownloadSpeedLimitCheckStateChanged
+onDownloadSpeedLimitSpinValueChanged
+onDownloadsContextMenuRequested
+onUploadsContextMenuRequested
+onClearDownloadsCheckStateChanged
+onClearUploadsCheckStateChanged
+onDownloadComplete
+onDownloadListItemDoubleClicked
+onKeyPressedInDownloadList
+onKeyPressedInUploadList
+OnTabCloseRequested
+10SharesForm
+OnFilterTextChanged
+OnFilterHelpClicked
+OnConnectionToUserFailed
+OnFolderContextMenuRequested
+OnQueueFolderPaused
+OnDownloadFile
+OnFolderDoubleClicked
+9ShareForm
+OnIconAlertTimeout
+10SearchForm
+onSearchEntered
+onAddToWishListClicked
+onTabCloseRequested
+onWishTabCloseRequested
+onUserSearchResults
+onWishListItemCheckStateChanged
+onWishListItemChanged
+onWishListContextMenuRequested
+onManualSearch
+onRemoveWishListItemRequested
+onDownloadAdded
+DNetSearchRequest
+OnDNetParentSpeedConnectionRatio
+OnDNetMessage
+OnDNetDeliveryReport
+OnDNetConnectionAccepted
+OnDNetConnectionRequested
+7LogForm
+12UserListForm
+OnUnsharedListContextMenuRequested
+OnIgnoredListContextMenuRequested
+OnOnlineAlertListContextMenuRequested
+OnUserInfoTabCloseRequested
+OnUserInfoRequested
+16UserGroupsDialog
+26SharedFilesRescannedDialog
+PortForwarder
+13PortForwarder
+15UserMenuOptions
+UserMenuOptions
+OnMessageUser
+OnSetUserGroups
+OnAddUser
+OnRemoveUser
+OnBrowseUser
+OnUploadToUser
+OnUserLog
+OnUnshareFilesFromUser
+OnReshareFilesWithUser
+OnIgnoreUser
+OnUnignoreUser
+OnAddUserMembership
+OnRemoveUserMembership
+OnAddUserOperatorship
+OnRemoveUserOperatorship
+OnUserNote
+OnGetUserInfo
+OnGiftPrivileges
+OnAddRemoveOnlineAlert
+OnSearchCorrelations
+OnSaveFilterClicked
+OnSavedFiltersBoxIndexChanged
+OnClearFilterClicked
+OnDefaultFilterBoxToggled
+17SearchResultsForm
+25ChangeListeningPortDialog
+logicalIndex
+21UserGroupConfigDialog
+OnAcceptUploadsCheckboxToggled
+13ItemLogDialog
+16WishListSearcher
+WishListSearcher
+OnWishListWait
+OnSearchTimerTimeout
+13AddUserDialog
+OnAddUserClicked
+OnAddUserResponse
+DownloadMenuOptions
+OnRemoveDownloads
+OnRerunSearch
+OnOpenFolder
+OnSetFileDownloadAlert
+OnSetFolderDownloadAlert
+OnSetUserDownloadAlert
+OnRetryDownloads
+OnPauseDownloads
+OnResumeDownloads
+19DownloadMenuOptions
+16FilterHelpDialog
+9TabWidget
+TabWidget
+OnTabChanged
+SearchResultMenuOptions
+OnBrowseFolder
+23SearchResultMenuOptions
+19TypeNavigatorDialog
+16CreateRoomDialog
+14UserNoteDialog
+20ColorSelectionDialog
+OnColorSelectionChanged
+OnChangeColorClicked
+11ChatLogForm
+OnSearchTextChanged
+OnSearchBack
+OnSearchForward
+OnUploadFolder
+OnUploadFile
+10UploadForm
+16NewVersionDialog
+OnDownloadButtonClicked
+messageReceived
+message
+sendMessage
+receiveConnection
+15MessageListForm
+OnPrivateChat
+OnPrivateChatSent
+OnRemoveChatFromList
+12UserInfoForm
+OnUserInfoReceived
+9ChatsForm
+OnChatTabClosed
+20GiftPrivilegesDialog
+18AdminMessageDialog
+20ReceivedSearchesForm
+OnSearchProcessed
+24ExcludedExtensionsDialog
+12RoomWallForm
+9RoomsForm
+OnRoomListContextMenuRequested
+OnPrivateRoomAddEnabled
+OnEnterRoom
+OnRoomTabClosed
+OnRoomListItemDoubleClicked
+17UploadMenuOptions
+UploadMenuOptions
+OnRemoveUploads
+ActivityEventFilter
+19ActivityEventFilter
+UserActivityIdle
+UserActivityResumed
+18MessageUsersDialog
+OnSendMessageClicked
+OnUserActivityIdle
+OnUserActivityResumed
+13LoginAsDialog
+OnLoginClicked
+20ChangePasswordDialog
+17FilterWordsDialog
+OnChatFiltered
+36SharedFolderScanningInProgressDialog
+OnFolderScanningFinished
+27DownloadFilesInFolderDialog
+OnReceivedFilesInFolder
+OnDownloadClicked
+ChatLogger
+10ChatLogger
+ChatFilter
+ChatFiltered
+10ChatFilter
+27SupportSoulseekPopupManager
+SupportSoulseekPopupManager
+21SupportSoulseekDialog
+21InvalidPasswordDialog
+onLoginAsButtonClicked
+16SharedFolderInfo

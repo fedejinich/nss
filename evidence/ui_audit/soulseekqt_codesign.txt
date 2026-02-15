@@ -1,0 +1,14 @@
+Executable=/Applications/SoulseekQt.app/Contents/MacOS/SoulseekQt
+Identifier=com.yourcompany.SoulseekQt
+Format=app bundle with Mach-O universal (x86_64 arm64)
+CodeDirectory v=20500 size=30182 flags=0x10000(runtime) hashes=936+3 location=embedded
+Signature size=8968
+Authority=Developer ID Application: nir arbel (5LXL7667Z7)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
+Timestamp=30 Jun 2024 at 7:04:23 AM
+Info.plist entries=11
+TeamIdentifier=5LXL7667Z7
+Runtime Version=12.1.0
+Sealed Resources version=2 rules=13 files=27
+Internal requirements count=1 size=188

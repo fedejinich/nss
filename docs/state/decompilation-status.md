@@ -20,6 +20,7 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4J private-room ownership/membership mapping addendum: `+8` mapped messages from jump-table evidence.
 - Stage 4K missing-code closure addendum: `+24` mapped+implemented messages from jump-table evidence and protocol codec extension.
 - Stage 4L mapped-not-implemented closure addendum: `+40` protocol implementations to reach full matrix coverage.
+- Stage 5B UI/feature audit addendum: symbolized `MainWindow/Server/Peer/Transfer` method inventory plus UI handler anchors for feature-to-protocol mapping.
 - Total mapped protocol rows: `131`.
 - Total implemented+mapped rows: `131`.
 
@@ -35,6 +36,11 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - `evidence/reverse/disasm/transfer_on_queue_download.txt`
 - `evidence/reverse/disasm/upload_write_socket.txt`
 - `evidence/reverse/message_codes_jump_table.md`
+- `evidence/reverse/ui_handler_symbols_nm.txt`
+- `evidence/ui_audit/decomp/mainwindow_methods.txt`
+- `evidence/ui_audit/decomp/server_methods.txt`
+- `evidence/ui_audit/decomp/peer_methods.txt`
+- `evidence/ui_audit/decomp/transfer_methods.txt`
 
 ## Runtime Evidence Paths
 
@@ -47,9 +53,11 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4D capture generator: `tools/runtime/generate_stage4d_privilege_legacy_captures.py`
 - Stage 4E capture generator: `tools/runtime/generate_stage4e_private_userstate_captures.py`
 - Redacted run storage: `captures/redacted/*`
+- Stage 5B UI static extraction artifacts: `evidence/ui_audit/*` + `docs/state/soulseek-feature-inventory.md`
 
 ## Next Reverse Focus
 
 - Replace `OpaqueServerControlPayload` and `OpaquePayload` control branches with typed payload schemas where runtime evidence is available.
 - Expand runtime capture coverage for distributed/global control families that are currently static-only.
 - Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.
+- Close the remaining Stage 5B UI introspection gap by rerunning menu-tree extraction with macOS assistive access enabled.

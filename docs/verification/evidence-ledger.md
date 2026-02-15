@@ -4,10 +4,11 @@ Project-level evidence summaries and provenance tracking.
 
 ## Totals
 
-- Approved function renames: `5`
+- Approved function renames: `13`
 - Approved data labels: `0`
 - Review queue entries: `0`
 - Protocol message rows: `131`
+- Stage 5B UI feature entries in inventory: `42`
 
 ## Protocol Confidence
 
@@ -25,4 +26,9 @@ Project-level evidence summaries and provenance tracking.
 - `evidence/reverse/disasm/peer_queue_download.txt`
 - `evidence/reverse/disasm/transfer_on_file_request.txt`
 - `evidence/reverse/message_codes_jump_table.md`
-- `captures/redacted/login-peer-message/official_frames.hex`
+- `evidence/reverse/ui_handler_symbols_nm.txt`
+- `evidence/ui_audit/decomp/mainwindow_methods.txt`
+- `evidence/ui_audit/decomp/server_methods.txt`
+- `evidence/ui_audit/decomp/peer_methods.txt`
+- `evidence/ui_audit/decomp/transfer_methods.txt`
+- `docs/state/soulseek-feature-inventory.md`

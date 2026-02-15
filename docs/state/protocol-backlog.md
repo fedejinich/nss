@@ -4,6 +4,17 @@
 
 Maintain full protocol coverage (`implemented+mapped=131`) while replacing opaque control-message handling with richer typed payloads backed by runtime evidence.
 
+## Stage 5B Note (UI/Feature Audit)
+
+- Stage 5B added no new protocol codes/messages.
+- Stage 5B produced UI-to-protocol bridge evidence in:
+  - `docs/state/soulseek-feature-inventory.md`
+  - `evidence/reverse/ui_handler_symbols_nm.txt`
+  - `evidence/ui_audit/decomp/mainwindow_methods.txt`
+  - `evidence/ui_audit/decomp/server_methods.txt`
+  - `evidence/ui_audit/decomp/peer_methods.txt`
+  - `evidence/ui_audit/decomp/transfer_methods.txt`
+
 ## Completed in S3B (Rooms + Presence Batch)
 
 - `SM_ROOM_LIST`

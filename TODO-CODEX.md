@@ -1371,3 +1371,91 @@ Notes:
 - Workflow update: `@codex review` dependency removed from PR loop due availability constraints; stage review loops now run locally (security + simplifier).
 - PR opened: `https://github.com/fedejinich/nss/pull/15`.
 - Local review loops completed with no additional blocking findings; stage is merge-ready after green validation gates.
+
+## Stage 5B - Soulseek UI + functionality exhaustive audit (worktree isolated)
+
+Dependency graph:
+
+- `S5B-W01 -> S5B-W02`
+- `S5B-W02 -> S5B-T01`
+- `S5B-T01 -> S5B-T02`
+- `S5B-T01 -> S5B-T03`
+- `S5B-T01 -> S5B-T04`
+- `S5B-T02 -> S5B-T05`
+- `S5B-T03 -> S5B-T05`
+- `S5B-T04 -> S5B-T05`
+- `S5B-T05 -> S5B-T06`
+- `S5B-T06 -> S5B-T07`
+- `S5B-T07 -> S5B-T08`
+- `S5B-T08 -> S5B-T09`
+- `S5B-T09 -> S5B-R01`
+
+Tasks:
+
+- id: S5B-W01
+  description: Create isolated worktree from `origin/main` at `/Users/void_rsk/Projects/soul-dec-worktrees/s5b-soulseek-ui-feature-audit` using branch `codex/s5b-soulseek-ui-feature-audit`
+  status: done
+  depends_on: []
+
+- id: S5B-W02
+  description: Persist Stage 5B plan in `TODO-CODEX.md` within the isolated worktree
+  status: done
+  depends_on: [S5B-W01]
+
+- id: S5B-T01
+  description: Establish investigation baseline for `/Applications/SoulseekQt.app` (binary metadata, hashes, build/timeframe anchors)
+  status: done
+  depends_on: [S5B-W02]
+
+- id: S5B-T02
+  description: Pass 1 UI walkthrough: map all visible UI surfaces and interaction-driven features
+  status: done
+  depends_on: [S5B-T01]
+
+- id: S5B-T03
+  description: Pass 1 external-source extraction: changelog/news/forum feature evidence with dated references
+  status: done
+  depends_on: [S5B-T01]
+
+- id: S5B-T04
+  description: Pass 1 static reverse/decompilation extraction for non-obvious UI/feature hooks
+  status: done
+  depends_on: [S5B-T01]
+
+- id: S5B-T05
+  description: Consolidate comprehensive feature inventory in `docs/state/soulseek-feature-inventory.md` (UI + non-UI)
+  status: done
+  depends_on: [S5B-T02, S5B-T03, S5B-T04]
+
+- id: S5B-T06
+  description: Pass 2 exhaustive review over every Pass 1 feature and close mapping gaps (`verified_pass2` / `gap_found`)
+  status: done
+  depends_on: [S5B-T05]
+
+- id: S5B-T07
+  description: Update decompilation/evidence docs with new findings from the feature audit
+  status: done
+  depends_on: [S5B-T06]
+
+- id: S5B-T08
+  description: Synchronize project memory artifacts (`TODO-CODEX.md`, state docs, ledgers) for Stage 5B
+  status: done
+  depends_on: [S5B-T07]
+
+- id: S5B-T09
+  description: Run documentation/KB validations (`kb_validate`, zensical build)
+  status: done
+  depends_on: [S5B-T08]
+
+- id: S5B-R01
+  description: Finalize Stage 5B closure notes including Pass 1 vs Pass 2 delta report
+  status: done
+  depends_on: [S5B-T09]
+
+Notes:
+
+- Stage 5B scope is research/documentation/evidence only; no product feature implementation changes are planned.
+- Runtime-auth-required features are recorded with explicit `requires_auth` status when not executable without live login.
+- Feature inventory closure stats: `pass1=42`, `pass2_revisited=42`, `verified_pass2=41`, `gap_found=1`.
+- Stage PR notes published in `docs/pr/0016-s5b-soulseek-ui-feature-audit.md`.
+- Validation gates passed: `python3 scripts/kb_validate.py` and `/Users/void_rsk/Projects/soul-dec/.venv-tools/bin/zensical build -f zensical.toml`.
