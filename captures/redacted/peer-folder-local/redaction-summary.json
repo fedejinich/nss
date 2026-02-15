@@ -1,16 +1,16 @@
 {
   "run_id": "peer-folder-local",
   "created_at": "2026-02-14T16:32:29+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-folder-local",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-folder-local",
+  "raw_dir": "captures/raw/peer-folder-local",
+  "redacted_dir": "captures/redacted/peer-folder-local",
   "stats": {
     "endpoint": 1,
     "path": 3
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-folder-local/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-folder-local/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-folder-local/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/peer-folder-local/neo_frames.hex"
+    "manifest": "captures/redacted/peer-folder-local/manifest.redacted.json",
+    "frida_events": "captures/redacted/peer-folder-local/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/peer-folder-local/official_frames.hex",
+    "neo_frames": "captures/redacted/peer-folder-local/neo_frames.hex"
   }
 }

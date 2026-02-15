@@ -363,7 +363,7 @@
     {
       "id": "S8B",
       "title": "Minimal TUI v1 for core transfer workflows",
-      "status": "in_progress",
+      "status": "done",
       "owner_area": "tui/core",
       "depends_on": [
         "S7C",
@@ -371,19 +371,19 @@
       ],
       "evidence": "docs/runbooks/tui-core-transfer.md",
       "next_gate": "S8C",
-      "notes": "Ratatui+crossterm shell is implemented and wired to core flows; final operational hardening remains."
+      "notes": "Minimal TUI supports login, query edit, search, result selection, and download orchestration over soul-core."
     },
     {
       "id": "S8C",
       "title": "Release hardening and v1 closure gates",
-      "status": "planned",
+      "status": "done",
       "owner_area": "release/security/ops",
       "depends_on": [
         "S8B"
       ],
       "evidence": "docs/state/verification-status.md",
-      "next_gate": "final v1 closure",
-      "notes": "Final stage for config/log redaction hardening, packaging, recovery runbooks, and full closure gates."
+      "next_gate": "post-v1 expansion roadmap",
+      "notes": "Capability-first release hardening closure is complete: redaction metadata hardening, packaging flow, recovery runbooks, and closure audit are green."
     }
   ]
 }

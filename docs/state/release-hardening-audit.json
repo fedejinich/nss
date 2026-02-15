@@ -1,0 +1,680 @@
+{
+  "generated_unix_secs": 1771180176,
+  "stage": "S8C release hardening closure",
+  "stage_state": {
+    "ok": true,
+    "status": "done"
+  },
+  "mode": "strict_closure",
+  "overall_ok": true,
+  "strict_closure_ok": true,
+  "operational_ok": true,
+  "checks": {
+    "redacted_metadata_paths": {
+      "ok": true,
+      "runs": 39,
+      "details": [
+        {
+          "run_id": "login-global-room-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-join-room-presence",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-leave-room",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-legacy-distributed-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-legacy-residual-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-legacy-room-operatorship-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-message-users",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-only",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-parent-disconnect-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-parent-distributed-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-partial-tail-runtime",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-peer-address-connect",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-peer-message",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-private-message",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-private-room-membership-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-privilege-messaging",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-privileges-social",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-recommendations",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-room-list",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-room-moderation",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-room-term-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-s6-batch1-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-s6-batch2-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-s6-batch3-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-search",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-search-download",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-search-download-auto",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-similar-terms",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-static-server-runtime",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-system-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-text-control",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-user-recommendations",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "login-user-state",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "peer-advanced-local",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "peer-folder-local",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "peer-legacy-local",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "peer-static-runtime",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "upload-accept",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "upload-deny",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        }
+      ]
+    },
+    "required_files": {
+      "ok": true,
+      "details": [
+        {
+          "path": "scripts/package_release.sh",
+          "exists": true,
+          "executable": true,
+          "ok": true
+        },
+        {
+          "path": "docs/runbooks/release-packaging.md",
+          "exists": true,
+          "executable": true,
+          "ok": true
+        },
+        {
+          "path": "docs/runbooks/failure-recovery.md",
+          "exists": true,
+          "executable": true,
+          "ok": true
+        },
+        {
+          "path": "docs/state/final-closure-checklist.md",
+          "exists": true,
+          "executable": true,
+          "ok": true
+        }
+      ]
+    },
+    "final_closure_checklist": {
+      "ok": true,
+      "checked": 14,
+      "unchecked": 0
+    },
+    "capability_registry_state": {
+      "ok": true,
+      "details": [
+        {
+          "id": "CAP-REDACTION-HARDENING",
+          "status": "done",
+          "blockers": [],
+          "ok": true
+        },
+        {
+          "id": "CAP-PACKAGING-RELEASE",
+          "status": "done",
+          "blockers": [],
+          "ok": true
+        },
+        {
+          "id": "CAP-RECOVERY-RUNBOOKS",
+          "status": "done",
+          "blockers": [],
+          "ok": true
+        },
+        {
+          "id": "CAP-CLOSURE-CHECKLIST",
+          "status": "done",
+          "blockers": [],
+          "ok": true
+        },
+        {
+          "id": "CAP-RELEASE-HARDENING",
+          "status": "done",
+          "blockers": [],
+          "ok": true
+        }
+      ]
+    }
+  },
+  "inputs": {
+    "captures_redacted": "captures/redacted",
+    "capability_registry": "analysis/state/capability_registry.json",
+    "stage_registry": "analysis/state/stage_registry.json",
+    "closure_checklist": "docs/state/final-closure-checklist.md"
+  }
+}

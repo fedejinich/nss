@@ -49,6 +49,21 @@ impl UploadDecision {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum InputMode {
+    Normal,
+    EditingQuery,
+}
+
+impl InputMode {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Normal => "normal",
+            Self::EditingQuery => "editing_query",
+        }
+    }
+}
+
 struct App {
     server: String,
     username: String,
@@ -63,26 +78,36 @@ struct App {
     transfers: Vec<TransferRow>,
     logs: Vec<String>,
     upload_decision: UploadDecision,
+    input_mode: InputMode,
+    query_buffer: String,
     session_state: SessionState,
     session: Option<SessionClient>,
 }
 
 impl App {
     fn from_env() -> Self {
+        let query = env::var("NSS_TUI_QUERY").unwrap_or_else(|_| "aphex twin".to_string());
+        let output_dir = env::var("NSS_TUI_OUTPUT_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| PathBuf::from("/tmp"));
         Self {
             server: env::var("NSS_TEST_SERVER").unwrap_or_else(|_| "server.slsknet.org:2242".to_string()),
             username: env::var("NSS_TEST_USERNAME").unwrap_or_default(),
             password: env::var("NSS_TEST_PASSWORD").unwrap_or_default(),
             client_version: 160,
             minor_version: 1,
-            query: "aphex twin".to_string(),
+            query: query.clone(),
             transfer_token: 555,
-            output_dir: PathBuf::from("/tmp"),
+            output_dir,
             results: Vec::new(),
             selected_result: 0,
             transfers: Vec::new(),
-            logs: vec!["ready: press l=login s=search d=download q=quit".to_string()],
+            logs: vec![
+                "ready: l=login /=edit-query s=search d=download q=quit".to_string(),
+            ],
             upload_decision: UploadDecision::Deny,
+            input_mode: InputMode::Normal,
+            query_buffer: query,
             session_state: SessionState::Disconnected,
             session: None,
         }
@@ -98,6 +123,45 @@ impl App {
 
     fn selected(&self) -> Option<&SearchRow> {
         self.results.get(self.selected_result)
+    }
+
+    fn query_for_display(&self) -> &str {
+        if self.input_mode == InputMode::EditingQuery {
+            &self.query_buffer
+        } else {
+            &self.query
+        }
+    }
+
+    fn begin_query_edit(&mut self) {
+        self.query_buffer = self.query.clone();
+        self.input_mode = InputMode::EditingQuery;
+        self.log("query edit mode: type and press Enter to apply (Esc cancels)");
+    }
+
+    fn handle_query_edit_key(&mut self, key: KeyCode) {
+        match key {
+            KeyCode::Char(ch) => self.query_buffer.push(ch),
+            KeyCode::Backspace => {
+                self.query_buffer.pop();
+            }
+            KeyCode::Enter => {
+                let next_query = self.query_buffer.trim();
+                if next_query.is_empty() {
+                    self.log("query update rejected: query cannot be empty");
+                } else {
+                    self.query = next_query.to_string();
+                    self.log(format!("query updated: '{}'", self.query));
+                }
+                self.input_mode = InputMode::Normal;
+            }
+            KeyCode::Esc => {
+                self.query_buffer = self.query.clone();
+                self.input_mode = InputMode::Normal;
+                self.log("query edit canceled");
+            }
+            _ => {}
+        }
     }
 
     async fn login(&mut self) {
@@ -276,15 +340,17 @@ fn draw(frame: &mut ratatui::Frame<'_>, app: &App) {
             Span::raw(format!("state={:?}", app.session_state)),
             Span::raw("  |  "),
             Span::raw(format!("upload-decision={}", app.upload_decision.as_str())),
+            Span::raw("  |  "),
+            Span::raw(format!("mode={}", app.input_mode.as_str())),
         ]),
         Line::from(format!("server={} user={}", app.server, app.username)),
         Line::from(format!(
             "query='{}' transfer_token={} output_dir={} ",
-            app.query,
+            app.query_for_display(),
             app.transfer_token,
             app.output_dir.display()
         )),
-        Line::from("keys: l=login s=search d=download a=upload-accept x=upload-deny up/down=select q=quit"),
+        Line::from("keys: l=login /=edit-query s=search d=download a=upload-accept x=upload-deny up/down=select q=quit"),
     ])
     .block(Block::default().borders(Borders::ALL).title("Session"));
     frame.render_widget(header, chunks[0]);
@@ -358,9 +424,15 @@ async fn main() -> Result<()> {
             }
 
             if let Event::Key(key) = event::read()? {
+                if app.input_mode == InputMode::EditingQuery {
+                    app.handle_query_edit_key(key.code);
+                    continue;
+                }
+
                 match key.code {
                     KeyCode::Char('q') => break,
                     KeyCode::Char('l') => app.login().await,
+                    KeyCode::Char('/') => app.begin_query_edit(),
                     KeyCode::Char('s') => app.search().await,
                     KeyCode::Char('d') => app.download_selected().await,
                     KeyCode::Char('a') => {
@@ -422,5 +494,27 @@ mod tests {
         assert_eq!(app.selected_result, 0);
         app.move_selection(-1);
         assert_eq!(app.selected_result, 0);
+    }
+
+    #[test]
+    fn query_edit_mode_applies_and_cancels() {
+        let mut app = App::from_env();
+        app.query = "initial".to_string();
+
+        app.begin_query_edit();
+        assert_eq!(app.input_mode, InputMode::EditingQuery);
+
+        app.handle_query_edit_key(KeyCode::Backspace);
+        app.handle_query_edit_key(KeyCode::Backspace);
+        app.handle_query_edit_key(KeyCode::Char('x'));
+        app.handle_query_edit_key(KeyCode::Enter);
+        assert_eq!(app.input_mode, InputMode::Normal);
+        assert_eq!(app.query, "initix");
+
+        app.begin_query_edit();
+        app.handle_query_edit_key(KeyCode::Char('z'));
+        app.handle_query_edit_key(KeyCode::Esc);
+        assert_eq!(app.input_mode, InputMode::Normal);
+        assert_eq!(app.query, "initix");
     }
 }

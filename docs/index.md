@@ -10,6 +10,8 @@ This site is the canonical project memory for protocol mapping, runtime verifica
 - [Runtime Coverage](state/runtime-coverage/)
 - [Capability Dashboard](state/capability-dashboard.html)
 - [Capability Matrix](state/capability-matrix/)
+- [Release Hardening Audit](state/release-hardening-audit/)
+- [Final Closure Checklist](state/final-closure-checklist/)
 - [Codebase Visualizer](state/codebase-visualizer/)
 - [Verification Status](state/verification-status/)
 - [S5A Closure Audit](state/s5a-closure-audit/)
@@ -37,6 +39,8 @@ This site is the canonical project memory for protocol mapping, runtime verifica
 - `docs/state/protocol-matrix.json`
 - `docs/state/runtime-coverage.json`
 - `docs/state/capability-matrix.json`
+- `docs/state/release-hardening-audit.json`
+- `docs/state/final-closure-checklist.md`
 - `docs/state/project-dashboard-data.json`
 - `docs/state/codebase-graph.json`
 - `docs/state/s5a-closure-audit.json`
@@ -56,10 +60,13 @@ python3 tools/state/generate_capability_matrix.py
 python3 tools/state/generate_dashboard_data.py
 python3 tools/state/generate_codebase_graph.py
 python3 tools/state/verify_s5a_closure.py
+python3 tools/state/verify_release_hardening.py
 python3 tools/state/report_opaque_tail.py
 python3 tools/docs/generate_pr_index.py
+python3 tools/runtime/sanitize_redacted_metadata.py
 scripts/sync_state_dashboards.sh
 scripts/run_diff_verify.sh
 scripts/run_regression.sh
+scripts/package_release.sh
 .venv-tools/bin/zensical build -f zensical.toml
 ```

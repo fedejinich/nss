@@ -15,7 +15,7 @@
     "policy": "redact+commit",
     "policy_version": "1",
     "generated_at": "2026-02-14T17:27:40+00:00",
-    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/peer-legacy-local",
+    "raw_source": "captures/raw/peer-legacy-local",
     "stats": {
       "endpoint": 1,
       "path": 3

@@ -1,17 +1,17 @@
 {
   "run_id": "login-room-moderation",
   "created_at": "2026-02-14T15:33:29+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-room-moderation",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-moderation",
+  "raw_dir": "captures/raw/login-room-moderation",
+  "redacted_dir": "captures/redacted/login-room-moderation",
   "stats": {
     "endpoint": 2,
     "path": 3,
     "username": 1
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-moderation/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-moderation/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-moderation/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-moderation/neo_frames.hex"
+    "manifest": "captures/redacted/login-room-moderation/manifest.redacted.json",
+    "frida_events": "captures/redacted/login-room-moderation/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/login-room-moderation/official_frames.hex",
+    "neo_frames": "captures/redacted/login-room-moderation/neo_frames.hex"
   }
 }

@@ -1,16 +1,16 @@
 {
   "run_id": "login-room-list",
   "created_at": "2026-02-14T14:36:56+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-room-list",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-list",
+  "raw_dir": "captures/raw/login-room-list",
+  "redacted_dir": "captures/redacted/login-room-list",
   "stats": {
     "endpoint": 2,
     "path": 3
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-list/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-list/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-list/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-room-list/neo_frames.hex"
+    "manifest": "captures/redacted/login-room-list/manifest.redacted.json",
+    "frida_events": "captures/redacted/login-room-list/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/login-room-list/official_frames.hex",
+    "neo_frames": "captures/redacted/login-room-list/neo_frames.hex"
   }
 }

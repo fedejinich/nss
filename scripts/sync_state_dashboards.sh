@@ -9,6 +9,7 @@ python3 "${ROOT_DIR}/tools/state/generate_capability_matrix.py"
 python3 "${ROOT_DIR}/tools/state/generate_dashboard_data.py"
 python3 "${ROOT_DIR}/tools/state/generate_codebase_graph.py"
 python3 "${ROOT_DIR}/tools/state/verify_s5a_closure.py"
+python3 "${ROOT_DIR}/tools/state/verify_release_hardening.py"
 python3 "${ROOT_DIR}/tools/state/report_opaque_tail.py"
 python3 "${ROOT_DIR}/tools/docs/generate_pr_index.py"
 

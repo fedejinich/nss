@@ -12,6 +12,7 @@ analysis/binaries/
 .DS_Store
 SoulseekQt-*.dmg
 rust/target/
+dist/
 captures/raw/
 *.pcap
 .env.local
