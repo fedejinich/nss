@@ -1,16 +1,16 @@
 {
   "run_id": "login-similar-terms",
   "created_at": "2026-02-14T15:02:50+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-similar-terms",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-similar-terms",
+  "raw_dir": "captures/raw/login-similar-terms",
+  "redacted_dir": "captures/redacted/login-similar-terms",
   "stats": {
     "endpoint": 2,
     "path": 3
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-similar-terms/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-similar-terms/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-similar-terms/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-similar-terms/neo_frames.hex"
+    "manifest": "captures/redacted/login-similar-terms/manifest.redacted.json",
+    "frida_events": "captures/redacted/login-similar-terms/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/login-similar-terms/official_frames.hex",
+    "neo_frames": "captures/redacted/login-similar-terms/neo_frames.hex"
   }
 }

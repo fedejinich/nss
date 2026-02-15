@@ -1,16 +1,16 @@
 {
   "run_id": "login-s6-batch2-control",
   "created_at": "2026-02-15T09:04:20+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-s6-batch2-control",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-s6-batch2-control",
+  "raw_dir": "captures/raw/login-s6-batch2-control",
+  "redacted_dir": "captures/redacted/login-s6-batch2-control",
   "stats": {
     "endpoint": 1,
     "path": 3
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-s6-batch2-control/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-s6-batch2-control/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-s6-batch2-control/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-s6-batch2-control/neo_frames.hex"
+    "manifest": "captures/redacted/login-s6-batch2-control/manifest.redacted.json",
+    "frida_events": "captures/redacted/login-s6-batch2-control/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/login-s6-batch2-control/official_frames.hex",
+    "neo_frames": "captures/redacted/login-s6-batch2-control/neo_frames.hex"
   }
 }

@@ -12,6 +12,7 @@ The TUI is intentionally minimal and focuses on:
 4. Download selected file through core orchestration.
 5. Monitor transfer outcomes.
 6. Toggle upload decision mode (accept or deny).
+7. Edit search query at runtime from the keyboard.
 
 ## Prerequisites
 
@@ -31,6 +32,9 @@ cargo run -p soul-tui
 ## Key Bindings
 
 - `l`: connect and login.
+- `/`: enter query edit mode.
+- `Enter` (in query edit mode): apply query.
+- `Esc` (in query edit mode): cancel query changes.
 - `s`: execute search (`query` value in app state).
 - `up`/`down`: move selected search result.
 - `d`: run `search_select_and_download(...)` for selected result.
@@ -43,3 +47,6 @@ cargo run -p soul-tui
 1. The TUI uses `soul-core` APIs and does not implement protocol encoding directly.
 2. The download path uses `SessionClient::search_select_and_download(...)`.
 3. Search uses `SessionClient::search_and_collect(...)` to keep result browsing responsive.
+4. Optional env defaults:
+   - `NSS_TUI_QUERY`
+   - `NSS_TUI_OUTPUT_DIR`

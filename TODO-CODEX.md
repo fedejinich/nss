@@ -175,23 +175,65 @@ Tasks:
 
 - id: S8B-T05
   description: Run gates, PR loop x2, merge
-  status: in_progress
+  status: done
   depends_on: [S8B-T04]
 
 - id: S8C-T01
   description: Release hardening (config/log redaction, packaging, failure recovery)
-  status: todo
+  status: done
   depends_on: [S8B-T05]
 
 - id: S8C-T02
   description: Publish final completion gates in capability dashboard and close residual backlog split
-  status: todo
+  status: done
   depends_on: [S8C-T01]
 
 - id: S8C-T03
   description: Final full gates, closure PR, merge to main
-  status: todo
+  status: done
   depends_on: [S8C-T02]
+
+## Long Session Focus - Minimal TUI Search + Download (Product Goal)
+
+Dependency graph:
+
+- `LTUI-T01 -> LTUI-T02`
+- `LTUI-T02 -> LTUI-T03`
+- `LTUI-T03 -> LTUI-T04`
+- `LTUI-T04 -> LTUI-T05`
+- `LTUI-T05 -> LTUI-T06`
+
+Tasks:
+
+- id: LTUI-T01
+  description: Keep release-hardening work in lockstep with TUI usability changes (single cohesive stage branch)
+  status: in_progress
+  depends_on: []
+
+- id: LTUI-T02
+  description: Make TUI query input editable at runtime (enter/edit/confirm) instead of fixed query constant
+  status: done
+  depends_on: [LTUI-T01]
+
+- id: LTUI-T03
+  description: Improve TUI result/selection/download UX feedback for minimal real-world operator flow
+  status: in_progress
+  depends_on: [LTUI-T02]
+
+- id: LTUI-T04
+  description: Update runbooks and recovery docs for the exact minimal TUI search/download workflow
+  status: todo
+  depends_on: [LTUI-T03]
+
+- id: LTUI-T05
+  description: Run full gates plus TUI-focused smoke checks and document outcomes in PR notes
+  status: todo
+  depends_on: [LTUI-T04]
+
+- id: LTUI-T06
+  description: Merge stage and roll immediately to the next iteration without pausing roadmap momentum
+  status: todo
+  depends_on: [LTUI-T05]
 
 ## Stage 6F - Dedicated Residual Semantic Closure (`128`/`131`)
 

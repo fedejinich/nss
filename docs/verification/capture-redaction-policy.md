@@ -22,6 +22,8 @@ This policy defines how runtime capture artifacts are sanitized before commit.
 - Use deterministic tokenization in the form `<redacted:<kind>:<hash>>`.
 - Hashes are deterministic per run (`salt=run_id` by default), so fields can be correlated inside the same run.
 - Raw artifacts are never committed.
+- Redacted metadata must not include absolute local filesystem paths.
+  - Required: repository-relative paths (for in-repo artifacts) or `<external:path:...>` placeholders.
 
 ## Required redacted artifacts per run
 
@@ -56,3 +58,4 @@ scripts/run_diff_verify.sh
 - `python3 scripts/kb_validate.py` must pass.
 - No entry in KB maps/schema may point to missing evidence links.
 - Differential verification must pass for required stage 2 scenarios.
+- Release hardening audit must report no absolute-path metadata in committed redacted runs.

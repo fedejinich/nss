@@ -83,6 +83,19 @@ Includes:
 4. Differential verification gate.
 5. Zensical build check (if available).
 
+### Release hardening audit
+
+```bash
+python3 tools/state/verify_release_hardening.py
+```
+
+Checks:
+
+1. No absolute-path metadata in committed redacted captures.
+2. Required release runbooks and packaging script exist.
+3. Final closure checklist has no unchecked items.
+4. Release-hardening capabilities are marked done with no blockers.
+
 ## Stage 4L Coverage Status
 
 S4L closure set is present in:
@@ -254,6 +267,23 @@ Protocol matrix status:
 - TUI implementation and runbook:
   - `rust/tui/src/main.rs`
   - `docs/runbooks/tui-core-transfer.md`
+- TUI baseline now includes runtime query edit controls for minimal operator search/download flow.
+
+## Stage 8C Release Hardening Verification
+
+- Release hardening audit:
+  - `tools/state/verify_release_hardening.py`
+  - `docs/state/release-hardening-audit.json`
+  - `docs/state/release-hardening-audit.md`
+- Packaging workflow:
+  - `scripts/package_release.sh`
+  - `docs/runbooks/release-packaging.md`
+- Failure recovery workflow:
+  - `docs/runbooks/failure-recovery.md`
+- Final closure checklist:
+  - `docs/state/final-closure-checklist.md`
+- Redaction metadata policy:
+  - `docs/verification/capture-redaction-policy.md` (absolute metadata paths are forbidden in committed redacted artifacts)
 
 ## Stage 5B Verification Status
 

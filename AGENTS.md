@@ -22,6 +22,25 @@ Required updates (when applicable):
    - Persist technical learnings in canonical maps/schemas/ledgers.
    - Avoid leaving critical knowledge only in commit messages or chat.
 
+## Capability-First Planning Discipline
+
+Before implementing a new stage or long-session objective:
+
+1. Publish the stage plan in KB/dashboard artifacts first:
+   - `analysis/state/stage_registry.json`
+   - `analysis/state/capability_registry.json`
+   - `docs/state/roadmap.md`
+   - `TODO-CODEX.md`
+2. Break the stage into explicit capabilities with:
+   - `id`
+   - `status`
+   - `depends_on`
+   - blockers
+   - evidence target
+3. Ensure capability dependencies align with stage dependencies.
+4. Regenerate dashboard artifacts before code changes so the current plan is visible in Zensical.
+5. Keep execution and reporting separated by capability domain (`runtime`, `schema`, `core/cli`, `tui`, `release`, `security`, `ops`).
+
 ## KB-First Rule
 
 - High-confidence findings with valid evidence are promoted.
@@ -80,6 +99,7 @@ When a stage closes (for example S3A, S3B):
 5. Add or refresh stage-specific runtime capture generator tooling under `tools/runtime/` when new runtime scenarios are required.
 6. Add or refresh protocol contract tests under `tests/protocol/` for every new mapped message batch.
 7. Regenerate `docs/state/protocol-matrix.md` whenever message coverage or protocol constants change.
+8. For long-session work, add a capability-level execution breakdown in `docs/state/roadmap.md` and keep it synchronized with `analysis/state/capability_registry.json`.
 
 ## Dashboard and Catalog Discipline
 
@@ -93,6 +113,8 @@ When stage status, protocol coverage, or PR documentation changes:
    - `docs/state/runtime-coverage.md`
    - `docs/state/capability-matrix.json`
    - `docs/state/capability-matrix.md`
+   - `docs/state/release-hardening-audit.json`
+   - `docs/state/release-hardening-audit.md`
    - `docs/state/project-dashboard-data.json`
    - `docs/state/codebase-graph.json`
    - `docs/state/s5a-closure-audit.json`
@@ -116,9 +138,18 @@ For each stage branch/PR, run two local review loops before final merge (without
 3. Run review loop round 2 after round-one updates are pushed.
 4. Merge only after both local review loops are complete and validation gates are green.
 
+## Long Session Objective Discipline
+
+When a long-session objective is active (for example: "minimal TUI search + download"):
+
+1. Keep the objective explicit in dashboard/roadmap/current status.
+2. Execute in iterative capability slices while preserving gate stability.
+3. Prioritize product-usable flow first, then hardening/packaging, then closure gates.
+4. Do not mark final closure capabilities as done until all underlying capability blockers are cleared and evidenced.
+
 ## Mandatory Review Passes Per Stage PR
 
-Before opening each stage PR, run two additional code-review passes on touched code:
+For each stage PR, run these blocking review passes during both mandatory review loops:
 
 1. `blockchain_protocol_engineer` pass:
    - execute protocol-scope review for network/protocol-facing changes and document assumptions/evidence.
@@ -142,6 +173,39 @@ Before starting work on a new branch/PR, use this default flow unless explicitly
 Exception:
 
 1. If the user explicitly requests another base branch or commit, branch from that specified base.
+
+## Canonical Stage Execution Workflow
+
+For every stage iteration, follow this end-to-end loop without skipping steps:
+
+1. Start from updated `main`:
+   - `git checkout main`
+   - `git pull origin main`
+   - `git checkout -b codex/<stage-name>`
+2. Publish/update the execution plan first (dependency graph + persistable TODO statuses) in:
+   - `TODO-CODEX.md`
+   - `analysis/state/stage_registry.json`
+   - capability and roadmap docs when scope changes
+3. Implement the stage scope in small, testable commits.
+4. Run tests/harness/gates before PR update:
+   - `python3 scripts/kb_validate.py`
+   - `scripts/run_diff_verify.sh`
+   - `scripts/run_regression.sh`
+   - `./.venv-tools/bin/zensical build -f zensical.toml`
+   - plus stage-specific runtime capture/verify commands
+5. Open or update one stage PR with its PR document in `docs/pr/`.
+6. Run mandatory blocking review loop round 1:
+   - `blockchain_protocol_engineer`
+   - `code_simplifier`
+   - `web3_security_review_expert`
+7. Apply useful feedback, document dismissals with rationale, and resolve threads.
+8. Run mandatory blocking review loop round 2 with the same three passes, then re-run required gates.
+9. Merge to `main` only after green gates and completed review loops, then immediately repeat from step 1 for the next stage.
+
+Notes:
+
+1. `@codex review` is disabled for this workflow and is not part of the blocking loop.
+2. Keep repository content in English, while planning chat can remain in Spanish.
 
 ## Repository Language Policy
 

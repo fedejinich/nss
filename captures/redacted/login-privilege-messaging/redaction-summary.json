@@ -1,17 +1,17 @@
 {
   "run_id": "login-privilege-messaging",
   "created_at": "2026-02-14T17:27:40+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-privilege-messaging",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-privilege-messaging",
+  "raw_dir": "captures/raw/login-privilege-messaging",
+  "redacted_dir": "captures/redacted/login-privilege-messaging",
   "stats": {
     "endpoint": 2,
     "path": 3,
     "username": 1
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-privilege-messaging/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-privilege-messaging/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-privilege-messaging/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-privilege-messaging/neo_frames.hex"
+    "manifest": "captures/redacted/login-privilege-messaging/manifest.redacted.json",
+    "frida_events": "captures/redacted/login-privilege-messaging/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/login-privilege-messaging/official_frames.hex",
+    "neo_frames": "captures/redacted/login-privilege-messaging/neo_frames.hex"
   }
 }

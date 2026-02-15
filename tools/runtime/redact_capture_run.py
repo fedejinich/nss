@@ -28,6 +28,16 @@ def hash_token(kind: str, value: str, salt: str) -> str:
     return f"<redacted:{kind}:{digest}>"
 
 
+def path_ref(path: Path, *, repo_root: Path) -> str:
+    path_resolved = path.resolve()
+    repo_resolved = repo_root.resolve()
+    try:
+        return path_resolved.relative_to(repo_resolved).as_posix()
+    except ValueError:
+        digest = hashlib.sha256(str(path_resolved).encode("utf-8")).hexdigest()[:12]
+        return f"<external:path:{digest}>"
+
+
 def redact_string(value: str, *, key: str, salt: str, stats: dict[str, int]) -> str:
     lowered_key = key.lower()
 
@@ -165,7 +175,7 @@ def main() -> int:
         "policy": "redact+commit",
         "policy_version": "1",
         "generated_at": now_iso(),
-        "raw_source": str(run_dir),
+        "raw_source": path_ref(run_dir, repo_root=repo_root),
         "stats": stats,
     }
 
@@ -200,14 +210,14 @@ def main() -> int:
     summary = {
         "run_id": run_id,
         "created_at": now_iso(),
-        "raw_dir": str(run_dir),
-        "redacted_dir": str(out_dir),
+        "raw_dir": path_ref(run_dir, repo_root=repo_root),
+        "redacted_dir": path_ref(out_dir, repo_root=repo_root),
         "stats": stats,
         "artifacts": {
-            "manifest": str(out_dir / "manifest.redacted.json"),
-            "frida_events": str(out_dir / "frida-events.redacted.jsonl"),
-            "official_frames": str(out_dir / "official_frames.hex"),
-            "neo_frames": str(out_dir / "neo_frames.hex"),
+            "manifest": path_ref(out_dir / "manifest.redacted.json", repo_root=repo_root),
+            "frida_events": path_ref(out_dir / "frida-events.redacted.jsonl", repo_root=repo_root),
+            "official_frames": path_ref(out_dir / "official_frames.hex", repo_root=repo_root),
+            "neo_frames": path_ref(out_dir / "neo_frames.hex", repo_root=repo_root),
         },
     }
     write_json(out_dir / "redaction-summary.json", summary)

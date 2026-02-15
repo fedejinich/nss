@@ -1,10 +1,10 @@
 {
-  "generated_unix_secs": 1771174681,
+  "generated_unix_secs": 1771180176,
   "stage_summary": {
     "total": 32,
-    "done": 30,
-    "in_progress": 1,
-    "planned": 1
+    "done": 32,
+    "in_progress": 0,
+    "planned": 0
   },
   "protocol_summary": {
     "total_messages": 131,
@@ -22,27 +22,15 @@
     "semantic_tail_gaps": 0
   },
   "capability_summary": {
-    "total_capabilities": 7,
-    "required_for_final": 6,
-    "required_done": 5,
-    "required_pending": 1,
+    "total_capabilities": 11,
+    "required_for_final": 10,
+    "required_done": 10,
+    "required_pending": 0,
     "final_gate_total": 5,
-    "final_gate_pass": 4,
-    "final_gate_blocked": 1
+    "final_gate_pass": 5,
+    "final_gate_blocked": 0
   },
-  "current_focus": {
-    "id": "S8B",
-    "title": "Minimal TUI v1 for core transfer workflows",
-    "status": "in_progress",
-    "owner_area": "tui/core",
-    "depends_on": [
-      "S7C",
-      "S8A"
-    ],
-    "evidence": "docs/runbooks/tui-core-transfer.md",
-    "next_gate": "S8C",
-    "notes": "Ratatui+crossterm shell is implemented and wired to core flows; final operational hardening remains."
-  },
+  "current_focus": null,
   "stages": [
     {
       "id": "S2",
@@ -406,7 +394,7 @@
     {
       "id": "S8B",
       "title": "Minimal TUI v1 for core transfer workflows",
-      "status": "in_progress",
+      "status": "done",
       "owner_area": "tui/core",
       "depends_on": [
         "S7C",
@@ -414,19 +402,19 @@
       ],
       "evidence": "docs/runbooks/tui-core-transfer.md",
       "next_gate": "S8C",
-      "notes": "Ratatui+crossterm shell is implemented and wired to core flows; final operational hardening remains."
+      "notes": "Minimal TUI supports login, query edit, search, result selection, and download orchestration over soul-core."
     },
     {
       "id": "S8C",
       "title": "Release hardening and v1 closure gates",
-      "status": "planned",
+      "status": "done",
       "owner_area": "release/security/ops",
       "depends_on": [
         "S8B"
       ],
       "evidence": "docs/state/verification-status.md",
-      "next_gate": "final v1 closure",
-      "notes": "Final stage for config/log redaction hardening, packaging, recovery runbooks, and full closure gates."
+      "next_gate": "post-v1 expansion roadmap",
+      "notes": "Capability-first release hardening closure is complete: redaction metadata hardening, packaging flow, recovery runbooks, and closure audit are green."
     }
   ],
   "dependencies": [

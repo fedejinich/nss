@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `27`
+Total PR docs: `28`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -184,6 +184,13 @@ Total PR docs: `27`
 <summary>S7R-S8B (1 PRs)</summary>
 
 - [0026-s7r-s8b-runtime-complete-minimal-tui.md - S7r S8b Runtime Complete Minimal Tui](0026-s7r-s8b-runtime-complete-minimal-tui/)
+
+</details>
+
+<details>
+<summary>S8C (1 PRs)</summary>
+
+- [0027-s8c-release-hardening-v1-closure.md - S8c Release Hardening V1 Closure](0027-s8c-release-hardening-v1-closure/)
 
 </details>
 

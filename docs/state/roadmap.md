@@ -12,6 +12,8 @@ This roadmap tracks staged execution with protocol mapping first, then increment
 - [Runtime Coverage](runtime-coverage/)
 - [Capability Dashboard](capability-dashboard.html)
 - [Capability Matrix](capability-matrix/)
+- [Release Hardening Audit](release-hardening-audit/)
+- [Final Closure Checklist](final-closure-checklist/)
 - [S5A Closure Audit](s5a-closure-audit/)
 - [S6 Opaque-Tail Plan](opaque-tail-plan/)
 
@@ -58,8 +60,8 @@ gantt
     S7B Semantic-tail closure for residual extension fields :done, s7b, after s7a, 1d
     S7C Core transfer orchestration (download-auto) :done, s7c, after s7b, 1d
     S8A Capability matrix + critical-path dashboard :done, s8a, after s7c, 1d
-    S8B Minimal TUI v1 (core transfer) :active, s8b, after s8a, 2d
-    S8C Release hardening + final closure gates :s8c, after s8b, 2d
+    S8B Minimal TUI v1 (core transfer) :done, s8b, after s8a, 2d
+    S8C Release hardening + final closure gates :done, s8c, after s8b, 2d
 ```
 
 ## S7/S8 Dependency Graph
@@ -75,6 +77,26 @@ graph TD
     S7A --> S8A
     S7C --> S8B
 ```
+
+## S8C Capability Breakdown (Completed)
+
+```mermaid
+graph TD
+    C0["CAP-TUI-V1 baseline"] --> C1["CAP-REDACTION-HARDENING"]
+    C0 --> C2["CAP-PACKAGING-RELEASE"]
+    C0 --> C3["CAP-RECOVERY-RUNBOOKS"]
+    C1 --> C4["CAP-CLOSURE-CHECKLIST"]
+    C2 --> C4
+    C3 --> C4
+    C4 --> C5["CAP-RELEASE-HARDENING (final gate)"]
+```
+
+Closure outcomes:
+
+1. Ensure redacted artifacts never expose absolute path metadata or secrets.
+2. Publish reproducible packaging flow for `soul-cli` and `soul-tui`.
+3. Publish operator recovery runbooks for auth/search/download/TUI failures.
+4. Publish executable closure audit + checklist before final gate promotion.
 
 ## S4B Dependency Graph (Executed)
 
@@ -183,8 +205,8 @@ graph TD
 | S7B | semantic-tail closure for residual extension fields | done | `analysis/protocol/message_schema.json` | start S7C orchestration flow |
 | S7C | core transfer orchestration + `session download-auto` | done | `docs/runbooks/cli-download-example.md` | start S8A capability dashboard |
 | S8A | capability registry/matrix + critical-path dashboard | done | `docs/state/capability-dashboard.html` | start S8B minimal TUI |
-| S8B | minimal TUI v1 for core transfer workflows | in_progress | `docs/runbooks/tui-core-transfer.md` | start S8C release hardening |
-| S8C | release hardening and final v1 closure gates | planned | `docs/state/verification-status.md` | final release closure |
+| S8B | minimal TUI v1 for core transfer workflows | done | `docs/runbooks/tui-core-transfer.md` | start S8C release hardening |
+| S8C | release hardening and final v1 closure gates | done | `docs/state/verification-status.md` | post-v1 expansion roadmap |
 
 ## S4B Target Contract
 

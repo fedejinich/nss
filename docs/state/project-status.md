@@ -41,8 +41,30 @@
 - Stage 7B complete: semantic-tail closure achieved (`raw_tail/raw_payload` unresolved fields reduced to `0`).
 - Stage 7C complete: core orchestration flow added with `search_select_and_download(...)` and CLI `session download-auto`.
 - Stage 8A complete: capability registry, capability matrix, and critical-path dashboard were added and wired into state sync.
-- Stage 8B in progress: minimal TUI v1 exists and is wired to core transfer operations; release hardening remains in S8C.
+- Stage 8B complete: minimal TUI v1 is operational for login, query edit, search, selection, and download orchestration.
+- Stage 8C complete: capability-first release hardening closure is complete (`redaction`, `packaging`, `recovery runbooks`, `closure checklist/audit`), and the roadmap is now on `post-v1 expansion`.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Active Execution Plan (Capability-First)
+
+Current long-session objective:
+
+1. Deliver a minimal TUI that is operational for search and download.
+2. Keep release hardening in lockstep so the same baseline is safe and operable.
+
+Current capability chain:
+
+1. `CAP-REDACTION-HARDENING`
+2. `CAP-PACKAGING-RELEASE`
+3. `CAP-RECOVERY-RUNBOOKS`
+4. `CAP-CLOSURE-CHECKLIST`
+5. `CAP-RELEASE-HARDENING`
+
+Execution rule:
+
+1. Dashboard/KB plan updates are published first.
+2. Then code/runtime/doc implementation proceeds.
+3. Final capability promotion to done happens only after closure gates pass.
 
 ## Stage 7A Completion
 
@@ -101,11 +123,12 @@
    - `zensical.toml`
    - `docs/index.md`
 
-## Stage 8B Progress
+## Stage 8B Completion
 
 1. Added `rust/tui` crate with `ratatui` + `crossterm` shell.
 2. Implemented core transfer workflow controls in TUI:
    - login
+   - query editing at runtime (`/`, `Enter`, `Esc`)
    - search
    - result selection
    - download selected item via core orchestration

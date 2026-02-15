@@ -348,7 +348,9 @@
             <span class="chip"><a href="protocol-matrix/">Protocol matrix</a></span>
             <span class="chip"><a href="runtime-coverage/">Runtime coverage</a></span>
             <span class="chip"><a href="capability-dashboard.html">Capability dashboard</a></span>
-            <span class="chip"><a href="codebase-visualizer/">Codebase visualizer</a></span>
+            <span class="chip"><a href="release-hardening-audit/">Release hardening audit</a></span>
+            <span class="chip"><a href="final-closure-checklist/">Final closure checklist</a></span>
+            <span class="chip"><a href="codebase-visualizer.html">Codebase visualizer</a></span>
             <span class="chip"><a href="verification-status/">Verification status</a></span>
             <span class="chip"><a href="../pr/">PR catalog</a></span>
           </div>
@@ -539,11 +541,17 @@
           .join("");
       }
 
-      function renderCurrentFocus(data) {
+      function renderCurrentFocus(data, stages) {
         const focus = data.current_focus;
         if (!focus) {
-          currentStageEl.textContent = "Current: no in-progress stage";
-          currentSummaryEl.textContent = "No active stage is marked in progress.";
+          const latest = Array.isArray(stages) && stages.length ? stages[stages.length - 1] : null;
+          if (latest) {
+            currentStageEl.textContent = `Current: ${latest.id} (${latest.status.replace("_", " ")})`;
+            currentSummaryEl.textContent = `No stage is currently in progress. Latest stage is ${latest.id}: ${latest.title}. Evidence: ${latest.evidence}. Next gate: ${latest.next_gate}.`;
+          } else {
+            currentStageEl.textContent = "Current: no in-progress stage";
+            currentSummaryEl.textContent = "No active stage is marked in progress.";
+          }
           return;
         }
 
@@ -568,7 +576,7 @@
           renderTimeline(stages);
           renderDependencies(data);
           renderMatrix(stages);
-          renderCurrentFocus(data);
+          renderCurrentFocus(data, stages);
         } catch (error) {
           currentSummaryEl.textContent = `Could not load dashboard data: ${String(error)}`;
         }

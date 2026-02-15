@@ -63,6 +63,13 @@ class RuntimeRedactionTests(unittest.TestCase):
             self.assertNotIn("10.0.0.4", raw_text)
             self.assertNotIn("/Users/alice/Music/track.flac", raw_text)
             self.assertNotIn("private message", raw_text)
+            self.assertNotIn(str(raw_run), raw_text)
+
+            summary = json.loads((run_dir / "redaction-summary.json").read_text(encoding="utf-8"))
+            summary_text = json.dumps(summary)
+            self.assertNotIn(str(raw_run), summary_text)
+            self.assertTrue(summary["raw_dir"].startswith("<external:path:"))
+            self.assertTrue(summary["redacted_dir"].startswith("<external:path:"))
 
             official = (run_dir / "official_frames.hex").read_text(encoding="utf-8").splitlines()
             neo = (run_dir / "neo_frames.hex").read_text(encoding="utf-8").splitlines()

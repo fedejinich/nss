@@ -1,17 +1,17 @@
 {
   "run_id": "login-only",
   "created_at": "2026-02-14T13:52:25+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-only",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only",
+  "raw_dir": "captures/raw/login-only",
+  "redacted_dir": "captures/redacted/login-only",
   "stats": {
     "path": 3,
     "username": 1,
     "endpoint": 1
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-only/neo_frames.hex"
+    "manifest": "captures/redacted/login-only/manifest.redacted.json",
+    "frida_events": "captures/redacted/login-only/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/login-only/official_frames.hex",
+    "neo_frames": "captures/redacted/login-only/neo_frames.hex"
   }
 }

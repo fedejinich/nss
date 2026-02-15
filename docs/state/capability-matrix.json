@@ -1,13 +1,13 @@
 {
-  "generated_unix_secs": 1771174681,
+  "generated_unix_secs": 1771180176,
   "summary": {
-    "total_capabilities": 7,
-    "done": 6,
-    "in_progress": 1,
+    "total_capabilities": 11,
+    "done": 11,
+    "in_progress": 0,
     "planned": 0,
-    "required_for_final": 6,
-    "required_done": 5,
-    "required_pending": 1,
+    "required_for_final": 10,
+    "required_done": 10,
+    "required_pending": 0,
     "protocol_messages": 131,
     "protocol_implemented_mapped": 131,
     "runtime_verified": 131,
@@ -59,29 +59,18 @@
       "id": "FG-RELEASE-HARDENING",
       "title": "Release hardening and final closure",
       "required": "config/log redaction, packaging, recovery runbooks, and closure checklist complete",
-      "status": "blocked",
+      "status": "pass",
       "linked_capabilities": [
+        "CAP-REDACTION-HARDENING",
+        "CAP-PACKAGING-RELEASE",
+        "CAP-RECOVERY-RUNBOOKS",
+        "CAP-CLOSURE-CHECKLIST",
         "CAP-RELEASE-HARDENING"
       ],
-      "blockers": [
-        "CAP-RELEASE-HARDENING status=in_progress",
-        "CAP-RELEASE-HARDENING: Pending final hardening pass and closure checklist"
-      ]
+      "blockers": []
     }
   ],
-  "critical_path": [
-    {
-      "id": "CAP-RELEASE-HARDENING",
-      "title": "Release hardening and final gates",
-      "status": "in_progress",
-      "depends_on": [
-        "CAP-TUI-V1"
-      ],
-      "blockers": [
-        "Pending final hardening pass and closure checklist"
-      ]
-    }
-  ],
+  "critical_path": [],
   "capabilities": [
     {
       "id": "CAP-PROTOCOL-MAPPED",
@@ -173,21 +162,81 @@
       "notes": "TUI v1 shell is available for login/search/select/download/monitor/upload decision flows."
     },
     {
-      "id": "CAP-RELEASE-HARDENING",
-      "title": "Release hardening and final gates",
-      "domain": "release",
-      "status": "in_progress",
+      "id": "CAP-REDACTION-HARDENING",
+      "title": "Redaction metadata hardening",
+      "domain": "security",
+      "status": "done",
       "required_for_final": true,
       "depends_on": [
         "CAP-TUI-V1"
       ],
       "evidence": [
+        "docs/verification/capture-redaction-policy.md"
+      ],
+      "blockers": [],
+      "notes": "Redacted metadata now stores repository-relative references or external placeholders; regression tests enforce this."
+    },
+    {
+      "id": "CAP-PACKAGING-RELEASE",
+      "title": "Release packaging workflow",
+      "domain": "release",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-TUI-V1"
+      ],
+      "evidence": [
+        "docs/runbooks/release-packaging.md"
+      ],
+      "blockers": [],
+      "notes": "Published reproducible packaging script for CLI+TUI bundles with checksum output."
+    },
+    {
+      "id": "CAP-RECOVERY-RUNBOOKS",
+      "title": "Failure recovery runbooks",
+      "domain": "ops",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-TUI-V1"
+      ],
+      "evidence": [
+        "docs/runbooks/failure-recovery.md"
+      ],
+      "blockers": [],
+      "notes": "Published recovery runbook for auth/search/download/transfer/TUI operational failures."
+    },
+    {
+      "id": "CAP-CLOSURE-CHECKLIST",
+      "title": "Final closure checklist and audit",
+      "domain": "state",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-REDACTION-HARDENING",
+        "CAP-PACKAGING-RELEASE",
+        "CAP-RECOVERY-RUNBOOKS"
+      ],
+      "evidence": [
+        "docs/state/final-closure-checklist.md"
+      ],
+      "blockers": [],
+      "notes": "Final checklist and executable release-hardening audit are published and integrated."
+    },
+    {
+      "id": "CAP-RELEASE-HARDENING",
+      "title": "Release hardening and final gates",
+      "domain": "release",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-CLOSURE-CHECKLIST"
+      ],
+      "evidence": [
         "docs/state/verification-status.md"
       ],
-      "blockers": [
-        "Pending final hardening pass and closure checklist"
-      ],
-      "notes": "Includes redaction safety, packaging, recovery runbooks, and closure audits."
+      "blockers": [],
+      "notes": "Release hardening closure completed: redaction metadata, packaging, recovery runbooks, and closure audit are green."
     }
   ],
   "source_artifacts": {

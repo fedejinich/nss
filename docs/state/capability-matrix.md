@@ -4,13 +4,13 @@ This matrix tracks delivery capabilities, final gates, and critical-path blocker
 
 ## Snapshot
 
-- Total capabilities: `7`
-- Done: `6`
-- In progress: `1`
+- Total capabilities: `11`
+- Done: `11`
+- In progress: `0`
 - Planned: `0`
-- Required for final: `6`
-- Required done: `5`
-- Required pending: `1`
+- Required for final: `10`
+- Required done: `10`
+- Required pending: `0`
 - Runtime verified/static: `131/0`
 - Semantic-tail gaps: `0`
 
@@ -22,7 +22,7 @@ This matrix tracks delivery capabilities, final gates, and critical-path blocker
 | `FG-SEMANTIC-DEPTH` | `pass` | no raw_tail/raw_payload unresolved schema fields | - |
 | `FG-CORE-AUTO-DL` | `pass` | session download-auto succeeds in authenticated flow | - |
 | `FG-TUI-V1` | `pass` | login/search/select/download/monitor/upload-decision available in TUI | - |
-| `FG-RELEASE-HARDENING` | `blocked` | config/log redaction, packaging, recovery runbooks, and closure checklist complete | CAP-RELEASE-HARDENING status=in_progress; CAP-RELEASE-HARDENING: Pending final hardening pass and closure checklist |
+| `FG-RELEASE-HARDENING` | `pass` | config/log redaction, packaging, recovery runbooks, and closure checklist complete | - |
 
 ## Capability Table
 
@@ -34,11 +34,15 @@ This matrix tracks delivery capabilities, final gates, and critical-path blocker
 | `CAP-CLI-DOWNLOAD-AUTO` | Automated search-select-download flow in CLI/core | `cli_core` | `done` | yes | CAP-SEMANTIC-DEPTH | - | docs/runbooks/cli-download-example.md |
 | `CAP-DASHBOARD-OPS` | Capabilities and critical-path dashboard | `docs` | `done` | no | CAP-RUNTIME-COMPLETE | - | docs/state/capability-dashboard.html |
 | `CAP-TUI-V1` | Minimal TUI for core transfer | `tui` | `done` | yes | CAP-CLI-DOWNLOAD-AUTO, CAP-DASHBOARD-OPS | - | rust/tui/src/main.rs |
-| `CAP-RELEASE-HARDENING` | Release hardening and final gates | `release` | `in_progress` | yes | CAP-TUI-V1 | Pending final hardening pass and closure checklist | docs/state/verification-status.md |
+| `CAP-REDACTION-HARDENING` | Redaction metadata hardening | `security` | `done` | yes | CAP-TUI-V1 | - | docs/verification/capture-redaction-policy.md |
+| `CAP-PACKAGING-RELEASE` | Release packaging workflow | `release` | `done` | yes | CAP-TUI-V1 | - | docs/runbooks/release-packaging.md |
+| `CAP-RECOVERY-RUNBOOKS` | Failure recovery runbooks | `ops` | `done` | yes | CAP-TUI-V1 | - | docs/runbooks/failure-recovery.md |
+| `CAP-CLOSURE-CHECKLIST` | Final closure checklist and audit | `state` | `done` | yes | CAP-REDACTION-HARDENING, CAP-PACKAGING-RELEASE, CAP-RECOVERY-RUNBOOKS | - | docs/state/final-closure-checklist.md |
+| `CAP-RELEASE-HARDENING` | Release hardening and final gates | `release` | `done` | yes | CAP-CLOSURE-CHECKLIST | - | docs/state/verification-status.md |
 
 ## Critical Path
 
-- `CAP-RELEASE-HARDENING` `in_progress` deps=`CAP-TUI-V1' blockers=`Pending final hardening pass and closure checklist`
+No pending required capabilities.
 
 ## Regeneration
 

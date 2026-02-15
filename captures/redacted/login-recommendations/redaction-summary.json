@@ -1,16 +1,16 @@
 {
   "run_id": "login-recommendations",
   "created_at": "2026-02-14T15:02:50+00:00",
-  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-recommendations",
-  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-recommendations",
+  "raw_dir": "captures/raw/login-recommendations",
+  "redacted_dir": "captures/redacted/login-recommendations",
   "stats": {
     "endpoint": 2,
     "path": 3
   },
   "artifacts": {
-    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-recommendations/manifest.redacted.json",
-    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-recommendations/frida-events.redacted.jsonl",
-    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-recommendations/official_frames.hex",
-    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-recommendations/neo_frames.hex"
+    "manifest": "captures/redacted/login-recommendations/manifest.redacted.json",
+    "frida_events": "captures/redacted/login-recommendations/frida-events.redacted.jsonl",
+    "official_frames": "captures/redacted/login-recommendations/official_frames.hex",
+    "neo_frames": "captures/redacted/login-recommendations/neo_frames.hex"
   }
 }
