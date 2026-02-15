@@ -13,8 +13,8 @@ For detailed status, roadmap, and technical documentation, use the Zensical know
 ### 1. Configure local credentials
 
 ```bash
-cp .env.example .env.local
-# edit NSS_TEST_SERVER, NSS_TEST_USERNAME, NSS_TEST_PASSWORD
+./scripts/setup_credentials_wizard.sh
+set -a; source .env.local; set +a
 ```
 
 ### 2. Use the CLI
