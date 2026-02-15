@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while expanding Stage 4J (private-room ownership/membership) mapping coverage.
+Ensure evidence traceability and semantic protocol parity baseline while expanding Stage 4K (missing-code closure + global/distributed peer-control) implementation coverage.
 
 ## Validation Gates
 
@@ -66,36 +66,52 @@ Includes:
 4. Differential verification gate.
 5. Zensical build check (if available).
 
-## Stage 4J Coverage Status
+## Stage 4K Coverage Status
 
-S4J 8-message mapping contract set is present in:
+S4K closure set is present in:
 
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
 
 Messages:
 
-- `SM_REMOVE_OWN_ROOM_MEMBERSHIP`
-- `SM_GIVE_UP_ROOM`
-- `SM_TRANSFER_ROOM_OWNERSHIP`
-- `SM_ADD_ROOM_MEMBERSHIP`
-- `SM_REMOVE_ROOM_MEMBERSHIP`
-- `SM_ENABLE_PRIVATE_ROOM_ADD`
-- `SM_CHANGE_PASSWORD`
-- `SM_ADD_ROOM_OPERATORSHIP`
+- `SM_ADD_USER`
+- `SM_REMOVE_USER`
+- `SM_SEND_CONNECT_TOKEN`
+- `SM_PLACE_IN_LINE`
+- `SM_PLACE_IN_LINE_RESPONSE`
+- `SM_ADD_PRIVILEGED_USER`
+- `SM_LOW_PRIORITY_FILE_SEARCH`
+- `SM_WISHLIST_WAIT`
+- `SM_DNET_LEVEL`
+- `SM_DNET_GROUP_LEADER`
+- `SM_DNET_DELIVERY_REPORT`
+- `SM_DNET_CHILD_DEPTH`
+- `SM_FLOOD`
+- `SM_REMOVE_ROOM_OPERATORSHIP`
+- `SM_REMOVE_OWN_ROOM_OPERATORSHIP`
+- `SM_JOIN_GLOBAL_ROOM`
+- `SM_LEAVE_GLOBAL_ROOM`
+- `SM_SAY_GLOBAL_ROOM`
+- `SM_SEARCH_CORRELATIONS`
+- `SM_PEER_MESSAGE_ALT`
+- `PM_SAY`
+- `PM_SEND_CONNECT_TOKEN`
+- `PM_PLACEHOLD_UPLOAD`
+- `PM_NOTHING`
 
-Confidence distribution for the S4J contract set:
+Confidence distribution for the S4K contract set:
 
-- `high=8`
+- `high=24`
 - `medium=0`
 - `low=0`
 
 Protocol matrix status:
 
 - Tracked message names from static string tables: `131`
-- Implemented + mapped: `67`
+- Implemented + mapped: `91`
 - Mapped not implemented: `40`
-- Missing: `23`
+- Missing: `0`
 - Matrix source: `docs/state/protocol-matrix.md`
 
 ## Runtime Evidence Snapshot
@@ -114,11 +130,12 @@ Protocol matrix status:
 - Message-users scenario includes code `149`.
 - Peer-message deterministic scenario includes code `68` plus compatibility alias `292`.
 - Stage 4F/S4G/S4H/S4I/S4J are mapping-first and static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
+- Stage 4K closes all prior `missing` names by adding jump-table-backed mappings and protocol codec support.
 
 ## Residual Risk
 
 - `SM_GET_USER_PRIVILEGES_STATUS` remains `medium` from S4C because code `122` is deprecated in public specs and behavior can vary by server implementation.
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- S4F/S4G/S4H/S4I/S4J currently add mapped-not-implemented rows; typed codec/core/CLI support for these domains remains a follow-up stage objective.
-- Several protocol names in string tables remain unmapped (`23` missing in matrix); S4K should prioritize global-room/distributed tail messages and remaining peer controls.
+- Remaining risk concentration shifted from mapping gaps to typed behavior depth: `mapped_not_implemented=40` still requires staged protocol/core/CLI promotion.
+- S4K introduced `OpaquePayload` handling for uncertain runtime-shape messages; runtime captures are still needed to replace opaque decoding with fully typed payload schemas.
 - `PM_SHARED_FILES_IN_FOLDER` response payload is still represented as `directory + compressed bytes`; deep decompression schema remains a follow-up parser task.

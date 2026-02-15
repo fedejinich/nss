@@ -26,8 +26,9 @@ gantt
     S4H Global room/system control continuation mapping batch :done, s4h, after s4g, 1d
     S4I Ticker and term-control continuation mapping batch :done, s4i, after s4h, 1d
     S4J Private-room ownership and membership continuation mapping batch :done, s4j, after s4i, 1d
+    S4K Missing-code closure + global/distributed peer-control implementation :done, s4k, after s4j, 2d
     section Planned
-    S4K Global/distributed tail + peer control continuation :crit, s4k, after s4j, 2d
+    S4L Mapped-not-implemented reduction wave 1 (distributed controls) :crit, s4l, after s4k, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -116,7 +117,8 @@ graph TD
 | S4H | global room/system control continuation mapping batch | done | `docs/pr/0012-s4h-global-system-control-map.md` | start S4I implementation batch |
 | S4I | ticker and term-control continuation mapping batch | done | `docs/pr/0013-s4i-ticker-term-control-map.md` | start S4J implementation batch |
 | S4J | private-room ownership and membership continuation mapping batch | done | `docs/pr/0014-s4j-private-room-ownership-map.md` | start S4K implementation batch |
-| S4K | global/distributed tail + peer control continuation | planned | `docs/state/protocol-backlog.md` | start S4K plan |
+| S4K | missing-code closure + global/distributed peer-control implementation | done | `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md` | start S4L implementation batch |
+| S4L | mapped-not-implemented reduction wave 1 (distributed controls) | planned | `docs/state/protocol-backlog.md` | start S4L plan |
 
 ## S4B Target Contract
 
@@ -214,10 +216,10 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S4K Preview (Not Started)
+## S4L Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Remaining global/distributed and peer-control domain (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, `SM_JOIN_GLOBAL_ROOM`, `SM_LEAVE_GLOBAL_ROOM`, `SM_SAY_GLOBAL_ROOM`, `SM_SEARCH_CORRELATIONS`, distributed tail messages, and remaining peer controls).
-2. Convert mapped-not-implemented rows from S4F through S4J into typed protocol/core/CLI support.
-3. Keep runtime evidence capture plan for reachable global-room and distributed-control flows.
+1. Convert mapped-not-implemented distributed-control messages into typed protocol payloads (`SM_COMMAND`, `SM_ADMIN_MESSAGE`, `SM_GLOBAL_USER_LIST`, `SM_SEND_DISTRIBUTIONS`, `SM_NOTE_PARENT`, `SM_CHILD_PARENT_MAP`, `SM_DNET_MESSAGE`, `SM_DNET_RESET`).
+2. Convert mapped-not-implemented parent tuning controls (`SM_SET_PARENT_MIN_SPEED`, `SM_SET_PARENT_SPEED_CONNECTION_RATIO`, `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`, `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`, `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`, `SM_SET_SECONDS_BEFORE_PING_CHILDREN`, `SM_CAN_PARENT`, `SM_POSSIBLE_PARENTS`).
+3. Reduce matrix `mapped_not_implemented` from `40` while preserving runtime redaction and semantic verification discipline.

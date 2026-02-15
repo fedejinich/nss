@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-14T20:20:01+00:00",
+  "generated_at": "2026-02-15T04:47:27+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -30,6 +30,20 @@
     }
   },
   "messages": [
+    {
+      "scope": "peer",
+      "code": 1,
+      "name": "PM_SAY",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Peer MessageCodeToString jump-table extraction resolves code 1 to PM_SAY (x86_64 binary disassembly)."
+        }
+      ]
+    },
     {
       "scope": "peer",
       "code": 4,
@@ -233,6 +247,20 @@
     },
     {
       "scope": "peer",
+      "code": 33,
+      "name": "PM_SEND_CONNECT_TOKEN",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Peer MessageCodeToString jump-table extraction resolves code 33 to PM_SEND_CONNECT_TOKEN (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
       "code": 34,
       "name": "PM_MOVE_DOWNLOAD_TO_TOP",
       "payload": [],
@@ -372,6 +400,20 @@
           "kind": "ghidra_decompile",
           "source": "evidence/reverse/disasm/transfer_on_file_request.txt",
           "note": "Transfer queue dispatcher handles transfer response negotiation path."
+        }
+      ]
+    },
+    {
+      "scope": "peer",
+      "code": 42,
+      "name": "PM_PLACEHOLD_UPLOAD",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Peer MessageCodeToString jump-table extraction resolves code 42 to PM_PLACEHOLD_UPLOAD (x86_64 binary disassembly)."
         }
       ]
     },
@@ -604,6 +646,20 @@
       ]
     },
     {
+      "scope": "peer",
+      "code": 52,
+      "name": "PM_NOTHING",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Peer MessageCodeToString jump-table extraction resolves code 52 to PM_NOTHING (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
       "scope": "server",
       "code": 1,
       "name": "SM_LOGIN",
@@ -694,6 +750,34 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 3 defines peer-address request and response payload fields."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 5,
+      "name": "SM_ADD_USER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 5 to SM_ADD_USER (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 6,
+      "name": "SM_REMOVE_USER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 6 to SM_REMOVE_USER (x86_64 binary disassembly)."
         }
       ]
     },
@@ -1095,6 +1179,20 @@
           "kind": "manual_note",
           "source": "evidence/reverse/message_codes_jump_table.md",
           "note": "Server MessageCodeToString jump-table extraction resolves code 32 to SM_HEARTBEAT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 33,
+      "name": "SM_SEND_CONNECT_TOKEN",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 33 to SM_SEND_CONNECT_TOKEN (x86_64 binary disassembly)."
         }
       ]
     },
@@ -1502,6 +1600,34 @@
     },
     {
       "scope": "server",
+      "code": 59,
+      "name": "SM_PLACE_IN_LINE",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 59 to SM_PLACE_IN_LINE (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 60,
+      "name": "SM_PLACE_IN_LINE_RESPONSE",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 60 to SM_PLACE_IN_LINE_RESPONSE (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 61,
       "name": "SM_USER_LIST",
       "payload": [],
@@ -1812,6 +1938,20 @@
     },
     {
       "scope": "server",
+      "code": 91,
+      "name": "SM_ADD_PRIVILEGED_USER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 91 to SM_ADD_PRIVILEGED_USER (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 92,
       "name": "SM_GET_OWN_PRIVILEGES_STATUS",
       "payload": [
@@ -1878,6 +2018,34 @@
           "kind": "manual_note",
           "source": "evidence/reverse/message_codes_jump_table.md",
           "note": "Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 103,
+      "name": "SM_LOW_PRIORITY_FILE_SEARCH",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 103 to SM_LOW_PRIORITY_FILE_SEARCH (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 104,
+      "name": "SM_WISHLIST_WAIT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 104 to SM_WISHLIST_WAIT (x86_64 binary disassembly)."
         }
       ]
     },
@@ -2179,6 +2347,62 @@
     },
     {
       "scope": "server",
+      "code": 126,
+      "name": "SM_DNET_LEVEL",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 126 to SM_DNET_LEVEL (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 127,
+      "name": "SM_DNET_GROUP_LEADER",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 127 to SM_DNET_GROUP_LEADER (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 128,
+      "name": "SM_DNET_DELIVERY_REPORT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 128 to SM_DNET_DELIVERY_REPORT (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 129,
+      "name": "SM_DNET_CHILD_DEPTH",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 129 to SM_DNET_CHILD_DEPTH (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 130,
       "name": "SM_DNET_RESET",
       "payload": [],
@@ -2188,6 +2412,20 @@
           "kind": "manual_note",
           "source": "evidence/reverse/message_codes_jump_table.md",
           "note": "Server MessageCodeToString jump-table extraction resolves code 130 to SM_DNET_RESET (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 131,
+      "name": "SM_FLOOD",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 131 to SM_FLOOD (x86_64 binary disassembly)."
         }
       ]
     },
@@ -2474,6 +2712,34 @@
     },
     {
       "scope": "server",
+      "code": 146,
+      "name": "SM_REMOVE_ROOM_OPERATORSHIP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 146 to SM_REMOVE_ROOM_OPERATORSHIP (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 147,
+      "name": "SM_REMOVE_OWN_ROOM_OPERATORSHIP",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 147 to SM_REMOVE_OWN_ROOM_OPERATORSHIP (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
       "code": 148,
       "name": "SM_ROOM_OPERATORS",
       "payload": [
@@ -2524,6 +2790,76 @@
           "kind": "spec",
           "source": "https://nicotine-plus.org/doc/SLSKPROTOCOL.html",
           "note": "Server code 149 documents SendMessageUsers payload (users list + message)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 150,
+      "name": "SM_JOIN_GLOBAL_ROOM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 150 to SM_JOIN_GLOBAL_ROOM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 151,
+      "name": "SM_LEAVE_GLOBAL_ROOM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 151 to SM_LEAVE_GLOBAL_ROOM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 152,
+      "name": "SM_SAY_GLOBAL_ROOM",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 152 to SM_SAY_GLOBAL_ROOM (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 153,
+      "name": "SM_SEARCH_CORRELATIONS",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "manual_note",
+          "source": "evidence/reverse/message_codes_jump_table.md",
+          "note": "Server MessageCodeToString jump-table extraction resolves code 153 to SM_SEARCH_CORRELATIONS (x86_64 binary disassembly)."
+        }
+      ]
+    },
+    {
+      "scope": "server",
+      "code": 292,
+      "name": "SM_PEER_MESSAGE_ALT",
+      "payload": [],
+      "confidence": "high",
+      "evidence": [
+        {
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-peer-message/official_frames.hex",
+          "note": "Observed runtime alias code 292 for peer message tunneling in login-peer-message flow."
         }
       ]
     }

@@ -1162,3 +1162,105 @@ Notes:
 - Protocol matrix snapshot after S4J: tracked `131`, implemented+mapped `67`, mapped-not-implemented `40`, missing `23`.
 - S4J was executed as mapping-first with authoritative static evidence from `message_codes_jump_table.md`; typed protocol/core/cli implementation is scheduled for S4K+.
 - Two `@codex review` requests were posted on PR #13 and the connector reported usage-limit responses without actionable findings.
+
+## Stage 4K - Missing-code closure + global/distributed peer-control protocol implementation
+
+Dependency graph:
+
+- `S4K-W01 -> S4K-W02`
+- `S4K-W02 -> S4K-T01`
+- `S4K-T01 -> S4K-T02`
+- `S4K-T02 -> S4K-T03`
+- `S4K-T03 -> S4K-T04`
+- `S4K-T04 -> S4K-T05`
+- `S4K-T05 -> S4K-T06`
+- `S4K-T06 -> S4K-R01`
+- `S4K-R01 -> S4K-Q01`
+- `S4K-Q01 -> S4K-Q02`
+- `S4K-Q02 -> S4K-Q03`
+- `S4K-Q03 -> S4K-Q04`
+- `S4K-Q04 -> S4K-T07`
+
+Tasks:
+
+- id: S4K-W01
+  description: Start from updated main and create branch `codex/s4k-global-peer-control-implementation`
+  status: done
+  depends_on: []
+
+- id: S4K-W02
+  description: Verify commit signing config is active before first stage push
+  status: done
+  depends_on: [S4K-W01]
+
+- id: S4K-T01
+  description: Resolve authoritative code/evidence for all currently missing protocol names using jump-table outputs
+  status: done
+  depends_on: [S4K-W02]
+
+- id: S4K-T02
+  description: Update `message_map.csv` and regenerate `message_schema.json` to close the missing set and map `SM_PEER_MESSAGE_ALT`
+  status: done
+  depends_on: [S4K-T01]
+
+- id: S4K-T03
+  description: Implement `rust/protocol` constants/types/codecs/builders for the S4K closure batch (server+peer)
+  status: done
+  depends_on: [S4K-T02]
+
+- id: S4K-T04
+  description: Add protocol regression tests covering S4K message roundtrips and compatibility decode behavior
+  status: done
+  depends_on: [S4K-T03]
+
+- id: S4K-T05
+  description: Sync KB artifacts/docs (`detangling`, evidence ledger, schema docs, matrix, status, backlog, roadmap)
+  status: done
+  depends_on: [S4K-T04]
+
+- id: S4K-T06
+  description: Run validation gates (`kb_validate`, diff verify semantic, regression, zensical build)
+  status: done
+  depends_on: [S4K-T05]
+
+- id: S4K-R01
+  description: Publish stage PR document under `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md`
+  status: done
+  depends_on: [S4K-T06]
+
+- id: S4K-Q01
+  description: Open S4K PR and request first `@codex review`
+  status: todo
+  depends_on: [S4K-R01]
+
+- id: S4K-Q02
+  description: Triage first review, apply useful fixes, dismiss non-useful comments with rationale, resolve threads
+  status: todo
+  depends_on: [S4K-Q01]
+
+- id: S4K-Q03
+  description: Request second `@codex review` after pushing round-one updates
+  status: todo
+  depends_on: [S4K-Q02]
+
+- id: S4K-Q04
+  description: Triage second review, apply or dismiss with rationale, resolve all threads
+  status: todo
+  depends_on: [S4K-Q03]
+
+- id: S4K-T07
+  description: Finalize merge-ready stage closure and sync TODO statuses
+  status: todo
+  depends_on: [S4K-Q04]
+
+Notes:
+
+- S4K target in this iteration: close the full `missing` bucket by mapping and implementing all currently unresolved names (server + peer) with jump-table-backed evidence and typed/opaque payload handling in `rust/protocol`.
+- Runtime captures are best-effort for this batch; static evidence remains authoritative where runtime is not yet reachable.
+- Commit signing configuration check passed before first push (`commit.gpgsign=true`, `gpg.format=ssh`, `user.signingkey=/Users/void_rsk/.ssh/nss_signing_ed25519.pub`).
+- Validation gates passed:
+  - `python3 scripts/kb_validate.py`
+  - `scripts/run_diff_verify.sh`
+  - `scripts/run_regression.sh`
+  - `./.venv-tools/bin/zensical build -f zensical.toml`
+- Protocol matrix snapshot after S4K: tracked `131`, implemented+mapped `91`, mapped-not-implemented `40`, missing `0`.

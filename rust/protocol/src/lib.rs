@@ -6,6 +6,8 @@ use thiserror::Error;
 pub const CODE_SM_LOGIN: u32 = 1;
 pub const CODE_SM_SET_WAIT_PORT: u32 = 2;
 pub const CODE_SM_GET_PEER_ADDRESS: u32 = 3;
+pub const CODE_SM_ADD_USER: u32 = 5;
+pub const CODE_SM_REMOVE_USER: u32 = 6;
 pub const CODE_SM_GET_USER_STATUS: u32 = 7;
 pub const CODE_SM_IGNORE_USER: u32 = 11;
 pub const CODE_SM_UNIGNORE_USER: u32 = 12;
@@ -18,6 +20,7 @@ pub const CODE_SM_CONNECT_TO_PEER: u32 = 18;
 pub const CODE_SM_MESSAGE_USER: u32 = 22;
 pub const CODE_SM_MESSAGE_ACKED: u32 = 23;
 pub const CODE_SM_FILE_SEARCH: u32 = 26;
+pub const CODE_SM_SEND_CONNECT_TOKEN: u32 = 33;
 pub const CODE_SM_ROOM_LIST: u32 = 64;
 pub const CODE_SM_FILE_SEARCH_RESPONSE: u32 = CODE_SM_ROOM_LIST;
 pub const CODE_SM_PRIVILEGED_LIST: u32 = 69;
@@ -30,8 +33,13 @@ pub const CODE_SM_GET_RECOMMENDATIONS: u32 = 54;
 pub const CODE_SM_GET_MY_RECOMMENDATIONS: u32 = 55;
 pub const CODE_SM_GET_GLOBAL_RECOMMENDATIONS: u32 = 56;
 pub const CODE_SM_GET_USER_RECOMMENDATIONS: u32 = 57;
+pub const CODE_SM_PLACE_IN_LINE: u32 = 59;
+pub const CODE_SM_PLACE_IN_LINE_RESPONSE: u32 = 60;
 pub const CODE_SM_EXACT_FILE_SEARCH: u32 = 65;
+pub const CODE_SM_ADD_PRIVILEGED_USER: u32 = 91;
 pub const CODE_SM_GET_OWN_PRIVILEGES_STATUS: u32 = 92;
+pub const CODE_SM_LOW_PRIORITY_FILE_SEARCH: u32 = 103;
+pub const CODE_SM_WISHLIST_WAIT: u32 = 104;
 pub const CODE_SM_GET_RECOMMENDED_USERS: u32 = 110;
 pub const CODE_SM_GET_TERM_RECOMMENDATIONS: u32 = 111;
 pub const CODE_SM_GET_RECOMMENDATION_USERS: u32 = 112;
@@ -40,18 +48,30 @@ pub const CODE_SM_GET_USER_PRIVILEGES_STATUS: u32 = 122;
 pub const CODE_SM_GIVE_PRIVILEGE: u32 = 123;
 pub const CODE_SM_INFORM_USER_OF_PRIVILEGES: u32 = 124;
 pub const CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK: u32 = 125;
+pub const CODE_SM_DNET_LEVEL: u32 = 126;
+pub const CODE_SM_DNET_GROUP_LEADER: u32 = 127;
+pub const CODE_SM_DNET_DELIVERY_REPORT: u32 = 128;
+pub const CODE_SM_DNET_CHILD_DEPTH: u32 = 129;
 pub const CODE_SM_UPLOAD_SPEED: u32 = 121;
+pub const CODE_SM_FLOOD: u32 = 131;
 pub const CODE_SM_BAN_USER: u32 = 132;
 pub const CODE_SM_ADD_ROOM_MEMBER: u32 = 134;
 pub const CODE_SM_REMOVE_ROOM_MEMBER: u32 = 135;
 pub const CODE_SM_ADD_ROOM_OPERATOR: u32 = 143;
 pub const CODE_SM_REMOVE_ROOM_OPERATOR: u32 = 144;
+pub const CODE_SM_REMOVE_ROOM_OPERATORSHIP: u32 = 146;
+pub const CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP: u32 = 147;
 pub const CODE_SM_ROOM_MEMBERS: u32 = 133;
 pub const CODE_SM_ROOM_OPERATORS: u32 = 148;
 pub const CODE_SM_MESSAGE_USERS: u32 = 149;
+pub const CODE_SM_JOIN_GLOBAL_ROOM: u32 = 150;
+pub const CODE_SM_LEAVE_GLOBAL_ROOM: u32 = 151;
+pub const CODE_SM_SAY_GLOBAL_ROOM: u32 = 152;
+pub const CODE_SM_SEARCH_CORRELATIONS: u32 = 153;
 pub const CODE_SM_PEER_MESSAGE: u32 = 68;
 pub const CODE_SM_PEER_MESSAGE_ALT: u32 = 292;
 
+pub const CODE_PM_SAY: u32 = 1;
 pub const CODE_PM_GET_SHARED_FILE_LIST: u32 = 4;
 pub const CODE_PM_SHARED_FILE_LIST: u32 = 5;
 pub const CODE_PM_FILE_SEARCH_REQUEST: u32 = 8;
@@ -60,11 +80,13 @@ pub const CODE_PM_INVITE_USER_TO_ROOM: u32 = 10;
 pub const CODE_PM_CANCELLED_QUEUED_TRANSFER: u32 = 14;
 pub const CODE_PM_USER_INFO_REQUEST: u32 = 15;
 pub const CODE_PM_USER_INFO_REPLY: u32 = 16;
+pub const CODE_PM_SEND_CONNECT_TOKEN: u32 = 33;
 pub const CODE_PM_MOVE_DOWNLOAD_TO_TOP: u32 = 34;
 pub const CODE_PM_GET_SHARED_FILES_IN_FOLDER: u32 = 36;
 pub const CODE_PM_SHARED_FILES_IN_FOLDER: u32 = 37;
 pub const CODE_PM_TRANSFER_REQUEST: u32 = 40;
 pub const CODE_PM_TRANSFER_RESPONSE: u32 = 41;
+pub const CODE_PM_PLACEHOLD_UPLOAD: u32 = 42;
 pub const CODE_PM_QUEUE_UPLOAD: u32 = 43;
 pub const CODE_PM_UPLOAD_PLACE_IN_LINE: u32 = 44;
 pub const CODE_PM_EXACT_FILE_SEARCH_REQUEST: u32 = 47;
@@ -73,6 +95,7 @@ pub const CODE_PM_INDIRECT_FILE_SEARCH_REQUEST: u32 = 49;
 pub const CODE_PM_UPLOAD_FAILED: u32 = 46;
 pub const CODE_PM_UPLOAD_DENIED: u32 = 50;
 pub const CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST: u32 = 51;
+pub const CODE_PM_NOTHING: u32 = 52;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Frame {
@@ -247,6 +270,11 @@ impl<'a> PayloadReader<'a> {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct EmptyPayload;
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct OpaquePayload {
+    pub bytes: Vec<u8>,
+}
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LoginRequestPayload {
@@ -728,6 +756,8 @@ pub enum ServerMessage {
     SetWaitPort(SetWaitPortPayload),
     GetPeerAddress(UserLookupPayload),
     GetPeerAddressResponse(PeerAddressResponsePayload),
+    AddUser(UserLookupPayload),
+    RemoveUser(UserLookupPayload),
     IgnoreUser(UserLookupPayload),
     UnignoreUser(UserLookupPayload),
     SayChatRoom(SayChatRoomPayload),
@@ -739,9 +769,14 @@ pub enum ServerMessage {
     ConnectToPeerResponse(ConnectToPeerResponsePayload),
     ConnectToPeer(ConnectToPeerPayload),
     FileSearch(FileSearchPayload),
+    LowPriorityFileSearch(FileSearchPayload),
+    SendConnectToken(OpaquePayload),
+    PlaceInLine(OpaquePayload),
+    PlaceInLineResponse(OpaquePayload),
     RoomList(RoomListPayload),
     FileSearchResponseSummary(SearchResponseSummary),
     PrivilegedList(PrivilegedListPayload),
+    AddPrivilegedUser(UserLookupPayload),
     SearchRoom(SearchRoomPayload),
     ExactFileSearch(ExactFileSearchPayload),
     SearchUserFiles(SearchUserFilesPayload),
@@ -756,6 +791,7 @@ pub enum ServerMessage {
     GetGlobalRecommendationsResponse(RecommendationsPayload),
     GetOwnPrivilegesStatus(EmptyPayload),
     OwnPrivilegesStatus(OwnPrivilegesStatusPayload),
+    WishlistWait(OpaquePayload),
     GetUserPrivilegesStatus(UserLookupPayload),
     UserPrivilegesStatus(UserPrivilegesStatusPayload),
     GivePrivilege(GivePrivilegePayload),
@@ -773,8 +809,19 @@ pub enum ServerMessage {
     RemoveRoomMember(RoomModerationPayload),
     AddRoomOperator(RoomModerationPayload),
     RemoveRoomOperator(RoomModerationPayload),
+    RemoveRoomOperatorship(OpaquePayload),
+    RemoveOwnRoomOperatorship(OpaquePayload),
     RoomMembers(RoomMembersPayload),
     RoomOperators(RoomOperatorsPayload),
+    JoinGlobalRoom(OpaquePayload),
+    LeaveGlobalRoom(OpaquePayload),
+    SayGlobalRoom(OpaquePayload),
+    SearchCorrelations(OpaquePayload),
+    DnetLevel(OpaquePayload),
+    DnetGroupLeader(OpaquePayload),
+    DnetDeliveryReport(OpaquePayload),
+    DnetChildDepth(OpaquePayload),
+    Flood(OpaquePayload),
     MessageUserIncoming(MessageUserIncomingPayload),
     MessageUser(MessageUserPayload),
     MessageAcked(MessageAckedPayload),
@@ -791,6 +838,7 @@ pub enum ServerMessage {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum PeerMessage {
+    Say(OpaquePayload),
     GetSharedFileList(UserLookupPayload),
     SharedFileList(SharedFileListPayload),
     GetSharedFilesInFolder(SharedFilesInFolderRequestPayload),
@@ -801,9 +849,11 @@ pub enum PeerMessage {
     CancelledQueuedTransfer(PeerVirtualPathPayload),
     UserInfoRequest(UserInfoRequestPayload),
     UserInfoReply(UserInfoReplyPayload),
+    SendConnectToken(OpaquePayload),
     MoveDownloadToTop(PeerVirtualPathPayload),
     TransferRequest(TransferRequestPayload),
     TransferResponse(TransferResponsePayload),
+    PlaceholderUpload(OpaquePayload),
     QueueUpload(QueueUploadPayload),
     UploadPlaceInLine(UploadPlaceInLinePayload),
     ExactFileSearchRequest(PeerSearchQueryPayload),
@@ -812,6 +862,7 @@ pub enum PeerMessage {
     UploadFailed(UploadStatusPayload),
     UploadDenied(UploadStatusPayload),
     UploadPlaceInLineRequest(UploadPlaceInLineRequestPayload),
+    Nothing(OpaquePayload),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -921,6 +972,14 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_raw_bytes(&payload.obfuscated_port.to_le_bytes());
             CODE_SM_GET_PEER_ADDRESS
         }
+        ServerMessage::AddUser(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_ADD_USER
+        }
+        ServerMessage::RemoveUser(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_REMOVE_USER
+        }
         ServerMessage::IgnoreUser(payload) => {
             writer.write_string(&payload.username);
             CODE_SM_IGNORE_USER
@@ -992,6 +1051,23 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.search_text);
             CODE_SM_FILE_SEARCH
         }
+        ServerMessage::LowPriorityFileSearch(payload) => {
+            writer.write_u32(payload.search_token);
+            writer.write_string(&payload.search_text);
+            CODE_SM_LOW_PRIORITY_FILE_SEARCH
+        }
+        ServerMessage::SendConnectToken(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_SEND_CONNECT_TOKEN
+        }
+        ServerMessage::PlaceInLine(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_PLACE_IN_LINE
+        }
+        ServerMessage::PlaceInLineResponse(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_PLACE_IN_LINE_RESPONSE
+        }
         ServerMessage::RoomList(payload) => {
             writer.write_u32(payload.room_count);
             for room in &payload.rooms {
@@ -1005,6 +1081,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
                 writer.write_string(user);
             }
             CODE_SM_PRIVILEGED_LIST
+        }
+        ServerMessage::AddPrivilegedUser(payload) => {
+            writer.write_string(&payload.username);
+            CODE_SM_ADD_PRIVILEGED_USER
         }
         ServerMessage::FileSearchResponseSummary(payload) => {
             writer.write_string(&payload.username);
@@ -1071,6 +1151,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
         ServerMessage::OwnPrivilegesStatus(payload) => {
             writer.write_u32(payload.time_left_seconds);
             CODE_SM_GET_OWN_PRIVILEGES_STATUS
+        }
+        ServerMessage::WishlistWait(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_WISHLIST_WAIT
         }
         ServerMessage::GetUserPrivilegesStatus(payload) => {
             writer.write_string(&payload.username);
@@ -1159,6 +1243,14 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.username);
             CODE_SM_REMOVE_ROOM_OPERATOR
         }
+        ServerMessage::RemoveRoomOperatorship(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_REMOVE_ROOM_OPERATORSHIP
+        }
+        ServerMessage::RemoveOwnRoomOperatorship(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP
+        }
         ServerMessage::RoomMembers(payload) => {
             writer.write_string(&payload.room);
             if !payload.users.is_empty() {
@@ -1178,6 +1270,42 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
                 }
             }
             CODE_SM_ROOM_OPERATORS
+        }
+        ServerMessage::JoinGlobalRoom(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_JOIN_GLOBAL_ROOM
+        }
+        ServerMessage::LeaveGlobalRoom(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_LEAVE_GLOBAL_ROOM
+        }
+        ServerMessage::SayGlobalRoom(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_SAY_GLOBAL_ROOM
+        }
+        ServerMessage::SearchCorrelations(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_SEARCH_CORRELATIONS
+        }
+        ServerMessage::DnetLevel(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_DNET_LEVEL
+        }
+        ServerMessage::DnetGroupLeader(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_DNET_GROUP_LEADER
+        }
+        ServerMessage::DnetDeliveryReport(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_DNET_DELIVERY_REPORT
+        }
+        ServerMessage::DnetChildDepth(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_DNET_CHILD_DEPTH
+        }
+        ServerMessage::Flood(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_SM_FLOOD
         }
         ServerMessage::MessageUserIncoming(payload) => {
             writer.write_u32(payload.message_id);
@@ -1294,6 +1422,18 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                 ServerMessage::GetPeerAddressResponse(parse_peer_address_response_payload(payload)?)
             }
         }
+        CODE_SM_ADD_USER => {
+            let payload = UserLookupPayload {
+                username: reader.read_string()?,
+            };
+            ServerMessage::AddUser(payload)
+        }
+        CODE_SM_REMOVE_USER => {
+            let payload = UserLookupPayload {
+                username: reader.read_string()?,
+            };
+            ServerMessage::RemoveUser(payload)
+        }
         CODE_SM_IGNORE_USER => {
             let payload = UserLookupPayload {
                 username: reader.read_string()?,
@@ -1345,9 +1485,40 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::FileSearch(payload)
         }
+        CODE_SM_LOW_PRIORITY_FILE_SEARCH => {
+            let payload = FileSearchPayload {
+                search_token: reader.read_u32()?,
+                search_text: reader.read_string()?,
+            };
+            ServerMessage::LowPriorityFileSearch(payload)
+        }
+        CODE_SM_SEND_CONNECT_TOKEN => {
+            allow_trailing_bytes = true;
+            ServerMessage::SendConnectToken(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_PLACE_IN_LINE => {
+            allow_trailing_bytes = true;
+            ServerMessage::PlaceInLine(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_PLACE_IN_LINE_RESPONSE => {
+            allow_trailing_bytes = true;
+            ServerMessage::PlaceInLineResponse(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
         CODE_SM_PRIVILEGED_LIST => {
             allow_trailing_bytes = true;
             ServerMessage::PrivilegedList(parse_privileged_list_payload(payload)?)
+        }
+        CODE_SM_ADD_PRIVILEGED_USER => {
+            let payload = UserLookupPayload {
+                username: reader.read_string()?,
+            };
+            ServerMessage::AddPrivilegedUser(payload)
         }
         CODE_SM_SEARCH_ROOM => {
             let payload = SearchRoomPayload {
@@ -1447,6 +1618,12 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                 ServerMessage::OwnPrivilegesStatus(parse_own_privileges_status_payload(payload)?)
             }
         }
+        CODE_SM_WISHLIST_WAIT => {
+            allow_trailing_bytes = true;
+            ServerMessage::WishlistWait(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
         CODE_SM_GET_USER_PRIVILEGES_STATUS => {
             allow_trailing_bytes = true;
             if let Ok(request) = parse_user_lookup_payload(payload) {
@@ -1501,6 +1678,18 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             allow_trailing_bytes = true;
             ServerMessage::RemoveRoomOperator(parse_room_moderation_payload(payload)?)
         }
+        CODE_SM_REMOVE_ROOM_OPERATORSHIP => {
+            allow_trailing_bytes = true;
+            ServerMessage::RemoveRoomOperatorship(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP => {
+            allow_trailing_bytes = true;
+            ServerMessage::RemoveOwnRoomOperatorship(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
         CODE_SM_ROOM_MEMBERS => {
             allow_trailing_bytes = true;
             ServerMessage::RoomMembers(parse_room_members_payload(payload)?)
@@ -1508,6 +1697,30 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         CODE_SM_ROOM_OPERATORS => {
             allow_trailing_bytes = true;
             ServerMessage::RoomOperators(parse_room_operators_payload(payload)?)
+        }
+        CODE_SM_JOIN_GLOBAL_ROOM => {
+            allow_trailing_bytes = true;
+            ServerMessage::JoinGlobalRoom(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_LEAVE_GLOBAL_ROOM => {
+            allow_trailing_bytes = true;
+            ServerMessage::LeaveGlobalRoom(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_SAY_GLOBAL_ROOM => {
+            allow_trailing_bytes = true;
+            ServerMessage::SayGlobalRoom(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_SEARCH_CORRELATIONS => {
+            allow_trailing_bytes = true;
+            ServerMessage::SearchCorrelations(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
         }
         CODE_SM_MESSAGE_USER => {
             allow_trailing_bytes = true;
@@ -1566,6 +1779,36 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                 bytes_per_sec: reader.read_u32()?,
             };
             ServerMessage::UploadSpeed(payload)
+        }
+        CODE_SM_DNET_LEVEL => {
+            allow_trailing_bytes = true;
+            ServerMessage::DnetLevel(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_DNET_GROUP_LEADER => {
+            allow_trailing_bytes = true;
+            ServerMessage::DnetGroupLeader(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_DNET_DELIVERY_REPORT => {
+            allow_trailing_bytes = true;
+            ServerMessage::DnetDeliveryReport(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_DNET_CHILD_DEPTH => {
+            allow_trailing_bytes = true;
+            ServerMessage::DnetChildDepth(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        CODE_SM_FLOOD => {
+            allow_trailing_bytes = true;
+            ServerMessage::Flood(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
         }
         other => bail!("unsupported server message code {other}"),
     };
@@ -2329,6 +2572,10 @@ fn parse_queued_downloads_payload(payload: &[u8]) -> Result<PeerQueuedDownloadsP
 pub fn encode_peer_message(message: &PeerMessage) -> Frame {
     let mut writer = PayloadWriter::new();
     let code = match message {
+        PeerMessage::Say(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_PM_SAY
+        }
         PeerMessage::GetSharedFileList(payload) => {
             writer.write_string(&payload.username);
             CODE_PM_GET_SHARED_FILE_LIST
@@ -2384,6 +2631,10 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             }
             CODE_PM_USER_INFO_REPLY
         }
+        PeerMessage::SendConnectToken(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_PM_SEND_CONNECT_TOKEN
+        }
         PeerMessage::TransferRequest(payload) => {
             writer.write_u32(payload.direction.as_u32());
             writer.write_u32(payload.token);
@@ -2396,6 +2647,10 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_bool_u32(payload.allowed);
             writer.write_string(&payload.queue_or_reason);
             CODE_PM_TRANSFER_RESPONSE
+        }
+        PeerMessage::PlaceholderUpload(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_PM_PLACEHOLD_UPLOAD
         }
         PeerMessage::QueueUpload(payload) => {
             writer.write_string(&payload.username);
@@ -2449,6 +2704,10 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_string(&payload.virtual_path);
             CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST
         }
+        PeerMessage::Nothing(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            CODE_PM_NOTHING
+        }
     };
 
     Frame::new(code, writer.into_inner())
@@ -2459,6 +2718,12 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
     let mut allow_trailing_bytes = false;
 
     let message = match code {
+        CODE_PM_SAY => {
+            allow_trailing_bytes = true;
+            PeerMessage::Say(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
         CODE_PM_GET_SHARED_FILE_LIST => {
             let payload = UserLookupPayload {
                 username: reader.read_string()?,
@@ -2521,6 +2786,12 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             allow_trailing_bytes = true;
             PeerMessage::UserInfoReply(parse_user_info_reply_payload(payload)?)
         }
+        CODE_PM_SEND_CONNECT_TOKEN => {
+            allow_trailing_bytes = true;
+            PeerMessage::SendConnectToken(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
         CODE_PM_TRANSFER_REQUEST => {
             let direction = TransferDirection::from_u32(reader.read_u32()?)?;
             let payload = TransferRequestPayload {
@@ -2538,6 +2809,12 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
                 queue_or_reason: reader.read_string()?,
             };
             PeerMessage::TransferResponse(payload)
+        }
+        CODE_PM_PLACEHOLD_UPLOAD => {
+            allow_trailing_bytes = true;
+            PeerMessage::PlaceholderUpload(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
         }
         CODE_PM_QUEUE_UPLOAD => {
             let payload = QueueUploadPayload {
@@ -2593,6 +2870,12 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
                 virtual_path: reader.read_string()?,
             };
             PeerMessage::UploadPlaceInLineRequest(payload)
+        }
+        CODE_PM_NOTHING => {
+            allow_trailing_bytes = true;
+            PeerMessage::Nothing(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
         }
         other => bail!("unsupported peer message code {other}"),
     };
@@ -3312,6 +3595,67 @@ mod tests {
             ProtocolMessage::Server(ServerMessage::UploadSpeed(SpeedPayload {
                 bytes_per_sec: 1024,
             })),
+            ProtocolMessage::Server(ServerMessage::AddUser(UserLookupPayload {
+                username: "new-user".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveUser(UserLookupPayload {
+                username: "old-user".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::LowPriorityFileSearch(FileSearchPayload {
+                search_token: 99,
+                search_text: "wishlist ambient".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::SendConnectToken(OpaquePayload {
+                bytes: vec![0x10, 0x20, 0x30, 0x40],
+            })),
+            ProtocolMessage::Server(ServerMessage::PlaceInLine(OpaquePayload {
+                bytes: vec![0xaa, 0xbb, 0xcc],
+            })),
+            ProtocolMessage::Server(ServerMessage::PlaceInLineResponse(OpaquePayload {
+                bytes: vec![0xde, 0xad, 0xbe, 0xef],
+            })),
+            ProtocolMessage::Server(ServerMessage::AddPrivilegedUser(UserLookupPayload {
+                username: "vip-user".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::WishlistWait(OpaquePayload {
+                bytes: vec![0x3c, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::DnetLevel(OpaquePayload {
+                bytes: vec![0x01, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::DnetGroupLeader(OpaquePayload {
+                bytes: vec![0x02, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::DnetDeliveryReport(OpaquePayload {
+                bytes: vec![0x03, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::DnetChildDepth(OpaquePayload {
+                bytes: vec![0x04, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::Flood(OpaquePayload {
+                bytes: vec![0x05, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveRoomOperatorship(OpaquePayload {
+                bytes: vec![0x06, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveOwnRoomOperatorship(OpaquePayload {
+                bytes: vec![0x07, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::JoinGlobalRoom(OpaquePayload {
+                bytes: vec![0x08, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::LeaveGlobalRoom(OpaquePayload {
+                bytes: vec![0x09, 0x00, 0x00, 0x00],
+            })),
+            ProtocolMessage::Server(ServerMessage::SayGlobalRoom(OpaquePayload {
+                bytes: b"global hello".to_vec(),
+            })),
+            ProtocolMessage::Server(ServerMessage::SearchCorrelations(OpaquePayload {
+                bytes: b"ambient".to_vec(),
+            })),
+            ProtocolMessage::Peer(PeerMessage::Say(OpaquePayload {
+                bytes: b"peer say".to_vec(),
+            })),
             ProtocolMessage::Peer(PeerMessage::GetSharedFileList(UserLookupPayload {
                 username: "alice".into(),
             })),
@@ -3365,6 +3709,9 @@ mod tests {
                 slots_free: true,
                 upload_permissions: Some(1),
             })),
+            ProtocolMessage::Peer(PeerMessage::SendConnectToken(OpaquePayload {
+                bytes: vec![0x33, 0x44, 0x55],
+            })),
             ProtocolMessage::Peer(PeerMessage::TransferRequest(TransferRequestPayload {
                 direction: TransferDirection::Download,
                 token: 555,
@@ -3375,6 +3722,9 @@ mod tests {
                 token: 555,
                 allowed: true,
                 queue_or_reason: String::new(),
+            })),
+            ProtocolMessage::Peer(PeerMessage::PlaceholderUpload(OpaquePayload {
+                bytes: vec![0x42, 0x42, 0x42],
             })),
             ProtocolMessage::Peer(PeerMessage::QueueUpload(QueueUploadPayload {
                 username: "alice".into(),
@@ -3418,6 +3768,9 @@ mod tests {
                     virtual_path: "Music\\queued.flac".into(),
                 },
             )),
+            ProtocolMessage::Peer(PeerMessage::Nothing(OpaquePayload {
+                bytes: vec![0x00, 0x01],
+            })),
         ]
     }
 

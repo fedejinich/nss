@@ -2,7 +2,7 @@
 
 ## Date
 
-- 2026-02-14
+- 2026-02-15
 
 ## Current Phase
 
@@ -20,7 +20,42 @@
 - Stage 4H complete: global room/system control mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4I complete: ticker/term control mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4J complete: private-room ownership/membership mapping continuation with authoritative jump-table evidence (mapping-first expansion).
+- Stage 4K complete: missing-code closure and protocol implementation for global/distributed tail + peer control with authoritative jump-table evidence.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Stage 4K Completion
+
+1. Closed the full `missing` bucket by mapping and implementing `24` unresolved names/codes (`23` previously missing + `SM_PEER_MESSAGE_ALT` map closure):
+   - `SM_ADD_USER`
+   - `SM_REMOVE_USER`
+   - `SM_SEND_CONNECT_TOKEN`
+   - `SM_PLACE_IN_LINE`
+   - `SM_PLACE_IN_LINE_RESPONSE`
+   - `SM_ADD_PRIVILEGED_USER`
+   - `SM_LOW_PRIORITY_FILE_SEARCH`
+   - `SM_WISHLIST_WAIT`
+   - `SM_DNET_LEVEL`
+   - `SM_DNET_GROUP_LEADER`
+   - `SM_DNET_DELIVERY_REPORT`
+   - `SM_DNET_CHILD_DEPTH`
+   - `SM_FLOOD`
+   - `SM_REMOVE_ROOM_OPERATORSHIP`
+   - `SM_REMOVE_OWN_ROOM_OPERATORSHIP`
+   - `SM_JOIN_GLOBAL_ROOM`
+   - `SM_LEAVE_GLOBAL_ROOM`
+   - `SM_SAY_GLOBAL_ROOM`
+   - `SM_SEARCH_CORRELATIONS`
+   - `SM_PEER_MESSAGE_ALT`
+   - `PM_SAY`
+   - `PM_SEND_CONNECT_TOKEN`
+   - `PM_PLACEHOLD_UPLOAD`
+   - `PM_NOTHING`
+2. Extended `rust/protocol` with S4K constants and codec coverage:
+   - typed `UserLookupPayload` support for `SM_ADD_USER`, `SM_REMOVE_USER`, and `SM_ADD_PRIVILEGED_USER`
+   - typed `FileSearchPayload` support for `SM_LOW_PRIORITY_FILE_SEARCH`
+   - `OpaquePayload`-based encode/decode support for unresolved runtime-shape messages
+3. Regenerated authoritative schema/docs/matrix from updated maps and protocol constants.
+4. Raised matrix coverage to zero-missing baseline while preserving explicit `mapped_not_implemented` separation for remaining typed follow-up work.
 
 ## Stage 4J Completion
 
@@ -165,10 +200,11 @@
 - `docs/pr/0012-s4h-global-system-control-map.md`
 - `docs/pr/0013-s4i-ticker-term-control-map.md`
 - `docs/pr/0014-s4j-private-room-ownership-map.md`
+- `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md`
 
 ## Operational Notes
 
 - Stage 2 core contract remains intact (`25/25`, `high=25`, `medium=0`, `low=0`).
-- Total mapped protocol rows: `107`.
-- Protocol matrix snapshot: tracked `131`, implemented+mapped `67`, mapped-not-implemented `40`, missing `23`.
+- Total mapped protocol rows: `131`.
+- Protocol matrix snapshot: tracked `131`, implemented+mapped `91`, mapped-not-implemented `40`, missing `0`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.
