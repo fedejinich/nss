@@ -1230,27 +1230,27 @@ Tasks:
 
 - id: S4K-Q01
   description: Open S4K PR and request first `@codex review`
-  status: todo
+  status: done
   depends_on: [S4K-R01]
 
 - id: S4K-Q02
   description: Triage first review, apply useful fixes, dismiss non-useful comments with rationale, resolve threads
-  status: todo
+  status: done
   depends_on: [S4K-Q01]
 
 - id: S4K-Q03
   description: Request second `@codex review` after pushing round-one updates
-  status: todo
+  status: done
   depends_on: [S4K-Q02]
 
 - id: S4K-Q04
   description: Triage second review, apply or dismiss with rationale, resolve all threads
-  status: todo
+  status: done
   depends_on: [S4K-Q03]
 
 - id: S4K-T07
   description: Finalize merge-ready stage closure and sync TODO statuses
-  status: todo
+  status: done
   depends_on: [S4K-Q04]
 
 Notes:
@@ -1264,3 +1264,4 @@ Notes:
   - `scripts/run_regression.sh`
   - `./.venv-tools/bin/zensical build -f zensical.toml`
 - Protocol matrix snapshot after S4K: tracked `131`, implemented+mapped `91`, mapped-not-implemented `40`, missing `0`.
+- Review-loop gate completed on PR #14 with two `@codex review` requests; connector returned usage-limit notices and no actionable findings in both rounds.

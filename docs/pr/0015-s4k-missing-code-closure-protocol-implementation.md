@@ -70,8 +70,8 @@ scripts/run_regression.sh
 
 ## Review Loop
 
-1. Round 1 `@codex review`: pending.
-2. Round 2 `@codex review`: pending.
+1. Round 1 `@codex review`: completed. Connector returned usage-limit notice with no actionable findings.
+2. Round 2 `@codex review`: completed. Connector returned usage-limit notice with no actionable findings.
 
 ## Maintainability Notes
 
