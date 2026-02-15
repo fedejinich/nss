@@ -1501,6 +1501,7 @@ Notes:
   - `scripts/run_diff_verify.sh`
   - `scripts/run_regression.sh`
   - `./.venv-tools/bin/zensical build -f zensical.toml`
+- PR opened: `https://github.com/fedejinich/nss/pull/17`.
 
 ## Stage 5B - Soulseek UI + functionality exhaustive audit (worktree isolated)
 
