@@ -1595,27 +1595,27 @@ Tasks:
 
 - id: S5C-Q01
   description: Open S5C PR and complete local review loop round 1 (security + code-simplifier notes)
-  status: todo
+  status: done
   depends_on: [S5C-R01]
 
 - id: S5C-Q02
   description: Triage round-1 findings, apply useful changes, and document rationale for rejected suggestions
-  status: todo
+  status: done
   depends_on: [S5C-Q01]
 
 - id: S5C-Q03
   description: Complete local review loop round 2 after pushing round-1 updates
-  status: todo
+  status: done
   depends_on: [S5C-Q02]
 
 - id: S5C-Q04
   description: Triage round-2 findings, apply/dismiss with rationale, and finalize review notes
-  status: todo
+  status: done
   depends_on: [S5C-Q03]
 
 - id: S5C-T09
   description: Finalize merge-ready S5C closure and sync TODO statuses
-  status: todo
+  status: done
   depends_on: [S5C-Q04]
 
 Notes:
@@ -1634,6 +1634,8 @@ Notes:
   - `scripts/run_diff_verify.sh`
   - `scripts/run_regression.sh`
   - `./.venv-tools/bin/zensical build -f zensical.toml`
+- PR opened: `https://github.com/fedejinich/nss/pull/18`.
+- PR merged to `main`: `https://github.com/fedejinich/nss/pull/18` (`merge commit b3796fe`).
 
 ## Stage 5B - Soulseek UI + functionality exhaustive audit (worktree isolated)
 
