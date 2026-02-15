@@ -48,8 +48,9 @@ gantt
     S6B S5A closure hardening audit + regression gate :done, s6b, after s6a, 1d
     S6C Opaque-tail executable baseline + batch plan :done, s6c, after s6b, 1d
     S6D Opaque-tail typed batches execution :done, s6d, after s6c, 2d
+    S6E Legacy dedicated opaque-variant reduction :done, s6e, after s6d, 2d
     section Planned
-    S6E Legacy dedicated opaque-variant reduction :crit, s6e, after s6d, 2d
+    S6F Dedicated residual semantic closure (128/131) :crit, s6f, after s6e, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -152,6 +153,7 @@ graph TD
 | S6B | executable closure gate for S5A hardening objectives | done | `docs/pr/0021-s6b-s5a-closure-hardening-audit.md` | start S6 opaque-tail reduction |
 | S6C | opaque-tail executable inventory and batch plan baseline | done | `docs/pr/0022-s6c-opaque-tail-baseline-plan.md` | start S6 opaque-tail reduction |
 | S6D | opaque-tail typed batches execution (S6-Batch-1/2/3) | done | `docs/pr/0023-s6d-opaque-tail-typed-batches.md` | start S6E dedicated-opaque cleanup |
+| S6E | dedicated legacy opaque-variant reduction | done | `docs/pr/0024-s6e-legacy-opaque-reduction.md` | start S6F residual semantic closure |
 
 ## S4B Target Contract
 
@@ -271,10 +273,10 @@ Execution result:
 2. `OPAQUE_SERVER_CONTROL_CODES` generic closure is now `0`.
 3. Protocol matrix closure remains preserved (`implemented+mapped=131`) with semantic diff parity intact.
 
-## S6E Preview (Planned)
+## S6F Preview (Planned)
 
-1. Revisit dedicated legacy opaque variants (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, distributed/flood tail) for runtime-backed schema promotion.
-2. Keep matrix closure (`implemented+mapped=131`) and semantic parity gates green while reducing remaining legacy opaque branches.
+1. Close remaining dedicated residual semantics for `SM_DNET_DELIVERY_REPORT` (`128`) and `SM_FLOOD` (`131`) with stronger runtime/static evidence.
+2. Keep matrix closure (`implemented+mapped=131`) and semantic parity gates green while removing the last dedicated opaque ambiguity.
 
 ## S5B Target Contract (Executed)
 

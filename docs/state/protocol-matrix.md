@@ -4,7 +4,7 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-15T09:17:02+00:00`
+- Generated at: `2026-02-15T15:01:23+00:00`
 - Total messages tracked: `131`
 - Server messages: `106`
 - Peer messages: `25`
@@ -126,12 +126,12 @@ Status legend:
 | server | 123 | `SM_GIVE_PRIVILEGE` | `implemented_mapped` | high | Authenticated runtime flow sends give-privilege request (code 123) with username+days payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 124 | `SM_INFORM_USER_OF_PRIVILEGES` | `implemented_mapped` | high | Authenticated runtime flow sends notify-privileges request (code 124) with token+username payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 125 | `SM_INFORM_USER_OF_PRIVILEGES_ACK` | `implemented_mapped` | high | Authenticated runtime flow sends notify-privileges ack (code 125) with token payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
-| server | 126 | `SM_DNET_LEVEL` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 126 to SM_DNET_LEVEL (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
-| server | 127 | `SM_DNET_GROUP_LEADER` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 127 to SM_DNET_GROUP_LEADER (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
-| server | 128 | `SM_DNET_DELIVERY_REPORT` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 128 to SM_DNET_DELIVERY_REPORT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
-| server | 129 | `SM_DNET_CHILD_DEPTH` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 129 to SM_DNET_CHILD_DEPTH (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 126 | `SM_DNET_LEVEL` | `implemented_mapped` | high | S6E runtime+spec evidence confirms BranchLevel layout on code 126 (u32 level with optional residual tail). | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
+| server | 127 | `SM_DNET_GROUP_LEADER` | `implemented_mapped` | high | S6E runtime+spec evidence confirms BranchRoot layout on code 127 (string root username with optional residual tail). | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
+| server | 128 | `SM_DNET_DELIVERY_REPORT` | `implemented_mapped` | high | S6E runtime probe confirms active code 128 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque. | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
+| server | 129 | `SM_DNET_CHILD_DEPTH` | `implemented_mapped` | high | S6E runtime+spec evidence confirms ChildDepth layout on code 129 (u32 depth with optional residual tail). | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
 | server | 130 | `SM_DNET_RESET` | `implemented_mapped` | high | Authenticated runtime flow sends dnet-reset control frame (code 130) with u32 reason payload. | `captures/redacted/login-system-control/official_frames.hex` |
-| server | 131 | `SM_FLOOD` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 131 to SM_FLOOD (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 131 | `SM_FLOOD` | `implemented_mapped` | high | S6E runtime probe confirms active code 131 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque. | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
 | server | 132 | `SM_BAN_USER` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 132 to SM_BAN_USER (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 133 | `SM_ROOM_MEMBERS` | `implemented_mapped` | high | Observed runtime room-members request flow in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 134 | `SM_ADD_ROOM_MEMBER` | `implemented_mapped` | high | Server code 134 AddUserToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
@@ -146,8 +146,8 @@ Status legend:
 | server | 143 | `SM_ADD_ROOM_OPERATOR` | `implemented_mapped` | high | Server code 143 AddOperatorToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
 | server | 144 | `SM_REMOVE_ROOM_OPERATOR` | `implemented_mapped` | high | Server code 144 RemoveOperatorFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |
 | server | 145 | `SM_ADD_ROOM_OPERATORSHIP` | `implemented_mapped` | high | Authenticated runtime flow sends add-room-operatorship control frame (code 145) with room string payload. | `captures/redacted/login-private-room-membership-control/official_frames.hex` |
-| server | 146 | `SM_REMOVE_ROOM_OPERATORSHIP` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 146 to SM_REMOVE_ROOM_OPERATORSHIP (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
-| server | 147 | `SM_REMOVE_OWN_ROOM_OPERATORSHIP` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 147 to SM_REMOVE_OWN_ROOM_OPERATORSHIP (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 146 | `SM_REMOVE_ROOM_OPERATORSHIP` | `implemented_mapped` | high | S6E runtime+spec evidence confirms room-string payload on code 146 for room operatorship revocation. | `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` |
+| server | 147 | `SM_REMOVE_OWN_ROOM_OPERATORSHIP` | `implemented_mapped` | high | S6E runtime evidence confirms room-string wire layout on code 147 (same layout family as code 146). | `captures/redacted/login-legacy-room-operatorship-control/official_frames.hex` |
 | server | 148 | `SM_ROOM_OPERATORS` | `implemented_mapped` | high | Observed runtime room-operators request flow in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 149 | `SM_MESSAGE_USERS` | `implemented_mapped` | high | Authenticated runtime flow sends message-users payload (code 149) with user list and message body. | `captures/redacted/login-message-users/official_frames.hex` |
 | server | 150 | `SM_JOIN_GLOBAL_ROOM` | `implemented_mapped` | high | Authenticated runtime flow sends join-global-room control frame (code 150) with empty payload. | `captures/redacted/login-global-room-control/official_frames.hex` |

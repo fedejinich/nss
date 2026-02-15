@@ -34,6 +34,7 @@
 - Stage 6B complete: executable closure audit for S5A hardening objectives with regression enforcement and state-sync integration.
 - Stage 6C complete: executable opaque-tail baseline report and batch plan to drive S6 typed-promotion work.
 - Stage 6D complete: executed S6 typed batches (S6-Batch-1/2/3) and closed generic opaque-tail control coverage to zero.
+- Stage 6E complete: reduced dedicated legacy opaque variants with runtime-backed typing for room-operatorship and distributed legacy control families.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -188,6 +189,35 @@
    - `OPAQUE_SERVER_CONTROL_CODES`: `0`
    - `docs/state/opaque-tail-report.json`: `opaque_tail_count=0`
 5. Preserved full matrix baseline:
+   - `implemented+mapped=131`
+   - `mapped_not_implemented=0`
+   - `missing=0`
+
+## Stage 6E Completion
+
+1. Added Stage 6E authenticated runtime capture generator and redacted runs:
+   - `tools/runtime/generate_stage6e_legacy_control_captures.py`
+   - `captures/redacted/login-legacy-room-operatorship-control`
+   - `captures/redacted/login-legacy-distributed-control`
+2. Promoted dedicated legacy payload branches from opaque to typed in `rust/protocol`:
+   - `SM_REMOVE_ROOM_OPERATORSHIP` (`146`)
+   - `SM_REMOVE_OWN_ROOM_OPERATORSHIP` (`147`)
+   - `SM_DNET_LEVEL` (`126`)
+   - `SM_DNET_GROUP_LEADER` (`127`)
+   - `SM_DNET_CHILD_DEPTH` (`129`)
+3. Added typed builders and decode regression coverage for promoted messages:
+   - `build_remove_room_operatorship_request(...)`
+   - `build_remove_own_room_operatorship_request(...)`
+   - `build_dnet_level_request(...)`
+   - `build_dnet_group_leader_request(...)`
+   - `build_dnet_child_depth_request(...)`
+   - `s6e_legacy_control_messages_decode_typed_payloads`
+4. Preserved dedicated residual explicitness for unresolved semantics:
+   - `SM_DNET_DELIVERY_REPORT` (`128`)
+   - `SM_FLOOD` (`131`)
+5. Added protocol contract regression for S6E:
+   - `tests/protocol/test_stage6e_legacy_opaque_reduction_contract.py`
+6. Preserved full matrix baseline:
    - `implemented+mapped=131`
    - `mapped_not_implemented=0`
    - `missing=0`

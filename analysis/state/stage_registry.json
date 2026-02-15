@@ -283,9 +283,9 @@
       "depends_on": [
         "S6C"
       ],
-      "evidence": "docs/pr/0023-s6d-opaque-tail-typed-batches.md",
-      "next_gate": "S6E legacy dedicated opaque variants",
-      "notes": "Completed typed promotion for S6 batch closure (41,61,67,70,71,73,82,93,102,114,115,116,138,141,142); generic opaque-tail baseline is now zero."
+      "evidence": "docs/pr/0024-s6e-legacy-opaque-reduction.md",
+      "next_gate": "S6F residual semantic closure for 128/131",
+      "notes": "Completed S6D typed-batch closure and S6E dedicated legacy reduction; generic opaque-tail is zero and dedicated residual ambiguity is reduced to codes 128/131."
     }
   ]
 }

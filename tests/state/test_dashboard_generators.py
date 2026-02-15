@@ -40,6 +40,14 @@ class DashboardGeneratorTests(unittest.TestCase):
         self.assertTrue(all("captures/redacted" not in path for path in node_paths))
         self.assertTrue(all(".venv-tools" not in path for path in node_paths))
 
+    def test_project_dashboard_uses_absolute_evidence_routes(self) -> None:
+        repo_root = Path(__file__).resolve().parents[2]
+        dashboard_html = repo_root / "docs/state/project-dashboard.html"
+        source = dashboard_html.read_text(encoding="utf-8")
+
+        self.assertIn("return `/${clean}`;", source)
+        self.assertNotIn("return `../${clean}`;", source)
+
 
 if __name__ == "__main__":
     unittest.main()

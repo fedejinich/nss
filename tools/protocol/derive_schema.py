@@ -85,10 +85,15 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_GIVE_PRIVILEGE"): 123,
     ("server", "SM_INFORM_USER_OF_PRIVILEGES"): 124,
     ("server", "SM_INFORM_USER_OF_PRIVILEGES_ACK"): 125,
+    ("server", "SM_DNET_LEVEL"): 126,
+    ("server", "SM_DNET_GROUP_LEADER"): 127,
+    ("server", "SM_DNET_DELIVERY_REPORT"): 128,
+    ("server", "SM_DNET_CHILD_DEPTH"): 129,
     ("server", "SM_SET_PARENT_MIN_SPEED"): 83,
     ("server", "SM_SET_PARENT_SPEED_CONNECTION_RATIO"): 84,
     ("server", "SM_GET_ROOM_TICKER"): 113,
     ("server", "SM_UPLOAD_SPEED"): 121,
+    ("server", "SM_FLOOD"): 131,
     ("server", "SM_ADD_ROOM_MEMBER"): 134,
     ("server", "SM_REMOVE_ROOM_MEMBER"): 135,
     ("server", "SM_REMOVE_OWN_ROOM_MEMBERSHIP"): 136,
@@ -98,6 +103,8 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_ADD_ROOM_OPERATOR"): 143,
     ("server", "SM_REMOVE_ROOM_OPERATOR"): 144,
     ("server", "SM_ADD_ROOM_OPERATORSHIP"): 145,
+    ("server", "SM_REMOVE_ROOM_OPERATORSHIP"): 146,
+    ("server", "SM_REMOVE_OWN_ROOM_OPERATORSHIP"): 147,
     ("server", "SM_ROOM_MEMBERS"): 133,
     ("server", "SM_ROOM_OPERATORS"): 148,
     ("server", "SM_MESSAGE_USERS"): 149,
@@ -413,12 +420,32 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "entry.ticker", "type": "string"},
     ],
     ("server", "SM_DNET_RESET"): [{"name": "reason", "type": "optional_u32"}],
+    ("server", "SM_DNET_LEVEL"): [
+        {"name": "level", "type": "optional_u32"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
+    ("server", "SM_DNET_GROUP_LEADER"): [
+        {"name": "username", "type": "optional_string"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
+    ("server", "SM_DNET_CHILD_DEPTH"): [
+        {"name": "depth", "type": "optional_u32"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
     ("server", "SM_UPLOAD_SPEED"): [{"name": "bytes_per_sec", "type": "u32"}],
     ("server", "SM_REMOVE_OWN_ROOM_MEMBERSHIP"): [{"name": "room", "type": "string"}],
     ("server", "SM_GIVE_UP_ROOM"): [{"name": "room", "type": "string"}],
     ("server", "SM_ADD_ROOM_MEMBERSHIP"): [{"name": "room", "type": "string"}],
     ("server", "SM_REMOVE_ROOM_MEMBERSHIP"): [{"name": "room", "type": "string"}],
     ("server", "SM_ADD_ROOM_OPERATORSHIP"): [{"name": "room", "type": "string"}],
+    ("server", "SM_REMOVE_ROOM_OPERATORSHIP"): [
+        {"name": "room", "type": "optional_string"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
+    ("server", "SM_REMOVE_OWN_ROOM_OPERATORSHIP"): [
+        {"name": "room", "type": "optional_string"},
+        {"name": "raw_tail", "type": "bytes_raw"},
+    ],
     ("server", "SM_JOIN_GLOBAL_ROOM"): [{"name": "room", "type": "optional_string"}],
     ("server", "SM_LEAVE_GLOBAL_ROOM"): [{"name": "room", "type": "optional_string"}],
     ("server", "SM_SAY_GLOBAL_ROOM"): [{"name": "message", "type": "string"}],
@@ -615,6 +642,56 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "note": "S6 batch-2 authenticated probe includes code 93 payload with typed distributed code and bytes.",
         },
     ],
+    ("server", "SM_DNET_LEVEL"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class BranchLevel (code 126) serializes one u32 branch-level value.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-distributed-control/official_frames.hex",
+            "note": "S6E authenticated runtime probe includes code 126 frame with u32 payload and no residual tail.",
+        },
+    ],
+    ("server", "SM_DNET_GROUP_LEADER"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class BranchRoot (code 127) serializes one root-username string.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-distributed-control/official_frames.hex",
+            "note": "S6E authenticated runtime probe includes code 127 frame with root-username string payload.",
+        },
+    ],
+    ("server", "SM_DNET_DELIVERY_REPORT"): [
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-distributed-control/official_frames.hex",
+            "note": "S6E authenticated runtime probe includes code 128 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.",
+        },
+    ],
+    ("server", "SM_DNET_CHILD_DEPTH"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class ChildDepth (code 129) serializes one u32 depth value.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-distributed-control/official_frames.hex",
+            "note": "S6E authenticated runtime probe includes code 129 frame with u32 depth payload.",
+        },
+    ],
+    ("server", "SM_FLOOD"): [
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-distributed-control/official_frames.hex",
+            "note": "S6E authenticated runtime probe includes code 131 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.",
+        },
+    ],
     ("server", "SM_POSSIBLE_PARENTS"): [
         {
             "kind": "spec",
@@ -697,6 +774,25 @@ EXTRA_EVIDENCE: dict[tuple[str, str], list[dict[str, str]]] = {
             "kind": "runtime_capture",
             "source": "captures/redacted/login-s6-batch3-control/official_frames.hex",
             "note": "S6 batch-3 probe includes attempted code 142 outbound payload while server resets were observed.",
+        },
+    ],
+    ("server", "SM_REMOVE_ROOM_OPERATORSHIP"): [
+        {
+            "kind": "spec",
+            "source": "https://raw.githubusercontent.com/nicotine-plus/nicotine-plus/master/pynicotine/slskmessages.py",
+            "note": "Nicotine+ class RoomOperatorshipRevoked (code 146) parses room string payload.",
+        },
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-room-operatorship-control/official_frames.hex",
+            "note": "S6E authenticated runtime probe includes code 146 with len-prefixed room string payload.",
+        },
+    ],
+    ("server", "SM_REMOVE_OWN_ROOM_OPERATORSHIP"): [
+        {
+            "kind": "runtime_capture",
+            "source": "captures/redacted/login-legacy-room-operatorship-control/official_frames.hex",
+            "note": "S6E authenticated runtime probe includes code 147 with same room-string wire layout used by code 146.",
         },
     ],
     ("server", "SM_MESSAGE_USER"): [

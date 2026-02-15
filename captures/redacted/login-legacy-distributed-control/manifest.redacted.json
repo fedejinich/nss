@@ -1,0 +1,24 @@
+{
+  "run_id": "login-legacy-distributed-control",
+  "scenario": "login-legacy-distributed-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T14:47:27+00:00",
+  "server": "<redacted:endpoint:e1884e7221bb>",
+  "frame_count": 51,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:7ed8ecd52de0>",
+    "neo_frames_raw": "<redacted:path:e81d9b71d2cc>",
+    "frida_events_raw": "<redacted:path:dc01b7cfac17>"
+  },
+  "notes": "Stage 6E runtime probe for distributed legacy controls (SM_DNET_LEVEL, SM_DNET_GROUP_LEADER, SM_DNET_DELIVERY_REPORT, SM_DNET_CHILD_DEPTH, SM_FLOOD).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T14:47:34+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-legacy-distributed-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

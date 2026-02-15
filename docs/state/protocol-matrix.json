@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-15T09:17:02+00:00",
+  "generated_at": "2026-02-15T15:01:23+00:00",
   "snapshot": {
     "total_messages": 131,
     "server_messages": 106,
@@ -934,8 +934,8 @@
       "message": "SM_DNET_LEVEL",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 126 to SM_DNET_LEVEL (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6E runtime+spec evidence confirms BranchLevel layout on code 126 (u32 level with optional residual tail).",
+      "evidence": "captures/redacted/login-legacy-distributed-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -943,8 +943,8 @@
       "message": "SM_DNET_GROUP_LEADER",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 127 to SM_DNET_GROUP_LEADER (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6E runtime+spec evidence confirms BranchRoot layout on code 127 (string root username with optional residual tail).",
+      "evidence": "captures/redacted/login-legacy-distributed-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -952,8 +952,8 @@
       "message": "SM_DNET_DELIVERY_REPORT",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 128 to SM_DNET_DELIVERY_REPORT (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6E runtime probe confirms active code 128 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.",
+      "evidence": "captures/redacted/login-legacy-distributed-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -961,8 +961,8 @@
       "message": "SM_DNET_CHILD_DEPTH",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 129 to SM_DNET_CHILD_DEPTH (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6E runtime+spec evidence confirms ChildDepth layout on code 129 (u32 depth with optional residual tail).",
+      "evidence": "captures/redacted/login-legacy-distributed-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -979,8 +979,8 @@
       "message": "SM_FLOOD",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 131 to SM_FLOOD (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6E runtime probe confirms active code 131 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.",
+      "evidence": "captures/redacted/login-legacy-distributed-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1114,8 +1114,8 @@
       "message": "SM_REMOVE_ROOM_OPERATORSHIP",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 146 to SM_REMOVE_ROOM_OPERATORSHIP (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6E runtime+spec evidence confirms room-string payload on code 146 for room operatorship revocation.",
+      "evidence": "captures/redacted/login-legacy-room-operatorship-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -1123,8 +1123,8 @@
       "message": "SM_REMOVE_OWN_ROOM_OPERATORSHIP",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "Server MessageCodeToString jump-table extraction resolves code 147 to SM_REMOVE_OWN_ROOM_OPERATORSHIP (x86_64 binary disassembly).",
-      "evidence": "evidence/reverse/message_codes_jump_table.md"
+      "summary": "S6E runtime evidence confirms room-string wire layout on code 147 (same layout family as code 146).",
+      "evidence": "captures/redacted/login-legacy-room-operatorship-control/official_frames.hex"
     },
     {
       "scope": "server",

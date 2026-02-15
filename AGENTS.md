@@ -103,8 +103,9 @@ When stage status, protocol coverage, or PR documentation changes:
 For each stage branch/PR, run two local review loops before final merge (without `@codex review` calls):
 
 1. Open/update PR and run review loop round 1:
-   - security best-practices review on touched paths
-   - code-simplifier pass on touched Rust files
+   - `blockchain_protocol_engineer` review pass
+   - `code_simplifier` pass on touched Rust files
+   - `web3_security_review_expert` review pass
 2. Apply useful fixes and document rationale for rejected suggestions in the PR notes.
 3. Run review loop round 2 after round-one updates are pushed.
 4. Merge only after both local review loops are complete and validation gates are green.
@@ -113,14 +114,16 @@ For each stage branch/PR, run two local review loops before final merge (without
 
 Before opening each stage PR, run two additional code-review passes on touched code:
 
-1. Security best-practices pass:
-   - perform a security-focused review of touched runtime/protocol/core/cli paths
+1. `blockchain_protocol_engineer` pass:
+   - execute protocol-scope review for network/protocol-facing changes and document assumptions/evidence.
+2. `web3_security_review_expert` pass:
+   - perform security-focused review of touched runtime/protocol/core/cli paths
    - explicitly check input parsing assumptions, panic/unwrap usage in production paths, and sensitive-data handling
-2. Code simplifier pass:
+3. `code_simplifier` pass:
    - run a maintainability-focused simplification pass on touched Rust files
    - remove avoidable duplication/complexity while preserving exact behavior
 
-Record both passes in the stage PR document under `docs/pr/`.
+Record all three passes in the stage PR document under `docs/pr/`.
 
 ## Branch Start Discipline
 

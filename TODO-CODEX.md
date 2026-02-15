@@ -1,5 +1,97 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## Stage 6E - Legacy Dedicated Opaque Variant Reduction
+
+Dependency graph:
+
+- `S6E-W01 -> S6E-W02`
+- `S6E-W02 -> S6E-W03`
+- `S6E-W03 -> S6E-T01`
+- `S6E-T01 -> S6E-T02`
+- `S6E-T02 -> S6E-T03`
+- `S6E-T03 -> S6E-T04`
+- `S6E-T04 -> S6E-T05`
+- `S6E-T05 -> S6E-T06`
+- `S6E-T06 -> S6E-R01`
+- `S6E-R01 -> S6E-Q01`
+- `S6E-Q01 -> S6E-Q02`
+- `S6E-Q02 -> S6E-T07`
+
+Tasks:
+
+- id: S6E-W01
+  description: Start from updated `main`, pull `origin/main`, and create branch `codex/s6e-legacy-opaque-reduction`
+  status: done
+  depends_on: []
+
+- id: S6E-W02
+  description: Create PR doc scaffold `docs/pr/0024-s6e-legacy-opaque-reduction.md`
+  status: done
+  depends_on: [S6E-W01]
+
+- id: S6E-W03
+  description: Update governance in `AGENTS.md` to enforce mandatory blocking review loop (`blockchain_protocol_engineer`, `code_simplifier`, `web3_security_review_expert`) for each stage PR
+  status: done
+  depends_on: [S6E-W02]
+
+- id: S6E-T01
+  description: Build authoritative evidence inventory for dedicated legacy opaque variants (`126,127,128,129,131,146,147`) from runtime/static primary sources
+  status: done
+  depends_on: [S6E-W03]
+
+- id: S6E-T02
+  description: Generate authenticated runtime captures for S6E control probes and redact artifacts (`login-legacy-room-operatorship-control`, `login-legacy-distributed-control`)
+  status: done
+  depends_on: [S6E-T01]
+
+- id: S6E-T03
+  description: Replace selected dedicated legacy opaque payload branches with typed payloads/codecs/builders in `rust/protocol` using runtime-backed evidence
+  status: done
+  depends_on: [S6E-T02]
+
+- id: S6E-T04
+  description: Update `message_map.csv`, `message_schema.json`, and KB evidence docs with S6E payload-field evidence and explicit unresolved residuals
+  status: done
+  depends_on: [S6E-T03]
+
+- id: S6E-T05
+  description: Add or update protocol/regression tests for S6E typed branches and legacy-residual handling
+  status: done
+  depends_on: [S6E-T04]
+
+- id: S6E-T06
+  description: Run full stage gates (`kb_validate`, `run_diff_verify`, `run_regression`, `zensical build`)
+  status: done
+  depends_on: [S6E-T05]
+
+- id: S6E-R01
+  description: Sync roadmap/status/backlog/dashboard artifacts and regenerate indexes (`sync_state_dashboards.sh`)
+  status: done
+  depends_on: [S6E-T06]
+
+- id: S6E-Q01
+  description: Mandatory blocking review loop round 1 (`blockchain_protocol_engineer`, `code_simplifier`, `web3_security_review_expert`) and apply useful fixes
+  status: done
+  depends_on: [S6E-R01]
+
+- id: S6E-Q02
+  description: Mandatory blocking review loop round 2 (`blockchain_protocol_engineer`, `code_simplifier`, `web3_security_review_expert`), resolve feedback or dismiss with rationale
+  status: done
+  depends_on: [S6E-Q01]
+
+- id: S6E-T07
+  description: Finalize merge-ready S6E PR with retrospective (maintainability, reuse, surface reduction)
+  status: done
+  depends_on: [S6E-Q02]
+
+Notes:
+
+- S6E goal is reduction of dedicated legacy opaque variants outside `OPAQUE_SERVER_CONTROL_CODES` while preserving full coverage and semantic parity gates.
+- Initial S6E target families:
+  - room-operatorship revocation: `SM_REMOVE_ROOM_OPERATORSHIP (146)`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP (147)`
+  - distributed legacy control: `SM_DNET_LEVEL (126)`, `SM_DNET_GROUP_LEADER (127)`, `SM_DNET_CHILD_DEPTH (129)`
+- Residuals remain explicitly tracked when evidence is insufficient (`SM_DNET_DELIVERY_REPORT (128)`, `SM_FLOOD (131)`).
+
 ## Stage 6D - Opaque-Tail Typed Batches Execution
 
 Dependency graph:
