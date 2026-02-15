@@ -62,9 +62,6 @@ Review queue is empty.
 - Message rows: `131`
 - Confidence split: `high=131` `medium=0` `low=0`
 - Latest mapped messages:
-  - `server` `SM_ADD_CHATROOM` code `10` confidence `high` (runtime-backed in `login-room-term-control`)
-  - `server` `SM_ADD_LIKE_TERM` code `51` confidence `high` (runtime-backed in `login-room-term-control`)
-  - `server` `SM_REMOVE_LIKE_TERM` code `52` confidence `high` (runtime-backed in `login-room-term-control`)
   - `server` `SM_LOGIN` code `1` confidence `high`
   - `server` `SM_SET_WAIT_PORT` code `2` confidence `high`
   - `server` `SM_GET_PEER_ADDRESS` code `3` confidence `high`

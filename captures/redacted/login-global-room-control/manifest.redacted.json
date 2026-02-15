@@ -1,0 +1,24 @@
+{
+  "run_id": "login-global-room-control",
+  "scenario": "login-global-room-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T06:55:14+00:00",
+  "server": "<redacted:endpoint:fdc19a262237>",
+  "frame_count": 14,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:b7355c04d463>",
+    "neo_frames_raw": "<redacted:path:0ca892a266a5>",
+    "frida_events_raw": "<redacted:path:94559d08e646>"
+  },
+  "notes": "Stage 5D runtime capture for typed global/discovery control messages (SM_JOIN_GLOBAL_ROOM, SM_LEAVE_GLOBAL_ROOM, SM_SAY_GLOBAL_ROOM, SM_SEARCH_CORRELATIONS).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T06:55:19+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-global-room-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

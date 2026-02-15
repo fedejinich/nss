@@ -1,0 +1,24 @@
+{
+  "run_id": "login-system-control",
+  "scenario": "login-system-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T06:56:07+00:00",
+  "server": "<redacted:endpoint:a53c223af35a>",
+  "frame_count": 12,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:a28c0e44bb28>",
+    "neo_frames_raw": "<redacted:path:8625a2ec781e>",
+    "frida_events_raw": "<redacted:path:0eb9065afefe>"
+  },
+  "notes": "Stage 5H runtime capture for typed system-control payloads (SM_SET_STATUS, SM_HEARTBEAT, SM_DNET_RESET).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T06:56:11+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-system-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

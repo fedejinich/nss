@@ -1,0 +1,16 @@
+{
+  "run_id": "login-parent-disconnect-control",
+  "created_at": "2026-02-15T06:55:34+00:00",
+  "raw_dir": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-parent-disconnect-control",
+  "redacted_dir": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-parent-disconnect-control",
+  "stats": {
+    "endpoint": 2,
+    "path": 3
+  },
+  "artifacts": {
+    "manifest": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-parent-disconnect-control/manifest.redacted.json",
+    "frida_events": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-parent-disconnect-control/frida-events.redacted.jsonl",
+    "official_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-parent-disconnect-control/official_frames.hex",
+    "neo_frames": "/Users/void_rsk/Projects/soul-dec/captures/redacted/login-parent-disconnect-control/neo_frames.hex"
+  }
+}

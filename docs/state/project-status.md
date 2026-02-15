@@ -25,6 +25,11 @@
 - Stage 5A complete: typed runtime hardening wave 1 for parent/distributed control and folder decompression parsing with authenticated evidence.
 - Stage 5B complete: exhaustive SoulseekQt UI + functionality research pass with pass-2 verification and decompilation addendum artifacts.
 - Stage 5C complete: typed runtime hardening wave 2 for room/term control messages with authenticated runtime evidence and SDK/CLI coverage.
+- Stage 5D complete: typed runtime hardening wave 3 for global control (`150/151/152/153`) with authenticated runtime evidence.
+- Stage 5E complete: typed runtime hardening wave 4 for parent/disconnect control (`86/87/88/90/100`) with authenticated runtime evidence.
+- Stage 5F complete: typed runtime hardening wave 5 for private-room membership/ownership control (`136/137/139/140/145`) with authenticated runtime evidence.
+- Stage 5G complete: typed runtime hardening wave 6 for text-control payloads (`58/62/63/66/117/118`) with authenticated runtime evidence.
+- Stage 5H complete: typed runtime hardening wave 7 for system-control payloads (`28/32/130`) with authenticated runtime evidence.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -79,6 +84,30 @@
    - semantic verifier regression for like-term diffs in `rust/verify`
    - required semantic run list includes `login-room-term-control`
 6. Preserved full matrix baseline:
+   - `implemented+mapped=131`
+   - `mapped_not_implemented=0`
+   - `missing=0`
+
+## Stage 5D-5H Completion
+
+1. Promoted `23` previously opaque control-message families to typed payloads in `rust/protocol`:
+   - S5D: `150`, `151`, `152`, `153`
+   - S5E: `86`, `87`, `88`, `90`, `100`
+   - S5F: `136`, `137`, `139`, `140`, `145`
+   - S5G: `58`, `62`, `63`, `66`, `117`, `118`
+   - S5H: `28`, `32`, `130`
+2. Added runtime-authenticated redacted scenarios:
+   - `captures/redacted/login-global-room-control`
+   - `captures/redacted/login-parent-disconnect-control`
+   - `captures/redacted/login-private-room-membership-control`
+   - `captures/redacted/login-text-control`
+   - `captures/redacted/login-system-control`
+3. Reduced generic opaque server-control closure set from `34` to `15` codes in `OPAQUE_SERVER_CONTROL_CODES`.
+4. Extended typed builder surface for all S5D-S5H messages and added protocol regression tests:
+   - `s5d_s5h_request_builders_emit_expected_codes`
+   - `s5d_s5h_control_messages_decode_typed_payloads`
+   - `tests/protocol/test_stage5d_s5h_typed_control_contract.py`
+5. Regenerated authoritative artifacts and kept matrix closure unchanged:
    - `implemented+mapped=131`
    - `mapped_not_implemented=0`
    - `missing=0`
@@ -282,8 +311,18 @@
 - `captures/redacted/login-message-users/manifest.redacted.json`
 - `captures/redacted/login-peer-message/manifest.redacted.json`
 - `captures/redacted/login-room-term-control/manifest.redacted.json`
+- `captures/redacted/login-global-room-control/manifest.redacted.json`
+- `captures/redacted/login-parent-disconnect-control/manifest.redacted.json`
+- `captures/redacted/login-private-room-membership-control/manifest.redacted.json`
+- `captures/redacted/login-text-control/manifest.redacted.json`
+- `captures/redacted/login-system-control/manifest.redacted.json`
 - `tools/runtime/generate_stage4e_private_userstate_captures.py`
 - `tools/runtime/generate_stage5c_room_term_control_captures.py`
+- `tools/runtime/generate_stage5d_global_control_captures.py`
+- `tools/runtime/generate_stage5e_parent_disconnect_control_captures.py`
+- `tools/runtime/generate_stage5f_private_room_membership_control_captures.py`
+- `tools/runtime/generate_stage5g_text_control_captures.py`
+- `tools/runtime/generate_stage5h_system_control_captures.py`
 - `docs/pr/0009-s4e-private-messaging-user-state.md`
 - `docs/pr/0010-s4f-global-admin-distributed-map.md`
 - `docs/pr/0011-s4g-parent-distributed-tuning-map.md`
@@ -293,6 +332,7 @@
 - `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md`
 - `docs/pr/0016-s4l-mapped-not-implemented-closure.md`
 - `docs/pr/0018-s5c-typed-runtime-hardening-wave2.md`
+- `docs/pr/0019-s5d-s5h-control-typing-pack.md`
 
 ## Operational Notes
 

@@ -1,0 +1,24 @@
+{
+  "run_id": "login-text-control",
+  "scenario": "login-text-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T06:55:55+00:00",
+  "server": "<redacted:endpoint:f2dac27064cd>",
+  "frame_count": 15,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:69f21710886c>",
+    "neo_frames_raw": "<redacted:path:0dc8af0e1695>",
+    "frida_events_raw": "<redacted:path:d501c2910f22>"
+  },
+  "notes": "Stage 5G runtime capture for typed text-control payloads (SM_COMMAND, SM_ROOM_ADDED, SM_ROOM_REMOVED, SM_ADMIN_MESSAGE, SM_ADD_HATE_TERM, SM_REMOVE_HATE_TERM).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T06:55:59+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-text-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

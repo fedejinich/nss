@@ -1,0 +1,24 @@
+{
+  "run_id": "login-private-room-membership-control",
+  "scenario": "login-private-room-membership-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T06:55:42+00:00",
+  "server": "<redacted:endpoint:cbf8b4a2fd7f>",
+  "frame_count": 14,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:37710bd5e4b6>",
+    "neo_frames_raw": "<redacted:path:8190d0f20cfa>",
+    "frida_events_raw": "<redacted:path:e828fe698ae4>"
+  },
+  "notes": "Stage 5F runtime capture for typed private-room membership/ownership controls (SM_REMOVE_OWN_ROOM_MEMBERSHIP, SM_GIVE_UP_ROOM, SM_ADD_ROOM_MEMBERSHIP, SM_REMOVE_ROOM_MEMBERSHIP, SM_ADD_ROOM_OPERATORSHIP).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T06:55:46+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-private-room-membership-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

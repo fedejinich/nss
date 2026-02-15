@@ -1,0 +1,24 @@
+{
+  "run_id": "login-parent-disconnect-control",
+  "scenario": "login-parent-disconnect-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T06:55:29+00:00",
+  "server": "<redacted:endpoint:320b8fd42ac9>",
+  "frame_count": 14,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:d9499e82cc9c>",
+    "neo_frames_raw": "<redacted:path:90165ecbce9f>",
+    "frida_events_raw": "<redacted:path:da6ab98bdeef>"
+  },
+  "notes": "Stage 5E runtime capture for typed parent/disconnect control messages (SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT, SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT, SM_NODES_IN_CACHE_BEFORE_DISCONNECT, SM_SET_SECONDS_BEFORE_PING_CHILDREN, SM_CAN_PARENT).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T06:55:34+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-parent-disconnect-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

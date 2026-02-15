@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A typed runtime hardening wave 1, Stage 5B UI/feature research verification, and Stage 5C typed runtime hardening wave 2.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, and Stage 5D-S5H multi-wave opaque-to-typed runtime promotion.
 
 ## Validation Gates
 
@@ -52,6 +52,11 @@ Runs:
    - `login-peer-message`
    - `login-parent-distributed-control`
    - `login-room-term-control`
+   - `login-global-room-control`
+   - `login-parent-disconnect-control`
+   - `login-private-room-membership-control`
+   - `login-text-control`
+   - `login-system-control`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -110,6 +115,11 @@ Protocol matrix status:
 - Peer-message deterministic scenario includes code `68` plus compatibility alias `292`.
 - Stage 5A authenticated runtime scenario `login-parent-distributed-control` provides runtime evidence for codes `83`, `84`, `113`, `121`, and `122`.
 - Stage 5C authenticated runtime scenario `login-room-term-control` provides runtime evidence for codes `10`, `51`, and `52`.
+- Stage 5D authenticated runtime scenario `login-global-room-control` provides runtime evidence for codes `150`, `151`, `152`, and `153`.
+- Stage 5E authenticated runtime scenario `login-parent-disconnect-control` provides runtime evidence for codes `86`, `87`, `88`, `90`, and `100`.
+- Stage 5F authenticated runtime scenario `login-private-room-membership-control` provides runtime evidence for codes `136`, `137`, `139`, `140`, and `145`.
+- Stage 5G authenticated runtime scenario `login-text-control` provides runtime evidence for codes `58`, `62`, `63`, `66`, `117`, and `118`.
+- Stage 5H authenticated runtime scenario `login-system-control` provides runtime evidence for codes `28`, `32`, and `130`.
 - `SM_GET_USER_PRIVILEGES_STATUS` was promoted to `high` with authenticated request/response runtime evidence.
 - `PM_SHARED_FILES_IN_FOLDER` parser now has decompression-aware coverage with zlib safety limits and typed listing classification.
 - Stage 4F/S4G/S4H/S4I/S4J are mapping-first and static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
@@ -137,5 +147,5 @@ Protocol matrix status:
 ## Residual Risk
 
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- Stage 5A and Stage 5C hardened key opaque-control subsets (`83`, `84`, `113`, `10`, `51`, `52`), but additional global/distributed control codes still rely on opaque payload handling until runtime evidence allows typed promotion.
+- After S5D-S5H, unresolved generic opaque server-control closure is reduced to `15` codes in `OPAQUE_SERVER_CONTROL_CODES`; dedicated opaque variants remain for legacy families (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, `SM_DNET_LEVEL`, `SM_DNET_GROUP_LEADER`, `SM_DNET_DELIVERY_REPORT`, `SM_DNET_CHILD_DEPTH`, `SM_FLOOD`).
 - Stage 5B still has one UI-runtime visibility gap: live menu tree extraction requires macOS assistive-access permission (captured denial: `evidence/ui_audit/ui_menu_bar_items.err`).

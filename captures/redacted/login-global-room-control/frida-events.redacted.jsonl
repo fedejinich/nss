@@ -1,0 +1,1 @@
+{"ts": "2026-02-15T06:55:14+00:00", "event": "s5d.global-control.capture", "server": "<redacted:endpoint:fdc19a262237>", "global_message": "hello global room", "correlation_term": "ambient", "code_counts": {"1": 2, "22": 1, "64": 1, "83": 1, "84": 1, "104": 1, "69": 1, "150": 1, "160": 1, "151": 1, "152": 1, "153": 2}}

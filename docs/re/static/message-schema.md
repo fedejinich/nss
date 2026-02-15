@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T06:28:20+00:00`
+- Generated: `2026-02-15T06:58:48+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -388,15 +388,17 @@
 
 ### `server` `SM_SET_STATUS` (code `28`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `status`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 28 to SM_SET_STATUS (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-system-control/official_frames.hex` (Authenticated runtime flow sends set-status control frame (code 28) with u32 status payload.)
 
 ### `server` `SM_HEARTBEAT` (code `32`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `sequence`: `optional_u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 32 to SM_HEARTBEAT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-system-control/official_frames.hex` (Authenticated runtime flow sends heartbeat control frame (code 32) with u32 sequence payload.)
 
 ### `server` `SM_SEND_CONNECT_TOKEN` (code `33`)
 - Confidence: `high`
@@ -530,9 +532,10 @@
 
 ### `server` `SM_COMMAND` (code `58`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `command`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 58 to SM_COMMAND (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-text-control/official_frames.hex` (Authenticated runtime flow sends command control frame (code 58) with command string payload.)
 
 ### `server` `SM_PLACE_IN_LINE` (code `59`)
 - Confidence: `high`
@@ -554,15 +557,17 @@
 
 ### `server` `SM_ROOM_ADDED` (code `62`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 62 to SM_ROOM_ADDED (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-text-control/official_frames.hex` (Authenticated runtime flow sends room-added control frame (code 62) with room string payload.)
 
 ### `server` `SM_ROOM_REMOVED` (code `63`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 63 to SM_ROOM_REMOVED (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-text-control/official_frames.hex` (Authenticated runtime flow sends room-removed control frame (code 63) with room string payload.)
 
 ### `server` `SM_ROOM_LIST` (code `64`)
 - Confidence: `high`
@@ -581,9 +586,10 @@
 
 ### `server` `SM_ADMIN_MESSAGE` (code `66`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `message`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 66 to SM_ADMIN_MESSAGE (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-text-control/official_frames.hex` (Authenticated runtime flow sends admin-message control frame (code 66) with message string payload.)
 
 ### `server` `SM_GLOBAL_USER_LIST` (code `67`)
 - Confidence: `high`
@@ -650,27 +656,31 @@
 
 ### `server` `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT` (code `86`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `seconds`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 86 to SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-disconnect-control/official_frames.hex` (Authenticated runtime flow sends parent-inactivity control frame (code 86) with u32 seconds payload.)
 
 ### `server` `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT` (code `87`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `seconds`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 87 to SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-disconnect-control/official_frames.hex` (Authenticated runtime flow sends server-inactivity control frame (code 87) with u32 seconds payload.)
 
 ### `server` `SM_NODES_IN_CACHE_BEFORE_DISCONNECT` (code `88`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `nodes`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 88 to SM_NODES_IN_CACHE_BEFORE_DISCONNECT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-disconnect-control/official_frames.hex` (Authenticated runtime flow sends nodes-in-cache control frame (code 88) with u32 nodes payload.)
 
 ### `server` `SM_SET_SECONDS_BEFORE_PING_CHILDREN` (code `90`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `seconds`: `u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 90 to SM_SET_SECONDS_BEFORE_PING_CHILDREN (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-disconnect-control/official_frames.hex` (Authenticated runtime flow sends ping-children control frame (code 90) with u32 seconds payload.)
 
 ### `server` `SM_ADD_PRIVILEGED_USER` (code `91`)
 - Confidence: `high`
@@ -695,9 +705,10 @@
 
 ### `server` `SM_CAN_PARENT` (code `100`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `can_parent`: `bool_u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 100 to SM_CAN_PARENT (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-parent-disconnect-control/official_frames.hex` (Authenticated runtime flow sends can-parent control frame (code 100) with bool_u32 payload.)
 
 ### `server` `SM_POSSIBLE_PARENTS` (code `102`)
 - Confidence: `high`
@@ -765,15 +776,17 @@
 
 ### `server` `SM_ADD_HATE_TERM` (code `117`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `term`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 117 to SM_ADD_HATE_TERM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-text-control/official_frames.hex` (Authenticated runtime flow sends add-hate-term control frame (code 117) with term string payload.)
 
 ### `server` `SM_REMOVE_HATE_TERM` (code `118`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `term`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 118 to SM_REMOVE_HATE_TERM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-text-control/official_frames.hex` (Authenticated runtime flow sends remove-hate-term control frame (code 118) with term string payload.)
 
 ### `server` `SM_SEARCH_ROOM` (code `120`)
 - Confidence: `high`
@@ -855,9 +868,10 @@
 
 ### `server` `SM_DNET_RESET` (code `130`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `reason`: `optional_u32`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 130 to SM_DNET_RESET (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-system-control/official_frames.hex` (Authenticated runtime flow sends dnet-reset control frame (code 130) with u32 reason payload.)
 
 ### `server` `SM_FLOOD` (code `131`)
 - Confidence: `high`
@@ -901,15 +915,17 @@
 
 ### `server` `SM_REMOVE_OWN_ROOM_MEMBERSHIP` (code `136`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 136 to SM_REMOVE_OWN_ROOM_MEMBERSHIP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-private-room-membership-control/official_frames.hex` (Authenticated runtime flow sends remove-own-room-membership control frame (code 136) with room string payload.)
 
 ### `server` `SM_GIVE_UP_ROOM` (code `137`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 137 to SM_GIVE_UP_ROOM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-private-room-membership-control/official_frames.hex` (Authenticated runtime flow sends give-up-room control frame (code 137) with room string payload.)
 
 ### `server` `SM_TRANSFER_ROOM_OWNERSHIP` (code `138`)
 - Confidence: `high`
@@ -919,15 +935,17 @@
 
 ### `server` `SM_ADD_ROOM_MEMBERSHIP` (code `139`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 139 to SM_ADD_ROOM_MEMBERSHIP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-private-room-membership-control/official_frames.hex` (Authenticated runtime flow sends add-room-membership control frame (code 139) with room string payload.)
 
 ### `server` `SM_REMOVE_ROOM_MEMBERSHIP` (code `140`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 140 to SM_REMOVE_ROOM_MEMBERSHIP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-private-room-membership-control/official_frames.hex` (Authenticated runtime flow sends remove-room-membership control frame (code 140) with room string payload.)
 
 ### `server` `SM_ENABLE_PRIVATE_ROOM_ADD` (code `141`)
 - Confidence: `high`
@@ -963,9 +981,10 @@
 
 ### `server` `SM_ADD_ROOM_OPERATORSHIP` (code `145`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 145 to SM_ADD_ROOM_OPERATORSHIP (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-private-room-membership-control/official_frames.hex` (Authenticated runtime flow sends add-room-operatorship control frame (code 145) with room string payload.)
 
 ### `server` `SM_REMOVE_ROOM_OPERATORSHIP` (code `146`)
 - Confidence: `high`
@@ -999,27 +1018,31 @@
 
 ### `server` `SM_JOIN_GLOBAL_ROOM` (code `150`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `optional_string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 150 to SM_JOIN_GLOBAL_ROOM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-global-room-control/official_frames.hex` (Authenticated runtime flow sends join-global-room control frame (code 150) with empty payload.)
 
 ### `server` `SM_LEAVE_GLOBAL_ROOM` (code `151`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `optional_string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 151 to SM_LEAVE_GLOBAL_ROOM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-global-room-control/official_frames.hex` (Authenticated runtime flow sends leave-global-room control frame (code 151) with empty payload.)
 
 ### `server` `SM_SAY_GLOBAL_ROOM` (code `152`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `message`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 152 to SM_SAY_GLOBAL_ROOM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-global-room-control/official_frames.hex` (Authenticated runtime flow sends say-global-room control frame (code 152) with message string payload.)
 
 ### `server` `SM_SEARCH_CORRELATIONS` (code `153`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `term`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 153 to SM_SEARCH_CORRELATIONS (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-global-room-control/official_frames.hex` (Authenticated runtime flow sends search-correlations control frame (code 153) with term string payload.)
 
 ### `server` `SM_PEER_MESSAGE_ALT` (code `292`)
 - Confidence: `high`

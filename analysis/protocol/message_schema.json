@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generated_at": "2026-02-15T06:28:20+00:00",
+  "generated_at": "2026-02-15T06:58:48+00:00",
   "framing": {
     "transport": "tcp",
     "layout": "<u32 frame_len_le><u32 message_code_le><payload>",
@@ -1179,13 +1179,18 @@
       "scope": "server",
       "code": 28,
       "name": "SM_SET_STATUS",
-      "payload": [],
+      "payload": [
+        {
+          "name": "status",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 28 to SM_SET_STATUS (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-system-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends set-status control frame (code 28) with u32 status payload."
         }
       ]
     },
@@ -1193,13 +1198,18 @@
       "scope": "server",
       "code": 32,
       "name": "SM_HEARTBEAT",
-      "payload": [],
+      "payload": [
+        {
+          "name": "sequence",
+          "type": "optional_u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 32 to SM_HEARTBEAT (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-system-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends heartbeat control frame (code 32) with u32 sequence payload."
         }
       ]
     },
@@ -1619,13 +1629,18 @@
       "scope": "server",
       "code": 58,
       "name": "SM_COMMAND",
-      "payload": [],
+      "payload": [
+        {
+          "name": "command",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 58 to SM_COMMAND (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-text-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends command control frame (code 58) with command string payload."
         }
       ]
     },
@@ -1675,13 +1690,18 @@
       "scope": "server",
       "code": 62,
       "name": "SM_ROOM_ADDED",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 62 to SM_ROOM_ADDED (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-text-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends room-added control frame (code 62) with room string payload."
         }
       ]
     },
@@ -1689,13 +1709,18 @@
       "scope": "server",
       "code": 63,
       "name": "SM_ROOM_REMOVED",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 63 to SM_ROOM_REMOVED (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-text-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends room-removed control frame (code 63) with room string payload."
         }
       ]
     },
@@ -1745,13 +1770,18 @@
       "scope": "server",
       "code": 66,
       "name": "SM_ADMIN_MESSAGE",
-      "payload": [],
+      "payload": [
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 66 to SM_ADMIN_MESSAGE (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-text-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends admin-message control frame (code 66) with message string payload."
         }
       ]
     },
@@ -1925,13 +1955,18 @@
       "scope": "server",
       "code": 86,
       "name": "SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT",
-      "payload": [],
+      "payload": [
+        {
+          "name": "seconds",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 86 to SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-disconnect-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends parent-inactivity control frame (code 86) with u32 seconds payload."
         }
       ]
     },
@@ -1939,13 +1974,18 @@
       "scope": "server",
       "code": 87,
       "name": "SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT",
-      "payload": [],
+      "payload": [
+        {
+          "name": "seconds",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 87 to SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-disconnect-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends server-inactivity control frame (code 87) with u32 seconds payload."
         }
       ]
     },
@@ -1953,13 +1993,18 @@
       "scope": "server",
       "code": 88,
       "name": "SM_NODES_IN_CACHE_BEFORE_DISCONNECT",
-      "payload": [],
+      "payload": [
+        {
+          "name": "nodes",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 88 to SM_NODES_IN_CACHE_BEFORE_DISCONNECT (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-disconnect-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends nodes-in-cache control frame (code 88) with u32 nodes payload."
         }
       ]
     },
@@ -1967,13 +2012,18 @@
       "scope": "server",
       "code": 90,
       "name": "SM_SET_SECONDS_BEFORE_PING_CHILDREN",
-      "payload": [],
+      "payload": [
+        {
+          "name": "seconds",
+          "type": "u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 90 to SM_SET_SECONDS_BEFORE_PING_CHILDREN (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-disconnect-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends ping-children control frame (code 90) with u32 seconds payload."
         }
       ]
     },
@@ -2038,13 +2088,18 @@
       "scope": "server",
       "code": 100,
       "name": "SM_CAN_PARENT",
-      "payload": [],
+      "payload": [
+        {
+          "name": "can_parent",
+          "type": "bool_u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 100 to SM_CAN_PARENT (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-parent-disconnect-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends can-parent control frame (code 100) with bool_u32 payload."
         }
       ]
     },
@@ -2209,13 +2264,18 @@
       "scope": "server",
       "code": 117,
       "name": "SM_ADD_HATE_TERM",
-      "payload": [],
+      "payload": [
+        {
+          "name": "term",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 117 to SM_ADD_HATE_TERM (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-text-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends add-hate-term control frame (code 117) with term string payload."
         }
       ]
     },
@@ -2223,13 +2283,18 @@
       "scope": "server",
       "code": 118,
       "name": "SM_REMOVE_HATE_TERM",
-      "payload": [],
+      "payload": [
+        {
+          "name": "term",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 118 to SM_REMOVE_HATE_TERM (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-text-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends remove-hate-term control frame (code 118) with term string payload."
         }
       ]
     },
@@ -2463,13 +2528,18 @@
       "scope": "server",
       "code": 130,
       "name": "SM_DNET_RESET",
-      "payload": [],
+      "payload": [
+        {
+          "name": "reason",
+          "type": "optional_u32"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 130 to SM_DNET_RESET (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-system-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends dnet-reset control frame (code 130) with u32 reason payload."
         }
       ]
     },
@@ -2594,13 +2664,18 @@
       "scope": "server",
       "code": 136,
       "name": "SM_REMOVE_OWN_ROOM_MEMBERSHIP",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 136 to SM_REMOVE_OWN_ROOM_MEMBERSHIP (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-private-room-membership-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends remove-own-room-membership control frame (code 136) with room string payload."
         }
       ]
     },
@@ -2608,13 +2683,18 @@
       "scope": "server",
       "code": 137,
       "name": "SM_GIVE_UP_ROOM",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 137 to SM_GIVE_UP_ROOM (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-private-room-membership-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends give-up-room control frame (code 137) with room string payload."
         }
       ]
     },
@@ -2636,13 +2716,18 @@
       "scope": "server",
       "code": 139,
       "name": "SM_ADD_ROOM_MEMBERSHIP",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 139 to SM_ADD_ROOM_MEMBERSHIP (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-private-room-membership-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends add-room-membership control frame (code 139) with room string payload."
         }
       ]
     },
@@ -2650,13 +2735,18 @@
       "scope": "server",
       "code": 140,
       "name": "SM_REMOVE_ROOM_MEMBERSHIP",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 140 to SM_REMOVE_ROOM_MEMBERSHIP (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-private-room-membership-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends remove-room-membership control frame (code 140) with room string payload."
         }
       ]
     },
@@ -2758,13 +2848,18 @@
       "scope": "server",
       "code": 145,
       "name": "SM_ADD_ROOM_OPERATORSHIP",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 145 to SM_ADD_ROOM_OPERATORSHIP (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-private-room-membership-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends add-room-operatorship control frame (code 145) with room string payload."
         }
       ]
     },
@@ -2855,13 +2950,18 @@
       "scope": "server",
       "code": 150,
       "name": "SM_JOIN_GLOBAL_ROOM",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "optional_string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 150 to SM_JOIN_GLOBAL_ROOM (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-global-room-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends join-global-room control frame (code 150) with empty payload."
         }
       ]
     },
@@ -2869,13 +2969,18 @@
       "scope": "server",
       "code": 151,
       "name": "SM_LEAVE_GLOBAL_ROOM",
-      "payload": [],
+      "payload": [
+        {
+          "name": "room",
+          "type": "optional_string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 151 to SM_LEAVE_GLOBAL_ROOM (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-global-room-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends leave-global-room control frame (code 151) with empty payload."
         }
       ]
     },
@@ -2883,13 +2988,18 @@
       "scope": "server",
       "code": 152,
       "name": "SM_SAY_GLOBAL_ROOM",
-      "payload": [],
+      "payload": [
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 152 to SM_SAY_GLOBAL_ROOM (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-global-room-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends say-global-room control frame (code 152) with message string payload."
         }
       ]
     },
@@ -2897,13 +3007,18 @@
       "scope": "server",
       "code": 153,
       "name": "SM_SEARCH_CORRELATIONS",
-      "payload": [],
+      "payload": [
+        {
+          "name": "term",
+          "type": "string"
+        }
+      ],
       "confidence": "high",
       "evidence": [
         {
-          "kind": "manual_note",
-          "source": "evidence/reverse/message_codes_jump_table.md",
-          "note": "Server MessageCodeToString jump-table extraction resolves code 153 to SM_SEARCH_CORRELATIONS (x86_64 binary disassembly)."
+          "kind": "runtime_capture",
+          "source": "captures/redacted/login-global-room-control/official_frames.hex",
+          "note": "Authenticated runtime flow sends search-correlations control frame (code 153) with term string payload."
         }
       ]
     },
