@@ -1,8 +1,8 @@
-# Protocol Backlog (Post S4K)
+# Protocol Backlog (Post S4L)
 
 ## Objective
 
-Continue protocol mapping toward full coverage by functional domains while keeping KB-first evidence and runtime verification discipline.
+Maintain full protocol coverage (`implemented+mapped=131`) while replacing opaque control-message handling with richer typed payloads backed by runtime evidence.
 
 ## Completed in S3B (Rooms + Presence Batch)
 
@@ -173,39 +173,33 @@ Status: completed in S4J with authoritative static mapping evidence from jump-ta
 
 Status: completed in S4K with authoritative static mapping evidence from jump-table extraction plus protocol codec coverage in `rust/protocol`. Matrix `missing` bucket is now `0`.
 
-## Next Candidate Stage (S4L) - Mapped-not-implemented Reduction Wave 1
+## Completed in S4L (Mapped-not-implemented Closure)
 
-Target messages for typed implementation promotion:
+- Promoted all remaining mapped-only rows (`40`) to implemented coverage in `rust/protocol`.
+- Added `OpaqueServerControlPayload` decode/encode handling for unresolved server control payload shapes while preserving code-level traceability.
+- Matrix reached full coverage baseline:
+  - `implemented+mapped=131`
+  - `mapped_not_implemented=0`
+  - `missing=0`
 
-- `SM_COMMAND`
-- `SM_ADMIN_MESSAGE`
-- `SM_GLOBAL_USER_LIST`
-- `SM_SEND_DISTRIBUTIONS`
-- `SM_NOTE_PARENT`
-- `SM_CHILD_PARENT_MAP`
-- `SM_DNET_MESSAGE`
-- `SM_DNET_RESET`
-- `SM_SET_PARENT_MIN_SPEED`
-- `SM_SET_PARENT_SPEED_CONNECTION_RATIO`
-- `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`
-- `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`
-- `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`
-- `SM_SET_SECONDS_BEFORE_PING_CHILDREN`
-- `SM_CAN_PARENT`
-- `SM_POSSIBLE_PARENTS`
-- carryover parser-depth follow-up:
-  - `PM_SHARED_FILES_IN_FOLDER` compressed payload decomposition
+## Next Candidate Stage (S5A) - Typed Runtime Hardening Wave 1
+
+Target focus:
+
+- Replace `OpaqueServerControlPayload` handling with typed payload parsers for high-traffic control families where runtime captures are feasible.
+- Add runtime capture scenarios for global/distributed control flows currently represented as opaque payloads.
+- Improve `PM_SHARED_FILES_IN_FOLDER` by adding decompression-aware parser coverage.
 
 ## Execution Strategy
 
-1. Prioritize conversion from `mapped_not_implemented` to `implemented_mapped` in `rust/protocol`.
-2. Add typed payload decoding where payload shape is deterministic; keep opaque compatibility only when runtime evidence is still absent.
+1. Preserve the full-coverage matrix baseline (`131/131`) on every stage.
+2. Replace opaque decoding with typed schemas only when runtime/static evidence is sufficient.
 3. Regenerate schema/docs from authoritative maps and protocol constants:
    - `scripts/derive_message_schema.sh`
    - `python3 scripts/kb_sync_docs.py`
-4. Extend SDK/CLI/verify for promoted message families once protocol decode is stable.
+4. Extend SDK/CLI/verify for newly typed message families once protocol decode is stable.
 5. Keep regression green (`scripts/run_regression.sh`) before stage closure.
 
 ## Next Session Entry Point
 
-Start S4L by reducing the `mapped_not_implemented` bucket (`40`) with typed protocol implementations for S4F/S4G distributed-control families.
+Start S5A by selecting the first opaque-control subdomain and collecting runtime evidence needed for typed payload promotion.

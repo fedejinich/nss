@@ -21,7 +21,18 @@
 - Stage 4I complete: ticker/term control mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4J complete: private-room ownership/membership mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4K complete: missing-code closure and protocol implementation for global/distributed tail + peer control with authoritative jump-table evidence.
+- Stage 4L complete: mapped-not-implemented closure to full matrix implementation coverage (`implemented+mapped=131`).
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
+
+## Stage 4L Completion
+
+1. Closed all `40` remaining `mapped_not_implemented` rows by adding protocol constants and decode/encode support.
+2. Introduced `OpaqueServerControlPayload { code, bytes }` and `is_opaque_server_control_code(...)` for maintainable handling of unresolved control-message payload shapes.
+3. Added regression tests for closure-set decode/encode and opaque control builder validation.
+4. Regenerated matrix/schema/docs to reach the full-coverage baseline:
+   - `implemented+mapped=131`
+   - `mapped_not_implemented=0`
+   - `missing=0`
 
 ## Stage 4K Completion
 
@@ -178,7 +189,7 @@
    - `session connect-peer --target-user ... --token ... --connection-type ...`
    - `session watch-private --timeout-secs ...`
 7. Extended semantic differential verification coverage and required-run set with S4E scenarios.
-8. Added governance rule in `AGENTS.md`: mandatory two-round `@codex review` loop for each stage PR before merge.
+8. Governance was updated in `AGENTS.md`: each stage PR now runs two local review loops (security pass + code-simplifier pass) without `@codex review` dependency.
 
 ## Core Artifacts
 
@@ -201,10 +212,11 @@
 - `docs/pr/0013-s4i-ticker-term-control-map.md`
 - `docs/pr/0014-s4j-private-room-ownership-map.md`
 - `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md`
+- `docs/pr/0016-s4l-mapped-not-implemented-closure.md`
 
 ## Operational Notes
 
 - Stage 2 core contract remains intact (`25/25`, `high=25`, `medium=0`, `low=0`).
 - Total mapped protocol rows: `131`.
-- Protocol matrix snapshot: tracked `131`, implemented+mapped `91`, mapped-not-implemented `40`, missing `0`.
+- Protocol matrix snapshot: tracked `131`, implemented+mapped `131`, mapped-not-implemented `0`, missing `0`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.

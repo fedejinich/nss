@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use protocol::{Frame, decode_peer_message, decode_server_message};
+use protocol::{Frame, ServerMessage, decode_peer_message, decode_server_message};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeSet;
@@ -240,13 +240,23 @@ fn normalize_semantic_frame(bytes: &[u8]) -> Value {
             "scope": "peer",
             "decoded": peer,
         }),
-        (Ok(server), Ok(peer)) => json!({
-            "code": frame.code,
-            "known": true,
-            "scope": "ambiguous",
-            "decoded_server": server,
-            "decoded_peer": peer,
-        }),
+        (Ok(server), Ok(peer)) => {
+            if matches!(server, ServerMessage::OpaqueControl(_)) {
+                return json!({
+                    "code": frame.code,
+                    "known": true,
+                    "scope": "peer_preferred",
+                    "decoded": peer,
+                });
+            }
+            json!({
+                "code": frame.code,
+                "known": true,
+                "scope": "ambiguous",
+                "decoded_server": server,
+                "decoded_peer": peer,
+            })
+        }
         (Err(_), Err(_)) => json!({
             "code": frame.code,
             "known": false,

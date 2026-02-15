@@ -19,7 +19,9 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4I ticker/term-control mapping addendum: `+8` mapped messages from jump-table evidence.
 - Stage 4J private-room ownership/membership mapping addendum: `+8` mapped messages from jump-table evidence.
 - Stage 4K missing-code closure addendum: `+24` mapped+implemented messages from jump-table evidence and protocol codec extension.
+- Stage 4L mapped-not-implemented closure addendum: `+40` protocol implementations to reach full matrix coverage.
 - Total mapped protocol rows: `131`.
+- Total implemented+mapped rows: `131`.
 
 ## Static Evidence Sources
 
@@ -48,6 +50,6 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 
 ## Next Reverse Focus
 
-- Convert the remaining `mapped_not_implemented=40` messages into typed protocol/core/CLI coverage in staged waves.
-- Replace `OpaquePayload` for newly implemented S4K distributed/global controls with fully typed payload schemas as runtime evidence arrives.
+- Replace `OpaqueServerControlPayload` and `OpaquePayload` control branches with typed payload schemas where runtime evidence is available.
+- Expand runtime capture coverage for distributed/global control families that are currently static-only.
 - Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.
