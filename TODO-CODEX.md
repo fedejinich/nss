@@ -1,5 +1,35 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## S9A-HF - Login Error Clarity + TUI Diagnostics Wizard
+
+Dependency graph:
+
+- `S9A-HF-T01 -> S9A-HF-T02`
+- `S9A-HF-T02 -> S9A-HF-T03`
+- `S9A-HF-T03 -> S9A-HF-T04`
+
+Tasks:
+
+- id: S9A-HF-T01
+  description: Return explicit typed auth error when server closes before login response frame
+  status: done
+  depends_on: []
+
+- id: S9A-HF-T02
+  description: Add TUI diagnostics wizard for server parsing, DNS/TCP checks, and login version probe
+  status: done
+  depends_on: [S9A-HF-T01]
+
+- id: S9A-HF-T03
+  description: Add regression tests for typed close-before-response auth error and diagnostics key/modal behavior
+  status: done
+  depends_on: [S9A-HF-T02]
+
+- id: S9A-HF-T04
+  description: Update README and TUI runbook with diagnostics usage and new login failure guidance
+  status: done
+  depends_on: [S9A-HF-T03]
+
 ## S9 - TUI First, then Swift GUI, then Next Web
 
 Dependency graph:

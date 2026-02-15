@@ -1431,7 +1431,10 @@ fn parse_child_parent_map_payload(payload: &[u8]) -> Result<ChildParentMapPayloa
     }
 
     let extension_reserved_bytes = reader.read_remaining_bytes();
-    Ok(ChildParentMapPayload { mappings, extension_reserved_bytes })
+    Ok(ChildParentMapPayload {
+        mappings,
+        extension_reserved_bytes,
+    })
 }
 
 fn parse_dnet_message_payload(payload: &[u8]) -> Result<DnetMessagePayload> {
@@ -1554,12 +1557,19 @@ fn parse_room_operatorship_revocation_payload(payload: &[u8]) -> RoomOperatorshi
     };
     let extension_reserved_bytes = reader.read_remaining_bytes();
 
-    RoomOperatorshipRevocationPayload { room, extension_reserved_bytes }
+    RoomOperatorshipRevocationPayload {
+        room,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_level_payload(payload: &[u8]) -> DnetLevelPayload {
-    let (level, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
-    DnetLevelPayload { level, extension_reserved_bytes }
+    let (level, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetLevelPayload {
+        level,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
@@ -1577,21 +1587,33 @@ fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
         None
     };
     let extension_reserved_bytes = reader.read_remaining_bytes();
-    DnetGroupLeaderPayload { username, extension_reserved_bytes }
+    DnetGroupLeaderPayload {
+        username,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_child_depth_payload(payload: &[u8]) -> DnetChildDepthPayload {
-    let (depth, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
-    DnetChildDepthPayload { depth, extension_reserved_bytes }
+    let (depth, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetChildDepthPayload {
+        depth,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_delivery_report_payload(payload: &[u8]) -> DnetDeliveryReportPayload {
-    let (report, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
-    DnetDeliveryReportPayload { report, extension_reserved_bytes }
+    let (report, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetDeliveryReportPayload {
+        report,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_flood_payload(payload: &[u8]) -> FloodPayload {
-    let (flood_code, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
+    let (flood_code, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
     FloodPayload {
         flood_code,
         extension_reserved_bytes,

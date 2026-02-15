@@ -62,7 +62,10 @@ impl Default for PersistedAppStateV1 {
     }
 }
 
-pub fn recover_in_progress_downloads(entries: &mut [PersistedDownloadEntry], now_unix_secs: i64) -> bool {
+pub fn recover_in_progress_downloads(
+    entries: &mut [PersistedDownloadEntry],
+    now_unix_secs: i64,
+) -> bool {
     let mut changed = false;
     for entry in entries {
         if entry.status == PersistedDownloadStatus::InProgress {

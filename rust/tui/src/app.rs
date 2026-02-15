@@ -4,10 +4,13 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use protocol::ServerMessage;
-use soul_core::{Credentials, SearchSelectDownloadRequest, SessionClient, SessionState};
+use soul_core::{
+    Credentials, SearchSelectDownloadRequest, SessionClient, SessionState, probe_login_versions,
+};
 
 use crate::state::{
-    PersistedAppStateV1, PersistedDownloadEntry, PersistedDownloadStatus, recover_in_progress_downloads,
+    PersistedAppStateV1, PersistedDownloadEntry, PersistedDownloadStatus,
+    recover_in_progress_downloads,
 };
 use crate::storage;
 
@@ -63,6 +66,7 @@ pub enum PendingAction {
     Login,
     Search,
     Download,
+    RunDiagnostics,
     Quit,
 }
 
@@ -76,6 +80,8 @@ pub struct App {
     pub login_error: Option<String>,
     pub logs: Vec<String>,
     pub results: Vec<SearchRow>,
+    pub diagnostics_visible: bool,
+    pub diagnostics_lines: Vec<String>,
     pub state: PersistedAppStateV1,
     pub output_dir: PathBuf,
     auto_login_pending: bool,
@@ -126,10 +132,14 @@ impl App {
             selected_result: 0,
             session_state: SessionState::Disconnected,
             login_error: None,
-            logs: vec![
-                "NeoSoulSeek ready. Login is required before search/download.".to_string(),
-            ],
+            logs: vec!["NeoSoulSeek ready. Login is required before search/download.".to_string()],
             results: Vec::new(),
+            diagnostics_visible: false,
+            diagnostics_lines: vec![
+                "Press g to run diagnostics.".to_string(),
+                "The wizard checks server address parsing, DNS, TCP connect, and login probe."
+                    .to_string(),
+            ],
             state,
             output_dir,
             auto_login_pending,
@@ -400,16 +410,132 @@ impl App {
         self.selected_result = (current + delta).clamp(0, len - 1) as usize;
     }
 
+    pub async fn run_diagnostics(&mut self) {
+        self.diagnostics_visible = true;
+        self.diagnostics_lines.clear();
+        self.diagnostics_lines
+            .push("Running diagnostics wizard...".to_string());
+
+        let server = self.state.server.trim().to_string();
+        if server.is_empty() {
+            self.diagnostics_lines
+                .push("Server is empty. Fill Server and rerun (g).".to_string());
+            self.push_log("Diagnostics failed: empty server.");
+            return;
+        }
+
+        let (host, port) = match parse_server_host_port(&server) {
+            Ok(value) => value,
+            Err(err) => {
+                self.diagnostics_lines
+                    .push(format!("Server parse failed: {err}"));
+                self.diagnostics_lines.push(
+                    "Expected format is host:port (example: server.slsknet.org:2242).".to_string(),
+                );
+                self.push_log("Diagnostics failed: invalid server format.");
+                return;
+            }
+        };
+        self.diagnostics_lines
+            .push(format!("Server parsed: host={host} port={port}"));
+
+        match tokio::time::timeout(
+            Duration::from_secs(4),
+            tokio::net::lookup_host((host.as_str(), port)),
+        )
+        .await
+        {
+            Ok(Ok(mut addrs)) => {
+                if let Some(addr) = addrs.next() {
+                    self.diagnostics_lines
+                        .push(format!("DNS lookup ok: first resolved endpoint {addr}"));
+                } else {
+                    self.diagnostics_lines.push(
+                        "DNS lookup returned no addresses for the configured host.".to_string(),
+                    );
+                }
+            }
+            Ok(Err(err)) => {
+                self.diagnostics_lines
+                    .push(format!("DNS lookup failed: {err}"));
+            }
+            Err(_) => {
+                self.diagnostics_lines
+                    .push("DNS lookup timed out after 4s.".to_string());
+            }
+        }
+
+        match tokio::time::timeout(Duration::from_secs(4), SessionClient::connect(&server)).await {
+            Ok(Ok(_)) => self
+                .diagnostics_lines
+                .push("TCP connect check: ok.".to_string()),
+            Ok(Err(err)) => self
+                .diagnostics_lines
+                .push(format!("TCP connect check failed: {err}")),
+            Err(_) => self
+                .diagnostics_lines
+                .push("TCP connect check timed out after 4s.".to_string()),
+        }
+
+        let username = self.state.username.trim();
+        if username.is_empty() || self.state.password.is_empty() {
+            self.diagnostics_lines.push(
+                "Login probe skipped: username/password are missing in the login form.".to_string(),
+            );
+            self.push_log("Diagnostics completed (auth probe skipped).");
+            return;
+        }
+
+        self.diagnostics_lines
+            .push("Login probe (version matrix):".to_string());
+        match probe_login_versions(&server, username, &self.state.password).await {
+            Ok(attempts) => {
+                for attempt in attempts {
+                    self.diagnostics_lines.push(format!(
+                        " - {}/{} => {}",
+                        attempt.client_version, attempt.minor_version, attempt.result
+                    ));
+                }
+            }
+            Err(err) => {
+                self.diagnostics_lines
+                    .push(format!("Login probe failed: {err}"));
+            }
+        }
+
+        self.diagnostics_lines.push(
+            "If login still fails with 'server closed before login response', verify account exists in official client."
+                .to_string(),
+        );
+        self.push_log("Diagnostics completed.");
+    }
+
     pub fn handle_key(&mut self, key: KeyEvent) -> PendingAction {
+        if self.diagnostics_visible {
+            return self.handle_diagnostics_key(key);
+        }
         if self.phase == UiPhase::LoginModal {
             return self.handle_login_modal_key(key);
         }
         self.handle_main_key(key)
     }
 
+    fn handle_diagnostics_key(&mut self, key: KeyEvent) -> PendingAction {
+        match key.code {
+            KeyCode::Char('q') => PendingAction::Quit,
+            KeyCode::Esc | KeyCode::Char('g') => {
+                self.diagnostics_visible = false;
+                PendingAction::None
+            }
+            KeyCode::Char('r') => PendingAction::RunDiagnostics,
+            _ => PendingAction::None,
+        }
+    }
+
     fn handle_login_modal_key(&mut self, key: KeyEvent) -> PendingAction {
         match key.code {
             KeyCode::Char('q') => PendingAction::Quit,
+            KeyCode::Char('g') => PendingAction::RunDiagnostics,
             KeyCode::Tab => {
                 self.login_focus = self.login_focus.next();
                 PendingAction::None
@@ -445,6 +571,7 @@ impl App {
         }
         match key.code {
             KeyCode::Char('q') => PendingAction::Quit,
+            KeyCode::Char('g') => PendingAction::RunDiagnostics,
             KeyCode::Char('l') => {
                 self.phase = UiPhase::LoginModal;
                 self.session = None;
@@ -551,6 +678,8 @@ impl App {
             login_error: None,
             logs: vec!["test".to_string()],
             results: Vec::new(),
+            diagnostics_visible: false,
+            diagnostics_lines: Vec::new(),
             state,
             output_dir,
             auto_login_pending: false,
@@ -558,6 +687,20 @@ impl App {
             session: None,
         }
     }
+}
+
+fn parse_server_host_port(server: &str) -> Result<(String, u16), String> {
+    let trimmed = server.trim();
+    let (host, port_raw) = trimmed
+        .rsplit_once(':')
+        .ok_or_else(|| "missing ':' separator".to_string())?;
+    if host.trim().is_empty() {
+        return Err("host is empty".to_string());
+    }
+    let port = port_raw
+        .parse::<u16>()
+        .map_err(|_| format!("invalid port: {port_raw}"))?;
+    Ok((host.to_string(), port))
 }
 
 fn now_unix_secs() -> i64 {
@@ -610,5 +753,28 @@ mod tests {
         });
         app.clear_download_history();
         assert!(app.state.downloads.is_empty());
+    }
+
+    #[test]
+    fn diagnostics_key_opens_wizard_from_login_modal() {
+        let mut app = App::new_for_test(PersistedAppStateV1::default());
+        app.phase = UiPhase::LoginModal;
+        let action = app.handle_key(KeyEvent::new(KeyCode::Char('g'), KeyModifiers::NONE));
+        assert_eq!(action, PendingAction::RunDiagnostics);
+    }
+
+    #[test]
+    fn diagnostics_modal_can_be_closed_with_escape() {
+        let mut app = App::new_for_test(PersistedAppStateV1::default());
+        app.diagnostics_visible = true;
+        let action = app.handle_key(KeyEvent::new(KeyCode::Esc, KeyModifiers::NONE));
+        assert_eq!(action, PendingAction::None);
+        assert!(!app.diagnostics_visible);
+    }
+
+    #[test]
+    fn server_parser_rejects_invalid_port() {
+        let err = parse_server_host_port("server.slsknet.org:not-a-port").expect_err("invalid");
+        assert!(err.contains("invalid port"));
     }
 }

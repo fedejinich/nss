@@ -9,11 +9,11 @@ use protocol::{
     ProtocolMessage, RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
     RoomListPayload, RoomMembersPayload, RoomOperatorsPayload, RoomTickerPayload,
     SearchResponseSummary, ServerMessage, SimilarTermsPayload, TermRecommendationsPayload,
-    TransferDirection, TransferRequestPayload, TransferResponsePayload, UserPrivilegesStatusPayload,
-    UserRecommendationsPayload, UserStatsResponsePayload, UserStatusResponsePayload,
-    build_add_chatroom_request,
-    build_add_like_term_request, build_add_room_member_request, build_add_room_operator_request,
-    build_ban_user_request, build_connect_to_peer_request, build_file_search_request,
+    TransferDirection, TransferRequestPayload, TransferResponsePayload,
+    UserPrivilegesStatusPayload, UserRecommendationsPayload, UserStatsResponsePayload,
+    UserStatusResponsePayload, build_add_chatroom_request, build_add_like_term_request,
+    build_add_room_member_request, build_add_room_operator_request, build_ban_user_request,
+    build_connect_to_peer_request, build_file_search_request,
     build_get_global_recommendations_request, build_get_my_recommendations_request,
     build_get_own_privileges_status_request, build_get_peer_address_request,
     build_get_recommendation_users_request, build_get_recommendations_request,
@@ -181,7 +181,13 @@ impl SessionClient {
         let response_frame = tokio::time::timeout(self.login_response_timeout, read_frame(stream))
             .await
             .map_err(|_| AuthError::Timeout)?
-            .map_err(|err| AuthError::ProtocolDecode(format!("read login response: {err}")))?;
+            .map_err(|err| {
+                if is_connection_eof(&err) {
+                    AuthError::ServerClosedBeforeLoginResponse
+                } else {
+                    AuthError::ProtocolDecode(format!("read login response: {err}"))
+                }
+            })?;
 
         if response_frame.code != CODE_SM_LOGIN {
             return Err(AuthError::ProtocolDecode(format!(
@@ -1076,13 +1082,14 @@ impl SessionClient {
             }
         })?;
 
-        let selected_file = selected_summary.files.get(request.file_index).ok_or_else(|| {
-            SearchSelectDownloadError::InvalidSearchFileIndex {
+        let selected_file = selected_summary
+            .files
+            .get(request.file_index)
+            .ok_or_else(|| SearchSelectDownloadError::InvalidSearchFileIndex {
                 result_index: request.result_index,
                 file_index: request.file_index,
                 available: selected_summary.files.len(),
-            }
-        })?;
+            })?;
 
         let peer_addr = if let Some(override_addr) = request.peer_addr_override.clone() {
             override_addr
@@ -1278,6 +1285,8 @@ pub enum AuthError {
     InvalidPass,
     #[error("login rejected: INVALIDUSERNAME")]
     InvalidUsername,
+    #[error("server closed before login response (possible invalid account/registration/ban)")]
+    ServerClosedBeforeLoginResponse,
     #[error("login response decode failure: {0}")]
     ProtocolDecode(String),
     #[error("login response timed out")]
@@ -1638,10 +1647,10 @@ mod tests {
         RecommendationEntry, RecommendationUsersPayload, RecommendationsPayload,
         RecommendedUsersPayload, RoomListPayload, RoomPresenceEventPayload, RoomTickerEntry,
         RoomTickerPayload, SearchFileSummary, SearchResponseSummary, ServerMessage,
-        SimilarTermsPayload, SimilarTermsRequestPayload, SpeedPayload,
-        TermRecommendationsPayload, UserPrivilegesStatusPayload, UserRecommendationsPayload,
-        UserStatsResponsePayload, UserStatusResponsePayload, encode_server_message,
-        parse_transfer_request, parse_transfer_response,
+        SimilarTermsPayload, SimilarTermsRequestPayload, SpeedPayload, TermRecommendationsPayload,
+        UserPrivilegesStatusPayload, UserRecommendationsPayload, UserStatsResponsePayload,
+        UserStatusResponsePayload, encode_server_message, parse_transfer_request,
+        parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -3286,6 +3295,33 @@ mod tests {
             .await
             .expect_err("must fail");
         assert_eq!(err, AuthError::InvalidVersion);
+        assert_eq!(client.state(), SessionState::Connected);
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn login_server_close_before_response_returns_typed_error() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (socket, _) = listener.accept().await.expect("accept");
+            drop(socket);
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        let err = client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect_err("must fail");
+        assert_eq!(err, AuthError::ServerClosedBeforeLoginResponse);
         assert_eq!(client.state(), SessionState::Connected);
         server.await.expect("server task");
     }
