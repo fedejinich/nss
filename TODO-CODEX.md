@@ -1333,27 +1333,27 @@ Tasks:
 
 - id: S4L-Q01
   description: Open S4L PR and complete local review loop round 1 (security pass + code-simplifier pass)
-  status: todo
+  status: done
   depends_on: [S4L-R01]
 
 - id: S4L-Q02
   description: Triage round-1 findings, apply useful fixes, and document rationale for non-applied suggestions
-  status: todo
+  status: done
   depends_on: [S4L-Q01]
 
 - id: S4L-Q03
   description: Complete local review loop round 2 after pushing round-one updates
-  status: todo
+  status: done
   depends_on: [S4L-Q02]
 
 - id: S4L-Q04
   description: Triage round-2 findings, apply or dismiss with rationale, and finalize review notes
-  status: todo
+  status: done
   depends_on: [S4L-Q03]
 
 - id: S4L-T07
   description: Finalize merge-ready stage closure and sync TODO statuses
-  status: todo
+  status: done
   depends_on: [S4L-Q04]
 
 Notes:
@@ -1369,3 +1369,5 @@ Notes:
   - `scripts/run_regression.sh`
   - `./.venv-tools/bin/zensical build -f zensical.toml`
 - Workflow update: `@codex review` dependency removed from PR loop due availability constraints; stage review loops now run locally (security + simplifier).
+- PR opened: `https://github.com/fedejinich/nss/pull/15`.
+- Local review loops completed with no additional blocking findings; stage is merge-ready after green validation gates.
