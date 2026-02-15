@@ -234,13 +234,58 @@ Status: completed in S4K with authoritative static mapping evidence from jump-ta
   - `mapped_not_implemented=0`
   - `missing=0`
 
-## Next Candidate Stage (S5D) - Typed Runtime Hardening Wave 3
+## Completed in S5D-S5H (Typed Runtime Hardening Waves 3-7)
+
+- S5D (`global/discovery control`):
+  - `SM_JOIN_GLOBAL_ROOM` (`150`)
+  - `SM_LEAVE_GLOBAL_ROOM` (`151`)
+  - `SM_SAY_GLOBAL_ROOM` (`152`)
+  - `SM_SEARCH_CORRELATIONS` (`153`)
+  - runtime scenario: `login-global-room-control`
+- S5E (`parent/disconnect control`):
+  - `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT` (`86`)
+  - `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT` (`87`)
+  - `SM_NODES_IN_CACHE_BEFORE_DISCONNECT` (`88`)
+  - `SM_SET_SECONDS_BEFORE_PING_CHILDREN` (`90`)
+  - `SM_CAN_PARENT` (`100`)
+  - runtime scenario: `login-parent-disconnect-control`
+- S5F (`private-room membership/ownership control`):
+  - `SM_REMOVE_OWN_ROOM_MEMBERSHIP` (`136`)
+  - `SM_GIVE_UP_ROOM` (`137`)
+  - `SM_ADD_ROOM_MEMBERSHIP` (`139`)
+  - `SM_REMOVE_ROOM_MEMBERSHIP` (`140`)
+  - `SM_ADD_ROOM_OPERATORSHIP` (`145`)
+  - runtime scenario: `login-private-room-membership-control`
+- S5G (`text-control payloads`):
+  - `SM_COMMAND` (`58`)
+  - `SM_ROOM_ADDED` (`62`)
+  - `SM_ROOM_REMOVED` (`63`)
+  - `SM_ADMIN_MESSAGE` (`66`)
+  - `SM_ADD_HATE_TERM` (`117`)
+  - `SM_REMOVE_HATE_TERM` (`118`)
+  - runtime scenario: `login-text-control`
+- S5H (`system-control payloads`):
+  - `SM_SET_STATUS` (`28`)
+  - `SM_HEARTBEAT` (`32`)
+  - `SM_DNET_RESET` (`130`)
+  - runtime scenario: `login-system-control`
+
+Status:
+
+- `23` message families promoted from opaque to typed runtime-backed payloads.
+- `OPAQUE_SERVER_CONTROL_CODES` reduced from `34` to `15`.
+- Full matrix baseline preserved:
+  - `implemented+mapped=131`
+  - `mapped_not_implemented=0`
+  - `missing=0`
+
+## Next Candidate Stage (S6) - Opaque Tail Reduction
 
 Target focus:
 
-- Continue replacing `OpaqueServerControlPayload` handling for global/distributed control codes with typed payloads.
-- Add runtime scenarios that exercise additional distributed control frames currently verified only by static jump-table evidence.
-- Extend semantic verifier normalization for newly typed control payload families.
+- Continue reducing remaining generic opaque server-control codes (`15` currently in `OPAQUE_SERVER_CONTROL_CODES`).
+- Evaluate dedicated legacy opaque variants (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, distributed/flood tail) for typed promotion based on runtime/static evidence quality.
+- Keep semantic parity regression and KB evidence linkage constraints unchanged.
 
 ## Execution Strategy
 
@@ -254,4 +299,4 @@ Target focus:
 
 ## Next Session Entry Point
 
-Start S5C by selecting the next opaque global/distributed control subset with feasible runtime evidence and typed parser promotion path.
+Start S6 by selecting the next opaque tail subset with feasible runtime evidence and typed parser promotion path.

@@ -625,6 +625,76 @@ pub struct RoomModerationPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GlobalRoomTogglePayload {
+    pub room: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GlobalRoomMessagePayload {
+    pub message: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SearchCorrelationsPayload {
+    pub term: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ParentInactivityBeforeDisconnectPayload {
+    pub seconds: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ServerInactivityBeforeDisconnectPayload {
+    pub seconds: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NodesInCacheBeforeDisconnectPayload {
+    pub nodes: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SecondsBeforePingChildrenPayload {
+    pub seconds: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CanParentPayload {
+    pub can_parent: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomNamePayload {
+    pub room: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CommandPayload {
+    pub command: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct AdminMessagePayload {
+    pub message: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SetStatusPayload {
+    pub status: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct HeartbeatPayload {
+    pub sequence: Option<u32>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DnetResetPayload {
+    pub reason: Option<u32>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SayChatRoomPayload {
     pub room: String,
     pub username: Option<String>,
@@ -868,6 +938,8 @@ pub enum ServerMessage {
     ConnectToPeer(ConnectToPeerPayload),
     FileSearch(FileSearchPayload),
     LowPriorityFileSearch(FileSearchPayload),
+    SetStatus(SetStatusPayload),
+    Heartbeat(HeartbeatPayload),
     SendConnectToken(OpaquePayload),
     PlaceInLine(OpaquePayload),
     PlaceInLineResponse(OpaquePayload),
@@ -889,6 +961,10 @@ pub enum ServerMessage {
     GetMyRecommendationsResponse(RecommendationsPayload),
     GetGlobalRecommendations(EmptyPayload),
     GetGlobalRecommendationsResponse(RecommendationsPayload),
+    Command(CommandPayload),
+    RoomAdded(RoomNamePayload),
+    RoomRemoved(RoomNamePayload),
+    AdminMessage(AdminMessagePayload),
     GetOwnPrivilegesStatus(EmptyPayload),
     OwnPrivilegesStatus(OwnPrivilegesStatusPayload),
     WishlistWait(OpaquePayload),
@@ -911,16 +987,29 @@ pub enum ServerMessage {
     RemoveRoomOperator(RoomModerationPayload),
     SetParentMinSpeed(ParentMinSpeedPayload),
     SetParentSpeedConnectionRatio(ParentSpeedConnectionRatioPayload),
+    SetParentInactivityBeforeDisconnect(ParentInactivityBeforeDisconnectPayload),
+    SetServerInactivityBeforeDisconnect(ServerInactivityBeforeDisconnectPayload),
+    NodesInCacheBeforeDisconnect(NodesInCacheBeforeDisconnectPayload),
+    SetSecondsBeforePingChildren(SecondsBeforePingChildrenPayload),
+    CanParent(CanParentPayload),
     GetRoomTicker(RoomTickerRequestPayload),
     RoomTicker(RoomTickerPayload),
+    AddHateTerm(SimilarTermsRequestPayload),
+    RemoveHateTerm(SimilarTermsRequestPayload),
+    DnetReset(DnetResetPayload),
+    RemoveOwnRoomMembership(RoomNamePayload),
+    GiveUpRoom(RoomNamePayload),
+    AddRoomMembership(RoomNamePayload),
+    RemoveRoomMembership(RoomNamePayload),
+    AddRoomOperatorship(RoomNamePayload),
     RemoveRoomOperatorship(OpaquePayload),
     RemoveOwnRoomOperatorship(OpaquePayload),
     RoomMembers(RoomMembersPayload),
     RoomOperators(RoomOperatorsPayload),
-    JoinGlobalRoom(OpaquePayload),
-    LeaveGlobalRoom(OpaquePayload),
-    SayGlobalRoom(OpaquePayload),
-    SearchCorrelations(OpaquePayload),
+    JoinGlobalRoom(GlobalRoomTogglePayload),
+    LeaveGlobalRoom(GlobalRoomTogglePayload),
+    SayGlobalRoom(GlobalRoomMessagePayload),
+    SearchCorrelations(SearchCorrelationsPayload),
     DnetLevel(OpaquePayload),
     DnetGroupLeader(OpaquePayload),
     DnetDeliveryReport(OpaquePayload),
@@ -983,41 +1072,22 @@ fn ensure_payload_consumed(reader: &PayloadReader<'_>) -> Result<()> {
     Ok(())
 }
 
-pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 34] = [
-    CODE_SM_SET_STATUS,
-    CODE_SM_HEARTBEAT,
+pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 15] = [
     CODE_SM_RELOGGED,
-    CODE_SM_COMMAND,
     CODE_SM_USER_LIST,
-    CODE_SM_ROOM_ADDED,
-    CODE_SM_ROOM_REMOVED,
-    CODE_SM_ADMIN_MESSAGE,
     CODE_SM_GLOBAL_USER_LIST,
     CODE_SM_CONNECT_TO_CLIENT,
     CODE_SM_SEND_DISTRIBUTIONS,
     CODE_SM_NOTE_PARENT,
     CODE_SM_CHILD_PARENT_MAP,
-    CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT,
-    CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT,
-    CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT,
-    CODE_SM_SET_SECONDS_BEFORE_PING_CHILDREN,
     CODE_SM_DNET_MESSAGE,
-    CODE_SM_CAN_PARENT,
     CODE_SM_POSSIBLE_PARENTS,
     CODE_SM_ROOM_TICKER_USER_ADDED,
     CODE_SM_ROOM_TICKER_USER_REMOVED,
     CODE_SM_SET_TICKER,
-    CODE_SM_ADD_HATE_TERM,
-    CODE_SM_REMOVE_HATE_TERM,
-    CODE_SM_DNET_RESET,
-    CODE_SM_REMOVE_OWN_ROOM_MEMBERSHIP,
-    CODE_SM_GIVE_UP_ROOM,
     CODE_SM_TRANSFER_ROOM_OWNERSHIP,
-    CODE_SM_ADD_ROOM_MEMBERSHIP,
-    CODE_SM_REMOVE_ROOM_MEMBERSHIP,
     CODE_SM_ENABLE_PRIVATE_ROOM_ADD,
     CODE_SM_CHANGE_PASSWORD,
-    CODE_SM_ADD_ROOM_OPERATORSHIP,
 ];
 
 const MAX_SHARED_FILES_IN_FOLDER_DECOMPRESSED_BYTES: usize = 16 * 1024 * 1024;
@@ -1208,6 +1278,16 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.search_text);
             CODE_SM_LOW_PRIORITY_FILE_SEARCH
         }
+        ServerMessage::SetStatus(payload) => {
+            writer.write_u32(payload.status);
+            CODE_SM_SET_STATUS
+        }
+        ServerMessage::Heartbeat(payload) => {
+            if let Some(sequence) = payload.sequence {
+                writer.write_u32(sequence);
+            }
+            CODE_SM_HEARTBEAT
+        }
         ServerMessage::SendConnectToken(payload) => {
             writer.write_raw_bytes(&payload.bytes);
             CODE_SM_SEND_CONNECT_TOKEN
@@ -1306,6 +1386,22 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
         ServerMessage::GetGlobalRecommendationsResponse(payload) => {
             encode_recommendations_payload(&mut writer, payload);
             CODE_SM_GET_GLOBAL_RECOMMENDATIONS
+        }
+        ServerMessage::Command(payload) => {
+            writer.write_string(&payload.command);
+            CODE_SM_COMMAND
+        }
+        ServerMessage::RoomAdded(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_ROOM_ADDED
+        }
+        ServerMessage::RoomRemoved(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_ROOM_REMOVED
+        }
+        ServerMessage::AdminMessage(payload) => {
+            writer.write_string(&payload.message);
+            CODE_SM_ADMIN_MESSAGE
         }
         ServerMessage::GetOwnPrivilegesStatus(_) => CODE_SM_GET_OWN_PRIVILEGES_STATUS,
         ServerMessage::OwnPrivilegesStatus(payload) => {
@@ -1411,6 +1507,26 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_u32(payload.ratio);
             CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO
         }
+        ServerMessage::SetParentInactivityBeforeDisconnect(payload) => {
+            writer.write_u32(payload.seconds);
+            CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT
+        }
+        ServerMessage::SetServerInactivityBeforeDisconnect(payload) => {
+            writer.write_u32(payload.seconds);
+            CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT
+        }
+        ServerMessage::NodesInCacheBeforeDisconnect(payload) => {
+            writer.write_u32(payload.nodes);
+            CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT
+        }
+        ServerMessage::SetSecondsBeforePingChildren(payload) => {
+            writer.write_u32(payload.seconds);
+            CODE_SM_SET_SECONDS_BEFORE_PING_CHILDREN
+        }
+        ServerMessage::CanParent(payload) => {
+            writer.write_bool_u32(payload.can_parent);
+            CODE_SM_CAN_PARENT
+        }
         ServerMessage::GetRoomTicker(payload) => {
             writer.write_string(&payload.room);
             CODE_SM_GET_ROOM_TICKER
@@ -1423,6 +1539,40 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
                 writer.write_string(&entry.ticker);
             }
             CODE_SM_GET_ROOM_TICKER
+        }
+        ServerMessage::AddHateTerm(payload) => {
+            writer.write_string(&payload.term);
+            CODE_SM_ADD_HATE_TERM
+        }
+        ServerMessage::RemoveHateTerm(payload) => {
+            writer.write_string(&payload.term);
+            CODE_SM_REMOVE_HATE_TERM
+        }
+        ServerMessage::DnetReset(payload) => {
+            if let Some(reason) = payload.reason {
+                writer.write_u32(reason);
+            }
+            CODE_SM_DNET_RESET
+        }
+        ServerMessage::RemoveOwnRoomMembership(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_REMOVE_OWN_ROOM_MEMBERSHIP
+        }
+        ServerMessage::GiveUpRoom(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_GIVE_UP_ROOM
+        }
+        ServerMessage::AddRoomMembership(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_ADD_ROOM_MEMBERSHIP
+        }
+        ServerMessage::RemoveRoomMembership(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_REMOVE_ROOM_MEMBERSHIP
+        }
+        ServerMessage::AddRoomOperatorship(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_ADD_ROOM_OPERATORSHIP
         }
         ServerMessage::RemoveRoomOperatorship(payload) => {
             writer.write_raw_bytes(&payload.bytes);
@@ -1453,19 +1603,23 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             CODE_SM_ROOM_OPERATORS
         }
         ServerMessage::JoinGlobalRoom(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(room) = &payload.room {
+                writer.write_string(room);
+            }
             CODE_SM_JOIN_GLOBAL_ROOM
         }
         ServerMessage::LeaveGlobalRoom(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            if let Some(room) = &payload.room {
+                writer.write_string(room);
+            }
             CODE_SM_LEAVE_GLOBAL_ROOM
         }
         ServerMessage::SayGlobalRoom(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            writer.write_string(&payload.message);
             CODE_SM_SAY_GLOBAL_ROOM
         }
         ServerMessage::SearchCorrelations(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            writer.write_string(&payload.term);
             CODE_SM_SEARCH_CORRELATIONS
         }
         ServerMessage::DnetLevel(payload) => {
@@ -1683,6 +1837,26 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::LowPriorityFileSearch(payload)
         }
+        CODE_SM_SET_STATUS => {
+            let payload = SetStatusPayload {
+                status: if payload.len() >= 4 {
+                    reader.read_u32()?
+                } else {
+                    0
+                },
+            };
+            ServerMessage::SetStatus(payload)
+        }
+        CODE_SM_HEARTBEAT => {
+            let payload = HeartbeatPayload {
+                sequence: if payload.len() >= 4 {
+                    Some(reader.read_u32()?)
+                } else {
+                    None
+                },
+            };
+            ServerMessage::Heartbeat(payload)
+        }
         CODE_SM_SEND_CONNECT_TOKEN => {
             allow_trailing_bytes = true;
             ServerMessage::SendConnectToken(OpaquePayload {
@@ -1813,6 +1987,30 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
                 )?)
             }
         }
+        CODE_SM_COMMAND => {
+            let payload = CommandPayload {
+                command: reader.read_string()?,
+            };
+            ServerMessage::Command(payload)
+        }
+        CODE_SM_ROOM_ADDED => {
+            let payload = RoomNamePayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::RoomAdded(payload)
+        }
+        CODE_SM_ROOM_REMOVED => {
+            let payload = RoomNamePayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::RoomRemoved(payload)
+        }
+        CODE_SM_ADMIN_MESSAGE => {
+            let payload = AdminMessagePayload {
+                message: reader.read_string()?,
+            };
+            ServerMessage::AdminMessage(payload)
+        }
         CODE_SM_GET_OWN_PRIVILEGES_STATUS => {
             allow_trailing_bytes = true;
             if payload.is_empty() {
@@ -1893,6 +2091,42 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::SetParentSpeedConnectionRatio(payload)
         }
+        CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT => {
+            let payload = ParentInactivityBeforeDisconnectPayload {
+                seconds: reader.read_u32()?,
+            };
+            ServerMessage::SetParentInactivityBeforeDisconnect(payload)
+        }
+        CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT => {
+            let payload = ServerInactivityBeforeDisconnectPayload {
+                seconds: reader.read_u32()?,
+            };
+            ServerMessage::SetServerInactivityBeforeDisconnect(payload)
+        }
+        CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT => {
+            let payload = NodesInCacheBeforeDisconnectPayload {
+                nodes: reader.read_u32()?,
+            };
+            ServerMessage::NodesInCacheBeforeDisconnect(payload)
+        }
+        CODE_SM_SET_SECONDS_BEFORE_PING_CHILDREN => {
+            let payload = SecondsBeforePingChildrenPayload {
+                seconds: reader.read_u32()?,
+            };
+            ServerMessage::SetSecondsBeforePingChildren(payload)
+        }
+        CODE_SM_CAN_PARENT => {
+            let payload = CanParentPayload {
+                can_parent: if reader.remaining() >= 4 {
+                    reader.read_bool_u32()?
+                } else if reader.remaining() >= 1 {
+                    reader.read_u8()? != 0
+                } else {
+                    false
+                },
+            };
+            ServerMessage::CanParent(payload)
+        }
         CODE_SM_GET_ROOM_TICKER => {
             allow_trailing_bytes = true;
             if let Ok(request) = parse_room_ticker_request_payload(payload) {
@@ -1900,6 +2134,58 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             } else {
                 ServerMessage::RoomTicker(parse_room_ticker_payload(payload)?)
             }
+        }
+        CODE_SM_ADD_HATE_TERM => {
+            let payload = SimilarTermsRequestPayload {
+                term: reader.read_string()?,
+            };
+            ServerMessage::AddHateTerm(payload)
+        }
+        CODE_SM_REMOVE_HATE_TERM => {
+            let payload = SimilarTermsRequestPayload {
+                term: reader.read_string()?,
+            };
+            ServerMessage::RemoveHateTerm(payload)
+        }
+        CODE_SM_DNET_RESET => {
+            let payload = DnetResetPayload {
+                reason: if payload.len() >= 4 {
+                    Some(reader.read_u32()?)
+                } else {
+                    None
+                },
+            };
+            ServerMessage::DnetReset(payload)
+        }
+        CODE_SM_REMOVE_OWN_ROOM_MEMBERSHIP => {
+            let payload = RoomNamePayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::RemoveOwnRoomMembership(payload)
+        }
+        CODE_SM_GIVE_UP_ROOM => {
+            let payload = RoomNamePayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::GiveUpRoom(payload)
+        }
+        CODE_SM_ADD_ROOM_MEMBERSHIP => {
+            let payload = RoomNamePayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::AddRoomMembership(payload)
+        }
+        CODE_SM_REMOVE_ROOM_MEMBERSHIP => {
+            let payload = RoomNamePayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::RemoveRoomMembership(payload)
+        }
+        CODE_SM_ADD_ROOM_OPERATORSHIP => {
+            let payload = RoomNamePayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::AddRoomOperatorship(payload)
         }
         CODE_SM_REMOVE_ROOM_OPERATORSHIP => {
             allow_trailing_bytes = true;
@@ -1923,27 +2209,25 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         }
         CODE_SM_JOIN_GLOBAL_ROOM => {
             allow_trailing_bytes = true;
-            ServerMessage::JoinGlobalRoom(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            let room = parse_optional_room_string(payload)?;
+            ServerMessage::JoinGlobalRoom(GlobalRoomTogglePayload { room })
         }
         CODE_SM_LEAVE_GLOBAL_ROOM => {
             allow_trailing_bytes = true;
-            ServerMessage::LeaveGlobalRoom(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            let room = parse_optional_room_string(payload)?;
+            ServerMessage::LeaveGlobalRoom(GlobalRoomTogglePayload { room })
         }
         CODE_SM_SAY_GLOBAL_ROOM => {
-            allow_trailing_bytes = true;
-            ServerMessage::SayGlobalRoom(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            let payload = GlobalRoomMessagePayload {
+                message: reader.read_string()?,
+            };
+            ServerMessage::SayGlobalRoom(payload)
         }
         CODE_SM_SEARCH_CORRELATIONS => {
-            allow_trailing_bytes = true;
-            ServerMessage::SearchCorrelations(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            let payload = SearchCorrelationsPayload {
+                term: reader.read_string()?,
+            };
+            ServerMessage::SearchCorrelations(payload)
         }
         CODE_SM_MESSAGE_USER => {
             allow_trailing_bytes = true;
@@ -2069,6 +2353,19 @@ fn read_optional_string_list(reader: &mut PayloadReader<'_>, max_count: u32) -> 
         entries.push(item);
     }
     entries
+}
+
+fn parse_optional_room_string(payload: &[u8]) -> Result<Option<String>> {
+    if payload.is_empty() {
+        return Ok(None);
+    }
+    let mut reader = PayloadReader::new(payload);
+    let room = reader.read_string()?;
+    while reader.remaining() >= 4 {
+        let _ = reader.read_u32()?;
+    }
+    ensure_payload_consumed(&reader)?;
+    Ok(Some(room))
 }
 
 pub fn parse_room_list_payload(payload: &[u8]) -> Result<RoomListPayload> {
@@ -3288,6 +3585,68 @@ pub fn build_remove_like_term_request(term: &str) -> Frame {
     }))
 }
 
+pub fn build_join_global_room_request(room: Option<&str>) -> Frame {
+    encode_server_message(&ServerMessage::JoinGlobalRoom(GlobalRoomTogglePayload {
+        room: room.map(ToOwned::to_owned),
+    }))
+}
+
+pub fn build_leave_global_room_request(room: Option<&str>) -> Frame {
+    encode_server_message(&ServerMessage::LeaveGlobalRoom(GlobalRoomTogglePayload {
+        room: room.map(ToOwned::to_owned),
+    }))
+}
+
+pub fn build_say_global_room_request(message: &str) -> Frame {
+    encode_server_message(&ServerMessage::SayGlobalRoom(GlobalRoomMessagePayload {
+        message: message.to_owned(),
+    }))
+}
+
+pub fn build_search_correlations_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::SearchCorrelations(
+        SearchCorrelationsPayload {
+            term: term.to_owned(),
+        },
+    ))
+}
+
+pub fn build_command_request(command: &str) -> Frame {
+    encode_server_message(&ServerMessage::Command(CommandPayload {
+        command: command.to_owned(),
+    }))
+}
+
+pub fn build_room_added_event(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RoomAdded(RoomNamePayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_room_removed_event(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RoomRemoved(RoomNamePayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_admin_message_request(message: &str) -> Frame {
+    encode_server_message(&ServerMessage::AdminMessage(AdminMessagePayload {
+        message: message.to_owned(),
+    }))
+}
+
+pub fn build_add_hate_term_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::AddHateTerm(SimilarTermsRequestPayload {
+        term: term.to_owned(),
+    }))
+}
+
+pub fn build_remove_hate_term_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveHateTerm(SimilarTermsRequestPayload {
+        term: term.to_owned(),
+    }))
+}
+
 pub fn build_ignore_user_request(username: &str) -> Frame {
     encode_server_message(&ServerMessage::IgnoreUser(UserLookupPayload {
         username: username.to_owned(),
@@ -3325,6 +3684,76 @@ pub fn build_give_privilege_request(username: &str, days: u32) -> Frame {
 
 pub fn build_upload_speed_request(bytes_per_sec: u32) -> Frame {
     encode_server_message(&ServerMessage::UploadSpeed(SpeedPayload { bytes_per_sec }))
+}
+
+pub fn build_set_status_request(status: u32) -> Frame {
+    encode_server_message(&ServerMessage::SetStatus(SetStatusPayload { status }))
+}
+
+pub fn build_heartbeat_request(sequence: Option<u32>) -> Frame {
+    encode_server_message(&ServerMessage::Heartbeat(HeartbeatPayload { sequence }))
+}
+
+pub fn build_dnet_reset_request(reason: Option<u32>) -> Frame {
+    encode_server_message(&ServerMessage::DnetReset(DnetResetPayload { reason }))
+}
+
+pub fn build_set_parent_inactivity_before_disconnect_request(seconds: u32) -> Frame {
+    encode_server_message(&ServerMessage::SetParentInactivityBeforeDisconnect(
+        ParentInactivityBeforeDisconnectPayload { seconds },
+    ))
+}
+
+pub fn build_set_server_inactivity_before_disconnect_request(seconds: u32) -> Frame {
+    encode_server_message(&ServerMessage::SetServerInactivityBeforeDisconnect(
+        ServerInactivityBeforeDisconnectPayload { seconds },
+    ))
+}
+
+pub fn build_nodes_in_cache_before_disconnect_request(nodes: u32) -> Frame {
+    encode_server_message(&ServerMessage::NodesInCacheBeforeDisconnect(
+        NodesInCacheBeforeDisconnectPayload { nodes },
+    ))
+}
+
+pub fn build_set_seconds_before_ping_children_request(seconds: u32) -> Frame {
+    encode_server_message(&ServerMessage::SetSecondsBeforePingChildren(
+        SecondsBeforePingChildrenPayload { seconds },
+    ))
+}
+
+pub fn build_can_parent_request(can_parent: bool) -> Frame {
+    encode_server_message(&ServerMessage::CanParent(CanParentPayload { can_parent }))
+}
+
+pub fn build_remove_own_room_membership_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveOwnRoomMembership(RoomNamePayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_give_up_room_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::GiveUpRoom(RoomNamePayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_add_room_membership_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::AddRoomMembership(RoomNamePayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_remove_room_membership_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveRoomMembership(RoomNamePayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_add_room_operatorship_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::AddRoomOperatorship(RoomNamePayload {
+        room: room.to_owned(),
+    }))
 }
 
 pub fn build_inform_user_of_privileges_request(token: u32, username: &str) -> Frame {
@@ -4014,6 +4443,61 @@ mod tests {
                 search_token: 99,
                 search_text: "wishlist ambient".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::SetStatus(SetStatusPayload { status: 2 })),
+            ProtocolMessage::Server(ServerMessage::Heartbeat(HeartbeatPayload {
+                sequence: Some(1234),
+            })),
+            ProtocolMessage::Server(ServerMessage::Command(CommandPayload {
+                command: "/whois alice".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RoomAdded(RoomNamePayload {
+                room: "new-lounge".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RoomRemoved(RoomNamePayload {
+                room: "old-lounge".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::AdminMessage(AdminMessagePayload {
+                message: "maintenance window".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::SetParentInactivityBeforeDisconnect(
+                ParentInactivityBeforeDisconnectPayload { seconds: 60 },
+            )),
+            ProtocolMessage::Server(ServerMessage::SetServerInactivityBeforeDisconnect(
+                ServerInactivityBeforeDisconnectPayload { seconds: 120 },
+            )),
+            ProtocolMessage::Server(ServerMessage::NodesInCacheBeforeDisconnect(
+                NodesInCacheBeforeDisconnectPayload { nodes: 128 },
+            )),
+            ProtocolMessage::Server(ServerMessage::SetSecondsBeforePingChildren(
+                SecondsBeforePingChildrenPayload { seconds: 30 },
+            )),
+            ProtocolMessage::Server(ServerMessage::CanParent(CanParentPayload {
+                can_parent: true,
+            })),
+            ProtocolMessage::Server(ServerMessage::AddHateTerm(SimilarTermsRequestPayload {
+                term: "noise".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveHateTerm(SimilarTermsRequestPayload {
+                term: "noise".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::DnetReset(DnetResetPayload {
+                reason: Some(1),
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveOwnRoomMembership(RoomNamePayload {
+                room: "private-room".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::GiveUpRoom(RoomNamePayload {
+                room: "private-room".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::AddRoomMembership(RoomNamePayload {
+                room: "private-room".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveRoomMembership(RoomNamePayload {
+                room: "private-room".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::AddRoomOperatorship(RoomNamePayload {
+                room: "private-room".into(),
+            })),
             ProtocolMessage::Server(ServerMessage::SendConnectToken(OpaquePayload {
                 bytes: vec![0x10, 0x20, 0x30, 0x40],
             })),
@@ -4050,18 +4534,20 @@ mod tests {
             ProtocolMessage::Server(ServerMessage::RemoveOwnRoomOperatorship(OpaquePayload {
                 bytes: vec![0x07, 0x00, 0x00, 0x00],
             })),
-            ProtocolMessage::Server(ServerMessage::JoinGlobalRoom(OpaquePayload {
-                bytes: vec![0x08, 0x00, 0x00, 0x00],
+            ProtocolMessage::Server(ServerMessage::JoinGlobalRoom(GlobalRoomTogglePayload {
+                room: None,
             })),
-            ProtocolMessage::Server(ServerMessage::LeaveGlobalRoom(OpaquePayload {
-                bytes: vec![0x09, 0x00, 0x00, 0x00],
+            ProtocolMessage::Server(ServerMessage::LeaveGlobalRoom(GlobalRoomTogglePayload {
+                room: None,
             })),
-            ProtocolMessage::Server(ServerMessage::SayGlobalRoom(OpaquePayload {
-                bytes: b"global hello".to_vec(),
+            ProtocolMessage::Server(ServerMessage::SayGlobalRoom(GlobalRoomMessagePayload {
+                message: "global hello".into(),
             })),
-            ProtocolMessage::Server(ServerMessage::SearchCorrelations(OpaquePayload {
-                bytes: b"ambient".to_vec(),
-            })),
+            ProtocolMessage::Server(ServerMessage::SearchCorrelations(
+                SearchCorrelationsPayload {
+                    term: "ambient".into(),
+                },
+            )),
             ProtocolMessage::Peer(PeerMessage::Say(OpaquePayload {
                 bytes: b"peer say".to_vec(),
             })),
@@ -4363,6 +4849,84 @@ mod tests {
     }
 
     #[test]
+    fn s5d_s5h_request_builders_emit_expected_codes() {
+        assert_eq!(
+            build_join_global_room_request(None).code,
+            CODE_SM_JOIN_GLOBAL_ROOM
+        );
+        assert_eq!(
+            build_leave_global_room_request(None).code,
+            CODE_SM_LEAVE_GLOBAL_ROOM
+        );
+        assert_eq!(
+            build_say_global_room_request("hello").code,
+            CODE_SM_SAY_GLOBAL_ROOM
+        );
+        assert_eq!(
+            build_search_correlations_request("ambient").code,
+            CODE_SM_SEARCH_CORRELATIONS
+        );
+        assert_eq!(build_command_request("/whois alice").code, CODE_SM_COMMAND);
+        assert_eq!(build_room_added_event("new-room").code, CODE_SM_ROOM_ADDED);
+        assert_eq!(
+            build_room_removed_event("old-room").code,
+            CODE_SM_ROOM_REMOVED
+        );
+        assert_eq!(
+            build_admin_message_request("maintenance").code,
+            CODE_SM_ADMIN_MESSAGE
+        );
+        assert_eq!(
+            build_set_parent_inactivity_before_disconnect_request(60).code,
+            CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT
+        );
+        assert_eq!(
+            build_set_server_inactivity_before_disconnect_request(120).code,
+            CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT
+        );
+        assert_eq!(
+            build_nodes_in_cache_before_disconnect_request(128).code,
+            CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT
+        );
+        assert_eq!(
+            build_set_seconds_before_ping_children_request(30).code,
+            CODE_SM_SET_SECONDS_BEFORE_PING_CHILDREN
+        );
+        assert_eq!(build_can_parent_request(true).code, CODE_SM_CAN_PARENT);
+        assert_eq!(
+            build_remove_own_room_membership_request("private").code,
+            CODE_SM_REMOVE_OWN_ROOM_MEMBERSHIP
+        );
+        assert_eq!(
+            build_give_up_room_request("private").code,
+            CODE_SM_GIVE_UP_ROOM
+        );
+        assert_eq!(
+            build_add_room_membership_request("private").code,
+            CODE_SM_ADD_ROOM_MEMBERSHIP
+        );
+        assert_eq!(
+            build_remove_room_membership_request("private").code,
+            CODE_SM_REMOVE_ROOM_MEMBERSHIP
+        );
+        assert_eq!(
+            build_add_room_operatorship_request("private").code,
+            CODE_SM_ADD_ROOM_OPERATORSHIP
+        );
+        assert_eq!(
+            build_add_hate_term_request("noise").code,
+            CODE_SM_ADD_HATE_TERM
+        );
+        assert_eq!(
+            build_remove_hate_term_request("noise").code,
+            CODE_SM_REMOVE_HATE_TERM
+        );
+        assert_eq!(build_set_status_request(2).code, CODE_SM_SET_STATUS);
+        assert_eq!(build_heartbeat_request(Some(1)).code, CODE_SM_HEARTBEAT);
+        assert_eq!(build_dnet_reset_request(Some(1)).code, CODE_SM_DNET_RESET);
+    }
+
+    #[test]
     fn s5c_room_term_control_messages_decode_typed_payloads() {
         let mut add_room_writer = PayloadWriter::new();
         add_room_writer.write_string("new-room");
@@ -4448,6 +5012,103 @@ mod tests {
     }
 
     #[test]
+    fn s5d_s5h_control_messages_decode_typed_payloads() {
+        let join_decoded =
+            decode_server_message(CODE_SM_JOIN_GLOBAL_ROOM, &[]).expect("decode join global");
+        let ServerMessage::JoinGlobalRoom(join_payload) = join_decoded else {
+            panic!("expected join global payload");
+        };
+        assert_eq!(join_payload.room, None);
+
+        let mut say_writer = PayloadWriter::new();
+        say_writer.write_string("global hello");
+        let say_decoded = decode_server_message(CODE_SM_SAY_GLOBAL_ROOM, &say_writer.into_inner())
+            .expect("decode say global room");
+        let ServerMessage::SayGlobalRoom(say_payload) = say_decoded else {
+            panic!("expected say global room payload");
+        };
+        assert_eq!(say_payload.message, "global hello");
+
+        let mut corr_writer = PayloadWriter::new();
+        corr_writer.write_string("ambient");
+        let corr_decoded =
+            decode_server_message(CODE_SM_SEARCH_CORRELATIONS, &corr_writer.into_inner())
+                .expect("decode search correlations");
+        let ServerMessage::SearchCorrelations(corr_payload) = corr_decoded else {
+            panic!("expected search correlations payload");
+        };
+        assert_eq!(corr_payload.term, "ambient");
+
+        let parent_decoded = decode_server_message(
+            CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT,
+            &60_u32.to_le_bytes(),
+        )
+        .expect("decode parent inactivity");
+        let ServerMessage::SetParentInactivityBeforeDisconnect(parent_payload) = parent_decoded
+        else {
+            panic!("expected parent inactivity payload");
+        };
+        assert_eq!(parent_payload.seconds, 60);
+
+        let can_parent_decoded = decode_server_message(CODE_SM_CAN_PARENT, &1_u32.to_le_bytes())
+            .expect("decode can parent");
+        let ServerMessage::CanParent(can_parent_payload) = can_parent_decoded else {
+            panic!("expected can-parent payload");
+        };
+        assert!(can_parent_payload.can_parent);
+
+        let mut room_writer = PayloadWriter::new();
+        room_writer.write_string("private-room");
+        let membership_decoded =
+            decode_server_message(CODE_SM_ADD_ROOM_MEMBERSHIP, &room_writer.into_inner())
+                .expect("decode add room membership");
+        let ServerMessage::AddRoomMembership(membership_payload) = membership_decoded else {
+            panic!("expected add room membership payload");
+        };
+        assert_eq!(membership_payload.room, "private-room");
+
+        let mut command_writer = PayloadWriter::new();
+        command_writer.write_string("/whois alice");
+        let command_decoded = decode_server_message(CODE_SM_COMMAND, &command_writer.into_inner())
+            .expect("decode command");
+        let ServerMessage::Command(command_payload) = command_decoded else {
+            panic!("expected command payload");
+        };
+        assert_eq!(command_payload.command, "/whois alice");
+
+        let mut admin_writer = PayloadWriter::new();
+        admin_writer.write_string("maintenance");
+        let admin_decoded =
+            decode_server_message(CODE_SM_ADMIN_MESSAGE, &admin_writer.into_inner())
+                .expect("decode admin message");
+        let ServerMessage::AdminMessage(admin_payload) = admin_decoded else {
+            panic!("expected admin message payload");
+        };
+        assert_eq!(admin_payload.message, "maintenance");
+
+        let status_decoded = decode_server_message(CODE_SM_SET_STATUS, &2_u32.to_le_bytes())
+            .expect("decode set status");
+        let ServerMessage::SetStatus(status_payload) = status_decoded else {
+            panic!("expected set-status payload");
+        };
+        assert_eq!(status_payload.status, 2);
+
+        let heartbeat_decoded = decode_server_message(CODE_SM_HEARTBEAT, &7_u32.to_le_bytes())
+            .expect("decode heartbeat");
+        let ServerMessage::Heartbeat(heartbeat_payload) = heartbeat_decoded else {
+            panic!("expected heartbeat payload");
+        };
+        assert_eq!(heartbeat_payload.sequence, Some(7));
+
+        let dnet_reset_decoded = decode_server_message(CODE_SM_DNET_RESET, &1_u32.to_le_bytes())
+            .expect("decode dnet reset");
+        let ServerMessage::DnetReset(dnet_reset_payload) = dnet_reset_decoded else {
+            panic!("expected dnet reset payload");
+        };
+        assert_eq!(dnet_reset_payload.reason, Some(1));
+    }
+
+    #[test]
     fn s4l_opaque_server_control_codes_roundtrip() {
         for code in OPAQUE_SERVER_CONTROL_CODES {
             let payload = vec![code as u8, 0x55, 0xaa];
@@ -4479,7 +5140,7 @@ mod tests {
     }
 
     #[test]
-    fn opaque_server_control_builder_rejects_s5a_typed_codes() {
+    fn opaque_server_control_builder_rejects_typed_codes() {
         for code in [
             CODE_SM_ADD_CHATROOM,
             CODE_SM_ADD_LIKE_TERM,
@@ -4487,6 +5148,29 @@ mod tests {
             CODE_SM_SET_PARENT_MIN_SPEED,
             CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO,
             CODE_SM_GET_ROOM_TICKER,
+            CODE_SM_JOIN_GLOBAL_ROOM,
+            CODE_SM_LEAVE_GLOBAL_ROOM,
+            CODE_SM_SAY_GLOBAL_ROOM,
+            CODE_SM_SEARCH_CORRELATIONS,
+            CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT,
+            CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT,
+            CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT,
+            CODE_SM_SET_SECONDS_BEFORE_PING_CHILDREN,
+            CODE_SM_CAN_PARENT,
+            CODE_SM_REMOVE_OWN_ROOM_MEMBERSHIP,
+            CODE_SM_GIVE_UP_ROOM,
+            CODE_SM_ADD_ROOM_MEMBERSHIP,
+            CODE_SM_REMOVE_ROOM_MEMBERSHIP,
+            CODE_SM_ADD_ROOM_OPERATORSHIP,
+            CODE_SM_COMMAND,
+            CODE_SM_ROOM_ADDED,
+            CODE_SM_ROOM_REMOVED,
+            CODE_SM_ADMIN_MESSAGE,
+            CODE_SM_ADD_HATE_TERM,
+            CODE_SM_REMOVE_HATE_TERM,
+            CODE_SM_SET_STATUS,
+            CODE_SM_HEARTBEAT,
+            CODE_SM_DNET_RESET,
         ] {
             let err = build_opaque_server_control_request(code, &[0x00]).expect_err("must reject");
             assert!(

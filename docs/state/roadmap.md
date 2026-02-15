@@ -31,8 +31,13 @@ gantt
     S5A Typed runtime hardening for opaque control payloads :done, s5a, after s4l, 2d
     S5B Soulseek UI + functionality audit (research/evidence) :done, s5b, after s4l, 1d
     S5C Typed runtime hardening wave 2 (room/term control) :done, s5c, after s5a, 1d
+    S5D Typed runtime hardening wave 3 (global/distributed control) :done, s5d, after s5c, 1d
+    S5E Typed runtime hardening wave 4 (parent/disconnect control) :done, s5e, after s5d, 1d
+    S5F Typed runtime hardening wave 5 (private-room membership control) :done, s5f, after s5e, 1d
+    S5G Typed runtime hardening wave 6 (text-control payloads) :done, s5g, after s5f, 1d
+    S5H Typed runtime hardening wave 7 (system-control payloads) :done, s5h, after s5g, 1d
     section Planned
-    S5D Typed runtime hardening wave 3 (global/distributed remainder) :crit, s5d, after s5c, 2d
+    S6 Opaque-tail reduction (remaining generic/dedicated controls) :crit, s6, after s5h, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -126,6 +131,11 @@ graph TD
 | S5A | typed runtime hardening wave 1 | done | `docs/pr/0017-s5a-typed-runtime-hardening.md` | start S5C typed-hardening wave 2 |
 | S5B | Soulseek UI + functionality exhaustive audit (research/evidence) | done | `docs/state/soulseek-feature-inventory.md` | none |
 | S5C | typed runtime hardening wave 2 | done | `docs/pr/0018-s5c-typed-runtime-hardening-wave2.md` | start S5D typed-hardening wave 3 |
+| S5D | typed runtime hardening wave 3 | done | `docs/pr/0019-s5d-s5h-control-typing-pack.md` | execute S5E in same pack |
+| S5E | typed runtime hardening wave 4 | done | `docs/pr/0019-s5d-s5h-control-typing-pack.md` | execute S5F in same pack |
+| S5F | typed runtime hardening wave 5 | done | `docs/pr/0019-s5d-s5h-control-typing-pack.md` | execute S5G in same pack |
+| S5G | typed runtime hardening wave 6 | done | `docs/pr/0019-s5d-s5h-control-typing-pack.md` | execute S5H in same pack |
+| S5H | typed runtime hardening wave 7 | done | `docs/pr/0019-s5d-s5h-control-typing-pack.md` | start S6 opaque-tail reduction |
 
 ## S4B Target Contract
 
@@ -223,13 +233,24 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S5D Preview (Planned)
+## S5D-S5H Completion Snapshot
 
-Target focus for the next stage:
+Execution result:
 
-1. Replace additional `OpaqueServerControlPayload` messages with typed payload schemas based on runtime evidence from global/distributed control families.
-2. Add runtime capture scenarios for remaining distributed-control families still encoded as opaque payloads.
-3. Preserve full matrix coverage baseline (`implemented+mapped=131`, `missing=0`) while increasing typed semantic depth.
+1. Promoted `23` control-message families from opaque to typed payloads with runtime evidence.
+2. Added runtime-authenticated scenarios:
+   - `login-global-room-control`
+   - `login-parent-disconnect-control`
+   - `login-private-room-membership-control`
+   - `login-text-control`
+   - `login-system-control`
+3. Reduced generic opaque control bucket from `34` to `15` codes while preserving full protocol matrix closure.
+
+## S6 Preview (Planned)
+
+1. Continue typed promotion for remaining `OPAQUE_SERVER_CONTROL_CODES` closure (`15` codes).
+2. Revisit dedicated legacy opaque variants (`SM_REMOVE_ROOM_OPERATORSHIP`, `SM_REMOVE_OWN_ROOM_OPERATORSHIP`, distributed/flood tail) for runtime-backed schema promotion.
+3. Preserve matrix closure (`implemented+mapped=131`) and semantic diff parity gates.
 
 ## S5B Target Contract (Executed)
 

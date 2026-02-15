@@ -1724,3 +1724,155 @@ Notes:
 - Feature inventory closure stats: `pass1=42`, `pass2_revisited=42`, `verified_pass2=41`, `gap_found=1`.
 - Stage PR notes published in `docs/pr/0016-s5b-soulseek-ui-feature-audit.md`.
 - Validation gates passed: `python3 scripts/kb_validate.py` and `/Users/void_rsk/Projects/soul-dec/.venv-tools/bin/zensical build -f zensical.toml`.
+
+## Stage 5D-5H - multi-wave opaque-to-typed control promotion pack
+
+Dependency graph:
+
+- `S5P-W01 -> S5P-T01`
+- `S5P-T01 -> S5D-T01`
+- `S5D-T01 -> S5D-T02 -> S5D-T03`
+- `S5D-T03 -> S5E-T01 -> S5E-T02 -> S5E-T03`
+- `S5E-T03 -> S5F-T01 -> S5F-T02 -> S5F-T03`
+- `S5F-T03 -> S5G-T01 -> S5G-T02 -> S5G-T03`
+- `S5G-T03 -> S5H-T01 -> S5H-T02 -> S5H-T03`
+- `S5H-T03 -> S5P-S01 -> S5P-S02 -> S5P-T90 -> S5P-R01`
+- `S5P-R01 -> S5P-Q01 -> S5P-Q02 -> S5P-Q03 -> S5P-Q04 -> S5P-T99`
+
+Tasks:
+
+- id: S5P-W01
+  description: Start from updated `main` and create branch `codex/s5d-s5h-control-typing-pack`
+  status: done
+  depends_on: []
+
+- id: S5P-T01
+  description: Persist S5D-S5H execution plan and opaque-code inventory in `TODO-CODEX.md`
+  status: done
+  depends_on: [S5P-W01]
+
+- id: S5D-T01
+  description: Stage 5D implement typed global-room control payloads (150/151/152/153)
+  status: done
+  depends_on: [S5P-T01]
+
+- id: S5D-T02
+  description: Stage 5D generate authenticated runtime capture and redact artifacts
+  status: done
+  depends_on: [S5D-T01]
+
+- id: S5D-T03
+  description: Stage 5D promote map/schema/docs with runtime-backed evidence
+  status: done
+  depends_on: [S5D-T02]
+
+- id: S5E-T01
+  description: Stage 5E implement typed parent/disconnect control payloads (86/87/88/90/100)
+  status: done
+  depends_on: [S5D-T03]
+
+- id: S5E-T02
+  description: Stage 5E generate authenticated runtime capture and redact artifacts
+  status: done
+  depends_on: [S5E-T01]
+
+- id: S5E-T03
+  description: Stage 5E promote map/schema/docs with runtime-backed evidence
+  status: done
+  depends_on: [S5E-T02]
+
+- id: S5F-T01
+  description: Stage 5F implement typed private-room ownership/membership control payloads (136/137/139/140/145)
+  status: done
+  depends_on: [S5E-T03]
+
+- id: S5F-T02
+  description: Stage 5F generate authenticated runtime capture and redact artifacts
+  status: done
+  depends_on: [S5F-T01]
+
+- id: S5F-T03
+  description: Stage 5F promote map/schema/docs with runtime-backed evidence
+  status: done
+  depends_on: [S5F-T02]
+
+- id: S5G-T01
+  description: Stage 5G implement typed text-control payloads (58/62/63/66/117/118)
+  status: done
+  depends_on: [S5F-T03]
+
+- id: S5G-T02
+  description: Stage 5G generate authenticated runtime capture and redact artifacts
+  status: done
+  depends_on: [S5G-T01]
+
+- id: S5G-T03
+  description: Stage 5G promote map/schema/docs with runtime-backed evidence
+  status: done
+  depends_on: [S5G-T02]
+
+- id: S5H-T01
+  description: Stage 5H implement typed system-control payloads (28/32/130)
+  status: done
+  depends_on: [S5G-T03]
+
+- id: S5H-T02
+  description: Stage 5H generate authenticated runtime capture and redact artifacts
+  status: done
+  depends_on: [S5H-T01]
+
+- id: S5H-T03
+  description: Stage 5H promote map/schema/docs with runtime-backed evidence
+  status: done
+  depends_on: [S5H-T02]
+
+- id: S5P-S01
+  description: Run security best-practices pass on touched protocol/core/cli/verify/runtime paths
+  status: done
+  depends_on: [S5H-T03]
+
+- id: S5P-S02
+  description: Run code-simplifier pass on touched Rust files and remove avoidable duplication
+  status: done
+  depends_on: [S5P-S01]
+
+- id: S5P-T90
+  description: Run full gates (`kb_validate`, `run_diff_verify`, `run_regression`, zensical build) and fix failures
+  status: done
+  depends_on: [S5P-S02]
+
+- id: S5P-R01
+  description: Publish PR notes in `docs/pr/0019-s5d-s5h-control-typing-pack.md`
+  status: done
+  depends_on: [S5P-T90]
+
+- id: S5P-Q01
+  description: Complete local review loop round 1 (security + simplifier) on PR
+  status: done
+  depends_on: [S5P-R01]
+
+- id: S5P-Q02
+  description: Triage round-1 findings and apply/dismiss with rationale
+  status: done
+  depends_on: [S5P-Q01]
+
+- id: S5P-Q03
+  description: Complete local review loop round 2
+  status: done
+  depends_on: [S5P-Q02]
+
+- id: S5P-Q04
+  description: Triage round-2 findings and resolve remaining review notes
+  status: done
+  depends_on: [S5P-Q03]
+
+- id: S5P-T99
+  description: Merge-ready closure and stage tracker synchronization after PR merge
+  status: todo
+  depends_on: [S5P-Q04]
+
+Notes:
+
+- Remaining server opaque-control set before this pack: `34` message codes in `OPAQUE_SERVER_CONTROL_CODES`.
+- Remaining generic opaque-control set after this pack: `15` message codes in `OPAQUE_SERVER_CONTROL_CODES`.
+- Five-wave execution (`S5D`..`S5H`) completed with runtime evidence and typed payload promotion while preserving `implemented+mapped=131`.
