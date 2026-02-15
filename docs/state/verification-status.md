@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, Stage 6E dedicated legacy opaque reduction, Stage 6F dedicated residual semantic closure, Stage 7 runtime/semantic strict-closure gates, and Stage 8 dashboard/TUI rollout gates.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, Stage 6E dedicated legacy opaque reduction, Stage 6F dedicated residual semantic closure, Stage 7 runtime/semantic strict-closure gates, Stage 8 dashboard/TUI rollout gates, and Stage 9 TUI-first simplification gates.
 
 ## Validation Gates
 
@@ -284,6 +284,24 @@ Protocol matrix status:
   - `docs/state/final-closure-checklist.md`
 - Redaction metadata policy:
   - `docs/verification/capture-redaction-policy.md` (absolute metadata paths are forbidden in committed redacted artifacts)
+
+## Stage 9A TUI-First Simplification Verification
+
+- Module split and bootstrap:
+  - `rust/tui/src/main.rs`
+  - `rust/tui/src/app.rs`
+  - `rust/tui/src/ui.rs`
+  - `rust/tui/src/state.rs`
+  - `rust/tui/src/storage.rs`
+- Validation scope:
+  - mandatory login gate before any search/download action
+  - orange-dominant retro UI palette and simplified layout
+  - downloads panel `show/hide` and `clear history` semantics
+  - persisted local state with file permission target `0600`
+  - startup recovery (`in_progress` -> `interrupted`)
+- Tests:
+  - `cargo test -p soul-tui`
+  - persistence/recovery and login-gating assertions in `rust/tui` unit tests
 
 ## Stage 5B Verification Status
 

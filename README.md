@@ -44,6 +44,9 @@ cd rust
 cargo run -q -p soul-tui
 ```
 
+TUI flow: login modal (mandatory) -> search -> select result -> download.  
+Downloads history is persisted locally and can be shown/hidden or cleared from the TUI.
+
 ### 4. Open the knowledge base (Zensical)
 
 ```bash

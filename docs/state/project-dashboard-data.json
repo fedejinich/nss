@@ -1,10 +1,10 @@
 {
-  "generated_unix_secs": 1771180176,
+  "generated_unix_secs": 1771185110,
   "stage_summary": {
-    "total": 32,
-    "done": 32,
+    "total": 35,
+    "done": 33,
     "in_progress": 0,
-    "planned": 0
+    "planned": 2
   },
   "protocol_summary": {
     "total_messages": 131,
@@ -22,15 +22,26 @@
     "semantic_tail_gaps": 0
   },
   "capability_summary": {
-    "total_capabilities": 11,
-    "required_for_final": 10,
-    "required_done": 10,
-    "required_pending": 0,
-    "final_gate_total": 5,
-    "final_gate_pass": 5,
-    "final_gate_blocked": 0
+    "total_capabilities": 15,
+    "required_for_final": 14,
+    "required_done": 11,
+    "required_pending": 3,
+    "final_gate_total": 8,
+    "final_gate_pass": 6,
+    "final_gate_blocked": 2
   },
-  "current_focus": null,
+  "current_focus": {
+    "id": "S9B",
+    "title": "SwiftUI macOS GUI MVP on top of soul-cli JSON mode",
+    "status": "planned",
+    "owner_area": "gui/macos/cli-integration",
+    "depends_on": [
+      "S9A"
+    ],
+    "evidence": "docs/state/roadmap.md",
+    "next_gate": "S9C",
+    "notes": "Build a minimal macOS GUI with mandatory login, search/results, and download history controls using Figma-driven design flow."
+  },
   "stages": [
     {
       "id": "S2",
@@ -413,8 +424,44 @@
         "S8B"
       ],
       "evidence": "docs/state/verification-status.md",
-      "next_gate": "post-v1 expansion roadmap",
+      "next_gate": "S9A",
       "notes": "Capability-first release hardening closure is complete: redaction metadata hardening, packaging flow, recovery runbooks, and closure audit are green."
+    },
+    {
+      "id": "S9A",
+      "title": "TUI-first simplification and persistence hardening",
+      "status": "done",
+      "owner_area": "tui/core/docs",
+      "depends_on": [
+        "S8C"
+      ],
+      "evidence": "docs/runbooks/tui-core-transfer.md",
+      "next_gate": "S9B",
+      "notes": "Completed TUI module split, mandatory login gate, retro orange UX, persisted credentials/history, and startup recovery semantics with green regression gates."
+    },
+    {
+      "id": "S9B",
+      "title": "SwiftUI macOS GUI MVP on top of soul-cli JSON mode",
+      "status": "planned",
+      "owner_area": "gui/macos/cli-integration",
+      "depends_on": [
+        "S9A"
+      ],
+      "evidence": "docs/state/roadmap.md",
+      "next_gate": "S9C",
+      "notes": "Build a minimal macOS GUI with mandatory login, search/results, and download history controls using Figma-driven design flow."
+    },
+    {
+      "id": "S9C",
+      "title": "Next.js web GUI MVP on top of soul-cli JSON mode",
+      "status": "planned",
+      "owner_area": "gui/web/cli-integration",
+      "depends_on": [
+        "S9B"
+      ],
+      "evidence": "docs/state/roadmap.md",
+      "next_gate": "post-S9 expansion",
+      "notes": "Deliver browser login/search/download workflows matching TUI and Swift semantics with retro-orange visual language."
     }
   ],
   "dependencies": [
@@ -549,6 +596,18 @@
     {
       "from": "S8B",
       "to": "S8C"
+    },
+    {
+      "from": "S8C",
+      "to": "S9A"
+    },
+    {
+      "from": "S9A",
+      "to": "S9B"
+    },
+    {
+      "from": "S9B",
+      "to": "S9C"
     }
   ],
   "source_artifacts": {

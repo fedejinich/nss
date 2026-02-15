@@ -515,12 +515,23 @@
           if (!clean) {
             return "#";
           }
+
+          const aliases = {
+            "analysis/protocol/message_schema.json": "/re/static/message-schema/",
+            "analysis/ghidra/maps/message_map.csv": "/state/protocol-matrix/",
+            "analysis/state/stage_registry.json": "/state/project-dashboard.html",
+          };
+          if (aliases[clean]) {
+            return aliases[clean];
+          }
+
+          if (!clean.startsWith("docs/")) {
+            return "#";
+          }
+
           clean = clean.replace(/^docs\//, "");
           if (clean.endsWith(".md")) {
-            clean = `${clean.slice(0, -3)}/`;
-          }
-          if (clean.startsWith("/")) {
-            return clean;
+            return `/${clean.slice(0, -3)}/`;
           }
           return `/${clean}`;
         }
