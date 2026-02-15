@@ -1868,7 +1868,7 @@ Tasks:
 
 - id: S5P-T99
   description: Merge-ready closure and stage tracker synchronization after PR merge
-  status: todo
+  status: done
   depends_on: [S5P-Q04]
 
 Notes:
@@ -1876,3 +1876,4 @@ Notes:
 - Remaining server opaque-control set before this pack: `34` message codes in `OPAQUE_SERVER_CONTROL_CODES`.
 - Remaining generic opaque-control set after this pack: `15` message codes in `OPAQUE_SERVER_CONTROL_CODES`.
 - Five-wave execution (`S5D`..`S5H`) completed with runtime evidence and typed payload promotion while preserving `implemented+mapped=131`.
+- Stage pack merged via PR `#19` (`ca94bb0a13b2e8e0a106ddf13810b999be86f3f9`).
