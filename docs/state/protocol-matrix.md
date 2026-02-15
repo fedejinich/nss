@@ -4,7 +4,7 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-15T15:01:23+00:00`
+- Generated at: `2026-02-15T15:20:20+00:00`
 - Total messages tracked: `131`
 - Server messages: `106`
 - Peer messages: `25`
@@ -128,10 +128,10 @@ Status legend:
 | server | 125 | `SM_INFORM_USER_OF_PRIVILEGES_ACK` | `implemented_mapped` | high | Authenticated runtime flow sends notify-privileges ack (code 125) with token payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 126 | `SM_DNET_LEVEL` | `implemented_mapped` | high | S6E runtime+spec evidence confirms BranchLevel layout on code 126 (u32 level with optional residual tail). | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
 | server | 127 | `SM_DNET_GROUP_LEADER` | `implemented_mapped` | high | S6E runtime+spec evidence confirms BranchRoot layout on code 127 (string root username with optional residual tail). | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
-| server | 128 | `SM_DNET_DELIVERY_REPORT` | `implemented_mapped` | high | S6E runtime probe confirms active code 128 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque. | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
+| server | 128 | `SM_DNET_DELIVERY_REPORT` | `implemented_mapped` | high | S6F runtime+static evidence confirms code 128 uses an int/u32 delivery-report payload with optional residual tail. | `captures/redacted/login-legacy-residual-control/official_frames.hex` |
 | server | 129 | `SM_DNET_CHILD_DEPTH` | `implemented_mapped` | high | S6E runtime+spec evidence confirms ChildDepth layout on code 129 (u32 depth with optional residual tail). | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
 | server | 130 | `SM_DNET_RESET` | `implemented_mapped` | high | Authenticated runtime flow sends dnet-reset control frame (code 130) with u32 reason payload. | `captures/redacted/login-system-control/official_frames.hex` |
-| server | 131 | `SM_FLOOD` | `implemented_mapped` | high | S6E runtime probe confirms active code 131 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque. | `captures/redacted/login-legacy-distributed-control/official_frames.hex` |
+| server | 131 | `SM_FLOOD` | `implemented_mapped` | high | S6F runtime evidence confirms code 131 uses a stable u32 flood-control payload with optional residual tail. | `captures/redacted/login-legacy-residual-control/official_frames.hex` |
 | server | 132 | `SM_BAN_USER` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 132 to SM_BAN_USER (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 133 | `SM_ROOM_MEMBERS` | `implemented_mapped` | high | Observed runtime room-members request flow in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
 | server | 134 | `SM_ADD_ROOM_MEMBER` | `implemented_mapped` | high | Server code 134 AddUserToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table. | `evidence/reverse/message_name_strings.txt` |

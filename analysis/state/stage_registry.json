@@ -284,8 +284,20 @@
         "S6C"
       ],
       "evidence": "docs/pr/0024-s6e-legacy-opaque-reduction.md",
-      "next_gate": "S6F residual semantic closure for 128/131",
-      "notes": "Completed S6D typed-batch closure and S6E dedicated legacy reduction; generic opaque-tail is zero and dedicated residual ambiguity is reduced to codes 128/131."
+      "next_gate": "S6F",
+      "notes": "Completed S6D typed-batch closure and S6E dedicated legacy reduction; generic opaque-tail is zero."
+    },
+    {
+      "id": "S6F",
+      "title": "Dedicated residual semantic closure for legacy controls",
+      "status": "done",
+      "owner_area": "protocol/runtime/verification",
+      "depends_on": [
+        "S6"
+      ],
+      "evidence": "docs/pr/0025-s6f-residual-legacy-semantic-closure.md",
+      "next_gate": "S7 planning",
+      "notes": "Closed remaining residual semantics for SM_DNET_DELIVERY_REPORT (128) and SM_FLOOD (131) with runtime-backed typed payload promotion."
     }
   ]
 }

@@ -35,6 +35,7 @@
 - Stage 6C complete: executable opaque-tail baseline report and batch plan to drive S6 typed-promotion work.
 - Stage 6D complete: executed S6 typed batches (S6-Batch-1/2/3) and closed generic opaque-tail control coverage to zero.
 - Stage 6E complete: reduced dedicated legacy opaque variants with runtime-backed typing for room-operatorship and distributed legacy control families.
+- Stage 6F complete: closed final dedicated residual semantics (`SM_DNET_DELIVERY_REPORT`, `SM_FLOOD`) with runtime-backed typed payload promotion.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -212,7 +213,7 @@
    - `build_dnet_group_leader_request(...)`
    - `build_dnet_child_depth_request(...)`
    - `s6e_legacy_control_messages_decode_typed_payloads`
-4. Preserved dedicated residual explicitness for unresolved semantics:
+4. Dedicated residual semantics remained explicitly tracked for S6F closure:
    - `SM_DNET_DELIVERY_REPORT` (`128`)
    - `SM_FLOOD` (`131`)
 5. Added protocol contract regression for S6E:
@@ -450,3 +451,21 @@
 - Total mapped protocol rows: `131`.
 - Protocol matrix snapshot: tracked `131`, implemented+mapped `131`, mapped-not-implemented `0`, missing `0`.
 - Runtime credentials remain local-only in `.env.local` and are never committed.
+## Stage 6F Completion
+
+1. Added dedicated Stage 6F authenticated runtime capture generator and redacted run:
+   - `tools/runtime/generate_stage6f_residual_captures.py`
+   - `captures/redacted/login-legacy-residual-control`
+2. Promoted remaining dedicated residual payload branches from opaque to typed in `rust/protocol`:
+   - `SM_DNET_DELIVERY_REPORT` (`128`)
+   - `SM_FLOOD` (`131`)
+3. Added typed builders and decode regression coverage for residual-closure messages:
+   - `build_dnet_delivery_report_request(...)`
+   - `build_flood_request(...)`
+   - `s6e_legacy_control_messages_decode_typed_payloads` (extended to cover `128/131`)
+4. Added protocol contract regression for S6F:
+   - `tests/protocol/test_stage6f_residual_semantic_closure_contract.py`
+5. Preserved full matrix baseline:
+   - `implemented+mapped=131`
+   - `mapped_not_implemented=0`
+   - `missing=0`

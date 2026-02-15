@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `25`
+Total PR docs: `26`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -170,6 +170,13 @@ Total PR docs: `25`
 <summary>S6E (1 PRs)</summary>
 
 - [0024-s6e-legacy-opaque-reduction.md - S6e Legacy Opaque Reduction](0024-s6e-legacy-opaque-reduction/)
+
+</details>
+
+<details>
+<summary>S6F (1 PRs)</summary>
+
+- [0025-s6f-residual-legacy-semantic-closure.md - S6f Residual Legacy Semantic Closure](0025-s6f-residual-legacy-semantic-closure/)
 
 </details>
 

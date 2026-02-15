@@ -334,9 +334,15 @@ Status:
   - `SM_DNET_LEVEL` (`126`)
   - `SM_DNET_GROUP_LEADER` (`127`)
   - `SM_DNET_CHILD_DEPTH` (`129`)
-- Dedicated residual semantics that remain intentionally unresolved:
+
+## Stage 6F Completion Note (Residual Semantic Closure)
+
+- Stage 6F added dedicated authenticated runtime residual probes:
+  - `captures/redacted/login-legacy-residual-control`
+- Stage 6F promoted final dedicated residual variants to typed payload handling:
   - `SM_DNET_DELIVERY_REPORT` (`128`)
   - `SM_FLOOD` (`131`)
+- Dedicated legacy residual ambiguity is now closed for the S6 scope.
 
 ## Execution Strategy
 
@@ -348,9 +354,9 @@ Status:
 4. Extend SDK/CLI/verify for newly typed message families once protocol decode is stable.
 5. Keep regression green (`scripts/run_regression.sh`) before stage closure.
 
-## Next Candidate Stage (S6F) - Dedicated Residual Semantic Closure
+## Next Candidate Stage (S7) - Post-Closure Audit/Expansion
 
 Entry point:
 
-1. Target `SM_DNET_DELIVERY_REPORT` (`128`) and `SM_FLOOD` (`131`) with runtime+static evidence to close field semantics.
-2. Keep semantic parity and matrix closure gates green while removing remaining dedicated opaque ambiguity.
+1. Run a full closure audit pass over typed payload quality (field names, directional constraints, optional tails) after S6F.
+2. Keep semantic parity and matrix closure gates green while preparing the next protocol expansion wave.

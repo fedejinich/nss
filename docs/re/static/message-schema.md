@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T14:53:49+00:00`
+- Generated: `2026-02-15T15:14:55+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -936,10 +936,14 @@
 
 ### `server` `SM_DNET_DELIVERY_REPORT` (code `128`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `report`: `optional_u32`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime probe confirms active code 128 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.)
-  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe includes code 128 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.)
+  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F runtime+static evidence confirms code 128 uses an int/u32 delivery-report payload with optional residual tail.)
+  - `static_analysis`: `evidence/ui_audit/decomp/server_methods.txt` (Server::DNetDeliveryReport(int) symbol signature indicates a single int payload argument on the server handler path.)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe confirms active code 128 wire path with 4-byte payload.)
+  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F authenticated runtime probe exercises code 128 with multi-value u32 payload variants (0,1,2), confirming typed optional_u32 + raw_tail layout.)
 
 ### `server` `SM_DNET_CHILD_DEPTH` (code `129`)
 - Confidence: `high`
@@ -960,10 +964,13 @@
 
 ### `server` `SM_FLOOD` (code `131`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `flood_code`: `optional_u32`
+  - `raw_tail`: `bytes_raw`
 - Evidence:
-  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E runtime probe confirms active code 131 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.)
-  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe includes code 131 with 4-byte payload; semantics remain unresolved and stay dedicated opaque.)
+  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F runtime evidence confirms code 131 uses a stable u32 flood-control payload with optional residual tail.)
+  - `runtime_capture`: `captures/redacted/login-legacy-distributed-control/official_frames.hex` (S6E authenticated runtime probe confirms active code 131 wire path with 4-byte payload.)
+  - `runtime_capture`: `captures/redacted/login-legacy-residual-control/official_frames.hex` (S6F authenticated runtime probe exercises code 131 with multi-value u32 payload variants (0,1,2), promoting typed optional_u32 + raw_tail handling.)
 
 ### `server` `SM_BAN_USER` (code `132`)
 - Confidence: `high`

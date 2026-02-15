@@ -1,0 +1,24 @@
+{
+  "run_id": "login-legacy-residual-control",
+  "scenario": "login-legacy-residual-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T15:09:53+00:00",
+  "server": "<redacted:endpoint:5dc0afc43a1f>",
+  "frame_count": 60,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:b0c1ec94206c>",
+    "neo_frames_raw": "<redacted:path:042ceba27c43>",
+    "frida_events_raw": "<redacted:path:b78d9ab1671c>"
+  },
+  "notes": "Stage 6F runtime probe for dedicated residual controls (SM_DNET_DELIVERY_REPORT, SM_FLOOD) using multi-value u32 payloads.",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T15:10:03+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-legacy-residual-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

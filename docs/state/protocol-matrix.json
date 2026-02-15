@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-15T15:01:23+00:00",
+  "generated_at": "2026-02-15T15:20:20+00:00",
   "snapshot": {
     "total_messages": 131,
     "server_messages": 106,
@@ -952,8 +952,8 @@
       "message": "SM_DNET_DELIVERY_REPORT",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "S6E runtime probe confirms active code 128 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.",
-      "evidence": "captures/redacted/login-legacy-distributed-control/official_frames.hex"
+      "summary": "S6F runtime+static evidence confirms code 128 uses an int/u32 delivery-report payload with optional residual tail.",
+      "evidence": "captures/redacted/login-legacy-residual-control/official_frames.hex"
     },
     {
       "scope": "server",
@@ -979,8 +979,8 @@
       "message": "SM_FLOOD",
       "status": "implemented_mapped",
       "confidence": "high",
-      "summary": "S6E runtime probe confirms active code 131 wire path (4-byte payload observed); semantics remain unresolved and decoder stays dedicated-opaque.",
-      "evidence": "captures/redacted/login-legacy-distributed-control/official_frames.hex"
+      "summary": "S6F runtime evidence confirms code 131 uses a stable u32 flood-control payload with optional residual tail.",
+      "evidence": "captures/redacted/login-legacy-residual-control/official_frames.hex"
     },
     {
       "scope": "server",

@@ -49,8 +49,7 @@ gantt
     S6C Opaque-tail executable baseline + batch plan :done, s6c, after s6b, 1d
     S6D Opaque-tail typed batches execution :done, s6d, after s6c, 2d
     S6E Legacy dedicated opaque-variant reduction :done, s6e, after s6d, 2d
-    section Planned
-    S6F Dedicated residual semantic closure (128/131) :crit, s6f, after s6e, 2d
+    S6F Dedicated residual semantic closure (128/131) :done, s6f, after s6e, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -154,6 +153,7 @@ graph TD
 | S6C | opaque-tail executable inventory and batch plan baseline | done | `docs/pr/0022-s6c-opaque-tail-baseline-plan.md` | start S6 opaque-tail reduction |
 | S6D | opaque-tail typed batches execution (S6-Batch-1/2/3) | done | `docs/pr/0023-s6d-opaque-tail-typed-batches.md` | start S6E dedicated-opaque cleanup |
 | S6E | dedicated legacy opaque-variant reduction | done | `docs/pr/0024-s6e-legacy-opaque-reduction.md` | start S6F residual semantic closure |
+| S6F | dedicated residual semantic closure (`128`/`131`) | done | `docs/pr/0025-s6f-residual-legacy-semantic-closure.md` | plan S7 closure/audit wave |
 
 ## S4B Target Contract
 
@@ -273,10 +273,11 @@ Execution result:
 2. `OPAQUE_SERVER_CONTROL_CODES` generic closure is now `0`.
 3. Protocol matrix closure remains preserved (`implemented+mapped=131`) with semantic diff parity intact.
 
-## S6F Preview (Planned)
+## S6F Completion Snapshot
 
-1. Close remaining dedicated residual semantics for `SM_DNET_DELIVERY_REPORT` (`128`) and `SM_FLOOD` (`131`) with stronger runtime/static evidence.
-2. Keep matrix closure (`implemented+mapped=131`) and semantic parity gates green while removing the last dedicated opaque ambiguity.
+1. Closed dedicated residual semantics for `SM_DNET_DELIVERY_REPORT` (`128`) and `SM_FLOOD` (`131`) using authenticated runtime multi-value probes.
+2. Promoted both codes to typed payload handling in `rust/protocol` with optional `u32 + raw_tail` layouts.
+3. Preserved matrix closure (`implemented+mapped=131`) and semantic differential parity gates.
 
 ## S5B Target Contract (Executed)
 
