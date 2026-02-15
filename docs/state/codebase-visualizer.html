@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NeoSoulSeek Codebase Treemap</title>
+    <style>
+      :root {
+        --bg: #f4f0df;
+        --panel: rgba(250, 247, 239, 0.92);
+        --panel-strong: rgba(252, 249, 242, 0.98);
+        --text: #192532;
+        --muted: #455460;
+        --border: rgba(25, 37, 50, 0.2);
+        --focus: #0f766e;
+        --shadow: 0 16px 36px rgba(20, 33, 44, 0.14);
+        --font-ui: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
+        --font-mono: "IBM Plex Mono", "Menlo", "Monaco", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: var(--font-ui);
+        color: var(--text);
+        background:
+          radial-gradient(1000px 520px at 0% -12%, rgba(121, 194, 187, 0.34), transparent 65%),
+          radial-gradient(900px 520px at 96% 0%, rgba(232, 183, 113, 0.3), transparent 64%),
+          var(--bg);
+      }
+
+      .page {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-height: 100vh;
+      }
+
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+        background: var(--panel-strong);
+      }
+
+      .title-wrap {
+        min-width: 220px;
+      }
+
+      .title {
+        margin: 0;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+      }
+
+      .subtitle {
+        margin: 2px 0 0;
+        font-size: 0.84rem;
+        color: var(--muted);
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .chip,
+      button,
+      .range-label {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        background: #fcfaf5;
+        color: var(--text);
+      }
+
+      .chip {
+        font-family: var(--font-mono);
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      button:hover {
+        border-color: rgba(25, 37, 50, 0.4);
+      }
+
+      label.switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.82rem;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 5px 10px;
+        background: #fcfaf5;
+      }
+
+      .range-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+      }
+
+      input[type="range"] {
+        width: 140px;
+      }
+
+      .stage {
+        position: relative;
+        padding: 14px;
+      }
+
+      .breadcrumbs {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        z-index: 3;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        max-width: calc(100% - 360px);
+      }
+
+      .crumb {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: rgba(252, 249, 242, 0.92);
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+
+      .crumb.active {
+        color: var(--text);
+        border-color: rgba(15, 118, 110, 0.5);
+      }
+
+      .treemap {
+        position: relative;
+        height: calc(100vh - 96px);
+        min-height: 520px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(248, 243, 232, 0.75);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        overflow: hidden;
+      }
+
+      .tile {
+        position: absolute;
+        border: 1px solid rgba(17, 28, 38, 0.22);
+        border-radius: 4px;
+        padding: 4px 5px;
+        overflow: hidden;
+        text-align: left;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        transition: box-shadow 140ms ease, transform 140ms ease;
+      }
+
+      .tile.depth-1 {
+        border-width: 1.2px;
+      }
+
+      .tile:hover {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.68),
+          0 0 0 1.4px rgba(17, 28, 38, 0.38);
+      }
+
+      .tile.selected {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.7),
+          0 0 0 2px var(--focus);
+      }
+
+      .tile .name {
+        font-size: 0.76rem;
+        line-height: 1.2;
+        font-weight: 650;
+        color: rgba(19, 30, 39, 0.95);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .tile .meta {
+        margin-top: 2px;
+        font-size: 0.68rem;
+        line-height: 1.2;
+        color: rgba(26, 40, 50, 0.78);
+        font-family: var(--font-mono);
+      }
+
+      .inspector {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        width: 320px;
+        max-width: calc(100% - 48px);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        padding: 12px;
+        z-index: 4;
+      }
+
+      .inspector h2 {
+        margin: 0 0 6px;
+        font-size: 0.92rem;
+      }
+
+      .inspector p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin: 10px 0;
+      }
+
+      .stat {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: rgba(255, 253, 248, 0.8);
+        padding: 8px;
+      }
+
+      .stat .k {
+        font-size: 0.67rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .stat .v {
+        margin-top: 2px;
+        font-family: var(--font-mono);
+        font-size: 0.84rem;
+      }
+
+      .detail {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        background: rgba(255, 253, 248, 0.8);
+      }
+
+      .detail pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-size: 0.72rem;
+        line-height: 1.4;
+        font-family: var(--font-mono);
+        color: #263846;
+      }
+
+      @media (max-width: 980px) {
+        .topbar {
+          padding: 12px;
+        }
+
+        .stage {
+          padding: 10px;
+        }
+
+        .treemap {
+          height: calc(100vh - 128px);
+          min-height: 420px;
+        }
+
+        .inspector {
+          position: static;
+          width: 100%;
+          margin-top: 10px;
+          max-width: none;
+        }
+
+        .breadcrumbs {
+          position: static;
+          max-width: none;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="title-wrap">
+          <h1 class="title">NeoSoulSeek Codebase Treemap</h1>
+          <p class="subtitle">Nested blocks sized by LOC for source and documentation domains.</p>
+        </div>
+        <div class="toolbar">
+          <button id="resetFocus" type="button">Reset focus</button>
+          <label class="switch"><input id="showDirs" type="checkbox" checked /> folders</label>
+          <label class="switch"><input id="showFiles" type="checkbox" checked /> files</label>
+          <label class="range-label">
+            min tile
+            <input id="minArea" type="range" min="0" max="2400" step="40" value="220" />
+          </label>
+          <span class="chip" id="updated">updated: --</span>
+        </div>
+      </header>
+
+      <section class="stage">
+        <div id="breadcrumbs" class="breadcrumbs"></div>
+        <div id="treemap" class="treemap"></div>
+        <aside class="inspector">
+          <h2>Selection</h2>
+          <p>Click to inspect, double click a folder/domain to zoom in.</p>
+          <div class="stat-grid" id="stats"></div>
+          <div class="detail">
+            <pre id="details">Loading...</pre>
+          </div>
+        </aside>
+      </section>
+    </div>
+
+    <script>
+      const GRAPH_URL = "codebase-graph.json";
+      const treemapEl = document.getElementById("treemap");
+      const statsEl = document.getElementById("stats");
+      const detailsEl = document.getElementById("details");
+      const breadcrumbsEl = document.getElementById("breadcrumbs");
+      const updatedEl = document.getElementById("updated");
+      const resetFocusBtn = document.getElementById("resetFocus");
+      const showDirsInput = document.getElementById("showDirs");
+      const showFilesInput = document.getElementById("showFiles");
+      const minAreaInput = document.getElementById("minArea");
+
+      const palette = [
+        "#7ebecf",
+        "#f1b289",
+        "#9ecf9d",
+        "#d6b4e8",
+        "#f2d887",
+        "#b0c7f6",
+        "#efb8ca",
+        "#b6dfcc",
+        "#f3be9e",
+        "#d0d4a7",
+      ];
+
+      let tree = null;
+      let focusNode = null;
+      let selectedNode = null;
+      let hoveredNode = null;
+      let domainColorById = new Map();
+
+      const state = {
+        showDirs: true,
+        showFiles: true,
+        minArea: Number(minAreaInput.value),
+      };
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function formatInt(value) {
+        return new Intl.NumberFormat("en-US").format(value || 0);
+      }
+
+      function formatPercent(value, total) {
+        if (!total || total <= 0) return "0%";
+        const pct = (value / total) * 100;
+        if (pct >= 10) return `${pct.toFixed(1)}%`;
+        if (pct >= 1) return `${pct.toFixed(2)}%`;
+        return `${pct.toFixed(3)}%`;
+      }
+
+      function safeDateFromUnix(unixSecs) {
+        if (!unixSecs) return "--";
+        const d = new Date(unixSecs * 1000);
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleString();
+      }
+
+      function addChild(parent, child) {
+        child.parent = parent;
+        parent.children.push(child);
+        return child;
+      }
+
+      function inferDomain(path) {
+        const chunks = String(path || "").split("/").filter(Boolean);
+        if (chunks.length === 0) return "repo-root";
+        if (chunks.length === 1) return "repo-root";
+        return chunks[0];
+      }
+
+      function buildTree(json) {
+        const root = {
+          id: "root:neosoulseek",
+          name: "NeoSoulSeek",
+          kind: "root",
+          path: "/",
+          size: 0,
+          value: 0,
+          children: [],
+          parent: null,
+        };
+
+        const domainByName = new Map();
+        const files = (json.nodes || []).filter((node) => node.kind === "file");
+
+        for (const file of files) {
+          const domainName = file.domain || inferDomain(file.path);
+          let domainNode = domainByName.get(domainName);
+          if (!domainNode) {
+            domainNode = addChild(root, {
+              id: `domain:${domainName}`,
+              name: domainName,
+              kind: "domain",
+              path: domainName,
+              size: 0,
+              value: 0,
+              children: [],
+              parent: root,
+            });
+            domainByName.set(domainName, domainNode);
+          }
+
+          const relativePath = String(file.path || file.label || file.id || "file")
+            .replace(new RegExp(`^${domainName}/`), "")
+            .replace(/^\/+/, "");
+          const segments = relativePath.split("/").filter(Boolean);
+          if (segments.length === 0) {
+            segments.push(file.label || "unknown");
+          }
+
+          let cursor = domainNode;
+          let partialPath = domainNode.path;
+
+          for (let i = 0; i < segments.length; i += 1) {
+            const seg = segments[i];
+            const isLeaf = i === segments.length - 1;
+            partialPath = `${partialPath}/${seg}`;
+
+            if (isLeaf) {
+              addChild(cursor, {
+                id: file.id || `file:${partialPath}`,
+                name: seg,
+                kind: "file",
+                path: file.path || partialPath,
+                size: Number(file.loc) > 0 ? Number(file.loc) : 1,
+                value: Number(file.loc) > 0 ? Number(file.loc) : 1,
+                extension: file.extension || null,
+                bytes: Number(file.size_bytes) || 0,
+                children: [],
+                parent: cursor,
+              });
+              continue;
+            }
+
+            let dirNode = cursor.children.find((child) => child.kind === "dir" && child.name === seg);
+            if (!dirNode) {
+              dirNode = addChild(cursor, {
+                id: `dir:${partialPath}`,
+                name: seg,
+                kind: "dir",
+                path: partialPath,
+                size: 0,
+                value: 0,
+                children: [],
+                parent: cursor,
+              });
+            }
+            cursor = dirNode;
+          }
+        }
+
+        collapseSingleChildDirs(root);
+        return root;
+      }
+
+      function collapseSingleChildDirs(node) {
+        if (!node.children || node.children.length === 0) {
+          return;
+        }
+
+        for (const child of node.children) {
+          collapseSingleChildDirs(child);
+        }
+
+        let changed = true;
+        while (changed) {
+          changed = false;
+          node.children = node.children.flatMap((child) => {
+            if (child.kind !== "dir" || !child.children || child.children.length !== 1) {
+              return [child];
+            }
+
+            const only = child.children[0];
+            only.parent = node;
+
+            if (only.kind === "dir") {
+              only.name = `${child.name}/${only.name}`;
+              only.id = `dir:${only.path}`;
+            } else {
+              only.name = `${child.name}/${only.name}`;
+            }
+
+            changed = true;
+            return [only];
+          });
+        }
+      }
+
+      function computeValues(node, depth = 0) {
+        node.depth = depth;
+        if (!node.children || node.children.length === 0) {
+          node.value = Math.max(1, Number(node.value) || Number(node.size) || 1);
+          return node.value;
+        }
+
+        let sum = 0;
+        for (const child of node.children) {
+          sum += computeValues(child, depth + 1);
+        }
+        node.value = Math.max(1, sum);
+
+        node.children.sort((a, b) => {
+          const bySize = b.value - a.value;
+          if (bySize !== 0) return bySize;
+          return a.name.localeCompare(b.name);
+        });
+
+        return node.value;
+      }
+
+      function collectSummary(node, summary) {
+        if (node.kind === "domain") summary.domainCount += 1;
+        if (node.kind === "file") summary.fileCount += 1;
+        if (node.children) {
+          for (const child of node.children) collectSummary(child, summary);
+        }
+      }
+
+      function domainAncestor(node) {
+        let cursor = node;
+        while (cursor && cursor.kind !== "domain" && cursor.kind !== "root") {
+          cursor = cursor.parent;
+        }
+        return cursor && cursor.kind === "domain" ? cursor : null;
+      }
+
+      function hexToRgb(hex) {
+        const clean = hex.replace("#", "");
+        const full = clean.length === 3 ? clean.split("").map((ch) => ch + ch).join("") : clean;
+        const num = Number.parseInt(full, 16);
+        return {
+          r: (num >> 16) & 255,
+          g: (num >> 8) & 255,
+          b: num & 255,
+        };
+      }
+
+      function rgbToHex(rgb) {
+        const toHex = (v) => v.toString(16).padStart(2, "0");
+        return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+      }
+
+      function mixColor(a, b, ratio) {
+        const ra = Math.min(1, Math.max(0, ratio));
+        const ca = hexToRgb(a);
+        const cb = hexToRgb(b);
+        return rgbToHex({
+          r: Math.round(ca.r * (1 - ra) + cb.r * ra),
+          g: Math.round(ca.g * (1 - ra) + cb.g * ra),
+          b: Math.round(ca.b * (1 - ra) + cb.b * ra),
+        });
+      }
+
+      function assignDomainPalette(root) {
+        domainColorById = new Map();
+        const domains = root.children.filter((child) => child.kind === "domain");
+        domains.forEach((domainNode, idx) => {
+          domainColorById.set(domainNode.id, palette[idx % palette.length]);
+        });
+      }
+
+      function colorForNode(node) {
+        const domain = domainAncestor(node);
+        const base = domainColorById.get(domain ? domain.id : "") || "#9db6c3";
+        if (node.kind === "domain") return mixColor(base, "#ffffff", 0.08);
+        if (node.kind === "dir") {
+          const ratio = Math.min(0.5, 0.17 + node.depth * 0.07);
+          return mixColor(base, "#ffffff", ratio);
+        }
+        const ratio = Math.min(0.67, 0.28 + node.depth * 0.08);
+        return mixColor(base, "#ffffff", ratio);
+      }
+
+      function worst(row, side) {
+        if (!row.length || side <= 0) return Number.POSITIVE_INFINITY;
+        const sum = row.reduce((acc, item) => acc + item.area, 0);
+        if (sum <= 0) return Number.POSITIVE_INFINITY;
+        const max = Math.max(...row.map((item) => item.area));
+        const min = Math.min(...row.map((item) => item.area));
+        if (min <= 0) return Number.POSITIVE_INFINITY;
+        const side2 = side * side;
+        return Math.max((side2 * max) / (sum * sum), (sum * sum) / (side2 * min));
+      }
+
+      function layoutRow(row, freeRect, placements) {
+        const rowArea = row.reduce((acc, item) => acc + item.area, 0);
+        if (rowArea <= 0) return;
+
+        if (freeRect.w >= freeRect.h) {
+          const rowWidth = rowArea / freeRect.h;
+          if (rowWidth <= 0) return;
+          let y = freeRect.y;
+          for (const item of row) {
+            const tileH = item.area / rowWidth;
+            placements.push({ node: item.node, rect: { x: freeRect.x, y, w: rowWidth, h: tileH } });
+            y += tileH;
+          }
+          freeRect.x += rowWidth;
+          freeRect.w -= rowWidth;
+        } else {
+          const rowHeight = rowArea / freeRect.w;
+          if (rowHeight <= 0) return;
+          let x = freeRect.x;
+          for (const item of row) {
+            const tileW = item.area / rowHeight;
+            placements.push({ node: item.node, rect: { x, y: freeRect.y, w: tileW, h: rowHeight } });
+            x += tileW;
+          }
+          freeRect.y += rowHeight;
+          freeRect.h -= rowHeight;
+        }
+      }
+
+      function squarify(items, rect) {
+        const remaining = [...items].sort((a, b) => b.area - a.area);
+        const placements = [];
+        const freeRect = { ...rect };
+        let row = [];
+
+        while (remaining.length > 0) {
+          const item = remaining[0];
+          const shortSide = Math.min(freeRect.w, freeRect.h);
+
+          if (row.length === 0 || worst([...row, item], shortSide) <= worst(row, shortSide)) {
+            row.push(item);
+            remaining.shift();
+          } else {
+            layoutRow(row, freeRect, placements);
+            row = [];
+          }
+        }
+
+        if (row.length > 0) {
+          layoutRow(row, freeRect, placements);
+        }
+
+        return placements;
+      }
+
+      function layoutTree(node, rect, depth = 0) {
+        node.rect = rect;
+        node.depth = depth;
+
+        if (!node.children || node.children.length === 0) {
+          return;
+        }
+
+        const pad = depth === 0 ? 6 : 3;
+        const aspectRatio = rect.h > 0 ? rect.w / rect.h : 0;
+        const header = rect.w > 88 && rect.h > 46 && aspectRatio < 7 ? (depth <= 1 ? 18 : 14) : 0;
+        node.header = header;
+
+        const inner = {
+          x: rect.x + pad,
+          y: rect.y + pad + header,
+          w: Math.max(0, rect.w - pad * 2),
+          h: Math.max(0, rect.h - pad * 2 - header),
+        };
+
+        if (inner.w <= 1 || inner.h <= 1) {
+          return;
+        }
+
+        const total = node.children.reduce((acc, child) => acc + child.value, 0);
+        if (total <= 0) {
+          return;
+        }
+
+        const scale = (inner.w * inner.h) / total;
+        const items = node.children.map((child) => ({ node: child, area: Math.max(0.0001, child.value * scale) }));
+
+        const placements = squarify(items, inner);
+        for (const placement of placements) {
+          layoutTree(placement.node, placement.rect, depth + 1);
+        }
+      }
+
+      function toNodePath(node) {
+        const chain = [];
+        let cursor = node;
+        while (cursor) {
+          chain.push(cursor.name);
+          cursor = cursor.parent;
+        }
+        return chain.reverse().join("/");
+      }
+
+      function countKinds(node) {
+        if (!node.children || node.children.length === 0) {
+          return { files: node.kind === "file" ? 1 : 0, dirs: 0 };
+        }
+
+        let files = 0;
+        let dirs = node.kind === "dir" || node.kind === "domain" || node.kind === "root" ? 1 : 0;
+        for (const child of node.children) {
+          const sub = countKinds(child);
+          files += sub.files;
+          dirs += sub.dirs;
+        }
+        return { files, dirs };
+      }
+
+      function shouldRenderNode(node) {
+        if (!node.rect) return false;
+        const area = node.rect.w * node.rect.h;
+        if (area < state.minArea) return false;
+        if (node.rect.w < 22 || node.rect.h < 14) return false;
+        if (node.kind === "file" && !state.showFiles) return false;
+        if (node.kind !== "file" && !state.showDirs) return false;
+        return true;
+      }
+
+      function createTile(node) {
+        const tile = document.createElement("button");
+        tile.type = "button";
+        tile.className = `tile depth-${Math.min(node.depth, 6)}`;
+        if (selectedNode && node.id === selectedNode.id) {
+          tile.classList.add("selected");
+        }
+
+        const rect = node.rect;
+        tile.style.left = `${rect.x}px`;
+        tile.style.top = `${rect.y}px`;
+        tile.style.width = `${Math.max(0, rect.w)}px`;
+        tile.style.height = `${Math.max(0, rect.h)}px`;
+        tile.style.background = colorForNode(node);
+
+        const area = rect.w * rect.h;
+        const pct = formatPercent(node.value, tree.value);
+        const canShowName = rect.w >= 62 && rect.h >= 18;
+        const canShowMeta = rect.w >= 140 && rect.h >= 38;
+
+        if (canShowMeta && area > 680) {
+          const name = escapeHtml(node.name);
+          const meta = `${formatInt(node.value)} loc ${pct}`;
+          tile.innerHTML = `<div class="name">${name}</div><div class="meta">${meta}</div>`;
+        } else if (canShowName && area > 260) {
+          tile.innerHTML = `<div class="name">${escapeHtml(node.name)}</div>`;
+        }
+
+        tile.addEventListener("mouseenter", () => {
+          hoveredNode = node;
+          updateDetails(hoveredNode || selectedNode || focusNode);
+        });
+
+        tile.addEventListener("mouseleave", () => {
+          hoveredNode = null;
+          updateDetails(selectedNode || focusNode);
+        });
+
+        tile.addEventListener("click", (event) => {
+          event.stopPropagation();
+          selectedNode = node;
+          updateDetails(node);
+          render();
+        });
+
+        tile.addEventListener("dblclick", (event) => {
+          event.stopPropagation();
+          if (node.children && node.children.length > 0) {
+            focusNode = node;
+            selectedNode = node;
+            render();
+          }
+        });
+
+        return tile;
+      }
+
+      function renderBranch(node) {
+        if (!node.children || node.children.length === 0) {
+          return;
+        }
+
+        for (const child of node.children) {
+          if (!child.rect) continue;
+          if (shouldRenderNode(child)) {
+            treemapEl.appendChild(createTile(child));
+          }
+          renderBranch(child);
+        }
+      }
+
+      function updateBreadcrumbs() {
+        breadcrumbsEl.innerHTML = "";
+        const chain = [];
+        let cursor = focusNode;
+        while (cursor) {
+          chain.unshift(cursor);
+          cursor = cursor.parent;
+        }
+
+        chain.forEach((node, idx) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "crumb";
+          if (idx === chain.length - 1) button.classList.add("active");
+          button.textContent = node.name;
+          button.addEventListener("click", () => {
+            focusNode = node;
+            selectedNode = node;
+            render();
+          });
+          breadcrumbsEl.appendChild(button);
+        });
+      }
+
+      function updateStats() {
+        const summary = { domainCount: 0, fileCount: 0 };
+        collectSummary(tree, summary);
+        const scopeKinds = countKinds(focusNode);
+
+        const cards = [
+          { key: "total loc", value: formatInt(tree.value) },
+          { key: "scope loc", value: formatInt(focusNode.value) },
+          { key: "domains", value: formatInt(summary.domainCount) },
+          { key: "files", value: formatInt(summary.fileCount) },
+          { key: "scope files", value: formatInt(scopeKinds.files) },
+          { key: "scope dirs", value: formatInt(scopeKinds.dirs) },
+        ];
+
+        statsEl.innerHTML = cards
+          .map((card) => `<div class="stat"><div class="k">${card.key}</div><div class="v">${card.value}</div></div>`)
+          .join("");
+      }
+
+      function updateDetails(node) {
+        if (!node) {
+          detailsEl.textContent = "Click a tile to inspect details.";
+          return;
+        }
+
+        const kinds = countKinds(node);
+        const payload = {
+          name: node.name,
+          kind: node.kind,
+          path: node.path,
+          loc: node.value,
+          percent_of_total: formatPercent(node.value, tree.value),
+          descendants_files: kinds.files,
+          descendants_dirs: kinds.dirs,
+          focus_scope: toNodePath(focusNode),
+          extension: node.extension || null,
+          size_bytes: node.bytes || null,
+        };
+        detailsEl.textContent = JSON.stringify(payload, null, 2);
+      }
+
+      function layoutAndRender() {
+        const rect = treemapEl.getBoundingClientRect();
+        const width = Math.max(0, rect.width);
+        const height = Math.max(0, rect.height);
+
+        layoutTree(focusNode, { x: 0, y: 0, w: width, h: height }, 0);
+        treemapEl.innerHTML = "";
+        renderBranch(focusNode);
+      }
+
+      function render() {
+        updateBreadcrumbs();
+        updateStats();
+        layoutAndRender();
+        updateDetails(hoveredNode || selectedNode || focusNode);
+      }
+
+      function bindControls() {
+        resetFocusBtn.addEventListener("click", () => {
+          focusNode = tree;
+          selectedNode = tree;
+          render();
+        });
+
+        showDirsInput.addEventListener("change", () => {
+          state.showDirs = showDirsInput.checked;
+          render();
+        });
+
+        showFilesInput.addEventListener("change", () => {
+          state.showFiles = showFilesInput.checked;
+          render();
+        });
+
+        minAreaInput.addEventListener("input", () => {
+          state.minArea = Number(minAreaInput.value);
+          render();
+        });
+
+        treemapEl.addEventListener("click", (event) => {
+          if (event.target === treemapEl) {
+            selectedNode = focusNode;
+            updateDetails(focusNode);
+            render();
+          }
+        });
+
+        window.addEventListener("resize", () => {
+          render();
+        });
+      }
+
+      async function loadGraph() {
+        const response = await fetch(GRAPH_URL, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`could not load ${GRAPH_URL}: HTTP ${response.status}`);
+        }
+        return response.json();
+      }
+
+      async function main() {
+        bindControls();
+        try {
+          const json = await loadGraph();
+          tree = buildTree(json);
+          computeValues(tree);
+          assignDomainPalette(tree);
+          focusNode = tree;
+          selectedNode = tree;
+          updatedEl.textContent = `updated: ${safeDateFromUnix(json.generated_unix_secs)}`;
+          render();
+        } catch (error) {
+          detailsEl.textContent = `Failed to load graph: ${String(error)}`;
+        }
+      }
+
+      main();
+    </script>
+  </body>
+</html>

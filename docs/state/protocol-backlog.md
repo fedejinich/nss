@@ -4,6 +4,15 @@
 
 Maintain full protocol coverage (`implemented+mapped=131`) while replacing opaque control-message handling with richer typed payloads backed by runtime evidence.
 
+## Stage 6A Note (State UX + Dashboard Tooling)
+
+- Stage 6A introduced no protocol message additions or removals.
+- Stage 6A added dashboard and codebase-visualizer observability tooling:
+  - `analysis/state/stage_registry.json`
+  - `docs/state/project-dashboard-data.json`
+  - `docs/state/codebase-graph.json`
+  - `docs/pr/index.md`
+
 ## Stage 5B Note (UI/Feature Audit)
 
 - Stage 5B added no new protocol codes/messages.

@@ -1,43 +1,49 @@
 # NeoSoulSeek Knowledge Base
 
-This documentation is the project memory for decompilation and parity work against SoulseekQt.
+This site is the canonical project memory for protocol mapping, runtime verification, and CLI-first product evolution.
+
+## Start Here
+
+- [Project Dashboard](state/project-dashboard.html)
+- [Roadmap](state/roadmap.md)
+- [Protocol Matrix](state/protocol-matrix.md)
+- [Codebase Visualizer](state/codebase-visualizer.md)
+- [Verification Status](state/verification-status.md)
+- [PR Catalog](pr/index.md)
 
 ## Core Rules
 
 - The binary is the spec.
 - No rename is accepted without evidence.
-- Only high-confidence candidates are auto-promoted into authoritative maps.
-- Medium/low confidence candidates are queued for review.
-- Project memory must be updated continuously (`TODO-CODEX.md`, `AGENTS.md`, and canonical KB docs/artifacts).
+- High-confidence findings are promoted to authoritative artifacts.
+- Medium and low confidence findings remain in review queue until new evidence arrives.
+- Project memory is part of the definition of done (`TODO-CODEX.md`, `AGENTS.md`, and canonical docs/artifacts).
 
-## Authoritative Sources
+## Authoritative Artifacts
 
 - `analysis/ghidra/maps/name_map.json`
 - `analysis/ghidra/maps/data_map.json`
 - `analysis/ghidra/maps/message_map.csv`
 - `analysis/protocol/message_schema.json`
-- `docs/verification/evidence-ledger.md`
-- `docs/verification/capture-redaction-policy.md`
-- `docs/re/static/detangling.md`
-- `docs/re/static/search-download-flow.md`
-- `docs/re/static/message-schema.md`
-- `docs/state/stage2-parity-audit.md`
-- `docs/state/soulseek-feature-inventory.md`
-- `docs/state/protocol-backlog.md`
+- `analysis/state/stage_registry.json`
 - `docs/state/protocol-matrix.md`
-- `docs/state/roadmap.md`
-- `docs/runbooks/documentation-discipline.md`
-- `docs/runbooks/cli-download-example.md`
+- `docs/state/protocol-matrix.json`
+- `docs/state/project-dashboard-data.json`
+- `docs/state/codebase-graph.json`
+- `docs/verification/evidence-ledger.md`
+- `docs/re/static/detangling.md`
 
-## Commands
+## Operations
 
 ```bash
 python3 scripts/kb_promote.py
 python3 scripts/kb_sync_docs.py
 python3 scripts/kb_validate.py
-scripts/extract_search_download_flow.sh
-scripts/derive_message_schema.sh
 python3 tools/protocol/generate_protocol_matrix.py
+python3 tools/state/generate_dashboard_data.py
+python3 tools/state/generate_codebase_graph.py
+python3 tools/docs/generate_pr_index.py
+scripts/sync_state_dashboards.sh
 scripts/run_diff_verify.sh
 scripts/run_regression.sh
 .venv-tools/bin/zensical build -f zensical.toml

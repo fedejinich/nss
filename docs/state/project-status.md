@@ -30,6 +30,7 @@
 - Stage 5F complete: typed runtime hardening wave 5 for private-room membership/ownership control (`136/137/139/140/145`) with authenticated runtime evidence.
 - Stage 5G complete: typed runtime hardening wave 6 for text-control payloads (`58/62/63/66/117/118`) with authenticated runtime evidence.
 - Stage 5H complete: typed runtime hardening wave 7 for system-control payloads (`28/32/130`) with authenticated runtime evidence.
+- Stage 6A complete: dashboard-first KB UX with visual project dashboard, interactive codebase visualizer, and collapsed PR catalog navigation.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -111,6 +112,25 @@
    - `implemented+mapped=131`
    - `mapped_not_implemented=0`
    - `missing=0`
+
+## Stage 6A Completion
+
+1. Added canonical stage-state registry artifact:
+   - `analysis/state/stage_registry.json`
+2. Added dashboard and state data generation artifacts:
+   - `docs/state/project-dashboard.html`
+   - `docs/state/project-dashboard-data.json`
+3. Added codebase topology visualizer artifacts:
+   - `docs/state/codebase-visualizer.md`
+   - `docs/state/codebase-visualizer.html`
+   - `docs/state/codebase-graph.json`
+4. Added collapsed PR catalog generation and output:
+   - `tools/docs/generate_pr_index.py`
+   - `docs/pr/index.md`
+5. Added synchronized regeneration workflow command:
+   - `scripts/sync_state_dashboards.sh`
+6. Curated Zensical nav for high-signal state surfaces:
+   - dashboard, roadmap, protocol matrix, visualizer, verification status, and PR catalog.
 
 ## Stage 5A Completion
 

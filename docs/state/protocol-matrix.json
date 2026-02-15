@@ -1,0 +1,1193 @@
+{
+  "generated_at": "2026-02-15T07:52:08+00:00",
+  "snapshot": {
+    "total_messages": 131,
+    "server_messages": 106,
+    "peer_messages": 25,
+    "implemented_mapped": 131,
+    "mapped_not_implemented": 0,
+    "implemented_not_mapped": 0,
+    "missing": 0
+  },
+  "rows": [
+    {
+      "scope": "peer",
+      "code": 1,
+      "message": "PM_SAY",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Peer MessageCodeToString jump-table extraction resolves code 1 to PM_SAY (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "peer",
+      "code": 4,
+      "message": "PM_GET_SHARED_FILE_LIST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
+      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 5,
+      "message": "PM_SHARED_FILE_LIST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
+      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 8,
+      "message": "PM_FILE_SEARCH_REQUEST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
+      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 9,
+      "message": "PM_FILE_SEARCH_RESULT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed inbound runtime frame in login-search-download scenario (code 9) with token+user+result_count.",
+      "evidence": "captures/redacted/login-search-download/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 10,
+      "message": "PM_INVITE_USER_TO_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow emits invite-to-room frame (code 10) with room payload.",
+      "evidence": "captures/redacted/peer-legacy-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 14,
+      "message": "PM_CANCELLED_QUEUED_TRANSFER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow emits cancelled-queued-transfer frame (code 14) with virtual path payload.",
+      "evidence": "captures/redacted/peer-legacy-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 15,
+      "message": "PM_USER_INFO_REQUEST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Peer code 15 UserInfoRequest with empty payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.",
+      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 16,
+      "message": "PM_USER_INFO_REPLY",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Peer code 16 UserInfoReply with description/picture/uploads/queue/slots fields (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.",
+      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 33,
+      "message": "PM_SEND_CONNECT_TOKEN",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Peer MessageCodeToString jump-table extraction resolves code 33 to PM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "peer",
+      "code": 34,
+      "message": "PM_MOVE_DOWNLOAD_TO_TOP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow emits move-download-to-top frame (code 34) with virtual path payload.",
+      "evidence": "captures/redacted/peer-legacy-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 36,
+      "message": "PM_GET_SHARED_FILES_IN_FOLDER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow sends request for shared files in folder (code 36) with directory payload.",
+      "evidence": "captures/redacted/peer-folder-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 37,
+      "message": "PM_SHARED_FILES_IN_FOLDER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37); protocol parser now performs zlib decompression-aware decoding.",
+      "evidence": "captures/redacted/peer-folder-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 40,
+      "message": "PM_TRANSFER_REQUEST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Transfer queue dispatcher handles transfer request negotiation.",
+      "evidence": "evidence/reverse/disasm/transfer_on_file_request.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 41,
+      "message": "PM_TRANSFER_RESPONSE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Transfer queue dispatcher handles transfer response negotiation.",
+      "evidence": "evidence/reverse/disasm/transfer_on_file_request.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 42,
+      "message": "PM_PLACEHOLD_UPLOAD",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Peer MessageCodeToString jump-table extraction resolves code 42 to PM_PLACEHOLD_UPLOAD (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "peer",
+      "code": 43,
+      "message": "PM_QUEUE_UPLOAD",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed literal in PeerMessenger::MessageCodeToString dispatch.",
+      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 44,
+      "message": "PM_UPLOAD_PLACE_IN_LINE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed inbound runtime frame in upload-deny scenario (code 44) with queue place payload.",
+      "evidence": "captures/redacted/upload-deny/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 46,
+      "message": "PM_UPLOAD_FAILED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed inbound runtime frame in upload-deny scenario (code 46) with failure reason payload.",
+      "evidence": "captures/redacted/upload-deny/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 47,
+      "message": "PM_EXACT_FILE_SEARCH_REQUEST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow emits exact-file-search frame (code 47) with token+query payload.",
+      "evidence": "captures/redacted/peer-legacy-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 48,
+      "message": "PM_QUEUED_DOWNLOADS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow emits queued-downloads frame (code 48) with list payload.",
+      "evidence": "captures/redacted/peer-legacy-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 49,
+      "message": "PM_INDIRECT_FILE_SEARCH_REQUEST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic peer-local runtime flow emits indirect-file-search frame (code 49) with query payload.",
+      "evidence": "captures/redacted/peer-legacy-local/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 50,
+      "message": "PM_UPLOAD_DENIED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed inbound runtime frame in upload-deny scenario (code 50) with deny reason payload.",
+      "evidence": "captures/redacted/upload-deny/official_frames.hex"
+    },
+    {
+      "scope": "peer",
+      "code": 51,
+      "message": "PM_UPLOAD_PLACE_IN_LINE_REQUEST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Peer code 51 PlaceInQueueRequest with filename/path payload (code resolved from SLSK protocol spec); symbol confirmed in peer message code table.",
+      "evidence": "evidence/reverse/peer_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "peer",
+      "code": 52,
+      "message": "PM_NOTHING",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Peer MessageCodeToString jump-table extraction resolves code 52 to PM_NOTHING (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 1,
+      "message": "SM_LOGIN",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed authenticated runtime login request+response (code 1) with success payload on tuple 160/1.",
+      "evidence": "captures/redacted/login-only/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 2,
+      "message": "SM_SET_WAIT_PORT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed literal in Server::MessageCodeToString dispatch.",
+      "evidence": "evidence/reverse/server_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "server",
+      "code": 3,
+      "message": "SM_GET_PEER_ADDRESS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes GetPeerAddress request/response (code 3) with username and endpoint payload fields.",
+      "evidence": "captures/redacted/login-peer-address-connect/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 5,
+      "message": "SM_ADD_USER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 5 to SM_ADD_USER (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 6,
+      "message": "SM_REMOVE_USER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 6 to SM_REMOVE_USER (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 7,
+      "message": "SM_GET_USER_STATUS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes user-status request/response (code 7) with status and privilege fields.",
+      "evidence": "captures/redacted/login-user-state/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 10,
+      "message": "SM_ADD_CHATROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends add-chatroom control frame (code 10) with room string payload.",
+      "evidence": "captures/redacted/login-room-term-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 11,
+      "message": "SM_IGNORE_USER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends ignore-user request (code 11); mapping aligns with server MessageCodeToString and SLSK spec obsolete ignore operation.",
+      "evidence": "captures/redacted/login-privileges-social/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 12,
+      "message": "SM_UNIGNORE_USER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends unignore-user request (code 12); mapping aligns with server MessageCodeToString and SLSK spec obsolete unignore operation.",
+      "evidence": "captures/redacted/login-privileges-social/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 13,
+      "message": "SM_SAY_CHATROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session.",
+      "evidence": "captures/redacted/login-join-room-presence/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 14,
+      "message": "SM_JOIN_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime join-room request and server join payload during authenticated room session.",
+      "evidence": "captures/redacted/login-join-room-presence/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 15,
+      "message": "SM_LEAVE_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime leave-room request and server leave acknowledgement payload.",
+      "evidence": "captures/redacted/login-leave-room/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 16,
+      "message": "SM_USER_JOINED_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime user-joined room presence events while watching authenticated room session.",
+      "evidence": "captures/redacted/login-join-room-presence/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 17,
+      "message": "SM_USER_LEFT_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime user-left room presence events while watching authenticated room session.",
+      "evidence": "captures/redacted/login-join-room-presence/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 18,
+      "message": "SM_CONNECT_TO_PEER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes ConnectToPeer request and response payloads (code 18) with token",
+      "evidence": "captures/redacted/login-peer-address-connect/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 22,
+      "message": "SM_MESSAGE_USER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes private-message send and inbound private-message frame (code 22) with directional payload variants.",
+      "evidence": "captures/redacted/login-private-message/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 23,
+      "message": "SM_MESSAGE_ACKED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes private-message acknowledgement path (code 23) with message_id payload.",
+      "evidence": "captures/redacted/login-private-message/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 26,
+      "message": "SM_FILE_SEARCH",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "FileSearch writes constant 0x1a before Server::SendMessage.",
+      "evidence": "evidence/reverse/disasm/server_file_search.txt"
+    },
+    {
+      "scope": "server",
+      "code": 28,
+      "message": "SM_SET_STATUS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends set-status control frame (code 28) with u32 status payload.",
+      "evidence": "captures/redacted/login-system-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 32,
+      "message": "SM_HEARTBEAT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends heartbeat control frame (code 32) with u32 sequence payload.",
+      "evidence": "captures/redacted/login-system-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 33,
+      "message": "SM_SEND_CONNECT_TOKEN",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 33 to SM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 34,
+      "message": "SM_DOWNLOAD_SPEED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed literal in Server::MessageCodeToString dispatch.",
+      "evidence": "evidence/reverse/server_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "server",
+      "code": 35,
+      "message": "SM_SHARED_FOLDERS_FILES",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed literal in Server::MessageCodeToString dispatch.",
+      "evidence": "evidence/reverse/server_messagecodetostring_otool.txt"
+    },
+    {
+      "scope": "server",
+      "code": 36,
+      "message": "SM_GET_USER_STATS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes user-stats request/response (code 36) with stats summary fields.",
+      "evidence": "captures/redacted/login-user-state/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 41,
+      "message": "SM_RELOGGED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 42,
+      "message": "SM_SEARCH_USER_FILES",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed outbound runtime frame in login-search scenario (code 42) with user+query payload.",
+      "evidence": "captures/redacted/login-search/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 50,
+      "message": "SM_GET_SIMILAR_TERMS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed authenticated runtime request/response for similar-terms discovery flow (code 50).",
+      "evidence": "captures/redacted/login-similar-terms/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 51,
+      "message": "SM_ADD_LIKE_TERM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends add-like-term control frame (code 51) with term string payload.",
+      "evidence": "captures/redacted/login-room-term-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 52,
+      "message": "SM_REMOVE_LIKE_TERM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends remove-like-term control frame (code 52) with term string payload.",
+      "evidence": "captures/redacted/login-room-term-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 54,
+      "message": "SM_GET_RECOMMENDATIONS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed authenticated runtime recommendations flow (code 54) including outbound request and inbound summary payload.",
+      "evidence": "captures/redacted/login-recommendations/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 55,
+      "message": "SM_GET_MY_RECOMMENDATIONS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed outbound authenticated runtime request for my-recommendations (code 55) in recommendation batch.",
+      "evidence": "captures/redacted/login-recommendations/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 56,
+      "message": "SM_GET_GLOBAL_RECOMMENDATIONS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed authenticated runtime global-recommendations flow (code 56) with populated inbound payload.",
+      "evidence": "captures/redacted/login-recommendations/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 57,
+      "message": "SM_GET_USER_RECOMMENDATIONS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed authenticated runtime user-recommendations flow (code 57) with user request and reply payload.",
+      "evidence": "captures/redacted/login-user-recommendations/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 58,
+      "message": "SM_COMMAND",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends command control frame (code 58) with command string payload.",
+      "evidence": "captures/redacted/login-text-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 59,
+      "message": "SM_PLACE_IN_LINE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 59 to SM_PLACE_IN_LINE (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 60,
+      "message": "SM_PLACE_IN_LINE_RESPONSE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 60 to SM_PLACE_IN_LINE_RESPONSE (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 61,
+      "message": "SM_USER_LIST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 61 to SM_USER_LIST (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 62,
+      "message": "SM_ROOM_ADDED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends room-added control frame (code 62) with room string payload.",
+      "evidence": "captures/redacted/login-text-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 63,
+      "message": "SM_ROOM_REMOVED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends room-removed control frame (code 63) with room string payload.",
+      "evidence": "captures/redacted/login-text-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 64,
+      "message": "SM_ROOM_LIST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime room list request/response flow with authenticated session.",
+      "evidence": "captures/redacted/login-room-list/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 65,
+      "message": "SM_EXACT_FILE_SEARCH",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed outbound runtime frame in login-search scenario (code 65) with exact virtual path payload.",
+      "evidence": "captures/redacted/login-search/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 66,
+      "message": "SM_ADMIN_MESSAGE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends admin-message control frame (code 66) with message string payload.",
+      "evidence": "captures/redacted/login-text-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 67,
+      "message": "SM_GLOBAL_USER_LIST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 67 to SM_GLOBAL_USER_LIST (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 68,
+      "message": "SM_PEER_MESSAGE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Deterministic runtime-local legacy tunneled-message capture covers code 68 request/response payload variants; alt compatibility alias 292 observed in same run.",
+      "evidence": "captures/redacted/login-peer-message/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 69,
+      "message": "SM_PRIVILEGED_LIST",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes privileged-list request and response frames (code 69) with user-list style payloads.",
+      "evidence": "captures/redacted/login-privilege-messaging/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 70,
+      "message": "SM_CONNECT_TO_CLIENT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 70 to SM_CONNECT_TO_CLIENT (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 71,
+      "message": "SM_SEND_DISTRIBUTIONS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 73,
+      "message": "SM_NOTE_PARENT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 82,
+      "message": "SM_CHILD_PARENT_MAP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 83,
+      "message": "SM_SET_PARENT_MIN_SPEED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow observes server-issued parent min speed tuning frame (code 83) with typed `u32` payload.",
+      "evidence": "captures/redacted/login-parent-distributed-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 84,
+      "message": "SM_SET_PARENT_SPEED_CONNECTION_RATIO",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow observes server-issued parent speed ratio tuning frame (code 84) with typed `u32` payload.",
+      "evidence": "captures/redacted/login-parent-distributed-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 86,
+      "message": "SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends parent-inactivity control frame (code 86) with u32 seconds payload.",
+      "evidence": "captures/redacted/login-parent-disconnect-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 87,
+      "message": "SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends server-inactivity control frame (code 87) with u32 seconds payload.",
+      "evidence": "captures/redacted/login-parent-disconnect-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 88,
+      "message": "SM_NODES_IN_CACHE_BEFORE_DISCONNECT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends nodes-in-cache control frame (code 88) with u32 nodes payload.",
+      "evidence": "captures/redacted/login-parent-disconnect-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 90,
+      "message": "SM_SET_SECONDS_BEFORE_PING_CHILDREN",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends ping-children control frame (code 90) with u32 seconds payload.",
+      "evidence": "captures/redacted/login-parent-disconnect-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 91,
+      "message": "SM_ADD_PRIVILEGED_USER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 91 to SM_ADD_PRIVILEGED_USER (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 92,
+      "message": "SM_GET_OWN_PRIVILEGES_STATUS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends own-privileges status request (code 92); spec defines CheckPrivileges response with remaining seconds.",
+      "evidence": "captures/redacted/login-privileges-social/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 93,
+      "message": "SM_DNET_MESSAGE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 93 to SM_DNET_MESSAGE (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 100,
+      "message": "SM_CAN_PARENT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends can-parent control frame (code 100) with bool_u32 payload.",
+      "evidence": "captures/redacted/login-parent-disconnect-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 102,
+      "message": "SM_POSSIBLE_PARENTS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 103,
+      "message": "SM_LOW_PRIORITY_FILE_SEARCH",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 103 to SM_LOW_PRIORITY_FILE_SEARCH (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 104,
+      "message": "SM_WISHLIST_WAIT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 104 to SM_WISHLIST_WAIT (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 110,
+      "message": "SM_GET_RECOMMENDED_USERS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes code 110 request/response for similar users with scored user entries.",
+      "evidence": "captures/redacted/login-privilege-messaging/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 111,
+      "message": "SM_GET_TERM_RECOMMENDATIONS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes code 111 request with term payload and recommendation-entry response.",
+      "evidence": "captures/redacted/login-privilege-messaging/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 112,
+      "message": "SM_GET_RECOMMENDATION_USERS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow includes code 112 request with term payload and scored-user response entries.",
+      "evidence": "captures/redacted/login-privilege-messaging/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 113,
+      "message": "SM_GET_ROOM_TICKER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow captures request+response multiplexing on code 113 and validates typed room ticker payload decoding.",
+      "evidence": "captures/redacted/login-parent-distributed-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 114,
+      "message": "SM_ROOM_TICKER_USER_ADDED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 114 to SM_ROOM_TICKER_USER_ADDED (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 115,
+      "message": "SM_ROOM_TICKER_USER_REMOVED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 115 to SM_ROOM_TICKER_USER_REMOVED (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 116,
+      "message": "SM_SET_TICKER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 116 to SM_SET_TICKER (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 117,
+      "message": "SM_ADD_HATE_TERM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends add-hate-term control frame (code 117) with term string payload.",
+      "evidence": "captures/redacted/login-text-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 118,
+      "message": "SM_REMOVE_HATE_TERM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends remove-hate-term control frame (code 118) with term string payload.",
+      "evidence": "captures/redacted/login-text-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 120,
+      "message": "SM_SEARCH_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed outbound runtime frame in login-search scenario (code 120) with room+query payload.",
+      "evidence": "captures/redacted/login-search/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 121,
+      "message": "SM_UPLOAD_SPEED",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends upload-speed control frame (code 121) with typed `bytes_per_sec` payload.",
+      "evidence": "captures/redacted/login-parent-distributed-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 122,
+      "message": "SM_GET_USER_PRIVILEGES_STATUS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow captures both request and response on code 122 with typed `username + privileged` semantics.",
+      "evidence": "captures/redacted/login-parent-distributed-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 123,
+      "message": "SM_GIVE_PRIVILEGE",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends give-privilege request (code 123) with username+days payload.",
+      "evidence": "captures/redacted/login-privileges-social/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 124,
+      "message": "SM_INFORM_USER_OF_PRIVILEGES",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends notify-privileges request (code 124) with token+username payload.",
+      "evidence": "captures/redacted/login-privileges-social/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 125,
+      "message": "SM_INFORM_USER_OF_PRIVILEGES_ACK",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends notify-privileges ack (code 125) with token payload.",
+      "evidence": "captures/redacted/login-privileges-social/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 126,
+      "message": "SM_DNET_LEVEL",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 126 to SM_DNET_LEVEL (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 127,
+      "message": "SM_DNET_GROUP_LEADER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 127 to SM_DNET_GROUP_LEADER (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 128,
+      "message": "SM_DNET_DELIVERY_REPORT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 128 to SM_DNET_DELIVERY_REPORT (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 129,
+      "message": "SM_DNET_CHILD_DEPTH",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 129 to SM_DNET_CHILD_DEPTH (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 130,
+      "message": "SM_DNET_RESET",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends dnet-reset control frame (code 130) with u32 reason payload.",
+      "evidence": "captures/redacted/login-system-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 131,
+      "message": "SM_FLOOD",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 131 to SM_FLOOD (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 132,
+      "message": "SM_BAN_USER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 132 to SM_BAN_USER (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 133,
+      "message": "SM_ROOM_MEMBERS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime room-members request flow in authenticated room session.",
+      "evidence": "captures/redacted/login-join-room-presence/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 134,
+      "message": "SM_ADD_ROOM_MEMBER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server code 134 AddUserToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
+      "evidence": "evidence/reverse/message_name_strings.txt"
+    },
+    {
+      "scope": "server",
+      "code": 135,
+      "message": "SM_REMOVE_ROOM_MEMBER",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server code 135 RemoveUserFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
+      "evidence": "evidence/reverse/message_name_strings.txt"
+    },
+    {
+      "scope": "server",
+      "code": 136,
+      "message": "SM_REMOVE_OWN_ROOM_MEMBERSHIP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends remove-own-room-membership control frame (code 136) with room string payload.",
+      "evidence": "captures/redacted/login-private-room-membership-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 137,
+      "message": "SM_GIVE_UP_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends give-up-room control frame (code 137) with room string payload.",
+      "evidence": "captures/redacted/login-private-room-membership-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 138,
+      "message": "SM_TRANSFER_ROOM_OWNERSHIP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 138 to SM_TRANSFER_ROOM_OWNERSHIP (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 139,
+      "message": "SM_ADD_ROOM_MEMBERSHIP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends add-room-membership control frame (code 139) with room string payload.",
+      "evidence": "captures/redacted/login-private-room-membership-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 140,
+      "message": "SM_REMOVE_ROOM_MEMBERSHIP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends remove-room-membership control frame (code 140) with room string payload.",
+      "evidence": "captures/redacted/login-private-room-membership-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 141,
+      "message": "SM_ENABLE_PRIVATE_ROOM_ADD",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 141 to SM_ENABLE_PRIVATE_ROOM_ADD (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 142,
+      "message": "SM_CHANGE_PASSWORD",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 142 to SM_CHANGE_PASSWORD (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 143,
+      "message": "SM_ADD_ROOM_OPERATOR",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server code 143 AddOperatorToPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
+      "evidence": "evidence/reverse/message_name_strings.txt"
+    },
+    {
+      "scope": "server",
+      "code": 144,
+      "message": "SM_REMOVE_ROOM_OPERATOR",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server code 144 RemoveOperatorFromPrivileged with room+username payload (code resolved from SLSK protocol spec) and symbol confirmed in binary string table.",
+      "evidence": "evidence/reverse/message_name_strings.txt"
+    },
+    {
+      "scope": "server",
+      "code": 145,
+      "message": "SM_ADD_ROOM_OPERATORSHIP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends add-room-operatorship control frame (code 145) with room string payload.",
+      "evidence": "captures/redacted/login-private-room-membership-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 146,
+      "message": "SM_REMOVE_ROOM_OPERATORSHIP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 146 to SM_REMOVE_ROOM_OPERATORSHIP (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 147,
+      "message": "SM_REMOVE_OWN_ROOM_OPERATORSHIP",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Server MessageCodeToString jump-table extraction resolves code 147 to SM_REMOVE_OWN_ROOM_OPERATORSHIP (x86_64 binary disassembly).",
+      "evidence": "evidence/reverse/message_codes_jump_table.md"
+    },
+    {
+      "scope": "server",
+      "code": 148,
+      "message": "SM_ROOM_OPERATORS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime room-operators request flow in authenticated room session.",
+      "evidence": "captures/redacted/login-join-room-presence/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 149,
+      "message": "SM_MESSAGE_USERS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends message-users payload (code 149) with user list and message body.",
+      "evidence": "captures/redacted/login-message-users/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 150,
+      "message": "SM_JOIN_GLOBAL_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends join-global-room control frame (code 150) with empty payload.",
+      "evidence": "captures/redacted/login-global-room-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 151,
+      "message": "SM_LEAVE_GLOBAL_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends leave-global-room control frame (code 151) with empty payload.",
+      "evidence": "captures/redacted/login-global-room-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 152,
+      "message": "SM_SAY_GLOBAL_ROOM",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends say-global-room control frame (code 152) with message string payload.",
+      "evidence": "captures/redacted/login-global-room-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 153,
+      "message": "SM_SEARCH_CORRELATIONS",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Authenticated runtime flow sends search-correlations control frame (code 153) with term string payload.",
+      "evidence": "captures/redacted/login-global-room-control/official_frames.hex"
+    },
+    {
+      "scope": "server",
+      "code": 292,
+      "message": "SM_PEER_MESSAGE_ALT",
+      "status": "implemented_mapped",
+      "confidence": "high",
+      "summary": "Observed runtime alias code 292 for peer message tunneling in login-peer-message flow.",
+      "evidence": "captures/redacted/login-peer-message/official_frames.hex"
+    }
+  ]
+}

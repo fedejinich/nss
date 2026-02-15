@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, and Stage 5D-S5H multi-wave opaque-to-typed runtime promotion.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, and Stage 6A dashboard-state observability artifacts.
 
 ## Validation Gates
 
@@ -125,6 +125,22 @@ Protocol matrix status:
 - Stage 4F/S4G/S4H/S4I/S4J are mapping-first and static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
 - Stage 4K closes all prior `missing` names by adding jump-table-backed mappings and protocol codec support.
 - Stage 4L closes the prior `mapped_not_implemented` bucket using `OpaqueServerControlPayload` coverage for unresolved runtime-shape control messages.
+
+## Stage 6A State Artifact Verification
+
+- Stage-state source of truth:
+  - `analysis/state/stage_registry.json`
+- Generated state artifacts:
+  - `docs/state/project-dashboard-data.json`
+  - `docs/state/codebase-graph.json`
+  - `docs/pr/index.md`
+- Regeneration command:
+  - `scripts/sync_state_dashboards.sh`
+- Validation coverage:
+  - `tests/state/test_stage_registry.py`
+  - `tests/state/test_dashboard_generators.py`
+  - `tests/docs/test_pr_index.py`
+- `run_regression.sh` includes all above tests and remains green.
 
 ## Stage 5B Verification Status
 

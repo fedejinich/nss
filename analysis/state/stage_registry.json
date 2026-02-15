@@ -1,0 +1,267 @@
+{
+  "generated_by": "manual_stage_registry_v1",
+  "stages": [
+    {
+      "id": "S2",
+      "title": "Core P2P MVP + 25 messages",
+      "status": "done",
+      "owner_area": "protocol/core/cli/verify",
+      "depends_on": [],
+      "evidence": "docs/state/stage2-parity-audit.md",
+      "next_gate": "none",
+      "notes": "Established core login/search/download/upload baseline with KB-first artifacts."
+    },
+    {
+      "id": "S2R",
+      "title": "Runtime refresh and confidence promotion",
+      "status": "done",
+      "owner_area": "runtime/verification",
+      "depends_on": [
+        "S2"
+      ],
+      "evidence": "docs/verification/evidence-ledger.md",
+      "next_gate": "none",
+      "notes": "Refreshed runtime captures and promoted medium-confidence core mappings to high."
+    },
+    {
+      "id": "S3A",
+      "title": "Authenticated login + semantic parity",
+      "status": "done",
+      "owner_area": "protocol/core/verify",
+      "depends_on": [
+        "S2R"
+      ],
+      "evidence": "docs/pr/0003-s3a-auth-semantic-parity.md",
+      "next_gate": "S3B",
+      "notes": "Validated real login tuple and switched differential verification default to semantic mode."
+    },
+    {
+      "id": "S3B",
+      "title": "Rooms + Presence batch",
+      "status": "done",
+      "owner_area": "protocol/core/cli",
+      "depends_on": [
+        "S3A"
+      ],
+      "evidence": "docs/pr/0004-s3b-rooms-presence-roadmap.md",
+      "next_gate": "S4A",
+      "notes": "Added room list/join/leave/presence coverage with runtime-backed evidence."
+    },
+    {
+      "id": "S4A",
+      "title": "Recommendations + Discovery batch",
+      "status": "done",
+      "owner_area": "protocol/core/cli",
+      "depends_on": [
+        "S3B"
+      ],
+      "evidence": "docs/pr/0005-s4a-recommendations-discovery.md",
+      "next_gate": "S4B",
+      "notes": "Implemented recommendation request/response paths and semantic verification coverage."
+    },
+    {
+      "id": "S4B",
+      "title": "Peer advanced + room moderation",
+      "status": "done",
+      "owner_area": "protocol/core/cli",
+      "depends_on": [
+        "S4A"
+      ],
+      "evidence": "docs/pr/0006-s4b-peer-room-matrix.md",
+      "next_gate": "S4C",
+      "notes": "Expanded peer/user-info and room moderation message coverage with runtime captures."
+    },
+    {
+      "id": "S4C",
+      "title": "Privileges + social + peer folder",
+      "status": "done",
+      "owner_area": "protocol/core/cli",
+      "depends_on": [
+        "S4B"
+      ],
+      "evidence": "docs/pr/0007-s4c-privileges-social-peer-folder.md",
+      "next_gate": "S4D",
+      "notes": "Added privilege flows and peer-folder requests including decompression prep groundwork."
+    },
+    {
+      "id": "S4D",
+      "title": "Privilege/messaging gaps + peer legacy cleanup",
+      "status": "done",
+      "owner_area": "protocol/core/verify",
+      "depends_on": [
+        "S4C"
+      ],
+      "evidence": "docs/pr/0008-s4d-privilege-messaging-peer-legacy.md",
+      "next_gate": "S4E",
+      "notes": "Closed messaging and legacy peer gaps, promoting remaining medium mappings."
+    },
+    {
+      "id": "S4E",
+      "title": "Private messaging + user-state",
+      "status": "done",
+      "owner_area": "protocol/core/cli/verify",
+      "depends_on": [
+        "S4D"
+      ],
+      "evidence": "docs/pr/0009-s4e-private-messaging-user-state.md",
+      "next_gate": "S4F",
+      "notes": "Introduced typed private-message/user-state operations and semantic field-level parity."
+    },
+    {
+      "id": "S4F",
+      "title": "Global/admin/distributed mapping",
+      "status": "done",
+      "owner_area": "protocol-mapping",
+      "depends_on": [
+        "S4E"
+      ],
+      "evidence": "docs/pr/0010-s4f-global-admin-distributed-map.md",
+      "next_gate": "S4G",
+      "notes": "Mapping-first jump-table extraction for global/admin/distributed control families."
+    },
+    {
+      "id": "S4G",
+      "title": "Parent/distributed tuning mapping",
+      "status": "done",
+      "owner_area": "protocol-mapping",
+      "depends_on": [
+        "S4F"
+      ],
+      "evidence": "docs/pr/0011-s4g-parent-distributed-tuning-map.md",
+      "next_gate": "S4H",
+      "notes": "Mapped parent/distributed tuning codes before typed runtime promotion."
+    },
+    {
+      "id": "S4H",
+      "title": "Global room/system control mapping",
+      "status": "done",
+      "owner_area": "protocol-mapping",
+      "depends_on": [
+        "S4G"
+      ],
+      "evidence": "docs/pr/0012-s4h-global-system-control-map.md",
+      "next_gate": "S4I",
+      "notes": "Mapped system and room-control continuation set from static evidence."
+    },
+    {
+      "id": "S4I",
+      "title": "Ticker/term control mapping",
+      "status": "done",
+      "owner_area": "protocol-mapping",
+      "depends_on": [
+        "S4H"
+      ],
+      "evidence": "docs/pr/0013-s4i-ticker-term-control-map.md",
+      "next_gate": "S4J",
+      "notes": "Mapped ticker/term families for later runtime-typed hardening."
+    },
+    {
+      "id": "S4J",
+      "title": "Private-room ownership/membership mapping",
+      "status": "done",
+      "owner_area": "protocol-mapping",
+      "depends_on": [
+        "S4I"
+      ],
+      "evidence": "docs/pr/0014-s4j-private-room-ownership-map.md",
+      "next_gate": "S4K",
+      "notes": "Mapped private-room ownership/membership controls and ownership transitions."
+    },
+    {
+      "id": "S4K",
+      "title": "Missing-code closure + implementation",
+      "status": "done",
+      "owner_area": "protocol",
+      "depends_on": [
+        "S4J"
+      ],
+      "evidence": "docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md",
+      "next_gate": "S4L",
+      "notes": "Closed missing message-code bucket with mapping and protocol implementation support."
+    },
+    {
+      "id": "S4L",
+      "title": "Mapped-not-implemented closure",
+      "status": "done",
+      "owner_area": "protocol",
+      "depends_on": [
+        "S4K"
+      ],
+      "evidence": "docs/pr/0016-s4l-mapped-not-implemented-closure.md",
+      "next_gate": "S5A",
+      "notes": "Reached full matrix closure: implemented and mapped totals aligned at 131/131."
+    },
+    {
+      "id": "S5A",
+      "title": "Typed runtime hardening wave 1",
+      "status": "done",
+      "owner_area": "protocol/core/runtime",
+      "depends_on": [
+        "S4L"
+      ],
+      "evidence": "docs/pr/0017-s5a-typed-runtime-hardening.md",
+      "next_gate": "S5C",
+      "notes": "Promoted opaque control payload families to typed variants with runtime-authenticated evidence."
+    },
+    {
+      "id": "S5B",
+      "title": "Soulseek UI and feature audit",
+      "status": "done",
+      "owner_area": "research/evidence",
+      "depends_on": [
+        "S4L"
+      ],
+      "evidence": "docs/pr/0016-s5b-soulseek-ui-feature-audit.md",
+      "next_gate": "none",
+      "notes": "Completed full feature inventory and second-pass verification for UI/protocol linkage."
+    },
+    {
+      "id": "S5C",
+      "title": "Typed runtime hardening wave 2",
+      "status": "done",
+      "owner_area": "protocol/core/cli",
+      "depends_on": [
+        "S5A"
+      ],
+      "evidence": "docs/pr/0018-s5c-typed-runtime-hardening-wave2.md",
+      "next_gate": "S5D",
+      "notes": "Converted room/term controls from opaque payload handling to typed runtime-backed variants."
+    },
+    {
+      "id": "S5D",
+      "title": "Typed runtime hardening waves 3-7",
+      "status": "done",
+      "owner_area": "protocol/core/cli/verify",
+      "depends_on": [
+        "S5C"
+      ],
+      "evidence": "docs/pr/0019-s5d-s5h-control-typing-pack.md",
+      "next_gate": "S6A",
+      "notes": "Completed multi-wave control typing pack and reduced opaque closure set from 34 to 15."
+    },
+    {
+      "id": "S6A",
+      "title": "Visual dashboard + codebase visualizer + collapsed PR catalog",
+      "status": "done",
+      "owner_area": "docs/tooling/knowledge-base",
+      "depends_on": [
+        "S5D"
+      ],
+      "evidence": "docs/pr/0020-s6a-dashboard-codebase-visualizer-pr-catalog.md",
+      "next_gate": "S6",
+      "notes": "Introduce dashboard-first navigation and high-signal project observability views in Zensical."
+    },
+    {
+      "id": "S6",
+      "title": "Opaque-tail reduction for remaining generic and legacy control payloads",
+      "status": "planned",
+      "owner_area": "protocol/runtime/verification",
+      "depends_on": [
+        "S6A"
+      ],
+      "evidence": "docs/state/roadmap.md",
+      "next_gate": "S6 implementation",
+      "notes": "Continue replacing residual opaque payload handling with typed runtime-backed schemas without breaking parity."
+    }
+  ]
+}
