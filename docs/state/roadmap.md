@@ -28,8 +28,9 @@ gantt
     S4J Private-room ownership and membership continuation mapping batch :done, s4j, after s4i, 1d
     S4K Missing-code closure + global/distributed peer-control implementation :done, s4k, after s4j, 2d
     S4L Mapped-not-implemented closure to full protocol coverage :done, s4l, after s4k, 2d
+    S5B Soulseek UI + functionality audit (research/evidence) :done, s5b, after s4l, 1d
     section Planned
-    S5A Typed runtime hardening for opaque control payloads :crit, s5a, after s4l, 2d
+    S5A Typed runtime hardening for opaque control payloads :crit, s5a, after s5b, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -120,6 +121,7 @@ graph TD
 | S4J | private-room ownership and membership continuation mapping batch | done | `docs/pr/0014-s4j-private-room-ownership-map.md` | start S4K implementation batch |
 | S4K | missing-code closure + global/distributed peer-control implementation | done | `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md` | start S4L implementation batch |
 | S4L | mapped-not-implemented closure to full protocol coverage | done | `docs/pr/0016-s4l-mapped-not-implemented-closure.md` | start S5A typed-hardening batch |
+| S5B | Soulseek UI + functionality exhaustive audit (research/evidence) | done | `docs/state/soulseek-feature-inventory.md` | continue S5A typed hardening |
 | S5A | typed runtime hardening for opaque control payloads | planned | `docs/state/protocol-backlog.md` | start S5A plan |
 
 ## S4B Target Contract
@@ -225,3 +227,17 @@ Target focus for the next stage:
 1. Replace high-value `OpaqueServerControlPayload` messages with typed payload schemas based on runtime evidence.
 2. Add runtime capture scenarios for global/distributed control families currently encoded as opaque payloads.
 3. Preserve full matrix coverage baseline (`implemented+mapped=131`, `missing=0`) while increasing typed semantic depth.
+
+## S5B Target Contract (Executed)
+
+Objective:
+
+1. Produce a complete SoulseekQt UI + functionality inventory with evidence-backed mappings.
+2. Run a second-pass audit that revisits every mapped feature and marks `verified_pass2` or `gap_found`.
+3. Update reverse/decompilation docs with UI-handler-to-protocol bridge anchors.
+
+Final status:
+
+- Master inventory published: `docs/state/soulseek-feature-inventory.md`
+- Pass-2 review coverage: `42/42` feature entries revisited.
+- Gap count: `1` (`macOS assistive-access denied while trying live menu extraction`; static fallback documented).

@@ -1,0 +1,62 @@
+[
+  {
+    "path": "/news/node/3723",
+    "title": "New build fixes broken timers with various international locales",
+    "submitted": "2024-06-26T02:51:49-08:00",
+    "snippet": "Thanks to the reporting and testing of user MELERIX, we found a very serious issue that causes lots of different timers involved in peer messaging and file transfer to malfunction with a variety of international regions (under Windows) and calendars (under macOS). The builds below should fix this problem:"
+  },
+  {
+    "path": "/news/node/3712",
+    "title": "New macOS build!",
+    "submitted": "2021-02-16T10:21:14-08:00",
+    "snippet": "After some positive feedback from users I posted a new build that should work better on newer versions of macOS. It's built with a newer version of Qt, has a new UI style that (in my opinion) looks much better and fixes the cut-off text in tab names, is more compatible with macOS dark mode and is notarized to get past gatekeeper on Big Sur! Find it on the download page or get it right here:"
+  },
+  {
+    "path": "/news/node/3668",
+    "title": "Fix for invisible text on macOS Catalina",
+    "submitted": "2020-01-06T12:09:02-08:00",
+    "snippet": "If you're not seeing the SoulseekQt UI text with Catalina's new dark mode, this build should fix it. If no one runs into any problems with it I'll post it to the download page soon. You can discuss it here."
+  },
+  {
+    "path": "/news/node/3662",
+    "title": "New 64-bit Windows build",
+    "submitted": "2019-07-22T14:41:39-08:00",
+    "snippet": "If you're on Windows, you share a lot of files (or browse a lot of shares) and the client often crashes for you, there's a good chance it's just running out of memory. Thanks to forum user David H. for persevering through weeks of trying out different builds and sending dozens of crash reports until we finally figured out it was all just a memory problem. Bear in mind that even though the 64-bit build can use as much memory as it needs, it *will* use more memory. There are a lot of pointers flying around, and those are now all double the size."
+  },
+  {
+    "path": "/news/node/3658",
+    "title": "Soulseek and PayPal: The nightmare continues",
+    "submitted": "2018-07-30T17:23:47-08:00",
+    "snippet": "Hey guys,"
+  },
+  {
+    "path": "/news/node/3657",
+    "title": "SoulseekQt lowmem edition phase 1 - user shares",
+    "submitted": "2018-01-30T21:33:40-08:00",
+    "snippet": "So I'm not entirely sure how much of a problem SoulseekQt memory consumption is for people out there, but it's something that comes up pretty regularly on the forum and I figured I'd try to push through the horror of trying to refactor some of the most sensitive, complicated parts of the client code and see how far I can get."
+  },
+  {
+    "path": "/news/node/3653",
+    "title": "[Updated 11/21] Lots of changes to download folder management, Qt 5.9",
+    "submitted": "2017-08-11T14:32:26-08:00",
+    "snippet": "I'm itching to release this build as it already fixed a lot of issues for quite a few users, but since it includes changes to very sensitive download folder management code I'm a little wary of releasing it just yet. I'm hoping you guys can try it out and let me know if you run into any new problems or whether it works well for you after some time. Changes include:"
+  },
+  {
+    "path": "/news/node/3652",
+    "title": "[Fixed!] Problem with automatic activation of privileges",
+    "submitted": "2017-07-29T20:28:37-08:00",
+    "snippet": "The issue is fixed! We received word from Paypal that the engineering issue was resolved on their end, and there have been no unactivated donations for the last 2+ days. Thank you for your patience and support!"
+  },
+  {
+    "path": "/news/node/3579",
+    "title": "Soulseek Discussion Google Group",
+    "submitted": "2016-05-23T11:35:16-08:00",
+    "snippet": "For a while now I've been having to manually approve posts and most comments to stem the tide of constant spam that's been hitting the forum for as long as I can remember. This has not been ideal, especially of late since I've been so very busy with work, days would often go by before I could tend to the approval queue. Making our users wait that long just to be able to participate in a discussion is not practical, it's not fair, and it's not conducive to a healthy dialog."
+  },
+  {
+    "path": "/news/node/3419",
+    "title": "Soulseek PayPal account reinstated!",
+    "submitted": "2016-02-09T14:07:56-08:00",
+    "snippet": "Thanks entirely to Rainey Reitman, the EFF's Activism Director, we are very happy to announce that our PayPal account has been restored!!!"
+  }
+]

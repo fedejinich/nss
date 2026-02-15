@@ -1,0 +1,2 @@
+/Applications/SoulseekQt.app Jun 30 06:57:25 2024 96 bytes
+/Applications/SoulseekQt.app/Contents/MacOS/SoulseekQt Jun 30 07:04:23 2024 7862224 bytes

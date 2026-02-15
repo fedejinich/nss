@@ -22,6 +22,7 @@ This documentation is the project memory for decompilation and parity work again
 - `docs/re/static/search-download-flow.md`
 - `docs/re/static/message-schema.md`
 - `docs/state/stage2-parity-audit.md`
+- `docs/state/soulseek-feature-inventory.md`
 - `docs/state/protocol-backlog.md`
 - `docs/state/protocol-matrix.md`
 - `docs/state/roadmap.md`

@@ -22,6 +22,7 @@
 - Stage 4J complete: private-room ownership/membership mapping continuation with authoritative jump-table evidence (mapping-first expansion).
 - Stage 4K complete: missing-code closure and protocol implementation for global/distributed tail + peer control with authoritative jump-table evidence.
 - Stage 4L complete: mapped-not-implemented closure to full matrix implementation coverage (`implemented+mapped=131`).
+- Stage 5B complete: exhaustive SoulseekQt UI + functionality research pass with pass-2 verification and decompilation addendum artifacts.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -33,6 +34,21 @@
    - `implemented+mapped=131`
    - `mapped_not_implemented=0`
    - `missing=0`
+
+## Stage 5B Completion
+
+1. Published complete feature inventory document with explicit UI fields (`ui_id`, location, trigger, preconditions, expected behavior, alternate/error states, functional linkages):
+   - `docs/state/soulseek-feature-inventory.md`
+2. Added two-pass coverage closure:
+   - pass-1 mapped entries: `42`
+   - pass-2 revisited entries: `42`
+   - gap log: `1` (`assistive access denied for live menu extraction`)
+3. Added static decompilation evidence artifacts to support feature-to-protocol tracing:
+   - `evidence/reverse/ui_handler_symbols_nm.txt`
+   - `evidence/ui_audit/decomp/mainwindow_methods.txt`
+   - `evidence/ui_audit/decomp/server_methods.txt`
+   - `evidence/ui_audit/decomp/peer_methods.txt`
+   - `evidence/ui_audit/decomp/transfer_methods.txt`
 
 ## Stage 4K Completion
 
