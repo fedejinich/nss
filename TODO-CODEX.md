@@ -1502,6 +1502,7 @@ Notes:
   - `scripts/run_regression.sh`
   - `./.venv-tools/bin/zensical build -f zensical.toml`
 - PR opened: `https://github.com/fedejinich/nss/pull/17`.
+- PR merged to `main`: `https://github.com/fedejinich/nss/pull/17` (`merge commit 81213d01165d17a502b43c8220efc41c729a9905`).
 
 ## Stage 5B - Soulseek UI + functionality exhaustive audit (worktree isolated)
 
