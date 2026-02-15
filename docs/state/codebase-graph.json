@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771180176,
+  "generated_unix_secs": 1771184966,
   "repo_root": "/Users/void_rsk/Projects/soul-dec",
   "scope": {
     "included_top_level_dirs": [
@@ -48,11 +48,11 @@
   "stats": {
     "domain_count": 9,
     "dir_count": 50,
-    "file_count": 244,
-    "node_count": 304,
-    "edge_count": 303,
-    "total_loc": 120095,
-    "total_size_bytes": 4211968
+    "file_count": 250,
+    "node_count": 310,
+    "edge_count": 309,
+    "total_loc": 121518,
+    "total_size_bytes": 4259847
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 120095,
-      "size_bytes": 4211968,
+      "loc": 121518,
+      "size_bytes": 4259847,
       "extension": null,
       "domain": "root"
     },
@@ -70,8 +70,8 @@
       "label": "analysis",
       "kind": "domain",
       "path": "analysis",
-      "loc": 36600,
-      "size_bytes": 552661,
+      "loc": 36729,
+      "size_bytes": 556956,
       "extension": null,
       "domain": "analysis"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 17702,
-      "size_bytes": 642222,
+      "loc": 18226,
+      "size_bytes": 659714,
       "extension": null,
       "domain": "docs"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 3063,
-      "size_bytes": 97522,
+      "loc": 3105,
+      "size_bytes": 99162,
       "extension": null,
       "domain": "repo-root"
     },
@@ -120,8 +120,8 @@
       "label": "rust",
       "kind": "domain",
       "path": "rust",
-      "loc": 14499,
-      "size_bytes": 504023,
+      "loc": 15167,
+      "size_bytes": 527088,
       "extension": null,
       "domain": "rust"
     },
@@ -130,8 +130,8 @@
       "label": "scripts",
       "kind": "domain",
       "path": "scripts",
-      "loc": 567,
-      "size_bytes": 18700,
+      "loc": 627,
+      "size_bytes": 20087,
       "extension": null,
       "domain": "scripts"
     },
@@ -160,8 +160,8 @@
       "label": "analysis",
       "kind": "dir",
       "path": "analysis",
-      "loc": 36600,
-      "size_bytes": 552661,
+      "loc": 36729,
+      "size_bytes": 556956,
       "extension": null,
       "domain": "analysis"
     },
@@ -230,8 +230,8 @@
       "label": "state",
       "kind": "dir",
       "path": "analysis/state",
-      "loc": 605,
-      "size_bytes": 23758,
+      "loc": 734,
+      "size_bytes": 28053,
       "extension": null,
       "domain": "analysis"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 17702,
-      "size_bytes": 642222,
+      "loc": 18226,
+      "size_bytes": 659714,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 2644,
-      "size_bytes": 90606,
+      "loc": 2777,
+      "size_bytes": 94644,
       "extension": null,
       "domain": "docs"
     },
@@ -290,8 +290,8 @@
       "label": "runbooks",
       "kind": "dir",
       "path": "docs/runbooks",
-      "loc": 558,
-      "size_bytes": 12916,
+      "loc": 576,
+      "size_bytes": 13375,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 12985,
-      "size_bytes": 460554,
+      "loc": 13358,
+      "size_bytes": 473549,
       "extension": null,
       "domain": "docs"
     },
@@ -410,8 +410,8 @@
       "label": "rust",
       "kind": "dir",
       "path": "rust",
-      "loc": 14499,
-      "size_bytes": 504023,
+      "loc": 15167,
+      "size_bytes": 527088,
       "extension": null,
       "domain": "rust"
     },
@@ -480,8 +480,8 @@
       "label": "tui",
       "kind": "dir",
       "path": "rust/tui",
-      "loc": 534,
-      "size_bytes": 16985,
+      "loc": 1202,
+      "size_bytes": 40050,
       "extension": null,
       "domain": "rust"
     },
@@ -490,8 +490,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/tui/src",
-      "loc": 520,
-      "size_bytes": 16689,
+      "loc": 1185,
+      "size_bytes": 39685,
       "extension": null,
       "domain": "rust"
     },
@@ -520,8 +520,8 @@
       "label": "scripts",
       "kind": "dir",
       "path": "scripts",
-      "loc": 567,
-      "size_bytes": 18700,
+      "loc": 627,
+      "size_bytes": 20087,
       "extension": null,
       "domain": "scripts"
     },
@@ -670,8 +670,8 @@
       "label": "README.md",
       "kind": "file",
       "path": "README.md",
-      "loc": 140,
-      "size_bytes": 3433,
+      "loc": 58,
+      "size_bytes": 1664,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -680,8 +680,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 2672,
-      "size_bytes": 82526,
+      "loc": 2796,
+      "size_bytes": 85935,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -790,8 +790,8 @@
       "label": "capability_registry.json",
       "kind": "file",
       "path": "analysis/state/capability_registry.json",
-      "loc": 165,
-      "size_bytes": 6060,
+      "loc": 258,
+      "size_bytes": 9045,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -810,8 +810,8 @@
       "label": "stage_registry.json",
       "kind": "file",
       "path": "analysis/state/stage_registry.json",
-      "loc": 389,
-      "size_bytes": 13116,
+      "loc": 425,
+      "size_bytes": 14426,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -1116,12 +1116,22 @@
       "domain": "docs"
     },
     {
+      "id": "file:docs/pr/0028-s9a-tui-first-simplification.md",
+      "label": "0028-s9a-tui-first-simplification.md",
+      "kind": "file",
+      "path": "docs/pr/0028-s9a-tui-first-simplification.md",
+      "loc": 126,
+      "size_bytes": 3875,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
       "id": "file:docs/pr/index.md",
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 201,
-      "size_bytes": 4869,
+      "loc": 208,
+      "size_bytes": 5032,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1220,8 +1230,8 @@
       "label": "tui-core-transfer.md",
       "kind": "file",
       "path": "docs/runbooks/tui-core-transfer.md",
-      "loc": 52,
-      "size_bytes": 1393,
+      "loc": 70,
+      "size_bytes": 1852,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1240,8 +1250,8 @@
       "label": "capability-matrix.json",
       "kind": "file",
       "path": "docs/state/capability-matrix.json",
-      "loc": 247,
-      "size_bytes": 7187,
+      "loc": 388,
+      "size_bytes": 11258,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1250,8 +1260,8 @@
       "label": "capability-matrix.md",
       "kind": "file",
       "path": "docs/state/capability-matrix.md",
-      "loc": 51,
-      "size_bytes": 2860,
+      "loc": 60,
+      "size_bytes": 4382,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1260,8 +1270,8 @@
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 4616,
-      "size_bytes": 124420,
+      "loc": 4706,
+      "size_bytes": 126695,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1340,8 +1350,8 @@
       "label": "project-dashboard-data.json",
       "kind": "file",
       "path": "docs/state/project-dashboard-data.json",
-      "loc": 560,
-      "size_bytes": 15830,
+      "loc": 619,
+      "size_bytes": 17698,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1350,8 +1360,8 @@
       "label": "project-dashboard.html",
       "kind": "file",
       "path": "docs/state/project-dashboard.html",
-      "loc": 588,
-      "size_bytes": 17819,
+      "loc": 599,
+      "size_bytes": 18190,
       "extension": ".html",
       "domain": "docs"
     },
@@ -1360,8 +1370,8 @@
       "label": "project-status.md",
       "kind": "file",
       "path": "docs/state/project-status.md",
-      "loc": 571,
-      "size_bytes": 27305,
+      "loc": 593,
+      "size_bytes": 28365,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1420,8 +1430,8 @@
       "label": "roadmap.md",
       "kind": "file",
       "path": "docs/state/roadmap.md",
-      "loc": 347,
-      "size_bytes": 16890,
+      "loc": 370,
+      "size_bytes": 18029,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1490,8 +1500,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 310,
-      "size_bytes": 12610,
+      "loc": 328,
+      "size_bytes": 13299,
       "extension": ".md",
       "domain": "docs"
     },
@@ -2150,9 +2160,19 @@
       "label": "Cargo.toml",
       "kind": "file",
       "path": "rust/tui/Cargo.toml",
-      "loc": 14,
-      "size_bytes": 296,
+      "loc": 17,
+      "size_bytes": 365,
       "extension": ".toml",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/tui/src/app.rs",
+      "label": "app.rs",
+      "kind": "file",
+      "path": "rust/tui/src/app.rs",
+      "loc": 614,
+      "size_bytes": 20693,
+      "extension": ".rs",
       "domain": "rust"
     },
     {
@@ -2160,8 +2180,38 @@
       "label": "main.rs",
       "kind": "file",
       "path": "rust/tui/src/main.rs",
-      "loc": 520,
-      "size_bytes": 16689,
+      "loc": 15,
+      "size_bytes": 229,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/tui/src/state.rs",
+      "label": "state.rs",
+      "kind": "file",
+      "path": "rust/tui/src/state.rs",
+      "loc": 112,
+      "size_bytes": 3206,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/tui/src/storage.rs",
+      "label": "storage.rs",
+      "kind": "file",
+      "path": "rust/tui/src/storage.rs",
+      "loc": 135,
+      "size_bytes": 4365,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/tui/src/ui.rs",
+      "label": "ui.rs",
+      "kind": "file",
+      "path": "rust/tui/src/ui.rs",
+      "loc": 309,
+      "size_bytes": 11192,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2302,6 +2352,16 @@
       "path": "scripts/run_regression.sh",
       "loc": 17,
       "size_bytes": 444,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/setup_credentials_wizard.sh",
+      "label": "setup_credentials_wizard.sh",
+      "kind": "file",
+      "path": "scripts/setup_credentials_wizard.sh",
+      "loc": 60,
+      "size_bytes": 1387,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -3379,6 +3439,11 @@
     },
     {
       "source": "dir:docs/pr",
+      "target": "file:docs/pr/0028-s9a-tui-first-simplification.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
       "target": "file:docs/pr/index.md",
       "kind": "contains"
     },
@@ -3984,7 +4049,27 @@
     },
     {
       "source": "dir:rust/tui/src",
+      "target": "file:rust/tui/src/app.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/tui/src",
       "target": "file:rust/tui/src/main.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/tui/src",
+      "target": "file:rust/tui/src/state.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/tui/src",
+      "target": "file:rust/tui/src/storage.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/tui/src",
+      "target": "file:rust/tui/src/ui.rs",
       "kind": "contains"
     },
     {
@@ -4060,6 +4145,11 @@
     {
       "source": "dir:scripts",
       "target": "file:scripts/run_regression.sh",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:scripts",
+      "target": "file:scripts/setup_credentials_wizard.sh",
       "kind": "contains"
     },
     {

@@ -1,13 +1,13 @@
 {
-  "generated_unix_secs": 1771180176,
+  "generated_unix_secs": 1771184966,
   "summary": {
-    "total_capabilities": 11,
-    "done": 11,
+    "total_capabilities": 15,
+    "done": 12,
     "in_progress": 0,
-    "planned": 0,
-    "required_for_final": 10,
-    "required_done": 10,
-    "required_pending": 0,
+    "planned": 3,
+    "required_for_final": 14,
+    "required_done": 11,
+    "required_pending": 3,
     "protocol_messages": 131,
     "protocol_implemented_mapped": 131,
     "runtime_verified": 131,
@@ -68,9 +68,82 @@
         "CAP-RELEASE-HARDENING"
       ],
       "blockers": []
+    },
+    {
+      "id": "FG-S9A-TUI-SIMPLIFIED",
+      "title": "TUI-first simplification closure",
+      "required": "mandatory login modal, orange UI, download panel toggle/clear, persistence, and startup recovery are complete",
+      "status": "pass",
+      "linked_capabilities": [
+        "CAP-TUI-S9A-SIMPLIFIED"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "FG-S9B-SWIFT-MVP",
+      "title": "SwiftUI macOS MVP closure",
+      "required": "Swift login/search/download MVP works via soul-cli JSON mode with persisted local state",
+      "status": "blocked",
+      "linked_capabilities": [
+        "CAP-CLI-JSON-MVP",
+        "CAP-SWIFT-GUI-MVP"
+      ],
+      "blockers": [
+        "CAP-CLI-JSON-MVP status=planned",
+        "CAP-CLI-JSON-MVP: S9B not started",
+        "CAP-SWIFT-GUI-MVP status=planned",
+        "CAP-SWIFT-GUI-MVP: Figma design context pending"
+      ]
+    },
+    {
+      "id": "FG-S9C-NEXT-MVP",
+      "title": "Next.js web MVP closure",
+      "required": "Next login/search/download MVP works through safe local server routes over soul-cli JSON mode",
+      "status": "blocked",
+      "linked_capabilities": [
+        "CAP-NEXT-GUI-MVP"
+      ],
+      "blockers": [
+        "CAP-NEXT-GUI-MVP status=planned",
+        "CAP-NEXT-GUI-MVP: S9B must close first"
+      ]
     }
   ],
-  "critical_path": [],
+  "critical_path": [
+    {
+      "id": "CAP-NEXT-GUI-MVP",
+      "title": "Next.js web GUI MVP",
+      "status": "planned",
+      "depends_on": [
+        "CAP-SWIFT-GUI-MVP"
+      ],
+      "blockers": [
+        "S9B must close first"
+      ]
+    },
+    {
+      "id": "CAP-SWIFT-GUI-MVP",
+      "title": "SwiftUI macOS GUI MVP",
+      "status": "planned",
+      "depends_on": [
+        "CAP-CLI-JSON-MVP"
+      ],
+      "blockers": [
+        "Figma design context pending"
+      ]
+    },
+    {
+      "id": "CAP-CLI-JSON-MVP",
+      "title": "CLI JSON mode for GUI integration",
+      "status": "planned",
+      "depends_on": [
+        "CAP-TUI-S9A-SIMPLIFIED"
+      ],
+      "blockers": [
+        "S9B not started"
+      ]
+    }
+  ],
   "capabilities": [
     {
       "id": "CAP-PROTOCOL-MAPPED",
@@ -237,6 +310,74 @@
       ],
       "blockers": [],
       "notes": "Release hardening closure completed: redaction metadata, packaging, recovery runbooks, and closure audit are green."
+    },
+    {
+      "id": "CAP-TUI-S9A-SIMPLIFIED",
+      "title": "S9A TUI simplification and persistence semantics",
+      "domain": "tui",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-TUI-V1",
+        "CAP-RELEASE-HARDENING"
+      ],
+      "evidence": [
+        "docs/runbooks/tui-core-transfer.md",
+        "rust/tui/src/main.rs"
+      ],
+      "blockers": [],
+      "notes": "Refactor into app/ui/state/storage modules, enforce mandatory login first, apply orange retro palette, and persist credentials/download history with in-progress recovery."
+    },
+    {
+      "id": "CAP-CLI-JSON-MVP",
+      "title": "CLI JSON mode for GUI integration",
+      "domain": "cli",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-TUI-S9A-SIMPLIFIED"
+      ],
+      "evidence": [
+        "docs/state/roadmap.md"
+      ],
+      "blockers": [
+        "S9B not started"
+      ],
+      "notes": "Add machine-readable JSON output for login/search/download commands used by Swift and Next MVP shells."
+    },
+    {
+      "id": "CAP-SWIFT-GUI-MVP",
+      "title": "SwiftUI macOS GUI MVP",
+      "domain": "gui_macos",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-CLI-JSON-MVP"
+      ],
+      "evidence": [
+        "docs/state/roadmap.md"
+      ],
+      "blockers": [
+        "Figma design context pending"
+      ],
+      "notes": "Implement mandatory login sheet, search/results, and downloads panel with show/hide and clear semantics in SwiftUI."
+    },
+    {
+      "id": "CAP-NEXT-GUI-MVP",
+      "title": "Next.js web GUI MVP",
+      "domain": "gui_web",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-SWIFT-GUI-MVP"
+      ],
+      "evidence": [
+        "docs/state/roadmap.md"
+      ],
+      "blockers": [
+        "S9B must close first"
+      ],
+      "notes": "Implement browser MVP with parity semantics for login/search/download and persisted downloads history controls."
     }
   ],
   "source_artifacts": {

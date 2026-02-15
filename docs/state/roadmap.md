@@ -4,6 +4,8 @@
 
 This roadmap tracks staged execution with protocol mapping first, then incremental SDK/CLI capabilities for a custom evolvable client.
 
+Current execution order is locked as: S9A TUI-first simplification, then S9B SwiftUI macOS GUI MVP, then S9C Next.js web GUI MVP.
+
 ## Visual Surfaces
 
 - [Project Dashboard](project-dashboard.html)
@@ -62,6 +64,10 @@ gantt
     S8A Capability matrix + critical-path dashboard :done, s8a, after s7c, 1d
     S8B Minimal TUI v1 (core transfer) :done, s8b, after s8a, 2d
     S8C Release hardening + final closure gates :done, s8c, after s8b, 2d
+    section Current and Planned
+    S9A TUI-first simplification + persistence hardening :done, s9a, after s8c, 2d
+    S9B SwiftUI macOS GUI MVP :s9b, after s9a, 3d
+    S9C Next.js web GUI MVP :s9c, after s9b, 3d
 ```
 
 ## S7/S8 Dependency Graph
@@ -77,6 +83,20 @@ graph TD
     S7A --> S8A
     S7C --> S8B
 ```
+
+## S9 Dependency Graph
+
+```mermaid
+graph TD
+    S9A["S9A TUI-first simplification"] --> S9B["S9B SwiftUI macOS GUI MVP"]
+    S9B --> S9C["S9C Next.js web GUI MVP"]
+```
+
+S9 closure gates:
+
+1. S9A must keep login mandatory and persist local state safely.
+2. S9B must consume `soul-cli` JSON mode (no protocol duplication in GUI layer).
+3. S9C must preserve the same login/search/download semantics and history rules.
 
 ## S8C Capability Breakdown (Completed)
 
@@ -207,6 +227,9 @@ graph TD
 | S8A | capability registry/matrix + critical-path dashboard | done | `docs/state/capability-dashboard.html` | start S8B minimal TUI |
 | S8B | minimal TUI v1 for core transfer workflows | done | `docs/runbooks/tui-core-transfer.md` | start S8C release hardening |
 | S8C | release hardening and final v1 closure gates | done | `docs/state/verification-status.md` | post-v1 expansion roadmap |
+| S9A | TUI-first simplification and persistence hardening | done | `docs/runbooks/tui-core-transfer.md` | start S9B SwiftUI MVP |
+| S9B | SwiftUI macOS GUI MVP on top of `soul-cli` JSON mode | planned | `docs/state/roadmap.md` | start S9C Next.js MVP |
+| S9C | Next.js web GUI MVP on top of `soul-cli` JSON mode | planned | `docs/state/roadmap.md` | post-S9 product expansion |
 
 ## S4B Target Contract
 

@@ -4,13 +4,13 @@ This matrix tracks delivery capabilities, final gates, and critical-path blocker
 
 ## Snapshot
 
-- Total capabilities: `11`
-- Done: `11`
+- Total capabilities: `15`
+- Done: `12`
 - In progress: `0`
-- Planned: `0`
-- Required for final: `10`
-- Required done: `10`
-- Required pending: `0`
+- Planned: `3`
+- Required for final: `14`
+- Required done: `11`
+- Required pending: `3`
 - Runtime verified/static: `131/0`
 - Semantic-tail gaps: `0`
 
@@ -23,6 +23,9 @@ This matrix tracks delivery capabilities, final gates, and critical-path blocker
 | `FG-CORE-AUTO-DL` | `pass` | session download-auto succeeds in authenticated flow | - |
 | `FG-TUI-V1` | `pass` | login/search/select/download/monitor/upload-decision available in TUI | - |
 | `FG-RELEASE-HARDENING` | `pass` | config/log redaction, packaging, recovery runbooks, and closure checklist complete | - |
+| `FG-S9A-TUI-SIMPLIFIED` | `pass` | mandatory login modal, orange UI, download panel toggle/clear, persistence, and startup recovery are complete | - |
+| `FG-S9B-SWIFT-MVP` | `blocked` | Swift login/search/download MVP works via soul-cli JSON mode with persisted local state | CAP-CLI-JSON-MVP status=planned; CAP-CLI-JSON-MVP: S9B not started; CAP-SWIFT-GUI-MVP status=planned; CAP-SWIFT-GUI-MVP: Figma design context pending |
+| `FG-S9C-NEXT-MVP` | `blocked` | Next login/search/download MVP works through safe local server routes over soul-cli JSON mode | CAP-NEXT-GUI-MVP status=planned; CAP-NEXT-GUI-MVP: S9B must close first |
 
 ## Capability Table
 
@@ -39,10 +42,16 @@ This matrix tracks delivery capabilities, final gates, and critical-path blocker
 | `CAP-RECOVERY-RUNBOOKS` | Failure recovery runbooks | `ops` | `done` | yes | CAP-TUI-V1 | - | docs/runbooks/failure-recovery.md |
 | `CAP-CLOSURE-CHECKLIST` | Final closure checklist and audit | `state` | `done` | yes | CAP-REDACTION-HARDENING, CAP-PACKAGING-RELEASE, CAP-RECOVERY-RUNBOOKS | - | docs/state/final-closure-checklist.md |
 | `CAP-RELEASE-HARDENING` | Release hardening and final gates | `release` | `done` | yes | CAP-CLOSURE-CHECKLIST | - | docs/state/verification-status.md |
+| `CAP-TUI-S9A-SIMPLIFIED` | S9A TUI simplification and persistence semantics | `tui` | `done` | yes | CAP-TUI-V1, CAP-RELEASE-HARDENING | - | docs/runbooks/tui-core-transfer.md, rust/tui/src/main.rs |
+| `CAP-CLI-JSON-MVP` | CLI JSON mode for GUI integration | `cli` | `planned` | yes | CAP-TUI-S9A-SIMPLIFIED | S9B not started | docs/state/roadmap.md |
+| `CAP-SWIFT-GUI-MVP` | SwiftUI macOS GUI MVP | `gui_macos` | `planned` | yes | CAP-CLI-JSON-MVP | Figma design context pending | docs/state/roadmap.md |
+| `CAP-NEXT-GUI-MVP` | Next.js web GUI MVP | `gui_web` | `planned` | yes | CAP-SWIFT-GUI-MVP | S9B must close first | docs/state/roadmap.md |
 
 ## Critical Path
 
-No pending required capabilities.
+- `CAP-NEXT-GUI-MVP` `planned` deps=`CAP-SWIFT-GUI-MVP' blockers=`S9B must close first`
+- `CAP-SWIFT-GUI-MVP` `planned` deps=`CAP-CLI-JSON-MVP' blockers=`Figma design context pending`
+- `CAP-CLI-JSON-MVP` `planned` deps=`CAP-TUI-S9A-SIMPLIFIED' blockers=`S9B not started`
 
 ## Regeneration
 

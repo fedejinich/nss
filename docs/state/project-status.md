@@ -42,23 +42,25 @@
 - Stage 7C complete: core orchestration flow added with `search_select_and_download(...)` and CLI `session download-auto`.
 - Stage 8A complete: capability registry, capability matrix, and critical-path dashboard were added and wired into state sync.
 - Stage 8B complete: minimal TUI v1 is operational for login, query edit, search, selection, and download orchestration.
-- Stage 8C complete: capability-first release hardening closure is complete (`redaction`, `packaging`, `recovery runbooks`, `closure checklist/audit`), and the roadmap is now on `post-v1 expansion`.
+- Stage 8C complete: capability-first release hardening closure is complete (`redaction`, `packaging`, `recovery runbooks`, `closure checklist/audit`).
+- Stage 9A complete: TUI-first simplification and persistence hardening landed (`login modal gate`, `retro-orange UX`, `downloads history toggle/clear`, `startup recovery`).
+- Stage 9B planned: SwiftUI macOS GUI MVP on top of `soul-cli` JSON mode.
+- Stage 9C planned: Next.js web GUI MVP on top of `soul-cli` JSON mode.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Active Execution Plan (Capability-First)
 
 Current long-session objective:
 
-1. Deliver a minimal TUI that is operational for search and download.
-2. Keep release hardening in lockstep so the same baseline is safe and operable.
+1. Start S9B SwiftUI macOS GUI MVP on top of the closed S9A TUI baseline.
+2. Keep S9C Next.js web MVP queued with the same semantics and shared CLI JSON contract.
 
 Current capability chain:
 
-1. `CAP-REDACTION-HARDENING`
-2. `CAP-PACKAGING-RELEASE`
-3. `CAP-RECOVERY-RUNBOOKS`
-4. `CAP-CLOSURE-CHECKLIST`
-5. `CAP-RELEASE-HARDENING`
+1. `CAP-TUI-S9A-SIMPLIFIED`
+2. `CAP-CLI-JSON-MVP`
+3. `CAP-SWIFT-GUI-MVP`
+4. `CAP-NEXT-GUI-MVP`
 
 Execution rule:
 
@@ -137,6 +139,26 @@ Execution rule:
 3. Added TUI runbook and unit tests:
    - `docs/runbooks/tui-core-transfer.md`
    - `rust/tui/src/main.rs` test module
+
+## Stage 9A Completion Snapshot
+
+1. Refactored TUI into focused modules:
+   - `rust/tui/src/app.rs`
+   - `rust/tui/src/ui.rs`
+   - `rust/tui/src/state.rs`
+   - `rust/tui/src/storage.rs`
+2. Added mandatory login-first state machine (`LoginModal` -> `Main`) with blocked search/download before successful auth.
+3. Added retro-orange presentation and simplified layout:
+   - search results top
+   - search input/footer bottom
+   - downloads panel with show/hide toggle
+4. Added persisted local state:
+   - server/username/password
+   - last query/output directory
+   - downloads history + UI preferences
+5. Added startup recovery behavior:
+   - persisted `in_progress` entries are converted to `interrupted` on boot.
+6. Added/extended tests for persistence, login gating, toggle/clear behavior, and recovery semantics.
 
 ## Stage 4L Completion
 

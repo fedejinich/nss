@@ -1,5 +1,129 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## S9 - TUI First, then Swift GUI, then Next Web
+
+Dependency graph:
+
+- `S9A-T01 -> S9A-T02`
+- `S9A-T02 -> S9A-T03`
+- `S9A-T03 -> S9A-T04`
+- `S9A-T04 -> S9A-T05`
+- `S9A-T05 -> S9A-T06`
+- `S9A-T06 -> S9A-T07`
+- `S9A-T07 -> S9A-T08`
+- `S9A-T08 -> S9A-T09`
+- `S9A-T09 -> S9A-T10`
+- `S9A-T10 -> S9B-T01`
+- `S9B-T01 -> S9B-T02 -> S9B-T03 -> S9B-T04 -> S9B-T05 -> S9B-T06`
+- `S9B-T06 -> S9C-T01 -> S9C-T02 -> S9C-T03 -> S9C-T04 -> S9C-T05`
+
+Tasks:
+
+- id: S9A-T01
+  description: Rebaseline state docs for S9 order (TUI first, then Swift GUI, then Next GUI)
+  status: done
+  depends_on: []
+
+- id: S9A-T02
+  description: Refactor TUI into app/ui/state/storage modules and keep behavior parity
+  status: done
+  depends_on: [S9A-T01]
+
+- id: S9A-T03
+  description: Implement mandatory login modal as startup gate; block main view until login success
+  status: done
+  depends_on: [S9A-T02]
+
+- id: S9A-T04
+  description: Implement simplified main layout (results top, search bar bottom) with retro-orange palette
+  status: done
+  depends_on: [S9A-T03]
+
+- id: S9A-T05
+  description: Add downloads panel show/hide toggle and clear-history action (history only)
+  status: done
+  depends_on: [S9A-T04]
+
+- id: S9A-T06
+  description: Add local persistence for credentials, UI preferences, and downloads history/in-progress
+  status: done
+  depends_on: [S9A-T05]
+
+- id: S9A-T07
+  description: Add startup recovery that converts persisted in-progress entries to interrupted
+  status: done
+  depends_on: [S9A-T06]
+
+- id: S9A-T08
+  description: Add/extend TUI tests for login gating, persistence, toggle, clear, and recovery behavior
+  status: done
+  depends_on: [S9A-T07]
+
+- id: S9A-T09
+  description: Update runbooks/README/dashboard docs for new TUI flow and keybindings
+  status: done
+  depends_on: [S9A-T08]
+
+- id: S9A-T10
+  description: Run gates and close S9A
+  status: done
+  depends_on: [S9A-T09]
+
+- id: S9B-T01
+  description: Create SwiftUI macOS GUI scaffold and app state model
+  status: todo
+  depends_on: [S9A-T10]
+
+- id: S9B-T02
+  description: Use figma and figma-implement-design workflow to finalize Swift GUI design artifacts
+  status: todo
+  depends_on: [S9B-T01]
+
+- id: S9B-T03
+  description: Add soul-cli JSON output mode for login/search/download commands required by GUI
+  status: todo
+  depends_on: [S9B-T02]
+
+- id: S9B-T04
+  description: Implement Swift login sheet + search/results + downloads panel toggle/clear
+  status: todo
+  depends_on: [S9B-T03]
+
+- id: S9B-T05
+  description: Implement Swift persistence for credentials and downloads history with same semantics as TUI
+  status: todo
+  depends_on: [S9B-T04]
+
+- id: S9B-T06
+  description: Run macOS GUI validation and close S9B
+  status: todo
+  depends_on: [S9B-T05]
+
+- id: S9C-T01
+  description: Create Next.js app scaffold and route structure
+  status: todo
+  depends_on: [S9B-T06]
+
+- id: S9C-T02
+  description: Use figma and figma-implement-design to implement Next UI matching the retro-orange language
+  status: todo
+  depends_on: [S9C-T01]
+
+- id: S9C-T03
+  description: Implement Next server routes that call soul-cli JSON mode for login/search/download
+  status: todo
+  depends_on: [S9C-T02]
+
+- id: S9C-T04
+  description: Add browser persistence and downloads panel behavior matching TUI/Swift semantics
+  status: todo
+  depends_on: [S9C-T03]
+
+- id: S9C-T05
+  description: Run web validation and close S9C
+  status: todo
+  depends_on: [S9C-T04]
+
 ## Replan v2 - Protocol Runtime-Complete to Minimal TUI (S7R..S8C)
 
 Dependency graph:

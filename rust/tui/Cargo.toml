@@ -12,3 +12,6 @@ crossterm.workspace = true
 ratatui.workspace = true
 soul-core.workspace = true
 protocol.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+directories = "5"
