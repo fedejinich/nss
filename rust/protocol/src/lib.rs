@@ -1,5 +1,7 @@
 use anyhow::{Context, Result, bail};
+use flate2::read::ZlibDecoder;
 use serde::{Deserialize, Serialize};
+use std::io::Read;
 use std::net::Ipv4Addr;
 use thiserror::Error;
 
@@ -585,6 +587,33 @@ pub struct RoomOperatorsPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ParentMinSpeedPayload {
+    pub min_speed: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ParentSpeedConnectionRatioPayload {
+    pub ratio: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomTickerRequestPayload {
+    pub room: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomTickerEntry {
+    pub username: String,
+    pub ticker: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RoomTickerPayload {
+    pub room: String,
+    pub entries: Vec<RoomTickerEntry>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RoomModerationPayload {
     pub room: String,
     pub username: String,
@@ -664,6 +693,23 @@ pub struct SharedFilesInFolderRequestPayload {
 pub struct SharedFilesInFolderPayload {
     pub directory: String,
     pub compressed_listing: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum SharedFilesInFolderListingFormat {
+    BinaryEntries,
+    Utf8Lines,
+    OpaqueBytes,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SharedFilesInFolderDecodedPayload {
+    pub directory: String,
+    pub compressed_listing_len: u32,
+    pub decompressed_listing_len: u32,
+    pub listing_format: SharedFilesInFolderListingFormat,
+    pub entries: Vec<SharedFileEntry>,
+    pub lines: Vec<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -855,6 +901,10 @@ pub enum ServerMessage {
     RemoveRoomMember(RoomModerationPayload),
     AddRoomOperator(RoomModerationPayload),
     RemoveRoomOperator(RoomModerationPayload),
+    SetParentMinSpeed(ParentMinSpeedPayload),
+    SetParentSpeedConnectionRatio(ParentSpeedConnectionRatioPayload),
+    GetRoomTicker(RoomTickerRequestPayload),
+    RoomTicker(RoomTickerPayload),
     RemoveRoomOperatorship(OpaquePayload),
     RemoveOwnRoomOperatorship(OpaquePayload),
     RoomMembers(RoomMembersPayload),
@@ -925,7 +975,7 @@ fn ensure_payload_consumed(reader: &PayloadReader<'_>) -> Result<()> {
     Ok(())
 }
 
-pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 40] = [
+pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 37] = [
     CODE_SM_ADD_CHATROOM,
     CODE_SM_SET_STATUS,
     CODE_SM_HEARTBEAT,
@@ -942,8 +992,6 @@ pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 40] = [
     CODE_SM_SEND_DISTRIBUTIONS,
     CODE_SM_NOTE_PARENT,
     CODE_SM_CHILD_PARENT_MAP,
-    CODE_SM_SET_PARENT_MIN_SPEED,
-    CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO,
     CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT,
     CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT,
     CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT,
@@ -951,7 +999,6 @@ pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 40] = [
     CODE_SM_DNET_MESSAGE,
     CODE_SM_CAN_PARENT,
     CODE_SM_POSSIBLE_PARENTS,
-    CODE_SM_GET_ROOM_TICKER,
     CODE_SM_ROOM_TICKER_USER_ADDED,
     CODE_SM_ROOM_TICKER_USER_REMOVED,
     CODE_SM_SET_TICKER,
@@ -967,6 +1014,8 @@ pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 40] = [
     CODE_SM_CHANGE_PASSWORD,
     CODE_SM_ADD_ROOM_OPERATORSHIP,
 ];
+
+const MAX_SHARED_FILES_IN_FOLDER_DECOMPRESSED_BYTES: usize = 16 * 1024 * 1024;
 
 pub fn is_opaque_server_control_code(code: u32) -> bool {
     OPAQUE_SERVER_CONTROL_CODES.contains(&code)
@@ -1336,6 +1385,27 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_string(&payload.room);
             writer.write_string(&payload.username);
             CODE_SM_REMOVE_ROOM_OPERATOR
+        }
+        ServerMessage::SetParentMinSpeed(payload) => {
+            writer.write_u32(payload.min_speed);
+            CODE_SM_SET_PARENT_MIN_SPEED
+        }
+        ServerMessage::SetParentSpeedConnectionRatio(payload) => {
+            writer.write_u32(payload.ratio);
+            CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO
+        }
+        ServerMessage::GetRoomTicker(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_GET_ROOM_TICKER
+        }
+        ServerMessage::RoomTicker(payload) => {
+            writer.write_string(&payload.room);
+            writer.write_u32(payload.entries.len() as u32);
+            for entry in &payload.entries {
+                writer.write_string(&entry.username);
+                writer.write_string(&entry.ticker);
+            }
+            CODE_SM_GET_ROOM_TICKER
         }
         ServerMessage::RemoveRoomOperatorship(payload) => {
             writer.write_raw_bytes(&payload.bytes);
@@ -1776,6 +1846,26 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             allow_trailing_bytes = true;
             ServerMessage::RemoveRoomOperator(parse_room_moderation_payload(payload)?)
         }
+        CODE_SM_SET_PARENT_MIN_SPEED => {
+            let payload = ParentMinSpeedPayload {
+                min_speed: reader.read_u32()?,
+            };
+            ServerMessage::SetParentMinSpeed(payload)
+        }
+        CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO => {
+            let payload = ParentSpeedConnectionRatioPayload {
+                ratio: reader.read_u32()?,
+            };
+            ServerMessage::SetParentSpeedConnectionRatio(payload)
+        }
+        CODE_SM_GET_ROOM_TICKER => {
+            allow_trailing_bytes = true;
+            if let Ok(request) = parse_room_ticker_request_payload(payload) {
+                ServerMessage::GetRoomTicker(request)
+            } else {
+                ServerMessage::RoomTicker(parse_room_ticker_payload(payload)?)
+            }
+        }
         CODE_SM_REMOVE_ROOM_OPERATORSHIP => {
             allow_trailing_bytes = true;
             ServerMessage::RemoveRoomOperatorship(OpaquePayload {
@@ -1995,6 +2085,33 @@ pub fn parse_room_operators_payload(payload: &[u8]) -> Result<RoomOperatorsPaylo
     let room = reader.read_string()?;
     let operators = read_optional_string_list(&mut reader, 300_000);
     Ok(RoomOperatorsPayload { room, operators })
+}
+
+pub fn parse_room_ticker_request_payload(payload: &[u8]) -> Result<RoomTickerRequestPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let data = RoomTickerRequestPayload {
+        room: reader.read_string()?,
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(data)
+}
+
+pub fn parse_room_ticker_payload(payload: &[u8]) -> Result<RoomTickerPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let room = reader.read_string()?;
+    let count = reader.read_u32()?;
+    if count > 300_000 {
+        bail!("room_ticker_count exceeds sanity threshold: {count}");
+    }
+    let mut entries = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        entries.push(RoomTickerEntry {
+            username: reader.read_string()?,
+            ticker: reader.read_string()?,
+        });
+    }
+    ensure_payload_consumed(&reader)?;
+    Ok(RoomTickerPayload { room, entries })
 }
 
 pub fn parse_room_moderation_payload(payload: &[u8]) -> Result<RoomModerationPayload> {
@@ -3153,6 +3270,10 @@ pub fn build_give_privilege_request(username: &str, days: u32) -> Frame {
     }))
 }
 
+pub fn build_upload_speed_request(bytes_per_sec: u32) -> Frame {
+    encode_server_message(&ServerMessage::UploadSpeed(SpeedPayload { bytes_per_sec }))
+}
+
 pub fn build_inform_user_of_privileges_request(token: u32, username: &str) -> Frame {
     encode_server_message(&ServerMessage::InformUserOfPrivileges(
         InformUserOfPrivilegesPayload {
@@ -3196,6 +3317,12 @@ pub fn build_room_operators_request(room: &str) -> Frame {
     encode_server_message(&ServerMessage::RoomOperators(RoomOperatorsPayload {
         room: room.to_owned(),
         operators: Vec::new(),
+    }))
+}
+
+pub fn build_get_room_ticker_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::GetRoomTicker(RoomTickerRequestPayload {
+        room: room.to_owned(),
     }))
 }
 
@@ -3340,6 +3467,86 @@ pub fn parse_shared_files_in_folder_payload(payload: &[u8]) -> Result<SharedFile
         PeerMessage::SharedFilesInFolder(msg) => Ok(msg),
         _ => bail!("decoded peer message is not shared files in folder response"),
     }
+}
+
+fn decompress_shared_files_in_folder_listing(compressed_listing: &[u8]) -> Result<Vec<u8>> {
+    let decoder = ZlibDecoder::new(compressed_listing);
+    let mut limited = decoder.take((MAX_SHARED_FILES_IN_FOLDER_DECOMPRESSED_BYTES + 1) as u64);
+    let mut out = Vec::new();
+    limited
+        .read_to_end(&mut out)
+        .context("decompress zlib listing")?;
+    if out.len() > MAX_SHARED_FILES_IN_FOLDER_DECOMPRESSED_BYTES {
+        bail!(
+            "decompressed listing exceeds safety limit: {}",
+            MAX_SHARED_FILES_IN_FOLDER_DECOMPRESSED_BYTES
+        );
+    }
+    Ok(out)
+}
+
+fn parse_shared_file_entries_from_bytes(payload: &[u8]) -> Result<Vec<SharedFileEntry>> {
+    let mut reader = PayloadReader::new(payload);
+    let count = reader.read_u32()?;
+    if count > 100_000 {
+        bail!("shared-files-in-folder count exceeds sanity threshold: {count}");
+    }
+
+    let mut entries = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        entries.push(SharedFileEntry {
+            virtual_path: reader.read_string()?,
+            size: reader.read_u64()?,
+        });
+    }
+    ensure_payload_consumed(&reader)?;
+    Ok(entries)
+}
+
+pub fn parse_shared_files_in_folder_payload_decompressed(
+    payload: &[u8],
+) -> Result<SharedFilesInFolderDecodedPayload> {
+    let parsed = parse_shared_files_in_folder_payload(payload)?;
+    let compressed_listing_len = parsed.compressed_listing.len() as u32;
+    let directory = parsed.directory;
+    let decompressed_listing = decompress_shared_files_in_folder_listing(&parsed.compressed_listing)?;
+    let decompressed_listing_len = decompressed_listing.len() as u32;
+    let make_payload = |listing_format, entries, lines| SharedFilesInFolderDecodedPayload {
+        directory: directory.clone(),
+        compressed_listing_len,
+        decompressed_listing_len,
+        listing_format,
+        entries,
+        lines,
+    };
+
+    if let Ok(entries) = parse_shared_file_entries_from_bytes(&decompressed_listing) {
+        return Ok(make_payload(
+            SharedFilesInFolderListingFormat::BinaryEntries,
+            entries,
+            Vec::new(),
+        ));
+    }
+
+    if let Ok(as_text) = std::str::from_utf8(&decompressed_listing) {
+        let lines: Vec<String> = as_text
+            .lines()
+            .map(str::trim)
+            .filter(|line| !line.is_empty())
+            .map(ToOwned::to_owned)
+            .collect();
+        return Ok(make_payload(
+            SharedFilesInFolderListingFormat::Utf8Lines,
+            Vec::new(),
+            lines,
+        ));
+    }
+
+    Ok(make_payload(
+        SharedFilesInFolderListingFormat::OpaqueBytes,
+        Vec::new(),
+        Vec::new(),
+    ))
 }
 
 pub fn split_first_frame(buffer: &[u8]) -> Result<Option<(Frame, usize)>> {
@@ -3642,6 +3849,28 @@ mod tests {
                 room: "private-room".into(),
                 username: "alice".into(),
             })),
+            ProtocolMessage::Server(ServerMessage::SetParentMinSpeed(
+                ParentMinSpeedPayload { min_speed: 1 },
+            )),
+            ProtocolMessage::Server(ServerMessage::SetParentSpeedConnectionRatio(
+                ParentSpeedConnectionRatioPayload { ratio: 50 },
+            )),
+            ProtocolMessage::Server(ServerMessage::GetRoomTicker(RoomTickerRequestPayload {
+                room: "nicotine".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RoomTicker(RoomTickerPayload {
+                room: "nicotine".into(),
+                entries: vec![
+                    RoomTickerEntry {
+                        username: "alice".into(),
+                        ticker: "hello".into(),
+                    },
+                    RoomTickerEntry {
+                        username: "bob".into(),
+                        ticker: "world".into(),
+                    },
+                ],
+            })),
             ProtocolMessage::Server(ServerMessage::MessageUserIncoming(
                 MessageUserIncomingPayload {
                     message_id: 91,
@@ -3927,6 +4156,10 @@ mod tests {
             CODE_SM_ROOM_OPERATORS
         );
         assert_eq!(
+            build_get_room_ticker_request("nicotine").code,
+            CODE_SM_GET_ROOM_TICKER
+        );
+        assert_eq!(
             build_say_chatroom("nicotine", "hello").code,
             CODE_SM_SAY_CHATROOM
         );
@@ -4048,6 +4281,59 @@ mod tests {
             build_message_users_request(&["alice".to_string(), "bob".to_string()], "hello").code,
             CODE_SM_MESSAGE_USERS
         );
+        assert_eq!(build_upload_speed_request(128_000).code, CODE_SM_UPLOAD_SPEED);
+    }
+
+    #[test]
+    fn s5a_parent_control_messages_decode_typed_payloads() {
+        let min_speed_raw = 1_u32.to_le_bytes();
+        let min_decoded = decode_server_message(CODE_SM_SET_PARENT_MIN_SPEED, &min_speed_raw)
+            .expect("decode set parent min speed");
+        let ServerMessage::SetParentMinSpeed(min_speed) = min_decoded else {
+            panic!("expected typed set parent min speed payload");
+        };
+        assert_eq!(min_speed.min_speed, 1);
+
+        let ratio_raw = 50_u32.to_le_bytes();
+        let ratio_decoded =
+            decode_server_message(CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO, &ratio_raw)
+                .expect("decode set parent speed ratio");
+        let ServerMessage::SetParentSpeedConnectionRatio(ratio) = ratio_decoded else {
+            panic!("expected typed set parent speed ratio payload");
+        };
+        assert_eq!(ratio.ratio, 50);
+    }
+
+    #[test]
+    fn s5a_room_ticker_request_and_response_decode_typed_payloads() {
+        let request = build_get_room_ticker_request("nicotine");
+        assert_eq!(request.code, CODE_SM_GET_ROOM_TICKER);
+        let request_decoded = decode_server_message(request.code, &request.payload)
+            .expect("decode room ticker request");
+        let ServerMessage::GetRoomTicker(request_payload) = request_decoded else {
+            panic!("expected room ticker request payload");
+        };
+        assert_eq!(request_payload.room, "nicotine");
+
+        let mut writer = PayloadWriter::new();
+        writer.write_string("nicotine");
+        writer.write_u32(2);
+        writer.write_string("alice");
+        writer.write_string("hello");
+        writer.write_string("bob");
+        writer.write_string("world");
+        let response_payload = writer.into_inner();
+        let response_decoded = decode_server_message(CODE_SM_GET_ROOM_TICKER, &response_payload)
+            .expect("decode room ticker response");
+        let ServerMessage::RoomTicker(response) = response_decoded else {
+            panic!("expected room ticker response payload");
+        };
+        assert_eq!(response.room, "nicotine");
+        assert_eq!(response.entries.len(), 2);
+        assert_eq!(response.entries[0].username, "alice");
+        assert_eq!(response.entries[0].ticker, "hello");
+        assert_eq!(response.entries[1].username, "bob");
+        assert_eq!(response.entries[1].ticker, "world");
     }
 
     #[test]
@@ -4082,11 +4368,109 @@ mod tests {
     }
 
     #[test]
+    fn opaque_server_control_builder_rejects_s5a_typed_codes() {
+        for code in [
+            CODE_SM_SET_PARENT_MIN_SPEED,
+            CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO,
+            CODE_SM_GET_ROOM_TICKER,
+        ] {
+            let err =
+                build_opaque_server_control_request(code, &[0x00]).expect_err("must reject");
+            assert!(
+                err.to_string()
+                    .contains("unsupported opaque server control code")
+            );
+        }
+    }
+
+    #[test]
     fn peer_folder_request_builder_emits_expected_code() {
         assert_eq!(
             build_get_shared_files_in_folder_request("Music").code,
             CODE_PM_GET_SHARED_FILES_IN_FOLDER
         );
+    }
+
+    #[test]
+    fn shared_files_in_folder_decompression_parser_supports_binary_entries() {
+        use flate2::{Compression, write::ZlibEncoder};
+        use std::io::Write;
+
+        let mut listing_writer = PayloadWriter::new();
+        listing_writer.write_u32(2);
+        listing_writer.write_string("Music\\\\Album\\\\track01.flac");
+        listing_writer.write_u64(1_024);
+        listing_writer.write_string("Music\\\\Album\\\\track02.flac");
+        listing_writer.write_u64(2_048);
+        let listing_plain = listing_writer.into_inner();
+
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder.write_all(&listing_plain).expect("zlib write");
+        let compressed = encoder.finish().expect("zlib finish");
+
+        let frame = encode_peer_message(&PeerMessage::SharedFilesInFolder(
+            SharedFilesInFolderPayload {
+                directory: "Music\\\\Album".into(),
+                compressed_listing: compressed,
+            },
+        ));
+        let decoded = parse_shared_files_in_folder_payload_decompressed(&frame.payload)
+            .expect("decompression-aware parser");
+
+        assert_eq!(decoded.directory, "Music\\\\Album");
+        assert_eq!(
+            decoded.listing_format,
+            SharedFilesInFolderListingFormat::BinaryEntries
+        );
+        assert_eq!(decoded.entries.len(), 2);
+        assert_eq!(decoded.entries[0].virtual_path, "Music\\\\Album\\\\track01.flac");
+        assert!(decoded.lines.is_empty());
+    }
+
+    #[test]
+    fn shared_files_in_folder_decompression_parser_supports_utf8_lines() {
+        use flate2::{Compression, write::ZlibEncoder};
+        use std::io::Write;
+
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder
+            .write_all(b"SongA.flac\nSongB.mp3\n")
+            .expect("zlib write");
+        let compressed = encoder.finish().expect("zlib finish");
+
+        let frame = encode_peer_message(&PeerMessage::SharedFilesInFolder(
+            SharedFilesInFolderPayload {
+                directory: "Music".into(),
+                compressed_listing: compressed,
+            },
+        ));
+        let decoded = parse_shared_files_in_folder_payload_decompressed(&frame.payload)
+            .expect("decompression-aware parser");
+
+        assert_eq!(decoded.listing_format, SharedFilesInFolderListingFormat::Utf8Lines);
+        assert_eq!(decoded.entries.len(), 0);
+        assert_eq!(decoded.lines, vec!["SongA.flac", "SongB.mp3"]);
+    }
+
+    #[test]
+    fn shared_files_in_folder_decompression_parser_rejects_oversized_listing() {
+        use flate2::{Compression, write::ZlibEncoder};
+        use std::io::Write;
+
+        let oversized = vec![b'a'; MAX_SHARED_FILES_IN_FOLDER_DECOMPRESSED_BYTES + 1];
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder.write_all(&oversized).expect("zlib write");
+        let compressed = encoder.finish().expect("zlib finish");
+
+        let frame = encode_peer_message(&PeerMessage::SharedFilesInFolder(
+            SharedFilesInFolderPayload {
+                directory: "Music".into(),
+                compressed_listing: compressed,
+            },
+        ));
+        let err = parse_shared_files_in_folder_payload_decompressed(&frame.payload)
+            .expect_err("must reject oversized listing");
+        assert!(err.to_string().contains("safety limit"));
     }
 
     #[test]

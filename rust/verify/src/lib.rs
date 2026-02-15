@@ -348,8 +348,8 @@ mod tests {
     use super::*;
     use protocol::{
         CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED, CODE_SM_GET_RECOMMENDATIONS,
-        CODE_SM_GET_USER_STATUS, CODE_SM_JOIN_ROOM, CODE_SM_MESSAGE_USER, CODE_SM_USER_JOINED_ROOM,
-        PayloadWriter,
+        CODE_SM_GET_ROOM_TICKER, CODE_SM_GET_USER_STATUS, CODE_SM_JOIN_ROOM, CODE_SM_MESSAGE_USER,
+        CODE_SM_USER_JOINED_ROOM, PayloadWriter,
     };
 
     fn transfer_response_frame_bytes(token: u32, allowed_raw: u32) -> Vec<u8> {
@@ -410,6 +410,15 @@ mod tests {
         let mut writer = PayloadWriter::new();
         writer.write_string(value);
         Frame::new(CODE_SM_JOIN_ROOM, writer.into_inner()).encode()
+    }
+
+    fn room_ticker_frame_bytes(room: &str, username: &str, ticker: &str) -> Vec<u8> {
+        let mut writer = PayloadWriter::new();
+        writer.write_string(room);
+        writer.write_u32(1);
+        writer.write_string(username);
+        writer.write_string(ticker);
+        Frame::new(CODE_SM_GET_ROOM_TICKER, writer.into_inner()).encode()
     }
 
     #[test]
@@ -579,6 +588,27 @@ mod tests {
                 .as_deref()
                 .unwrap_or_default()
                 .contains("status")
+        );
+    }
+
+    #[test]
+    fn semantic_mode_reports_room_ticker_field_diff() {
+        let official = vec![room_ticker_frame_bytes("nicotine", "alice", "Now playing A")];
+        let neo = vec![room_ticker_frame_bytes("nicotine", "alice", "Now playing B")];
+        let report = compare_capture_sequences_with_mode(
+            "run-room-ticker-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        assert!(
+            report.frame_comparisons[0]
+                .semantic_first_diff_field
+                .as_deref()
+                .unwrap_or_default()
+                .contains("ticker")
         );
     }
 

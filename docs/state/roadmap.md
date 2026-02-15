@@ -28,9 +28,10 @@ gantt
     S4J Private-room ownership and membership continuation mapping batch :done, s4j, after s4i, 1d
     S4K Missing-code closure + global/distributed peer-control implementation :done, s4k, after s4j, 2d
     S4L Mapped-not-implemented closure to full protocol coverage :done, s4l, after s4k, 2d
+    S5A Typed runtime hardening for opaque control payloads :done, s5a, after s4l, 2d
     S5B Soulseek UI + functionality audit (research/evidence) :done, s5b, after s4l, 1d
     section Planned
-    S5A Typed runtime hardening for opaque control payloads :crit, s5a, after s5b, 2d
+    S5C Typed runtime hardening wave 2 (global/distributed remainder) :crit, s5c, after s5a, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -121,8 +122,9 @@ graph TD
 | S4J | private-room ownership and membership continuation mapping batch | done | `docs/pr/0014-s4j-private-room-ownership-map.md` | start S4K implementation batch |
 | S4K | missing-code closure + global/distributed peer-control implementation | done | `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md` | start S4L implementation batch |
 | S4L | mapped-not-implemented closure to full protocol coverage | done | `docs/pr/0016-s4l-mapped-not-implemented-closure.md` | start S5A typed-hardening batch |
-| S5B | Soulseek UI + functionality exhaustive audit (research/evidence) | done | `docs/state/soulseek-feature-inventory.md` | continue S5A typed hardening |
-| S5A | typed runtime hardening for opaque control payloads | planned | `docs/state/protocol-backlog.md` | start S5A plan |
+| S5A | typed runtime hardening wave 1 | done | `docs/pr/0017-s5a-typed-runtime-hardening.md` | start S5C typed-hardening wave 2 |
+| S5B | Soulseek UI + functionality exhaustive audit (research/evidence) | done | `docs/state/soulseek-feature-inventory.md` | none |
+| S5C | typed runtime hardening wave 2 | planned | `docs/state/protocol-backlog.md` | start S5C plan |
 
 ## S4B Target Contract
 
@@ -220,12 +222,12 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S5A Preview (Not Started)
+## S5C Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Replace high-value `OpaqueServerControlPayload` messages with typed payload schemas based on runtime evidence.
-2. Add runtime capture scenarios for global/distributed control families currently encoded as opaque payloads.
+1. Replace additional `OpaqueServerControlPayload` messages with typed payload schemas based on runtime evidence.
+2. Add runtime capture scenarios for global/distributed control families still encoded as opaque payloads.
 3. Preserve full matrix coverage baseline (`implemented+mapped=131`, `missing=0`) while increasing typed semantic depth.
 
 ## S5B Target Contract (Executed)

@@ -4,7 +4,7 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-15T05:15:23+00:00`
+- Generated at: `2026-02-15T06:04:18+00:00`
 - Total messages tracked: `131`
 - Server messages: `106`
 - Peer messages: `25`
@@ -36,7 +36,7 @@ Status legend:
 | peer | 33 | `PM_SEND_CONNECT_TOKEN` | `implemented_mapped` | high | Peer MessageCodeToString jump-table extraction resolves code 33 to PM_SEND_CONNECT_TOKEN (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | peer | 34 | `PM_MOVE_DOWNLOAD_TO_TOP` | `implemented_mapped` | high | Deterministic peer-local runtime flow emits move-download-to-top frame (code 34) with virtual path payload. | `captures/redacted/peer-legacy-local/official_frames.hex` |
 | peer | 36 | `PM_GET_SHARED_FILES_IN_FOLDER` | `implemented_mapped` | high | Deterministic peer-local runtime flow sends request for shared files in folder (code 36) with directory payload. | `captures/redacted/peer-folder-local/official_frames.hex` |
-| peer | 37 | `PM_SHARED_FILES_IN_FOLDER` | `implemented_mapped` | high | Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37) with directory plus compressed listing bytes. | `captures/redacted/peer-folder-local/official_frames.hex` |
+| peer | 37 | `PM_SHARED_FILES_IN_FOLDER` | `implemented_mapped` | high | Deterministic peer-local runtime flow emits shared-files-in-folder response (code 37); protocol parser now performs zlib decompression-aware decoding. | `captures/redacted/peer-folder-local/official_frames.hex` |
 | peer | 40 | `PM_TRANSFER_REQUEST` | `implemented_mapped` | high | Transfer queue dispatcher handles transfer request negotiation. | `evidence/reverse/disasm/transfer_on_file_request.txt` |
 | peer | 41 | `PM_TRANSFER_RESPONSE` | `implemented_mapped` | high | Transfer queue dispatcher handles transfer response negotiation. | `evidence/reverse/disasm/transfer_on_file_request.txt` |
 | peer | 42 | `PM_PLACEHOLD_UPLOAD` | `implemented_mapped` | high | Peer MessageCodeToString jump-table extraction resolves code 42 to PM_PLACEHOLD_UPLOAD (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
@@ -98,8 +98,8 @@ Status legend:
 | server | 71 | `SM_SEND_DISTRIBUTIONS` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 71 to SM_SEND_DISTRIBUTIONS (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 73 | `SM_NOTE_PARENT` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 73 to SM_NOTE_PARENT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 82 | `SM_CHILD_PARENT_MAP` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 82 to SM_CHILD_PARENT_MAP (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
-| server | 83 | `SM_SET_PARENT_MIN_SPEED` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 83 to SM_SET_PARENT_MIN_SPEED (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
-| server | 84 | `SM_SET_PARENT_SPEED_CONNECTION_RATIO` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 84 to SM_SET_PARENT_SPEED_CONNECTION_RATIO (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 83 | `SM_SET_PARENT_MIN_SPEED` | `implemented_mapped` | high | Authenticated runtime flow observes server-issued parent min speed tuning frame (code 83) with typed `u32` payload. | `captures/redacted/login-parent-distributed-control/official_frames.hex` |
+| server | 84 | `SM_SET_PARENT_SPEED_CONNECTION_RATIO` | `implemented_mapped` | high | Authenticated runtime flow observes server-issued parent speed ratio tuning frame (code 84) with typed `u32` payload. | `captures/redacted/login-parent-distributed-control/official_frames.hex` |
 | server | 86 | `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 86 to SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 87 | `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 87 to SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 88 | `SM_NODES_IN_CACHE_BEFORE_DISCONNECT` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 88 to SM_NODES_IN_CACHE_BEFORE_DISCONNECT (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
@@ -114,15 +114,15 @@ Status legend:
 | server | 110 | `SM_GET_RECOMMENDED_USERS` | `implemented_mapped` | high | Authenticated runtime flow includes code 110 request/response for similar users with scored user entries. | `captures/redacted/login-privilege-messaging/official_frames.hex` |
 | server | 111 | `SM_GET_TERM_RECOMMENDATIONS` | `implemented_mapped` | high | Authenticated runtime flow includes code 111 request with term payload and recommendation-entry response. | `captures/redacted/login-privilege-messaging/official_frames.hex` |
 | server | 112 | `SM_GET_RECOMMENDATION_USERS` | `implemented_mapped` | high | Authenticated runtime flow includes code 112 request with term payload and scored-user response entries. | `captures/redacted/login-privilege-messaging/official_frames.hex` |
-| server | 113 | `SM_GET_ROOM_TICKER` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 113 to SM_GET_ROOM_TICKER (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 113 | `SM_GET_ROOM_TICKER` | `implemented_mapped` | high | Authenticated runtime flow captures request+response multiplexing on code 113 and validates typed room ticker payload decoding. | `captures/redacted/login-parent-distributed-control/official_frames.hex` |
 | server | 114 | `SM_ROOM_TICKER_USER_ADDED` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 114 to SM_ROOM_TICKER_USER_ADDED (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 115 | `SM_ROOM_TICKER_USER_REMOVED` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 115 to SM_ROOM_TICKER_USER_REMOVED (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 116 | `SM_SET_TICKER` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 116 to SM_SET_TICKER (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 117 | `SM_ADD_HATE_TERM` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 117 to SM_ADD_HATE_TERM (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 118 | `SM_REMOVE_HATE_TERM` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 118 to SM_REMOVE_HATE_TERM (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 120 | `SM_SEARCH_ROOM` | `implemented_mapped` | high | Observed outbound runtime frame in login-search scenario (code 120) with room+query payload. | `captures/redacted/login-search/official_frames.hex` |
-| server | 121 | `SM_UPLOAD_SPEED` | `implemented_mapped` | high | String present and mirrored by upload code paths. | `evidence/reverse/message_name_strings.txt` |
-| server | 122 | `SM_GET_USER_PRIVILEGES_STATUS` | `implemented_mapped` | medium | Authenticated runtime flow sends user-privileges status request (code 122); response semantics are deprecated in spec and treated as username+privileged summary. | `captures/redacted/login-privileges-social/official_frames.hex` |
+| server | 121 | `SM_UPLOAD_SPEED` | `implemented_mapped` | high | Authenticated runtime flow sends upload-speed control frame (code 121) with typed `bytes_per_sec` payload. | `captures/redacted/login-parent-distributed-control/official_frames.hex` |
+| server | 122 | `SM_GET_USER_PRIVILEGES_STATUS` | `implemented_mapped` | high | Authenticated runtime flow captures both request and response on code 122 with typed `username + privileged` semantics. | `captures/redacted/login-parent-distributed-control/official_frames.hex` |
 | server | 123 | `SM_GIVE_PRIVILEGE` | `implemented_mapped` | high | Authenticated runtime flow sends give-privilege request (code 123) with username+days payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 124 | `SM_INFORM_USER_OF_PRIVILEGES` | `implemented_mapped` | high | Authenticated runtime flow sends notify-privileges request (code 124) with token+username payload. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 125 | `SM_INFORM_USER_OF_PRIVILEGES_ACK` | `implemented_mapped` | high | Authenticated runtime flow sends notify-privileges ack (code 125) with token payload. | `captures/redacted/login-privileges-social/official_frames.hex` |

@@ -1372,6 +1372,137 @@ Notes:
 - PR opened: `https://github.com/fedejinich/nss/pull/15`.
 - Local review loops completed with no additional blocking findings; stage is merge-ready after green validation gates.
 
+## Stage 5A - typed runtime hardening for opaque control payloads
+
+Dependency graph:
+
+- `S5A-W01 -> S5A-W02`
+- `S5A-W02 -> S5A-T01`
+- `S5A-T01 -> S5A-T02`
+- `S5A-T02 -> S5A-T03`
+- `S5A-T03 -> S5A-T04`
+- `S5A-T04 -> S5A-T05`
+- `S5A-T05 -> S5A-T06`
+- `S5A-T06 -> S5A-T07`
+- `S5A-T07 -> S5A-S01`
+- `S5A-S01 -> S5A-S02`
+- `S5A-S02 -> S5A-T08`
+- `S5A-T08 -> S5A-R01`
+- `S5A-R01 -> S5A-Q01`
+- `S5A-Q01 -> S5A-Q02`
+- `S5A-Q02 -> S5A-Q03`
+- `S5A-Q03 -> S5A-Q04`
+- `S5A-Q04 -> S5A-T09`
+
+Tasks:
+
+- id: S5A-W01
+  description: Start from updated main and create branch `codex/s5a-typed-runtime-hardening`
+  status: done
+  depends_on: []
+
+- id: S5A-W02
+  description: Verify commit-signing setup is active before first stage push
+  status: done
+  depends_on: [S5A-W01]
+
+- id: S5A-T01
+  description: Build runtime evidence inventory for opaque-control candidates and select promotable messages with authenticated captures
+  status: done
+  depends_on: [S5A-W02]
+
+- id: S5A-T02
+  description: Promote selected S5A messages in `message_map.csv` to runtime-backed entries and update evidence ledger/detangling notes
+  status: done
+  depends_on: [S5A-T01]
+
+- id: S5A-T03
+  description: Replace opaque protocol decoding for selected S5A messages with typed payloads/codecs/builders in `rust/protocol`
+  status: done
+  depends_on: [S5A-T02]
+
+- id: S5A-T04
+  description: Extend `rust/core` typed operations/events for S5A messages
+  status: done
+  depends_on: [S5A-T03]
+
+- id: S5A-T05
+  description: Extend `rust/cli` command surface and summaries for S5A typed messages
+  status: done
+  depends_on: [S5A-T04]
+
+- id: S5A-T06
+  description: Add/update protocol/core/verify tests for S5A typed payload behavior and semantic parity
+  status: done
+  depends_on: [S5A-T05]
+
+- id: S5A-T07
+  description: Regenerate schema/matrix/docs and synchronize state artifacts for S5A
+  status: done
+  depends_on: [S5A-T06]
+
+- id: S5A-S01
+  description: Run security best-practices pass on touched protocol/core/cli/verify paths
+  status: done
+  depends_on: [S5A-T07]
+
+- id: S5A-S02
+  description: Run code-simplifier pass on touched Rust files with behavior-preserving cleanup
+  status: done
+  depends_on: [S5A-S01]
+
+- id: S5A-T08
+  description: Run validation gates (`kb_validate`, diff verify semantic, regression, zensical build) and fix any failures
+  status: done
+  depends_on: [S5A-S02]
+
+- id: S5A-R01
+  description: Publish stage PR document under `docs/pr/0017-s5a-typed-runtime-hardening.md`
+  status: done
+  depends_on: [S5A-T08]
+
+- id: S5A-Q01
+  description: Open S5A PR and complete local review loop round 1 (security + code-simplifier notes)
+  status: done
+  depends_on: [S5A-R01]
+
+- id: S5A-Q02
+  description: Triage round-1 findings, apply useful changes, and document rationale for rejected suggestions
+  status: done
+  depends_on: [S5A-Q01]
+
+- id: S5A-Q03
+  description: Complete local review loop round 2 after pushing round-1 updates
+  status: done
+  depends_on: [S5A-Q02]
+
+- id: S5A-Q04
+  description: Triage round-2 findings, apply/dismiss with rationale, and finalize review notes
+  status: done
+  depends_on: [S5A-Q03]
+
+- id: S5A-T09
+  description: Finalize merge-ready S5A closure and sync TODO statuses
+  status: done
+  depends_on: [S5A-Q04]
+
+Notes:
+
+- S5A target in this iteration: replace opaque decode/encode paths with typed payload handling for runtime-observed control messages from authenticated captures.
+- Baseline preservation gate: keep protocol matrix at `implemented+mapped=131`, `mapped-not-implemented=0`, `missing=0`.
+- Primary runtime-backed S5A candidates: `SM_SET_PARENT_MIN_SPEED (83)`, `SM_SET_PARENT_SPEED_CONNECTION_RATIO (84)`, `SM_GET_ROOM_TICKER (113)`.
+- Runtime closure completed with new run: `captures/redacted/login-parent-distributed-control`.
+- Residual hypotheses closed:
+  - `SM_UPLOAD_SPEED (121)` promoted to `verified_runtime`.
+  - `SM_GET_USER_PRIVILEGES_STATUS (122)` promoted `medium -> high` with authenticated request/response evidence.
+- `PM_SHARED_FILES_IN_FOLDER` now has decompression-aware parsing with a bounded safety limit and regression coverage.
+- All S5A gates are green:
+  - `python3 scripts/kb_validate.py`
+  - `scripts/run_diff_verify.sh`
+  - `scripts/run_regression.sh`
+  - `./.venv-tools/bin/zensical build -f zensical.toml`
+- PR opened: `https://github.com/fedejinich/nss/pull/17`.
+
 ## Stage 5B - Soulseek UI + functionality exhaustive audit (worktree isolated)
 
 Dependency graph:
