@@ -9,6 +9,7 @@ pub const CODE_SM_GET_PEER_ADDRESS: u32 = 3;
 pub const CODE_SM_ADD_USER: u32 = 5;
 pub const CODE_SM_REMOVE_USER: u32 = 6;
 pub const CODE_SM_GET_USER_STATUS: u32 = 7;
+pub const CODE_SM_ADD_CHATROOM: u32 = 10;
 pub const CODE_SM_IGNORE_USER: u32 = 11;
 pub const CODE_SM_UNIGNORE_USER: u32 = 12;
 pub const CODE_SM_SAY_CHATROOM: u32 = 13;
@@ -20,6 +21,8 @@ pub const CODE_SM_CONNECT_TO_PEER: u32 = 18;
 pub const CODE_SM_MESSAGE_USER: u32 = 22;
 pub const CODE_SM_MESSAGE_ACKED: u32 = 23;
 pub const CODE_SM_FILE_SEARCH: u32 = 26;
+pub const CODE_SM_SET_STATUS: u32 = 28;
+pub const CODE_SM_HEARTBEAT: u32 = 32;
 pub const CODE_SM_SEND_CONNECT_TOKEN: u32 = 33;
 pub const CODE_SM_ROOM_LIST: u32 = 64;
 pub const CODE_SM_FILE_SEARCH_RESPONSE: u32 = CODE_SM_ROOM_LIST;
@@ -27,22 +30,50 @@ pub const CODE_SM_PRIVILEGED_LIST: u32 = 69;
 pub const CODE_SM_DOWNLOAD_SPEED: u32 = 34;
 pub const CODE_SM_SHARED_FOLDERS_FILES: u32 = 35;
 pub const CODE_SM_GET_USER_STATS: u32 = 36;
+pub const CODE_SM_RELOGGED: u32 = 41;
 pub const CODE_SM_SEARCH_USER_FILES: u32 = 42;
 pub const CODE_SM_GET_SIMILAR_TERMS: u32 = 50;
+pub const CODE_SM_ADD_LIKE_TERM: u32 = 51;
+pub const CODE_SM_REMOVE_LIKE_TERM: u32 = 52;
 pub const CODE_SM_GET_RECOMMENDATIONS: u32 = 54;
 pub const CODE_SM_GET_MY_RECOMMENDATIONS: u32 = 55;
 pub const CODE_SM_GET_GLOBAL_RECOMMENDATIONS: u32 = 56;
 pub const CODE_SM_GET_USER_RECOMMENDATIONS: u32 = 57;
+pub const CODE_SM_COMMAND: u32 = 58;
 pub const CODE_SM_PLACE_IN_LINE: u32 = 59;
 pub const CODE_SM_PLACE_IN_LINE_RESPONSE: u32 = 60;
+pub const CODE_SM_USER_LIST: u32 = 61;
+pub const CODE_SM_ROOM_ADDED: u32 = 62;
+pub const CODE_SM_ROOM_REMOVED: u32 = 63;
 pub const CODE_SM_EXACT_FILE_SEARCH: u32 = 65;
+pub const CODE_SM_ADMIN_MESSAGE: u32 = 66;
+pub const CODE_SM_GLOBAL_USER_LIST: u32 = 67;
+pub const CODE_SM_CONNECT_TO_CLIENT: u32 = 70;
+pub const CODE_SM_SEND_DISTRIBUTIONS: u32 = 71;
+pub const CODE_SM_NOTE_PARENT: u32 = 73;
+pub const CODE_SM_CHILD_PARENT_MAP: u32 = 82;
+pub const CODE_SM_SET_PARENT_MIN_SPEED: u32 = 83;
+pub const CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO: u32 = 84;
+pub const CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT: u32 = 86;
+pub const CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT: u32 = 87;
+pub const CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT: u32 = 88;
+pub const CODE_SM_SET_SECONDS_BEFORE_PING_CHILDREN: u32 = 90;
 pub const CODE_SM_ADD_PRIVILEGED_USER: u32 = 91;
 pub const CODE_SM_GET_OWN_PRIVILEGES_STATUS: u32 = 92;
+pub const CODE_SM_DNET_MESSAGE: u32 = 93;
+pub const CODE_SM_CAN_PARENT: u32 = 100;
+pub const CODE_SM_POSSIBLE_PARENTS: u32 = 102;
 pub const CODE_SM_LOW_PRIORITY_FILE_SEARCH: u32 = 103;
 pub const CODE_SM_WISHLIST_WAIT: u32 = 104;
 pub const CODE_SM_GET_RECOMMENDED_USERS: u32 = 110;
 pub const CODE_SM_GET_TERM_RECOMMENDATIONS: u32 = 111;
 pub const CODE_SM_GET_RECOMMENDATION_USERS: u32 = 112;
+pub const CODE_SM_GET_ROOM_TICKER: u32 = 113;
+pub const CODE_SM_ROOM_TICKER_USER_ADDED: u32 = 114;
+pub const CODE_SM_ROOM_TICKER_USER_REMOVED: u32 = 115;
+pub const CODE_SM_SET_TICKER: u32 = 116;
+pub const CODE_SM_ADD_HATE_TERM: u32 = 117;
+pub const CODE_SM_REMOVE_HATE_TERM: u32 = 118;
 pub const CODE_SM_SEARCH_ROOM: u32 = 120;
 pub const CODE_SM_GET_USER_PRIVILEGES_STATUS: u32 = 122;
 pub const CODE_SM_GIVE_PRIVILEGE: u32 = 123;
@@ -52,13 +83,22 @@ pub const CODE_SM_DNET_LEVEL: u32 = 126;
 pub const CODE_SM_DNET_GROUP_LEADER: u32 = 127;
 pub const CODE_SM_DNET_DELIVERY_REPORT: u32 = 128;
 pub const CODE_SM_DNET_CHILD_DEPTH: u32 = 129;
+pub const CODE_SM_DNET_RESET: u32 = 130;
 pub const CODE_SM_UPLOAD_SPEED: u32 = 121;
 pub const CODE_SM_FLOOD: u32 = 131;
 pub const CODE_SM_BAN_USER: u32 = 132;
 pub const CODE_SM_ADD_ROOM_MEMBER: u32 = 134;
 pub const CODE_SM_REMOVE_ROOM_MEMBER: u32 = 135;
+pub const CODE_SM_REMOVE_OWN_ROOM_MEMBERSHIP: u32 = 136;
+pub const CODE_SM_GIVE_UP_ROOM: u32 = 137;
+pub const CODE_SM_TRANSFER_ROOM_OWNERSHIP: u32 = 138;
+pub const CODE_SM_ADD_ROOM_MEMBERSHIP: u32 = 139;
+pub const CODE_SM_REMOVE_ROOM_MEMBERSHIP: u32 = 140;
+pub const CODE_SM_ENABLE_PRIVATE_ROOM_ADD: u32 = 141;
+pub const CODE_SM_CHANGE_PASSWORD: u32 = 142;
 pub const CODE_SM_ADD_ROOM_OPERATOR: u32 = 143;
 pub const CODE_SM_REMOVE_ROOM_OPERATOR: u32 = 144;
+pub const CODE_SM_ADD_ROOM_OPERATORSHIP: u32 = 145;
 pub const CODE_SM_REMOVE_ROOM_OPERATORSHIP: u32 = 146;
 pub const CODE_SM_REMOVE_OWN_ROOM_OPERATORSHIP: u32 = 147;
 pub const CODE_SM_ROOM_MEMBERS: u32 = 133;
@@ -273,6 +313,12 @@ pub struct EmptyPayload;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct OpaquePayload {
+    pub bytes: Vec<u8>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct OpaqueServerControlPayload {
+    pub code: u32,
     pub bytes: Vec<u8>,
 }
 
@@ -834,6 +880,7 @@ pub enum ServerMessage {
     SharedFoldersFiles(SharedFoldersFilesPayload),
     DownloadSpeed(SpeedPayload),
     UploadSpeed(SpeedPayload),
+    OpaqueControl(OpaqueServerControlPayload),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -876,6 +923,53 @@ fn ensure_payload_consumed(reader: &PayloadReader<'_>) -> Result<()> {
         bail!("unexpected trailing payload bytes: {}", reader.remaining());
     }
     Ok(())
+}
+
+pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 40] = [
+    CODE_SM_ADD_CHATROOM,
+    CODE_SM_SET_STATUS,
+    CODE_SM_HEARTBEAT,
+    CODE_SM_RELOGGED,
+    CODE_SM_ADD_LIKE_TERM,
+    CODE_SM_REMOVE_LIKE_TERM,
+    CODE_SM_COMMAND,
+    CODE_SM_USER_LIST,
+    CODE_SM_ROOM_ADDED,
+    CODE_SM_ROOM_REMOVED,
+    CODE_SM_ADMIN_MESSAGE,
+    CODE_SM_GLOBAL_USER_LIST,
+    CODE_SM_CONNECT_TO_CLIENT,
+    CODE_SM_SEND_DISTRIBUTIONS,
+    CODE_SM_NOTE_PARENT,
+    CODE_SM_CHILD_PARENT_MAP,
+    CODE_SM_SET_PARENT_MIN_SPEED,
+    CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO,
+    CODE_SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT,
+    CODE_SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT,
+    CODE_SM_NODES_IN_CACHE_BEFORE_DISCONNECT,
+    CODE_SM_SET_SECONDS_BEFORE_PING_CHILDREN,
+    CODE_SM_DNET_MESSAGE,
+    CODE_SM_CAN_PARENT,
+    CODE_SM_POSSIBLE_PARENTS,
+    CODE_SM_GET_ROOM_TICKER,
+    CODE_SM_ROOM_TICKER_USER_ADDED,
+    CODE_SM_ROOM_TICKER_USER_REMOVED,
+    CODE_SM_SET_TICKER,
+    CODE_SM_ADD_HATE_TERM,
+    CODE_SM_REMOVE_HATE_TERM,
+    CODE_SM_DNET_RESET,
+    CODE_SM_REMOVE_OWN_ROOM_MEMBERSHIP,
+    CODE_SM_GIVE_UP_ROOM,
+    CODE_SM_TRANSFER_ROOM_OWNERSHIP,
+    CODE_SM_ADD_ROOM_MEMBERSHIP,
+    CODE_SM_REMOVE_ROOM_MEMBERSHIP,
+    CODE_SM_ENABLE_PRIVATE_ROOM_ADD,
+    CODE_SM_CHANGE_PASSWORD,
+    CODE_SM_ADD_ROOM_OPERATORSHIP,
+];
+
+pub fn is_opaque_server_control_code(code: u32) -> bool {
+    OPAQUE_SERVER_CONTROL_CODES.contains(&code)
 }
 
 fn encode_recommendations_payload(writer: &mut PayloadWriter, payload: &RecommendationsPayload) {
@@ -1382,6 +1476,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
             writer.write_u32(payload.bytes_per_sec);
             CODE_SM_UPLOAD_SPEED
         }
+        ServerMessage::OpaqueControl(payload) => {
+            writer.write_raw_bytes(&payload.bytes);
+            payload.code
+        }
     };
 
     Frame::new(code, writer.into_inner())
@@ -1807,6 +1905,13 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
         CODE_SM_FLOOD => {
             allow_trailing_bytes = true;
             ServerMessage::Flood(OpaquePayload {
+                bytes: payload.to_vec(),
+            })
+        }
+        other if is_opaque_server_control_code(other) => {
+            allow_trailing_bytes = true;
+            ServerMessage::OpaqueControl(OpaqueServerControlPayload {
+                code: other,
                 bytes: payload.to_vec(),
             })
         }
@@ -2909,6 +3014,18 @@ pub fn build_file_search_request(token: u32, search_text: &str) -> Frame {
     }))
 }
 
+pub fn build_opaque_server_control_request(code: u32, payload: &[u8]) -> Result<Frame> {
+    if !is_opaque_server_control_code(code) {
+        bail!("unsupported opaque server control code: {code}");
+    }
+    Ok(encode_server_message(&ServerMessage::OpaqueControl(
+        OpaqueServerControlPayload {
+            code,
+            bytes: payload.to_vec(),
+        },
+    )))
+}
+
 pub fn build_get_peer_address_request(username: &str) -> Frame {
     encode_server_message(&ServerMessage::GetPeerAddress(UserLookupPayload {
         username: username.to_owned(),
@@ -3930,6 +4047,37 @@ mod tests {
         assert_eq!(
             build_message_users_request(&["alice".to_string(), "bob".to_string()], "hello").code,
             CODE_SM_MESSAGE_USERS
+        );
+    }
+
+    #[test]
+    fn s4l_opaque_server_control_codes_roundtrip() {
+        for code in OPAQUE_SERVER_CONTROL_CODES {
+            let payload = vec![code as u8, 0x55, 0xaa];
+            let decoded = decode_server_message(code, &payload).expect("decode opaque control");
+            let ServerMessage::OpaqueControl(control) = decoded else {
+                panic!("expected opaque control variant for code {code}");
+            };
+            assert_eq!(control.code, code);
+            assert_eq!(control.bytes, payload);
+
+            let rebuilt = encode_server_message(&ServerMessage::OpaqueControl(control.clone()));
+            assert_eq!(rebuilt.code, code);
+            assert_eq!(rebuilt.payload, payload);
+
+            let built = build_opaque_server_control_request(code, &payload)
+                .expect("builder should accept closure code");
+            assert_eq!(built.code, code);
+            assert_eq!(built.payload, payload);
+        }
+    }
+
+    #[test]
+    fn opaque_server_control_builder_rejects_unknown_code() {
+        let err = build_opaque_server_control_request(4242, &[1, 2, 3]).expect_err("must fail");
+        assert!(
+            err.to_string()
+                .contains("unsupported opaque server control code")
         );
     }
 

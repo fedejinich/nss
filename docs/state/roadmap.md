@@ -27,8 +27,9 @@ gantt
     S4I Ticker and term-control continuation mapping batch :done, s4i, after s4h, 1d
     S4J Private-room ownership and membership continuation mapping batch :done, s4j, after s4i, 1d
     S4K Missing-code closure + global/distributed peer-control implementation :done, s4k, after s4j, 2d
+    S4L Mapped-not-implemented closure to full protocol coverage :done, s4l, after s4k, 2d
     section Planned
-    S4L Mapped-not-implemented reduction wave 1 (distributed controls) :crit, s4l, after s4k, 2d
+    S5A Typed runtime hardening for opaque control payloads :crit, s5a, after s4l, 2d
 ```
 
 ## S4B Dependency Graph (Executed)
@@ -118,7 +119,8 @@ graph TD
 | S4I | ticker and term-control continuation mapping batch | done | `docs/pr/0013-s4i-ticker-term-control-map.md` | start S4J implementation batch |
 | S4J | private-room ownership and membership continuation mapping batch | done | `docs/pr/0014-s4j-private-room-ownership-map.md` | start S4K implementation batch |
 | S4K | missing-code closure + global/distributed peer-control implementation | done | `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md` | start S4L implementation batch |
-| S4L | mapped-not-implemented reduction wave 1 (distributed controls) | planned | `docs/state/protocol-backlog.md` | start S4L plan |
+| S4L | mapped-not-implemented closure to full protocol coverage | done | `docs/pr/0016-s4l-mapped-not-implemented-closure.md` | start S5A typed-hardening batch |
+| S5A | typed runtime hardening for opaque control payloads | planned | `docs/state/protocol-backlog.md` | start S5A plan |
 
 ## S4B Target Contract
 
@@ -216,10 +218,10 @@ Runtime scenarios added:
 4. `login-message-users`
 5. `login-peer-message`
 
-## S4L Preview (Not Started)
+## S5A Preview (Not Started)
 
 Target focus for the next stage:
 
-1. Convert mapped-not-implemented distributed-control messages into typed protocol payloads (`SM_COMMAND`, `SM_ADMIN_MESSAGE`, `SM_GLOBAL_USER_LIST`, `SM_SEND_DISTRIBUTIONS`, `SM_NOTE_PARENT`, `SM_CHILD_PARENT_MAP`, `SM_DNET_MESSAGE`, `SM_DNET_RESET`).
-2. Convert mapped-not-implemented parent tuning controls (`SM_SET_PARENT_MIN_SPEED`, `SM_SET_PARENT_SPEED_CONNECTION_RATIO`, `SM_SET_PARENT_INACTIVITY_BEFORE_DISCONNECT`, `SM_SET_SERVER_INACTIVITY_BEFORE_DISCONNECT`, `SM_NODES_IN_CACHE_BEFORE_DISCONNECT`, `SM_SET_SECONDS_BEFORE_PING_CHILDREN`, `SM_CAN_PARENT`, `SM_POSSIBLE_PARENTS`).
-3. Reduce matrix `mapped_not_implemented` from `40` while preserving runtime redaction and semantic verification discipline.
+1. Replace high-value `OpaqueServerControlPayload` messages with typed payload schemas based on runtime evidence.
+2. Add runtime capture scenarios for global/distributed control families currently encoded as opaque payloads.
+3. Preserve full matrix coverage baseline (`implemented+mapped=131`, `missing=0`) while increasing typed semantic depth.

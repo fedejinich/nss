@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T04:47:27+00:00`
+- Generated: `2026-02-15T04:56:43+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
