@@ -1,12 +1,18 @@
 # Message Schema
 
-- Generated: `2026-02-14T20:20:01+00:00`
+- Generated: `2026-02-15T04:47:27+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
 - Current coverage: `high=25` `medium=0` `low=0`
 
 ## Messages
+
+### `peer` `PM_SAY` (code `1`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 1 to PM_SAY (x86_64 binary disassembly).)
 
 ### `peer` `PM_GET_SHARED_FILE_LIST` (code `4`)
 - Confidence: `high`
@@ -76,6 +82,12 @@
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_USER_INFO_REPLY.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 16 documents user info reply payload fields.)
 
+### `peer` `PM_SEND_CONNECT_TOKEN` (code `33`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 33 to PM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).)
+
 ### `peer` `PM_MOVE_DOWNLOAD_TO_TOP` (code `34`)
 - Confidence: `high`
 - Payload fields: pending derivation
@@ -121,6 +133,12 @@
 - Evidence:
   - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_file_request.txt` (Transfer queue dispatcher handles transfer response negotiation.)
   - `ghidra_decompile`: `evidence/reverse/disasm/transfer_on_file_request.txt` (Transfer queue dispatcher handles transfer response negotiation path.)
+
+### `peer` `PM_PLACEHOLD_UPLOAD` (code `42`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 42 to PM_PLACEHOLD_UPLOAD (x86_64 binary disassembly).)
 
 ### `peer` `PM_QUEUE_UPLOAD` (code `43`)
 - Confidence: `high`
@@ -195,6 +213,12 @@
   - `string`: `evidence/reverse/peer_messagecodetostring_otool.txt` (Peer MessageCodeToString includes PM_UPLOAD_PLACE_IN_LINE_REQUEST.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Peer code 51 documents place-in-line request carrying filename/path.)
 
+### `peer` `PM_NOTHING` (code `52`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Peer MessageCodeToString jump-table extraction resolves code 52 to PM_NOTHING (x86_64 binary disassembly).)
+
 ### `server` `SM_LOGIN` (code `1`)
 - Confidence: `high`
 - Payload fields:
@@ -224,6 +248,18 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-peer-address-connect/official_frames.hex` (Authenticated runtime flow includes GetPeerAddress request/response (code 3) with username and endpoint payload fields.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 3 defines peer-address request and response payload fields.)
+
+### `server` `SM_ADD_USER` (code `5`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 5 to SM_ADD_USER (x86_64 binary disassembly).)
+
+### `server` `SM_REMOVE_USER` (code `6`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 6 to SM_REMOVE_USER (x86_64 binary disassembly).)
 
 ### `server` `SM_GET_USER_STATUS` (code `7`)
 - Confidence: `high`
@@ -357,6 +393,12 @@
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 32 to SM_HEARTBEAT (x86_64 binary disassembly).)
 
+### `server` `SM_SEND_CONNECT_TOKEN` (code `33`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 33 to SM_SEND_CONNECT_TOKEN (x86_64 binary disassembly).)
+
 ### `server` `SM_DOWNLOAD_SPEED` (code `34`)
 - Confidence: `high`
 - Payload fields:
@@ -485,6 +527,18 @@
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 58 to SM_COMMAND (x86_64 binary disassembly).)
 
+### `server` `SM_PLACE_IN_LINE` (code `59`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 59 to SM_PLACE_IN_LINE (x86_64 binary disassembly).)
+
+### `server` `SM_PLACE_IN_LINE_RESPONSE` (code `60`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 60 to SM_PLACE_IN_LINE_RESPONSE (x86_64 binary disassembly).)
+
 ### `server` `SM_USER_LIST` (code `61`)
 - Confidence: `high`
 - Payload fields: pending derivation
@@ -609,6 +663,12 @@
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 90 to SM_SET_SECONDS_BEFORE_PING_CHILDREN (x86_64 binary disassembly).)
 
+### `server` `SM_ADD_PRIVILEGED_USER` (code `91`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 91 to SM_ADD_PRIVILEGED_USER (x86_64 binary disassembly).)
+
 ### `server` `SM_GET_OWN_PRIVILEGES_STATUS` (code `92`)
 - Confidence: `high`
 - Payload fields:
@@ -635,6 +695,18 @@
 - Payload fields: pending derivation
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 102 to SM_POSSIBLE_PARENTS (x86_64 binary disassembly).)
+
+### `server` `SM_LOW_PRIORITY_FILE_SEARCH` (code `103`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 103 to SM_LOW_PRIORITY_FILE_SEARCH (x86_64 binary disassembly).)
+
+### `server` `SM_WISHLIST_WAIT` (code `104`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 104 to SM_WISHLIST_WAIT (x86_64 binary disassembly).)
 
 ### `server` `SM_GET_RECOMMENDED_USERS` (code `110`)
 - Confidence: `high`
@@ -744,11 +816,41 @@
   - `string`: `evidence/reverse/message_name_strings.txt` (Server string table includes SM_INFORM_USER_OF_PRIVILEGES_ACK.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 125 documents AckNotifyPrivileges with token payload.)
 
+### `server` `SM_DNET_LEVEL` (code `126`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 126 to SM_DNET_LEVEL (x86_64 binary disassembly).)
+
+### `server` `SM_DNET_GROUP_LEADER` (code `127`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 127 to SM_DNET_GROUP_LEADER (x86_64 binary disassembly).)
+
+### `server` `SM_DNET_DELIVERY_REPORT` (code `128`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 128 to SM_DNET_DELIVERY_REPORT (x86_64 binary disassembly).)
+
+### `server` `SM_DNET_CHILD_DEPTH` (code `129`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 129 to SM_DNET_CHILD_DEPTH (x86_64 binary disassembly).)
+
 ### `server` `SM_DNET_RESET` (code `130`)
 - Confidence: `high`
 - Payload fields: pending derivation
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 130 to SM_DNET_RESET (x86_64 binary disassembly).)
+
+### `server` `SM_FLOOD` (code `131`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 131 to SM_FLOOD (x86_64 binary disassembly).)
 
 ### `server` `SM_BAN_USER` (code `132`)
 - Confidence: `high`
@@ -852,6 +954,18 @@
 - Evidence:
   - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 145 to SM_ADD_ROOM_OPERATORSHIP (x86_64 binary disassembly).)
 
+### `server` `SM_REMOVE_ROOM_OPERATORSHIP` (code `146`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 146 to SM_REMOVE_ROOM_OPERATORSHIP (x86_64 binary disassembly).)
+
+### `server` `SM_REMOVE_OWN_ROOM_OPERATORSHIP` (code `147`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 147 to SM_REMOVE_OWN_ROOM_OPERATORSHIP (x86_64 binary disassembly).)
+
 ### `server` `SM_ROOM_OPERATORS` (code `148`)
 - Confidence: `high`
 - Payload fields:
@@ -869,4 +983,34 @@
 - Evidence:
   - `runtime_capture`: `captures/redacted/login-message-users/official_frames.hex` (Authenticated runtime flow sends message-users payload (code 149) with user list and message body.)
   - `spec`: `https://nicotine-plus.org/doc/SLSKPROTOCOL.html` (Server code 149 documents SendMessageUsers payload (users list + message).)
+
+### `server` `SM_JOIN_GLOBAL_ROOM` (code `150`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 150 to SM_JOIN_GLOBAL_ROOM (x86_64 binary disassembly).)
+
+### `server` `SM_LEAVE_GLOBAL_ROOM` (code `151`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 151 to SM_LEAVE_GLOBAL_ROOM (x86_64 binary disassembly).)
+
+### `server` `SM_SAY_GLOBAL_ROOM` (code `152`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 152 to SM_SAY_GLOBAL_ROOM (x86_64 binary disassembly).)
+
+### `server` `SM_SEARCH_CORRELATIONS` (code `153`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 153 to SM_SEARCH_CORRELATIONS (x86_64 binary disassembly).)
+
+### `server` `SM_PEER_MESSAGE_ALT` (code `292`)
+- Confidence: `high`
+- Payload fields: pending derivation
+- Evidence:
+  - `runtime_capture`: `captures/redacted/login-peer-message/official_frames.hex` (Observed runtime alias code 292 for peer message tunneling in login-peer-message flow.)
 
