@@ -1504,6 +1504,137 @@ Notes:
 - PR opened: `https://github.com/fedejinich/nss/pull/17`.
 - PR merged to `main`: `https://github.com/fedejinich/nss/pull/17` (`merge commit 81213d01165d17a502b43c8220efc41c729a9905`).
 
+## Stage 5C - typed runtime hardening wave 2 (global/distributed remainder)
+
+Dependency graph:
+
+- `S5C-W01 -> S5C-W02`
+- `S5C-W02 -> S5C-T01`
+- `S5C-T01 -> S5C-T02`
+- `S5C-T02 -> S5C-T03`
+- `S5C-T03 -> S5C-T04`
+- `S5C-T04 -> S5C-T05`
+- `S5C-T05 -> S5C-T06`
+- `S5C-T06 -> S5C-T07`
+- `S5C-T07 -> S5C-S01`
+- `S5C-S01 -> S5C-S02`
+- `S5C-S02 -> S5C-T08`
+- `S5C-T08 -> S5C-R01`
+- `S5C-R01 -> S5C-Q01`
+- `S5C-Q01 -> S5C-Q02`
+- `S5C-Q02 -> S5C-Q03`
+- `S5C-Q03 -> S5C-Q04`
+- `S5C-Q04 -> S5C-T09`
+
+Tasks:
+
+- id: S5C-W01
+  description: Start from updated `main` and create branch `codex/s5c-typed-runtime-hardening-wave2`
+  status: done
+  depends_on: []
+
+- id: S5C-W02
+  description: Verify commit-signing setup is active before first stage push
+  status: done
+  depends_on: [S5C-W01]
+
+- id: S5C-T01
+  description: Build runtime evidence inventory for remaining opaque global/distributed controls and select promotable wave-2 subset
+  status: done
+  depends_on: [S5C-W02]
+
+- id: S5C-T02
+  description: Generate authenticated runtime capture `login-room-term-control` and redact artifacts
+  status: done
+  depends_on: [S5C-T01]
+
+- id: S5C-T03
+  description: Promote selected S5C message rows in `message_map.csv` with runtime-backed evidence
+  status: done
+  depends_on: [S5C-T02]
+
+- id: S5C-T04
+  description: Replace selected opaque protocol decode paths with typed payloads/codecs/builders in `rust/protocol`
+  status: done
+  depends_on: [S5C-T03]
+
+- id: S5C-T05
+  description: Extend `rust/core` and `rust/cli` command surface for S5C typed control operations
+  status: done
+  depends_on: [S5C-T04]
+
+- id: S5C-T06
+  description: Add/update protocol/core/verify/tests for S5C typed behavior and semantic parity
+  status: done
+  depends_on: [S5C-T05]
+
+- id: S5C-T07
+  description: Regenerate schema/matrix/docs and synchronize KB/state artifacts for S5C
+  status: done
+  depends_on: [S5C-T06]
+
+- id: S5C-S01
+  description: Run security best-practices pass on touched protocol/core/cli/verify paths
+  status: done
+  depends_on: [S5C-T07]
+
+- id: S5C-S02
+  description: Run code-simplifier pass on touched Rust files with behavior-preserving cleanup
+  status: done
+  depends_on: [S5C-S01]
+
+- id: S5C-T08
+  description: Run validation gates (`kb_validate`, diff verify semantic, regression, zensical build) and fix failures
+  status: done
+  depends_on: [S5C-S02]
+
+- id: S5C-R01
+  description: Publish stage PR document under `docs/pr/0018-s5c-typed-runtime-hardening-wave2.md`
+  status: done
+  depends_on: [S5C-T08]
+
+- id: S5C-Q01
+  description: Open S5C PR and complete local review loop round 1 (security + code-simplifier notes)
+  status: todo
+  depends_on: [S5C-R01]
+
+- id: S5C-Q02
+  description: Triage round-1 findings, apply useful changes, and document rationale for rejected suggestions
+  status: todo
+  depends_on: [S5C-Q01]
+
+- id: S5C-Q03
+  description: Complete local review loop round 2 after pushing round-1 updates
+  status: todo
+  depends_on: [S5C-Q02]
+
+- id: S5C-Q04
+  description: Triage round-2 findings, apply/dismiss with rationale, and finalize review notes
+  status: todo
+  depends_on: [S5C-Q03]
+
+- id: S5C-T09
+  description: Finalize merge-ready S5C closure and sync TODO statuses
+  status: todo
+  depends_on: [S5C-Q04]
+
+Notes:
+
+- S5C target subset for this wave: `SM_ADD_CHATROOM (10)`, `SM_ADD_LIKE_TERM (51)`, `SM_REMOVE_LIKE_TERM (52)`.
+- Runtime evidence inventory shows these codes in existing capture corpus, making them high-confidence candidates for typed promotion in this wave.
+- Baseline preservation gate: keep protocol matrix at `implemented+mapped=131`, `mapped-not-implemented=0`, `missing=0`.
+- New authenticated run generated and redacted: `captures/redacted/login-room-term-control`.
+- S5C map/schema promotion is complete with runtime-backed sources for codes `10`, `51`, and `52`.
+- S5C command surface now includes:
+  - `soul-cli room add --room ...`
+  - `soul-cli discover add-like-term --term ...`
+  - `soul-cli discover remove-like-term --term ...`
+- Stage gates are green:
+  - `python3 scripts/kb_validate.py`
+  - `scripts/run_diff_verify.sh`
+  - `scripts/run_regression.sh`
+  - `./.venv-tools/bin/zensical build -f zensical.toml`
+
 ## Stage 5B - Soulseek UI + functionality exhaustive audit (worktree isolated)
 
 Dependency graph:

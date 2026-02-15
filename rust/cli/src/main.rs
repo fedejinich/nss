@@ -583,6 +583,24 @@ enum RoomCommand {
         #[arg(long)]
         verbose: bool,
     },
+    Add {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        room: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
     Members {
         #[arg(long)]
         server: Option<String>,
@@ -818,6 +836,42 @@ enum DiscoverCommand {
         minor_version: u32,
         #[arg(long, default_value_t = 5)]
         timeout_secs: u64,
+        #[arg(long)]
+        verbose: bool,
+    },
+    AddLikeTerm {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        term: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
+        #[arg(long)]
+        verbose: bool,
+    },
+    RemoveLikeTerm {
+        #[arg(long)]
+        server: Option<String>,
+        #[arg(long)]
+        username: Option<String>,
+        #[arg(long)]
+        password: Option<String>,
+        #[arg(long, hide = true)]
+        password_md5: Option<String>,
+        #[arg(long)]
+        term: String,
+        #[arg(long, default_value_t = 160)]
+        client_version: u32,
+        #[arg(long, default_value_t = 1)]
+        minor_version: u32,
         #[arg(long)]
         verbose: bool,
     },
@@ -1490,6 +1544,26 @@ async fn main() -> Result<()> {
                 .await?;
                 run_room_leave(&mut client, &room, verbose).await?;
             }
+            RoomCommand::Add {
+                server,
+                username,
+                password,
+                password_md5,
+                room,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_room_add(&mut client, &room, verbose).await?;
+            }
             RoomCommand::Members {
                 server,
                 username,
@@ -1740,6 +1814,46 @@ async fn main() -> Result<()> {
                 )
                 .await?;
                 run_discover_similar_terms(&mut client, &term, timeout_secs, verbose).await?;
+            }
+            DiscoverCommand::AddLikeTerm {
+                server,
+                username,
+                password,
+                password_md5,
+                term,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_add_like_term(&mut client, &term, verbose).await?;
+            }
+            DiscoverCommand::RemoveLikeTerm {
+                server,
+                username,
+                password,
+                password_md5,
+                term,
+                client_version,
+                minor_version,
+                verbose,
+            } => {
+                let mut client = connect_and_login(
+                    runtime_server(server.as_deref())?.as_str(),
+                    runtime_username(username.as_deref())?.as_str(),
+                    runtime_password(password.as_deref(), password_md5.as_deref())?.as_str(),
+                    client_version,
+                    minor_version,
+                )
+                .await?;
+                run_discover_remove_like_term(&mut client, &term, verbose).await?;
             }
             DiscoverCommand::RecommendedUsers {
                 server,
@@ -2333,6 +2447,20 @@ async fn run_room_leave(client: &mut SessionClient, room: &str, verbose: bool) -
     Ok(())
 }
 
+async fn run_room_add(client: &mut SessionClient, room: &str, verbose: bool) -> Result<()> {
+    client.add_chatroom(room).await?;
+    println!("room.add sent room={}", room);
+    if verbose {
+        let events = client
+            .collect_room_events(Duration::from_secs(2), 64)
+            .await?;
+        for (idx, event) in events.iter().enumerate() {
+            println!("[{idx}] {event:#?}");
+        }
+    }
+    Ok(())
+}
+
 async fn run_room_members(
     client: &mut SessionClient,
     room: &str,
@@ -2641,6 +2769,32 @@ async fn run_discover_similar_terms(
     );
     if verbose {
         println!("{payload:#?}");
+    }
+    Ok(())
+}
+
+async fn run_discover_add_like_term(
+    client: &mut SessionClient,
+    term: &str,
+    verbose: bool,
+) -> Result<()> {
+    client.add_like_term(term).await?;
+    println!("discover.add-like-term sent term={}", term);
+    if verbose {
+        println!("discover.add-like-term verbose term_len={}", term.len());
+    }
+    Ok(())
+}
+
+async fn run_discover_remove_like_term(
+    client: &mut SessionClient,
+    term: &str,
+    verbose: bool,
+) -> Result<()> {
+    client.remove_like_term(term).await?;
+    println!("discover.remove-like-term sent term={}", term);
+    if verbose {
+        println!("discover.remove-like-term verbose term_len={}", term.len());
     }
     Ok(())
 }

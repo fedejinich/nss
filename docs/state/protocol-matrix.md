@@ -4,7 +4,7 @@ This matrix tracks protocol coverage from authoritative artifacts.
 
 ## Snapshot
 
-- Generated at: `2026-02-15T06:04:18+00:00`
+- Generated at: `2026-02-15T06:33:27+00:00`
 - Total messages tracked: `131`
 - Server messages: `106`
 - Peer messages: `25`
@@ -55,7 +55,7 @@ Status legend:
 | server | 5 | `SM_ADD_USER` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 5 to SM_ADD_USER (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 6 | `SM_REMOVE_USER` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 6 to SM_REMOVE_USER (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 7 | `SM_GET_USER_STATUS` | `implemented_mapped` | high | Authenticated runtime flow includes user-status request/response (code 7) with status and privilege fields. | `captures/redacted/login-user-state/official_frames.hex` |
-| server | 10 | `SM_ADD_CHATROOM` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 10 to SM_ADD_CHATROOM (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 10 | `SM_ADD_CHATROOM` | `implemented_mapped` | high | Authenticated runtime flow sends add-chatroom control frame (code 10) with room string payload. | `captures/redacted/login-room-term-control/official_frames.hex` |
 | server | 11 | `SM_IGNORE_USER` | `implemented_mapped` | high | Authenticated runtime flow sends ignore-user request (code 11); mapping aligns with server MessageCodeToString and SLSK spec obsolete ignore operation. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 12 | `SM_UNIGNORE_USER` | `implemented_mapped` | high | Authenticated runtime flow sends unignore-user request (code 12); mapping aligns with server MessageCodeToString and SLSK spec obsolete unignore operation. | `captures/redacted/login-privileges-social/official_frames.hex` |
 | server | 13 | `SM_SAY_CHATROOM` | `implemented_mapped` | high | Observed runtime room message flow: outbound SAY request and inbound room chat event in authenticated room session. | `captures/redacted/login-join-room-presence/official_frames.hex` |
@@ -76,8 +76,8 @@ Status legend:
 | server | 41 | `SM_RELOGGED` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 41 to SM_RELOGGED (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
 | server | 42 | `SM_SEARCH_USER_FILES` | `implemented_mapped` | high | Observed outbound runtime frame in login-search scenario (code 42) with user+query payload. | `captures/redacted/login-search/official_frames.hex` |
 | server | 50 | `SM_GET_SIMILAR_TERMS` | `implemented_mapped` | high | Observed authenticated runtime request/response for similar-terms discovery flow (code 50). | `captures/redacted/login-similar-terms/official_frames.hex` |
-| server | 51 | `SM_ADD_LIKE_TERM` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 51 to SM_ADD_LIKE_TERM (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
-| server | 52 | `SM_REMOVE_LIKE_TERM` | `implemented_mapped` | high | Server MessageCodeToString jump-table extraction resolves code 52 to SM_REMOVE_LIKE_TERM (x86_64 binary disassembly). | `evidence/reverse/message_codes_jump_table.md` |
+| server | 51 | `SM_ADD_LIKE_TERM` | `implemented_mapped` | high | Authenticated runtime flow sends add-like-term control frame (code 51) with term string payload. | `captures/redacted/login-room-term-control/official_frames.hex` |
+| server | 52 | `SM_REMOVE_LIKE_TERM` | `implemented_mapped` | high | Authenticated runtime flow sends remove-like-term control frame (code 52) with term string payload. | `captures/redacted/login-room-term-control/official_frames.hex` |
 | server | 54 | `SM_GET_RECOMMENDATIONS` | `implemented_mapped` | high | Observed authenticated runtime recommendations flow (code 54) including outbound request and inbound summary payload. | `captures/redacted/login-recommendations/official_frames.hex` |
 | server | 55 | `SM_GET_MY_RECOMMENDATIONS` | `implemented_mapped` | high | Observed outbound authenticated runtime request for my-recommendations (code 55) in recommendation batch. | `captures/redacted/login-recommendations/official_frames.hex` |
 | server | 56 | `SM_GET_GLOBAL_RECOMMENDATIONS` | `implemented_mapped` | high | Observed authenticated runtime global-recommendations flow (code 56) with populated inbound payload. | `captures/redacted/login-recommendations/official_frames.hex` |

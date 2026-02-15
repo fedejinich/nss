@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, closing Stage 5A typed runtime hardening wave 1, and retaining Stage 5B UI/feature research verification.
+Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A typed runtime hardening wave 1, Stage 5B UI/feature research verification, and Stage 5C typed runtime hardening wave 2.
 
 ## Validation Gates
 
@@ -51,6 +51,7 @@ Runs:
    - `login-message-users`
    - `login-peer-message`
    - `login-parent-distributed-control`
+   - `login-room-term-control`
 3. Default mode is semantic (`VERIFY_MODE=semantic`) with bytes mode compatibility.
 
 ### Full regression
@@ -108,6 +109,7 @@ Protocol matrix status:
 - Message-users scenario includes code `149`.
 - Peer-message deterministic scenario includes code `68` plus compatibility alias `292`.
 - Stage 5A authenticated runtime scenario `login-parent-distributed-control` provides runtime evidence for codes `83`, `84`, `113`, `121`, and `122`.
+- Stage 5C authenticated runtime scenario `login-room-term-control` provides runtime evidence for codes `10`, `51`, and `52`.
 - `SM_GET_USER_PRIVILEGES_STATUS` was promoted to `high` with authenticated request/response runtime evidence.
 - `PM_SHARED_FILES_IN_FOLDER` parser now has decompression-aware coverage with zlib safety limits and typed listing classification.
 - Stage 4F/S4G/S4H/S4I/S4J are mapping-first and static-evidence-driven via jump-table extraction (`evidence/reverse/message_codes_jump_table.md`).
@@ -135,5 +137,5 @@ Protocol matrix status:
 ## Residual Risk
 
 - `SM_PEER_MESSAGE` compatibility alias `292` is implemented as decode-only fallback and still needs corroboration from authenticated server runtime.
-- Stage 5A hardened a subset of opaque control coverage (`83`, `84`, `113`), but additional global/distributed control codes still rely on opaque payload handling until runtime evidence allows typed promotion.
+- Stage 5A and Stage 5C hardened key opaque-control subsets (`83`, `84`, `113`, `10`, `51`, `52`), but additional global/distributed control codes still rely on opaque payload handling until runtime evidence allows typed promotion.
 - Stage 5B still has one UI-runtime visibility gap: live menu tree extraction requires macOS assistive-access permission (captured denial: `evidence/ui_audit/ui_menu_bar_items.err`).

@@ -1,6 +1,6 @@
 # Message Schema
 
-- Generated: `2026-02-15T06:03:56+00:00`
+- Generated: `2026-02-15T06:28:20+00:00`
 - Framing: `<u32 frame_len_le><u32 message_code_le><payload>`
 - Framing confidence: `medium`
 - Coverage contract: `high >= 18` `medium <= 7` `low <= 0`
@@ -277,9 +277,10 @@
 
 ### `server` `SM_ADD_CHATROOM` (code `10`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `room`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 10 to SM_ADD_CHATROOM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-room-term-control/official_frames.hex` (Authenticated runtime flow sends add-chatroom control frame (code 10) with room string payload.)
 
 ### `server` `SM_IGNORE_USER` (code `11`)
 - Confidence: `high`
@@ -458,15 +459,17 @@
 
 ### `server` `SM_ADD_LIKE_TERM` (code `51`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `term`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 51 to SM_ADD_LIKE_TERM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-room-term-control/official_frames.hex` (Authenticated runtime flow sends add-like-term control frame (code 51) with term string payload.)
 
 ### `server` `SM_REMOVE_LIKE_TERM` (code `52`)
 - Confidence: `high`
-- Payload fields: pending derivation
+- Payload fields:
+  - `term`: `string`
 - Evidence:
-  - `manual_note`: `evidence/reverse/message_codes_jump_table.md` (Server MessageCodeToString jump-table extraction resolves code 52 to SM_REMOVE_LIKE_TERM (x86_64 binary disassembly).)
+  - `runtime_capture`: `captures/redacted/login-room-term-control/official_frames.hex` (Authenticated runtime flow sends remove-like-term control frame (code 52) with term string payload.)
 
 ### `server` `SM_GET_RECOMMENDATIONS` (code `54`)
 - Confidence: `high`

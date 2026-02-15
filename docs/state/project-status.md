@@ -24,6 +24,7 @@
 - Stage 4L complete: mapped-not-implemented closure to full matrix implementation coverage (`implemented+mapped=131`).
 - Stage 5A complete: typed runtime hardening wave 1 for parent/distributed control and folder decompression parsing with authenticated evidence.
 - Stage 5B complete: exhaustive SoulseekQt UI + functionality research pass with pass-2 verification and decompilation addendum artifacts.
+- Stage 5C complete: typed runtime hardening wave 2 for room/term control messages with authenticated runtime evidence and SDK/CLI coverage.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Stage 4L Completion
@@ -50,6 +51,37 @@
    - `evidence/ui_audit/decomp/server_methods.txt`
    - `evidence/ui_audit/decomp/peer_methods.txt`
    - `evidence/ui_audit/decomp/transfer_methods.txt`
+
+## Stage 5C Completion
+
+1. Promoted three room/term control messages to runtime-backed evidence:
+   - `SM_ADD_CHATROOM` (`10`)
+   - `SM_ADD_LIKE_TERM` (`51`)
+   - `SM_REMOVE_LIKE_TERM` (`52`)
+2. Added authenticated runtime scenario:
+   - `captures/redacted/login-room-term-control`
+3. Replaced opaque handling with typed protocol variants and builders:
+   - `AddChatRoomPayload`
+   - `ServerMessage::AddLikeTerm`
+   - `ServerMessage::RemoveLikeTerm`
+   - `build_add_chatroom_request(...)`
+   - `build_add_like_term_request(...)`
+   - `build_remove_like_term_request(...)`
+4. Extended SDK and CLI control operations:
+   - `SessionClient::add_chatroom(...)`
+   - `SessionClient::add_like_term(...)`
+   - `SessionClient::remove_like_term(...)`
+   - `soul-cli room add --room ...`
+   - `soul-cli discover add-like-term --term ...`
+   - `soul-cli discover remove-like-term --term ...`
+5. Extended verification and contract coverage:
+   - `tests/protocol/test_stage5c_room_term_control_contract.py`
+   - semantic verifier regression for like-term diffs in `rust/verify`
+   - required semantic run list includes `login-room-term-control`
+6. Preserved full matrix baseline:
+   - `implemented+mapped=131`
+   - `mapped_not_implemented=0`
+   - `missing=0`
 
 ## Stage 5A Completion
 
@@ -249,7 +281,9 @@
 - `captures/redacted/login-peer-address-connect/manifest.redacted.json`
 - `captures/redacted/login-message-users/manifest.redacted.json`
 - `captures/redacted/login-peer-message/manifest.redacted.json`
+- `captures/redacted/login-room-term-control/manifest.redacted.json`
 - `tools/runtime/generate_stage4e_private_userstate_captures.py`
+- `tools/runtime/generate_stage5c_room_term_control_captures.py`
 - `docs/pr/0009-s4e-private-messaging-user-state.md`
 - `docs/pr/0010-s4f-global-admin-distributed-map.md`
 - `docs/pr/0011-s4g-parent-distributed-tuning-map.md`
@@ -258,6 +292,7 @@
 - `docs/pr/0014-s4j-private-room-ownership-map.md`
 - `docs/pr/0015-s4k-missing-code-closure-protocol-implementation.md`
 - `docs/pr/0016-s4l-mapped-not-implemented-closure.md`
+- `docs/pr/0018-s5c-typed-runtime-hardening-wave2.md`
 
 ## Operational Notes
 

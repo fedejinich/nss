@@ -1,0 +1,24 @@
+{
+  "run_id": "login-room-term-control",
+  "scenario": "login-room-term-control",
+  "source_type": "runtime_socket_server_authenticated",
+  "created_at": "2026-02-15T06:27:45+00:00",
+  "server": "<redacted:endpoint:693b6e490629>",
+  "frame_count": 12,
+  "outputs": {
+    "official_frames_raw": "<redacted:path:5ce25dc83c68>",
+    "neo_frames_raw": "<redacted:path:9bb6dc61f99c>",
+    "frida_events_raw": "<redacted:path:7793f6578f12>"
+  },
+  "notes": "Stage 5C runtime capture for typed room/term control messages (SM_ADD_CHATROOM, SM_ADD_LIKE_TERM, SM_REMOVE_LIKE_TERM).",
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-15T06:27:51+00:00",
+    "raw_source": "/Users/void_rsk/Projects/soul-dec/captures/raw/login-room-term-control",
+    "stats": {
+      "endpoint": 1,
+      "path": 3
+    }
+  }
+}

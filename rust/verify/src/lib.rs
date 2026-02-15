@@ -347,9 +347,9 @@ fn decode_hex(input: &str) -> Result<Vec<u8>> {
 mod tests {
     use super::*;
     use protocol::{
-        CODE_PM_TRANSFER_RESPONSE, CODE_SM_DOWNLOAD_SPEED, CODE_SM_GET_RECOMMENDATIONS,
-        CODE_SM_GET_ROOM_TICKER, CODE_SM_GET_USER_STATUS, CODE_SM_JOIN_ROOM, CODE_SM_MESSAGE_USER,
-        CODE_SM_USER_JOINED_ROOM, PayloadWriter,
+        CODE_PM_TRANSFER_RESPONSE, CODE_SM_ADD_LIKE_TERM, CODE_SM_DOWNLOAD_SPEED,
+        CODE_SM_GET_RECOMMENDATIONS, CODE_SM_GET_ROOM_TICKER, CODE_SM_GET_USER_STATUS,
+        CODE_SM_JOIN_ROOM, CODE_SM_MESSAGE_USER, CODE_SM_USER_JOINED_ROOM, PayloadWriter,
     };
 
     fn transfer_response_frame_bytes(token: u32, allowed_raw: u32) -> Vec<u8> {
@@ -380,6 +380,12 @@ mod tests {
         writer.write_u32(score);
         writer.write_u32(0);
         Frame::new(CODE_SM_GET_RECOMMENDATIONS, writer.into_inner()).encode()
+    }
+
+    fn add_like_term_frame_bytes(term: &str) -> Vec<u8> {
+        let mut writer = PayloadWriter::new();
+        writer.write_string(term);
+        Frame::new(CODE_SM_ADD_LIKE_TERM, writer.into_inner()).encode()
     }
 
     fn private_message_incoming_frame_bytes(
@@ -537,6 +543,29 @@ mod tests {
     }
 
     #[test]
+    fn semantic_mode_reports_add_like_term_field_diff() {
+        let official = vec![add_like_term_frame_bytes("idm")];
+        let neo = vec![add_like_term_frame_bytes("electronic")];
+        let report = compare_capture_sequences_with_mode(
+            "run-add-like-term-diff",
+            &official,
+            &neo,
+            ComparisonMode::Semantic,
+        );
+
+        assert_eq!(report.total_pairs, 1);
+        assert_eq!(report.matched_pairs, 0);
+        let diff = report.frame_comparisons[0]
+            .semantic_first_diff_field
+            .as_deref()
+            .unwrap_or_default();
+        assert!(
+            diff.contains("term") || diff.contains("decoded_"),
+            "unexpected semantic diff path: {diff}"
+        );
+    }
+
+    #[test]
     fn semantic_mode_reports_private_message_field_diff() {
         let official = vec![private_message_incoming_frame_bytes(
             91,
@@ -593,8 +622,16 @@ mod tests {
 
     #[test]
     fn semantic_mode_reports_room_ticker_field_diff() {
-        let official = vec![room_ticker_frame_bytes("nicotine", "alice", "Now playing A")];
-        let neo = vec![room_ticker_frame_bytes("nicotine", "alice", "Now playing B")];
+        let official = vec![room_ticker_frame_bytes(
+            "nicotine",
+            "alice",
+            "Now playing A",
+        )];
+        let neo = vec![room_ticker_frame_bytes(
+            "nicotine",
+            "alice",
+            "Now playing B",
+        )];
         let report = compare_capture_sequences_with_mode(
             "run-room-ticker-diff",
             &official,

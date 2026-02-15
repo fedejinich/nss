@@ -28,6 +28,7 @@ REQUIRED_RUNS=(
   "login-message-users"
   "login-peer-message"
   "login-parent-distributed-control"
+  "login-room-term-control"
 )
 
 cd "${ROOT_DIR}/rust"

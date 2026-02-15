@@ -40,6 +40,7 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_SET_WAIT_PORT"): 2,
     ("server", "SM_GET_PEER_ADDRESS"): 3,
     ("server", "SM_GET_USER_STATUS"): 7,
+    ("server", "SM_ADD_CHATROOM"): 10,
     ("server", "SM_IGNORE_USER"): 11,
     ("server", "SM_UNIGNORE_USER"): 12,
     ("server", "SM_SAY_CHATROOM"): 13,
@@ -57,6 +58,8 @@ KNOWN_CODES: dict[tuple[str, str], int] = {
     ("server", "SM_GET_USER_STATS"): 36,
     ("server", "SM_SEARCH_USER_FILES"): 42,
     ("server", "SM_GET_SIMILAR_TERMS"): 50,
+    ("server", "SM_ADD_LIKE_TERM"): 51,
+    ("server", "SM_REMOVE_LIKE_TERM"): 52,
     ("server", "SM_GET_RECOMMENDATIONS"): 54,
     ("server", "SM_GET_MY_RECOMMENDATIONS"): 55,
     ("server", "SM_GET_GLOBAL_RECOMMENDATIONS"): 56,
@@ -117,6 +120,7 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
     ],
     ("server", "SM_IGNORE_USER"): [{"name": "username", "type": "string"}],
     ("server", "SM_UNIGNORE_USER"): [{"name": "username", "type": "string"}],
+    ("server", "SM_ADD_CHATROOM"): [{"name": "room", "type": "string"}],
     ("server", "SM_SAY_CHATROOM"): [
         {"name": "room", "type": "string"},
         {"name": "username", "type": "optional_string"},
@@ -168,6 +172,8 @@ KNOWN_PAYLOADS: dict[tuple[str, str], list[dict[str, str]]] = {
         {"name": "recommendation.term", "type": "string"},
         {"name": "recommendation.score", "type": "i32"},
     ],
+    ("server", "SM_ADD_LIKE_TERM"): [{"name": "term", "type": "string"}],
+    ("server", "SM_REMOVE_LIKE_TERM"): [{"name": "term", "type": "string"}],
     ("server", "SM_GET_RECOMMENDATIONS"): [
         {"name": "recommendation_count", "type": "u32"},
         {"name": "recommendation.term", "type": "string"},

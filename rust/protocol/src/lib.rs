@@ -558,6 +558,11 @@ pub struct RoomListPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct AddChatRoomPayload {
+    pub room: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct JoinRoomPayload {
     pub room: String,
     pub users: Vec<String>,
@@ -846,6 +851,7 @@ pub enum ServerMessage {
     Login(LoginPayload),
     LoginResponse(LoginResponsePayload),
     SetWaitPort(SetWaitPortPayload),
+    AddChatRoom(AddChatRoomPayload),
     GetPeerAddress(UserLookupPayload),
     GetPeerAddressResponse(PeerAddressResponsePayload),
     AddUser(UserLookupPayload),
@@ -875,6 +881,8 @@ pub enum ServerMessage {
     BanUser(UserLookupPayload),
     GetSimilarTerms(SimilarTermsRequestPayload),
     GetSimilarTermsResponse(SimilarTermsPayload),
+    AddLikeTerm(SimilarTermsRequestPayload),
+    RemoveLikeTerm(SimilarTermsRequestPayload),
     GetRecommendations(EmptyPayload),
     GetRecommendationsResponse(RecommendationsPayload),
     GetMyRecommendations(EmptyPayload),
@@ -975,13 +983,10 @@ fn ensure_payload_consumed(reader: &PayloadReader<'_>) -> Result<()> {
     Ok(())
 }
 
-pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 37] = [
-    CODE_SM_ADD_CHATROOM,
+pub const OPAQUE_SERVER_CONTROL_CODES: [u32; 34] = [
     CODE_SM_SET_STATUS,
     CODE_SM_HEARTBEAT,
     CODE_SM_RELOGGED,
-    CODE_SM_ADD_LIKE_TERM,
-    CODE_SM_REMOVE_LIKE_TERM,
     CODE_SM_COMMAND,
     CODE_SM_USER_LIST,
     CODE_SM_ROOM_ADDED,
@@ -1098,6 +1103,10 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
         ServerMessage::SetWaitPort(payload) => {
             writer.write_u32(payload.listen_port);
             CODE_SM_SET_WAIT_PORT
+        }
+        ServerMessage::AddChatRoom(payload) => {
+            writer.write_string(&payload.room);
+            CODE_SM_ADD_CHATROOM
         }
         ServerMessage::GetPeerAddress(payload) => {
             writer.write_string(&payload.username);
@@ -1265,6 +1274,14 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
         ServerMessage::GetSimilarTerms(payload) => {
             writer.write_string(&payload.term);
             CODE_SM_GET_SIMILAR_TERMS
+        }
+        ServerMessage::AddLikeTerm(payload) => {
+            writer.write_string(&payload.term);
+            CODE_SM_ADD_LIKE_TERM
+        }
+        ServerMessage::RemoveLikeTerm(payload) => {
+            writer.write_string(&payload.term);
+            CODE_SM_REMOVE_LIKE_TERM
         }
         ServerMessage::GetSimilarTermsResponse(payload) => {
             writer.write_string(&payload.term);
@@ -1582,6 +1599,12 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             };
             ServerMessage::SetWaitPort(payload)
         }
+        CODE_SM_ADD_CHATROOM => {
+            let payload = AddChatRoomPayload {
+                room: reader.read_string()?,
+            };
+            ServerMessage::AddChatRoom(payload)
+        }
         CODE_SM_GET_PEER_ADDRESS => {
             allow_trailing_bytes = true;
             if let Ok(request) = parse_user_lookup_payload(payload) {
@@ -1721,6 +1744,18 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
             } else {
                 ServerMessage::GetSimilarTermsResponse(parse_similar_terms_response(payload)?)
             }
+        }
+        CODE_SM_ADD_LIKE_TERM => {
+            let payload = SimilarTermsRequestPayload {
+                term: reader.read_string()?,
+            };
+            ServerMessage::AddLikeTerm(payload)
+        }
+        CODE_SM_REMOVE_LIKE_TERM => {
+            let payload = SimilarTermsRequestPayload {
+                term: reader.read_string()?,
+            };
+            ServerMessage::RemoveLikeTerm(payload)
         }
         CODE_SM_GET_RECOMMENDED_USERS => {
             allow_trailing_bytes = true;
@@ -3235,6 +3270,24 @@ pub fn build_get_similar_terms_request(term: &str) -> Frame {
     ))
 }
 
+pub fn build_add_chatroom_request(room: &str) -> Frame {
+    encode_server_message(&ServerMessage::AddChatRoom(AddChatRoomPayload {
+        room: room.to_owned(),
+    }))
+}
+
+pub fn build_add_like_term_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::AddLikeTerm(SimilarTermsRequestPayload {
+        term: term.to_owned(),
+    }))
+}
+
+pub fn build_remove_like_term_request(term: &str) -> Frame {
+    encode_server_message(&ServerMessage::RemoveLikeTerm(SimilarTermsRequestPayload {
+        term: term.to_owned(),
+    }))
+}
+
 pub fn build_ignore_user_request(username: &str) -> Frame {
     encode_server_message(&ServerMessage::IgnoreUser(UserLookupPayload {
         username: username.to_owned(),
@@ -3509,7 +3562,8 @@ pub fn parse_shared_files_in_folder_payload_decompressed(
     let parsed = parse_shared_files_in_folder_payload(payload)?;
     let compressed_listing_len = parsed.compressed_listing.len() as u32;
     let directory = parsed.directory;
-    let decompressed_listing = decompress_shared_files_in_folder_listing(&parsed.compressed_listing)?;
+    let decompressed_listing =
+        decompress_shared_files_in_folder_listing(&parsed.compressed_listing)?;
     let decompressed_listing_len = decompressed_listing.len() as u32;
     let make_payload = |listing_format, entries, lines| SharedFilesInFolderDecodedPayload {
         directory: directory.clone(),
@@ -3598,6 +3652,9 @@ mod tests {
             ))),
             ProtocolMessage::Server(ServerMessage::SetWaitPort(SetWaitPortPayload {
                 listen_port: 2234,
+            })),
+            ProtocolMessage::Server(ServerMessage::AddChatRoom(AddChatRoomPayload {
+                room: "new-room".into(),
             })),
             ProtocolMessage::Server(ServerMessage::GetPeerAddress(UserLookupPayload {
                 username: "bob".into(),
@@ -3697,6 +3754,12 @@ mod tests {
             })),
             ProtocolMessage::Server(ServerMessage::GetSimilarTerms(SimilarTermsRequestPayload {
                 term: "electronic".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::AddLikeTerm(SimilarTermsRequestPayload {
+                term: "idm".into(),
+            })),
+            ProtocolMessage::Server(ServerMessage::RemoveLikeTerm(SimilarTermsRequestPayload {
+                term: "idm".into(),
             })),
             ProtocolMessage::Server(ServerMessage::GetSimilarTermsResponse(
                 SimilarTermsPayload {
@@ -3849,9 +3912,9 @@ mod tests {
                 room: "private-room".into(),
                 username: "alice".into(),
             })),
-            ProtocolMessage::Server(ServerMessage::SetParentMinSpeed(
-                ParentMinSpeedPayload { min_speed: 1 },
-            )),
+            ProtocolMessage::Server(ServerMessage::SetParentMinSpeed(ParentMinSpeedPayload {
+                min_speed: 1,
+            })),
             ProtocolMessage::Server(ServerMessage::SetParentSpeedConnectionRatio(
                 ParentSpeedConnectionRatioPayload { ratio: 50 },
             )),
@@ -4142,6 +4205,10 @@ mod tests {
     #[test]
     fn room_request_builders_emit_expected_codes() {
         assert_eq!(build_room_list_request().code, CODE_SM_ROOM_LIST);
+        assert_eq!(
+            build_add_chatroom_request("new-room").code,
+            CODE_SM_ADD_CHATROOM
+        );
         assert_eq!(build_join_room_request("nicotine").code, CODE_SM_JOIN_ROOM);
         assert_eq!(
             build_leave_room_request("nicotine").code,
@@ -4202,6 +4269,14 @@ mod tests {
         assert_eq!(
             build_get_similar_terms_request("electronic").code,
             CODE_SM_GET_SIMILAR_TERMS
+        );
+        assert_eq!(
+            build_add_like_term_request("idm").code,
+            CODE_SM_ADD_LIKE_TERM
+        );
+        assert_eq!(
+            build_remove_like_term_request("idm").code,
+            CODE_SM_REMOVE_LIKE_TERM
         );
     }
 
@@ -4281,7 +4356,43 @@ mod tests {
             build_message_users_request(&["alice".to_string(), "bob".to_string()], "hello").code,
             CODE_SM_MESSAGE_USERS
         );
-        assert_eq!(build_upload_speed_request(128_000).code, CODE_SM_UPLOAD_SPEED);
+        assert_eq!(
+            build_upload_speed_request(128_000).code,
+            CODE_SM_UPLOAD_SPEED
+        );
+    }
+
+    #[test]
+    fn s5c_room_term_control_messages_decode_typed_payloads() {
+        let mut add_room_writer = PayloadWriter::new();
+        add_room_writer.write_string("new-room");
+        let add_room_decoded =
+            decode_server_message(CODE_SM_ADD_CHATROOM, &add_room_writer.into_inner())
+                .expect("decode add chatroom");
+        let ServerMessage::AddChatRoom(add_room_payload) = add_room_decoded else {
+            panic!("expected typed add chatroom payload");
+        };
+        assert_eq!(add_room_payload.room, "new-room");
+
+        let mut add_like_writer = PayloadWriter::new();
+        add_like_writer.write_string("idm");
+        let add_like_decoded =
+            decode_server_message(CODE_SM_ADD_LIKE_TERM, &add_like_writer.into_inner())
+                .expect("decode add like term");
+        let ServerMessage::AddLikeTerm(add_like_payload) = add_like_decoded else {
+            panic!("expected typed add-like payload");
+        };
+        assert_eq!(add_like_payload.term, "idm");
+
+        let mut remove_like_writer = PayloadWriter::new();
+        remove_like_writer.write_string("idm");
+        let remove_like_decoded =
+            decode_server_message(CODE_SM_REMOVE_LIKE_TERM, &remove_like_writer.into_inner())
+                .expect("decode remove like term");
+        let ServerMessage::RemoveLikeTerm(remove_like_payload) = remove_like_decoded else {
+            panic!("expected typed remove-like payload");
+        };
+        assert_eq!(remove_like_payload.term, "idm");
     }
 
     #[test]
@@ -4370,12 +4481,14 @@ mod tests {
     #[test]
     fn opaque_server_control_builder_rejects_s5a_typed_codes() {
         for code in [
+            CODE_SM_ADD_CHATROOM,
+            CODE_SM_ADD_LIKE_TERM,
+            CODE_SM_REMOVE_LIKE_TERM,
             CODE_SM_SET_PARENT_MIN_SPEED,
             CODE_SM_SET_PARENT_SPEED_CONNECTION_RATIO,
             CODE_SM_GET_ROOM_TICKER,
         ] {
-            let err =
-                build_opaque_server_control_request(code, &[0x00]).expect_err("must reject");
+            let err = build_opaque_server_control_request(code, &[0x00]).expect_err("must reject");
             assert!(
                 err.to_string()
                     .contains("unsupported opaque server control code")
@@ -4423,7 +4536,10 @@ mod tests {
             SharedFilesInFolderListingFormat::BinaryEntries
         );
         assert_eq!(decoded.entries.len(), 2);
-        assert_eq!(decoded.entries[0].virtual_path, "Music\\\\Album\\\\track01.flac");
+        assert_eq!(
+            decoded.entries[0].virtual_path,
+            "Music\\\\Album\\\\track01.flac"
+        );
         assert!(decoded.lines.is_empty());
     }
 
@@ -4447,7 +4563,10 @@ mod tests {
         let decoded = parse_shared_files_in_folder_payload_decompressed(&frame.payload)
             .expect("decompression-aware parser");
 
-        assert_eq!(decoded.listing_format, SharedFilesInFolderListingFormat::Utf8Lines);
+        assert_eq!(
+            decoded.listing_format,
+            SharedFilesInFolderListingFormat::Utf8Lines
+        );
         assert_eq!(decoded.entries.len(), 0);
         assert_eq!(decoded.lines, vec!["SongA.flac", "SongB.mp3"]);
     }

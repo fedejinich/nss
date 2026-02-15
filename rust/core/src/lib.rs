@@ -1,34 +1,34 @@
 use anyhow::{Context, Result, anyhow, bail};
 use protocol::{
     CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_PEER_ADDRESS, CODE_SM_GET_RECOMMENDATION_USERS,
-    CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_TERM_RECOMMENDATIONS,
-    CODE_SM_GET_ROOM_TICKER, CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_GET_USER_STATS,
-    CODE_SM_GET_USER_STATUS, CODE_SM_LOGIN, CODE_SM_MESSAGE_ACKED, CODE_SM_PRIVILEGED_LIST,
-    CODE_SM_ROOM_LIST, Frame,
+    CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_ROOM_TICKER, CODE_SM_GET_TERM_RECOMMENDATIONS,
+    CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_GET_USER_STATS, CODE_SM_GET_USER_STATUS,
+    CODE_SM_LOGIN, CODE_SM_MESSAGE_ACKED, CODE_SM_PRIVILEGED_LIST, CODE_SM_ROOM_LIST, Frame,
     LoginFailureReason, LoginResponsePayload, MessageAckedPayload, MessageUserIncomingPayload,
     OwnPrivilegesStatusPayload, PeerAddressResponsePayload, PeerMessage, PrivilegedListPayload,
     ProtocolMessage, RecommendationUsersPayload, RecommendationsPayload, RecommendedUsersPayload,
     RoomListPayload, RoomMembersPayload, RoomOperatorsPayload, RoomTickerPayload, ServerMessage,
     SimilarTermsPayload, TermRecommendationsPayload, TransferDirection, TransferRequestPayload,
     TransferResponsePayload, UserPrivilegesStatusPayload, UserRecommendationsPayload,
-    UserStatsResponsePayload, UserStatusResponsePayload, build_add_room_member_request,
-    build_add_room_operator_request, build_ban_user_request, build_connect_to_peer_request,
-    build_file_search_request, build_get_global_recommendations_request,
-    build_get_my_recommendations_request, build_get_own_privileges_status_request,
-    build_get_peer_address_request, build_get_recommendation_users_request,
-    build_get_recommendations_request, build_get_recommended_users_request,
-    build_get_room_ticker_request, build_get_similar_terms_request,
-    build_get_term_recommendations_request, build_get_user_privileges_status_request,
-    build_get_user_recommendations_request, build_get_user_stats_request,
-    build_get_user_status_request, build_give_privilege_request, build_ignore_user_request,
-    build_inform_user_of_privileges_ack_request, build_inform_user_of_privileges_request,
-    build_join_room_request, build_leave_room_request, build_login_request,
-    build_message_user_request, build_message_users_request, build_privileged_list_request,
+    UserStatsResponsePayload, UserStatusResponsePayload, build_add_chatroom_request,
+    build_add_like_term_request, build_add_room_member_request, build_add_room_operator_request,
+    build_ban_user_request, build_connect_to_peer_request, build_file_search_request,
+    build_get_global_recommendations_request, build_get_my_recommendations_request,
+    build_get_own_privileges_status_request, build_get_peer_address_request,
+    build_get_recommendation_users_request, build_get_recommendations_request,
+    build_get_recommended_users_request, build_get_room_ticker_request,
+    build_get_similar_terms_request, build_get_term_recommendations_request,
+    build_get_user_privileges_status_request, build_get_user_recommendations_request,
+    build_get_user_stats_request, build_get_user_status_request, build_give_privilege_request,
+    build_ignore_user_request, build_inform_user_of_privileges_ack_request,
+    build_inform_user_of_privileges_request, build_join_room_request, build_leave_room_request,
+    build_login_request, build_message_user_request, build_message_users_request,
+    build_privileged_list_request, build_remove_like_term_request,
     build_remove_room_member_request, build_remove_room_operator_request, build_room_list_request,
     build_room_members_request, build_room_operators_request, build_say_chatroom,
-    build_upload_speed_request,
-    build_transfer_request, build_unignore_user_request, decode_peer_message,
-    decode_server_message, encode_peer_message, encode_server_message, split_first_frame,
+    build_transfer_request, build_unignore_user_request, build_upload_speed_request,
+    decode_peer_message, decode_server_message, encode_peer_message, encode_server_message,
+    split_first_frame,
 };
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
@@ -226,6 +226,12 @@ impl SessionClient {
     pub async fn join_room(&mut self, room: &str) -> Result<()> {
         self.ensure_logged_in()?;
         let frame = build_join_room_request(room);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn add_chatroom(&mut self, room: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_add_chatroom_request(room);
         write_frame(self.stream_mut()?, &frame).await
     }
 
@@ -764,6 +770,18 @@ impl SessionClient {
         }
 
         bail!("timed out waiting for similar terms response")
+    }
+
+    pub async fn add_like_term(&mut self, term: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_add_like_term_request(term);
+        write_frame(self.stream_mut()?, &frame).await
+    }
+
+    pub async fn remove_like_term(&mut self, term: &str) -> Result<()> {
+        self.ensure_logged_in()?;
+        let frame = build_remove_like_term_request(term);
+        write_frame(self.stream_mut()?, &frame).await
     }
 
     pub async fn get_privileged_list(
@@ -1456,28 +1474,27 @@ impl UploadAgent {
 mod tests {
     use super::*;
     use protocol::{
-        CODE_SM_ADD_ROOM_MEMBER, CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_BAN_USER,
-        CODE_SM_CONNECT_TO_PEER, CODE_SM_FILE_SEARCH, CODE_SM_GET_GLOBAL_RECOMMENDATIONS,
-        CODE_SM_GET_MY_RECOMMENDATIONS, CODE_SM_GET_OWN_PRIVILEGES_STATUS,
-        CODE_SM_GET_PEER_ADDRESS, CODE_SM_GET_RECOMMENDATION_USERS, CODE_SM_GET_RECOMMENDATIONS,
+        CODE_SM_ADD_CHATROOM, CODE_SM_ADD_LIKE_TERM, CODE_SM_ADD_ROOM_MEMBER,
+        CODE_SM_ADD_ROOM_OPERATOR, CODE_SM_BAN_USER, CODE_SM_CONNECT_TO_PEER, CODE_SM_FILE_SEARCH,
+        CODE_SM_GET_GLOBAL_RECOMMENDATIONS, CODE_SM_GET_MY_RECOMMENDATIONS,
+        CODE_SM_GET_OWN_PRIVILEGES_STATUS, CODE_SM_GET_PEER_ADDRESS,
+        CODE_SM_GET_RECOMMENDATION_USERS, CODE_SM_GET_RECOMMENDATIONS,
         CODE_SM_GET_RECOMMENDED_USERS, CODE_SM_GET_ROOM_TICKER, CODE_SM_GET_SIMILAR_TERMS,
-        CODE_SM_GET_TERM_RECOMMENDATIONS,
-        CODE_SM_GET_USER_PRIVILEGES_STATUS, CODE_SM_GET_USER_RECOMMENDATIONS,
-        CODE_SM_GET_USER_STATS, CODE_SM_GET_USER_STATUS, CODE_SM_GIVE_PRIVILEGE,
-        CODE_SM_IGNORE_USER, CODE_SM_INFORM_USER_OF_PRIVILEGES,
+        CODE_SM_GET_TERM_RECOMMENDATIONS, CODE_SM_GET_USER_PRIVILEGES_STATUS,
+        CODE_SM_GET_USER_RECOMMENDATIONS, CODE_SM_GET_USER_STATS, CODE_SM_GET_USER_STATUS,
+        CODE_SM_GIVE_PRIVILEGE, CODE_SM_IGNORE_USER, CODE_SM_INFORM_USER_OF_PRIVILEGES,
         CODE_SM_INFORM_USER_OF_PRIVILEGES_ACK, CODE_SM_JOIN_ROOM, CODE_SM_LEAVE_ROOM,
         CODE_SM_LOGIN, CODE_SM_MESSAGE_USER, CODE_SM_MESSAGE_USERS, CODE_SM_PRIVILEGED_LIST,
-        CODE_SM_REMOVE_ROOM_MEMBER, CODE_SM_REMOVE_ROOM_OPERATOR, CODE_SM_ROOM_LIST,
-        CODE_SM_UNIGNORE_USER, CODE_SM_UPLOAD_SPEED, JoinRoomPayload, LoginResponsePayload,
-        LoginResponseSuccessPayload,
-        MessageUserIncomingPayload, OwnPrivilegesStatusPayload, PeerAddressResponsePayload,
-        PrivilegedListPayload, RecommendationEntry, RecommendationUsersPayload,
-        RecommendationsPayload, RecommendedUsersPayload, RoomListPayload, RoomPresenceEventPayload,
-        RoomTickerEntry, RoomTickerPayload, ServerMessage, SimilarTermsPayload,
-        SimilarTermsRequestPayload, SpeedPayload, TermRecommendationsPayload,
-        UserPrivilegesStatusPayload, UserRecommendationsPayload, UserStatsResponsePayload,
-        UserStatusResponsePayload, encode_server_message, parse_transfer_request,
-        parse_transfer_response,
+        CODE_SM_REMOVE_LIKE_TERM, CODE_SM_REMOVE_ROOM_MEMBER, CODE_SM_REMOVE_ROOM_OPERATOR,
+        CODE_SM_ROOM_LIST, CODE_SM_UNIGNORE_USER, CODE_SM_UPLOAD_SPEED, JoinRoomPayload,
+        LoginResponsePayload, LoginResponseSuccessPayload, MessageUserIncomingPayload,
+        OwnPrivilegesStatusPayload, PeerAddressResponsePayload, PrivilegedListPayload,
+        RecommendationEntry, RecommendationUsersPayload, RecommendationsPayload,
+        RecommendedUsersPayload, RoomListPayload, RoomPresenceEventPayload, RoomTickerEntry,
+        RoomTickerPayload, ServerMessage, SimilarTermsPayload, SimilarTermsRequestPayload,
+        SpeedPayload, TermRecommendationsPayload, UserPrivilegesStatusPayload,
+        UserRecommendationsPayload, UserStatsResponsePayload, UserStatusResponsePayload,
+        encode_server_message, parse_transfer_request, parse_transfer_response,
     };
 
     fn login_success_frame() -> Frame {
@@ -2092,6 +2109,49 @@ mod tests {
         assert_eq!(remove_member, CODE_SM_REMOVE_ROOM_MEMBER);
         assert_eq!(add_operator, CODE_SM_ADD_ROOM_OPERATOR);
         assert_eq!(remove_operator, CODE_SM_REMOVE_ROOM_OPERATOR);
+    }
+
+    #[tokio::test]
+    async fn room_and_term_control_operations_send_expected_codes() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let _login = read_frame(&mut socket).await.expect("login frame");
+            write_frame(&mut socket, &login_success_frame())
+                .await
+                .expect("write login success");
+
+            let add_chatroom = read_frame(&mut socket).await.expect("add chatroom");
+            let add_like_term = read_frame(&mut socket).await.expect("add like term");
+            let remove_like_term = read_frame(&mut socket).await.expect("remove like term");
+            (add_chatroom.code, add_like_term.code, remove_like_term.code)
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect("login");
+        client.add_chatroom("neo-room").await.expect("add chatroom");
+        client.add_like_term("idm").await.expect("add like term");
+        client
+            .remove_like_term("idm")
+            .await
+            .expect("remove like term");
+
+        let (add_chatroom, add_like_term, remove_like_term) = server.await.expect("server task");
+        assert_eq!(add_chatroom, CODE_SM_ADD_CHATROOM);
+        assert_eq!(add_like_term, CODE_SM_ADD_LIKE_TERM);
+        assert_eq!(remove_like_term, CODE_SM_REMOVE_LIKE_TERM);
     }
 
     #[tokio::test]
