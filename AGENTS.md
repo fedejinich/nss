@@ -75,13 +75,27 @@ When a stage closes (for example S3A, S3B):
 
 ## PR Review Loop Discipline
 
-For each stage branch/PR, run two Codex review loops before final merge:
+For each stage branch/PR, run two local review loops before final merge (without `@codex review` calls):
 
-1. Open/update PR and comment `@codex review`.
-2. Wait for review output, apply useful fixes, and resolve comments.
-3. For discarded suggestions, reply with concise rationale and resolve the thread.
-4. Repeat steps 1-3 a second time after pushing round-one updates.
-5. Merge only after both review loops are complete and validation gates are green.
+1. Open/update PR and run review loop round 1:
+   - security best-practices review on touched paths
+   - code-simplifier pass on touched Rust files
+2. Apply useful fixes and document rationale for rejected suggestions in the PR notes.
+3. Run review loop round 2 after round-one updates are pushed.
+4. Merge only after both local review loops are complete and validation gates are green.
+
+## Mandatory Review Passes Per Stage PR
+
+Before opening each stage PR, run two additional code-review passes on touched code:
+
+1. Security best-practices pass:
+   - perform a security-focused review of touched runtime/protocol/core/cli paths
+   - explicitly check input parsing assumptions, panic/unwrap usage in production paths, and sensitive-data handling
+2. Code simplifier pass:
+   - run a maintainability-focused simplification pass on touched Rust files
+   - remove avoidable duplication/complexity while preserving exact behavior
+
+Record both passes in the stage PR document under `docs/pr/`.
 
 ## Branch Start Discipline
 

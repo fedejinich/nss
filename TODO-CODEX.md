@@ -1265,3 +1265,107 @@ Notes:
   - `./.venv-tools/bin/zensical build -f zensical.toml`
 - Protocol matrix snapshot after S4K: tracked `131`, implemented+mapped `91`, mapped-not-implemented `40`, missing `0`.
 - Review-loop gate completed on PR #14 with two `@codex review` requests; connector returned usage-limit notices and no actionable findings in both rounds.
+
+## Stage 4L - mapped-not-implemented closure to full protocol coverage
+
+Dependency graph:
+
+- `S4L-W01 -> S4L-W02`
+- `S4L-W02 -> S4L-T01`
+- `S4L-T01 -> S4L-T02`
+- `S4L-T02 -> S4L-T03`
+- `S4L-T03 -> S4L-T04`
+- `S4L-T04 -> S4L-T05`
+- `S4L-T05 -> S4L-T06`
+- `S4L-T06 -> S4L-R01`
+- `S4L-R01 -> S4L-Q01`
+- `S4L-Q01 -> S4L-Q02`
+- `S4L-Q02 -> S4L-Q03`
+- `S4L-Q03 -> S4L-Q04`
+- `S4L-Q04 -> S4L-T07`
+
+Tasks:
+
+- id: S4L-W01
+  description: Start from updated main and create branch `codex/s4l-mapped-not-implemented-closure`
+  status: done
+  depends_on: []
+
+- id: S4L-W02
+  description: Verify commit signing config is active before first stage push
+  status: done
+  depends_on: [S4L-W01]
+
+- id: S4L-T01
+  description: Resolve authoritative code/evidence set for all remaining mapped-not-implemented rows (40)
+  status: done
+  depends_on: [S4L-W02]
+
+- id: S4L-T02
+  description: Implement `rust/protocol` constants and decode/encode support for all remaining mapped-not-implemented server messages
+  status: done
+  depends_on: [S4L-T01]
+
+- id: S4L-T03
+  description: Add protocol regression tests covering closure-set decode/encode behavior
+  status: done
+  depends_on: [S4L-T02]
+
+- id: S4L-T04
+  description: Regenerate schema/docs/matrix and sync KB artifacts (`message_schema`, `message-schema`, `detangling`, `evidence-ledger`)
+  status: done
+  depends_on: [S4L-T03]
+
+- id: S4L-T05
+  description: Update stage/state docs (`project-status`, `verification-status`, `decompilation-status`, `roadmap`, `protocol-backlog`) for full implemented+mapped closure
+  status: done
+  depends_on: [S4L-T04]
+
+- id: S4L-T06
+  description: Run validation gates (`kb_validate`, diff verify semantic, regression, zensical build)
+  status: done
+  depends_on: [S4L-T05]
+
+- id: S4L-R01
+  description: Publish stage PR document under `docs/pr/0016-s4l-mapped-not-implemented-closure.md`
+  status: done
+  depends_on: [S4L-T06]
+
+- id: S4L-Q01
+  description: Open S4L PR and complete local review loop round 1 (security pass + code-simplifier pass)
+  status: todo
+  depends_on: [S4L-R01]
+
+- id: S4L-Q02
+  description: Triage round-1 findings, apply useful fixes, and document rationale for non-applied suggestions
+  status: todo
+  depends_on: [S4L-Q01]
+
+- id: S4L-Q03
+  description: Complete local review loop round 2 after pushing round-one updates
+  status: todo
+  depends_on: [S4L-Q02]
+
+- id: S4L-Q04
+  description: Triage round-2 findings, apply or dismiss with rationale, and finalize review notes
+  status: todo
+  depends_on: [S4L-Q03]
+
+- id: S4L-T07
+  description: Finalize merge-ready stage closure and sync TODO statuses
+  status: todo
+  depends_on: [S4L-Q04]
+
+Notes:
+
+- S4L target in this iteration: close all remaining `mapped_not_implemented` rows so the protocol matrix reaches `implemented+mapped=131`, `mapped_not_implemented=0`, `missing=0`.
+- For uncertain runtime-shape payloads, preserve correctness with explicit opaque decode/encode while keeping code-based traceability.
+- Commit signing configuration check passed before first push (`commit.gpgsign=true`, `user.signingkey=/Users/void_rsk/.ssh/nss_signing_ed25519.pub`).
+- Security review pass completed on touched protocol/verify paths; no secret-handling or unsafe-path regressions found.
+- Code-simplifier pass completed by extracting shared `OPAQUE_SERVER_CONTROL_CODES` to remove duplicate control-code lists.
+- Validation gates passed:
+  - `python3 scripts/kb_validate.py`
+  - `scripts/run_diff_verify.sh`
+  - `scripts/run_regression.sh`
+  - `./.venv-tools/bin/zensical build -f zensical.toml`
+- Workflow update: `@codex review` dependency removed from PR loop due availability constraints; stage review loops now run locally (security + simplifier).
