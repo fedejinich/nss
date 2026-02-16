@@ -1,5 +1,77 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## H1-H9 - Cross-Mac Handoff for S9A-NEXT Hardwall Continuation
+
+Dependency graph:
+
+- `H1 -> H2`
+- `H1 -> H3`
+- `H1 -> H4`
+- `H2 -> H5`
+- `H3 -> H6`
+- `H4 -> H6`
+- `H5 -> H7`
+- `H6 -> H7`
+- `H7 -> H8`
+- `H8 -> H9`
+
+Tasks:
+
+- id: H1
+  description: Freeze source-Mac session state and record checkpoint metadata
+  status: done
+  depends_on: []
+
+- id: H2
+  description: Create WIP handoff checkpoint on codex/s9a-next-live-flim-closure and push to origin
+  status: done
+  depends_on: [H1]
+
+- id: H3
+  description: Export ignored runtime artifacts (hardwall logs) into sidecar tarball
+  status: done
+  depends_on: [H1]
+
+- id: H4
+  description: Prepare secure out-of-band secret transfer for .env.local and enforce restrictive file mode
+  status: in_progress
+  depends_on: [H1]
+
+- id: H5
+  description: Validate destination clone/checkout workflow against pushed handoff branch
+  status: done
+  depends_on: [H2]
+
+- id: H6
+  description: Validate sidecar restoration workflow for logs and env placement on destination layout
+  status: done
+  depends_on: [H3, H4]
+
+- id: H7
+  description: Run parity checks (grep + targeted soul-core tests + soul-cli build) in clean clone
+  status: done
+  depends_on: [H5, H6]
+
+- id: H8
+  description: Prepare pinned Codex resume prompt and destination bootstrap command pack
+  status: done
+  depends_on: [H7]
+
+- id: H9
+  description: Execute first post-handoff official capture rerun and diff verification on new Mac
+  status: todo
+  depends_on: [H8]
+
+Handoff artifacts and checkpoint (2026-02-16):
+
+- branch: `codex/s9a-next-live-flim-closure`
+- handoff commit: branch HEAD at transfer time (`git rev-parse --short HEAD`)
+- sidecar bundle: `/tmp/nss-handoff-artifacts.tgz`
+- sidecar checksum (sha256): `45b2d4b159f60b350f73ea4a147c10694203d6dd081293523508816c65129e9e`
+- checkpoint metadata: `/tmp/nss-handoff-manifest.json`
+- resume prompt: `/tmp/nss-codex-resume-prompt.txt`
+- destination bootstrap script: `/tmp/nss-handoff-destination-commands.sh`
+
 ## S9A-NEXT - Real Search Path Fix for Flim E2E and TUI Readiness
 
 Dependency graph:
