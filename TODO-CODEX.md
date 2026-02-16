@@ -65,7 +65,7 @@ Tasks:
 Handoff artifacts and checkpoint (2026-02-16):
 
 - branch: `codex/s9a-next-live-flim-closure`
-- handoff commit: `a054833`
+- handoff commit: `ded268f`
 - sidecar bundle: `/tmp/nss-handoff-artifacts.tgz`
 - sidecar checksum (sha256): `45b2d4b159f60b350f73ea4a147c10694203d6dd081293523508816c65129e9e`
 - checkpoint metadata: `/tmp/nss-handoff-manifest.json`
