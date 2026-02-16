@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 EXAMPLE_FILE="${ROOT_DIR}/.env.example"
 ENV_FILE="${ROOT_DIR}/.env.local"
 
-default_server="server.slsknet.org:2242"
+default_server="server.slsknet.org:2416"
 if [ -f "${EXAMPLE_FILE}" ]; then
   example_server="$(awk -F= '/^NSS_TEST_SERVER=/{print $2}' "${EXAMPLE_FILE}" | tail -n1)"
   if [ -n "${example_server:-}" ]; then

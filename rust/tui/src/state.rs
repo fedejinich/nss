@@ -51,7 +51,7 @@ impl Default for PersistedAppStateV1 {
     fn default() -> Self {
         Self {
             schema_version: PERSISTED_STATE_VERSION,
-            server: "server.slsknet.org:2242".to_string(),
+            server: "server.slsknet.org:2416".to_string(),
             username: String::new(),
             password: String::new(),
             last_query: "aphex twin".to_string(),

@@ -1,5 +1,107 @@
 # TODO Execution Plan - NeoSoulSeek
 
+## S9A-NEXT - Real Search Path Fix for Flim E2E and TUI Readiness
+
+Dependency graph:
+
+- `S9A-NEXT-T01 -> S9A-NEXT-T02`
+- `S9A-NEXT-T02 -> S9A-NEXT-T03`
+- `S9A-NEXT-T03 -> S9A-NEXT-T04`
+- `S9A-NEXT-T04 -> S9A-NEXT-T05`
+- `S9A-NEXT-T05 -> S9A-NEXT-T06`
+- `S9A-NEXT-T06 -> S9A-NEXT-T07`
+- `S9A-NEXT-T07 -> S9A-NEXT-T08`
+- `S9A-NEXT-T08 -> S9A-NEXT-T09`
+- `S9A-NEXT-T09 -> S9A-NEXT-T10`
+- `S9A-NEXT-T10 -> S9A-NEXT-T11`
+- `S9A-NEXT-T11 -> S9A-NEXT-T12`
+
+Tasks:
+
+- id: S9A-NEXT-T01
+  description: Start from updated main, create branch codex/s9a-next-flim-e2e-search-fix, persist S9A-NEXT stage plan
+  status: done
+  depends_on: []
+
+- id: S9A-NEXT-T02
+  description: Add runtime probe fixture for code 18 and validate ConnectToPeer IP endianness using reachability checks
+  status: done
+  depends_on: [S9A-NEXT-T01]
+
+- id: S9A-NEXT-T03
+  description: Fix protocol decode for ConnectToPeer IP and strict room-list parsing for code 64 disambiguation
+  status: done
+  depends_on: [S9A-NEXT-T02]
+
+- id: S9A-NEXT-T04
+  description: Implement typed PM_SEND_CONNECT_TOKEN payload/builder and extend PM_FILE_SEARCH_RESULT decode with typed file entries plus compatibility tail handling
+  status: done
+  depends_on: [S9A-NEXT-T03]
+
+- id: S9A-NEXT-T05
+  description: Implement distributed peer-search fallback in soul-core and unify candidate extraction for download-auto
+  status: done
+  depends_on: [S9A-NEXT-T04]
+
+- id: S9A-NEXT-T06
+  description: Add CLI flags --search-mode and --strict-track and wire source tagging in output
+  status: done
+  depends_on: [S9A-NEXT-T05]
+
+- id: S9A-NEXT-T07
+  description: Wire TUI search/download flow to auto fallback with explicit user-facing progress and failure logs
+  status: done
+  depends_on: [S9A-NEXT-T06]
+
+- id: S9A-NEXT-T08
+  description: Add protocol and core regression tests for distributed search, peer result parsing, and flim-oriented candidate ranking
+  status: done
+  depends_on: [S9A-NEXT-T07]
+
+- id: S9A-NEXT-T09
+  description: Execute live E2E with fede_test1234/fede1234 against server.slsknet.org:2416 and require downloaded bytes greater than zero
+  status: in_progress
+  depends_on: [S9A-NEXT-T08]
+
+- id: S9A-NEXT-T10
+  description: Capture and redact runtime evidence for successful flim flow and sync ledger/status artifacts
+  status: todo
+  depends_on: [S9A-NEXT-T09]
+
+- id: S9A-NEXT-T11
+  description: Run gates kb_validate, diff_verify, regression, and zensical build
+  status: todo
+  depends_on: [S9A-NEXT-T10]
+
+- id: S9A-NEXT-T12
+  description: Open PR, run mandatory blocking reviews, apply fixes, and merge
+  status: todo
+  depends_on: [S9A-NEXT-T11]
+
+## S9A-LIVE-FLIM - Live Login + Download Proof Test
+
+Dependency graph:
+
+- `S9A-LIVE-FLIM-T01 -> S9A-LIVE-FLIM-T02`
+- `S9A-LIVE-FLIM-T02 -> S9A-LIVE-FLIM-T03`
+
+Tasks:
+
+- id: S9A-LIVE-FLIM-T01
+  description: Add opt-in live integration test for login and download-auto flow targeting query "aphex twin flim"
+  status: done
+  depends_on: []
+
+- id: S9A-LIVE-FLIM-T02
+  description: Add runnable wrapper script to execute the live test with user-provided credentials and output path
+  status: done
+  depends_on: [S9A-LIVE-FLIM-T01]
+
+- id: S9A-LIVE-FLIM-T03
+  description: Run the live test with provided credentials and record pass/fail evidence for TUI validation
+  status: in_progress
+  depends_on: [S9A-LIVE-FLIM-T02]
+
 ## S9A-HF - Login Error Clarity + TUI Diagnostics Wizard
 
 Dependency graph:
@@ -29,7 +131,6 @@ Tasks:
   description: Update README and TUI runbook with diagnostics usage and new login failure guidance
   status: done
   depends_on: [S9A-HF-T03]
-
 ## S9 - TUI First, then Swift GUI, then Next Web
 
 Dependency graph:

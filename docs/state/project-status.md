@@ -2,7 +2,7 @@
 
 ## Date
 
-- 2026-02-15
+- 2026-02-16
 
 ## Current Phase
 
@@ -44,6 +44,7 @@
 - Stage 8B complete: minimal TUI v1 is operational for login, query edit, search, selection, and download orchestration.
 - Stage 8C complete: capability-first release hardening closure is complete (`redaction`, `packaging`, `recovery runbooks`, `closure checklist/audit`).
 - Stage 9A complete: TUI-first simplification and persistence hardening landed (`login modal gate`, `retro-orange UX`, `downloads history toggle/clear`, `startup recovery`).
+- Stage 9A-NEXT in progress: real transfer-path hardening for `Flim` E2E (`transfer-request/queue handshake tightening`, `runtime diagnostics`, `queue-grant token propagation`).
 - Stage 9B planned: SwiftUI macOS GUI MVP on top of `soul-cli` JSON mode.
 - Stage 9C planned: Next.js web GUI MVP on top of `soul-cli` JSON mode.
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
@@ -52,15 +53,17 @@
 
 Current long-session objective:
 
-1. Start S9B SwiftUI macOS GUI MVP on top of the closed S9A TUI baseline.
-2. Keep S9C Next.js web MVP queued with the same semantics and shared CLI JSON contract.
+1. Close S9A-NEXT live `Flim` download (`bytes_written > 0`) using runtime transfer-path fixes.
+2. Start S9B SwiftUI macOS GUI MVP on top of the closed S9A baseline after S9A-NEXT closure.
+3. Keep S9C Next.js web MVP queued with the same semantics and shared CLI JSON contract.
 
 Current capability chain:
 
 1. `CAP-TUI-S9A-SIMPLIFIED`
-2. `CAP-CLI-JSON-MVP`
-3. `CAP-SWIFT-GUI-MVP`
-4. `CAP-NEXT-GUI-MVP`
+2. `CAP-S9A-NEXT-LIVE-FLIM`
+3. `CAP-CLI-JSON-MVP`
+4. `CAP-SWIFT-GUI-MVP`
+5. `CAP-NEXT-GUI-MVP`
 
 Execution rule:
 

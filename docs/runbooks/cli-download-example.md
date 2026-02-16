@@ -140,3 +140,45 @@ Notes:
 
 - Real-network success depends on peer availability, queue policy, and transfer permission.
 - For stable checks, prefer deterministic local peer mode (`--peer 127.0.0.1:2242 --skip-connect-probe`).
+
+## Option D: Live Login + "Flim" Download Proof Test (Opt-in)
+
+Use the dedicated script to validate live login and the orchestrated `download-auto` path for `aphex twin flim`.
+
+```bash
+scripts/test_live_login_download_flim.sh <username> <password>
+```
+
+Default behavior:
+
+- server: `server.slsknet.org:2416`
+- query: `aphex twin flim`
+- result index: `0`
+- file index: `0`
+- output: `tmp/live-downloads/flim-<timestamp>.bin`
+
+Optional overrides:
+
+```bash
+NSS_TEST_SERVER=server.slsknet.org:2416 \
+NSS_TEST_QUERY="aphex twin flim" \
+NSS_TEST_RESULT_INDEX=0 \
+NSS_TEST_FILE_INDEX=0 \
+NSS_TEST_OUTPUT_PATH=/tmp/flim.bin \
+scripts/test_live_login_download_flim.sh <username> <password>
+```
+
+Runtime diagnostics knobs (useful while S9A-NEXT transfer closure is in progress):
+
+```bash
+NSS_MAX_CANDIDATE_ATTEMPTS=6 \
+NSS_QUEUE_WAIT_SECS=180 \
+NSS_DEBUG_TRANSFER=1 \
+cargo run -q -p soul-cli -- session download-auto ...
+```
+
+Notes:
+
+- `NSS_MAX_CANDIDATE_ATTEMPTS` limits distributed peer attempts per run.
+- `NSS_QUEUE_WAIT_SECS` keeps queued transfer requests open waiting for peer grant.
+- `NSS_DEBUG_TRANSFER=1` prints transfer-path diagnostics for runtime triage.

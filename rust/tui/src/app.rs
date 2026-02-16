@@ -5,7 +5,8 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use protocol::ServerMessage;
 use soul_core::{
-    Credentials, SearchSelectDownloadRequest, SessionClient, SessionState, probe_login_versions,
+    probe_login_versions, Credentials, SearchMode, SearchResultSource,
+    SearchSelectDownloadRequest, SessionClient, SessionState,
 };
 
 use crate::state::{
@@ -21,6 +22,8 @@ pub struct SearchRow {
     pub username: String,
     pub file_path: String,
     pub file_size: u64,
+    pub peer_addr: Option<String>,
+    pub source: SearchResultSource,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -93,6 +96,12 @@ impl App {
     pub fn bootstrap() -> anyhow::Result<Self> {
         let mut state = storage::load_state()?;
         let mut changed = false;
+
+        // Migrate legacy default server port to current production default.
+        if state.server.trim() == "server.slsknet.org:2242" {
+            state.server = "server.slsknet.org:2416".to_string();
+            changed = true;
+        }
 
         if let Ok(server) = env::var("NSS_TEST_SERVER") {
             state.server = server;
@@ -256,35 +265,47 @@ impl App {
             }
         };
 
+        self.push_log("Trying server summary...");
         let response = client
-            .search_and_collect(
+            .search_collect_candidates(
                 self.transfer_token,
                 &self.state.last_query,
                 Duration::from_secs(6),
                 32,
+                SearchMode::Auto,
+                None,
+                "P",
             )
             .await;
 
         match response {
-            Ok(messages) => {
+            Ok(candidates) => {
                 self.results.clear();
-                for message in messages {
-                    if let ServerMessage::FileSearchResponseSummary(summary) = message {
-                        for file in summary.files {
-                            self.results.push(SearchRow {
-                                username: summary.username.clone(),
-                                file_path: file.file_path,
-                                file_size: file.file_size,
-                            });
-                        }
-                    }
+                let used_distributed = candidates
+                    .iter()
+                    .any(|candidate| candidate.source == SearchResultSource::DistributedPeer);
+                if used_distributed {
+                    self.push_log("Falling back to distributed peers...");
+                }
+                for candidate in candidates {
+                    self.results.push(SearchRow {
+                        username: candidate.username,
+                        file_path: candidate.file_path,
+                        file_size: candidate.file_size,
+                        peer_addr: candidate.peer_addr,
+                        source: candidate.source,
+                    });
                 }
                 self.selected_result = 0;
-                self.push_log(format!(
-                    "Search ok: query='{}' rows={}",
-                    self.state.last_query,
-                    self.results.len()
-                ));
+                if self.results.is_empty() {
+                    self.push_log("No matching track found for query.");
+                } else {
+                    self.push_log(format!(
+                        "Search ok: query='{}' rows={}",
+                        self.state.last_query,
+                        self.results.len()
+                    ));
+                }
             }
             Err(err) => {
                 self.push_log(format!("Search failed: {err}"));
@@ -336,6 +357,10 @@ impl App {
 
         let safe_name = selected.file_path.replace('\\', "_").replace('/', "_");
         let output_path = self.output_dir.join(format!("download-auto-{safe_name}"));
+        let wait_port = std::env::var("NSS_WAIT_PORT")
+            .ok()
+            .and_then(|value| value.parse::<u16>().ok())
+            .or(Some(50036));
         let request = SearchSelectDownloadRequest {
             search_token: self.transfer_token,
             query: self.state.last_query.clone(),
@@ -345,10 +370,17 @@ impl App {
             file_index: 0,
             transfer_token: self.transfer_token,
             output_path,
-            peer_addr_override: None,
+            peer_addr_override: selected.peer_addr.clone(),
             peer_lookup_timeout: Duration::from_secs(5),
             connection_type: "P".to_string(),
+            wait_port,
             skip_connect_probe: false,
+            search_mode: if selected.source == SearchResultSource::DistributedPeer {
+                SearchMode::Distributed
+            } else {
+                SearchMode::Auto
+            },
+            strict_track: None,
         };
 
         match client.search_select_and_download(&request).await {

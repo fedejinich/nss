@@ -267,8 +267,14 @@ fn results_widget(app: &App) -> List<'static> {
                     Style::default().fg(COLOR_TEXT)
                 };
                 let text = format!(
-                    "{marker} {} | {} | {} bytes",
-                    row.username, row.file_path, row.file_size
+                    "{marker} [{}] {} | {} | {} bytes",
+                    match row.source {
+                        soul_core::SearchResultSource::ServerSummary => "summary",
+                        soul_core::SearchResultSource::DistributedPeer => "distributed",
+                    },
+                    row.username,
+                    row.file_path,
+                    row.file_size
                 );
                 ListItem::new(Line::from(Span::styled(text, style)))
             })
