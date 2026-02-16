@@ -32,3 +32,24 @@ Project-level evidence summaries and provenance tracking.
 - `captures/redacted/login-global-room-control/official_frames.hex`
 - `captures/redacted/login-peer-message/official_frames.hex`
 - `captures/redacted/peer-static-runtime/official_frames.hex`
+
+## S9A-NEXT Runtime Transfer Diagnostics (In Progress)
+
+- Date: `2026-02-16`
+- Environment:
+  - Server: `server.slsknet.org:2416`
+  - Account: local-only test credential (`fede_test1234`)
+  - Query: `aphex twin flim`
+- Commands executed:
+  - `cargo run -q -p soul-cli -- session search ... --search-mode distributed`
+  - `cargo run -q -p soul-cli -- session download-auto ... --search-mode distributed --strict-track flim`
+  - `NSS_DEBUG_TRANSFER=1` and `NSS_QUEUE_WAIT_SECS=180` diagnostic runs
+- Runtime findings:
+  - Distributed search consistently resolves `Flim` candidates (multiple peers and paths).
+  - `PM_TRANSFER_REQUEST` request path works and peers typically respond `Queued`.
+  - Queue wait can emit follow-up peer frames (`code=40` grant observed in one run; `code=50`/`code=46` denial variants also observed).
+  - Denial reason is consistently `File not shared.` across queue and transfer follow-ups for current candidate set.
+  - No successful payload transfer yet (`bytes_written > 0` still pending).
+- Current conclusion:
+  - Search-path and candidate discovery are live.
+  - Inbound/queue transfer contract is partially validated at runtime but still not closed for successful byte transfer under current public peer set.

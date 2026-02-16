@@ -4,6 +4,16 @@
 
 Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, Stage 6E dedicated legacy opaque reduction, Stage 6F dedicated residual semantic closure, Stage 7 runtime/semantic strict-closure gates, Stage 8 dashboard/TUI rollout gates, and Stage 9 TUI-first simplification gates.
 
+## Stage 9A-NEXT Runtime Gate (Current)
+
+- Target: authenticated `Flim` live E2E with `bytes_written > 0`.
+- Server/account under validation: `server.slsknet.org:2416` with local test credential.
+- Current runtime signal:
+  - distributed search returns live `Flim` candidates,
+  - transfer request path is active (`Queued` and runtime follow-up frames observed),
+  - transfer completion is still blocked by runtime peer denials (`File not shared`) / queue behavior.
+- Current status: **in progress** (gate not closed yet).
+
 ## Validation Gates
 
 ### KB validation

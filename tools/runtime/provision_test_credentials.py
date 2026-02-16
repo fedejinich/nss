@@ -39,7 +39,7 @@ def require_server(cli_server: str) -> str:
     env_server = os.environ.get("NSS_TEST_SERVER", "").strip()
     if env_server:
         return env_server
-    return "server.slsknet.org:2242"
+    return "server.slsknet.org:2416"
 
 
 def random_username() -> str:

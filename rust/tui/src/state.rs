@@ -51,7 +51,7 @@ impl Default for PersistedAppStateV1 {
     fn default() -> Self {
         Self {
             schema_version: PERSISTED_STATE_VERSION,
-            server: "server.slsknet.org:2242".to_string(),
+            server: "server.slsknet.org:2416".to_string(),
             username: String::new(),
             password: String::new(),
             last_query: "aphex twin".to_string(),
@@ -62,7 +62,10 @@ impl Default for PersistedAppStateV1 {
     }
 }
 
-pub fn recover_in_progress_downloads(entries: &mut [PersistedDownloadEntry], now_unix_secs: i64) -> bool {
+pub fn recover_in_progress_downloads(
+    entries: &mut [PersistedDownloadEntry],
+    now_unix_secs: i64,
+) -> bool {
     let mut changed = false;
     for entry in entries {
         if entry.status == PersistedDownloadStatus::InProgress {

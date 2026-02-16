@@ -933,10 +933,20 @@ pub struct FileSearchRequestPayload {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PeerSearchResultFile {
+    pub file_path: String,
+    pub file_size: u64,
+    pub extension: String,
+    pub attr_count: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct FileSearchResultPayload {
     pub token: u32,
     pub username: String,
     pub result_count: u32,
+    pub files: Vec<PeerSearchResultFile>,
+    pub extension_tail: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1048,6 +1058,12 @@ pub struct PeerVirtualPathPayload {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PeerQueuedDownloadsPayload {
     pub virtual_paths: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SendConnectTokenPayload {
+    pub username: String,
+    pub token: u32,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1197,7 +1213,7 @@ pub enum PeerMessage {
     CancelledQueuedTransfer(PeerVirtualPathPayload),
     UserInfoRequest(UserInfoRequestPayload),
     UserInfoReply(UserInfoReplyPayload),
-    SendConnectToken(OpaquePayload),
+    SendConnectToken(SendConnectTokenPayload),
     MoveDownloadToTop(PeerVirtualPathPayload),
     TransferRequest(TransferRequestPayload),
     TransferResponse(TransferResponsePayload),
@@ -1431,7 +1447,10 @@ fn parse_child_parent_map_payload(payload: &[u8]) -> Result<ChildParentMapPayloa
     }
 
     let extension_reserved_bytes = reader.read_remaining_bytes();
-    Ok(ChildParentMapPayload { mappings, extension_reserved_bytes })
+    Ok(ChildParentMapPayload {
+        mappings,
+        extension_reserved_bytes,
+    })
 }
 
 fn parse_dnet_message_payload(payload: &[u8]) -> Result<DnetMessagePayload> {
@@ -1554,12 +1573,19 @@ fn parse_room_operatorship_revocation_payload(payload: &[u8]) -> RoomOperatorshi
     };
     let extension_reserved_bytes = reader.read_remaining_bytes();
 
-    RoomOperatorshipRevocationPayload { room, extension_reserved_bytes }
+    RoomOperatorshipRevocationPayload {
+        room,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_level_payload(payload: &[u8]) -> DnetLevelPayload {
-    let (level, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
-    DnetLevelPayload { level, extension_reserved_bytes }
+    let (level, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetLevelPayload {
+        level,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
@@ -1577,21 +1603,33 @@ fn parse_dnet_group_leader_payload(payload: &[u8]) -> DnetGroupLeaderPayload {
         None
     };
     let extension_reserved_bytes = reader.read_remaining_bytes();
-    DnetGroupLeaderPayload { username, extension_reserved_bytes }
+    DnetGroupLeaderPayload {
+        username,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_child_depth_payload(payload: &[u8]) -> DnetChildDepthPayload {
-    let (depth, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
-    DnetChildDepthPayload { depth, extension_reserved_bytes }
+    let (depth, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetChildDepthPayload {
+        depth,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_dnet_delivery_report_payload(payload: &[u8]) -> DnetDeliveryReportPayload {
-    let (report, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
-    DnetDeliveryReportPayload { report, extension_reserved_bytes }
+    let (report, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
+    DnetDeliveryReportPayload {
+        report,
+        extension_reserved_bytes,
+    }
 }
 
 fn parse_flood_payload(payload: &[u8]) -> FloodPayload {
-    let (flood_code, extension_reserved_bytes) = parse_optional_u32_with_extension_reserved_bytes(payload);
+    let (flood_code, extension_reserved_bytes) =
+        parse_optional_u32_with_extension_reserved_bytes(payload);
     FloodPayload {
         flood_code,
         extension_reserved_bytes,
@@ -1697,11 +1735,7 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
         }
         ServerMessage::GetPeerAddressResponse(payload) => {
             writer.write_string(&payload.username);
-            let ip = payload
-                .ip_address
-                .parse::<Ipv4Addr>()
-                .unwrap_or(Ipv4Addr::UNSPECIFIED);
-            writer.write_u32(u32::from_le_bytes(ip.octets()));
+            write_reversed_ipv4_u32(&mut writer, &payload.ip_address);
             writer.write_u32(payload.port);
             writer.write_u32(payload.obfuscation_type);
             writer.write_raw_bytes(&payload.obfuscated_port.to_le_bytes());
@@ -1764,11 +1798,7 @@ pub fn encode_server_message(message: &ServerMessage) -> Frame {
         ServerMessage::ConnectToPeerResponse(payload) => {
             writer.write_string(&payload.username);
             writer.write_string(&payload.connection_type);
-            let ip = payload
-                .ip_address
-                .parse::<Ipv4Addr>()
-                .unwrap_or(Ipv4Addr::UNSPECIFIED);
-            writer.write_u32(u32::from_le_bytes(ip.octets()));
+            write_reversed_ipv4_u32(&mut writer, &payload.ip_address);
             writer.write_u32(payload.port);
             writer.write_u32(payload.token);
             writer.write_bool_u32(payload.privileged);
@@ -2344,12 +2374,13 @@ pub fn decode_server_message(code: u32, payload: &[u8]) -> Result<ServerMessage>
     }
 
     if code == CODE_SM_ROOM_LIST {
+        if let Ok(summary) = parse_search_response_summary(payload) {
+            return Ok(ServerMessage::FileSearchResponseSummary(summary));
+        }
         if let Ok(room_list) = parse_room_list_payload(payload) {
             return Ok(ServerMessage::RoomList(room_list));
         }
-        return Ok(ServerMessage::FileSearchResponseSummary(
-            parse_search_response_summary(payload)?,
-        ));
+        bail!("code 64 payload did not match room-list or search-summary shape");
     }
 
     let mut reader = PayloadReader::new(payload);
@@ -3051,6 +3082,7 @@ pub fn parse_room_list_payload(payload: &[u8]) -> Result<RoomListPayload> {
         rooms.push(reader.read_string()?);
     }
 
+    ensure_payload_consumed(&reader)?;
     Ok(RoomListPayload { room_count, rooms })
 }
 
@@ -3302,7 +3334,7 @@ fn parse_user_lookup_payload(payload: &[u8]) -> Result<UserLookupPayload> {
 fn parse_peer_address_response_payload(payload: &[u8]) -> Result<PeerAddressResponsePayload> {
     let mut reader = PayloadReader::new(payload);
     let username = reader.read_string()?;
-    let ip_address = Ipv4Addr::from(reader.read_u32()?.to_le_bytes()).to_string();
+    let ip_address = parse_reversed_ipv4_u32(reader.read_u32()?);
     let port = reader.read_u32()?;
     let obfuscation_type = reader.read_u32()?;
     let obfuscated_port_bytes = reader.take(2)?;
@@ -3369,7 +3401,7 @@ fn parse_connect_to_peer_response_payload(payload: &[u8]) -> Result<ConnectToPee
     let mut reader = PayloadReader::new(payload);
     let username = reader.read_string()?;
     let connection_type = reader.read_string()?;
-    let ip_address = Ipv4Addr::from(reader.read_u32()?.to_le_bytes()).to_string();
+    let ip_address = parse_reversed_ipv4_u32(reader.read_u32()?);
     let port = reader.read_u32()?;
     let token = reader.read_u32()?;
     let mut privileged = false;
@@ -3604,11 +3636,7 @@ pub fn parse_login_response(payload: &[u8]) -> Result<LoginResponsePayload> {
 }
 
 pub fn parse_search_response_summary(payload: &[u8]) -> Result<SearchResponseSummary> {
-    if let Ok(summary) = parse_search_response_summary_v1(payload) {
-        return Ok(summary);
-    }
-
-    parse_search_response_summary_room_list(payload)
+    parse_search_response_summary_v1(payload)
 }
 
 fn parse_search_response_summary_v1(payload: &[u8]) -> Result<SearchResponseSummary> {
@@ -3640,7 +3668,7 @@ fn parse_search_response_summary_v1(payload: &[u8]) -> Result<SearchResponseSumm
         false
     };
 
-    Ok(SearchResponseSummary {
+    let summary = SearchResponseSummary {
         username,
         token,
         files_count,
@@ -3648,7 +3676,9 @@ fn parse_search_response_summary_v1(payload: &[u8]) -> Result<SearchResponseSumm
         speed,
         in_queue,
         files,
-    })
+    };
+    ensure_payload_consumed(&reader)?;
+    Ok(summary)
 }
 
 fn parse_search_response_summary_room_list(payload: &[u8]) -> Result<SearchResponseSummary> {
@@ -3679,6 +3709,226 @@ fn parse_search_response_summary_room_list(payload: &[u8]) -> Result<SearchRespo
         speed: 0,
         in_queue: false,
         files,
+    })
+}
+
+fn infer_file_extension(file_path: &str) -> String {
+    let name_start = file_path
+        .rfind(['\\', '/'])
+        .map_or(0, |index| index.saturating_add(1));
+    let name = &file_path[name_start..];
+    match name.rsplit_once('.') {
+        Some((_, extension)) => extension.to_ascii_lowercase(),
+        None => String::new(),
+    }
+}
+
+fn parse_peer_file_search_result_payload(payload: &[u8]) -> Result<FileSearchResultPayload> {
+    if let Ok(compressed) = parse_peer_file_search_result_payload_compressed(payload) {
+        return Ok(compressed);
+    }
+    parse_peer_file_search_result_payload_legacy(payload)
+}
+
+fn parse_peer_file_search_result_payload_legacy(payload: &[u8]) -> Result<FileSearchResultPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let token = reader.read_u32()?;
+    let username = reader.read_string()?;
+    let result_count = reader.read_u32()?;
+    if result_count > 100_000 {
+        bail!("peer search result_count exceeds sanity threshold: {result_count}");
+    }
+
+    let mut files = Vec::new();
+    for _ in 0..result_count {
+        let checkpoint = reader.clone();
+        let Ok(file_path) = reader.read_string() else {
+            reader = checkpoint;
+            break;
+        };
+        let Ok(file_size) = reader.read_u64() else {
+            reader = checkpoint;
+            break;
+        };
+        let Ok(extension_raw) = reader.read_string() else {
+            reader = checkpoint;
+            break;
+        };
+        let Ok(attr_count) = reader.read_u32() else {
+            reader = checkpoint;
+            break;
+        };
+
+        let extension = if extension_raw.is_empty() {
+            infer_file_extension(&file_path)
+        } else {
+            extension_raw
+        };
+        files.push(PeerSearchResultFile {
+            file_path,
+            file_size,
+            extension,
+            attr_count,
+        });
+    }
+
+    Ok(FileSearchResultPayload {
+        token,
+        username,
+        result_count,
+        files,
+        extension_tail: reader.read_remaining_bytes(),
+    })
+}
+
+fn parse_peer_file_search_result_payload_compressed(
+    payload: &[u8],
+) -> Result<FileSearchResultPayload> {
+    let mut decoder = ZlibDecoder::new(payload);
+    let mut decompressed = Vec::new();
+    decoder
+        .read_to_end(&mut decompressed)
+        .context("decompress peer file search result payload")?;
+
+    let mut reader = PayloadReader::new(&decompressed);
+    let username = reader.read_string()?;
+    let token = reader.read_u32()?;
+    let result_count = reader.read_u32()?;
+    if result_count > 100_000 {
+        bail!("compressed peer search result_count exceeds sanity threshold: {result_count}");
+    }
+
+    let mut files = Vec::new();
+    for _ in 0..result_count {
+        if reader.remaining() == 0 {
+            break;
+        }
+
+        let entry_checkpoint = reader.clone();
+        let Ok(_entry_code) = reader.read_u8() else {
+            reader = entry_checkpoint;
+            break;
+        };
+        let Ok(file_path) = reader.read_string() else {
+            reader = entry_checkpoint;
+            break;
+        };
+        let Ok(file_size) = reader.read_u64() else {
+            reader = entry_checkpoint;
+            break;
+        };
+        let Ok(extension_raw) = reader.read_string() else {
+            reader = entry_checkpoint;
+            break;
+        };
+        let Ok(attr_count) = reader.read_u32() else {
+            reader = entry_checkpoint;
+            break;
+        };
+
+        if attr_count > 1024 {
+            bail!("compressed peer search attr_count exceeds sanity threshold: {attr_count}");
+        }
+        for _ in 0..attr_count {
+            if reader.remaining() < 4 {
+                reader = entry_checkpoint;
+                break;
+            }
+            let _ = reader.read_u32()?;
+        }
+
+        let extension = if extension_raw.is_empty() {
+            infer_file_extension(&file_path)
+        } else {
+            extension_raw
+        };
+        files.push(PeerSearchResultFile {
+            file_path,
+            file_size,
+            extension,
+            attr_count,
+        });
+    }
+
+    Ok(FileSearchResultPayload {
+        token,
+        username,
+        result_count,
+        files,
+        extension_tail: reader.read_remaining_bytes(),
+    })
+}
+
+fn parse_transfer_response_tail(allowed: bool, tail: &[u8]) -> Result<String> {
+    if tail.is_empty() {
+        return Ok(String::new());
+    }
+    if allowed && tail.len() == 8 {
+        // Modern peers may append file size for accepted transfer responses.
+        return Ok(String::new());
+    }
+
+    let mut reader = PayloadReader::new(tail);
+    let value = reader.read_string()?;
+    ensure_payload_consumed(&reader)?;
+    Ok(value)
+}
+
+fn parse_transfer_response_payload_flexible(payload: &[u8]) -> Result<TransferResponsePayload> {
+    if payload.len() < 5 {
+        bail!("transfer response payload too short: {}", payload.len());
+    }
+
+    let token = u32::from_le_bytes(payload[0..4].try_into().expect("token bytes"));
+    let allowed_u8 = payload[4] != 0;
+    if let Ok(queue_or_reason) = parse_transfer_response_tail(allowed_u8, &payload[5..]) {
+        return Ok(TransferResponsePayload {
+            token,
+            allowed: allowed_u8,
+            queue_or_reason,
+        });
+    }
+
+    if payload.len() >= 8 {
+        let allowed_u32 = u32::from_le_bytes(payload[4..8].try_into().expect("bool bytes")) != 0;
+        if let Ok(queue_or_reason) = parse_transfer_response_tail(allowed_u32, &payload[8..]) {
+            return Ok(TransferResponsePayload {
+                token,
+                allowed: allowed_u32,
+                queue_or_reason,
+            });
+        }
+    }
+
+    bail!("failed to decode transfer response payload variant")
+}
+
+fn parse_upload_status_payload_flexible(payload: &[u8]) -> Result<UploadStatusPayload> {
+    let mut reader = PayloadReader::new(payload);
+    let first = reader.read_string()?;
+    if reader.remaining() == 0 {
+        return Ok(UploadStatusPayload {
+            username: String::new(),
+            virtual_path: String::new(),
+            reason: first,
+        });
+    }
+
+    let second = reader.read_string()?;
+    if reader.remaining() == 0 {
+        return Ok(UploadStatusPayload {
+            username: String::new(),
+            virtual_path: first,
+            reason: second,
+        });
+    }
+
+    let third = reader.read_string()?;
+    ensure_payload_consumed(&reader)?;
+    Ok(UploadStatusPayload {
+        username: first,
+        virtual_path: second,
+        reason: third,
     })
 }
 
@@ -3823,6 +4073,13 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             writer.write_u32(payload.token);
             writer.write_string(&payload.username);
             writer.write_u32(payload.result_count);
+            for file in &payload.files {
+                writer.write_string(&file.file_path);
+                writer.write_u64(file.file_size);
+                writer.write_string(&file.extension);
+                writer.write_u32(file.attr_count);
+            }
+            writer.write_raw_bytes(&payload.extension_tail);
             CODE_PM_FILE_SEARCH_RESULT
         }
         PeerMessage::InviteUserToRoom(payload) => {
@@ -3849,7 +4106,8 @@ pub fn encode_peer_message(message: &PeerMessage) -> Frame {
             CODE_PM_USER_INFO_REPLY
         }
         PeerMessage::SendConnectToken(payload) => {
-            writer.write_raw_bytes(&payload.bytes);
+            writer.write_string(&payload.username);
+            writer.write_u32(payload.token);
             CODE_PM_SEND_CONNECT_TOKEN
         }
         PeerMessage::TransferRequest(payload) => {
@@ -3979,12 +4237,8 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             PeerMessage::FileSearchRequest(payload)
         }
         CODE_PM_FILE_SEARCH_RESULT => {
-            let payload = FileSearchResultPayload {
-                token: reader.read_u32()?,
-                username: reader.read_string()?,
-                result_count: reader.read_u32()?,
-            };
-            PeerMessage::FileSearchResult(payload)
+            allow_trailing_bytes = true;
+            PeerMessage::FileSearchResult(parse_peer_file_search_result_payload(payload)?)
         }
         CODE_PM_INVITE_USER_TO_ROOM => {
             let payload = PeerRoomInvitePayload {
@@ -4004,10 +4258,11 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             PeerMessage::UserInfoReply(parse_user_info_reply_payload(payload)?)
         }
         CODE_PM_SEND_CONNECT_TOKEN => {
-            allow_trailing_bytes = true;
-            PeerMessage::SendConnectToken(OpaquePayload {
-                bytes: payload.to_vec(),
-            })
+            let payload = SendConnectTokenPayload {
+                username: reader.read_string()?,
+                token: reader.read_u32()?,
+            };
+            PeerMessage::SendConnectToken(payload)
         }
         CODE_PM_TRANSFER_REQUEST => {
             let direction = TransferDirection::from_u32(reader.read_u32()?)?;
@@ -4015,17 +4270,17 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
                 direction,
                 token: reader.read_u32()?,
                 virtual_path: reader.read_string()?,
-                file_size: reader.read_u64()?,
+                file_size: if reader.remaining() >= 8 {
+                    reader.read_u64()?
+                } else {
+                    0
+                },
             };
             PeerMessage::TransferRequest(payload)
         }
         CODE_PM_TRANSFER_RESPONSE => {
-            let payload = TransferResponsePayload {
-                token: reader.read_u32()?,
-                allowed: reader.read_bool_u32()?,
-                queue_or_reason: reader.read_string()?,
-            };
-            PeerMessage::TransferResponse(payload)
+            allow_trailing_bytes = true;
+            PeerMessage::TransferResponse(parse_transfer_response_payload_flexible(payload)?)
         }
         CODE_PM_PLACEHOLD_UPLOAD => {
             allow_trailing_bytes = true;
@@ -4067,20 +4322,12 @@ pub fn decode_peer_message(code: u32, payload: &[u8]) -> Result<PeerMessage> {
             PeerMessage::IndirectFileSearchRequest(parse_peer_search_query_payload(payload)?)
         }
         CODE_PM_UPLOAD_FAILED => {
-            let payload = UploadStatusPayload {
-                username: reader.read_string()?,
-                virtual_path: reader.read_string()?,
-                reason: reader.read_string()?,
-            };
-            PeerMessage::UploadFailed(payload)
+            allow_trailing_bytes = true;
+            PeerMessage::UploadFailed(parse_upload_status_payload_flexible(payload)?)
         }
         CODE_PM_UPLOAD_DENIED => {
-            let payload = UploadStatusPayload {
-                username: reader.read_string()?,
-                virtual_path: reader.read_string()?,
-                reason: reader.read_string()?,
-            };
-            PeerMessage::UploadDenied(payload)
+            allow_trailing_bytes = true;
+            PeerMessage::UploadDenied(parse_upload_status_payload_flexible(payload)?)
         }
         CODE_PM_UPLOAD_PLACE_IN_LINE_REQUEST => {
             let payload = UploadPlaceInLineRequestPayload {
@@ -4624,20 +4871,24 @@ pub fn build_transfer_request(
     virtual_path: &str,
     file_size: u64,
 ) -> Frame {
-    encode_peer_message(&PeerMessage::TransferRequest(TransferRequestPayload {
-        direction,
-        token,
-        virtual_path: virtual_path.to_owned(),
-        file_size,
-    }))
+    let mut writer = PayloadWriter::new();
+    writer.write_u32(direction.as_u32());
+    writer.write_u32(token);
+    writer.write_string(virtual_path);
+    if matches!(direction, TransferDirection::Upload) {
+        writer.write_u64(file_size);
+    }
+    Frame::new(CODE_PM_TRANSFER_REQUEST, writer.into_inner())
 }
 
 pub fn build_transfer_response(token: u32, allowed: bool, queue_or_reason: &str) -> Frame {
-    encode_peer_message(&PeerMessage::TransferResponse(TransferResponsePayload {
-        token,
-        allowed,
-        queue_or_reason: queue_or_reason.to_owned(),
-    }))
+    let mut writer = PayloadWriter::new();
+    writer.write_u32(token);
+    writer.write_u8(u8::from(allowed));
+    if !allowed || !queue_or_reason.is_empty() {
+        writer.write_string(queue_or_reason);
+    }
+    Frame::new(CODE_PM_TRANSFER_RESPONSE, writer.into_inner())
 }
 
 pub fn build_user_info_request() -> Frame {
@@ -4676,6 +4927,13 @@ pub fn build_peer_move_download_to_top(virtual_path: &str) -> Frame {
 pub fn build_peer_queued_downloads(virtual_paths: &[String]) -> Frame {
     encode_peer_message(&PeerMessage::QueuedDownloads(PeerQueuedDownloadsPayload {
         virtual_paths: virtual_paths.to_vec(),
+    }))
+}
+
+pub fn build_send_connect_token(username: &str, token: u32) -> Frame {
+    encode_peer_message(&PeerMessage::SendConnectToken(SendConnectTokenPayload {
+        username: username.to_owned(),
+        token,
     }))
 }
 
@@ -5372,6 +5630,8 @@ mod tests {
                 token: 9,
                 username: "bob".into(),
                 result_count: 2,
+                files: Vec::new(),
+                extension_tail: Vec::new(),
             })),
             ProtocolMessage::Peer(PeerMessage::InviteUserToRoom(PeerRoomInvitePayload {
                 room: "nicotine".into(),
@@ -5391,8 +5651,9 @@ mod tests {
                 slots_free: true,
                 upload_permissions: Some(1),
             })),
-            ProtocolMessage::Peer(PeerMessage::SendConnectToken(OpaquePayload {
-                bytes: vec![0x33, 0x44, 0x55],
+            ProtocolMessage::Peer(PeerMessage::SendConnectToken(SendConnectTokenPayload {
+                username: "alice".into(),
+                token: 33,
             })),
             ProtocolMessage::Peer(PeerMessage::TransferRequest(TransferRequestPayload {
                 direction: TransferDirection::Download,
@@ -6432,6 +6693,59 @@ mod tests {
     }
 
     #[test]
+    fn transfer_response_legacy_u32_bool_decode_is_supported() {
+        let mut payload = PayloadWriter::new();
+        payload.write_u32(777);
+        payload.write_bool_u32(true);
+        payload.write_string("");
+
+        let parsed = parse_transfer_response(&payload.into_inner()).expect("parse legacy response");
+        assert_eq!(parsed.token, 777);
+        assert!(parsed.allowed);
+        assert_eq!(parsed.queue_or_reason, "");
+    }
+
+    #[test]
+    fn transfer_request_download_builder_omits_file_size_tail() {
+        let frame = build_transfer_request(TransferDirection::Download, 91, "Music\\A.flac", 2048);
+        let mut reader = PayloadReader::new(&frame.payload);
+        assert_eq!(reader.read_u32().expect("direction"), 0);
+        assert_eq!(reader.read_u32().expect("token"), 91);
+        assert_eq!(reader.read_string().expect("path"), "Music\\A.flac");
+        assert_eq!(reader.remaining(), 0);
+    }
+
+    #[test]
+    fn upload_status_decode_supports_username_plus_reason_variant() {
+        let mut payload = PayloadWriter::new();
+        payload.write_string("alice");
+        payload.write_string("File not shared.");
+        let decoded =
+            decode_peer_message(CODE_PM_UPLOAD_DENIED, &payload.into_inner()).expect("decode");
+        let PeerMessage::UploadDenied(status) = decoded else {
+            panic!("expected upload denied payload");
+        };
+        assert_eq!(status.username, "");
+        assert_eq!(status.virtual_path, "alice");
+        assert_eq!(status.reason, "File not shared.");
+    }
+
+    #[test]
+    fn upload_status_decode_supports_path_plus_reason_variant() {
+        let mut payload = PayloadWriter::new();
+        payload.write_string("Music\\A.flac");
+        payload.write_string("File not shared.");
+        let decoded =
+            decode_peer_message(CODE_PM_UPLOAD_FAILED, &payload.into_inner()).expect("decode");
+        let PeerMessage::UploadFailed(status) = decoded else {
+            panic!("expected upload failed payload");
+        };
+        assert_eq!(status.username, "");
+        assert_eq!(status.virtual_path, "Music\\A.flac");
+        assert_eq!(status.reason, "File not shared.");
+    }
+
+    #[test]
     fn peer_advanced_request_builders_emit_expected_codes() {
         assert_eq!(build_user_info_request().code, CODE_PM_USER_INFO_REQUEST);
         assert_eq!(
@@ -6540,7 +6854,7 @@ mod tests {
         let mut writer = PayloadWriter::new();
         writer.write_string("alice");
         writer.write_string("P");
-        writer.write_u32(u32::from_le_bytes([203, 0, 113, 8]));
+        writer.write_u32(u32::from_be_bytes([203, 0, 113, 8]));
         writer.write_u32(2242);
         writer.write_u32(77);
         writer.write_u8(1); // privileged as bool_u8

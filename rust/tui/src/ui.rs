@@ -93,7 +93,12 @@ fn draw_login_modal(frame: &mut ratatui::Frame<'_>, app: &App) {
         .split(popup);
 
     let title = Paragraph::new(Line::from(vec![
-        Span::styled("NeoSoulSeek", Style::default().fg(COLOR_ACCENT_STRONG).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "NeoSoulSeek",
+            Style::default()
+                .fg(COLOR_ACCENT_STRONG)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::raw("  "),
         Span::styled("Login Required", Style::default().fg(COLOR_TEXT)),
     ]))
@@ -106,9 +111,30 @@ fn draw_login_modal(frame: &mut ratatui::Frame<'_>, app: &App) {
     .style(Style::default().bg(COLOR_BG).fg(COLOR_TEXT));
     frame.render_widget(title, sections[0]);
 
-    frame.render_widget(login_field("Server", &app.state.server, app.active_login_field() == LoginField::Server), sections[1]);
-    frame.render_widget(login_field("Username", &app.state.username, app.active_login_field() == LoginField::Username), sections[2]);
-    frame.render_widget(login_field("Password", &app.password_mask(), app.active_login_field() == LoginField::Password), sections[3]);
+    frame.render_widget(
+        login_field(
+            "Server",
+            &app.state.server,
+            app.active_login_field() == LoginField::Server,
+        ),
+        sections[1],
+    );
+    frame.render_widget(
+        login_field(
+            "Username",
+            &app.state.username,
+            app.active_login_field() == LoginField::Username,
+        ),
+        sections[2],
+    );
+    frame.render_widget(
+        login_field(
+            "Password",
+            &app.password_mask(),
+            app.active_login_field() == LoginField::Password,
+        ),
+        sections[3],
+    );
 
     let help = Paragraph::new("Tab/Shift+Tab focus | Enter login | Esc clear error | q quit")
         .style(Style::default().fg(COLOR_MUTED))
@@ -120,7 +146,9 @@ fn draw_login_modal(frame: &mut ratatui::Frame<'_>, app: &App) {
         .as_deref()
         .unwrap_or("Use valid credentials to unlock search and downloads.");
     let error_style = if app.login_error.is_some() {
-        Style::default().fg(COLOR_ERROR).add_modifier(Modifier::BOLD)
+        Style::default()
+            .fg(COLOR_ERROR)
+            .add_modifier(Modifier::BOLD)
     } else {
         Style::default().fg(COLOR_MUTED)
     };
@@ -145,17 +173,33 @@ fn draw_login_modal(frame: &mut ratatui::Frame<'_>, app: &App) {
 fn draw_main(frame: &mut ratatui::Frame<'_>, app: &App) {
     let root = Layout::default()
         .direction(Direction::Vertical)
-        .constraints([Constraint::Length(3), Constraint::Min(8), Constraint::Length(3)])
+        .constraints([
+            Constraint::Length(3),
+            Constraint::Min(8),
+            Constraint::Length(3),
+        ])
         .split(frame.area());
 
     let last_log = app.logs.last().map_or("Ready.", String::as_str);
     let header = Paragraph::new(Line::from(vec![
-        Span::styled("NeoSoulSeek", Style::default().fg(COLOR_ACCENT_STRONG).add_modifier(Modifier::BOLD)),
-        Span::raw("  "),
-        Span::styled(format!("state={:?}", app.session_state), Style::default().fg(COLOR_TEXT)),
+        Span::styled(
+            "NeoSoulSeek",
+            Style::default()
+                .fg(COLOR_ACCENT_STRONG)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::raw("  "),
         Span::styled(
-            if app.downloads_visible() { "downloads=visible" } else { "downloads=hidden" },
+            format!("state={:?}", app.session_state),
+            Style::default().fg(COLOR_TEXT),
+        ),
+        Span::raw("  "),
+        Span::styled(
+            if app.downloads_visible() {
+                "downloads=visible"
+            } else {
+                "downloads=hidden"
+            },
             Style::default().fg(COLOR_MUTED),
         ),
         Span::raw("  "),
@@ -209,13 +253,21 @@ fn results_widget(app: &App) -> List<'static> {
             .map(|(idx, row)| {
                 let marker = if idx == app.selected_result { ">" } else { " " };
                 let style = if idx == app.selected_result {
-                    Style::default().fg(COLOR_ACCENT).add_modifier(Modifier::BOLD)
+                    Style::default()
+                        .fg(COLOR_ACCENT)
+                        .add_modifier(Modifier::BOLD)
                 } else {
                     Style::default().fg(COLOR_TEXT)
                 };
                 let text = format!(
-                    "{marker} {} | {} | {} bytes",
-                    row.username, row.file_path, row.file_size
+                    "{marker} [{}] {} | {} | {} bytes",
+                    match row.source {
+                        soul_core::SearchResultSource::ServerSummary => "summary",
+                        soul_core::SearchResultSource::DistributedPeer => "distributed",
+                    },
+                    row.username,
+                    row.file_path,
+                    row.file_size
                 );
                 ListItem::new(Line::from(Span::styled(text, style)))
             })
@@ -243,8 +295,12 @@ fn downloads_widget(app: &App) -> List<'static> {
                 let (status_label, status_style) = match entry.status {
                     PersistedDownloadStatus::Done => ("done", Style::default().fg(COLOR_SUCCESS)),
                     PersistedDownloadStatus::Failed => ("failed", Style::default().fg(COLOR_ERROR)),
-                    PersistedDownloadStatus::InProgress => ("in-progress", Style::default().fg(COLOR_ACCENT)),
-                    PersistedDownloadStatus::Interrupted => ("interrupted", Style::default().fg(COLOR_MUTED)),
+                    PersistedDownloadStatus::InProgress => {
+                        ("in-progress", Style::default().fg(COLOR_ACCENT))
+                    }
+                    PersistedDownloadStatus::Interrupted => {
+                        ("interrupted", Style::default().fg(COLOR_MUTED))
+                    }
                 };
                 ListItem::new(Line::from(vec![
                     Span::styled(
@@ -252,7 +308,10 @@ fn downloads_widget(app: &App) -> List<'static> {
                         status_style.add_modifier(Modifier::BOLD),
                     ),
                     Span::styled(
-                        format!("{} | {} | {} bytes", entry.username, entry.file_path, entry.bytes),
+                        format!(
+                            "{} | {} | {} bytes",
+                            entry.username, entry.file_path, entry.bytes
+                        ),
                         Style::default().fg(COLOR_TEXT),
                     ),
                 ]))
@@ -269,9 +328,15 @@ fn downloads_widget(app: &App) -> List<'static> {
 }
 
 fn login_field(label: &str, value: &str, focused: bool) -> Paragraph<'static> {
-    let border = if focused { COLOR_ACCENT_STRONG } else { COLOR_BORDER };
+    let border = if focused {
+        COLOR_ACCENT_STRONG
+    } else {
+        COLOR_BORDER
+    };
     let title_style = if focused {
-        Style::default().fg(COLOR_ACCENT_STRONG).add_modifier(Modifier::BOLD)
+        Style::default()
+            .fg(COLOR_ACCENT_STRONG)
+            .add_modifier(Modifier::BOLD)
     } else {
         Style::default().fg(COLOR_MUTED)
     };
