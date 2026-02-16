@@ -53,6 +53,13 @@ Actions:
    - `--skip-connect-probe`
 2. Run manual deterministic path (`transfer serve-upload` + `transfer download`) to isolate transport vs orchestration.
 3. Confirm writable output path.
+4. Validate public inbound port reachability (Frida-free):
+   - `./.venv-tools/bin/python tools/runtime/check_slsk_porttest.py 50036 50037 2242 --json`
+5. If queue grants are observed but file payload stays at zero bytes, run outbound handshake diagnostics:
+   - `NSS_DEBUG_TRANSFER=1`
+   - `NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT=1`
+   - `NSS_OUTBOUND_FILE_VARIANT_ORDER=f_init_first`
+   - increase `NSS_TRANSFER_FLOW_TIMEOUT_SECS` and `NSS_QUEUE_WAIT_SECS` for live runs.
 
 ## 4. Transfer interruption
 

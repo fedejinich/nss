@@ -71,7 +71,8 @@ def main() -> int:
     pcap_log = run_dir / "pcap.log"
     manifest_path = run_dir / args.manifest_name
 
-    python_bin = (repo_root / args.python_bin).resolve()
+    # Keep virtualenv interpreter path intact; resolving symlinks can escape venv site-packages.
+    python_bin = repo_root / args.python_bin
     frida_capture = (repo_root / "tools/runtime/frida_capture.py").resolve()
     frida_script = (repo_root / args.frida_script).resolve()
 

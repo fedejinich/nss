@@ -8,10 +8,33 @@ Ensure evidence traceability and semantic protocol parity baseline while preserv
 
 - Target: authenticated `Flim` live E2E with `bytes_written > 0`.
 - Server/account under validation: `server.slsknet.org:2416` with local test credential.
+- Cross-check tuple: `.env.local` test tuple on `server.slsknet.org:2242` (`nss_auto_*`).
 - Current runtime signal:
-  - distributed search returns live `Flim` candidates,
-  - transfer request path is active (`Queued` and runtime follow-up frames observed),
-  - transfer completion is still blocked by runtime peer denials (`File not shared`) / queue behavior.
+  - distributed search returns live candidates for both `Flim` and fallback popular queries,
+  - transfer control path is active (queue grants with non-zero sizes are repeatedly observed),
+  - transfer completion is still blocked by runtime hardwall:
+    - queue branch: `File not shared` across path variants,
+    - granted branch: `inbound F timeout` or `peer returned zero bytes`,
+    - direct branch: `read frame len` / connection reset.
+- Additional diagnostics:
+  - Probe-assisted runs show wait-port bind conflicts when official client is open on the same machine (`Address already in use` on server-provided wait-port).
+  - After removing local port conflict, hardwall remains (same queue-grant + zero-byte/denial signature).
+  - Official new capture attempt is currently blocked by local capture environment constraints:
+    - Frida helper attach/runtime failure.
+    - tcpdump permission denial on local `/dev/bpf*`.
+  - Baseline official capture in repository (`login-search-download`) shows successful transfer control sequence without `code=46/50` denial branch; live failures diverge into denial/timeout branch after queue grant.
+  - Runtime handshake variant (`NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT=0`) was tested and did not change terminal failure signatures.
+  - Outbound file-transfer hardening pass added:
+    - queue-upload raw share-prefixed path targets (`@@share\\...`) and slash variants,
+    - outbound init variant `offset+token`,
+    - optional outbound file-init connect-token (`NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT=1`),
+    - outbound variant ordering control (`NSS_OUTBOUND_FILE_VARIANT_ORDER`).
+  - Regression tests confirm outbound variant loop now continues after zero-byte attempts instead of short-circuiting:
+    - `outbound_transfer_variants_continue_after_zero_byte_attempt`
+    - `file_transfer_offset_then_token_init_writes_expected_order`
+  - Live MP3-heavy sweep (`nirvana smells like teen spirit mp3`, result-index scan `0..5`) still produced `bytes_written=0` across all runs.
+  - Frida-free port-reachability check (`tools/runtime/check_slsk_porttest.py`) reports inbound ports as publicly `CLOSED` (`50036`, `50037`, `2242`) even with local listener binding, reinforcing NAT/firewall ingress blockage hypothesis.
+  - External community reports are consistent with transport-layer instability causes (ports/NAT/firewall/VPN/ISP filtering) and occasional client-version regressions.
 - Current status: **in progress** (gate not closed yet).
 
 ## Validation Gates
