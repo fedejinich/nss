@@ -1,0 +1,166 @@
+[transfer-debug] distributed download selection: query='smells like teen spirit' candidates=20 result_index=0
+[transfer-debug] candidate user=DudaniN peer=96.241.166.94:52429 path=@@zczdo\Music\-Nirvana (Discography)\-Discography\Albums\192kHz\1991-09-24. Nevermind (American Masterdisk LP, Album) DGC-24425✓\Side 1 MASTERDISK DGC-24425-A-GL1\A1 - Smells Like Teen Spirit.flac token=1499027
+[transfer-debug] inbound wait-port flow start wait_port=50036 peer_user=DudaniN connect_token=1499027
+[transfer-debug] inbound wait-port flow failed: accept inbound P connection | caused by: timed out waiting for inbound peer socket | caused by: deadline has elapsed
+[transfer-debug] connect-to-peer response wait failed, keeping candidate address: timed out waiting for connect-to-peer response
+[transfer-debug] connect-to-peer F response wait failed, using control peer address: timed out waiting for connect-to-peer response
+[transfer-debug] transfer-request flow start peer=96.241.166.94:52429 path=@@zczdo\Music\-Nirvana (Discography)\-Discography\Albums\192kHz\1991-09-24. Nevermind (American Masterdisk LP, Album) DGC-24425✓\Side 1 MASTERDISK DGC-24425-A-GL1\A1 - Smells Like Teen Spirit.flac token=19121 connect_token=1499027
+[transfer-debug] transfer-request queued, waiting up to 180s for peer grant
+[transfer-debug] transfer-request flow failed: read frame len
+[transfer-debug] queue-upload flow start peer=96.241.166.94:52429 path=@@zczdo\Music\-Nirvana (Discography)\-Discography\Albums\192kHz\1991-09-24. Nevermind (American Masterdisk LP, Album) DGC-24425✓\Side 1 MASTERDISK DGC-24425-A-GL1\A1 - Smells Like Teen Spirit.flac token=1499027
+[transfer-debug] queue-upload request target=Music\-Nirvana (Discography)\-Discography\Albums\192kHz\1991-09-24. Nevermind (American Masterdisk LP, Album) DGC-24425✓\Side 1 MASTERDISK DGC-24425-A-GL1\A1 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=50
+[transfer-debug] upload status raw payload (code=50): be 00 00 00 4d 75 73 69 63 5c 2d 4e 69 72 76 61 6e 61 20 28 44 69 73 63 6f 67 72 61 70 68 79 29 5c 2d 44 69 73 63 6f 67 72 61 70 68 79 5c 41 6c 62 75 6d 73 5c 31 39 32 6b 48 7a 5c 31 39 39 31 2d 30 39 2d 32 34 2e 20 4e 65 76 65 72 6d 69 6e 64 20 28 41 6d 65 72 69 63 61 6e 20 4d 61 73 74 ...
+[transfer-debug] queue-upload target rejected: target=Music\-Nirvana (Discography)\-Discography\Albums\192kHz\1991-09-24. Nevermind (American Masterdisk LP, Album) DGC-24425✓\Side 1 MASTERDISK DGC-24425-A-GL1\A1 - Smells Like Teen Spirit.flac variant=path-only err=file not shared (user= path=Music\-Nirvana (Discography)\-Discography\Albums\192kHz\1991-09-24. Nevermind (American Masterdisk LP, Album) DGC-24425✓\Side 1 MASTERDISK DGC-24425-A-GL1\A1 - Smells Like Teen Spirit.flac): File not shared.
+[transfer-debug] queue-upload request target=@@zczdo\Music\-Nirvana (Discography)\-Discography\Albums\192kHz\1991-09-24. Nevermind (American Masterdisk LP, Album) DGC-24425✓\Side 1 MASTERDISK DGC-24425-A-GL1\A1 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] received transfer request token=309176 direction=Upload size=347697118
+[transfer-debug] queue-upload inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=309176 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=309176 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] queue-upload flow timed out
+[transfer-debug] direct flow failed: read frame len | caused by: early eof
+[transfer-debug] candidate user=coffii_howz peer=209.137.197.220:57334 path=@@qqrbl\Music\Nirvana\From the Muddy Banks of the Wishkah (1996)\Nirvana - From the Muddy Banks of the Wishkah - 05 - Smells Like Teen Spirit.flac token=106756
+[transfer-debug] inbound wait-port flow start wait_port=50036 peer_user=coffii_howz connect_token=106756
+[transfer-debug] inbound wait-port flow failed: accept inbound P connection | caused by: timed out waiting for inbound peer socket | caused by: deadline has elapsed
+[transfer-debug] connect-to-peer response wait failed, keeping candidate address: timed out waiting for connect-to-peer response
+[transfer-debug] connect-to-peer F response wait failed, using control peer address: timed out waiting for connect-to-peer response
+[transfer-debug] transfer-request flow start peer=209.137.197.220:57334 path=@@qqrbl\Music\Nirvana\From the Muddy Banks of the Wishkah (1996)\Nirvana - From the Muddy Banks of the Wishkah - 05 - Smells Like Teen Spirit.flac token=19121 connect_token=106756
+[transfer-debug] transfer-request queued, waiting up to 180s for peer grant
+[transfer-debug] transfer-request flow failed: read frame len
+[transfer-debug] queue-upload flow start peer=209.137.197.220:57334 path=@@qqrbl\Music\Nirvana\From the Muddy Banks of the Wishkah (1996)\Nirvana - From the Muddy Banks of the Wishkah - 05 - Smells Like Teen Spirit.flac token=106756
+[transfer-debug] queue-upload request target=Music\Nirvana\From the Muddy Banks of the Wishkah (1996)\Nirvana - From the Muddy Banks of the Wishkah - 05 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=50
+[transfer-debug] upload status raw payload (code=50): 8a 00 00 00 4d 75 73 69 63 5c 4e 69 72 76 61 6e 61 5c 46 72 6f 6d 20 74 68 65 20 4d 75 64 64 79 20 42 61 6e 6b 73 20 6f 66 20 74 68 65 20 57 69 73 68 6b 61 68 20 28 31 39 39 36 29 5c 4e 69 72 76 61 6e 61 20 2d 20 46 72 6f 6d 20 74 68 65 20 4d 75 64 64 79 20 42 61 6e 6b 73 20 6f 66 20 74 ...
+[transfer-debug] queue-upload target rejected: target=Music\Nirvana\From the Muddy Banks of the Wishkah (1996)\Nirvana - From the Muddy Banks of the Wishkah - 05 - Smells Like Teen Spirit.flac variant=path-only err=file not shared (user= path=Music\Nirvana\From the Muddy Banks of the Wishkah (1996)\Nirvana - From the Muddy Banks of the Wishkah - 05 - Smells Like Teen Spirit.flac): File not shared.
+[transfer-debug] queue-upload request target=@@qqrbl\Music\Nirvana\From the Muddy Banks of the Wishkah (1996)\Nirvana - From the Muddy Banks of the Wishkah - 05 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] queue-upload flow failed: read frame len | caused by: early eof
+[transfer-debug] direct flow failed: read frame len | caused by: early eof
+[transfer-debug] candidate user=flossfurman peer=98.113.45.249:62557 path=@@puclh\MUSIC LIBRARY\N\Nirvana\(1991) Nevermind [2021 Remaster]\01 - Smells Like Teen Spirit.flac token=290183
+[transfer-debug] inbound wait-port flow start wait_port=50036 peer_user=flossfurman connect_token=290183
+[transfer-debug] inbound wait-port flow failed: accept inbound P connection | caused by: timed out waiting for inbound peer socket | caused by: deadline has elapsed
+[transfer-debug] connect-to-peer response wait failed, keeping candidate address: timed out waiting for connect-to-peer response
+[transfer-debug] connect-to-peer F response wait failed, using control peer address: timed out waiting for connect-to-peer response
+[transfer-debug] transfer-request flow start peer=98.113.45.249:62557 path=@@puclh\MUSIC LIBRARY\N\Nirvana\(1991) Nevermind [2021 Remaster]\01 - Smells Like Teen Spirit.flac token=19121 connect_token=290183
+[transfer-debug] transfer-request queued, waiting up to 180s for peer grant
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] transfer-request queue granted token=1475591 size=38782475
+[transfer-debug] transfer-request inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=1475591 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=1475591 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=290183 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=290183 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] transfer-request flow timed out
+[transfer-debug] queue-upload flow start peer=98.113.45.249:62557 path=@@puclh\MUSIC LIBRARY\N\Nirvana\(1991) Nevermind [2021 Remaster]\01 - Smells Like Teen Spirit.flac token=290183
+[transfer-debug] queue-upload request target=MUSIC LIBRARY\N\Nirvana\(1991) Nevermind [2021 Remaster]\01 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=50
+[transfer-debug] upload status raw payload (code=50): 5a 00 00 00 4d 55 53 49 43 20 4c 49 42 52 41 52 59 5c 4e 5c 4e 69 72 76 61 6e 61 5c 28 31 39 39 31 29 20 4e 65 76 65 72 6d 69 6e 64 20 5b 32 30 32 31 20 52 65 6d 61 73 74 65 72 5d 5c 30 31 20 2d 20 53 6d 65 6c 6c 73 20 4c 69 6b 65 20 54 65 65 6e 20 53 70 69 72 69 74 2e 66 6c 61 63 10 00 ...
+[transfer-debug] queue-upload target rejected: target=MUSIC LIBRARY\N\Nirvana\(1991) Nevermind [2021 Remaster]\01 - Smells Like Teen Spirit.flac variant=path-only err=file not shared (user= path=MUSIC LIBRARY\N\Nirvana\(1991) Nevermind [2021 Remaster]\01 - Smells Like Teen Spirit.flac): File not shared.
+[transfer-debug] queue-upload request target=@@puclh\MUSIC LIBRARY\N\Nirvana\(1991) Nevermind [2021 Remaster]\01 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] received transfer request token=1475594 direction=Upload size=38782475
+[transfer-debug] queue-upload inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=1475594 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=1475594 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=290183 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=290183 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] queue-upload flow timed out
+[transfer-debug] direct flow failed: read frame len | caused by: early eof
+[transfer-debug] candidate user=DeafWired peer=108.2.71.107:50300 path=Music\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac token=87858
+[transfer-debug] inbound wait-port flow start wait_port=50036 peer_user=DeafWired connect_token=87858
+[transfer-debug] inbound wait-port flow failed: accept inbound P connection | caused by: timed out waiting for inbound peer socket | caused by: deadline has elapsed
+[transfer-debug] connect-to-peer response wait failed, keeping candidate address: timed out waiting for connect-to-peer response
+[transfer-debug] connect-to-peer F response wait failed, using control peer address: timed out waiting for connect-to-peer response
+[transfer-debug] transfer-request flow start peer=108.2.71.107:50300 path=Music\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac token=19121 connect_token=87858
+[transfer-debug] transfer-request queued, waiting up to 180s for peer grant
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] transfer-request queue granted token=88265 size=36579423
+[transfer-debug] transfer-request inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=88265 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=88265 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=87858 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=87858 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19121 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19121 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init offset-only init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=no-init wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound F no-init variants failed: token-init file transfer variants failed (no-init): wait-remote-token init rejected: peer returned zero bytes for transfer; retrying with F init
+[transfer-debug] outbound file transfer variant=with-init-f token=88265 token+offset init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] outbound file transfer variant=with-init-f token=88265 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=87858 token+offset init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] outbound file transfer variant=with-init-f token=87858 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19121 token+offset init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] outbound file transfer variant=with-init-f token=19121 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f offset-only init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=with-init-f wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound F with-init variants failed: token-init file transfer variants failed (with-init-f): wait-remote-token init rejected: peer returned zero bytes for transfer; retrying with P init
+[transfer-debug] outbound file transfer variant=with-init-p token=88265 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=88265 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=87858 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=87858 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] transfer-request flow timed out
+[transfer-debug] queue-upload flow start peer=108.2.71.107:50300 path=Music\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac token=87858
+[transfer-debug] queue-upload request target=Music\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] received transfer request token=88343 direction=Upload size=36579423
+[transfer-debug] queue-upload inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=88343 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=88343 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=87858 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=87858 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19121 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19121 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init offset-only init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=no-init wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound F no-init variants failed: token-init file transfer variants failed (no-init): wait-remote-token init rejected: peer returned zero bytes for transfer; retrying with F init
+[transfer-debug] outbound file transfer variant=with-init-f token=88343 token+offset init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] outbound file transfer variant=with-init-f token=88343 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=87858 token+offset init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] outbound file transfer variant=with-init-f token=87858 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19121 token+offset init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] outbound file transfer variant=with-init-f token=19121 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f offset-only init failed: read file body chunk | caused by: Connection reset by peer (os error 54)
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=with-init-f wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound F with-init variants failed: token-init file transfer variants failed (with-init-f): wait-remote-token init rejected: peer returned zero bytes for transfer; retrying with P init
+[transfer-debug] outbound file transfer variant=with-init-p token=88343 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=88343 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=87858 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=87858 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=19121 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] queue-upload flow timed out
+[transfer-debug] direct flow failed: read frame len | caused by: Connection reset by peer (os error 54)
+[transfer-debug] candidate user=Three_is3 peer=24.7.227.133:52764 path=@@zpyik\Flacs\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac token=18669
+[transfer-debug] inbound wait-port flow start wait_port=50036 peer_user=Three_is3 connect_token=18669
+[transfer-debug] inbound wait-port flow failed: accept inbound P connection | caused by: timed out waiting for inbound peer socket | caused by: deadline has elapsed
+[transfer-debug] connect-to-peer response wait failed, keeping candidate address: timed out waiting for connect-to-peer response
+[transfer-debug] connect-to-peer F response wait failed, using control peer address: timed out waiting for connect-to-peer response
+[transfer-debug] transfer-request flow start peer=24.7.227.133:52764 path=@@zpyik\Flacs\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac token=19121 connect_token=18669
+[transfer-debug] transfer-request queued, waiting up to 180s for peer grant
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] transfer-request queue granted token=18955 size=36414947
+[transfer-debug] transfer-request inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18955 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18955 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18669 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18669 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] transfer-request flow timed out
+[transfer-debug] queue-upload flow start peer=24.7.227.133:52764 path=@@zpyik\Flacs\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac token=18669
+[transfer-debug] queue-upload request target=Flacs\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=50
+[transfer-debug] upload status raw payload (code=50): 39 00 00 00 46 6c 61 63 73 5c 4e 69 72 76 61 6e 61 5c 4e 65 76 65 72 6d 69 6e 64 5c 30 31 20 2d 20 53 6d 65 6c 6c 73 20 4c 69 6b 65 20 54 65 65 6e 20 53 70 69 72 69 74 2e 66 6c 61 63 10 00 00 00 46 69 6c 65 20 6e 6f 74 20 73 68 61 72 65 64 2e
+[transfer-debug] queue-upload target rejected: target=Flacs\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac variant=path-only err=file not shared (user= path=Flacs\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac): File not shared.
+[transfer-debug] queue-upload request target=@@zpyik\Flacs\Nirvana\Nevermind\01 - Smells Like Teen Spirit.flac variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] received transfer request token=18962 direction=Upload size=36414947
+[transfer-debug] queue-upload inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18962 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18962 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18669 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=18669 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] queue-upload flow timed out
+[transfer-debug] direct flow failed: read frame len | caused by: early eof
+Error: download execution failed: all distributed candidates failed: inbound wait-port flow failed (port 50036): accept inbound P connection | caused by: timed out waiting for inbound peer socket | caused by: deadline has elapsed | connect-to-peer response wait failed: timed out waiting for connect-to-peer response; using candidate address | transfer-request flow timed out | queue-upload flow timed out | direct flow failed: read frame len | caused by: early eof

@@ -1,0 +1,86 @@
+[transfer-debug] distributed download selection: query='nirvana smells like teen spirit mp3' candidates=27 result_index=12
+[transfer-debug] candidate user=kiffir peer=95.31.189.94:50386 path=@@vmmto\Plex Music Library\Nirvana\(1991) Nevermind\01 - Smells Like Teen Spirit.mp3 token=2224451
+[transfer-debug] transfer-request flow start peer=95.31.189.94:50386 path=@@vmmto\Plex Music Library\Nirvana\(1991) Nevermind\01 - Smells Like Teen Spirit.mp3 token=19151 connect_token=2224451
+[transfer-debug] transfer-request queued, waiting up to 120s for peer grant
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] transfer-request queue granted token=90416 size=7374288
+[transfer-debug] transfer-request inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-f token=90416 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=90416 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=90416 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=2224451 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=2224451 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=2224451 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19151 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19151 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19151 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f offset-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] file-transfer init: no token frame, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=with-init-f wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant with-init-f failed: token-init file transfer variants failed (with-init-f): wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=90416 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=90416 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=90416 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=2224451 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=2224451 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=2224451 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19151 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19151 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19151 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init offset-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=no-init wait-remote-token init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant no-init failed: token-init file transfer variants failed (no-init): wait-remote-token init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=90416 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=90416 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=90416 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=2224451 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=2224451 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=2224451 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=19151 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] transfer-request flow timed out
+[transfer-debug] queue-upload flow start peer=95.31.189.94:50386 path=@@vmmto\Plex Music Library\Nirvana\(1991) Nevermind\01 - Smells Like Teen Spirit.mp3 token=2224451
+[transfer-debug] queue-upload request target=Plex Music Library\Nirvana\(1991) Nevermind\01 - Smells Like Teen Spirit.mp3 variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=50
+[transfer-debug] upload status raw payload (code=50): 4c 00 00 00 50 6c 65 78 20 4d 75 73 69 63 20 4c 69 62 72 61 72 79 5c 4e 69 72 76 61 6e 61 5c 28 31 39 39 31 29 20 4e 65 76 65 72 6d 69 6e 64 5c 30 31 20 2d 20 53 6d 65 6c 6c 73 20 4c 69 6b 65 20 54 65 65 6e 20 53 70 69 72 69 74 2e 6d 70 33 10 00 00 00 46 69 6c 65 20 6e 6f 74 20 73 68 61 ...
+[transfer-debug] queue-upload target rejected: target=Plex Music Library\Nirvana\(1991) Nevermind\01 - Smells Like Teen Spirit.mp3 variant=path-only err=file not shared (user= path=Plex Music Library\Nirvana\(1991) Nevermind\01 - Smells Like Teen Spirit.mp3): File not shared.
+[transfer-debug] queue-upload request target=@@vmmto\Plex Music Library\Nirvana\(1991) Nevermind\01 - Smells Like Teen Spirit.mp3 variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] received transfer request token=90417 direction=Upload size=7374288
+[transfer-debug] queue-upload inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-f token=90417 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=90417 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=90417 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=2224451 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=2224451 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=2224451 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19151 token+offset init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19151 token-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f token=19151 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-f offset-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] file-transfer init: no token frame, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=with-init-f wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant with-init-f failed: token-init file transfer variants failed (with-init-f): wait-remote-token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=90417 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=90417 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=90417 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=2224451 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=2224451 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=2224451 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19151 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19151 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19151 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init offset-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] outbound file transfer variant=no-init wait-remote-token init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant no-init failed: token-init file transfer variants failed (no-init): wait-remote-token init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=90417 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=90417 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=90417 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=2224451 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=2224451 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=with-init-p token=2224451 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=with-init-p token=19151 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] queue-upload flow timed out
+[transfer-debug] direct flow failed: read frame len | caused by: early eof
+Error: download execution failed: all distributed candidates failed: transfer-request flow timed out | queue-upload flow timed out | direct flow failed: read frame len | caused by: early eof

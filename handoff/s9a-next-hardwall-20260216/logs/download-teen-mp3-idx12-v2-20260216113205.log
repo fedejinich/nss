@@ -1,0 +1,46 @@
+[transfer-debug] distributed download selection: query='nirvana smells like teen spirit mp3' candidates=19 result_index=12
+[transfer-debug] candidate user=JAM420 peer=173.64.67.110:61230 path=@@tpsaa\music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3 token=457695
+[transfer-debug] transfer-request flow start peer=173.64.67.110:61230 path=@@tpsaa\music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3 token=19141 connect_token=457695
+[transfer-debug] transfer-request queued, waiting up to 120s for peer grant
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] transfer-request queue granted token=85371 size=8054626
+[transfer-debug] transfer-request inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=85371 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=85371 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=85371 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=457695 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=457695 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=457695 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19141 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19141 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19141 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init offset-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] transfer-request flow timed out
+[transfer-debug] queue-upload flow start peer=173.64.67.110:61230 path=@@tpsaa\music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3 token=457695
+[transfer-debug] queue-upload request target=music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3 variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=46
+[transfer-debug] upload status raw payload (code=46): 58 00 00 00 40 40 74 70 73 61 61 5c 6d 75 73 69 63 5c 4e 69 72 76 61 6e 61 5c 46 72 6f 6d 20 74 68 65 20 4d 75 64 64 79 20 42 61 6e 6b 73 20 6f 66 20 74 68 65 20 57 69 73 68 6b 61 68 5c 30 35 20 53 6d 65 6c 6c 73 20 4c 69 6b 65 20 54 65 65 6e 20 53 70 69 72 69 74 2e 6d 70 33
+[transfer-debug] queue-upload target rejected: target=music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3 variant=path-only err=file not shared (user= path=): @@tpsaa\music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3
+[transfer-debug] queue-upload request target=@@tpsaa\music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3 variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=50
+[transfer-debug] upload status raw payload (code=50): 50 00 00 00 6d 75 73 69 63 5c 4e 69 72 76 61 6e 61 5c 46 72 6f 6d 20 74 68 65 20 4d 75 64 64 79 20 42 61 6e 6b 73 20 6f 66 20 74 68 65 20 57 69 73 68 6b 61 68 5c 30 35 20 53 6d 65 6c 6c 73 20 4c 69 6b 65 20 54 65 65 6e 20 53 70 69 72 69 74 2e 6d 70 33 10 00 00 00 46 69 6c 65 20 6e 6f 74 ...
+[transfer-debug] queue-upload target rejected: target=@@tpsaa\music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3 variant=path-only err=file not shared (user= path=music\Nirvana\From the Muddy Banks of the Wishkah\05 Smells Like Teen Spirit.mp3): File not shared.
+[transfer-debug] queue-upload request target=@@tpsaa/music/Nirvana/From the Muddy Banks of the Wishkah/05 Smells Like Teen Spirit.mp3 variant=path-only
+[transfer-debug] peer frame while waiting transfer request: code=40
+[transfer-debug] received transfer request token=85372 direction=Upload size=8054626
+[transfer-debug] queue-upload inbound F failed: timed out waiting for inbound file socket | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=85372 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=85372 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=85372 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=457695 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=457695 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=457695 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init token=19141 token+offset init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19141 token-only init failed: timed out reading file body chunk | caused by: deadline has elapsed
+[transfer-debug] outbound file transfer variant=no-init token=19141 offset+token init rejected: peer returned zero bytes for transfer
+[transfer-debug] outbound file transfer variant=no-init offset-only init rejected: peer returned zero bytes for transfer
+[transfer-debug] file-transfer init: timeout, sending token+offset fallback if token hint exists
+[transfer-debug] queue-upload flow timed out
+[transfer-debug] direct flow failed: read frame len | caused by: early eof
+Error: download execution failed: all distributed candidates failed: transfer-request flow timed out | queue-upload flow timed out | direct flow failed: read frame len | caused by: early eof
