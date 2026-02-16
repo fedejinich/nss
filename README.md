@@ -46,6 +46,7 @@ cargo run -q -p soul-tui
 
 TUI flow: login modal (mandatory) -> search -> select result -> download.  
 Downloads history is persisted locally and can be shown/hidden or cleared from the TUI.
+If login fails, press `g` in the TUI to open the diagnostics wizard.
 
 ### 4. Open the knowledge base (Zensical)
 

@@ -162,6 +162,10 @@ Execution rule:
 5. Added startup recovery behavior:
    - persisted `in_progress` entries are converted to `interrupted` on boot.
 6. Added/extended tests for persistence, login gating, toggle/clear behavior, and recovery semantics.
+7. Added login diagnostics hardening:
+   - explicit auth error when server closes before login response:
+     - `server closed before login response (possible invalid account/registration/ban)`
+   - in-app diagnostics wizard (`g`) for server parsing, DNS/TCP checks, and login version probe matrix.
 
 ## Stage 4L Completion
 

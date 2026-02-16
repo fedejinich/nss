@@ -48,6 +48,7 @@ pub async fn run(app: &mut App) -> Result<()> {
                     PendingAction::Login => app.login().await,
                     PendingAction::Search => app.search().await,
                     PendingAction::Download => app.download_selected().await,
+                    PendingAction::RunDiagnostics => app.run_diagnostics().await,
                     PendingAction::Quit => break,
                 }
             }
@@ -72,6 +73,10 @@ fn draw(frame: &mut ratatui::Frame<'_>, app: &App) {
         draw_login_modal(frame, app);
     } else {
         draw_main(frame, app);
+    }
+
+    if app.diagnostics_visible {
+        draw_diagnostics_modal(frame, app);
     }
 }
 
@@ -136,9 +141,11 @@ fn draw_login_modal(frame: &mut ratatui::Frame<'_>, app: &App) {
         sections[3],
     );
 
-    let help = Paragraph::new("Tab/Shift+Tab focus | Enter login | Esc clear error | q quit")
-        .style(Style::default().fg(COLOR_MUTED))
-        .wrap(Wrap { trim: true });
+    let help = Paragraph::new(
+        "Tab/Shift+Tab focus | Enter login | g diagnostics | Esc clear error | q quit",
+    )
+    .style(Style::default().fg(COLOR_MUTED))
+    .wrap(Wrap { trim: true });
     frame.render_widget(help, sections[4]);
 
     let error_line = app
@@ -225,7 +232,7 @@ fn draw_main(frame: &mut ratatui::Frame<'_>, app: &App) {
         frame.render_widget(results_widget(app), root[1]);
     }
 
-    let query_hint = "keys: /=edit query Enter=search d=download t=toggle downloads c=clear history l=login q=quit";
+    let query_hint = "keys: /=edit query Enter=search d=download t=toggle downloads c=clear history l=login g=diagnostics q=quit";
     let footer = Paragraph::new(vec![
         Line::from(Span::styled(
             format!("Query: {}", app.query_for_display()),
@@ -349,6 +356,62 @@ fn login_field(label: &str, value: &str, focused: bool) -> Paragraph<'static> {
                 .border_style(Style::default().fg(border)),
         )
         .style(Style::default().fg(COLOR_TEXT).bg(COLOR_BG))
+}
+
+fn draw_diagnostics_modal(frame: &mut ratatui::Frame<'_>, app: &App) {
+    let popup = centered_rect(74, 64, frame.area());
+    frame.render_widget(Clear, popup);
+
+    let sections = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(3),
+            Constraint::Length(2),
+            Constraint::Min(5),
+        ])
+        .split(popup);
+
+    let title = Paragraph::new(Line::from(vec![
+        Span::styled(
+            "Connection Diagnostics Wizard",
+            Style::default()
+                .fg(COLOR_ACCENT_STRONG)
+                .add_modifier(Modifier::BOLD),
+        ),
+        Span::raw("  "),
+        Span::styled(
+            "login/connectivity checks",
+            Style::default().fg(COLOR_MUTED),
+        ),
+    ]))
+    .block(
+        Block::default()
+            .title("Diagnostics")
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(COLOR_ACCENT)),
+    )
+    .style(Style::default().bg(COLOR_BG).fg(COLOR_TEXT));
+    frame.render_widget(title, sections[0]);
+
+    let help = Paragraph::new("r rerun checks | Esc or g close | q quit")
+        .style(Style::default().fg(COLOR_MUTED));
+    frame.render_widget(help, sections[1]);
+
+    let items: Vec<ListItem> = app
+        .diagnostics_lines
+        .iter()
+        .rev()
+        .take(18)
+        .rev()
+        .map(|line| ListItem::new(line.clone()))
+        .collect();
+    let body = List::new(items).block(
+        Block::default()
+            .title("Results")
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(COLOR_BORDER)),
+    );
+    frame.render_widget(body, sections[2]);
 }
 
 fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {

@@ -40,6 +40,7 @@ cargo run -p soul-tui
 
 - `Tab`/`Shift+Tab`: move focus across server/username/password.
 - `Enter`: login.
+- `g`: open diagnostics wizard (DNS/TCP/login probe checks).
 - `Esc`: clear login error.
 - `q`: quit.
 
@@ -53,6 +54,7 @@ cargo run -p soul-tui
 - `t`: show/hide downloads panel.
 - `c`: clear persisted download history (files on disk are kept).
 - `l`: return to login modal (logout).
+- `g`: open diagnostics wizard.
 - `q`: quit.
 
 ## Notes
@@ -68,3 +70,5 @@ cargo run -p soul-tui
 6. Optional env defaults:
    - `NSS_TUI_QUERY`
    - `NSS_TUI_OUTPUT_DIR`
+7. Login failure hint:
+   - If you see `server closed before login response (possible invalid account/registration/ban)`, validate credentials/account creation with an official Soulseek client first.

@@ -309,6 +309,8 @@ Protocol matrix status:
   - downloads panel `show/hide` and `clear history` semantics
   - persisted local state with file permission target `0600`
   - startup recovery (`in_progress` -> `interrupted`)
+  - explicit typed auth error for server-close-before-response login failures
+  - in-TUI diagnostics wizard (`g`) for server format, DNS, TCP connect, and login probe checks
 - Tests:
   - `cargo test -p soul-tui`
   - persistence/recovery and login-gating assertions in `rust/tui` unit tests

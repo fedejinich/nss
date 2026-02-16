@@ -218,11 +218,10 @@ impl SessionClient {
             .map_err(|_| AuthError::Timeout)?
             .map_err(|err| {
                 if is_connection_eof(&err) {
-                    return AuthError::ProtocolDecode(
-                        "server closed before login response (possible invalid account/registration/ban)".to_string(),
-                    );
+                    AuthError::ServerClosedBeforeLoginResponse
+                } else {
+                    AuthError::ProtocolDecode(format!("read login response: {err}"))
                 }
-                AuthError::ProtocolDecode(format!("read login response: {err}"))
             })?;
 
         if response_frame.code != CODE_SM_LOGIN {
@@ -2089,6 +2088,8 @@ pub enum AuthError {
     InvalidPass,
     #[error("login rejected: INVALIDUSERNAME")]
     InvalidUsername,
+    #[error("server closed before login response (possible invalid account/registration/ban)")]
+    ServerClosedBeforeLoginResponse,
     #[error("login response decode failure: {0}")]
     ProtocolDecode(String),
     #[error("login response timed out")]
@@ -5820,6 +5821,33 @@ mod tests {
             .await
             .expect_err("must fail");
         assert_eq!(err, AuthError::InvalidVersion);
+        assert_eq!(client.state(), SessionState::Connected);
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn login_server_close_before_response_returns_typed_error() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (socket, _) = listener.accept().await.expect("accept");
+            drop(socket);
+        });
+
+        let mut client = SessionClient::connect(&addr.to_string())
+            .await
+            .expect("connect");
+        let err = client
+            .login(&Credentials {
+                username: "alice".into(),
+                password: "secret-pass".into(),
+                client_version: 160,
+                minor_version: 1,
+            })
+            .await
+            .expect_err("must fail");
+        assert_eq!(err, AuthError::ServerClosedBeforeLoginResponse);
         assert_eq!(client.state(), SessionState::Connected);
         server.await.expect("server task");
     }
