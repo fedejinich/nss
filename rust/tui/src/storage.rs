@@ -60,7 +60,8 @@ fn save_state_to_path(path: &Path, state: &PersistedAppStateV1) -> Result<()> {
     }
 
     let payload = serde_json::to_string_pretty(state).context("serialize persisted state")?;
-    fs::write(path, payload).with_context(|| format!("write persisted state to {}", path.display()))?;
+    fs::write(path, payload)
+        .with_context(|| format!("write persisted state to {}", path.display()))?;
     set_secure_permissions(path)?;
     Ok(())
 }

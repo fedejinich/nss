@@ -5,9 +5,9 @@ use protocol::{
     build_login_request, build_transfer_request, build_transfer_response,
 };
 use soul_core::{
-    Credentials, DownloadPlan, ManualUploadDecision, PrivateEvent, RoomEvent,
-    SearchSelectDownloadRequest, SessionClient, UploadAgent, UploadDecisionKind,
-    download_single_file, probe_login_versions,
+    Credentials, DownloadPlan, ManualUploadDecision, PrivateEvent, RoomEvent, SearchMode,
+    SearchResultSource, SearchSelectDownloadRequest, SessionClient, UploadAgent,
+    UploadDecisionKind, download_single_file, probe_login_versions,
 };
 use std::env;
 use std::fs;
@@ -175,6 +175,12 @@ enum SessionCommand {
         client_version: u32,
         #[arg(long, default_value_t = 19)]
         minor_version: u32,
+        #[arg(long, value_enum, default_value_t = SearchModeArg::Auto)]
+        search_mode: SearchModeArg,
+        #[arg(long)]
+        strict_track: Option<String>,
+        #[arg(long, default_value = "P")]
+        connection_type: String,
     },
     DownloadAuto {
         #[arg(long)]
@@ -207,12 +213,18 @@ enum SessionCommand {
         peer_lookup_timeout_secs: u64,
         #[arg(long, default_value = "P")]
         connection_type: String,
+        #[arg(long)]
+        wait_port: Option<u16>,
         #[arg(long, default_value_t = false)]
         skip_connect_probe: bool,
         #[arg(long, default_value_t = 160)]
         client_version: u32,
         #[arg(long, default_value_t = 1)]
         minor_version: u32,
+        #[arg(long, value_enum, default_value_t = SearchModeArg::Auto)]
+        search_mode: SearchModeArg,
+        #[arg(long)]
+        strict_track: Option<String>,
         #[arg(long)]
         verbose: bool,
     },
@@ -1006,6 +1018,23 @@ enum VerifyModeArg {
     Semantic,
 }
 
+#[derive(Debug, Clone, Copy, ValueEnum)]
+enum SearchModeArg {
+    Auto,
+    Summary,
+    Distributed,
+}
+
+impl From<SearchModeArg> for SearchMode {
+    fn from(value: SearchModeArg) -> Self {
+        match value {
+            SearchModeArg::Auto => SearchMode::Auto,
+            SearchModeArg::Summary => SearchMode::Summary,
+            SearchModeArg::Distributed => SearchMode::Distributed,
+        }
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -1079,6 +1108,9 @@ async fn main() -> Result<()> {
                 minor_version,
                 5,
                 10,
+                SearchMode::Auto,
+                None,
+                "P",
             )
             .await?
         }
@@ -1124,6 +1156,9 @@ async fn main() -> Result<()> {
                 max_messages,
                 client_version,
                 minor_version,
+                search_mode,
+                strict_track,
+                connection_type,
             } => {
                 run_search(
                     runtime_server(server.as_deref())?.as_str(),
@@ -1135,6 +1170,9 @@ async fn main() -> Result<()> {
                     minor_version,
                     timeout_secs,
                     max_messages,
+                    search_mode.into(),
+                    strict_track.as_deref(),
+                    &connection_type,
                 )
                 .await?
             }
@@ -1154,9 +1192,12 @@ async fn main() -> Result<()> {
                 peer,
                 peer_lookup_timeout_secs,
                 connection_type,
+                wait_port,
                 skip_connect_probe,
                 client_version,
                 minor_version,
+                search_mode,
+                strict_track,
                 verbose,
             } => {
                 let mut client = connect_and_login(
@@ -1180,7 +1221,10 @@ async fn main() -> Result<()> {
                     peer,
                     peer_lookup_timeout_secs,
                     &connection_type,
+                    wait_port,
                     skip_connect_probe,
+                    search_mode.into(),
+                    strict_track.as_deref(),
                     verbose,
                 )
                 .await?;
@@ -2127,6 +2171,13 @@ fn to_comparison_mode(mode: VerifyModeArg) -> ComparisonMode {
     }
 }
 
+fn search_source_label(source: SearchResultSource) -> &'static str {
+    match source {
+        SearchResultSource::ServerSummary => "server_summary",
+        SearchResultSource::DistributedPeer => "distributed_peer",
+    }
+}
+
 async fn connect_and_login(
     server: &str,
     username: &str,
@@ -2174,27 +2225,47 @@ async fn run_search(
     minor_version: u32,
     timeout_secs: u64,
     max_messages: usize,
+    search_mode: SearchMode,
+    strict_track: Option<&str>,
+    connection_type: &str,
 ) -> Result<()> {
     let mut client =
         connect_and_login(server, username, password, client_version, minor_version).await?;
 
-    let messages = client
-        .search_and_collect(
+    let candidates = client
+        .search_collect_candidates(
             token,
             query,
             Duration::from_secs(timeout_secs),
             max_messages,
+            search_mode,
+            strict_track,
+            connection_type,
         )
         .await?;
 
+    let source = candidates
+        .first()
+        .map(|candidate| candidate.source)
+        .unwrap_or(SearchResultSource::ServerSummary);
     println!(
-        "session.search sent token={} query={} collected_server_messages={}",
+        "session.search ok token={} query={} rows={} source={}",
         token,
         query,
-        messages.len()
+        candidates.len(),
+        search_source_label(source)
     );
-    for (idx, msg) in messages.iter().enumerate() {
-        println!("[{idx}] {:?}", msg);
+    for (idx, row) in candidates.iter().enumerate() {
+        println!(
+            "[{idx}] user={} size={} path={} peer={} connect_token={}",
+            row.username,
+            row.file_size,
+            row.file_path,
+            row.peer_addr.as_deref().unwrap_or("<lookup>"),
+            row.connect_token
+                .map(|value| value.to_string())
+                .unwrap_or_else(|| "-".to_string())
+        );
     }
     Ok(())
 }
@@ -2213,7 +2284,10 @@ async fn run_download_auto(
     peer: Option<String>,
     peer_lookup_timeout_secs: u64,
     connection_type: &str,
+    wait_port: Option<u16>,
     skip_connect_probe: bool,
+    search_mode: SearchMode,
+    strict_track: Option<&str>,
     verbose: bool,
 ) -> Result<()> {
     let request = SearchSelectDownloadRequest {
@@ -2228,19 +2302,23 @@ async fn run_download_auto(
         peer_addr_override: peer,
         peer_lookup_timeout: Duration::from_secs(peer_lookup_timeout_secs),
         connection_type: connection_type.to_owned(),
+        wait_port,
         skip_connect_probe,
+        search_mode,
+        strict_track: strict_track.map(ToOwned::to_owned),
     };
 
     let result = client.search_select_and_download(&request).await?;
     println!(
-        "session.download-auto ok user={} path={} size={} peer={} token={} bytes={} output={}",
+        "session.download-auto ok user={} path={} size={} peer={} token={} bytes={} output={} source={}",
         result.selected_username,
         result.selected_virtual_path,
         result.selected_file_size,
         result.peer_addr,
         result.transfer_token,
         result.bytes_written,
-        result.output_path.display()
+        result.output_path.display(),
+        search_source_label(result.search_source)
     );
     if verbose {
         println!("{result:#?}");
