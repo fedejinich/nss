@@ -12,7 +12,15 @@ Dependency graph:
 - `S9A-NEXT-T06 -> S9A-NEXT-T07`
 - `S9A-NEXT-T07 -> S9A-NEXT-T08`
 - `S9A-NEXT-T08 -> S9A-NEXT-T09`
-- `S9A-NEXT-T09 -> S9A-NEXT-T10`
+- `S9A-NEXT-T09 -> S9A-NEXT-T13`
+- `S9A-NEXT-T13 -> S9A-NEXT-T14`
+- `S9A-NEXT-T13 -> S9A-NEXT-T16`
+- `S9A-NEXT-T13 -> S9A-NEXT-T17`
+- `S9A-NEXT-T14 -> S9A-NEXT-T15`
+- `S9A-NEXT-T17 -> S9A-NEXT-T15`
+- `S9A-NEXT-T16 -> S9A-NEXT-T15`
+- `S9A-NEXT-T15 -> S9A-NEXT-T18`
+- `S9A-NEXT-T15 -> S9A-NEXT-T10`
 - `S9A-NEXT-T10 -> S9A-NEXT-T11`
 - `S9A-NEXT-T11 -> S9A-NEXT-T12`
 
@@ -66,7 +74,7 @@ Tasks:
 - id: S9A-NEXT-T10
   description: Capture and redact runtime evidence for successful flim flow and sync ledger/status artifacts
   status: todo
-  depends_on: [S9A-NEXT-T09]
+  depends_on: [S9A-NEXT-T15]
 
 - id: S9A-NEXT-T11
   description: Run gates kb_validate, diff_verify, regression, and zensical build
@@ -77,6 +85,76 @@ Tasks:
   description: Open PR, run mandatory blocking reviews, apply fixes, and merge
   status: todo
   depends_on: [S9A-NEXT-T11]
+
+- id: S9A-NEXT-T13
+  description: Re-run live download-auto with alternate account/server tuple and compare transfer-failure signatures against prior baseline
+  status: done
+  depends_on: [S9A-NEXT-T09]
+
+- id: S9A-NEXT-T14
+  description: Capture official SoulseekQt runtime handshake for the same search/download attempt using Frida+pcap harness
+  status: in_progress
+  depends_on: [S9A-NEXT-T13]
+
+- id: S9A-NEXT-T15
+  description: Diff NeoSoulSeek vs official handshake ordering/content and promote concrete hardwall hypotheses with evidence links
+  status: in_progress
+  depends_on: [S9A-NEXT-T14, S9A-NEXT-T16]
+
+- id: S9A-NEXT-T16
+  description: Mine Google Groups and Reddit user reports for corroborating transfer/queue failure patterns and integrate findings
+  status: done
+  depends_on: [S9A-NEXT-T13]
+
+- id: S9A-NEXT-T17
+  description: Validate public inbound port reachability against Soulseek port test and persist frida-free network evidence
+  status: done
+  depends_on: [S9A-NEXT-T13]
+
+- id: S9A-NEXT-T18
+  description: Extend outbound F-transfer handshake variants, add regression tests, and rerun live MP3 candidate sweeps to validate zero-byte hardwall behavior
+  status: done
+  depends_on: [S9A-NEXT-T15]
+
+Current blockers and outcomes (2026-02-16):
+
+- `S9A-NEXT-T09` remains `in_progress` due live transfer hardwall:
+  - distributed search returns many live peers for `aphex twin flim` and popular fallback queries.
+  - several peers return queue grants (`PM_TRANSFER_REQUEST` with non-zero file sizes), but transfer payload never materializes (`inbound F timeout`, `peer returned zero bytes`, or `direct flow read frame len / connection reset`).
+  - queue-upload path variants are now exhaustively attempted and mostly rejected as `File not shared`.
+- `S9A-NEXT-T13` alternate-account reruns (`server.slsknet.org:2242`, `nss_auto_*`) reproduced the same hardwall signature on both:
+  - `aphex twin flim` and
+  - `smells like teen spirit`.
+- `S9A-NEXT-T14` official live-capture blocker:
+  - Frida attach currently fails in this environment (`frida-helper` launch/permission error).
+  - local `tcpdump` capture is permission-blocked (`/dev/bpf* permission denied`).
+  - Added harness fix to preserve venv interpreter path in `tools/runtime/capture_harness.py`; attach is still blocked by local Frida helper/runtime constraints.
+- `S9A-NEXT-T15` current handshake-diff state:
+  - existing official baseline capture (`captures/redacted/login-search-download/official_frames.hex`) shows transfer success path ending at `code=40` + `code=41` without `code=46/50` denial branch,
+  - current live runs repeatedly enter denial branch (`code=46/50`) and/or zero-byte/timeout path after queue grant.
+  - handshake variant probe (`NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT=0`) does not clear hardwall; queue-grant + zero-byte + denial branch still reproduces.
+- `S9A-NEXT-T18` outbound-variant hardening outcomes:
+  - fixed outbound file-variant acceptance bug where zero-byte payloads were treated as successful and aborted further variant attempts.
+  - added regression tests:
+    - `outbound_transfer_variants_continue_after_zero_byte_attempt`
+    - `file_transfer_offset_then_token_init_writes_expected_order`
+  - added new runtime knobs and handshake probes:
+    - `NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT=1`
+    - `NSS_OUTBOUND_FILE_VARIANT_ORDER={no_init_first|f_init_first|p_init_first}`
+    - outbound init variant `offset+token` added.
+  - queue-upload target generation now includes raw share-prefixed variants (for example `@@share\\...`) and slash variants; multiple peers started returning queue grants for these previously rejected paths.
+  - despite full variant sweeps, live transfer remained blocked with either:
+    - `timed out reading file body chunk`, or
+    - `peer returned zero bytes for transfer`.
+  - indexed scan over MP3-heavy query (`nirvana smells like teen spirit mp3`, result indices `0..5`) produced `SCAN_SUCCESS=0` with `bytes_written=0` for all runs.
+- `S9A-NEXT-T17` frida-free network evidence:
+  - added `tools/runtime/check_slsk_porttest.py` for repeatable remote port reachability checks.
+  - validated `50036`, `50037`, and `2242` as `CLOSED` from `slsknet` port-test endpoint even with local listeners active.
+- `S9A-NEXT-T16` external corroboration pass completed:
+  - community reports repeatedly associate stuck queue/download failures with connectivity or client-version mismatches (ports/NAT/firewall, VPN/proxy, ISP security middleboxes, client updates).
+- Fallback strategy execution:
+  - `a)` verified that multiple users currently advertise `Flim` across FLAC/MP3 variants.
+  - `b)` verified same hardwall pattern on highly popular query (`smells like teen spirit`): queue grants observed, still no successful byte transfer.
 
 ## S9A-LIVE-FLIM - Live Login + Download Proof Test
 

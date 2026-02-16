@@ -758,8 +758,13 @@ impl SessionClient {
             );
         }
 
-        let connect_token_frame = build_send_connect_token(login_username, connect_token);
-        write_frame(&mut p_stream, &connect_token_frame).await?;
+        maybe_write_connect_token_frame(
+            &mut p_stream,
+            login_username,
+            connect_token,
+            "inbound wait-port flow",
+        )
+        .await?;
 
         let transfer_request = send_queue_upload_and_wait_transfer_request(
             &mut p_stream,
@@ -796,7 +801,7 @@ impl SessionClient {
         };
         let content = read_file_transfer_content(&mut f_stream, expected_size, transfer_request.token)
             .await?;
-        validate_transfer_content_size(content.len(), expected_size)?;
+        validate_transfer_content(&content, expected_size)?;
         fs::write(&plan.output_path, &content)
             .await
             .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -1340,11 +1345,11 @@ impl SessionClient {
                         file_size: candidate.file_size,
                         output_path: request.output_path.clone(),
                     };
-                    match tokio::time::timeout(
-                        Duration::from_secs(25),
-                        self.download_single_file_via_inbound_wait_port(
-                            &inbound_plan,
-                            &login_username,
+                match tokio::time::timeout(
+                    resolve_inbound_wait_port_flow_timeout(),
+                    self.download_single_file_via_inbound_wait_port(
+                        &inbound_plan,
+                        &login_username,
                             &candidate.username,
                             wire_token,
                             inbound_wait_port,
@@ -1402,7 +1407,7 @@ impl SessionClient {
                         match self
                             .wait_connect_to_peer_response(
                                 &candidate.username,
-                                Duration::from_secs(12),
+                                resolve_connect_to_peer_wait_timeout(),
                             )
                             .await
                         {
@@ -1446,7 +1451,7 @@ impl SessionClient {
                         match self
                             .wait_connect_to_peer_response(
                                 &candidate.username,
-                                Duration::from_secs(12),
+                                resolve_connect_to_peer_wait_timeout(),
                             )
                             .await
                         {
@@ -1556,7 +1561,7 @@ impl SessionClient {
                 }
 
                 match tokio::time::timeout(
-                    Duration::from_secs(90),
+                    resolve_direct_transfer_flow_timeout(),
                     download_single_file_with_peer_init(
                         &DownloadPlan {
                             peer_addr: file_peer_addr.clone(),
@@ -1658,7 +1663,7 @@ impl SessionClient {
                 && let Some(wait_port) = resolve_wait_port(request.wait_port)
             {
                 match tokio::time::timeout(
-                    Duration::from_secs(25),
+                    resolve_inbound_wait_port_flow_timeout(),
                     self.download_single_file_via_inbound_wait_port(
                         &plan,
                         &login_username,
@@ -2586,6 +2591,33 @@ fn resolve_max_candidate_attempts() -> usize {
     32
 }
 
+fn resolve_connect_to_peer_wait_timeout() -> Duration {
+    if let Ok(raw) = std::env::var("NSS_CONNECT_TO_PEER_WAIT_SECS")
+        && let Ok(value) = raw.parse::<u64>()
+    {
+        return Duration::from_secs(value.clamp(3, 120));
+    }
+    Duration::from_secs(12)
+}
+
+fn resolve_inbound_wait_port_flow_timeout() -> Duration {
+    if let Ok(raw) = std::env::var("NSS_INBOUND_WAIT_PORT_FLOW_TIMEOUT_SECS")
+        && let Ok(value) = raw.parse::<u64>()
+    {
+        return Duration::from_secs(value.clamp(10, 180));
+    }
+    Duration::from_secs(25)
+}
+
+fn resolve_direct_transfer_flow_timeout() -> Duration {
+    if let Ok(raw) = std::env::var("NSS_DIRECT_TRANSFER_FLOW_TIMEOUT_SECS")
+        && let Ok(value) = raw.parse::<u64>()
+    {
+        return Duration::from_secs(value.clamp(20, 240));
+    }
+    Duration::from_secs(90)
+}
+
 fn resolve_queue_wait_secs() -> u64 {
     if let Ok(raw) = std::env::var("NSS_QUEUE_WAIT_SECS")
         && let Ok(value) = raw.parse::<u64>()
@@ -2707,6 +2739,58 @@ fn transfer_debug(message: impl AsRef<str>) {
     }
 }
 
+fn resolve_send_connect_token_on_peer_init() -> bool {
+    match std::env::var("NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT") {
+        Ok(value) => !matches!(
+            value.as_str(),
+            "0" | "false" | "False" | "FALSE" | "no" | "No" | "NO"
+        ),
+        Err(_) => true,
+    }
+}
+
+fn resolve_send_connect_token_on_outbound_file_init() -> bool {
+    matches!(
+        std::env::var("NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT"),
+        Ok(value)
+            if value == "1"
+                || value.eq_ignore_ascii_case("true")
+                || value.eq_ignore_ascii_case("yes")
+    )
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum OutboundFileVariantOrder {
+    NoInitFirst,
+    FInitFirst,
+    PInitFirst,
+}
+
+fn resolve_outbound_file_variant_order() -> OutboundFileVariantOrder {
+    match std::env::var("NSS_OUTBOUND_FILE_VARIANT_ORDER") {
+        Ok(value) if value.eq_ignore_ascii_case("f_init_first") => OutboundFileVariantOrder::FInitFirst,
+        Ok(value) if value.eq_ignore_ascii_case("p_init_first") => OutboundFileVariantOrder::PInitFirst,
+        _ => OutboundFileVariantOrder::NoInitFirst,
+    }
+}
+
+async fn maybe_write_connect_token_frame(
+    stream: &mut TcpStream,
+    login_username: &str,
+    connect_token: u32,
+    flow_label: &str,
+) -> Result<()> {
+    if !resolve_send_connect_token_on_peer_init() {
+        transfer_debug(format!(
+            "{flow_label}: skipping PM_SEND_CONNECT_TOKEN due to NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT=0"
+        ));
+        return Ok(());
+    }
+
+    let connect_token_frame = build_send_connect_token(login_username, connect_token);
+    write_frame(stream, &connect_token_frame).await
+}
+
 fn format_error_chain(err: &anyhow::Error) -> String {
     err.chain()
         .map(std::string::ToString::to_string)
@@ -2773,6 +2857,50 @@ fn validate_transfer_content_size(actual_len: usize, expected_size: u64) -> Resu
         );
     }
     Ok(())
+}
+
+fn detect_embedded_peer_control_frame(content: &[u8]) -> Option<String> {
+    let Ok(Some((frame, consumed))) = split_first_frame(content) else {
+        return None;
+    };
+    if consumed != content.len() {
+        return None;
+    }
+
+    let decoded = decode_peer_message(frame.code, &frame.payload);
+    match (frame.code, decoded) {
+        (CODE_PM_UPLOAD_PLACE_IN_LINE, Ok(PeerMessage::UploadPlaceInLine(payload))) => Some(
+            format!(
+                "peer queued transfer frame on file channel (place={} user={} path={})",
+                payload.place, payload.username, payload.virtual_path
+            ),
+        ),
+        (CODE_PM_UPLOAD_DENIED, Ok(PeerMessage::UploadDenied(payload)))
+        | (CODE_PM_UPLOAD_FAILED, Ok(PeerMessage::UploadFailed(payload))) => Some(format!(
+            "peer denied transfer frame on file channel (user={} path={}): {}",
+            payload.username,
+            payload.virtual_path,
+            if payload.reason.is_empty() {
+                "upload denied by peer".to_string()
+            } else {
+                payload.reason
+            }
+        )),
+        (CODE_PM_UPLOAD_PLACE_IN_LINE, Err(_)) => Some(
+            "peer queued transfer frame on file channel (opaque upload-place variant)".to_string(),
+        ),
+        (CODE_PM_UPLOAD_DENIED, Err(_)) | (CODE_PM_UPLOAD_FAILED, Err(_)) => Some(
+            "peer denied transfer frame on file channel (opaque upload-status variant)".to_string(),
+        ),
+        _ => None,
+    }
+}
+
+fn validate_transfer_content(content: &[u8], expected_size: u64) -> Result<()> {
+    if let Some(message) = detect_embedded_peer_control_frame(content) {
+        bail!("{message}");
+    }
+    validate_transfer_content_size(content.len(), expected_size)
 }
 
 fn hex_prefix(bytes: &[u8], max_len: usize) -> String {
@@ -2881,7 +3009,7 @@ pub async fn download_single_file(plan: &DownloadPlan) -> Result<DownloadResult>
     ensure_parent_dir(&plan.output_path).await?;
 
     let content = read_transfer_body(&mut stream, plan.file_size).await?;
-    validate_transfer_content_size(content.len(), plan.file_size)?;
+    validate_transfer_content(&content, plan.file_size)?;
     fs::write(&plan.output_path, &content)
         .await
         .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -2904,8 +3032,13 @@ pub async fn download_single_file_with_peer_init(
 
     write_peer_init_frame(&mut stream, login_username, connection_type, connect_token).await?;
     if connection_type.eq_ignore_ascii_case("P") {
-        let connect_token_frame = build_send_connect_token(login_username, connect_token);
-        write_frame(&mut stream, &connect_token_frame).await?;
+        maybe_write_connect_token_frame(
+            &mut stream,
+            login_username,
+            connect_token,
+            "download with peer-init",
+        )
+        .await?;
     }
     let request = build_download_transfer_request_runtime(plan.token, &plan.virtual_path, plan.file_size);
     write_frame(&mut stream, &request).await?;
@@ -2915,7 +3048,7 @@ pub async fn download_single_file_with_peer_init(
     ensure_parent_dir(&plan.output_path).await?;
 
     let content = read_transfer_body(&mut stream, plan.file_size).await?;
-    validate_transfer_content_size(content.len(), plan.file_size)?;
+    validate_transfer_content(&content, plan.file_size)?;
     fs::write(&plan.output_path, &content)
         .await
         .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -2942,8 +3075,13 @@ async fn download_single_file_via_transfer_request(
         .await
         .with_context(|| format!("connect peer failed: {}", plan.peer_addr))?;
     write_peer_init_frame(&mut p_stream, login_username, "P", connect_token).await?;
-    let connect_token_frame = build_send_connect_token(login_username, connect_token);
-    write_frame(&mut p_stream, &connect_token_frame).await?;
+    maybe_write_connect_token_frame(
+        &mut p_stream,
+        login_username,
+        connect_token,
+        "transfer-request flow",
+    )
+    .await?;
 
     let mut inbound_listener = None::<TcpListener>;
     let mut inbound_bind_error = None::<String>;
@@ -3008,7 +3146,7 @@ async fn download_single_file_via_transfer_request(
     if let Some(content) =
         try_read_transfer_body_on_control_channel(&mut p_stream, expected_size).await?
     {
-        if validate_transfer_content_size(content.len(), expected_size).is_ok() {
+        if validate_transfer_content(&content, expected_size).is_ok() {
             fs::write(&plan.output_path, &content)
                 .await
                 .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -3036,7 +3174,7 @@ async fn download_single_file_via_transfer_request(
                 let content =
                     read_file_transfer_content(&mut f_stream, expected_size, file_transfer_token)
                         .await?;
-                if validate_transfer_content_size(content.len(), expected_size).is_ok() {
+                if validate_transfer_content(&content, expected_size).is_ok() {
                     fs::write(&plan.output_path, &content)
                         .await
                         .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -3079,7 +3217,7 @@ async fn download_single_file_via_transfer_request(
             return Err(err);
         }
     };
-    validate_transfer_content_size(content.len(), expected_size)?;
+    validate_transfer_content(&content, expected_size)?;
     fs::write(&plan.output_path, &content)
         .await
         .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -3139,6 +3277,18 @@ async fn read_file_transfer_content_outbound_with_variants(
                 write_peer_init_frame(&mut stream, login_username, connection_type, connect_token)
                     .await
                     .with_context(|| format!("write F init frame ({variant_name})"))?;
+                if resolve_send_connect_token_on_outbound_file_init() {
+                    maybe_write_connect_token_frame(
+                        &mut stream,
+                        login_username,
+                        connect_token,
+                        &format!("outbound file init ({variant_name})"),
+                    )
+                    .await
+                    .with_context(|| {
+                        format!("write outbound file init connect-token ({variant_name})")
+                    })?;
+                }
             }
             Ok(stream)
         }
@@ -3152,7 +3302,7 @@ async fn read_file_transfer_content_outbound_with_variants(
             token_candidates.push(request_token);
         }
 
-        let mut last_error = None::<String>;
+        let mut attempt_errors = Vec::new();
         for candidate_token in token_candidates {
             let mut token_offset_stream = connect_variant_socket(
                 peer_addr,
@@ -3162,14 +3312,34 @@ async fn read_file_transfer_content_outbound_with_variants(
                 variant_name,
             )
             .await?;
-            if let Ok(content) = read_file_transfer_content_with_token_init(
+            match read_file_transfer_content_with_token_init(
                 &mut token_offset_stream,
                 expected_size,
                 candidate_token,
             )
             .await
             {
-                return Ok(content);
+                Ok(content) => match validate_transfer_content(&content, expected_size) {
+                    Ok(()) => return Ok(content),
+                    Err(err) => {
+                        let rendered = format_error_chain(&err);
+                        transfer_debug(format!(
+                            "outbound file transfer variant={variant_name} token={candidate_token} token+offset init rejected: {rendered}"
+                        ));
+                        attempt_errors.push(format!(
+                            "token={candidate_token} token+offset init rejected: {rendered}"
+                        ));
+                    }
+                },
+                Err(err) => {
+                    let rendered = format_error_chain(&err);
+                    transfer_debug(format!(
+                        "outbound file transfer variant={variant_name} token={candidate_token} token+offset init failed: {rendered}"
+                    ));
+                    attempt_errors.push(format!(
+                        "token={candidate_token} token+offset init failed: {rendered}"
+                    ));
+                }
             }
 
             let mut token_only_stream = connect_variant_socket(
@@ -3187,11 +3357,63 @@ async fn read_file_transfer_content_outbound_with_variants(
             )
             .await
             {
-                Ok(content) => return Ok(content),
+                Ok(content) => match validate_transfer_content(&content, expected_size) {
+                    Ok(()) => return Ok(content),
+                    Err(err) => {
+                        let rendered = format_error_chain(&err);
+                        transfer_debug(format!(
+                            "outbound file transfer variant={variant_name} token={candidate_token} token-only init rejected: {rendered}"
+                        ));
+                        attempt_errors.push(format!(
+                            "token={candidate_token} token-only init rejected: {rendered}"
+                        ));
+                    }
+                },
                 Err(err) => {
-                    last_error = Some(format!(
-                        "token={candidate_token} failed: {}",
-                        format_error_chain(&err)
+                    let rendered = format_error_chain(&err);
+                    transfer_debug(format!(
+                        "outbound file transfer variant={variant_name} token={candidate_token} token-only init failed: {rendered}"
+                    ));
+                    attempt_errors.push(format!(
+                        "token={candidate_token} token-only init failed: {rendered}"
+                    ));
+                }
+            }
+
+            let mut offset_then_token_stream = connect_variant_socket(
+                peer_addr,
+                login_username,
+                connect_token,
+                init_connection_type,
+                variant_name,
+            )
+            .await?;
+            match read_file_transfer_content_with_offset_then_token_init(
+                &mut offset_then_token_stream,
+                expected_size,
+                candidate_token,
+            )
+            .await
+            {
+                Ok(content) => match validate_transfer_content(&content, expected_size) {
+                    Ok(()) => return Ok(content),
+                    Err(err) => {
+                        let rendered = format_error_chain(&err);
+                        transfer_debug(format!(
+                            "outbound file transfer variant={variant_name} token={candidate_token} offset+token init rejected: {rendered}"
+                        ));
+                        attempt_errors.push(format!(
+                            "token={candidate_token} offset+token init rejected: {rendered}"
+                        ));
+                    }
+                },
+                Err(err) => {
+                    let rendered = format_error_chain(&err);
+                    transfer_debug(format!(
+                        "outbound file transfer variant={variant_name} token={candidate_token} offset+token init failed: {rendered}"
+                    ));
+                    attempt_errors.push(format!(
+                        "token={candidate_token} offset+token init failed: {rendered}"
                     ));
                 }
             }
@@ -3205,10 +3427,24 @@ async fn read_file_transfer_content_outbound_with_variants(
             variant_name,
         )
         .await?;
-        if let Ok(content) =
-            read_file_transfer_content_with_offset_only_init(&mut offset_only_stream, expected_size).await
-        {
-            return Ok(content);
+        match read_file_transfer_content_with_offset_only_init(&mut offset_only_stream, expected_size).await {
+            Ok(content) => match validate_transfer_content(&content, expected_size) {
+                Ok(()) => return Ok(content),
+                Err(err) => {
+                    let rendered = format_error_chain(&err);
+                    transfer_debug(format!(
+                        "outbound file transfer variant={variant_name} offset-only init rejected: {rendered}"
+                    ));
+                    attempt_errors.push(format!("offset-only init rejected: {rendered}"));
+                }
+            },
+            Err(err) => {
+                let rendered = format_error_chain(&err);
+                transfer_debug(format!(
+                    "outbound file transfer variant={variant_name} offset-only init failed: {rendered}"
+                ));
+                attempt_errors.push(format!("offset-only init failed: {rendered}"));
+            }
         }
 
         let mut wait_remote_token_stream = connect_variant_socket(
@@ -3219,76 +3455,84 @@ async fn read_file_transfer_content_outbound_with_variants(
             variant_name,
         )
         .await?;
-        if let Ok(content) =
-            read_file_transfer_content(&mut wait_remote_token_stream, expected_size, file_transfer_token).await
+        match read_file_transfer_content(
+            &mut wait_remote_token_stream,
+            expected_size,
+            file_transfer_token,
+        )
+        .await
         {
-            return Ok(content);
+            Ok(content) => match validate_transfer_content(&content, expected_size) {
+                Ok(()) => return Ok(content),
+                Err(err) => {
+                    let rendered = format_error_chain(&err);
+                    transfer_debug(format!(
+                        "outbound file transfer variant={variant_name} wait-remote-token init rejected: {rendered}"
+                    ));
+                    attempt_errors.push(format!(
+                        "wait-remote-token init rejected: {rendered}"
+                    ));
+                }
+            },
+            Err(err) => {
+                let rendered = format_error_chain(&err);
+                transfer_debug(format!(
+                    "outbound file transfer variant={variant_name} wait-remote-token init failed: {rendered}"
+                ));
+                attempt_errors.push(format!("wait-remote-token init failed: {rendered}"));
+            }
         }
 
         bail!(
             "token-init file transfer variants failed ({variant_name}): {}",
-            last_error.unwrap_or_else(|| "unknown token-init failure".to_string())
+            attempt_errors
+                .last()
+                .cloned()
+                .unwrap_or_else(|| "unknown token-init failure".to_string())
         )
     }
 
-    match run_variant(
-        peer_addr,
-        login_username,
-        connect_token,
-        expected_size,
-        file_transfer_token,
-        request_token,
-        None,
-        "no-init",
-    )
-    .await
-    {
-        Ok(content) => Ok(content),
-        Err(no_init_err) => {
-            transfer_debug(format!(
-                "outbound F no-init variants failed: {}; retrying with F init",
-                format_error_chain(&no_init_err)
-            ));
-            let f_init_result = run_variant(
-                peer_addr,
-                login_username,
-                connect_token,
-                expected_size,
-                file_transfer_token,
-                request_token,
-                Some("F"),
-                "with-init-f",
-            )
-            .await;
-            match f_init_result {
-                Ok(content) => Ok(content),
-                Err(f_init_err) => {
-                    transfer_debug(format!(
-                        "outbound F with-init variants failed: {}; retrying with P init",
-                        format_error_chain(&f_init_err)
-                    ));
-                    run_variant(
-                        peer_addr,
-                        login_username,
-                        connect_token,
-                        expected_size,
-                        file_transfer_token,
-                        request_token,
-                        Some("P"),
-                        "with-init-p",
-                    )
-                    .await
-                    .with_context(|| {
-                        format!(
-                            "with-init-p outbound fallback failed after no-init={} and with-init-f={}",
-                            format_error_chain(&no_init_err),
-                            format_error_chain(&f_init_err)
-                        )
-                    })
-                }
+    let variant_plan: &[(Option<&str>, &str)] = match resolve_outbound_file_variant_order() {
+        OutboundFileVariantOrder::NoInitFirst => {
+            &[(None, "no-init"), (Some("F"), "with-init-f"), (Some("P"), "with-init-p")]
+        }
+        OutboundFileVariantOrder::FInitFirst => {
+            &[(Some("F"), "with-init-f"), (None, "no-init"), (Some("P"), "with-init-p")]
+        }
+        OutboundFileVariantOrder::PInitFirst => {
+            &[(Some("P"), "with-init-p"), (Some("F"), "with-init-f"), (None, "no-init")]
+        }
+    };
+
+    let mut variant_errors = Vec::with_capacity(variant_plan.len());
+    for (init_connection_type, variant_name) in variant_plan {
+        match run_variant(
+            peer_addr,
+            login_username,
+            connect_token,
+            expected_size,
+            file_transfer_token,
+            request_token,
+            *init_connection_type,
+            variant_name,
+        )
+        .await
+        {
+            Ok(content) => return Ok(content),
+            Err(err) => {
+                let rendered = format_error_chain(&err);
+                transfer_debug(format!(
+                    "outbound file transfer variant {variant_name} failed: {rendered}"
+                ));
+                variant_errors.push(format!("{variant_name}: {rendered}"));
             }
         }
     }
+
+    bail!(
+        "all outbound file transfer variants failed: {}",
+        variant_errors.join(" | ")
+    )
 }
 
 async fn download_single_file_via_queue_upload(
@@ -3324,8 +3568,13 @@ async fn download_single_file_via_queue_upload(
         plan.peer_addr, plan.virtual_path, connect_token
     ));
     write_peer_init_frame(&mut p_stream, login_username, "P", connect_token).await?;
-    let connect_token_frame = build_send_connect_token(login_username, connect_token);
-    write_frame(&mut p_stream, &connect_token_frame).await?;
+    maybe_write_connect_token_frame(
+        &mut p_stream,
+        login_username,
+        connect_token,
+        "queue-upload flow",
+    )
+    .await?;
 
     let transfer_request = send_queue_upload_and_wait_transfer_request(
         &mut p_stream,
@@ -3350,7 +3599,7 @@ async fn download_single_file_via_queue_upload(
     if let Some(content) =
         try_read_transfer_body_on_control_channel(&mut p_stream, expected_size).await?
     {
-        if validate_transfer_content_size(content.len(), expected_size).is_ok() {
+        if validate_transfer_content(&content, expected_size).is_ok() {
             fs::write(&plan.output_path, &content)
                 .await
                 .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -3378,7 +3627,7 @@ async fn download_single_file_via_queue_upload(
                 let content =
                     read_file_transfer_content(&mut f_stream, expected_size, transfer_request.token)
                         .await?;
-                if validate_transfer_content_size(content.len(), expected_size).is_ok() {
+                if validate_transfer_content(&content, expected_size).is_ok() {
                     fs::write(&plan.output_path, &content)
                         .await
                         .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -3421,7 +3670,7 @@ async fn download_single_file_via_queue_upload(
             );
         }
     };
-    validate_transfer_content_size(content.len(), expected_size)?;
+    validate_transfer_content(&content, expected_size)?;
     fs::write(&plan.output_path, &content)
         .await
         .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
@@ -3527,6 +3776,26 @@ async fn read_file_transfer_content_with_token_only_init(
         .flush()
         .await
         .context("flush file-transfer token-only init")?;
+    read_transfer_body(stream, expected_size).await
+}
+
+async fn read_file_transfer_content_with_offset_then_token_init(
+    stream: &mut TcpStream,
+    expected_size: u64,
+    token: u32,
+) -> Result<Vec<u8>> {
+    stream
+        .write_all(&0_u64.to_le_bytes())
+        .await
+        .context("write file-transfer offset-first init")?;
+    stream
+        .write_all(&token.to_le_bytes())
+        .await
+        .context("write file-transfer token-second init")?;
+    stream
+        .flush()
+        .await
+        .context("flush file-transfer offset+token init")?;
     read_transfer_body(stream, expected_size).await
 }
 
@@ -3703,17 +3972,21 @@ fn queue_upload_suffix_variants(path: &str) -> Vec<String> {
 fn queue_upload_targets(virtual_path: &str) -> Vec<String> {
     let raw = sanitize_peer_virtual_path(virtual_path);
     let normalized = queue_upload_target(&raw);
+    let has_share_prefix = raw.starts_with("@@");
     let mut out = Vec::with_capacity(8);
 
-    push_unique_queue_target(&mut out, raw.clone());
     push_unique_queue_target(&mut out, normalized.clone());
+    if has_share_prefix {
+        push_unique_queue_target(&mut out, raw.clone());
+    }
+    if let Some((_, suffix)) = raw.strip_prefix("@@").and_then(|value| value.split_once('\\')) {
+        push_unique_queue_target(&mut out, suffix.to_owned());
+    }
+    push_unique_queue_target(&mut out, raw.clone());
     push_unique_queue_target(&mut out, raw.replace('/', "\\"));
     push_unique_queue_target(&mut out, raw.replace('\\', "/"));
     if !normalized.is_empty() {
         push_unique_queue_target(&mut out, format!("\\{normalized}"));
-    }
-    if let Some((_, suffix)) = raw.strip_prefix("@@").and_then(|value| value.split_once('\\')) {
-        push_unique_queue_target(&mut out, suffix.to_owned());
     }
 
     if let Some(base) = queue_upload_basename(&raw) {
@@ -5991,7 +6264,8 @@ mod tests {
     #[test]
     fn queue_upload_targets_include_raw_normalized_and_basename_variants() {
         let targets = queue_upload_targets("Music/Aphex Twin/02 Flim.flac");
-        assert_eq!(targets[0], "Music/Aphex Twin/02 Flim.flac");
+        assert_eq!(targets[0], "Music\\Aphex Twin\\02 Flim.flac");
+        assert!(targets.contains(&"Music/Aphex Twin/02 Flim.flac".to_string()));
         assert!(targets.contains(&"Music\\Aphex Twin\\02 Flim.flac".to_string()));
         assert!(targets.contains(&"Aphex Twin\\02 Flim.flac".to_string()));
         assert!(targets.contains(&"02 Flim.flac".to_string()));
@@ -6000,7 +6274,8 @@ mod tests {
     #[test]
     fn queue_upload_targets_preserve_share_prefixed_and_stripped_variants() {
         let targets = queue_upload_targets("@@alice\\Music\\Aphex Twin\\Flim.flac");
-        assert_eq!(targets[0], "@@alice\\Music\\Aphex Twin\\Flim.flac");
+        assert_eq!(targets[0], "Music\\Aphex Twin\\Flim.flac");
+        assert!(targets.contains(&"@@alice\\Music\\Aphex Twin\\Flim.flac".to_string()));
         assert!(targets.contains(&"Music\\Aphex Twin\\Flim.flac".to_string()));
         assert!(targets.contains(&"Aphex Twin\\Flim.flac".to_string()));
         assert!(targets.contains(&"Flim.flac".to_string()));
@@ -6037,6 +6312,97 @@ mod tests {
                 .contains("peer denied transfer after allow"),
             "unexpected error: {err}"
         );
+
+        server.await.expect("server task");
+    }
+
+    #[test]
+    fn validate_transfer_content_rejects_embedded_upload_failed_frame() {
+        let frame = encode_peer_message(&PeerMessage::UploadFailed(protocol::UploadStatusPayload {
+            username: "peer".into(),
+            virtual_path: "Music\\Aphex Twin\\Flim.flac".into(),
+            reason: "File not shared.".into(),
+        }));
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(&(frame.payload.len() as u32 + 4).to_le_bytes());
+        bytes.extend_from_slice(&frame.code.to_le_bytes());
+        bytes.extend_from_slice(&frame.payload);
+
+        let err = validate_transfer_content(&bytes, bytes.len() as u64)
+            .expect_err("framed upload-failed payload must not be accepted as file bytes");
+        assert!(
+            err.to_string()
+                .contains("peer denied transfer frame on file channel"),
+            "unexpected error: {err}"
+        );
+    }
+
+    #[test]
+    fn validate_transfer_content_accepts_regular_bytes() {
+        let bytes = b"fLaC".to_vec();
+        validate_transfer_content(&bytes, bytes.len() as u64)
+            .expect("regular payload bytes should pass content validation");
+    }
+
+    #[tokio::test]
+    async fn outbound_transfer_variants_continue_after_zero_byte_attempt() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut first, _) = listener.accept().await.expect("accept first");
+            let mut token_and_offset = [0_u8; 12];
+            first
+                .read_exact(&mut token_and_offset)
+                .await
+                .expect("read token+offset init");
+            first.shutdown().await.expect("shutdown first");
+
+            let (mut second, _) = listener.accept().await.expect("accept second");
+            let mut token_only = [0_u8; 4];
+            second
+                .read_exact(&mut token_only)
+                .await
+                .expect("read token-only init");
+            second.write_all(b"abc123").await.expect("write payload");
+            second.shutdown().await.expect("shutdown second");
+        });
+
+        let content = read_file_transfer_content_outbound_with_variants(
+            &addr.to_string(),
+            "alice",
+            777,
+            6,
+            111,
+            222,
+        )
+        .await
+        .expect("read outbound transfer content");
+        assert_eq!(content, b"abc123");
+
+        server.await.expect("server task");
+    }
+
+    #[tokio::test]
+    async fn file_transfer_offset_then_token_init_writes_expected_order() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind");
+        let addr = listener.local_addr().expect("addr");
+
+        let server = tokio::spawn(async move {
+            let (mut socket, _) = listener.accept().await.expect("accept");
+            let mut init = [0_u8; 12];
+            socket.read_exact(&mut init).await.expect("read init");
+            assert_eq!(&init[0..8], &0_u64.to_le_bytes());
+            assert_eq!(&init[8..12], &42_u32.to_le_bytes());
+            socket.write_all(b"abc").await.expect("write payload");
+            socket.shutdown().await.expect("shutdown");
+        });
+
+        let mut client = TcpStream::connect(addr).await.expect("connect");
+        let content = read_file_transfer_content_with_offset_then_token_init(&mut client, 3, 42)
+            .await
+            .expect("read content");
+        assert_eq!(content, b"abc");
 
         server.await.expect("server task");
     }

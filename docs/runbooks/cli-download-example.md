@@ -174,6 +174,9 @@ Runtime diagnostics knobs (useful while S9A-NEXT transfer closure is in progress
 NSS_MAX_CANDIDATE_ATTEMPTS=6 \
 NSS_QUEUE_WAIT_SECS=180 \
 NSS_DEBUG_TRANSFER=1 \
+NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT=0 \
+NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT=1 \
+NSS_OUTBOUND_FILE_VARIANT_ORDER=f_init_first \
 cargo run -q -p soul-cli -- session download-auto ...
 ```
 
@@ -182,3 +185,6 @@ Notes:
 - `NSS_MAX_CANDIDATE_ATTEMPTS` limits distributed peer attempts per run.
 - `NSS_QUEUE_WAIT_SECS` keeps queued transfer requests open waiting for peer grant.
 - `NSS_DEBUG_TRANSFER=1` prints transfer-path diagnostics for runtime triage.
+- `NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT=0` disables peer-init `PM_SEND_CONNECT_TOKEN` as a diagnostic handshake variant.
+- `NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT=1` adds `PM_SEND_CONNECT_TOKEN` after outbound file-socket peer-init variants.
+- `NSS_OUTBOUND_FILE_VARIANT_ORDER` controls outbound file init order (`no_init_first`, `f_init_first`, `p_init_first`).
