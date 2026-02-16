@@ -1,0 +1,30 @@
+{
+  "created_at_utc": "2026-02-16T16:00:00Z",
+  "branch": "main",
+  "handoff_commit": "main HEAD at clone time (run: git rev-parse --short HEAD)",
+  "handoff_commit_full": "main HEAD at clone time (run: git rev-parse HEAD)",
+  "working_tree_clean": true,
+  "modified_files": [],
+  "artifact_bundle_path": "handoff/s9a-next-hardwall-20260216/nss-handoff-artifacts.tgz",
+  "artifact_bundle_sha256": "45b2d4b159f60b350f73ea4a147c10694203d6dd081293523508816c65129e9e",
+  "logs_included": [
+    "download-teen-e2e-20260216104724.log",
+    "download-teen-mp3-idx12-20260216112224.log",
+    "download-teen-mp3-idx12-finit-20260216114049.log",
+    "download-teen-mp3-idx12-v2-20260216113205.log",
+    "download-teen-mp3-scan-idx0-20260216115000.log",
+    "download-teen-mp3-scan-idx1-20260216115000.log",
+    "download-teen-mp3-scan-idx2-20260216115000.log",
+    "download-teen-mp3-scan-idx3-20260216115000.log",
+    "download-teen-mp3-scan-idx4-20260216115000.log",
+    "download-teen-mp3-scan-idx5-20260216115000.log",
+    "search-teen-mp3-distributed-20260216112051.log"
+  ],
+  "resume_prompt_path": "handoff/s9a-next-hardwall-20260216/nss-codex-resume-prompt.txt",
+  "destination_bootstrap_script": "handoff/s9a-next-hardwall-20260216/nss-handoff-destination-commands.sh",
+  "next_command_block": [
+    "cd /Users/<new_user>/Projects/nss",
+    "DURATION=120 SCENARIO=s9a-hardwall-official-search-r3 scripts/capture_golden.sh",
+    "scripts/run_diff_verify.sh"
+  ]
+}

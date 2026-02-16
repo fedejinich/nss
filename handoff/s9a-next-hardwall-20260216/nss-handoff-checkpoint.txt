@@ -1,0 +1,6 @@
+timestamp_utc=2026-02-16T16:05:00Z
+source_cwd=/Users/void_rsk/Projects/nss
+source_branch=main
+source_commit=main HEAD at packaging time (run: git rev-parse --short HEAD)
+resume_branch=main
+resume_commit=main HEAD after clone (run: git rev-parse --short HEAD)

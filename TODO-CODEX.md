@@ -13,7 +13,8 @@ Dependency graph:
 - `H5 -> H7`
 - `H6 -> H7`
 - `H7 -> H8`
-- `H8 -> H9`
+- `H8 -> H10`
+- `H10 -> H9`
 
 Tasks:
 
@@ -34,7 +35,7 @@ Tasks:
 
 - id: H4
   description: Prepare secure out-of-band secret transfer for .env.local and enforce restrictive file mode
-  status: in_progress
+  status: todo
   depends_on: [H1]
 
 - id: H5
@@ -57,20 +58,26 @@ Tasks:
   status: done
   depends_on: [H7]
 
+- id: H10
+  description: Publish self-contained handoff bundle in git so fresh clone can resume without local /tmp dependencies
+  status: done
+  depends_on: [H8]
+
 - id: H9
   description: Execute first post-handoff official capture rerun and diff verification on new Mac
   status: todo
-  depends_on: [H8]
+  depends_on: [H10]
 
 Handoff artifacts and checkpoint (2026-02-16):
 
-- branch: `codex/s9a-next-live-flim-closure`
-- handoff commit: branch HEAD at transfer time (`git rev-parse --short HEAD`)
-- sidecar bundle: `/tmp/nss-handoff-artifacts.tgz`
+- branch: `main`
+- handoff commit: main HEAD at clone time (`git rev-parse --short HEAD`)
+- sidecar bundle: `handoff/s9a-next-hardwall-20260216/nss-handoff-artifacts.tgz`
 - sidecar checksum (sha256): `45b2d4b159f60b350f73ea4a147c10694203d6dd081293523508816c65129e9e`
-- checkpoint metadata: `/tmp/nss-handoff-manifest.json`
-- resume prompt: `/tmp/nss-codex-resume-prompt.txt`
-- destination bootstrap script: `/tmp/nss-handoff-destination-commands.sh`
+- checkpoint metadata: `handoff/s9a-next-hardwall-20260216/nss-handoff-manifest.json`
+- resume prompt: `handoff/s9a-next-hardwall-20260216/nss-codex-resume-prompt.txt`
+- destination bootstrap script: `handoff/s9a-next-hardwall-20260216/nss-handoff-destination-commands.sh`
+- credentials: `.env.local` remains out-of-band by policy and must be copied securely on destination host.
 
 ## S9A-NEXT - Real Search Path Fix for Flim E2E and TUI Readiness
 

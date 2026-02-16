@@ -1,0 +1,11 @@
+Resume S9A-NEXT hardwall investigation exactly from latest handoff.
+Branch: main.
+Current blocker: distributed search + queue grants succeed, but transfer payload path fails (inbound F timeout, peer returned zero bytes, early EOF/reset).
+Recent changes already on main:
+- outbound variant loop no longer accepts zero-byte payload as success
+- added offset+token init variant
+- added env knobs NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT and NSS_OUTBOUND_FILE_VARIANT_ORDER
+- queue-upload targets include raw @@share and slash variants
+Evidence logs restored under tmp/logs/download-teen* and search-teen-mp3*.
+Next mandatory action: rerun official SoulseekQt capture via capture_harness with frida+pcap on this new Mac (no security block), then produce handshake diff vs Neo for same query and peer attempt.
+Handoff checkpoint commit: use current main HEAD (`git rev-parse --short HEAD`).
