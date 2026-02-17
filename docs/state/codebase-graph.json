@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771297058,
+  "generated_unix_secs": 1771339929,
   "repo_root": "/Users/void/Projects/nss",
   "scope": {
     "included_top_level_dirs": [
@@ -51,8 +51,8 @@
     "file_count": 268,
     "node_count": 329,
     "edge_count": 328,
-    "total_loc": 131756,
-    "total_size_bytes": 4649476
+    "total_loc": 131989,
+    "total_size_bytes": 4661012
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 131756,
-      "size_bytes": 4649476,
+      "loc": 131989,
+      "size_bytes": 4661012,
       "extension": null,
       "domain": "root"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 20381,
-      "size_bytes": 760945,
+      "loc": 20420,
+      "size_bytes": 764920,
       "extension": null,
       "domain": "docs"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 3646,
-      "size_bytes": 121736,
+      "loc": 3696,
+      "size_bytes": 123308,
       "extension": null,
       "domain": "repo-root"
     },
@@ -120,8 +120,8 @@
       "label": "rust",
       "kind": "domain",
       "path": "rust",
-      "loc": 19051,
-      "size_bytes": 670913,
+      "loc": 19195,
+      "size_bytes": 676902,
       "extension": null,
       "domain": "rust"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 20381,
-      "size_bytes": 760945,
+      "loc": 20420,
+      "size_bytes": 764920,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 14663,
-      "size_bytes": 528334,
+      "loc": 14676,
+      "size_bytes": 530442,
       "extension": null,
       "domain": "docs"
     },
@@ -310,8 +310,8 @@
       "label": "verification",
       "kind": "dir",
       "path": "docs/verification",
-      "loc": 293,
-      "size_bytes": 16075,
+      "loc": 319,
+      "size_bytes": 17942,
       "extension": null,
       "domain": "docs"
     },
@@ -410,8 +410,8 @@
       "label": "rust",
       "kind": "dir",
       "path": "rust",
-      "loc": 19051,
-      "size_bytes": 670913,
+      "loc": 19195,
+      "size_bytes": 676902,
       "extension": null,
       "domain": "rust"
     },
@@ -450,8 +450,8 @@
       "label": "core",
       "kind": "dir",
       "path": "rust/core",
-      "loc": 6424,
-      "size_bytes": 242314,
+      "loc": 6547,
+      "size_bytes": 247591,
       "extension": null,
       "domain": "rust"
     },
@@ -460,8 +460,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/core/src",
-      "loc": 6409,
-      "size_bytes": 242028,
+      "loc": 6532,
+      "size_bytes": 247305,
       "extension": null,
       "domain": "rust"
     },
@@ -470,8 +470,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "rust/protocol",
-      "loc": 6922,
-      "size_bytes": 249216,
+      "loc": 6943,
+      "size_bytes": 249928,
       "extension": null,
       "domain": "rust"
     },
@@ -480,8 +480,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/protocol/src",
-      "loc": 6909,
-      "size_bytes": 248953,
+      "loc": 6930,
+      "size_bytes": 249665,
       "extension": null,
       "domain": "rust"
     },
@@ -690,8 +690,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 3336,
-      "size_bytes": 108440,
+      "loc": 3386,
+      "size_bytes": 110012,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -1371,7 +1371,7 @@
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
       "loc": 4991,
-      "size_bytes": 134846,
+      "size_bytes": 134845,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1400,8 +1400,8 @@
       "label": "decompilation-status.md",
       "kind": "file",
       "path": "docs/state/decompilation-status.md",
-      "loc": 116,
-      "size_bytes": 6614,
+      "loc": 120,
+      "size_bytes": 7047,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1470,8 +1470,8 @@
       "label": "project-status.md",
       "kind": "file",
       "path": "docs/state/project-status.md",
-      "loc": 615,
-      "size_bytes": 30168,
+      "loc": 616,
+      "size_bytes": 30543,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1510,8 +1510,8 @@
       "label": "release-hardening-audit.json",
       "kind": "file",
       "path": "docs/state/release-hardening-audit.json",
-      "loc": 1010,
-      "size_bytes": 24786,
+      "loc": 995,
+      "size_bytes": 24406,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1600,8 +1600,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 383,
-      "size_bytes": 16894,
+      "loc": 406,
+      "size_bytes": 18575,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1620,8 +1620,8 @@
       "label": "evidence-ledger.md",
       "kind": "file",
       "path": "docs/verification/evidence-ledger.md",
-      "loc": 232,
-      "size_bytes": 14507,
+      "loc": 258,
+      "size_bytes": 16374,
       "extension": ".md",
       "domain": "docs"
     },
@@ -2260,8 +2260,8 @@
       "label": "lib.rs",
       "kind": "file",
       "path": "rust/core/src/lib.rs",
-      "loc": 6409,
-      "size_bytes": 242028,
+      "loc": 6532,
+      "size_bytes": 247305,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2280,8 +2280,8 @@
       "label": "lib.rs",
       "kind": "file",
       "path": "rust/protocol/src/lib.rs",
-      "loc": 6909,
-      "size_bytes": 248953,
+      "loc": 6930,
+      "size_bytes": 249665,
       "extension": ".rs",
       "domain": "rust"
     },

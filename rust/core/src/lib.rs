@@ -685,6 +685,7 @@ impl SessionClient {
     async fn wait_connect_to_peer_response(
         &mut self,
         username: &str,
+        expected_token: Option<u32>,
         timeout: Duration,
     ) -> Result<ConnectToPeerResponsePayload> {
         let deadline = Instant::now() + timeout;
@@ -695,14 +696,44 @@ impl SessionClient {
                     if response.code != protocol::CODE_SM_CONNECT_TO_PEER {
                         continue;
                     }
-                    let Ok(message) = decode_server_message(response.code, &response.payload)
-                    else {
+                    let message = decode_server_message(response.code, &response.payload);
+                    let Ok(message) = message else {
+                        transfer_debug(format!(
+                            "connect-to-peer decode failed (len={}): {} raw={}",
+                            response.payload.len(),
+                            message.expect_err("checked err"),
+                            hex_prefix(&response.payload, 96)
+                        ));
                         continue;
                     };
                     if let ServerMessage::ConnectToPeerResponse(payload) = message
-                        && payload.username.eq_ignore_ascii_case(username)
                     {
-                        return Ok(payload);
+                        if payload.username.eq_ignore_ascii_case(username) {
+                            if let Some(expected_token) = expected_token
+                                && payload.token != expected_token
+                            {
+                                transfer_debug(format!(
+                                    "connect-to-peer response ignored due to token mismatch: expected_token={} got_token={} user={} peer={}:{} ctype={}",
+                                    expected_token,
+                                    payload.token,
+                                    payload.username,
+                                    payload.ip_address,
+                                    payload.port,
+                                    payload.connection_type
+                                ));
+                                continue;
+                            }
+                            return Ok(payload);
+                        }
+                        transfer_debug(format!(
+                            "connect-to-peer response ignored for other user: expected={} got={} peer={}:{} token={} ctype={}",
+                            username,
+                            payload.username,
+                            payload.ip_address,
+                            payload.port,
+                            payload.token,
+                            payload.connection_type
+                        ));
                     }
                 }
                 Ok(Err(err)) => {
@@ -1407,6 +1438,7 @@ impl SessionClient {
                         match self
                             .wait_connect_to_peer_response(
                                 &candidate.username,
+                                Some(probe_token_p),
                                 resolve_connect_to_peer_wait_timeout(),
                             )
                             .await
@@ -1451,6 +1483,7 @@ impl SessionClient {
                         match self
                             .wait_connect_to_peer_response(
                                 &candidate.username,
+                                Some(probe_token_f),
                                 resolve_connect_to_peer_wait_timeout(),
                             )
                             .await
@@ -2385,12 +2418,22 @@ async fn write_peer_init_frame(
     connection_type: &str,
     token: u32,
 ) -> Result<()> {
+    let wire_token = match std::env::var("NSS_PEER_INIT_TOKEN_MODE") {
+        Ok(value)
+            if value.eq_ignore_ascii_case("provided")
+                || value.eq_ignore_ascii_case("legacy")
+                || value == "1" =>
+        {
+            token
+        }
+        _ => 0,
+    };
     let mut payload = Vec::new();
     payload.push(1_u8);
     let mut writer = PayloadWriter::new();
     writer.write_string(username);
     writer.write_string(connection_type);
-    writer.write_u32(token);
+    writer.write_u32(wire_token);
     payload.extend_from_slice(&writer.into_inner());
 
     let mut frame = Vec::with_capacity(4 + payload.len());
@@ -2401,6 +2444,25 @@ async fn write_peer_init_frame(
         .await
         .context("write peer init frame")?;
     stream.flush().await.context("flush peer init frame")?;
+    Ok(())
+}
+
+async fn write_pierce_firewall_frame(stream: &mut TcpStream, token: u32) -> Result<()> {
+    let mut payload = Vec::with_capacity(5);
+    payload.push(0_u8);
+    payload.extend_from_slice(&token.to_le_bytes());
+
+    let mut frame = Vec::with_capacity(4 + payload.len());
+    frame.extend_from_slice(&(payload.len() as u32).to_le_bytes());
+    frame.extend_from_slice(&payload);
+    stream
+        .write_all(&frame)
+        .await
+        .context("write pierce-firewall frame")?;
+    stream
+        .flush()
+        .await
+        .context("flush pierce-firewall frame")?;
     Ok(())
 }
 
@@ -2741,17 +2803,27 @@ fn transfer_debug(message: impl AsRef<str>) {
 
 fn resolve_send_connect_token_on_peer_init() -> bool {
     match std::env::var("NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT") {
-        Ok(value) => !matches!(
+        Ok(value) => matches!(
             value.as_str(),
-            "0" | "false" | "False" | "FALSE" | "no" | "No" | "NO"
+            "1" | "true" | "True" | "TRUE" | "yes" | "Yes" | "YES"
         ),
-        Err(_) => true,
+        Err(_) => false,
     }
 }
 
 fn resolve_send_connect_token_on_outbound_file_init() -> bool {
     matches!(
         std::env::var("NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT"),
+        Ok(value)
+            if value == "1"
+                || value.eq_ignore_ascii_case("true")
+                || value.eq_ignore_ascii_case("yes")
+    )
+}
+
+fn resolve_send_pierce_firewall_on_outbound_file_init() -> bool {
+    matches!(
+        std::env::var("NSS_SEND_PIERCE_FIREWALL_ON_OUTBOUND_FILE_INIT"),
         Ok(value)
             if value == "1"
                 || value.eq_ignore_ascii_case("true")
@@ -3156,6 +3228,29 @@ async fn download_single_file_via_transfer_request(
             });
         }
     }
+    match read_file_transfer_content(&mut p_stream, expected_size, file_transfer_token).await {
+        Ok(content) => {
+            if validate_transfer_content(&content, expected_size).is_ok() {
+                fs::write(&plan.output_path, &content)
+                    .await
+                    .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
+                return Ok(DownloadResult {
+                    output_path: plan.output_path.clone(),
+                    bytes_written: content.len() as u64,
+                });
+            }
+            transfer_debug(format!(
+                "control-channel token/offset init returned partial/empty bytes: got={} expected={expected_size}",
+                content.len()
+            ));
+        }
+        Err(err) => {
+            transfer_debug(format!(
+                "control-channel token/offset init failed: {}",
+                format_error_chain(&err)
+            ));
+        }
+    }
 
     let mut inbound_f_error = inbound_bind_error;
     if let Some(listener) = inbound_listener.as_ref() {
@@ -3273,6 +3368,11 @@ async fn read_file_transfer_content_outbound_with_variants(
             let mut stream = TcpStream::connect(peer_addr)
                 .await
                 .with_context(|| format!("connect peer file socket failed: {peer_addr}"))?;
+            if resolve_send_pierce_firewall_on_outbound_file_init() {
+                write_pierce_firewall_frame(&mut stream, connect_token)
+                    .await
+                    .with_context(|| format!("write pierce-firewall frame ({variant_name})"))?;
+            }
             if let Some(connection_type) = init_connection_type {
                 write_peer_init_frame(&mut stream, login_username, connection_type, connect_token)
                     .await
@@ -3607,6 +3707,29 @@ async fn download_single_file_via_queue_upload(
                 output_path: plan.output_path.clone(),
                 bytes_written: content.len() as u64,
             });
+        }
+    }
+    match read_file_transfer_content(&mut p_stream, expected_size, transfer_request.token).await {
+        Ok(content) => {
+            if validate_transfer_content(&content, expected_size).is_ok() {
+                fs::write(&plan.output_path, &content)
+                    .await
+                    .with_context(|| format!("write output file: {}", plan.output_path.display()))?;
+                return Ok(DownloadResult {
+                    output_path: plan.output_path.clone(),
+                    bytes_written: content.len() as u64,
+                });
+            }
+            transfer_debug(format!(
+                "queue-upload control-channel token/offset init returned partial/empty bytes: got={} expected={expected_size}",
+                content.len()
+            ));
+        }
+        Err(err) => {
+            transfer_debug(format!(
+                "queue-upload control-channel token/offset init failed: {}",
+                format_error_chain(&err)
+            ));
         }
     }
 

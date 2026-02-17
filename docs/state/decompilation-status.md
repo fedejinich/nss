@@ -114,3 +114,7 @@ Map SoulseekQt protocol, architecture, and persistence-critical file formats wit
 3. Execute patch blocks:
    - implement minimal transfer parity fixes with regression tests,
    - iterate until `Flim` E2E reaches `bytes_written > 0` or classify hardwall with evidence.
+4. I5 hardwall targets:
+   - complete indirect transfer choreography parity (`SM_CONNECT_TO_PEER` noise buffering + token-correlated response handling + full P/F/PierceFireWall sequencing),
+   - add explicit handling for peer-init type `0` (`PierceFireWall`) on inbound flows and validate against live traces,
+   - resolve Frida attach permission wall to recover in-process official runtime observability for the transfer handshake.
