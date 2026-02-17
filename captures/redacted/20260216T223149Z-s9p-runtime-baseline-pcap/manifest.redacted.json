@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-02-16T22:31:49+00:00",
+  "duration_s": 8,
+  "process": "SoulseekQt",
+  "frida_script": "<redacted:path:f6677754396d>",
+  "pcap": {
+    "enabled": true,
+    "iface": "en0",
+    "bpf": "tcp",
+    "startup_error": "tcpdump exited early",
+    "returncode": 1
+  },
+  "outputs": {
+    "run_dir": "<redacted:path:f5a7c2e9e681>",
+    "frida_events": "<redacted:path:52a096aa82ba>",
+    "frida_log": "<redacted:path:440039f432ca>",
+    "pcap": "<redacted:path:bc0e6a94d3b9>",
+    "pcap_log": "<redacted:path:0be1eb9793a4>"
+  },
+  "started_at": "2026-02-16T22:31:49+00:00",
+  "commands": {
+    "frida": [
+      "<redacted:path:8082b8aa383a>",
+      "<redacted:path:43b55c55d320>",
+      "--process",
+      "SoulseekQt",
+      "--script",
+      "<redacted:path:f6677754396d>",
+      "--output",
+      "<redacted:path:52a096aa82ba>",
+      "--duration",
+      "13"
+    ],
+    "pcap": [
+      "tcpdump",
+      "-i",
+      "en0",
+      "-w",
+      "<redacted:path:bc0e6a94d3b9>",
+      "tcp"
+    ]
+  },
+  "ended_at": "2026-02-16T22:31:57+00:00",
+  "elapsed_s": 8.126,
+  "processes": {
+    "pcap": {
+      "returncode": 1
+    },
+    "frida": {
+      "returncode": 2
+    }
+  },
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "1",
+    "generated_at": "2026-02-16T22:35:56+00:00",
+    "raw_source": "captures/raw/20260216T223149Z-s9p-runtime-baseline-pcap",
+    "stats": {
+      "path": 11
+    }
+  }
+}

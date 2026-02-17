@@ -2,40 +2,51 @@
 
 ## Objective
 
-Ensure evidence traceability and semantic protocol parity baseline while preserving Stage 4L full-coverage closure, Stage 5A/S5C typed hardening waves, Stage 5B UI/feature research verification, Stage 5D-S5H multi-wave opaque-to-typed runtime promotion, Stage 6A dashboard-state observability artifacts, Stage 6B executable closure gates, Stage 6C opaque-tail baseline observability, Stage 6D typed-batch opaque-tail closure, Stage 6E dedicated legacy opaque reduction, Stage 6F dedicated residual semantic closure, Stage 7 runtime/semantic strict-closure gates, Stage 8 dashboard/TUI rollout gates, and Stage 9 TUI-first simplification gates.
+Ensure evidence traceability and semantic protocol parity while preserving prior closure stages (S4L through S9A) and executing S9P as the active parity program with explicit static/runtime architecture+format tracks.
 
-## Stage 9A-NEXT Runtime Gate (Current)
+## Stage S9P Gate Status (Current)
 
-- Target: authenticated `Flim` live E2E with `bytes_written > 0`.
-- Server/account under validation: `server.slsknet.org:2416` with local test credential.
-- Cross-check tuple: `.env.local` test tuple on `server.slsknet.org:2242` (`nss_auto_*`).
-- Current runtime signal:
-  - distributed search returns live candidates for both `Flim` and fallback popular queries,
-  - transfer control path is active (queue grants with non-zero sizes are repeatedly observed),
-  - transfer completion is still blocked by runtime hardwall:
-    - queue branch: `File not shared` across path variants,
-    - granted branch: `inbound F timeout` or `peer returned zero bytes`,
-    - direct branch: `read frame len` / connection reset.
-- Additional diagnostics:
-  - Probe-assisted runs show wait-port bind conflicts when official client is open on the same machine (`Address already in use` on server-provided wait-port).
-  - After removing local port conflict, hardwall remains (same queue-grant + zero-byte/denial signature).
-  - Official new capture attempt is currently blocked by local capture environment constraints:
-    - Frida helper attach/runtime failure.
-    - tcpdump permission denial on local `/dev/bpf*`.
-  - Baseline official capture in repository (`login-search-download`) shows successful transfer control sequence without `code=46/50` denial branch; live failures diverge into denial/timeout branch after queue grant.
-  - Runtime handshake variant (`NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT=0`) was tested and did not change terminal failure signatures.
-  - Outbound file-transfer hardening pass added:
-    - queue-upload raw share-prefixed path targets (`@@share\\...`) and slash variants,
-    - outbound init variant `offset+token`,
-    - optional outbound file-init connect-token (`NSS_SEND_CONNECT_TOKEN_ON_OUTBOUND_FILE_INIT=1`),
-    - outbound variant ordering control (`NSS_OUTBOUND_FILE_VARIANT_ORDER`).
-  - Regression tests confirm outbound variant loop now continues after zero-byte attempts instead of short-circuiting:
-    - `outbound_transfer_variants_continue_after_zero_byte_attempt`
-    - `file_transfer_offset_then_token_init_writes_expected_order`
-  - Live MP3-heavy sweep (`nirvana smells like teen spirit mp3`, result-index scan `0..5`) still produced `bytes_written=0` across all runs.
-  - Frida-free port-reachability check (`tools/runtime/check_slsk_porttest.py`) reports inbound ports as publicly `CLOSED` (`50036`, `50037`, `2242`) even with local listener binding, reinforcing NAT/firewall ingress blockage hypothesis.
-  - External community reports are consistent with transport-layer instability causes (ports/NAT/firewall/VPN/ISP filtering) and occasional client-version regressions.
-- Current status: **in progress** (gate not closed yet).
+- Program objective: close protocol parity against SoulseekQt and complete deep architecture/file-format reverse with explicit static/runtime/synthesis/patch windows.
+- Current stage status: `in_progress`.
+- Gate tracking:
+  - `G0-PLAN-PUBLISHED`: `done` (v3 rebase published and synchronized).
+  - `G1-TOOLING-READY`: `done` (Frida + tcpdump + automation path validated under debug-copy instrumentation workflow).
+  - `G2A-STATIC-ARCH-BASELINE`: `done`.
+  - `G2B-STATIC-FORMAT-BASELINE`: `done` (format candidate extraction and initial canonical map published).
+  - `G3A-RUNTIME-CAPTURE-BASELINE`: `in_progress`.
+  - `G3B-RUNTIME-FORMAT-BASELINE`: `in_progress`.
+  - `G4-FLIM-E2E-SUCCESS`: `planned`.
+  - `G5-TRANSFER-PARITY`: `planned`.
+  - `G6-PROTOCOL-PARITY`: `planned`.
+  - `G7-ARCH-FORMAT-SYNTHESIS`: `planned`.
+  - `G8-KB-DASHBOARD-SYNC`: `planned`.
+
+Runtime hardwall context carried from S9A-NEXT:
+
+- Target remains authenticated `Flim` live E2E with `bytes_written > 0`.
+- Search and queue-control are live, but payload completion remains blocked by denial/timeout/reset branches.
+- Existing evidence from live runs (for example `tmp/logs/voidfdx-flim-e2e-20260216134739.log`) shows both:
+  - `code=40` queue grants with non-zero size,
+  - `code=50 File not shared` and zero-byte/timeout terminations.
+- New S9P runtime baseline runs (runner + profile-root workflow):
+  - `captures/raw/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2`
+  - `captures/raw/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
+  - `captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
+  - `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5`
+  - `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2`
+  - `captures/redacted/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
+  - `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
+  - `captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5`
+- Runtime baseline findings:
+  - Host unblock sequence for Frida/tcpdump succeeded and is logged in local ledger entry `CHG-007`.
+  - Frida attach against the signed original app still requires hardened-runtime workaround; active instrumentation specimen is `/Users/void/Applications/SoulseekQt-Debug.app`.
+  - `tools/runtime/official_runner.py` now drives reproducible login/search/download action sequences via `osascript`, wired through `scripts/capture_golden.sh` (`OFFICIAL_RUNNER=1`).
+  - I3 runtime hardening landed:
+    - arm64 absolute hook offsets reconciled from `nm` evidence,
+    - Frida process selection disambiguated with `--process-path-contains`,
+    - graceful script teardown on process exit to avoid false non-zero capture failures.
+  - Runtime I/O corpus now includes non-trivial persistence signal for transfer-store flows (`writestring`, `mainwindow_save_data_enter`, `datasaver_save_enter`, `datasaver_save_to_file_enter`) in `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl`.
+  - Remaining runtime gap: QSettings/QDataStream symbol hooks are still unresolved on the active specimen.
 
 ## Validation Gates
 

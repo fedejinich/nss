@@ -34,6 +34,8 @@ Environment variables:
 - `PROCESS_NAME` (default `SoulseekQt`)
 - `IFACE` (optional, auto when empty)
 - `BPF_FILTER` (default `tcp`)
+- `STARTUP_DELAY` (default `1.0`, reduce for early-start hook capture)
+- `PROCESS_PATH_CONTAINS` (optional executable path token to disambiguate same-name processes during Frida attach)
 - `SKIP_PCAP=1` for Frida-only capture
 - `AUTO_REDACT=0` to skip automatic redaction
 
@@ -43,6 +45,24 @@ Environment variables:
 SCENARIO=login-search-download DURATION=120 scripts/capture_golden.sh
 ```
 
+Official runner mode (`osascript`-driven login/search/download actions):
+
+```bash
+OFFICIAL_RUNNER=1 \
+RUNNER_SCENARIO=login-search-download \
+RUNNER_QUERY="aphex twin flim" \
+RUNNER_REQUIRE_ACCESSIBILITY=1 \
+scripts/capture_golden.sh
+```
+
+Useful runner options:
+
+- `RUNNER_SKIP_LAUNCH=1` when `LAUNCH_BINARY` is managed by the harness.
+- `RUNNER_SKIP_QUIT=1` to avoid runner-sent `Cmd+Q`.
+- `RUNNER_OUTPUT=tmp/runtime/official_runner_last.json` to persist runner step results.
+- `RUNNER_INITIAL_WAIT` / `RUNNER_STEP_WAIT` to tune action pacing.
+- `PROCESS_PATH_CONTAINS=/Users/void/Applications/SoulseekQt-Debug.app` to force Frida attach to the debug specimen when both signed and debug variants are present.
+
 Mandatory scenarios for stage 2:
 
 1. `login-only`
@@ -50,6 +70,10 @@ Mandatory scenarios for stage 2:
 3. `login-search-download`
 4. `upload-deny`
 5. `upload-accept`
+
+S9P runtime note:
+
+- When Frida attach is blocked by hardened-runtime policy on the signed original app, use the instrumentation specimen path `/Users/void/Applications/SoulseekQt-Debug.app` and keep `/Applications/SoulseekQt.app` unchanged as source-of-truth.
 
 ## Runtime Scenario Generator (Stage 2R)
 

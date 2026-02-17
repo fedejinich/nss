@@ -1,4 +1,4 @@
-Current executable set to '/Users/void_rsk/Projects/soul-dec/analysis/binaries/SoulseekQt' (arm64).
+Current executable set to '/Users/void/Projects/nss/analysis/binaries/SoulseekQt' (arm64).
 SoulseekQt`DownloadTask::readSocket:
 SoulseekQt[0x1000eb9fc] <+0>:    stp    x26, x25, [sp, #-0x50]!
 SoulseekQt[0x1000eba00] <+4>:    stp    x24, x23, [sp, #0x10]

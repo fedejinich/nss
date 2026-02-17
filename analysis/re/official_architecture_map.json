@@ -1,0 +1,173 @@
+{
+  "stage": "S9P",
+  "status": "in_progress",
+  "updated_at": "2026-02-17",
+  "source_of_truth": "SoulseekQt official client static/runtime synthesis",
+  "linked_artifacts": {
+    "flow_graph": "analysis/re/flow_graph.json",
+    "file_format_map": "analysis/re/official_file_format_map.json",
+    "format_candidates": "analysis/re/format_candidates.json",
+    "runtime_hook_offsets_arm64": "evidence/ui_audit/decomp/runtime_hook_offsets_arm64.txt"
+  },
+  "subsystems": [
+    {
+      "id": "dispatch",
+      "title": "Server and peer message dispatch",
+      "status": "in_progress",
+      "replicability": "pending",
+      "evidence": [
+        "evidence/reverse/search_download_symbols_nm.txt",
+        "analysis/re/flow_graph.json"
+      ]
+    },
+    {
+      "id": "search",
+      "title": "Distributed search orchestration",
+      "status": "in_progress",
+      "replicability": "pending",
+      "evidence": [
+        "docs/re/static/search-download-flow.md",
+        "evidence/reverse/disasm/server_prepare_search.txt",
+        "evidence/reverse/disasm/server_file_search.txt"
+      ]
+    },
+    {
+      "id": "transfer",
+      "title": "Transfer request, queue, and data socket flows",
+      "status": "in_progress",
+      "replicability": "pending",
+      "evidence": [
+        "docs/verification/evidence-ledger.md"
+      ]
+    },
+    {
+      "id": "ui_integration",
+      "title": "UI to protocol action wiring",
+      "status": "planned",
+      "replicability": "pending",
+      "evidence": []
+    },
+    {
+      "id": "persistence",
+      "title": "Persistence orchestration and file-I/O surfaces",
+      "status": "in_progress",
+      "replicability": "pending",
+      "evidence": [
+        "analysis/re/official_file_format_map.json",
+        "docs/re/static/file-format-map.md",
+        "analysis/re/format_candidates.json"
+      ]
+    }
+  ],
+  "persistence_subsystems": [
+    {
+      "id": "settings_store",
+      "title": "QSettings-backed options store",
+      "formats": [
+        "FMT-SETTINGS-QSETTINGS",
+        "FMT-SEARCH-HISTORY-PREFERENCES"
+      ],
+      "status": "in_progress",
+      "evidence": [
+        "analysis/re/official_file_format_map.json"
+      ]
+    },
+    {
+      "id": "transfer_store",
+      "title": "Transfer queue/progress persistence",
+      "formats": [
+        "FMT-TRANSFER-STATE"
+      ],
+      "status": "in_progress",
+      "evidence": [
+        "analysis/re/official_file_format_map.json"
+      ]
+    },
+    {
+      "id": "import_export",
+      "title": "User list and client-data import/export surfaces",
+      "formats": [
+        "FMT-USERLIST-IMPORT",
+        "FMT-CLIENT-DATA-EXPORT-IMPORT"
+      ],
+      "status": "planned",
+      "evidence": [
+        "analysis/re/official_file_format_map.json"
+      ]
+    },
+    {
+      "id": "share_cache",
+      "title": "Share scan/index cache surfaces",
+      "formats": [
+        "FMT-SHARE-SCAN-CACHE"
+      ],
+      "status": "planned",
+      "evidence": [
+        "analysis/re/official_file_format_map.json"
+      ]
+    }
+  ],
+  "tracks": {
+    "static": {
+      "status": "in_progress",
+      "tools": [
+        "analyzeHeadless",
+        "scripts/ghidra_pipeline.sh",
+        "scripts/extract_search_download_flow.sh",
+        "otool",
+        "nm",
+        "strings",
+        "lldb",
+        "Binary Ninja",
+        "tools/re/extract_format_candidates.py"
+      ]
+    },
+    "runtime": {
+      "status": "in_progress",
+      "tools": [
+        ".venv-tools/bin/frida",
+        "tools/runtime/frida_capture.py",
+        "tools/runtime/capture_harness.py",
+        "scripts/capture_golden.sh",
+        "frida/hooks/soulseek_io_trace.js",
+        "tcpdump",
+        "osascript"
+      ]
+    },
+    "synthesis": {
+      "status": "planned",
+      "tools": [
+        "scripts/run_diff_verify.sh",
+        "rust/verify/src/lib.rs"
+      ]
+    }
+  },
+  "flow_summary": {
+    "source": "analysis/re/flow_graph.json",
+    "node_count": 11,
+    "edge_count": 9,
+    "critical_path": [
+      "server_file_search",
+      "server_send_message",
+      "peer_queue_download",
+      "transfer_on_queue_download",
+      "peer_handle_message",
+      "transfer_on_file_request",
+      "download_read_socket"
+    ],
+    "transfer_entrypoints": [
+      "peer_queue_download",
+      "transfer_on_queue_download",
+      "transfer_on_file_request"
+    ]
+  },
+  "notes": [
+    "S9P-T01/T02/T03 published and completed in planning artifacts.",
+    "S9P-T04S static architecture baseline completed with ghidra_pipeline and flow extraction.",
+    "S9P-T04F-S1 static persistence format candidate extraction published.",
+    "S9P-T04R/T05 runtime path is now reproducible with capture_golden + official_runner under debug-specimen instrumentation.",
+    "S9P-T04F runtime format captures and redacted io-events corpus are available; persistence event depth remains under active refinement.",
+    "I3-T02 aligned arm64 hook offsets from nm evidence and hardened Frida process selection using process-path filtering to avoid same-name process ambiguity.",
+    "I3-T04 produced deterministic runtime I/O traces with non-trivial persistence signals (WriteString + saveData/DataSaver events) under the debug specimen."
+  ]
+}

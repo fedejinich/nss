@@ -5,15 +5,11 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DMG_PATH="${DMG_PATH:-${ROOT_DIR}/SoulseekQt-2025-10-11.dmg}"
 MOUNT_POINT="${MOUNT_POINT:-/tmp/soulseek_dmg_mount}"
 APP_BIN_REL="SoulseekQt.app/Contents/MacOS/SoulseekQt"
+APP_BIN_PATH="${APP_BIN_PATH:-/Applications/SoulseekQt.app/Contents/MacOS/SoulseekQt}"
 EXTRACTED_BIN="${ROOT_DIR}/analysis/binaries/SoulseekQt"
 PROJECT_DIR="${ROOT_DIR}/analysis/ghidra/project"
 PROJECT_NAME="${PROJECT_NAME:-soulseekqt}"
 PROGRAM_NAME="${PROGRAM_NAME:-SoulseekQt}"
-
-if [ ! -f "${DMG_PATH}" ]; then
-  echo "DMG not found: ${DMG_PATH}" >&2
-  exit 1
-fi
 
 if ! command -v brew >/dev/null 2>&1; then
   echo "brew not found; cannot resolve ghidra installation path." >&2
@@ -34,9 +30,18 @@ fi
 
 mkdir -p "${ROOT_DIR}/analysis/binaries" "${PROJECT_DIR}" "${ROOT_DIR}/analysis/ghidra/tmp"
 
-hdiutil attach -readonly -nobrowse -mountpoint "${MOUNT_POINT}" "${DMG_PATH}" >/tmp/soulseek_attach_ghidra.log 2>&1
-cp "${MOUNT_POINT}/${APP_BIN_REL}" "${EXTRACTED_BIN}"
-hdiutil detach "${MOUNT_POINT}" >/tmp/soulseek_detach_ghidra.log 2>&1
+if [ -f "${DMG_PATH}" ]; then
+  hdiutil attach -readonly -nobrowse -mountpoint "${MOUNT_POINT}" "${DMG_PATH}" >/tmp/soulseek_attach_ghidra.log 2>&1
+  cp "${MOUNT_POINT}/${APP_BIN_REL}" "${EXTRACTED_BIN}"
+  hdiutil detach "${MOUNT_POINT}" >/tmp/soulseek_detach_ghidra.log 2>&1
+elif [ -x "${APP_BIN_PATH}" ]; then
+  cp "${APP_BIN_PATH}" "${EXTRACTED_BIN}"
+else
+  echo "No binary source found." >&2
+  echo "Expected either DMG at: ${DMG_PATH}" >&2
+  echo "or installed app binary at: ${APP_BIN_PATH}" >&2
+  exit 1
+fi
 
 "${GHIDRA_HEADLESS}" "${PROJECT_DIR}" "${PROJECT_NAME}" \
   -import "${EXTRACTED_BIN}" \

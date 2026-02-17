@@ -1,0 +1,276 @@
+{
+  "stage": "S9P",
+  "status": "in_progress",
+  "updated_at": "2026-02-17",
+  "scope": "persistence-critical",
+  "specimen": "SoulseekQt macOS build (current local install)",
+  "source_of_truth_policy": "no_guessing_static_plus_runtime",
+  "formats": [
+    {
+      "id": "FMT-SETTINGS-QSETTINGS",
+      "path_pattern": [
+        "QSettings backend (platform-specific INI/plist path; runtime path confirmation pending)"
+      ],
+      "storage_api": [
+        "QSettings::setValue",
+        "QSettings::value",
+        "QSettings::contains",
+        "QSettings::remove"
+      ],
+      "reader_symbols": [
+        "QSettings::value(QAnyStringView) const",
+        "QSettings::contains(QAnyStringView) const"
+      ],
+      "writer_symbols": [
+        "QSettings::setValue(QAnyStringView, QVariant const&)",
+        "QSettings::remove(QAnyStringView)",
+        "MainWindow::saveData()"
+      ],
+      "framing": {
+        "kind": "key_value",
+        "encoding": "Qt QVariant",
+        "container": "QSettings platform backend"
+      },
+      "fields": [
+        "minimize_on_close",
+        "transfer_queued",
+        "max_results_per_search",
+        "max_results_per_search_enabled",
+        "showPrivateResultsCheckBox"
+      ],
+      "confidence": "high",
+      "runtime_validation": {
+        "status": "pending",
+        "notes": "QSettings symbol hooks are not yet resolving on the active specimen; key-path and value samples remain pending."
+      },
+      "evidence": [
+        "analysis/re/format_candidates.json",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:713",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:714",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:994",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:995",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:136",
+        "evidence/ui_audit/decomp/runtime_hook_offsets_arm64.txt",
+        "evidence/ui_audit/ui_strings_feature_candidates.txt:397",
+        "evidence/ui_audit/ui_strings_feature_candidates.txt:402"
+      ]
+    },
+    {
+      "id": "FMT-TRANSFER-STATE",
+      "path_pattern": [
+        "Profile-local transfer-state file(s) (exact filename still pending; runtime writer activity confirmed)"
+      ],
+      "storage_api": [
+        "QFile::open",
+        "QFileStreamer::ReadBuffer",
+        "QFileStreamer::WriteBuffer",
+        "ReadString(QFile&, std::string&)",
+        "WriteString(QFile&, std::string)"
+      ],
+      "reader_symbols": [
+        "ReadString(QFile&, std::string&)",
+        "QFileStreamer::ReadBuffer(void*, unsigned long)",
+        "TransferQueueManager::OnDataLoaded()",
+        "TransferQueueManager::TransfersLoaded()"
+      ],
+      "writer_symbols": [
+        "WriteString(QFile&, std::string)",
+        "QFileStreamer::WriteBuffer(void const*, unsigned long)",
+        "TransferQueueManager::requeueDownload(Item)"
+      ],
+      "framing": {
+        "kind": "binary_records",
+        "encoding": "QFileStreamer + string helpers",
+        "container": "QFile-backed stream"
+      },
+      "fields": [
+        "queue status",
+        "username",
+        "virtual path",
+        "size",
+        "priority",
+        "retry/requeue metadata"
+      ],
+      "confidence": "high",
+      "runtime_validation": {
+        "status": "partial",
+        "observed_events": [
+          "writestring",
+          "mainwindow_time_to_save_data_enter",
+          "mainwindow_save_data_enter",
+          "datasaver_save_enter",
+          "datasaver_save_to_file_enter",
+          "mainwindow_save_data_leave",
+          "mainwindow_on_disconnected_enter"
+        ],
+        "captures": [
+          "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/manifest.raw.json",
+          "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl",
+          "captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5/io-events.redacted.jsonl"
+        ]
+      },
+      "evidence": [
+        "analysis/re/format_candidates.json",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:1808",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:1809",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:2741",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:2742",
+        "evidence/ui_audit/decomp/transfer_methods.txt:30",
+        "evidence/ui_audit/decomp/transfer_methods.txt:59",
+        "evidence/ui_audit/decomp/transfer_methods.txt:88",
+        "evidence/ui_audit/decomp/runtime_hook_offsets_arm64.txt",
+        "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/manifest.raw.json",
+        "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl"
+      ]
+    },
+    {
+      "id": "FMT-USERLIST-IMPORT",
+      "path_pattern": [
+        "User-selected `hotlist.cfg` import source path"
+      ],
+      "storage_api": [
+        "QFileDialog::getOpenFileName",
+        "QFile::open",
+        "MainWindow::importConfigurationData"
+      ],
+      "reader_symbols": [
+        "MainWindow::importConfigurationData()",
+        "QFile::open(QFlags<QIODeviceBase::OpenModeFlag>)"
+      ],
+      "writer_symbols": [],
+      "framing": {
+        "kind": "legacy_cfg",
+        "encoding": "line-oriented text or legacy structured payload (runtime decode pending)",
+        "container": "hotlist.cfg"
+      },
+      "fields": [
+        "user list entries",
+        "user aliases/groups (pending runtime/fixture confirmation)"
+      ],
+      "confidence": "medium",
+      "evidence": [
+        "analysis/re/format_candidates.json",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:1247",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:13",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:67",
+        "evidence/ui_audit/ui_strings_feature_candidates.txt:560"
+      ]
+    },
+    {
+      "id": "FMT-CLIENT-DATA-EXPORT-IMPORT",
+      "path_pattern": [
+        "User-selected export/import target file path from UI options surface"
+      ],
+      "storage_api": [
+        "QDataStream::writeBytes",
+        "QDataStream::readRawData",
+        "MainWindow::onExportClientDataClicked",
+        "MainWindow::onImportClientDataClicked"
+      ],
+      "reader_symbols": [
+        "QDataStream::readRawData(char*, long long)",
+        "MainWindow::importConfigurationData()"
+      ],
+      "writer_symbols": [
+        "QDataStream::writeBytes(char const*, long long)",
+        "MainWindow::saveData()"
+      ],
+      "framing": {
+        "kind": "binary_snapshot",
+        "encoding": "QDataStream",
+        "container": "client-data export payload"
+      },
+      "fields": [
+        "client preferences",
+        "transfer options",
+        "user list and related settings (scope under validation)"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "analysis/re/format_candidates.json",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:76",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:77",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:62",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:66",
+        "evidence/ui_audit/ui_strings_feature_candidates.txt:571",
+        "evidence/ui_audit/ui_strings_feature_candidates.txt:575"
+      ]
+    },
+    {
+      "id": "FMT-SHARE-SCAN-CACHE",
+      "path_pattern": [
+        "Profile-local share-index/cache files and share-folder metadata (exact files pending runtime capture)"
+      ],
+      "storage_api": [
+        "QFile::exists",
+        "QFile::remove",
+        "QFileInfo::absoluteFilePath",
+        "TransferQueueManager::onUserShare"
+      ],
+      "reader_symbols": [
+        "TransferQueueManager::onUserShare(...)",
+        "MainWindow::onSharedFilesRescanned(int, int)"
+      ],
+      "writer_symbols": [
+        "MainWindow::onSharedFolderAdded(Item)",
+        "QFile::remove(QString const&)"
+      ],
+      "framing": {
+        "kind": "index_cache",
+        "encoding": "QFile/QFileInfo mediated records",
+        "container": "share scan cache artifacts"
+      },
+      "fields": [
+        "shared folder path",
+        "indexed files metadata",
+        "rescan timestamps/counters (pending runtime confirmation)"
+      ],
+      "confidence": "medium",
+      "evidence": [
+        "analysis/re/format_candidates.json",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:392",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:393",
+        "evidence/ui_audit/decomp/nm_demangled_full.txt:975",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:104",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:105",
+        "evidence/ui_audit/decomp/transfer_methods.txt:79"
+      ]
+    },
+    {
+      "id": "FMT-SEARCH-HISTORY-PREFERENCES",
+      "path_pattern": [
+        "QSettings-backed search history/preference keys"
+      ],
+      "storage_api": [
+        "QSettings::setValue",
+        "QSettings::value",
+        "MainWindow::onClearSearchHistoryClicked"
+      ],
+      "reader_symbols": [
+        "QSettings::value(QAnyStringView) const"
+      ],
+      "writer_symbols": [
+        "QSettings::setValue(QAnyStringView, QVariant const&)",
+        "MainWindow::onClearSearchHistoryClicked()"
+      ],
+      "framing": {
+        "kind": "key_value",
+        "encoding": "QVariant",
+        "container": "QSettings platform backend"
+      },
+      "fields": [
+        "search history entries",
+        "show private results",
+        "old-style search results toggle"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "analysis/re/format_candidates.json",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:37",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:114",
+        "evidence/ui_audit/decomp/mainwindow_methods.txt:123",
+        "evidence/ui_audit/ui_strings_feature_candidates.txt:643"
+      ]
+    }
+  ]
+}

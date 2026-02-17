@@ -11,7 +11,7 @@
 
 ### `redacted_metadata_paths`
 - ok: `True`
-- runs scanned: `39`
+- runs scanned: `58`
 
 ### `required_files`
 - ok: `True`

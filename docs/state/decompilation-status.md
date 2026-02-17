@@ -2,7 +2,7 @@
 
 ## Objective
 
-Map the Soulseek protocol incrementally with traceable evidence to enable a custom evolvable client.
+Map SoulseekQt protocol, architecture, and persistence-critical file formats with traceable static/runtime evidence to drive S9P protocol parity and subsystem replicability classification.
 
 ## Coverage Summary
 
@@ -41,11 +41,15 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - `evidence/ui_audit/decomp/server_methods.txt`
 - `evidence/ui_audit/decomp/peer_methods.txt`
 - `evidence/ui_audit/decomp/transfer_methods.txt`
+- `analysis/re/official_architecture_map.json`
+- `analysis/re/official_file_format_map.json`
+- `analysis/re/protocol_parity_matrix.json`
 
 ## Runtime Evidence Paths
 
 - Capture harness: `tools/runtime/capture_harness.py`
 - Redaction tool: `tools/runtime/redact_capture_run.py`
+- Runtime I/O hooks: `frida/hooks/soulseek_io_trace.js`
 - Stage 3B capture generator: `tools/runtime/generate_stage3b_room_captures.py`
 - Stage 4A capture generator: `tools/runtime/generate_stage4a_discovery_captures.py`
 - Stage 4B capture generator: `tools/runtime/generate_stage4b_peer_room_captures.py`
@@ -54,10 +58,53 @@ Map the Soulseek protocol incrementally with traceable evidence to enable a cust
 - Stage 4E capture generator: `tools/runtime/generate_stage4e_private_userstate_captures.py`
 - Redacted run storage: `captures/redacted/*`
 - Stage 5B UI static extraction artifacts: `evidence/ui_audit/*` + `docs/state/soulseek-feature-inventory.md`
+- Redacted runtime I/O events (v3 track): `captures/redacted/*/io-events.redacted.jsonl`
+
+## S9P Static Baseline Snapshot
+
+- Date: `2026-02-16`
+- Commands:
+  - `scripts/ghidra_pipeline.sh`
+  - `scripts/extract_search_download_flow.sh`
+- Output artifacts:
+  - `analysis/binaries/SoulseekQt`
+  - `analysis/ghidra/project/soulseekqt`
+  - `evidence/reverse/search_download_symbols_nm.txt`
+  - `evidence/reverse/search_download_strings.txt`
+  - `analysis/re/flow_graph.json`
+  - `docs/re/static/search-download-flow.md`
+- Result: static baseline completed for `S9P-T04S`.
+
+## S9P Runtime Baseline Snapshot
+
+- Date: `2026-02-17`
+- Commands:
+  - `scripts/capture_golden.sh` with `OFFICIAL_RUNNER=1`
+  - `tools/runtime/official_runner.py`
+- Output artifacts:
+  - `captures/raw/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2`
+  - `captures/raw/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
+  - `captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
+  - `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5`
+  - `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2`
+  - `captures/redacted/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
+  - `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
+  - `captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5`
+- Result:
+  - tooling/runtime baseline is reproducible under debug-specimen instrumentation,
+  - arm64 hook offsets were reconciled from static `nm` evidence,
+  - Frida attach selection is now path-disambiguated (`--process-path-contains`) to avoid same-name process ambiguity,
+  - runtime traces include high-signal transfer-store persistence events (`writestring`, `mainwindow_save_data_enter`, `datasaver_save_enter`, `datasaver_save_to_file_enter`),
+  - QSettings/QDataStream hooks remain a targeted runtime gap.
 
 ## Next Reverse Focus
 
-- Replace `OpaqueServerControlPayload` and `OpaquePayload` control branches with typed payload schemas where runtime evidence is available.
-- Expand runtime capture coverage for distributed/global control families that are currently static-only.
-- Add decompression-aware parser coverage for `PM_SHARED_FILES_IN_FOLDER` compressed payload semantics.
-- Close the remaining Stage 5B UI introspection gap by rerunning menu-tree extraction with macOS assistive access enabled.
+1. Runtime deepening:
+   - expand official scenario corpus (`login/search/download`, transfer edge paths) using `tools/runtime/official_runner.py`,
+   - continue refining QSettings/QDataStream symbol hooks and trigger flows to close remaining settings/export-import runtime gaps.
+2. Execute synthesis block:
+   - reconcile static intent vs runtime ordering/content and file-I/O behavior,
+   - publish protocol/transfer parity deltas and architecture/format replicability matrix.
+3. Execute patch blocks:
+   - implement minimal transfer parity fixes with regression tests,
+   - iterate until `Flim` E2E reaches `bytes_written > 0` or classify hardwall with evidence.

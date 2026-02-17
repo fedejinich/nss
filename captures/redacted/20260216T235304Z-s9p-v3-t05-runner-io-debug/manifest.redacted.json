@@ -1,0 +1,89 @@
+{
+  "created_at": "2026-02-16T23:53:04+00:00",
+  "duration_s": 30,
+  "process": "SoulseekQt",
+  "scenario": "login-search-download",
+  "label": "s9p-v3-t05-runner-io-debug",
+  "notes": "S9P-T05 io runner debug specimen capture",
+  "hook_set": "io",
+  "profile_root": "<redacted:path:b0d5cffb6131>",
+  "frida_scripts": {
+    "protocol": "<redacted:path:4caad68ea04b>",
+    "io": "<redacted:path:3fdd677362e6>"
+  },
+  "pcap": {
+    "enabled": true,
+    "iface": "en0",
+    "bpf": "tcp"
+  },
+  "outputs": {
+    "run_dir": "<redacted:path:122ac7bb4d26>",
+    "frida_events": "<redacted:path:36ff18071667>",
+    "io_events": "<redacted:path:4aba90756396>",
+    "frida_log": "<redacted:path:1dc696b6796b>",
+    "io_frida_log": "<redacted:path:6033a93503e9>",
+    "pcap": "<redacted:path:d0821393930f>",
+    "pcap_log": "<redacted:path:44738ef07263>",
+    "launch_log": "<redacted:path:f5c7ed998cae>"
+  },
+  "commands": {
+    "launch": [
+      "<redacted:path:dc115f0aa155>"
+    ],
+    "frida_io": [
+      "<redacted:path:1c6ee4d0b883>",
+      "<redacted:path:6fe58f586b96>",
+      "--process",
+      "SoulseekQt",
+      "--script",
+      "<redacted:path:3fdd677362e6>",
+      "--output",
+      "<redacted:path:4aba90756396>",
+      "--duration",
+      "35"
+    ],
+    "pcap": [
+      "tcpdump",
+      "-i",
+      "en0",
+      "-w",
+      "<redacted:path:d0821393930f>",
+      "tcp"
+    ]
+  },
+  "blockers": [
+    {
+      "code": "frida_io-nonzero-exit",
+      "detail": "frida_io exited with rc=1",
+      "at": "2026-02-16T23:53:34+00:00"
+    }
+  ],
+  "started_at": "2026-02-16T23:53:04+00:00",
+  "ended_at": "2026-02-16T23:53:34+00:00",
+  "elapsed_s": 30.183,
+  "processes": {
+    "pcap": {
+      "returncode": 0
+    },
+    "frida_io": {
+      "returncode": 1
+    },
+    "launch": {
+      "returncode": -15
+    }
+  },
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "2",
+    "generated_at": "2026-02-16T23:53:34+00:00",
+    "raw_source": "captures/raw/20260216T235304Z-s9p-v3-t05-runner-io-debug",
+    "payload_sampling": {
+      "mode": "sampled",
+      "max_payload_chars": 160,
+      "sensitive_fields_redacted": true
+    },
+    "stats": {
+      "path": 17
+    }
+  }
+}

@@ -65,7 +65,7 @@ Tasks:
 
 - id: H9
   description: Execute first post-handoff official capture rerun and diff verification on new Mac
-  status: todo
+  status: in_progress
   depends_on: [H10]
 
 Handoff artifacts and checkpoint (2026-02-16):
@@ -102,6 +102,49 @@ Dependency graph:
 - `S9A-NEXT-T15 -> S9A-NEXT-T10`
 - `S9A-NEXT-T10 -> S9A-NEXT-T11`
 - `S9A-NEXT-T11 -> S9A-NEXT-T12`
+
+## S9A-NEXT-E2E-R3 - Flim Download Closure Attempt (Current Iteration)
+
+Dependency graph:
+
+- `S9A-NEXT-E2E-R3-T01 -> S9A-NEXT-E2E-R3-T02`
+- `S9A-NEXT-E2E-R3-T01 -> S9A-NEXT-E2E-R3-T03`
+- `S9A-NEXT-E2E-R3-T02 -> S9A-NEXT-E2E-R3-T04`
+- `S9A-NEXT-E2E-R3-T03 -> S9A-NEXT-E2E-R3-T04`
+- `S9A-NEXT-E2E-R3-T04 -> S9A-NEXT-E2E-R3-T05`
+- `S9A-NEXT-E2E-R3-T05 -> S9A-NEXT-E2E-R3-T06`
+
+Tasks:
+
+- id: S9A-NEXT-E2E-R3-T01
+  description: Rebaseline destination host runtime prerequisites (Rust toolchain, SoulseekQt presence, credential tuple) and run default live download-auto attempt without diagnostic flow skips
+  status: in_progress
+  depends_on: []
+
+- id: S9A-NEXT-E2E-R3-T02
+  description: Execute bounded variant matrix over transfer knobs/timeouts and collect deterministic failure/success signatures
+  status: in_progress
+  depends_on: [S9A-NEXT-E2E-R3-T01]
+
+- id: S9A-NEXT-E2E-R3-T03
+  description: Attempt official runtime capture unblock (`task_for_pid`/Frida + pcap) and record host-level outcomes
+  status: in_progress
+  depends_on: [S9A-NEXT-E2E-R3-T01]
+
+- id: S9A-NEXT-E2E-R3-T04
+  description: If E2E is still blocked, run focused decomp/static diff on transfer handshake control path (`transfer_on_file_request`, queue/download handlers) and derive patch hypotheses
+  status: todo
+  depends_on: [S9A-NEXT-E2E-R3-T02, S9A-NEXT-E2E-R3-T03]
+
+- id: S9A-NEXT-E2E-R3-T05
+  description: Implement minimal protocol/core handshake fix(es) with regression tests
+  status: todo
+  depends_on: [S9A-NEXT-E2E-R3-T04]
+
+- id: S9A-NEXT-E2E-R3-T06
+  description: Rerun live E2E for `aphex twin flim`, sync evidence artifacts, and update blocker status
+  status: todo
+  depends_on: [S9A-NEXT-E2E-R3-T05]
 
 Tasks:
 
@@ -201,6 +244,13 @@ Current blockers and outcomes (2026-02-16):
   - distributed search returns many live peers for `aphex twin flim` and popular fallback queries.
   - several peers return queue grants (`PM_TRANSFER_REQUEST` with non-zero file sizes), but transfer payload never materializes (`inbound F timeout`, `peer returned zero bytes`, or `direct flow read frame len / connection reset`).
   - queue-upload path variants are now exhaustively attempted and mostly rejected as `File not shared`.
+  - destination-host rerun with provided account tuple (`voidfdx`, `server.slsknet.org:2416`) in `tmp/logs/voidfdx-flim-e2e-20260216134739.log` reproduced the same signature:
+    - candidate set discovered (`candidates=31`),
+    - queue-deny branch (`code=50`, `File not shared`) and queue-grant branch (`code=40` with non-zero sizes),
+    - terminal transfer failures (`inbound F timeout`, `peer returned zero bytes`, `connection reset`, `early eof`),
+    - no successful payload file emitted (`bytes_written=0`).
+  - bounded destination-host rerun (`NSS_MAX_CANDIDATE_ATTEMPTS=2`) in `tmp/logs/voidfdx-flim-short-20260216135537.log` completed with explicit terminal error:
+    - `download execution failed: all distributed candidates failed ... queue-upload flow timed out ... direct flow failed`.
 - `S9A-NEXT-T13` alternate-account reruns (`server.slsknet.org:2242`, `nss_auto_*`) reproduced the same hardwall signature on both:
   - `aphex twin flim` and
   - `smells like teen spirit`.
@@ -208,10 +258,18 @@ Current blockers and outcomes (2026-02-16):
   - Frida attach currently fails in this environment (`frida-helper` launch/permission error).
   - local `tcpdump` capture is permission-blocked (`/dev/bpf* permission denied`).
   - Added harness fix to preserve venv interpreter path in `tools/runtime/capture_harness.py`; attach is still blocked by local Frida helper/runtime constraints.
+  - destination-host smoke rerun (`captures/raw/20260216T163830Z-s9a-hardwall-official-smoke`) still produced:
+    - frida failure: `PermissionDeniedError unable to access process ... from the current user account`,
+    - pcap failure: `/dev/bpf0: Permission denied`.
+  - enabled macOS developer mode (`DevToolsSecurity -enable`); Frida still cannot attach even to a local `sleep` process, so `task_for_pid` authorization remains unresolved for this host.
 - `S9A-NEXT-T15` current handshake-diff state:
   - existing official baseline capture (`captures/redacted/login-search-download/official_frames.hex`) shows transfer success path ending at `code=40` + `code=41` without `code=46/50` denial branch,
   - current live runs repeatedly enter denial branch (`code=46/50`) and/or zero-byte/timeout path after queue grant.
   - handshake variant probe (`NSS_SEND_CONNECT_TOKEN_ON_PEER_INIT=0`) does not clear hardwall; queue-grant + zero-byte + denial branch still reproduces.
+  - destination-host rerun adds fresh same-day evidence for both branches in one execution (`tmp/logs/voidfdx-flim-e2e-20260216134739.log`):
+    - `code=50` (`File not shared`) on queue-upload variant probe,
+    - `code=40` with large non-zero sizes followed by timeout/zero-byte failure path.
+  - bounded rerun (`tmp/logs/voidfdx-flim-short-20260216135537.log`) confirms final command-level failure despite candidate fallback traversal (`all distributed candidates failed`).
 - `S9A-NEXT-T18` outbound-variant hardening outcomes:
   - fixed outbound file-variant acceptance bug where zero-byte payloads were treated as successful and aborted further variant attempts.
   - added regression tests:
@@ -288,129 +346,279 @@ Tasks:
   description: Update README and TUI runbook with diagnostics usage and new login failure guidance
   status: done
   depends_on: [S9A-HF-T03]
-## S9 - TUI First, then Swift GUI, then Next Web
+## S9P - Protocol Parity + Deep Architecture and File-Format Reverse (Static/Runtime Iterative)
+
+Summary:
+
+- Primary target remains 100% wire-level protocol parity against SoulseekQt.
+- Added mandatory deep reverse tracks for internal architecture and persistent file formats.
+- Execution follows a strict static/runtime synthesis loop inspired by specimen-lock and no-guessing discipline.
+- S9B/S9C remain dependency-paused until S9P closure.
 
 Dependency graph:
 
-- `S9A-T01 -> S9A-T02`
-- `S9A-T02 -> S9A-T03`
-- `S9A-T03 -> S9A-T04`
-- `S9A-T04 -> S9A-T05`
-- `S9A-T05 -> S9A-T06`
-- `S9A-T06 -> S9A-T07`
-- `S9A-T07 -> S9A-T08`
-- `S9A-T08 -> S9A-T09`
-- `S9A-T09 -> S9A-T10`
-- `S9A-T10 -> S9B-T01`
-- `S9B-T01 -> S9B-T02 -> S9B-T03 -> S9B-T04 -> S9B-T05 -> S9B-T06`
-- `S9B-T06 -> S9C-T01 -> S9C-T02 -> S9C-T03 -> S9C-T04 -> S9C-T05`
+- `S9P-V3-T01 -> S9P-V3-T02`
+- `S9P-V3-T02 -> S9P-T04R-A`
+- `S9P-V3-T02 -> S9P-T04F-S1`
+- `S9P-T04R-A -> S9P-T04R-B`
+- `S9P-T04R-B -> S9P-T04R-C`
+- `S9P-T04F-S1 -> S9P-T04F-S2`
+- `S9P-T04F-S2 -> S9P-T04F-R1`
+- `S9P-T04R-C -> S9P-T04F-R2`
+- `S9P-T04F-R1 -> S9P-T04F-R2`
+- `S9P-T04F-R2 -> S9P-T04F-R3`
+- `S9P-T04F-R3 -> S9P-T04F-X1`
+- `S9P-T04R-C -> S9P-T05`
+- `S9P-T04F-X1 -> S9P-T05`
+- `S9P-T05 -> S9P-T06`
+- `S9P-T06 -> S9P-T07`
+- `S9P-T07 -> S9P-T08`
+- `S9P-T08 -> S9P-T09`
+- `S9P-T09 -> S9P-T10`
+- `S9P-T10 -> S9P-T11`
+- `S9P-T11 -> S9P-T12`
+- `S9P-T12 -> S9P-T13`
+- `S9P-T13 -> S9P-T14`
+- `S9P-T14 -> S9B-T01`
 
 Tasks:
 
-- id: S9A-T01
-  description: Rebaseline state docs for S9 order (TUI first, then Swift GUI, then Next GUI)
+- id: S9P-T01
+  description: Publish S9P stage baseline in TODO/stage/capability/roadmap and pause S9B/S9C by dependency.
   status: done
   depends_on: []
 
-- id: S9A-T02
-  description: Refactor TUI into app/ui/state/storage modules and keep behavior parity
+- id: S9P-T02
+  description: Publish S9P gates, acceptance criteria, and parity scope in verification/project/protocol docs.
   status: done
-  depends_on: [S9A-T01]
+  depends_on: [S9P-T01]
 
-- id: S9A-T03
-  description: Implement mandatory login modal as startup gate; block main view until login success
+- id: S9P-T03
+  description: Create local-only host security ledger with command/revert/verify records for privileged host changes.
   status: done
-  depends_on: [S9A-T02]
+  depends_on: [S9P-T02]
 
-- id: S9A-T04
-  description: Implement simplified main layout (results top, search bar bottom) with retro-orange palette
+- id: S9P-T04S
+  description: Complete static architecture baseline for transfer/protocol dispatch with Ghidra/Binary Ninja/native disasm.
   status: done
-  depends_on: [S9A-T03]
+  depends_on: [S9P-T03]
 
-- id: S9A-T05
-  description: Add downloads panel show/hide toggle and clear-history action (history only)
+- id: S9P-V3-T01
+  description: Rebase planning artifacts to v3 (add format track, G2B/G3B/G7 gates, static/runtime iterative cadence).
   status: done
-  depends_on: [S9A-T04]
+  depends_on: []
 
-- id: S9A-T06
-  description: Add local persistence for credentials, UI preferences, and downloads history/in-progress
+- id: S9P-V3-T02
+  description: Regenerate dashboards and run KB validation immediately after v3 planning rebase.
   status: done
-  depends_on: [S9A-T05]
+  depends_on: [S9P-V3-T01]
 
-- id: S9A-T07
-  description: Add startup recovery that converts persisted in-progress entries to interrupted
+- id: S9P-T04R-A
+  description: Execute host runtime-unblock runbook and update local security ledger entries.
   status: done
-  depends_on: [S9A-T06]
+  depends_on: [S9P-V3-T02]
 
-- id: S9A-T08
-  description: Add/extend TUI tests for login gating, persistence, toggle, clear, and recovery behavior
+- id: S9P-T04R-B
+  description: Pass Frida smoke attach checks (`sleep` and `SoulseekQt`).
   status: done
-  depends_on: [S9A-T07]
+  depends_on: [S9P-T04R-A]
 
-- id: S9A-T09
-  description: Update runbooks/README/dashboard docs for new TUI flow and keybindings
+- id: S9P-T04R-C
+  description: Pass tcpdump smoke capture on selected interface.
   status: done
-  depends_on: [S9A-T08]
+  depends_on: [S9P-T04R-B]
 
-- id: S9A-T10
-  description: Run gates and close S9A
+- id: S9P-T04F-S1
+  description: Extract persistence format candidates from symbols/strings/xrefs.
   status: done
-  depends_on: [S9A-T09]
+  depends_on: [S9P-V3-T02]
+
+- id: S9P-T04F-S2
+  description: Build reader/writer callgraph for persistence-critical surfaces.
+  status: done
+  depends_on: [S9P-T04F-S1]
+
+- id: S9P-T04F-R1
+  description: Implement runtime I/O hook set (`soulseek_io_trace.js`) and event schema v1.
+  status: done
+  depends_on: [S9P-T04F-S2]
+
+- id: S9P-T04F-R2
+  description: Run deterministic official scenarios with isolated profile root and combined protocol+I/O captures.
+  status: done
+  depends_on: [S9P-T04R-C, S9P-T04F-R1]
+
+- id: S9P-T04F-R3
+  description: Produce redacted I/O corpus (`io-events.redacted.jsonl`) under capture policy.
+  status: done
+  depends_on: [S9P-T04F-R2]
+
+- id: S9P-T04F-X1
+  description: Publish `official_file_format_map.json` and `file-format-map.md` from static/runtime synthesis.
+  status: in_progress
+  depends_on: [S9P-T04F-R3]
+
+- id: S9P-T05
+  description: Deliver reproducible official app runner for login/search/download scenarios.
+  status: done
+  depends_on: [S9P-T04R-C, S9P-T04F-X1]
+
+- id: S9P-T06
+  description: Generate official corpus for transfer and format scenarios (redacted).
+  status: in_progress
+  depends_on: [S9P-T05]
+
+- id: S9P-T07
+  description: Publish consolidated architecture+format map with evidence links.
+  status: todo
+  depends_on: [S9P-T06]
+
+- id: S9P-T08
+  description: Publish exact/behavioral/non-goal replicability matrix by subsystem.
+  status: todo
+  depends_on: [S9P-T07]
+
+- id: S9P-T09
+  description: Extend semantic diff comparators for transfer ordering/token/P-F/timeouts parity.
+  status: todo
+  depends_on: [S9P-T08]
+
+- id: S9P-T10
+  description: Implement transfer parity wave 1 patches with regression tests (Flim critical path).
+  status: todo
+  depends_on: [S9P-T09]
+
+- id: S9P-T11
+  description: Execute Flim E2E loop until bytes_written > 0 or classify hardwall with new evidence.
+  status: todo
+  depends_on: [S9P-T10]
+
+- id: S9P-T12
+  description: Implement transfer parity wave 2 (queue/retry/P-F/token/timeouts).
+  status: todo
+  depends_on: [S9P-T11]
+
+- id: S9P-T13
+  description: Run full closure gates (`kb_validate`, `run_diff_verify`, `run_regression`, `zensical build`, state tests).
+  status: todo
+  depends_on: [S9P-T12]
+
+- id: S9P-T14
+  description: Sync dashboards/KB and publish closure report before deciding S9B/S9C unpause.
+  status: todo
+  depends_on: [S9P-T13]
 
 - id: S9B-T01
-  description: Create SwiftUI macOS GUI scaffold and app state model
+  description: Create SwiftUI macOS GUI scaffold and app state model (unblocked only after S9P-T14).
   status: todo
-  depends_on: [S9A-T10]
+  depends_on: [S9P-T14]
 
 - id: S9B-T02
-  description: Use figma and figma-implement-design workflow to finalize Swift GUI design artifacts
+  description: Use figma and figma-implement-design workflow to finalize Swift GUI design artifacts.
   status: todo
   depends_on: [S9B-T01]
 
 - id: S9B-T03
-  description: Add soul-cli JSON output mode for login/search/download commands required by GUI
+  description: Add soul-cli JSON output mode for login/search/download commands required by GUI.
   status: todo
   depends_on: [S9B-T02]
 
 - id: S9B-T04
-  description: Implement Swift login sheet + search/results + downloads panel toggle/clear
+  description: Implement Swift login sheet + search/results + downloads panel toggle/clear.
   status: todo
   depends_on: [S9B-T03]
 
 - id: S9B-T05
-  description: Implement Swift persistence for credentials and downloads history with same semantics as TUI
+  description: Implement Swift persistence for credentials and downloads history with same semantics as TUI.
   status: todo
   depends_on: [S9B-T04]
 
 - id: S9B-T06
-  description: Run macOS GUI validation and close S9B
+  description: Run macOS GUI validation and close S9B.
   status: todo
   depends_on: [S9B-T05]
 
 - id: S9C-T01
-  description: Create Next.js app scaffold and route structure
+  description: Create Next.js app scaffold and route structure.
   status: todo
   depends_on: [S9B-T06]
 
 - id: S9C-T02
-  description: Use figma and figma-implement-design to implement Next UI matching the retro-orange language
+  description: Use figma and figma-implement-design to implement Next UI matching the retro-orange language.
   status: todo
   depends_on: [S9C-T01]
 
 - id: S9C-T03
-  description: Implement Next server routes that call soul-cli JSON mode for login/search/download
+  description: Implement Next server routes that call soul-cli JSON mode for login/search/download.
   status: todo
   depends_on: [S9C-T02]
 
 - id: S9C-T04
-  description: Add browser persistence and downloads panel behavior matching TUI/Swift semantics
+  description: Add browser persistence and downloads panel behavior matching TUI/Swift semantics.
   status: todo
   depends_on: [S9C-T03]
 
 - id: S9C-T05
-  description: Run web validation and close S9C
+  description: Run web validation and close S9C.
   status: todo
   depends_on: [S9C-T04]
+
+Current blockers and outcomes:
+
+- `S9P-T04S` completed: static baseline regenerated from installed SoulseekQt binary via `scripts/ghidra_pipeline.sh` and `scripts/extract_search_download_flow.sh`.
+- `S9P-T04F-S1`/`S9P-T04F-S2` completed: static format candidate extraction + reader/writer callgraph published via `tools/re/extract_format_candidates.py` and `analysis/re/official_file_format_map.json`.
+- `S9P-T04F-R1` completed: runtime I/O hook set and schema v1 published (`frida/hooks/soulseek_io_trace.js`, harness/redactor hook-set support).
+- `S9P-T04R-A/B/C` completed for the active instrumentation specimen:
+  - host runbook applied and logged (`CHG-007` in `${HOME}/.nss-security-ledger/changes.md`),
+  - Frida and tcpdump smoke now pass under the debug-copy workflow.
+- `S9P-T04F-R2`/`S9P-T04F-R3` completed: deterministic captures with isolated profile roots and redacted I/O artifacts were generated (for example `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2` and `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4`).
+- `S9P-T05` completed: reproducible official runner published at `tools/runtime/official_runner.py` and wired into `scripts/capture_golden.sh` (`OFFICIAL_RUNNER=1` path).
+- `S9P-T06` is in progress: transfer+format corpus generation now runs through the official runner/harness stack, but high-signal runtime file-I/O events are still sparse and require deeper symbol/runtime triangulation.
+- Local-only host rollback ledger remains available at `${HOME}/.nss-security-ledger` with `verify.sh` and `rollback.sh`.
+
+## Iteration I3 - Runtime Attach Determinism + arm64 I/O Signal Closure
+
+Dependency graph:
+
+- `I3-T01 -> I3-T02`
+- `I3-T01 -> I3-T03`
+- `I3-T02 -> I3-T04`
+- `I3-T03 -> I3-T04`
+- `I3-T02 -> I3-T05`
+- `I3-T04 -> I3-T06`
+- `I3-T05 -> I3-T06`
+
+Tasks:
+
+- id: I3-T01
+  description: Publish I3 plan and map dependency graph to S9P runtime/format baseline closure work.
+  status: done
+  depends_on: []
+
+- id: I3-T02
+  description: Fix Frida runtime instrumentation reliability (arm64 absolute hooks, deterministic process selection by path, graceful script teardown) and add regression tests.
+  status: done
+  depends_on: [I3-T01]
+
+- id: I3-T03
+  description: Reconcile static symbol offsets for persistence hooks against the active macOS specimen and propagate evidence anchors.
+  status: done
+  depends_on: [I3-T01]
+
+- id: I3-T04
+  description: Re-run deterministic official runtime captures with corrected hook stack and redaction pipeline; confirm high-signal persistence events.
+  status: done
+  depends_on: [I3-T02, I3-T03]
+
+- id: I3-T05
+  description: Update architecture/file-format synthesis artifacts and state docs with I3 runtime evidence.
+  status: done
+  depends_on: [I3-T02]
+
+- id: I3-T06
+  description: Run validation gates, execute PR review loop x2, and merge.
+  status: in_progress
+  depends_on: [I3-T04, I3-T05]
 
 ## Replan v2 - Protocol Runtime-Complete to Minimal TUI (S7R..S8C)
 

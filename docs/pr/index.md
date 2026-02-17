@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `30`
+Total PR docs: `31`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -199,6 +199,13 @@ Total PR docs: `30`
 
 - [0028-s9a-tui-first-simplification.md - S9a Tui First Simplification](0028-s9a-tui-first-simplification/)
 - [0029-s9a-login-diagnostics-wizard-hotfix.md - S9a Login Diagnostics Wizard Hotfix](0029-s9a-login-diagnostics-wizard-hotfix/)
+
+</details>
+
+<details>
+<summary>S9P (1 PRs)</summary>
+
+- [0030-s9p-i3-runtime-format-hardening.md - S9p I3 Runtime Format Hardening](0030-s9p-i3-runtime-format-hardening/)
 
 </details>
 

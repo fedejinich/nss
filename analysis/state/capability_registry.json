@@ -1,66 +1,93 @@
 {
-  "generated_by": "s9-capability-registry-v1",
-  "final_goal": "TUI-first simplified operator UX, then SwiftUI macOS MVP, then Next.js web MVP for login/search/download on top of runtime-complete protocol implementation.",
+  "generated_by": "s9p-capability-registry-v3",
+  "final_goal": "Achieve wire-level protocol parity against SoulseekQt while reverse-mapping official architecture and persistence-critical file formats with static/runtime evidence before resuming GUI roadmap stages.",
   "gates": [
     {
-      "id": "FG-RUNTIME-100",
-      "title": "Runtime coverage completion",
-      "required": "verified_runtime=131 and verified_static=0",
-      "linked_capabilities": ["CAP-RUNTIME-COMPLETE"]
-    },
-    {
-      "id": "FG-SEMANTIC-DEPTH",
-      "title": "Semantic payload depth completion",
-      "required": "no raw_tail/raw_payload unresolved schema fields",
-      "linked_capabilities": ["CAP-SEMANTIC-DEPTH"]
-    },
-    {
-      "id": "FG-CORE-AUTO-DL",
-      "title": "Core download automation",
-      "required": "session download-auto succeeds in authenticated flow",
-      "linked_capabilities": ["CAP-CLI-DOWNLOAD-AUTO"]
-    },
-    {
-      "id": "FG-TUI-V1",
-      "title": "Minimal TUI v1",
-      "required": "login/search/select/download/monitor/upload-decision available in TUI",
-      "linked_capabilities": ["CAP-TUI-V1"]
-    },
-    {
-      "id": "FG-RELEASE-HARDENING",
-      "title": "Release hardening and final closure",
-      "required": "config/log redaction, packaging, recovery runbooks, and closure checklist complete",
+      "id": "G0-PLAN-PUBLISHED",
+      "title": "S9P plan and dependencies published",
+      "required": "Roadmap, stage/capability registries, and TODO are aligned to S9P static/runtime tracks",
       "linked_capabilities": [
-        "CAP-REDACTION-HARDENING",
-        "CAP-PACKAGING-RELEASE",
-        "CAP-RECOVERY-RUNBOOKS",
-        "CAP-CLOSURE-CHECKLIST",
-        "CAP-RELEASE-HARDENING"
+        "CAP-S9P-PLAN-PUBLISHED"
       ]
     },
     {
-      "id": "FG-S9A-TUI-SIMPLIFIED",
-      "title": "TUI-first simplification closure",
-      "required": "mandatory login modal, orange UI, download panel toggle/clear, persistence, and startup recovery are complete",
+      "id": "G1-TOOLING-READY",
+      "title": "Static/runtime tooling baseline validated",
+      "required": "Frida, tcpdump, Ghidra headless, and automation baseline are verified on host",
       "linked_capabilities": [
-        "CAP-TUI-S9A-SIMPLIFIED"
+        "CAP-S9P-TOOLING-READY"
       ]
     },
     {
-      "id": "FG-S9B-SWIFT-MVP",
-      "title": "SwiftUI macOS MVP closure",
-      "required": "Swift login/search/download MVP works via soul-cli JSON mode with persisted local state",
+      "id": "G2A-STATIC-ARCH-BASELINE",
+      "title": "Static architecture baseline",
+      "required": "Transfer stack and dispatch architecture baseline recovered from static evidence",
       "linked_capabilities": [
-        "CAP-CLI-JSON-MVP",
-        "CAP-SWIFT-GUI-MVP"
+        "CAP-S9P-STATIC-ARCH-BASELINE"
       ]
     },
     {
-      "id": "FG-S9C-NEXT-MVP",
-      "title": "Next.js web MVP closure",
-      "required": "Next login/search/download MVP works through safe local server routes over soul-cli JSON mode",
+      "id": "G2B-STATIC-FORMAT-BASELINE",
+      "title": "Static file-format baseline",
+      "required": "Persistence-critical format surfaces are mapped with reader/writer candidates and xref-backed evidence",
       "linked_capabilities": [
-        "CAP-NEXT-GUI-MVP"
+        "CAP-S9P-STATIC-FORMAT-BASELINE"
+      ]
+    },
+    {
+      "id": "G3A-RUNTIME-CAPTURE-BASELINE",
+      "title": "Runtime protocol capture baseline",
+      "required": "Official app protocol scenarios can be captured reproducibly with redacted artifacts",
+      "linked_capabilities": [
+        "CAP-S9P-RUNTIME-CAPTURE-BASELINE"
+      ]
+    },
+    {
+      "id": "G3B-RUNTIME-FORMAT-BASELINE",
+      "title": "Runtime format-I/O baseline",
+      "required": "Official app persistence I/O events are captured/redacted with payload sampling policy",
+      "linked_capabilities": [
+        "CAP-S9P-RUNTIME-FORMAT-BASELINE"
+      ]
+    },
+    {
+      "id": "G4-FLIM-E2E-SUCCESS",
+      "title": "Flim E2E success",
+      "required": "NeoSoulSeek Flim run writes non-zero bytes",
+      "linked_capabilities": [
+        "CAP-S9P-FLIM-E2E"
+      ]
+    },
+    {
+      "id": "G5-TRANSFER-PARITY",
+      "title": "Transfer parity",
+      "required": "Transfer scenario semantic diff is clean against official captures",
+      "linked_capabilities": [
+        "CAP-S9P-TRANSFER-PARITY"
+      ]
+    },
+    {
+      "id": "G6-PROTOCOL-PARITY",
+      "title": "Protocol parity matrix closure",
+      "required": "Protocol parity matrix is closed for scoped message surface",
+      "linked_capabilities": [
+        "CAP-S9P-PROTOCOL-PARITY"
+      ]
+    },
+    {
+      "id": "G7-ARCH-FORMAT-SYNTHESIS",
+      "title": "Architecture/format synthesis complete",
+      "required": "Architecture map, format map, and replicability classification are complete and evidence-linked",
+      "linked_capabilities": [
+        "CAP-S9P-ARCH-FORMAT-SYNTHESIS"
+      ]
+    },
+    {
+      "id": "G8-KB-DASHBOARD-SYNC",
+      "title": "KB/dashboard synchronized",
+      "required": "State docs, evidence ledger, and generated dashboard artifacts are consistent",
+      "linked_capabilities": [
+        "CAP-S9P-KB-SYNC"
       ]
     }
   ],
@@ -72,7 +99,9 @@
       "status": "done",
       "required_for_final": true,
       "depends_on": [],
-      "evidence": ["docs/state/protocol-matrix.md"],
+      "evidence": [
+        "docs/state/protocol-matrix.md"
+      ],
       "blockers": [],
       "notes": "131/131 implemented+mapped baseline reached in S4L and preserved."
     },
@@ -82,8 +111,12 @@
       "domain": "runtime",
       "status": "done",
       "required_for_final": true,
-      "depends_on": ["CAP-PROTOCOL-MAPPED"],
-      "evidence": ["docs/state/runtime-coverage.md"],
+      "depends_on": [
+        "CAP-PROTOCOL-MAPPED"
+      ],
+      "evidence": [
+        "docs/state/runtime-coverage.md"
+      ],
       "blockers": [],
       "notes": "Strict runtime closure is complete: verified_runtime=131 and verified_static=0."
     },
@@ -93,8 +126,12 @@
       "domain": "schema",
       "status": "done",
       "required_for_final": true,
-      "depends_on": ["CAP-RUNTIME-COMPLETE"],
-      "evidence": ["analysis/protocol/message_schema.json"],
+      "depends_on": [
+        "CAP-RUNTIME-COMPLETE"
+      ],
+      "evidence": [
+        "analysis/protocol/message_schema.json"
+      ],
       "blockers": [],
       "notes": "Stage 7 replaced residual raw tails with explicit extension-reserved semantics."
     },
@@ -104,10 +141,14 @@
       "domain": "cli_core",
       "status": "done",
       "required_for_final": true,
-      "depends_on": ["CAP-SEMANTIC-DEPTH"],
-      "evidence": ["docs/runbooks/cli-download-example.md"],
+      "depends_on": [
+        "CAP-SEMANTIC-DEPTH"
+      ],
+      "evidence": [
+        "docs/runbooks/cli-download-example.md"
+      ],
       "blockers": [],
-      "notes": "Core orchestration and `session download-auto` are implemented and regression-covered."
+      "notes": "Core orchestration and session download-auto are implemented and regression-covered."
     },
     {
       "id": "CAP-DASHBOARD-OPS",
@@ -115,19 +156,28 @@
       "domain": "docs",
       "status": "done",
       "required_for_final": false,
-      "depends_on": ["CAP-RUNTIME-COMPLETE"],
-      "evidence": ["docs/state/capability-dashboard.html"],
+      "depends_on": [
+        "CAP-RUNTIME-COMPLETE"
+      ],
+      "evidence": [
+        "docs/state/capability-dashboard.html"
+      ],
       "blockers": [],
-      "notes": "Expose blockers, gates, and critical path similarly to rsk_rs dashboards."
+      "notes": "Expose blockers, gates, and critical path in generated state artifacts."
     },
     {
       "id": "CAP-TUI-V1",
       "title": "Minimal TUI for core transfer",
       "domain": "tui",
       "status": "done",
-      "required_for_final": true,
-      "depends_on": ["CAP-CLI-DOWNLOAD-AUTO", "CAP-DASHBOARD-OPS"],
-      "evidence": ["rust/tui/src/main.rs"],
+      "required_for_final": false,
+      "depends_on": [
+        "CAP-CLI-DOWNLOAD-AUTO",
+        "CAP-DASHBOARD-OPS"
+      ],
+      "evidence": [
+        "rust/tui/src/main.rs"
+      ],
       "blockers": [],
       "notes": "TUI v1 shell is available for login/search/select/download/monitor/upload decision flows."
     },
@@ -136,42 +186,60 @@
       "title": "Redaction metadata hardening",
       "domain": "security",
       "status": "done",
-      "required_for_final": true,
-      "depends_on": ["CAP-TUI-V1"],
-      "evidence": ["docs/verification/capture-redaction-policy.md"],
+      "required_for_final": false,
+      "depends_on": [
+        "CAP-TUI-V1"
+      ],
+      "evidence": [
+        "docs/verification/capture-redaction-policy.md"
+      ],
       "blockers": [],
-      "notes": "Redacted metadata now stores repository-relative references or external placeholders; regression tests enforce this."
+      "notes": "Redacted metadata stores repository-relative references or external placeholders."
     },
     {
       "id": "CAP-PACKAGING-RELEASE",
       "title": "Release packaging workflow",
       "domain": "release",
       "status": "done",
-      "required_for_final": true,
-      "depends_on": ["CAP-TUI-V1"],
-      "evidence": ["docs/runbooks/release-packaging.md"],
+      "required_for_final": false,
+      "depends_on": [
+        "CAP-TUI-V1"
+      ],
+      "evidence": [
+        "docs/runbooks/release-packaging.md"
+      ],
       "blockers": [],
-      "notes": "Published reproducible packaging script for CLI+TUI bundles with checksum output."
+      "notes": "Reproducible packaging script for CLI+TUI bundles with checksum output."
     },
     {
       "id": "CAP-RECOVERY-RUNBOOKS",
       "title": "Failure recovery runbooks",
       "domain": "ops",
       "status": "done",
-      "required_for_final": true,
-      "depends_on": ["CAP-TUI-V1"],
-      "evidence": ["docs/runbooks/failure-recovery.md"],
+      "required_for_final": false,
+      "depends_on": [
+        "CAP-TUI-V1"
+      ],
+      "evidence": [
+        "docs/runbooks/failure-recovery.md"
+      ],
       "blockers": [],
-      "notes": "Published recovery runbook for auth/search/download/transfer/TUI operational failures."
+      "notes": "Recovery runbook for auth/search/download/transfer/TUI operational failures."
     },
     {
       "id": "CAP-CLOSURE-CHECKLIST",
       "title": "Final closure checklist and audit",
       "domain": "state",
       "status": "done",
-      "required_for_final": true,
-      "depends_on": ["CAP-REDACTION-HARDENING", "CAP-PACKAGING-RELEASE", "CAP-RECOVERY-RUNBOOKS"],
-      "evidence": ["docs/state/final-closure-checklist.md"],
+      "required_for_final": false,
+      "depends_on": [
+        "CAP-REDACTION-HARDENING",
+        "CAP-PACKAGING-RELEASE",
+        "CAP-RECOVERY-RUNBOOKS"
+      ],
+      "evidence": [
+        "docs/state/final-closure-checklist.md"
+      ],
       "blockers": [],
       "notes": "Final checklist and executable release-hardening audit are published and integrated."
     },
@@ -180,18 +248,22 @@
       "title": "Release hardening and final gates",
       "domain": "release",
       "status": "done",
-      "required_for_final": true,
-      "depends_on": ["CAP-CLOSURE-CHECKLIST"],
-      "evidence": ["docs/state/verification-status.md"],
+      "required_for_final": false,
+      "depends_on": [
+        "CAP-CLOSURE-CHECKLIST"
+      ],
+      "evidence": [
+        "docs/state/verification-status.md"
+      ],
       "blockers": [],
-      "notes": "Release hardening closure completed: redaction metadata, packaging, recovery runbooks, and closure audit are green."
+      "notes": "Release hardening closure completed and retained for S9P execution stability."
     },
     {
       "id": "CAP-TUI-S9A-SIMPLIFIED",
       "title": "S9A TUI simplification and persistence semantics",
       "domain": "tui",
       "status": "done",
-      "required_for_final": true,
+      "required_for_final": false,
       "depends_on": [
         "CAP-TUI-V1",
         "CAP-RELEASE-HARDENING"
@@ -201,31 +273,303 @@
         "rust/tui/src/main.rs"
       ],
       "blockers": [],
-      "notes": "Refactor into app/ui/state/storage modules, enforce mandatory login first, apply orange retro palette, and persist credentials/download history with in-progress recovery."
+      "notes": "Refactor into app/ui/state/storage modules with mandatory login-first behavior and persisted download history."
+    },
+    {
+      "id": "CAP-S9P-PLAN-PUBLISHED",
+      "title": "S9P v3 plan publication with architecture+format tracks",
+      "domain": "state",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-TUI-S9A-SIMPLIFIED"
+      ],
+      "evidence": [
+        "TODO-CODEX.md",
+        "docs/state/roadmap.md",
+        "analysis/state/stage_registry.json",
+        "analysis/state/capability_registry.json"
+      ],
+      "blockers": [],
+      "notes": "Publish dependency graph, v3 gates, static/runtime format-reverse track, and task registry before implementation waves."
+    },
+    {
+      "id": "CAP-S9P-TOOLING-READY",
+      "title": "S9P v3 static/runtime tooling readiness",
+      "domain": "runtime",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-PLAN-PUBLISHED"
+      ],
+      "evidence": [
+        "docs/state/verification-status.md",
+        "docs/verification/evidence-ledger.md",
+        "tools/runtime/official_runner.py",
+        "scripts/capture_golden.sh",
+        "captures/raw/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2/manifest.raw.json"
+      ],
+      "blockers": [],
+      "notes": "Tooling readiness validated with Frida+tcpdump+runner captures under debug-copy instrumentation; original signed app remains preserved as specimen source-of-truth."
+    },
+    {
+      "id": "CAP-S9P-STATIC-ARCH-BASELINE",
+      "title": "Static architecture baseline for transfer/protocol dispatch",
+      "domain": "static",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-TOOLING-READY"
+      ],
+      "evidence": [
+        "analysis/re/official_architecture_map.json",
+        "docs/state/decompilation-status.md",
+        "docs/re/static/search-download-flow.md"
+      ],
+      "blockers": [],
+      "notes": "Completed baseline extraction with ghidra_pipeline + extract_search_download_flow over /Applications/SoulseekQt.app binary."
+    },
+    {
+      "id": "CAP-S9P-STATIC-FORMAT-BASELINE",
+      "title": "Static baseline for persistence-critical formats",
+      "domain": "static",
+      "status": "done",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-PLAN-PUBLISHED"
+      ],
+      "evidence": [
+        "tools/re/extract_format_candidates.py",
+        "analysis/re/official_file_format_map.json",
+        "docs/re/static/file-format-map.md"
+      ],
+      "blockers": [],
+      "notes": "Map QSettings/QFile/QDataStream surfaces, symbols, and xrefs for persistence-critical formats."
+    },
+    {
+      "id": "CAP-S9P-RUNTIME-CAPTURE-BASELINE",
+      "title": "Runtime protocol capture baseline from official app",
+      "domain": "runtime",
+      "status": "in_progress",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-TOOLING-READY"
+      ],
+      "evidence": [
+        "captures/raw",
+        "captures/redacted",
+        "docs/verification/evidence-ledger.md",
+        "captures/raw/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2/manifest.raw.json",
+        "captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2/redaction-summary.json"
+      ],
+      "blockers": [
+        "Need broader official transfer scenario corpus (beyond bootstrap login/search/download traces) before parity synthesis."
+      ],
+      "notes": "Baseline runtime protocol captures are reproducible via capture_golden + official runner + isolated profile roots."
+    },
+    {
+      "id": "CAP-S9P-RUNTIME-FORMAT-BASELINE",
+      "title": "Runtime baseline for persistence file-I/O",
+      "domain": "runtime",
+      "status": "in_progress",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-TOOLING-READY",
+        "CAP-S9P-STATIC-FORMAT-BASELINE"
+      ],
+      "evidence": [
+        "frida/hooks/soulseek_io_trace.js",
+        "captures/redacted",
+        "docs/verification/evidence-ledger.md",
+        "captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4/manifest.raw.json",
+        "captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4/redaction-summary.json",
+        "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/manifest.raw.json",
+        "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl",
+        "captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5/redaction-summary.json"
+      ],
+      "blockers": [
+        "QSettings and QDataStream symbol hooks are still unresolved on the active specimen, limiting settings/export-import runtime evidence depth."
+      ],
+      "notes": "I/O hook set runs deterministically with redacted corpus output; I3 arm64 offset alignment plus process-path filtering produced high-signal transfer-store events (WriteString/saveData/DataSaver), with remaining runtime gaps focused on QSettings/QDataStream surfaces."
+    },
+    {
+      "id": "CAP-S9P-ARCH-MAP",
+      "title": "Official architecture and state-machine map",
+      "domain": "synthesis",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-STATIC-ARCH-BASELINE",
+        "CAP-S9P-RUNTIME-CAPTURE-BASELINE",
+        "CAP-S9P-STATIC-FORMAT-BASELINE",
+        "CAP-S9P-RUNTIME-FORMAT-BASELINE"
+      ],
+      "evidence": [
+        "analysis/re/official_architecture_map.json",
+        "analysis/re/official_file_format_map.json",
+        "docs/state/decompilation-status.md",
+        "docs/re/static/file-format-map.md"
+      ],
+      "blockers": [
+        "Static/runtime architecture+format synthesis pending"
+      ],
+      "notes": "Correlate static intent with runtime behavior and publish unified architecture+persistence model."
+    },
+    {
+      "id": "CAP-S9P-REPLICABILITY-MATRIX",
+      "title": "Exact vs constrained vs non-goal replicability classification",
+      "domain": "synthesis",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-ARCH-MAP"
+      ],
+      "evidence": [
+        "analysis/re/protocol_parity_matrix.json",
+        "analysis/re/official_file_format_map.json",
+        "docs/state/project-status.md"
+      ],
+      "blockers": [
+        "Architecture and file-format map not finalized"
+      ],
+      "notes": "Classify subsystem-level and format-level parity feasibility before broader replication decisions."
+    },
+    {
+      "id": "CAP-S9P-TRANSFER-DIFF",
+      "title": "Transfer semantic diff comparator coverage",
+      "domain": "verify",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-REPLICABILITY-MATRIX"
+      ],
+      "evidence": [
+        "rust/verify/src/lib.rs",
+        "scripts/run_diff_verify.sh"
+      ],
+      "blockers": [
+        "Transfer scenario corpus not finalized"
+      ],
+      "notes": "Extend comparator contracts for ordering/content parity on transfer request, queue, timeout, and P/F flow branches."
+    },
+    {
+      "id": "CAP-S9P-FLIM-E2E",
+      "title": "Flim E2E transfer success",
+      "domain": "runtime",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-TRANSFER-DIFF"
+      ],
+      "evidence": [
+        "tmp/logs",
+        "docs/verification/evidence-ledger.md"
+      ],
+      "blockers": [
+        "bytes_written is still zero in live runs"
+      ],
+      "notes": "Run iterative patch-and-capture loop until Flim writes payload bytes or classify hardwall with evidence."
+    },
+    {
+      "id": "CAP-S9P-TRANSFER-PARITY",
+      "title": "Transfer stack parity",
+      "domain": "protocol",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-FLIM-E2E"
+      ],
+      "evidence": [
+        "docs/state/verification-status.md",
+        "scripts/run_diff_verify.sh"
+      ],
+      "blockers": [
+        "Transfer scenarios still diverge from official captures"
+      ],
+      "notes": "Close semantic diffs for transfer-request, queue-deny, queue-grant, timeout/retry, and P/F socket/token ordering."
+    },
+    {
+      "id": "CAP-S9P-PROTOCOL-PARITY",
+      "title": "Protocol parity matrix closure",
+      "domain": "protocol",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-TRANSFER-PARITY"
+      ],
+      "evidence": [
+        "analysis/re/protocol_parity_matrix.json",
+        "docs/state/protocol-backlog.md"
+      ],
+      "blockers": [
+        "Transfer parity gate not closed"
+      ],
+      "notes": "Promote protocol surface to accepted parity state for scoped official behavior set."
+    },
+    {
+      "id": "CAP-S9P-ARCH-FORMAT-SYNTHESIS",
+      "title": "Architecture and file-format synthesis closure",
+      "domain": "synthesis",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-PROTOCOL-PARITY",
+        "CAP-S9P-REPLICABILITY-MATRIX"
+      ],
+      "evidence": [
+        "analysis/re/official_architecture_map.json",
+        "analysis/re/official_file_format_map.json",
+        "docs/re/static/file-format-map.md",
+        "docs/state/decompilation-status.md"
+      ],
+      "blockers": [
+        "Architecture/format synthesis gate not closed"
+      ],
+      "notes": "Close the combined architecture+format synthesis gate and classify exact/behavioral/non-goal replicability."
+    },
+    {
+      "id": "CAP-S9P-KB-SYNC",
+      "title": "S9P closure documentation and dashboard sync",
+      "domain": "docs",
+      "status": "planned",
+      "required_for_final": true,
+      "depends_on": [
+        "CAP-S9P-ARCH-FORMAT-SYNTHESIS"
+      ],
+      "evidence": [
+        "docs/state/project-status.md",
+        "docs/state/verification-status.md",
+        "docs/state/decompilation-status.md",
+        "docs/state/capability-matrix.md"
+      ],
+      "blockers": [
+        "Downstream S9P closure gates remain open"
+      ],
+      "notes": "Regenerate and validate dashboards/state docs after each gate and at final closure."
     },
     {
       "id": "CAP-CLI-JSON-MVP",
       "title": "CLI JSON mode for GUI integration",
       "domain": "cli",
       "status": "planned",
-      "required_for_final": true,
+      "required_for_final": false,
       "depends_on": [
-        "CAP-TUI-S9A-SIMPLIFIED"
+        "CAP-S9P-PROTOCOL-PARITY"
       ],
       "evidence": [
         "docs/state/roadmap.md"
       ],
       "blockers": [
-        "S9B not started"
+        "S9P has priority and must close first"
       ],
-      "notes": "Add machine-readable JSON output for login/search/download commands used by Swift and Next MVP shells."
+      "notes": "Post-S9P task: add machine-readable JSON output for login/search/download commands used by Swift and Next shells."
     },
     {
       "id": "CAP-SWIFT-GUI-MVP",
       "title": "SwiftUI macOS GUI MVP",
       "domain": "gui_macos",
       "status": "planned",
-      "required_for_final": true,
+      "required_for_final": false,
       "depends_on": [
         "CAP-CLI-JSON-MVP"
       ],
@@ -233,16 +577,16 @@
         "docs/state/roadmap.md"
       ],
       "blockers": [
-        "Figma design context pending"
+        "S9P parity track not closed"
       ],
-      "notes": "Implement mandatory login sheet, search/results, and downloads panel with show/hide and clear semantics in SwiftUI."
+      "notes": "Post-S9P task: implement mandatory login sheet, search/results, and downloads panel semantics in SwiftUI."
     },
     {
       "id": "CAP-NEXT-GUI-MVP",
       "title": "Next.js web GUI MVP",
       "domain": "gui_web",
       "status": "planned",
-      "required_for_final": true,
+      "required_for_final": false,
       "depends_on": [
         "CAP-SWIFT-GUI-MVP"
       ],
@@ -250,9 +594,9 @@
         "docs/state/roadmap.md"
       ],
       "blockers": [
-        "S9B must close first"
+        "S9P parity track not closed"
       ],
-      "notes": "Implement browser MVP with parity semantics for login/search/download and persisted downloads history controls."
+      "notes": "Post-S9P task: implement browser MVP with parity semantics for login/search/download and persisted history controls."
     }
   ]
 }

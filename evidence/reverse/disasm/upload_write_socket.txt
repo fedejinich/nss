@@ -1,4 +1,4 @@
-Current executable set to '/Users/void_rsk/Projects/soul-dec/analysis/binaries/SoulseekQt' (arm64).
+Current executable set to '/Users/void/Projects/nss/analysis/binaries/SoulseekQt' (arm64).
 SoulseekQt`UploadTask::writeToSocket:
 SoulseekQt[0x1000ea3cc] <+0>:    stp    x24, x23, [sp, #-0x40]!
 SoulseekQt[0x1000ea3d0] <+4>:    stp    x22, x21, [sp, #0x10]
