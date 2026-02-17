@@ -130,7 +130,7 @@ graph TD
     I3T05 --> I3T06
 ```
 
-I4 execution slice (current Qt symbol/runtime compatibility follow-up):
+I4 execution slice (completed Qt symbol/runtime compatibility follow-up):
 
 ```mermaid
 graph TD

@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771296889,
+  "generated_unix_secs": 1771297058,
   "repo_root": "/Users/void/Projects/nss",
   "scope": {
     "included_top_level_dirs": [
@@ -51,8 +51,8 @@
     "file_count": 268,
     "node_count": 329,
     "edge_count": 328,
-    "total_loc": 131740,
-    "total_size_bytes": 4648904
+    "total_loc": 131756,
+    "total_size_bytes": 4649476
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 131740,
-      "size_bytes": 4648904,
+      "loc": 131756,
+      "size_bytes": 4649476,
       "extension": null,
       "domain": "root"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 20365,
-      "size_bytes": 760366,
+      "loc": 20381,
+      "size_bytes": 760945,
       "extension": null,
       "domain": "docs"
     },
@@ -111,7 +111,7 @@
       "kind": "domain",
       "path": "repo-root",
       "loc": 3646,
-      "size_bytes": 121743,
+      "size_bytes": 121736,
       "extension": null,
       "domain": "repo-root"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 20365,
-      "size_bytes": 760366,
+      "loc": 20381,
+      "size_bytes": 760945,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 3131,
-      "size_bytes": 108163,
+      "loc": 3132,
+      "size_bytes": 108280,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 14648,
-      "size_bytes": 527872,
+      "loc": 14663,
+      "size_bytes": 528334,
       "extension": null,
       "domain": "docs"
     },
@@ -691,7 +691,7 @@
       "kind": "file",
       "path": "TODO-CODEX.md",
       "loc": 3336,
-      "size_bytes": 108447,
+      "size_bytes": 108440,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -1210,8 +1210,8 @@
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 216,
-      "size_bytes": 5333,
+      "loc": 217,
+      "size_bytes": 5450,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1370,8 +1370,8 @@
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 4976,
-      "size_bytes": 134386,
+      "loc": 4991,
+      "size_bytes": 134846,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1531,7 +1531,7 @@
       "kind": "file",
       "path": "docs/state/roadmap.md",
       "loc": 468,
-      "size_bytes": 22997,
+      "size_bytes": 22999,
       "extension": ".md",
       "domain": "docs"
     },

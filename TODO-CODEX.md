@@ -661,7 +661,7 @@ Tasks:
 
 - id: I4-T06
   description: Run validation gates, execute mandatory review loop x2, open PR, and merge.
-  status: in_progress
+  status: done
   depends_on: [I4-T04, I4-T05]
 
 ## Replan v2 - Protocol Runtime-Complete to Minimal TUI (S7R..S8C)
