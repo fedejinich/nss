@@ -15,16 +15,16 @@
   },
   {
     "fixture": "peer_transfer_request.hex",
-    "matches": false,
-    "expected_len": 55,
+    "matches": true,
+    "expected_len": 47,
     "actual_len": 47,
-    "first_diff_offset": 0
+    "first_diff_offset": null
   },
   {
     "fixture": "peer_transfer_response.hex",
-    "matches": false,
-    "expected_len": 20,
+    "matches": true,
+    "expected_len": 13,
     "actual_len": 13,
-    "first_diff_offset": 0
+    "first_diff_offset": null
   }
 ]

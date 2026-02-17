@@ -664,6 +664,56 @@ Tasks:
   status: done
   depends_on: [I4-T04, I4-T05]
 
+## Iteration I5 - Download Feature Closure (Search -> Options -> Download)
+
+Dependency graph:
+
+- `I5-T01 -> I5-T02`
+- `I5-T01 -> I5-T03`
+- `I5-T02 -> I5-T04`
+- `I5-T03 -> I5-T04`
+- `I5-T04 -> I5-T05`
+- `I5-T04 -> I5-T06`
+- `I5-T05 -> I5-T07`
+- `I5-T06 -> I5-T07`
+
+Tasks:
+
+- id: I5-T01
+  description: Publish I5 execution plan focused on production-grade music download closure and runtime parity blockers.
+  status: done
+  depends_on: []
+
+- id: I5-T02
+  description: Fix transfer fixture drift in `verify fixtures` (`peer_transfer_request`/`peer_transfer_response`) and add regression guard tests.
+  status: done
+  depends_on: [I5-T01]
+
+- id: I5-T03
+  description: Revalidate search->select->download orchestration paths in core/CLI/TUI and enumerate remaining functional gaps.
+  status: done
+  depends_on: [I5-T01]
+
+- id: I5-T04
+  description: Run full validation gates (`kb_validate`, `run_diff_verify`, `run_regression`, zensical, state tests) after fixture/runtime updates.
+  status: done
+  depends_on: [I5-T02, I5-T03]
+
+- id: I5-T05
+  description: Execute live E2E download attempts for target music queries and collect hard evidence (`bytes_written`, transfer branch, peer behavior).
+  status: in_progress
+  depends_on: [I5-T04]
+
+- id: I5-T06
+  description: Update S9P state/KB artifacts with exact closure status for download functionality and explicit blocker taxonomy.
+  status: in_progress
+  depends_on: [I5-T04]
+
+- id: I5-T07
+  description: Complete PR lifecycle (review loop x2, fixes, merge) for I5 closure set.
+  status: todo
+  depends_on: [I5-T05, I5-T06]
+
 ## Replan v2 - Protocol Runtime-Complete to Minimal TUI (S7R..S8C)
 
 Dependency graph:

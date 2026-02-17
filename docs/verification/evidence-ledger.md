@@ -99,6 +99,32 @@ Project-level evidence summaries and provenance tracking.
   - I4 run `20260217T024511Z-i4-t04-io-qt-symbol-r3` confirms Qt symbol-hook registration and runtime `qfile_open` + `writestring` activity under official-runner flow.
   - Remaining format-runtime gap is concentrated in scenario-level QSettings/QDataStream invocation depth (hooks now resolve/register).
 
+## S9P I5 Download Closure Diagnostics (`2026-02-17`)
+
+- Objective for this iteration: close real-world `search -> options -> download` for music (`Flim`) and collect blocker evidence if not closed.
+- Live evidence logs:
+  - `tmp/logs/i5-search-flim-20260217105835.log`
+  - `tmp/logs/i5-download-patch1-20260217142950.log`
+  - `tmp/logs/i5-download-patch2-20260217144007.log`
+  - `tmp/logs/i5-download-patch3-pierce-20260217144433.log`
+  - `tmp/logs/i5-download-patch4-probe-token-20260217144653.log`
+- Implemented/tested protocol changes during I5:
+  - transfer fixture drift fix (`peer_transfer_request.hex`, `peer_transfer_response.hex`) + protocol regression guards,
+  - control-channel token/offset read-init attempt prior to dedicated F-socket fallback,
+  - connect-to-peer response instrumentation and token-aware response matching,
+  - modernized peer-init defaults (wire token `0` by default; legacy opt-in via env),
+  - optional outbound `PierceFireWall` init frame support for indirect file-socket probing.
+- Outcome:
+  - search/options path remains healthy (distributed candidates listed with real peer/token/path data),
+  - payload completion remains blocked (`bytes_written=0`) under current runtime conditions.
+- Runtime signature preserved:
+  - `code=40` queue-grant with non-zero file size observed repeatedly,
+  - post-grant transfer path collapses into `timed out reading file body chunk`, `peer returned zero bytes`, and `early eof`,
+  - queue fallback still hits `code=50 File not shared` / `code=46` path-reject branches.
+- Additional blocker evidence:
+  - `session.peer-address` indicates at least some target peers advertise obfuscated connectivity (`obfuscation_type=1`, for example `purofu`).
+  - Frida attach remains denied in this host context (`PermissionDeniedError`), limiting official in-process runtime tracing for hardwall closure.
+
 ## S9A-NEXT Runtime Transfer Diagnostics (In Progress)
 
 - Date: `2026-02-16`

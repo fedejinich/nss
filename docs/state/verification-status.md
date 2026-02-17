@@ -57,6 +57,29 @@ Runtime hardwall context carried from S9A-NEXT:
   - I4 runner-driven capture `captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3/io-events.raw.jsonl` confirms Qt symbol-hook registration and runtime `qfile_open` + `writestring` events.
   - Remaining runtime gap: deterministic scenarios still under-trigger QSettings/QDataStream invocation depth even though hooks now resolve/register.
 
+### I5 Download Runtime Update (`2026-02-17`)
+
+- Search/options are live in authenticated runs (`session.search ok` with distributed candidates and concrete peer/path/token rows).
+- `Flim` payload is still not closed (`bytes_written=0`) across repeated live attempts and handshake variants.
+- New runtime evidence logs:
+  - `tmp/logs/i5-download-patch1-20260217142950.log`
+  - `tmp/logs/i5-download-patch2-20260217144007.log`
+  - `tmp/logs/i5-download-patch3-pierce-20260217144433.log`
+  - `tmp/logs/i5-download-patch4-probe-token-20260217144653.log`
+- Observed terminal signatures remain consistent:
+  - queue grant path appears (`code=40`, non-zero sizes),
+  - then transfer payload stalls (`timed out reading file body chunk`) or hard-fails (`peer returned zero bytes for transfer`, `read frame len | early eof`),
+  - queue variant fallbacks still hit `code=50 File not shared` and `code=46` share-path reject branches.
+- Implemented runtime hardening during I5:
+  - transfer fixture drift closure + protocol regression guards,
+  - control-channel token/offset handshake attempt before F-socket fallback,
+  - connect-to-peer response diagnostics and token-aware matching,
+  - modernized peer-init defaults (wire token `0` by default, legacy mode opt-in),
+  - optional outbound `PierceFireWall` init injection for indirect-file probes.
+- Hardwall status:
+  - unresolved indirect transfer/state-machine parity (including robust handling of noisy `SM_CONNECT_TO_PEER` response streams and full indirect/P-F socket choreography),
+  - Frida attach remains blocked on host (`PermissionDeniedError`) so official in-process call-level tracing is still unavailable in this environment.
+
 ## Validation Gates
 
 ### KB validation

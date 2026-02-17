@@ -6684,6 +6684,27 @@ mod tests {
     }
 
     #[test]
+    fn transfer_request_fixture_matches_download_shape() {
+        let frame = build_transfer_request(
+            TransferDirection::Download,
+            555,
+            "Music\\Aphex Twin\\Track.flac",
+            123_456_789,
+        );
+        let expected = decode_hex(
+            "2b00000028000000000000002b0200001b0000004d757369635c4170686578205477696e5c547261636b2e666c6163",
+        );
+        assert_eq!(frame.encode(), expected);
+    }
+
+    #[test]
+    fn transfer_response_fixture_matches_u8_bool_shape() {
+        let frame = build_transfer_response(555, true, "");
+        let expected = decode_hex("09000000290000002b02000001");
+        assert_eq!(frame.encode(), expected);
+    }
+
+    #[test]
     fn transfer_response_parse_roundtrip() {
         let frame = build_transfer_response(555, true, "");
         let parsed = parse_transfer_response(&frame.payload).expect("parse response");
