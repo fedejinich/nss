@@ -69,8 +69,59 @@ function emit(payload) {
   });
 }
 
+function isNullAddress(value) {
+  if (value === null || value === undefined) {
+    return true;
+  }
+  try {
+    if (typeof value.isNull === "function") {
+      return value.isNull();
+    }
+  } catch (_err) {
+    // fall through
+  }
+  const asText = String(value);
+  return asText === "0x0" || asText === "0";
+}
+
+function safeFindExportByName(moduleName, symbol) {
+  try {
+    if (typeof Module.findExportByName === "function") {
+      return Module.findExportByName(moduleName, symbol);
+    }
+  } catch (_err) {
+    // fall through
+  }
+  try {
+    if (typeof Module.getExportByName === "function") {
+      return Module.getExportByName(moduleName, symbol);
+    }
+  } catch (_err) {
+    // fall through
+  }
+  return null;
+}
+
+function enumerateModuleSymbols(mod) {
+  try {
+    if (mod !== null && mod !== undefined && typeof mod.enumerateSymbols === "function") {
+      return mod.enumerateSymbols();
+    }
+  } catch (_err) {
+    // fall through
+  }
+  try {
+    if (mod !== null && mod !== undefined && mod.name && typeof Module.enumerateSymbols === "function") {
+      return Module.enumerateSymbols(mod.name);
+    }
+  } catch (_err) {
+    // fall through
+  }
+  return [];
+}
+
 function attachHook(addr, meta, onEnter, onLeave) {
-  if (addr === null || addr === undefined) {
+  if (addr === null || addr === undefined || isNullAddress(addr)) {
     return false;
   }
   const key = addr.toString();
@@ -153,10 +204,29 @@ function importMatches(tokens) {
 
 function findExport(name) {
   try {
-    return Module.getExportByName(null, name);
+    const direct = safeFindExportByName(null, name);
+    if (!isNullAddress(direct)) {
+      return direct;
+    }
+  } catch (_err) {
+    // fall through
+  }
+
+  try {
+    const modules = Process.enumerateModules();
+    for (let i = 0; i < modules.length; i += 1) {
+      const symbols = enumerateModuleSymbols(modules[i]);
+      for (let j = 0; j < symbols.length; j += 1) {
+        const candidate = symbols[j].address;
+        if ((symbols[j].name || "") === name && !isNullAddress(candidate)) {
+          return candidate;
+        }
+      }
+    }
   } catch (_err) {
     return null;
   }
+  return null;
 }
 
 function hookLibcPaths() {
@@ -291,7 +361,10 @@ const SYMBOL_HOOKS = [
   {
     target: "qdatastream_writebytes_symbol",
     moduleToken: "qtcore",
-    symbols: ["__ZN11QDataStream10writeBytesEPKcx"],
+    symbols: [
+      "_ZN11QDataStream10writeBytesEPKcx",
+      "__ZN11QDataStream10writeBytesEPKcx",
+    ],
     onEnter(args) {
       const size = toInt(args[2]);
       emit({
@@ -305,7 +378,10 @@ const SYMBOL_HOOKS = [
   {
     target: "qdatastream_readrawdata_symbol",
     moduleToken: "qtcore",
-    symbols: ["__ZN11QDataStream11readRawDataEPcx"],
+    symbols: [
+      "_ZN11QDataStream11readRawDataEPcx",
+      "__ZN11QDataStream11readRawDataEPcx",
+    ],
     onEnter(args) {
       this.buf = args[1];
       this.len = toInt(args[2]);
@@ -327,7 +403,10 @@ const SYMBOL_HOOKS = [
   {
     target: "qfile_open_symbol",
     moduleToken: "qtcore",
-    symbols: ["__ZN5QFile4openE6QFlagsIN13QIODeviceBase12OpenModeFlagEE"],
+    symbols: [
+      "_ZN5QFile4openE6QFlagsIN13QIODeviceBase12OpenModeFlagEE",
+      "__ZN5QFile4openE6QFlagsIN13QIODeviceBase12OpenModeFlagEE",
+    ],
     onEnter(args) {
       emit({
         event: "qfile_open",
@@ -339,7 +418,10 @@ const SYMBOL_HOOKS = [
   {
     target: "qsettings_setvalue_symbol",
     moduleToken: "qtcore",
-    symbols: ["__ZN9QSettings8setValueE14QAnyStringViewRK8QVariant"],
+    symbols: [
+      "_ZN9QSettings8setValueE14QAnyStringViewRK8QVariant",
+      "__ZN9QSettings8setValueE14QAnyStringViewRK8QVariant",
+    ],
     onEnter(args) {
       emit({
         event: "qsettings_setvalue",
@@ -352,7 +434,10 @@ const SYMBOL_HOOKS = [
   {
     target: "qsettings_value_symbol",
     moduleToken: "qtcore",
-    symbols: ["__ZNK9QSettings5valueE14QAnyStringView"],
+    symbols: [
+      "_ZNK9QSettings5valueE14QAnyStringView",
+      "__ZNK9QSettings5valueE14QAnyStringView",
+    ],
     onEnter(args) {
       emit({
         event: "qsettings_value",
@@ -363,8 +448,8 @@ const SYMBOL_HOOKS = [
   },
   {
     target: "libc_fopen_symbol",
-    moduleToken: "libsystem",
-    symbols: ["_fopen", "fopen"],
+    moduleToken: "libsystem_c",
+    symbols: ["fopen", "_fopen"],
     onEnter(args) {
       emit({
         event: "libc_fopen",
@@ -375,8 +460,8 @@ const SYMBOL_HOOKS = [
   },
   {
     target: "libc_read_symbol",
-    moduleToken: "libsystem",
-    symbols: ["_read", "read"],
+    moduleToken: "libsystem_kernel",
+    symbols: ["read", "_read"],
     onEnter(args) {
       this.buf = args[1];
       this.requested = toInt(args[2]);
@@ -397,8 +482,8 @@ const SYMBOL_HOOKS = [
   },
   {
     target: "libc_write_symbol",
-    moduleToken: "libsystem",
-    symbols: ["_write", "write"],
+    moduleToken: "libsystem_kernel",
+    symbols: ["write", "_write"],
     onEnter(args) {
       const size = toInt(args[2]);
       emit({
@@ -411,8 +496,8 @@ const SYMBOL_HOOKS = [
   },
   {
     target: "libc_close_symbol",
-    moduleToken: "libsystem",
-    symbols: ["_close", "close"],
+    moduleToken: "libsystem_kernel",
+    symbols: ["close", "_close"],
     onEnter(args) {
       emit({
         event: "libc_close",
@@ -431,10 +516,17 @@ function findExportByModuleToken(moduleToken, symbol) {
     if (haystack.indexOf(token) < 0) {
       continue;
     }
+    const exported = safeFindExportByName(mod.name, symbol);
+    if (!isNullAddress(exported)) {
+      return { address: exported, moduleName: mod.name, source: "module_export" };
+    }
     try {
-      const address = Module.getExportByName(mod.name, symbol);
-      if (address) {
-        return { address: address, moduleName: mod.name };
+      const symbols = enumerateModuleSymbols(mod);
+      for (let j = 0; j < symbols.length; j += 1) {
+        const candidate = symbols[j].address;
+        if ((symbols[j].name || "") === symbol && !isNullAddress(candidate)) {
+          return { address: candidate, moduleName: mod.name, source: "module_symbol" };
+        }
       }
     } catch (_err) {
       // Keep scanning candidate modules.
@@ -473,7 +565,7 @@ function installNamedSymbolHooks() {
         target: spec.target,
         symbol: resolvedSymbol,
         module: resolved.moduleName,
-        source: "module_export",
+        source: resolved.source || "module_export",
       },
       spec.onEnter,
       spec.onLeave

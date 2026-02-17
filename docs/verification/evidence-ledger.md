@@ -46,10 +46,17 @@ Project-level evidence summaries and provenance tracking.
 - `captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4/manifest.raw.json`
 - `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/manifest.raw.json`
 - `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl`
+- `captures/raw/20260217T024407Z-i4-t04-io-qt-symbol-r2/manifest.raw.json`
+- `captures/raw/20260217T024407Z-i4-t04-io-qt-symbol-r2/io-events.raw.jsonl`
+- `captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3/manifest.raw.json`
+- `captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3/io-events.raw.jsonl`
 - `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2/redaction-summary.json`
 - `captures/redacted/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3/redaction-summary.json`
 - `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4/redaction-summary.json`
 - `captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5/redaction-summary.json`
+- `captures/redacted/20260217T024407Z-i4-t04-io-qt-symbol-r2/redaction-summary.json`
+- `captures/redacted/20260217T024511Z-i4-t04-io-qt-symbol-r3/redaction-summary.json`
+- `tests/runtime/test_io_hook_script.py`
 
 ## S9P Program Kickoff Evidence
 
@@ -84,8 +91,13 @@ Project-level evidence summaries and provenance tracking.
     - arm64 absolute hook offsets were reconciled from static `nm` evidence,
     - Frida process selection is now disambiguated by path token (`--process-path-contains`) to avoid same-name process ambiguity,
     - `frida_capture` now tolerates expected process-exit teardown (`script is destroyed`) without false failure.
+  - I4 runtime compatibility follow-up:
+    - Qt symbol-hook candidates now include underscore-prefixed arm64 variants,
+    - export lookup now supports both `findExportByName` and `getExportByName` Frida APIs with safe symbol-table fallback,
+    - null-address filtering avoids invalid `0x0` hook attempts and preserves deterministic attach.
   - Runtime format traces now include high-signal transfer-store persistence events (`writestring`, `mainwindow_save_data_enter`, `datasaver_save_enter`, `datasaver_save_to_file_enter`) in run `20260217T010817Z-i3-t04-io-runtime-r5`.
-  - Remaining format-runtime gap is concentrated in unresolved QSettings/QDataStream symbol hooks.
+  - I4 run `20260217T024511Z-i4-t04-io-qt-symbol-r3` confirms Qt symbol-hook registration and runtime `qfile_open` + `writestring` activity under official-runner flow.
+  - Remaining format-runtime gap is concentrated in scenario-level QSettings/QDataStream invocation depth (hooks now resolve/register).
 
 ## S9A-NEXT Runtime Transfer Diagnostics (In Progress)
 

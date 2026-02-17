@@ -86,22 +86,28 @@ Map SoulseekQt protocol, architecture, and persistence-critical file formats wit
   - `captures/raw/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
   - `captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
   - `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5`
+  - `captures/raw/20260217T024407Z-i4-t04-io-qt-symbol-r2`
+  - `captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3`
   - `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2`
   - `captures/redacted/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
   - `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
   - `captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5`
+  - `captures/redacted/20260217T024407Z-i4-t04-io-qt-symbol-r2`
+  - `captures/redacted/20260217T024511Z-i4-t04-io-qt-symbol-r3`
 - Result:
   - tooling/runtime baseline is reproducible under debug-specimen instrumentation,
   - arm64 hook offsets were reconciled from static `nm` evidence,
   - Frida attach selection is now path-disambiguated (`--process-path-contains`) to avoid same-name process ambiguity,
+  - Qt symbol resolution is now Frida-version-compatible (`findExportByName`/`getExportByName` fallback) with underscore-prefixed arm64 symbol candidates,
   - runtime traces include high-signal transfer-store persistence events (`writestring`, `mainwindow_save_data_enter`, `datasaver_save_enter`, `datasaver_save_to_file_enter`),
-  - QSettings/QDataStream hooks remain a targeted runtime gap.
+  - runner-driven traces now confirm Qt symbol-hook registration and runtime `qfile_open` events,
+  - QSettings/QDataStream invocation depth remains a targeted scenario-level runtime gap.
 
 ## Next Reverse Focus
 
 1. Runtime deepening:
    - expand official scenario corpus (`login/search/download`, transfer edge paths) using `tools/runtime/official_runner.py`,
-   - continue refining QSettings/QDataStream symbol hooks and trigger flows to close remaining settings/export-import runtime gaps.
+   - trigger dedicated settings/export-import actions to increase QSettings/QDataStream invocation evidence depth.
 2. Execute synthesis block:
    - reconcile static intent vs runtime ordering/content and file-I/O behavior,
    - publish protocol/transfer parity deltas and architecture/format replicability matrix.

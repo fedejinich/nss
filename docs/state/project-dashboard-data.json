@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771291218,
+  "generated_unix_secs": 1771296889,
   "stage_summary": {
     "total": 36,
     "done": 33,
@@ -40,7 +40,7 @@
     ],
     "evidence": "docs/state/roadmap.md",
     "next_gate": "G3A-RUNTIME-CAPTURE-BASELINE",
-    "notes": "S9P remains active. Tooling gate G1 is validated under debug-copy instrumentation; I3 runtime hardening aligned arm64 hooks and deterministic Frida process selection, producing high-signal transfer-store persistence traces while format-synthesis and parity gates remain open."
+    "notes": "S9P remains active. Tooling gate G1 is validated under debug-copy instrumentation; I3 runtime hardening aligned arm64 hooks and deterministic Frida process selection, and I4 added Qt symbol resolver compatibility (underscore + Frida API fallback) to restore QtCore symbol-hook registration with runner-driven qfile_open/writestring persistence traces while format-synthesis and parity gates remain open."
   },
   "stages": [
     {
@@ -449,7 +449,7 @@
       ],
       "evidence": "docs/state/roadmap.md",
       "next_gate": "G3A-RUNTIME-CAPTURE-BASELINE",
-      "notes": "S9P remains active. Tooling gate G1 is validated under debug-copy instrumentation; I3 runtime hardening aligned arm64 hooks and deterministic Frida process selection, producing high-signal transfer-store persistence traces while format-synthesis and parity gates remain open."
+      "notes": "S9P remains active. Tooling gate G1 is validated under debug-copy instrumentation; I3 runtime hardening aligned arm64 hooks and deterministic Frida process selection, and I4 added Qt symbol resolver compatibility (underscore + Frida API fallback) to restore QtCore symbol-hook registration with runner-driven qfile_open/writestring persistence traces while format-synthesis and parity gates remain open."
     },
     {
       "id": "S9B",

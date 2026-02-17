@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771291218,
+  "generated_unix_secs": 1771296889,
   "repo_root": "/Users/void/Projects/nss",
   "scope": {
     "included_top_level_dirs": [
@@ -48,11 +48,11 @@
   "stats": {
     "domain_count": 9,
     "dir_count": 51,
-    "file_count": 266,
-    "node_count": 327,
-    "edge_count": 326,
-    "total_loc": 131303,
-    "total_size_bytes": 4629959
+    "file_count": 268,
+    "node_count": 329,
+    "edge_count": 328,
+    "total_loc": 131740,
+    "total_size_bytes": 4648904
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 131303,
-      "size_bytes": 4629959,
+      "loc": 131740,
+      "size_bytes": 4648904,
       "extension": null,
       "domain": "root"
     },
@@ -70,8 +70,8 @@
       "label": "analysis",
       "kind": "domain",
       "path": "analysis",
-      "loc": 38210,
-      "size_bytes": 608898,
+      "loc": 38217,
+      "size_bytes": 609739,
       "extension": null,
       "domain": "analysis"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 20116,
-      "size_bytes": 748010,
+      "loc": 20365,
+      "size_bytes": 760366,
       "extension": null,
       "domain": "docs"
     },
@@ -100,8 +100,8 @@
       "label": "frida",
       "kind": "domain",
       "path": "frida",
-      "loc": 887,
-      "size_bytes": 21046,
+      "loc": 979,
+      "size_bytes": 23494,
       "extension": null,
       "domain": "frida"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 3602,
-      "size_bytes": 120225,
+      "loc": 3646,
+      "size_bytes": 121743,
       "extension": null,
       "domain": "repo-root"
     },
@@ -140,8 +140,8 @@
       "label": "tests",
       "kind": "domain",
       "path": "tests",
-      "loc": 1830,
-      "size_bytes": 72140,
+      "loc": 1875,
+      "size_bytes": 73922,
       "extension": null,
       "domain": "tests"
     },
@@ -160,8 +160,8 @@
       "label": "analysis",
       "kind": "dir",
       "path": "analysis",
-      "loc": 38210,
-      "size_bytes": 608898,
+      "loc": 38217,
+      "size_bytes": 609739,
       "extension": null,
       "domain": "analysis"
     },
@@ -230,8 +230,8 @@
       "label": "state",
       "kind": "dir",
       "path": "analysis/state",
-      "loc": 1090,
-      "size_bytes": 39759,
+      "loc": 1097,
+      "size_bytes": 40600,
       "extension": null,
       "domain": "analysis"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 20116,
-      "size_bytes": 748010,
+      "loc": 20365,
+      "size_bytes": 760366,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 3004,
-      "size_bytes": 102462,
+      "loc": 3131,
+      "size_bytes": 108163,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 14538,
-      "size_bytes": 522280,
+      "loc": 14648,
+      "size_bytes": 527872,
       "extension": null,
       "domain": "docs"
     },
@@ -310,8 +310,8 @@
       "label": "verification",
       "kind": "dir",
       "path": "docs/verification",
-      "loc": 281,
-      "size_bytes": 15012,
+      "loc": 293,
+      "size_bytes": 16075,
       "extension": null,
       "domain": "docs"
     },
@@ -390,8 +390,8 @@
       "label": "frida",
       "kind": "dir",
       "path": "frida",
-      "loc": 887,
-      "size_bytes": 21046,
+      "loc": 979,
+      "size_bytes": 23494,
       "extension": null,
       "domain": "frida"
     },
@@ -400,8 +400,8 @@
       "label": "hooks",
       "kind": "dir",
       "path": "frida/hooks",
-      "loc": 887,
-      "size_bytes": 21046,
+      "loc": 979,
+      "size_bytes": 23494,
       "extension": null,
       "domain": "frida"
     },
@@ -540,8 +540,8 @@
       "label": "tests",
       "kind": "dir",
       "path": "tests",
-      "loc": 1830,
-      "size_bytes": 72140,
+      "loc": 1875,
+      "size_bytes": 73922,
       "extension": null,
       "domain": "tests"
     },
@@ -580,8 +580,8 @@
       "label": "runtime",
       "kind": "dir",
       "path": "tests/runtime",
-      "loc": 257,
-      "size_bytes": 9829,
+      "loc": 302,
+      "size_bytes": 11611,
       "extension": null,
       "domain": "tests"
     },
@@ -690,8 +690,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 3292,
-      "size_bytes": 106929,
+      "loc": 3336,
+      "size_bytes": 108447,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -840,8 +840,8 @@
       "label": "capability_registry.json",
       "kind": "file",
       "path": "analysis/state/capability_registry.json",
-      "loc": 602,
-      "size_bytes": 20171,
+      "loc": 609,
+      "size_bytes": 20884,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -861,7 +861,7 @@
       "kind": "file",
       "path": "analysis/state/stage_registry.json",
       "loc": 437,
-      "size_bytes": 15006,
+      "size_bytes": 15134,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -1196,12 +1196,22 @@
       "domain": "docs"
     },
     {
+      "id": "file:docs/pr/0031-s9p-i4-qt-symbol-runtime-compat.md",
+      "label": "0031-s9p-i4-qt-symbol-runtime-compat.md",
+      "kind": "file",
+      "path": "docs/pr/0031-s9p-i4-qt-symbol-runtime-compat.md",
+      "loc": 120,
+      "size_bytes": 5529,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
       "id": "file:docs/pr/index.md",
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 209,
-      "size_bytes": 5161,
+      "loc": 216,
+      "size_bytes": 5333,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1340,8 +1350,8 @@
       "label": "capability-matrix.json",
       "kind": "file",
       "path": "docs/state/capability-matrix.json",
-      "loc": 780,
-      "size_bytes": 25457,
+      "loc": 787,
+      "size_bytes": 26254,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1351,7 +1361,7 @@
       "kind": "file",
       "path": "docs/state/capability-matrix.md",
       "loc": 84,
-      "size_bytes": 11664,
+      "size_bytes": 12284,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1360,8 +1370,8 @@
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 4946,
-      "size_bytes": 133507,
+      "loc": 4976,
+      "size_bytes": 134386,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1390,8 +1400,8 @@
       "label": "decompilation-status.md",
       "kind": "file",
       "path": "docs/state/decompilation-status.md",
-      "loc": 110,
-      "size_bytes": 6105,
+      "loc": 116,
+      "size_bytes": 6614,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1441,7 +1451,7 @@
       "kind": "file",
       "path": "docs/state/project-dashboard-data.json",
       "loc": 635,
-      "size_bytes": 18520,
+      "size_bytes": 18776,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1461,7 +1471,7 @@
       "kind": "file",
       "path": "docs/state/project-status.md",
       "loc": 615,
-      "size_bytes": 30037,
+      "size_bytes": 30168,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1500,8 +1510,8 @@
       "label": "release-hardening-audit.json",
       "kind": "file",
       "path": "docs/state/release-hardening-audit.json",
-      "loc": 965,
-      "size_bytes": 23646,
+      "loc": 1010,
+      "size_bytes": 24786,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1520,8 +1530,8 @@
       "label": "roadmap.md",
       "kind": "file",
       "path": "docs/state/roadmap.md",
-      "loc": 455,
-      "size_bytes": 22507,
+      "loc": 468,
+      "size_bytes": 22997,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1590,8 +1600,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 374,
-      "size_bytes": 16124,
+      "loc": 383,
+      "size_bytes": 16894,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1610,8 +1620,8 @@
       "label": "evidence-ledger.md",
       "kind": "file",
       "path": "docs/verification/evidence-ledger.md",
-      "loc": 220,
-      "size_bytes": 13444,
+      "loc": 232,
+      "size_bytes": 14507,
       "extension": ".md",
       "domain": "docs"
     },
@@ -2170,8 +2180,8 @@
       "label": "soulseek_io_trace.js",
       "kind": "file",
       "path": "frida/hooks/soulseek_io_trace.js",
-      "loc": 794,
-      "size_bytes": 18706,
+      "loc": 886,
+      "size_bytes": 21154,
       "extension": ".js",
       "domain": "frida"
     },
@@ -2732,6 +2742,16 @@
       "path": "tests/runtime/test_frida_capture.py",
       "loc": 155,
       "size_bytes": 5379,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
+      "id": "file:tests/runtime/test_io_hook_script.py",
+      "label": "test_io_hook_script.py",
+      "kind": "file",
+      "path": "tests/runtime/test_io_hook_script.py",
+      "loc": 45,
+      "size_bytes": 1782,
       "extension": ".py",
       "domain": "tests"
     },
@@ -3644,6 +3664,11 @@
     },
     {
       "source": "dir:docs/pr",
+      "target": "file:docs/pr/0031-s9p-i4-qt-symbol-runtime-compat.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
       "target": "file:docs/pr/index.md",
       "kind": "contains"
     },
@@ -4530,6 +4555,11 @@
     {
       "source": "dir:tests/runtime",
       "target": "file:tests/runtime/test_frida_capture.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/runtime",
+      "target": "file:tests/runtime/test_io_hook_script.py",
       "kind": "contains"
     },
     {

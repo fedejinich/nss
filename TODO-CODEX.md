@@ -573,7 +573,7 @@ Current blockers and outcomes:
   - Frida and tcpdump smoke now pass under the debug-copy workflow.
 - `S9P-T04F-R2`/`S9P-T04F-R3` completed: deterministic captures with isolated profile roots and redacted I/O artifacts were generated (for example `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2` and `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4`).
 - `S9P-T05` completed: reproducible official runner published at `tools/runtime/official_runner.py` and wired into `scripts/capture_golden.sh` (`OFFICIAL_RUNNER=1` path).
-- `S9P-T06` is in progress: transfer+format corpus generation now runs through the official runner/harness stack, but high-signal runtime file-I/O events are still sparse and require deeper symbol/runtime triangulation.
+- `S9P-T06` is in progress: transfer+format corpus generation now runs through the official runner/harness stack, and I4 resolved Qt symbol-hook registration under arm64/runtime-API differences; remaining runtime depth gaps are scenario-level invocation coverage for QSettings/QDataStream plus downstream transfer parity closure.
 - Local-only host rollback ledger remains available at `${HOME}/.nss-security-ledger` with `verify.sh` and `rollback.sh`.
 
 ## Iteration I3 - Runtime Attach Determinism + arm64 I/O Signal Closure
@@ -617,8 +617,52 @@ Tasks:
 
 - id: I3-T06
   description: Run validation gates, execute PR review loop x2, and merge.
-  status: in_progress
+  status: done
   depends_on: [I3-T04, I3-T05]
+
+## Iteration I4 - Qt Symbol Resolver Compatibility + Runtime Signal Expansion
+
+Dependency graph:
+
+- `I4-T01 -> I4-T02`
+- `I4-T01 -> I4-T03`
+- `I4-T02 -> I4-T04`
+- `I4-T03 -> I4-T04`
+- `I4-T02 -> I4-T05`
+- `I4-T04 -> I4-T06`
+- `I4-T05 -> I4-T06`
+
+Tasks:
+
+- id: I4-T01
+  description: Publish I4 execution slice for Qt symbol/runtime compatibility follow-up and map dependencies.
+  status: done
+  depends_on: []
+
+- id: I4-T02
+  description: Patch Frida I/O hooks for runtime API compatibility (`findExportByName` fallback), null-address filtering, and underscore-prefixed Qt symbol resolution; add regression tests.
+  status: done
+  depends_on: [I4-T01]
+
+- id: I4-T03
+  description: Reconcile active-specimen runtime symbol evidence (QtCore/libsystem module symbol sources) and anchor addresses in capture artifacts.
+  status: done
+  depends_on: [I4-T01]
+
+- id: I4-T04
+  description: Re-run deterministic I/O captures and confirm `hook_registered` for Qt symbol hooks with runtime `qfile_open`/`writestring` persistence signal.
+  status: done
+  depends_on: [I4-T02, I4-T03]
+
+- id: I4-T05
+  description: Update S9P synthesis/state artifacts to replace stale unresolved-symbol blocker with current runtime-evidence status.
+  status: done
+  depends_on: [I4-T02]
+
+- id: I4-T06
+  description: Run validation gates, execute mandatory review loop x2, open PR, and merge.
+  status: in_progress
+  depends_on: [I4-T04, I4-T05]
 
 ## Replan v2 - Protocol Runtime-Complete to Minimal TUI (S7R..S8C)
 
