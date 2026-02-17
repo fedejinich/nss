@@ -14,8 +14,8 @@ WIN_PATH_RE = re.compile(r"[A-Za-z]:\\(?:[^\\\s]+\\)*[^\\\s]+")
 
 USER_KEYS = {"user", "username", "from_user", "to_user", "nick", "peer_user", "target_user", "login_as"}
 ADDR_KEYS = {"ip", "address", "ip_address", "peer_addr", "server", "host"}
-PATH_KEYS = {"path", "virtual_path", "source_file", "target_path", "output_path", "file"}
-TEXT_KEYS = {"message", "text", "chat_message", "private_message"}
+PATH_KEYS = {"path", "virtual_path", "source_file", "target_path", "output_path", "file", "file_path", "profile_root"}
+TEXT_KEYS = {"message", "text", "chat_message", "private_message", "payload_sample", "value_sample", "note"}
 SECRET_KEYS = {"password", "passwd", "password_md5", "md5hash"}
 
 
@@ -173,9 +173,14 @@ def main() -> int:
     manifest_redacted = redact_obj(manifest, key="manifest", salt=salt, stats=stats)
     manifest_redacted["redaction"] = {
         "policy": "redact+commit",
-        "policy_version": "1",
+        "policy_version": "2",
         "generated_at": now_iso(),
         "raw_source": path_ref(run_dir, repo_root=repo_root),
+        "payload_sampling": {
+            "mode": "sampled",
+            "max_payload_chars": 160,
+            "sensitive_fields_redacted": True,
+        },
         "stats": stats,
     }
 
@@ -187,6 +192,13 @@ def main() -> int:
         frida_rows = read_jsonl(frida_src)
         frida_redacted = [redact_obj(row, key="frida_event", salt=salt, stats=stats) for row in frida_rows]
         write_jsonl(out_dir / "frida-events.redacted.jsonl", frida_redacted)
+
+    io_src_candidates = [run_dir / "io-events.raw.jsonl", run_dir / "io-events.jsonl"]
+    io_src = next((p for p in io_src_candidates if p.exists()), None)
+    if io_src is not None:
+        io_rows = read_jsonl(io_src)
+        io_redacted = [redact_obj(row, key="io_event", salt=salt, stats=stats) for row in io_rows]
+        write_jsonl(out_dir / "io-events.redacted.jsonl", io_redacted)
 
     official_candidates = [
         run_dir / "official_frames.raw.hex",
@@ -216,6 +228,7 @@ def main() -> int:
         "artifacts": {
             "manifest": path_ref(out_dir / "manifest.redacted.json", repo_root=repo_root),
             "frida_events": path_ref(out_dir / "frida-events.redacted.jsonl", repo_root=repo_root),
+            "io_events": path_ref(out_dir / "io-events.redacted.jsonl", repo_root=repo_root),
             "official_frames": path_ref(out_dir / "official_frames.hex", repo_root=repo_root),
             "neo_frames": path_ref(out_dir / "neo_frames.hex", repo_root=repo_root),
         },

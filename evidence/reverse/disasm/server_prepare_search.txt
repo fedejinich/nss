@@ -1,4 +1,4 @@
-Current executable set to '/Users/void_rsk/Projects/soul-dec/analysis/binaries/SoulseekQt' (arm64).
+Current executable set to '/Users/void/Projects/nss/analysis/binaries/SoulseekQt' (arm64).
 SoulseekQt`Server::PrepareSearch:
 SoulseekQt[0x1000615c0] <+0>:    sub    sp, sp, #0x90
 SoulseekQt[0x1000615c4] <+4>:    stp    x24, x23, [sp, #0x50]

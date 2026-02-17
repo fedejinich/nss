@@ -2,7 +2,30 @@
 
 ## Objective
 
-Maintain full protocol coverage (`implemented+mapped=131`) while preserving runtime-complete evidence (`verified_runtime=131`, `verified_static=0`) and semantic-depth closure (no unresolved `raw_tail/raw_payload` schema fields).
+Maintain full protocol coverage (`implemented+mapped=131`) while executing S9P transfer/protocol parity closure against SoulseekQt runtime behavior, reverse-mapping architecture and persistence-critical file formats, and preserving runtime-complete evidence (`verified_runtime=131`, `verified_static=0`) plus semantic-depth closure (no unresolved `raw_tail/raw_payload` schema fields).
+
+## Stage S9P Note (Protocol Parity Program)
+
+- S9P is now the active stage, and S9B/S9C are dependency-paused until S9P closure.
+- Explicit analysis tracks:
+  - static: architecture/dispatch/state-machine + persistence format surface recovery,
+  - runtime: official protocol and file-I/O capture corpus,
+  - synthesis: parity matrix + architecture/format replicability classification,
+  - patch: transfer behavior convergence with regression coverage.
+- Mandatory S9P transfer scenarios:
+  - `TC-FLIM-001`
+  - `TC-TRANSFER-REQ-002`
+  - `TC-QUEUE-REJECT-003`
+  - `TC-PFLOWS-004`
+  - `TC-TIMEOUT-005`
+  - `TC-DIFF-006`
+  - `TC-REG-007`
+- Mandatory S9P format scenarios:
+  - `TC-FMT-001` (QSettings roundtrip)
+  - `TC-FMT-002` (transfer-state roundtrip semantics)
+  - `TC-FMT-003` (hotlist import parse parity)
+  - `TC-FMT-004` (I/O payload redaction policy compliance)
+  - `TC-FMT-005` (format-map schema validator)
 
 ## Stage 7A Note (Strict Runtime Closure)
 

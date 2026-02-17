@@ -1,6 +1,6 @@
 {
-  "generated_unix_secs": 1771185111,
-  "repo_root": "/Users/void_rsk/Projects/soul-dec",
+  "generated_unix_secs": 1771290959,
+  "repo_root": "/Users/void/Projects/nss",
   "scope": {
     "included_top_level_dirs": [
       "analysis",
@@ -47,12 +47,12 @@
   },
   "stats": {
     "domain_count": 9,
-    "dir_count": 50,
-    "file_count": 250,
-    "node_count": 310,
-    "edge_count": 309,
-    "total_loc": 121533,
-    "total_size_bytes": 4260345
+    "dir_count": 51,
+    "file_count": 265,
+    "node_count": 326,
+    "edge_count": 325,
+    "total_loc": 131181,
+    "total_size_bytes": 4625057
   },
   "nodes": [
     {
@@ -60,8 +60,8 @@
       "label": "NeoSoulSeek",
       "kind": "root",
       "path": ".",
-      "loc": 121533,
-      "size_bytes": 4260345,
+      "loc": 131181,
+      "size_bytes": 4625057,
       "extension": null,
       "domain": "root"
     },
@@ -70,8 +70,8 @@
       "label": "analysis",
       "kind": "domain",
       "path": "analysis",
-      "loc": 36729,
-      "size_bytes": 556956,
+      "loc": 38210,
+      "size_bytes": 608898,
       "extension": null,
       "domain": "analysis"
     },
@@ -80,8 +80,8 @@
       "label": "docs",
       "kind": "domain",
       "path": "docs",
-      "loc": 18241,
-      "size_bytes": 660212,
+      "loc": 19994,
+      "size_bytes": 743108,
       "extension": null,
       "domain": "docs"
     },
@@ -90,8 +90,8 @@
       "label": "evidence",
       "kind": "domain",
       "path": "evidence",
-      "loc": 35616,
-      "size_bytes": 1974140,
+      "loc": 35642,
+      "size_bytes": 1976241,
       "extension": null,
       "domain": "evidence"
     },
@@ -100,8 +100,8 @@
       "label": "frida",
       "kind": "domain",
       "path": "frida",
-      "loc": 93,
-      "size_bytes": 2334,
+      "loc": 887,
+      "size_bytes": 21046,
       "extension": null,
       "domain": "frida"
     },
@@ -110,8 +110,8 @@
       "label": "repo-root",
       "kind": "domain",
       "path": "repo-root",
-      "loc": 3105,
-      "size_bytes": 99162,
+      "loc": 3602,
+      "size_bytes": 120225,
       "extension": null,
       "domain": "repo-root"
     },
@@ -120,8 +120,8 @@
       "label": "rust",
       "kind": "domain",
       "path": "rust",
-      "loc": 15167,
-      "size_bytes": 527088,
+      "loc": 19051,
+      "size_bytes": 670913,
       "extension": null,
       "domain": "rust"
     },
@@ -130,8 +130,8 @@
       "label": "scripts",
       "kind": "domain",
       "path": "scripts",
-      "loc": 627,
-      "size_bytes": 20087,
+      "loc": 771,
+      "size_bytes": 25061,
       "extension": null,
       "domain": "scripts"
     },
@@ -140,8 +140,8 @@
       "label": "tests",
       "kind": "domain",
       "path": "tests",
-      "loc": 1655,
-      "size_bytes": 65771,
+      "loc": 1830,
+      "size_bytes": 72140,
       "extension": null,
       "domain": "tests"
     },
@@ -150,8 +150,8 @@
       "label": "tools",
       "kind": "domain",
       "path": "tools",
-      "loc": 10300,
-      "size_bytes": 354595,
+      "loc": 11194,
+      "size_bytes": 387425,
       "extension": null,
       "domain": "tools"
     },
@@ -160,8 +160,8 @@
       "label": "analysis",
       "kind": "dir",
       "path": "analysis",
-      "loc": 36729,
-      "size_bytes": 556956,
+      "loc": 38210,
+      "size_bytes": 608898,
       "extension": null,
       "domain": "analysis"
     },
@@ -220,8 +220,8 @@
       "label": "re",
       "kind": "dir",
       "path": "analysis/re",
-      "loc": 146,
-      "size_bytes": 5545,
+      "loc": 1271,
+      "size_bytes": 45781,
       "extension": null,
       "domain": "analysis"
     },
@@ -230,8 +230,8 @@
       "label": "state",
       "kind": "dir",
       "path": "analysis/state",
-      "loc": 734,
-      "size_bytes": 28053,
+      "loc": 1090,
+      "size_bytes": 39759,
       "extension": null,
       "domain": "analysis"
     },
@@ -250,8 +250,8 @@
       "label": "docs",
       "kind": "dir",
       "path": "docs",
-      "loc": 18241,
-      "size_bytes": 660212,
+      "loc": 19994,
+      "size_bytes": 743108,
       "extension": null,
       "domain": "docs"
     },
@@ -260,8 +260,8 @@
       "label": "pr",
       "kind": "dir",
       "path": "docs/pr",
-      "loc": 2792,
-      "size_bytes": 95142,
+      "loc": 2882,
+      "size_bytes": 97560,
       "extension": null,
       "domain": "docs"
     },
@@ -270,8 +270,8 @@
       "label": "re",
       "kind": "dir",
       "path": "docs/re",
-      "loc": 1348,
-      "size_bytes": 72665,
+      "loc": 1562,
+      "size_bytes": 88615,
       "extension": null,
       "domain": "docs"
     },
@@ -280,8 +280,8 @@
       "label": "static",
       "kind": "dir",
       "path": "docs/re/static",
-      "loc": 1348,
-      "size_bytes": 72665,
+      "loc": 1562,
+      "size_bytes": 88615,
       "extension": null,
       "domain": "docs"
     },
@@ -290,8 +290,8 @@
       "label": "runbooks",
       "kind": "dir",
       "path": "docs/runbooks",
-      "loc": 576,
-      "size_bytes": 13375,
+      "loc": 659,
+      "size_bytes": 16973,
       "extension": null,
       "domain": "docs"
     },
@@ -300,8 +300,8 @@
       "label": "state",
       "kind": "dir",
       "path": "docs/state",
-      "loc": 13358,
-      "size_bytes": 473549,
+      "loc": 14538,
+      "size_bytes": 522280,
       "extension": null,
       "domain": "docs"
     },
@@ -310,8 +310,8 @@
       "label": "verification",
       "kind": "dir",
       "path": "docs/verification",
-      "loc": 95,
-      "size_bytes": 2813,
+      "loc": 281,
+      "size_bytes": 15012,
       "extension": null,
       "domain": "docs"
     },
@@ -320,8 +320,8 @@
       "label": "evidence",
       "kind": "dir",
       "path": "evidence",
-      "loc": 35616,
-      "size_bytes": 1974140,
+      "loc": 35642,
+      "size_bytes": 1976241,
       "extension": null,
       "domain": "evidence"
     },
@@ -341,7 +341,7 @@
       "kind": "dir",
       "path": "evidence/reverse",
       "loc": 17447,
-      "size_bytes": 845296,
+      "size_bytes": 845197,
       "extension": null,
       "domain": "evidence"
     },
@@ -351,7 +351,7 @@
       "kind": "dir",
       "path": "evidence/reverse/disasm",
       "loc": 9874,
-      "size_bytes": 679027,
+      "size_bytes": 678928,
       "extension": null,
       "domain": "evidence"
     },
@@ -360,8 +360,8 @@
       "label": "ui_audit",
       "kind": "dir",
       "path": "evidence/ui_audit",
-      "loc": 17923,
-      "size_bytes": 1116920,
+      "loc": 17949,
+      "size_bytes": 1119120,
       "extension": null,
       "domain": "evidence"
     },
@@ -370,8 +370,8 @@
       "label": "decomp",
       "kind": "dir",
       "path": "evidence/ui_audit/decomp",
-      "loc": 8195,
-      "size_bytes": 771352,
+      "loc": 8221,
+      "size_bytes": 773552,
       "extension": null,
       "domain": "evidence"
     },
@@ -390,8 +390,8 @@
       "label": "frida",
       "kind": "dir",
       "path": "frida",
-      "loc": 93,
-      "size_bytes": 2334,
+      "loc": 887,
+      "size_bytes": 21046,
       "extension": null,
       "domain": "frida"
     },
@@ -400,8 +400,8 @@
       "label": "hooks",
       "kind": "dir",
       "path": "frida/hooks",
-      "loc": 93,
-      "size_bytes": 2334,
+      "loc": 887,
+      "size_bytes": 21046,
       "extension": null,
       "domain": "frida"
     },
@@ -410,8 +410,8 @@
       "label": "rust",
       "kind": "dir",
       "path": "rust",
-      "loc": 15167,
-      "size_bytes": 527088,
+      "loc": 19051,
+      "size_bytes": 670913,
       "extension": null,
       "domain": "rust"
     },
@@ -420,8 +420,8 @@
       "label": "cli",
       "kind": "dir",
       "path": "rust/cli",
-      "loc": 3169,
-      "size_bytes": 96402,
+      "loc": 3416,
+      "size_bytes": 104423,
       "extension": null,
       "domain": "rust"
     },
@@ -430,8 +430,18 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/cli/src",
-      "loc": 3153,
-      "size_bytes": 96063,
+      "loc": 3231,
+      "size_bytes": 98618,
+      "extension": null,
+      "domain": "rust"
+    },
+    {
+      "id": "dir:rust/cli/tests",
+      "label": "tests",
+      "kind": "dir",
+      "path": "rust/cli/tests",
+      "loc": 169,
+      "size_bytes": 5466,
       "extension": null,
       "domain": "rust"
     },
@@ -440,8 +450,8 @@
       "label": "core",
       "kind": "dir",
       "path": "rust/core",
-      "loc": 3431,
-      "size_bytes": 126864,
+      "loc": 6424,
+      "size_bytes": 242314,
       "extension": null,
       "domain": "rust"
     },
@@ -450,8 +460,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/core/src",
-      "loc": 3416,
-      "size_bytes": 126578,
+      "loc": 6409,
+      "size_bytes": 242028,
       "extension": null,
       "domain": "rust"
     },
@@ -460,8 +470,8 @@
       "label": "protocol",
       "kind": "dir",
       "path": "rust/protocol",
-      "loc": 6608,
-      "size_bytes": 239477,
+      "loc": 6922,
+      "size_bytes": 249216,
       "extension": null,
       "domain": "rust"
     },
@@ -470,8 +480,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/protocol/src",
-      "loc": 6595,
-      "size_bytes": 239214,
+      "loc": 6909,
+      "size_bytes": 248953,
       "extension": null,
       "domain": "rust"
     },
@@ -480,8 +490,8 @@
       "label": "tui",
       "kind": "dir",
       "path": "rust/tui",
-      "loc": 1202,
-      "size_bytes": 40050,
+      "loc": 1532,
+      "size_bytes": 50665,
       "extension": null,
       "domain": "rust"
     },
@@ -490,8 +500,8 @@
       "label": "src",
       "kind": "dir",
       "path": "rust/tui/src",
-      "loc": 1185,
-      "size_bytes": 39685,
+      "loc": 1515,
+      "size_bytes": 50300,
       "extension": null,
       "domain": "rust"
     },
@@ -520,8 +530,8 @@
       "label": "scripts",
       "kind": "dir",
       "path": "scripts",
-      "loc": 627,
-      "size_bytes": 20087,
+      "loc": 771,
+      "size_bytes": 25061,
       "extension": null,
       "domain": "scripts"
     },
@@ -530,8 +540,8 @@
       "label": "tests",
       "kind": "dir",
       "path": "tests",
-      "loc": 1655,
-      "size_bytes": 65771,
+      "loc": 1830,
+      "size_bytes": 72140,
       "extension": null,
       "domain": "tests"
     },
@@ -570,8 +580,8 @@
       "label": "runtime",
       "kind": "dir",
       "path": "tests/runtime",
-      "loc": 82,
-      "size_bytes": 3460,
+      "loc": 257,
+      "size_bytes": 9829,
       "extension": null,
       "domain": "tests"
     },
@@ -590,8 +600,8 @@
       "label": "tools",
       "kind": "dir",
       "path": "tools",
-      "loc": 10300,
-      "size_bytes": 354595,
+      "loc": 11194,
+      "size_bytes": 387425,
       "extension": null,
       "domain": "tools"
     },
@@ -630,8 +640,8 @@
       "label": "re",
       "kind": "dir",
       "path": "tools/re",
-      "loc": 482,
-      "size_bytes": 16376,
+      "loc": 695,
+      "size_bytes": 26298,
       "extension": null,
       "domain": "tools"
     },
@@ -640,8 +650,8 @@
       "label": "runtime",
       "kind": "dir",
       "path": "tools/runtime",
-      "loc": 5768,
-      "size_bytes": 185263,
+      "loc": 6449,
+      "size_bytes": 208171,
       "extension": null,
       "domain": "tools"
     },
@@ -670,8 +680,8 @@
       "label": "README.md",
       "kind": "file",
       "path": "README.md",
-      "loc": 58,
-      "size_bytes": 1664,
+      "loc": 59,
+      "size_bytes": 1733,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -680,8 +690,8 @@
       "label": "TODO-CODEX.md",
       "kind": "file",
       "path": "TODO-CODEX.md",
-      "loc": 2796,
-      "size_bytes": 85935,
+      "loc": 3292,
+      "size_bytes": 106929,
       "extension": ".md",
       "domain": "repo-root"
     },
@@ -781,7 +791,47 @@
       "kind": "file",
       "path": "analysis/re/flow_graph.json",
       "loc": 146,
-      "size_bytes": 5545,
+      "size_bytes": 5536,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/re/format_candidates.json",
+      "label": "format_candidates.json",
+      "kind": "file",
+      "path": "analysis/re/format_candidates.json",
+      "loc": 530,
+      "size_bytes": 20629,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/re/official_architecture_map.json",
+      "label": "official_architecture_map.json",
+      "kind": "file",
+      "path": "analysis/re/official_architecture_map.json",
+      "loc": 173,
+      "size_bytes": 5199,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/re/official_file_format_map.json",
+      "label": "official_file_format_map.json",
+      "kind": "file",
+      "path": "analysis/re/official_file_format_map.json",
+      "loc": 276,
+      "size_bytes": 9771,
+      "extension": ".json",
+      "domain": "analysis"
+    },
+    {
+      "id": "file:analysis/re/protocol_parity_matrix.json",
+      "label": "protocol_parity_matrix.json",
+      "kind": "file",
+      "path": "analysis/re/protocol_parity_matrix.json",
+      "loc": 146,
+      "size_bytes": 4646,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -790,8 +840,8 @@
       "label": "capability_registry.json",
       "kind": "file",
       "path": "analysis/state/capability_registry.json",
-      "loc": 258,
-      "size_bytes": 9045,
+      "loc": 602,
+      "size_bytes": 20171,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -810,8 +860,8 @@
       "label": "stage_registry.json",
       "kind": "file",
       "path": "analysis/state/stage_registry.json",
-      "loc": 425,
-      "size_bytes": 14426,
+      "loc": 437,
+      "size_bytes": 15006,
       "extension": ".json",
       "domain": "analysis"
     },
@@ -1126,12 +1176,22 @@
       "domain": "docs"
     },
     {
+      "id": "file:docs/pr/0029-s9a-login-diagnostics-wizard-hotfix.md",
+      "label": "0029-s9a-login-diagnostics-wizard-hotfix.md",
+      "kind": "file",
+      "path": "docs/pr/0029-s9a-login-diagnostics-wizard-hotfix.md",
+      "loc": 89,
+      "size_bytes": 2289,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
       "id": "file:docs/pr/index.md",
       "label": "index.md",
       "kind": "file",
       "path": "docs/pr/index.md",
-      "loc": 208,
-      "size_bytes": 5032,
+      "loc": 209,
+      "size_bytes": 5161,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1142,6 +1202,26 @@
       "path": "docs/re/static/detangling.md",
       "loc": 89,
       "size_bytes": 4245,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/re/static/file-format-candidates.md",
+      "label": "file-format-candidates.md",
+      "kind": "file",
+      "path": "docs/re/static/file-format-candidates.md",
+      "loc": 155,
+      "size_bytes": 12695,
+      "extension": ".md",
+      "domain": "docs"
+    },
+    {
+      "id": "file:docs/re/static/file-format-map.md",
+      "label": "file-format-map.md",
+      "kind": "file",
+      "path": "docs/re/static/file-format-map.md",
+      "loc": 59,
+      "size_bytes": 3264,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1161,7 +1241,7 @@
       "kind": "file",
       "path": "docs/re/static/search-download-flow.md",
       "loc": 98,
-      "size_bytes": 4273,
+      "size_bytes": 4264,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1170,8 +1250,8 @@
       "label": "cli-download-example.md",
       "kind": "file",
       "path": "docs/runbooks/cli-download-example.md",
-      "loc": 142,
-      "size_bytes": 3508,
+      "loc": 190,
+      "size_bytes": 5174,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1190,8 +1270,8 @@
       "label": "failure-recovery.md",
       "kind": "file",
       "path": "docs/runbooks/failure-recovery.md",
-      "loc": 99,
-      "size_bytes": 2076,
+      "loc": 106,
+      "size_bytes": 2556,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1220,8 +1300,8 @@
       "label": "runtime-capture.md",
       "kind": "file",
       "path": "docs/runbooks/runtime-capture.md",
-      "loc": 106,
-      "size_bytes": 2229,
+      "loc": 130,
+      "size_bytes": 3388,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1230,8 +1310,8 @@
       "label": "tui-core-transfer.md",
       "kind": "file",
       "path": "docs/runbooks/tui-core-transfer.md",
-      "loc": 70,
-      "size_bytes": 1852,
+      "loc": 74,
+      "size_bytes": 2145,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1250,8 +1330,8 @@
       "label": "capability-matrix.json",
       "kind": "file",
       "path": "docs/state/capability-matrix.json",
-      "loc": 388,
-      "size_bytes": 11258,
+      "loc": 780,
+      "size_bytes": 25457,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1260,8 +1340,8 @@
       "label": "capability-matrix.md",
       "kind": "file",
       "path": "docs/state/capability-matrix.md",
-      "loc": 60,
-      "size_bytes": 4382,
+      "loc": 84,
+      "size_bytes": 11664,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1270,8 +1350,8 @@
       "label": "codebase-graph.json",
       "kind": "file",
       "path": "docs/state/codebase-graph.json",
-      "loc": 4706,
-      "size_bytes": 126695,
+      "loc": 4946,
+      "size_bytes": 133507,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1300,8 +1380,8 @@
       "label": "decompilation-status.md",
       "kind": "file",
       "path": "docs/state/decompilation-status.md",
-      "loc": 63,
-      "size_bytes": 3833,
+      "loc": 110,
+      "size_bytes": 6105,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1350,8 +1430,8 @@
       "label": "project-dashboard-data.json",
       "kind": "file",
       "path": "docs/state/project-dashboard-data.json",
-      "loc": 619,
-      "size_bytes": 17698,
+      "loc": 635,
+      "size_bytes": 18520,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1370,8 +1450,8 @@
       "label": "project-status.md",
       "kind": "file",
       "path": "docs/state/project-status.md",
-      "loc": 593,
-      "size_bytes": 28365,
+      "loc": 615,
+      "size_bytes": 30037,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1380,8 +1460,8 @@
       "label": "protocol-backlog.md",
       "kind": "file",
       "path": "docs/state/protocol-backlog.md",
-      "loc": 397,
-      "size_bytes": 14281,
+      "loc": 420,
+      "size_bytes": 15353,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1410,8 +1490,8 @@
       "label": "release-hardening-audit.json",
       "kind": "file",
       "path": "docs/state/release-hardening-audit.json",
-      "loc": 680,
-      "size_bytes": 16349,
+      "loc": 965,
+      "size_bytes": 23646,
       "extension": ".json",
       "domain": "docs"
     },
@@ -1430,8 +1510,8 @@
       "label": "roadmap.md",
       "kind": "file",
       "path": "docs/state/roadmap.md",
-      "loc": 370,
-      "size_bytes": 18029,
+      "loc": 455,
+      "size_bytes": 22507,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1500,8 +1580,8 @@
       "label": "verification-status.md",
       "kind": "file",
       "path": "docs/state/verification-status.md",
-      "loc": 328,
-      "size_bytes": 13299,
+      "loc": 374,
+      "size_bytes": 16124,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1520,8 +1600,8 @@
       "label": "evidence-ledger.md",
       "kind": "file",
       "path": "docs/verification/evidence-ledger.md",
-      "loc": 34,
-      "size_bytes": 1245,
+      "loc": 220,
+      "size_bytes": 13444,
       "extension": ".md",
       "domain": "docs"
     },
@@ -1621,7 +1701,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/download_read_socket.txt",
       "loc": 311,
-      "size_bytes": 20851,
+      "size_bytes": 20842,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1631,7 +1711,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/peer_handle_message.txt",
       "loc": 4984,
-      "size_bytes": 348060,
+      "size_bytes": 348051,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1641,7 +1721,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/peer_queue_download.txt",
       "loc": 114,
-      "size_bytes": 6890,
+      "size_bytes": 6881,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1651,7 +1731,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/peer_send_message.txt",
       "loc": 279,
-      "size_bytes": 18439,
+      "size_bytes": 18430,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1661,7 +1741,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/server_file_search.txt",
       "loc": 394,
-      "size_bytes": 26142,
+      "size_bytes": 26133,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1671,7 +1751,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/server_handle_message.txt",
       "loc": 242,
-      "size_bytes": 15316,
+      "size_bytes": 15307,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1681,7 +1761,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/server_prepare_search.txt",
       "loc": 290,
-      "size_bytes": 19620,
+      "size_bytes": 19611,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1691,7 +1771,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/server_send_message.txt",
       "loc": 106,
-      "size_bytes": 6474,
+      "size_bytes": 6465,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1701,7 +1781,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/transfer_on_file_request.txt",
       "loc": 2586,
-      "size_bytes": 179632,
+      "size_bytes": 179623,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1711,7 +1791,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/transfer_on_queue_download.txt",
       "loc": 309,
-      "size_bytes": 20857,
+      "size_bytes": 20848,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1721,7 +1801,7 @@
       "kind": "file",
       "path": "evidence/reverse/disasm/upload_write_socket.txt",
       "loc": 259,
-      "size_bytes": 16746,
+      "size_bytes": 16737,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -1852,6 +1932,16 @@
       "path": "evidence/ui_audit/decomp/peer_methods.txt",
       "loc": 74,
       "size_bytes": 5806,
+      "extension": ".txt",
+      "domain": "evidence"
+    },
+    {
+      "id": "file:evidence/ui_audit/decomp/runtime_hook_offsets_arm64.txt",
+      "label": "runtime_hook_offsets_arm64.txt",
+      "kind": "file",
+      "path": "evidence/ui_audit/decomp/runtime_hook_offsets_arm64.txt",
+      "loc": 26,
+      "size_bytes": 2200,
       "extension": ".txt",
       "domain": "evidence"
     },
@@ -2066,12 +2156,22 @@
       "domain": "evidence"
     },
     {
+      "id": "file:frida/hooks/soulseek_io_trace.js",
+      "label": "soulseek_io_trace.js",
+      "kind": "file",
+      "path": "frida/hooks/soulseek_io_trace.js",
+      "loc": 794,
+      "size_bytes": 18706,
+      "extension": ".js",
+      "domain": "frida"
+    },
+    {
       "id": "file:frida/hooks/soulseek_trace.js",
       "label": "soulseek_trace.js",
       "kind": "file",
       "path": "frida/hooks/soulseek_trace.js",
       "loc": 93,
-      "size_bytes": 2334,
+      "size_bytes": 2340,
       "extension": ".js",
       "domain": "frida"
     },
@@ -2110,8 +2210,18 @@
       "label": "main.rs",
       "kind": "file",
       "path": "rust/cli/src/main.rs",
-      "loc": 3153,
-      "size_bytes": 96063,
+      "loc": 3231,
+      "size_bytes": 98618,
+      "extension": ".rs",
+      "domain": "rust"
+    },
+    {
+      "id": "file:rust/cli/tests/live_login_download_flim.rs",
+      "label": "live_login_download_flim.rs",
+      "kind": "file",
+      "path": "rust/cli/tests/live_login_download_flim.rs",
+      "loc": 169,
+      "size_bytes": 5466,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2130,8 +2240,8 @@
       "label": "lib.rs",
       "kind": "file",
       "path": "rust/core/src/lib.rs",
-      "loc": 3416,
-      "size_bytes": 126578,
+      "loc": 6409,
+      "size_bytes": 242028,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2150,8 +2260,8 @@
       "label": "lib.rs",
       "kind": "file",
       "path": "rust/protocol/src/lib.rs",
-      "loc": 6595,
-      "size_bytes": 239214,
+      "loc": 6909,
+      "size_bytes": 248953,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2170,8 +2280,8 @@
       "label": "app.rs",
       "kind": "file",
       "path": "rust/tui/src/app.rs",
-      "loc": 614,
-      "size_bytes": 20693,
+      "loc": 812,
+      "size_bytes": 28334,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2190,8 +2300,8 @@
       "label": "state.rs",
       "kind": "file",
       "path": "rust/tui/src/state.rs",
-      "loc": 112,
-      "size_bytes": 3206,
+      "loc": 115,
+      "size_bytes": 3217,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2200,8 +2310,8 @@
       "label": "storage.rs",
       "kind": "file",
       "path": "rust/tui/src/storage.rs",
-      "loc": 135,
-      "size_bytes": 4365,
+      "loc": 136,
+      "size_bytes": 4374,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2210,8 +2320,8 @@
       "label": "ui.rs",
       "kind": "file",
       "path": "rust/tui/src/ui.rs",
-      "loc": 309,
-      "size_bytes": 11192,
+      "loc": 437,
+      "size_bytes": 14146,
       "extension": ".rs",
       "domain": "rust"
     },
@@ -2240,8 +2350,8 @@
       "label": "capture_golden.sh",
       "kind": "file",
       "path": "scripts/capture_golden.sh",
-      "loc": 40,
-      "size_bytes": 1044,
+      "loc": 139,
+      "size_bytes": 4173,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2280,8 +2390,8 @@
       "label": "ghidra_pipeline.sh",
       "kind": "file",
       "path": "scripts/ghidra_pipeline.sh",
-      "loc": 47,
-      "size_bytes": 1623,
+      "loc": 52,
+      "size_bytes": 1899,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2392,6 +2502,16 @@
       "path": "scripts/sync_state_dashboards.sh",
       "loc": 16,
       "size_bytes": 693,
+      "extension": ".sh",
+      "domain": "scripts"
+    },
+    {
+      "id": "file:scripts/test_live_login_download_flim.sh",
+      "label": "test_live_login_download_flim.sh",
+      "kind": "file",
+      "path": "scripts/test_live_login_download_flim.sh",
+      "loc": 40,
+      "size_bytes": 1569,
       "extension": ".sh",
       "domain": "scripts"
     },
@@ -2596,12 +2716,22 @@
       "domain": "tests"
     },
     {
+      "id": "file:tests/runtime/test_frida_capture.py",
+      "label": "test_frida_capture.py",
+      "kind": "file",
+      "path": "tests/runtime/test_frida_capture.py",
+      "loc": 155,
+      "size_bytes": 5379,
+      "extension": ".py",
+      "domain": "tests"
+    },
+    {
       "id": "file:tests/runtime/test_redaction.py",
       "label": "test_redaction.py",
       "kind": "file",
       "path": "tests/runtime/test_redaction.py",
-      "loc": 81,
-      "size_bytes": 3459,
+      "loc": 101,
+      "size_bytes": 4449,
       "extension": ".py",
       "domain": "tests"
     },
@@ -2786,6 +2916,16 @@
       "domain": "tools"
     },
     {
+      "id": "file:tools/re/extract_format_candidates.py",
+      "label": "extract_format_candidates.py",
+      "kind": "file",
+      "path": "tools/re/extract_format_candidates.py",
+      "loc": 213,
+      "size_bytes": 9922,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
       "id": "file:tools/re/extract_message_codes.py",
       "label": "extract_message_codes.py",
       "kind": "file",
@@ -2810,8 +2950,18 @@
       "label": "capture_harness.py",
       "kind": "file",
       "path": "tools/runtime/capture_harness.py",
-      "loc": 157,
-      "size_bytes": 5242,
+      "loc": 275,
+      "size_bytes": 10510,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
+      "id": "file:tools/runtime/check_slsk_porttest.py",
+      "label": "check_slsk_porttest.py",
+      "kind": "file",
+      "path": "tools/runtime/check_slsk_porttest.py",
+      "loc": 159,
+      "size_bytes": 4496,
       "extension": ".py",
       "domain": "tools"
     },
@@ -2820,8 +2970,8 @@
       "label": "frida_capture.py",
       "kind": "file",
       "path": "tools/runtime/frida_capture.py",
-      "loc": 89,
-      "size_bytes": 2530,
+      "loc": 188,
+      "size_bytes": 5913,
       "extension": ".py",
       "domain": "tools"
     },
@@ -3016,6 +3166,16 @@
       "domain": "tools"
     },
     {
+      "id": "file:tools/runtime/official_runner.py",
+      "label": "official_runner.py",
+      "kind": "file",
+      "path": "tools/runtime/official_runner.py",
+      "loc": 292,
+      "size_bytes": 9047,
+      "extension": ".py",
+      "domain": "tools"
+    },
+    {
       "id": "file:tools/runtime/probe_login_versions.py",
       "label": "probe_login_versions.py",
       "kind": "file",
@@ -3040,8 +3200,8 @@
       "label": "redact_capture_run.py",
       "kind": "file",
       "path": "tools/runtime/redact_capture_run.py",
-      "loc": 230,
-      "size_bytes": 8489,
+      "loc": 243,
+      "size_bytes": 9203,
       "extension": ".py",
       "domain": "tools"
     },
@@ -3248,6 +3408,26 @@
       "kind": "contains"
     },
     {
+      "source": "dir:analysis/re",
+      "target": "file:analysis/re/format_candidates.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/re",
+      "target": "file:analysis/re/official_architecture_map.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/re",
+      "target": "file:analysis/re/official_file_format_map.json",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:analysis/re",
+      "target": "file:analysis/re/protocol_parity_matrix.json",
+      "kind": "contains"
+    },
+    {
       "source": "dir:analysis/state",
       "target": "file:analysis/state/capability_registry.json",
       "kind": "contains"
@@ -3444,6 +3624,11 @@
     },
     {
       "source": "dir:docs/pr",
+      "target": "file:docs/pr/0029-s9a-login-diagnostics-wizard-hotfix.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/pr",
       "target": "file:docs/pr/index.md",
       "kind": "contains"
     },
@@ -3455,6 +3640,16 @@
     {
       "source": "dir:docs/re/static",
       "target": "file:docs/re/static/detangling.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/re/static",
+      "target": "file:docs/re/static/file-format-candidates.md",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:docs/re/static",
+      "target": "file:docs/re/static/file-format-map.md",
       "kind": "contains"
     },
     {
@@ -3909,6 +4104,11 @@
     },
     {
       "source": "dir:evidence/ui_audit/decomp",
+      "target": "file:evidence/ui_audit/decomp/runtime_hook_offsets_arm64.txt",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:evidence/ui_audit/decomp",
       "target": "file:evidence/ui_audit/decomp/server_methods.txt",
       "kind": "contains"
     },
@@ -3950,6 +4150,11 @@
     {
       "source": "dir:frida",
       "target": "dir:frida/hooks",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:frida/hooks",
+      "target": "file:frida/hooks/soulseek_io_trace.js",
       "kind": "contains"
     },
     {
@@ -3999,12 +4204,22 @@
     },
     {
       "source": "dir:rust/cli",
+      "target": "dir:rust/cli/tests",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/cli",
       "target": "file:rust/cli/Cargo.toml",
       "kind": "contains"
     },
     {
       "source": "dir:rust/cli/src",
       "target": "file:rust/cli/src/main.rs",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:rust/cli/tests",
+      "target": "file:rust/cli/tests/live_login_download_flim.rs",
       "kind": "contains"
     },
     {
@@ -4168,6 +4383,11 @@
       "kind": "contains"
     },
     {
+      "source": "dir:scripts",
+      "target": "file:scripts/test_live_login_download_flim.sh",
+      "kind": "contains"
+    },
+    {
       "source": "dir:tests",
       "target": "dir:tests/docs",
       "kind": "contains"
@@ -4290,6 +4510,11 @@
     {
       "source": "dir:tests/runtime",
       "target": "file:tests/runtime/__init__.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tests/runtime",
+      "target": "file:tests/runtime/test_frida_capture.py",
       "kind": "contains"
     },
     {
@@ -4419,6 +4644,11 @@
     },
     {
       "source": "dir:tools/re",
+      "target": "file:tools/re/extract_format_candidates.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/re",
       "target": "file:tools/re/extract_message_codes.py",
       "kind": "contains"
     },
@@ -4430,6 +4660,11 @@
     {
       "source": "dir:tools/runtime",
       "target": "file:tools/runtime/capture_harness.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/check_slsk_porttest.py",
       "kind": "contains"
     },
     {
@@ -4530,6 +4765,11 @@
     {
       "source": "dir:tools/runtime",
       "target": "file:tools/runtime/generate_stage7c_download_auto_capture.py",
+      "kind": "contains"
+    },
+    {
+      "source": "dir:tools/runtime",
+      "target": "file:tools/runtime/official_runner.py",
       "kind": "contains"
     },
     {

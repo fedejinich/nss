@@ -1,9 +1,9 @@
 {
-  "generated_unix_secs": 1771185110,
+  "generated_unix_secs": 1771290959,
   "stage_summary": {
-    "total": 35,
+    "total": 36,
     "done": 33,
-    "in_progress": 0,
+    "in_progress": 1,
     "planned": 2
   },
   "protocol_summary": {
@@ -22,25 +22,25 @@
     "semantic_tail_gaps": 0
   },
   "capability_summary": {
-    "total_capabilities": 15,
-    "required_for_final": 14,
-    "required_done": 11,
-    "required_pending": 3,
-    "final_gate_total": 8,
-    "final_gate_pass": 6,
-    "final_gate_blocked": 2
+    "total_capabilities": 29,
+    "required_for_final": 18,
+    "required_done": 8,
+    "required_pending": 10,
+    "final_gate_total": 11,
+    "final_gate_pass": 4,
+    "final_gate_blocked": 7
   },
   "current_focus": {
-    "id": "S9B",
-    "title": "SwiftUI macOS GUI MVP on top of soul-cli JSON mode",
-    "status": "planned",
-    "owner_area": "gui/macos/cli-integration",
+    "id": "S9P",
+    "title": "Protocol parity + deep architecture/file-format reverse",
+    "status": "in_progress",
+    "owner_area": "runtime/static/protocol/verify",
     "depends_on": [
       "S9A"
     ],
     "evidence": "docs/state/roadmap.md",
-    "next_gate": "S9C",
-    "notes": "Build a minimal macOS GUI with mandatory login, search/results, and download history controls using Figma-driven design flow."
+    "next_gate": "G3A-RUNTIME-CAPTURE-BASELINE",
+    "notes": "S9P remains active. Tooling gate G1 is validated under debug-copy instrumentation; I3 runtime hardening aligned arm64 hooks and deterministic Frida process selection, producing high-signal transfer-store persistence traces while format-synthesis and parity gates remain open."
   },
   "stages": [
     {
@@ -436,8 +436,20 @@
         "S8C"
       ],
       "evidence": "docs/runbooks/tui-core-transfer.md",
-      "next_gate": "S9B",
+      "next_gate": "S9P",
       "notes": "Completed TUI module split, mandatory login gate, retro orange UX, persisted credentials/history, and startup recovery semantics with green regression gates."
+    },
+    {
+      "id": "S9P",
+      "title": "Protocol parity + deep architecture/file-format reverse",
+      "status": "in_progress",
+      "owner_area": "runtime/static/protocol/verify",
+      "depends_on": [
+        "S9A"
+      ],
+      "evidence": "docs/state/roadmap.md",
+      "next_gate": "G3A-RUNTIME-CAPTURE-BASELINE",
+      "notes": "S9P remains active. Tooling gate G1 is validated under debug-copy instrumentation; I3 runtime hardening aligned arm64 hooks and deterministic Frida process selection, producing high-signal transfer-store persistence traces while format-synthesis and parity gates remain open."
     },
     {
       "id": "S9B",
@@ -445,11 +457,11 @@
       "status": "planned",
       "owner_area": "gui/macos/cli-integration",
       "depends_on": [
-        "S9A"
+        "S9P"
       ],
       "evidence": "docs/state/roadmap.md",
       "next_gate": "S9C",
-      "notes": "Build a minimal macOS GUI with mandatory login, search/results, and download history controls using Figma-driven design flow."
+      "notes": "Paused by S9P priority. Start only after S9P gates G0..G8 close and protocol parity baseline is accepted."
     },
     {
       "id": "S9C",
@@ -461,7 +473,7 @@
       ],
       "evidence": "docs/state/roadmap.md",
       "next_gate": "post-S9 expansion",
-      "notes": "Deliver browser login/search/download workflows matching TUI and Swift semantics with retro-orange visual language."
+      "notes": "Queued behind S9B after S9P closure; preserve shared CLI JSON contract and parity semantics."
     }
   ],
   "dependencies": [
@@ -603,6 +615,10 @@
     },
     {
       "from": "S9A",
+      "to": "S9P"
+    },
+    {
+      "from": "S9P",
       "to": "S9B"
     },
     {

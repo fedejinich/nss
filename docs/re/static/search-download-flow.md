@@ -2,7 +2,7 @@
 
 - Binary: `SoulseekQt`
 - Architecture: `arm64`
-- Symbols source: `/Users/void_rsk/Projects/soul-dec/evidence/reverse/search_download_symbols_nm.txt`
+- Symbols source: `/Users/void/Projects/nss/evidence/reverse/search_download_symbols_nm.txt`
 - Strings source: `evidence/reverse/search_download_strings.txt`
 
 ## Nodes

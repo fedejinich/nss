@@ -1,0 +1,83 @@
+{
+  "created_at": "2026-02-17T00:53:24+00:00",
+  "duration_s": 25,
+  "process": "SoulseekQt",
+  "scenario": "login-search-download",
+  "label": "s9p-v3-t04f-shortcut-probe-r1",
+  "notes": "S9P-T04F shortcut probe for persistence triggers",
+  "hook_set": "io",
+  "profile_root": "<redacted:path:27588795a33b>",
+  "frida_scripts": {
+    "protocol": "<redacted:path:c42e00e94f53>",
+    "io": "<redacted:path:5e768f40afd1>"
+  },
+  "pcap": {
+    "enabled": true,
+    "iface": "en0",
+    "bpf": "tcp"
+  },
+  "outputs": {
+    "run_dir": "<redacted:path:335aafd81c72>",
+    "frida_events": "<redacted:path:d9279a92a949>",
+    "io_events": "<redacted:path:6a026ffe340e>",
+    "frida_log": "<redacted:path:fe5d339b909f>",
+    "io_frida_log": "<redacted:path:1b37e7e250d0>",
+    "pcap": "<redacted:path:5de0f13c3aa1>",
+    "pcap_log": "<redacted:path:2f47c3210285>",
+    "launch_log": "<redacted:path:c9c7561748ab>"
+  },
+  "commands": {
+    "launch": [
+      "<redacted:path:6d0f4519fd21>"
+    ],
+    "frida_io": [
+      "<redacted:path:81d33209f851>",
+      "<redacted:path:7d8f9241164b>",
+      "--process",
+      "SoulseekQt",
+      "--script",
+      "<redacted:path:5e768f40afd1>",
+      "--output",
+      "<redacted:path:6a026ffe340e>",
+      "--duration",
+      "30"
+    ],
+    "pcap": [
+      "tcpdump",
+      "-i",
+      "en0",
+      "-w",
+      "<redacted:path:5de0f13c3aa1>",
+      "tcp"
+    ]
+  },
+  "blockers": [],
+  "started_at": "2026-02-17T00:53:24+00:00",
+  "ended_at": "2026-02-17T00:53:50+00:00",
+  "elapsed_s": 25.275,
+  "processes": {
+    "pcap": {
+      "returncode": 0
+    },
+    "frida_io": {
+      "returncode": 0
+    },
+    "launch": {
+      "returncode": -15
+    }
+  },
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "2",
+    "generated_at": "2026-02-17T00:53:50+00:00",
+    "raw_source": "captures/raw/20260217T005324Z-s9p-v3-t04f-shortcut-probe-r1",
+    "payload_sampling": {
+      "mode": "sampled",
+      "max_payload_chars": 160,
+      "sensitive_fields_redacted": true
+    },
+    "stats": {
+      "path": 17
+    }
+  }
+}

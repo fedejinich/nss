@@ -2,9 +2,9 @@
 
 ## Scope
 
-This roadmap tracks staged execution with protocol mapping first, then incremental SDK/CLI capabilities for a custom evolvable client.
+This roadmap tracks staged execution with protocol mapping first, then runtime/static parity closure against SoulseekQt, and only then incremental GUI capabilities.
 
-Current execution order is locked as: S9A TUI-first simplification, then S9B SwiftUI macOS GUI MVP, then S9C Next.js web GUI MVP.
+Current execution order is locked as: S9A completed baseline, S9P protocol-parity program (active), then S9B SwiftUI macOS GUI MVP, then S9C Next.js web GUI MVP.
 
 ## Visual Surfaces
 
@@ -66,8 +66,9 @@ gantt
     S8C Release hardening + final closure gates :done, s8c, after s8b, 2d
     section Current and Planned
     S9A TUI-first simplification + persistence hardening :done, s9a, after s8c, 2d
-    S9B SwiftUI macOS GUI MVP :s9b, after s9a, 3d
-    S9C Next.js web GUI MVP :s9c, after s9b, 3d
+    S9P Protocol parity + architecture/file-format reverse :active, s9p, after s9a, 7d
+    S9B SwiftUI macOS GUI MVP (paused until S9P close) :s9b, after s9p, 3d
+    S9C Next.js web GUI MVP (paused until S9B close) :s9c, after s9b, 3d
 ```
 
 ## S7/S8 Dependency Graph
@@ -88,15 +89,98 @@ graph TD
 
 ```mermaid
 graph TD
-    S9A["S9A TUI-first simplification"] --> S9B["S9B SwiftUI macOS GUI MVP"]
+    S9A["S9A TUI-first simplification"] --> S9P["S9P protocol parity program"]
+    S9P --> S9B["S9B SwiftUI macOS GUI MVP"]
     S9B --> S9C["S9C Next.js web GUI MVP"]
+    V301["S9P-V3-T01 planning rebase"] --> V302["S9P-V3-T02 dashboard + KB sync"]
+    V302 --> T04RA["S9P-T04R-A host unblock runbook"]
+    V302 --> T04FS1["S9P-T04F-S1 static format candidates"]
+    T04RA --> T04RB["S9P-T04R-B Frida smoke"]
+    T04RB --> T04RC["S9P-T04R-C tcpdump smoke"]
+    T04FS1 --> T04FS2["S9P-T04F-S2 reader/writer callgraph"]
+    T04FS2 --> T04FR1["S9P-T04F-R1 IO hook schema v1"]
+    T04RC --> T04FR2["S9P-T04F-R2 deterministic runtime format captures"]
+    T04FR1 --> T04FR2
+    T04FR2 --> T04FR3["S9P-T04F-R3 redacted IO corpus"]
+    T04FR3 --> T04FX1["S9P-T04F-X1 format map synthesis"]
+    T04RC --> T05["S9P-T05 official runner"]
+    T04FX1 --> T05
+    T05 --> T06["S9P-T06 transfer+format corpus"]
+    T06 --> T07["S9P-T07 consolidated architecture/format map"]
+    T07 --> T08["S9P-T08 replicability matrix"]
+    T08 --> T09["S9P-T09 transfer diff extension"]
+    T09 --> T10["S9P-T10 patch wave 1"]
+    T10 --> T11["S9P-T11 Flim E2E loop"]
+    T11 --> T12["S9P-T12 patch wave 2"]
+    T12 --> T13["S9P-T13 validation gates"]
+    T13 --> T14["S9P-T14 KB/dashboard sync + closure report"]
+    T14 --> S9B
 ```
 
-S9 closure gates:
+I3 execution slice (current S9P runtime-format hardening iteration):
 
-1. S9A must keep login mandatory and persist local state safely.
-2. S9B must consume `soul-cli` JSON mode (no protocol duplication in GUI layer).
-3. S9C must preserve the same login/search/download semantics and history rules.
+```mermaid
+graph TD
+    I3T01["I3-T01 plan publication"] --> I3T02["I3-T02 hook+attach hardening"]
+    I3T01 --> I3T03["I3-T03 static offset reconciliation"]
+    I3T02 --> I3T04["I3-T04 deterministic runtime reruns"]
+    I3T03 --> I3T04
+    I3T02 --> I3T05["I3-T05 synthesis/docs update"]
+    I3T04 --> I3T06["I3-T06 validation + PR loop + merge"]
+    I3T05 --> I3T06
+```
+
+S9P closure gates:
+
+1. `G0-PLAN-PUBLISHED`: S9P roadmap/capabilities/dependency plan are published in state artifacts.
+2. `G1-TOOLING-READY`: Frida, tcpdump, Ghidra headless, Binary Ninja, and automation prerequisites validated.
+3. `G2A-STATIC-ARCH-BASELINE`: transfer/dispatch architecture baseline recovered from static evidence.
+4. `G2B-STATIC-FORMAT-BASELINE`: persistence format surfaces and static reader/writer paths are mapped.
+5. `G3A-RUNTIME-CAPTURE-BASELINE`: official runtime protocol scenarios are reproducible and captured/redacted.
+6. `G3B-RUNTIME-FORMAT-BASELINE`: official runtime file-I/O traces and sampled payload evidence are captured/redacted.
+7. `G4-FLIM-E2E-SUCCESS`: Flim E2E writes non-zero bytes.
+8. `G5-TRANSFER-PARITY`: transfer semantic diff is clean for required scenarios.
+9. `G6-PROTOCOL-PARITY`: scoped protocol parity matrix is closed.
+10. `G7-ARCH-FORMAT-SYNTHESIS`: consolidated architecture + format map and replicability classification are complete.
+11. `G8-KB-DASHBOARD-SYNC`: KB and generated dashboards are synchronized and validated.
+
+Static vs runtime cadence:
+
+1. Static block A (`S9P-T04S`, `S9P-T04F-S1`, `S9P-T04F-S2`): architecture + persistence format hypotheses.
+2. Runtime block A (`S9P-T04R-A/B/C`, `S9P-T04F-R1/R2/R3`): host unblock + protocol/I-O capture baseline.
+3. Synthesis block A (`S9P-T04F-X1`, `S9P-T07`, `S9P-T08`, `S9P-T09`): reconcile static intent vs runtime behavior.
+4. Patch block A (`S9P-T10`): minimal transfer fixes for Flim critical path.
+5. Runtime block B (`S9P-T11`): Flim E2E validation loops.
+6. Patch block B (`S9P-T12`): queue/retry/token/P-F/timeouts parity closure.
+7. Validation/reporting block (`S9P-T13`, `S9P-T14`): full gates and closure publication.
+
+S9P tooling matrix:
+
+1. Static analysis:
+   - `/opt/homebrew/opt/ghidra/libexec/support/analyzeHeadless`
+   - `scripts/ghidra_pipeline.sh`
+   - `scripts/extract_search_download_flow.sh`
+   - `otool`, `nm`, `strings`, `lldb`
+   - `/Applications/Binary Ninja.app/Contents/MacOS/binaryninja`
+   - `tools/re/extract_format_candidates.py`
+   - `analysis/re/official_file_format_map.json`
+   - `docs/re/static/file-format-map.md`
+2. Runtime analysis:
+   - `.venv-tools/bin/frida`
+   - `tools/runtime/frida_capture.py`
+   - `frida/hooks/soulseek_trace.js`
+   - `frida/hooks/soulseek_io_trace.js`
+   - `tools/runtime/capture_harness.py`
+   - `scripts/capture_golden.sh`
+   - `/usr/sbin/tcpdump`
+   - `osascript` (primary desktop automation driver)
+3. Diff/verification:
+   - `scripts/run_diff_verify.sh`
+   - `scripts/run_regression.sh`
+   - `scripts/kb_validate.py`
+   - `scripts/sync_state_dashboards.sh`
+   - `rust/verify/src/lib.rs`
+   - `analysis/re/protocol_parity_matrix.json`
 
 ## S8C Capability Breakdown (Completed)
 
@@ -227,9 +311,10 @@ graph TD
 | S8A | capability registry/matrix + critical-path dashboard | done | `docs/state/capability-dashboard.html` | start S8B minimal TUI |
 | S8B | minimal TUI v1 for core transfer workflows | done | `docs/runbooks/tui-core-transfer.md` | start S8C release hardening |
 | S8C | release hardening and final v1 closure gates | done | `docs/state/verification-status.md` | post-v1 expansion roadmap |
-| S9A | TUI-first simplification and persistence hardening | done | `docs/runbooks/tui-core-transfer.md` | start S9B SwiftUI MVP |
-| S9B | SwiftUI macOS GUI MVP on top of `soul-cli` JSON mode | planned | `docs/state/roadmap.md` | start S9C Next.js MVP |
-| S9C | Next.js web GUI MVP on top of `soul-cli` JSON mode | planned | `docs/state/roadmap.md` | post-S9 product expansion |
+| S9A | TUI-first simplification and persistence hardening | done | `docs/runbooks/tui-core-transfer.md` | start S9P protocol parity program |
+| S9P | protocol parity + deep architecture/file-format reverse (static/runtime iterative) | in_progress | `docs/state/roadmap.md` | close G0..G8 and then unpause S9B |
+| S9B | SwiftUI macOS GUI MVP on top of `soul-cli` JSON mode | planned | `docs/state/roadmap.md` | paused until S9P closure |
+| S9C | Next.js web GUI MVP on top of `soul-cli` JSON mode | planned | `docs/state/roadmap.md` | paused until S9B closure |
 
 ## S4B Target Contract
 

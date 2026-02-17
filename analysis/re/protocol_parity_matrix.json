@@ -1,0 +1,146 @@
+{
+  "stage": "S9P",
+  "status": "in_progress",
+  "updated_at": "2026-02-17",
+  "goal": "100% protocol parity against SoulseekQt for scoped transfer/control behavior with persistence-format dependencies tracked",
+  "gates": [
+    {
+      "id": "G4-FLIM-E2E-SUCCESS",
+      "status": "planned",
+      "acceptance": "bytes_written > 0 for Flim E2E"
+    },
+    {
+      "id": "G5-TRANSFER-PARITY",
+      "status": "planned",
+      "acceptance": "semantic transfer diff clean for required scenarios"
+    },
+    {
+      "id": "G6-PROTOCOL-PARITY",
+      "status": "planned",
+      "acceptance": "parity matrix closed for scoped protocol surface"
+    },
+    {
+      "id": "G7-ARCH-FORMAT-SYNTHESIS",
+      "status": "planned",
+      "acceptance": "architecture and persistence-format synthesis gate is closed with evidence-linked replicability classification"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "TC-FLIM-001",
+      "title": "Flim E2E writes bytes",
+      "status": "planned",
+      "delta": "pending",
+      "evidence": [
+        "tmp/logs/voidfdx-flim-e2e-20260216134739.log"
+      ]
+    },
+    {
+      "id": "TC-TRANSFER-REQ-002",
+      "title": "Transfer request code=40 path reaches payload",
+      "status": "planned",
+      "delta": "pending"
+    },
+    {
+      "id": "TC-QUEUE-REJECT-003",
+      "title": "Queue reject code=50 fallback parity",
+      "status": "planned",
+      "delta": "pending"
+    },
+    {
+      "id": "TC-PFLOWS-004",
+      "title": "P/F socket and token ordering parity",
+      "status": "planned",
+      "delta": "pending"
+    },
+    {
+      "id": "TC-TIMEOUT-005",
+      "title": "Timeout and retry semantics parity",
+      "status": "planned",
+      "delta": "pending",
+      "format_dependencies": [
+        "FMT-TRANSFER-STATE"
+      ]
+    },
+    {
+      "id": "TC-DIFF-006",
+      "title": "Official vs Neo semantic diff clean",
+      "status": "in_progress",
+      "delta": "Official runner + profile-root capture baseline established; transfer corpus expansion and divergence isolation still in progress.",
+      "evidence": [
+        "captures/raw/20260216T223131Z-s9p-runtime-baseline-frida-only/manifest.raw.json",
+        "captures/raw/20260216T223149Z-s9p-runtime-baseline-pcap/manifest.raw.json",
+        "captures/raw/20260216T223220Z-s9p-runtime-baseline-frida-only-r2/manifest.raw.json",
+        "captures/raw/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2/manifest.raw.json",
+        "captures/raw/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3/manifest.raw.json",
+        "captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4/manifest.raw.json"
+      ]
+    },
+    {
+      "id": "TC-REG-007",
+      "title": "Regression suites remain green",
+      "status": "planned",
+      "delta": "pending"
+    },
+    {
+      "id": "TC-FMT-001",
+      "title": "QSettings roundtrip parity",
+      "status": "planned",
+      "delta": "pending",
+      "format_dependencies": [
+        "FMT-SETTINGS-QSETTINGS"
+      ]
+    },
+    {
+      "id": "TC-FMT-002",
+      "title": "Transfer-state roundtrip parity",
+      "status": "planned",
+      "delta": "pending",
+      "format_dependencies": [
+        "FMT-TRANSFER-STATE"
+      ]
+    },
+    {
+      "id": "TC-FMT-003",
+      "title": "Hotlist import parse parity",
+      "status": "planned",
+      "delta": "pending",
+      "format_dependencies": [
+        "FMT-USERLIST-IMPORT"
+      ]
+    },
+    {
+      "id": "TC-FMT-004",
+      "title": "I/O payload redaction policy enforcement",
+      "status": "planned",
+      "delta": "pending",
+      "format_dependencies": [
+        "FMT-SETTINGS-QSETTINGS",
+        "FMT-CLIENT-DATA-EXPORT-IMPORT"
+      ]
+    },
+    {
+      "id": "TC-FMT-005",
+      "title": "Format-map schema validator",
+      "status": "planned",
+      "delta": "pending",
+      "format_dependencies": [
+        "FMT-SETTINGS-QSETTINGS",
+        "FMT-TRANSFER-STATE",
+        "FMT-USERLIST-IMPORT",
+        "FMT-CLIENT-DATA-EXPORT-IMPORT",
+        "FMT-SHARE-SCAN-CACHE",
+        "FMT-SEARCH-HISTORY-PREFERENCES"
+      ]
+    }
+  ],
+  "linked_artifacts": {
+    "architecture_map": "analysis/re/official_architecture_map.json",
+    "file_format_map": "analysis/re/official_file_format_map.json"
+  },
+  "known_blockers": [
+    "Original signed /Applications/SoulseekQt.app remains hardened for Frida attach; instrumentation currently uses /Users/void/Applications/SoulseekQt-Debug.app.",
+    "Flim live transfer path is still blocked by queue-deny/timeout/reset terminal branches (bytes_written remains zero).",
+    "Persistence I/O traces are present but still sparse on concrete read/write payload activity for some format surfaces."
+  ]
+}

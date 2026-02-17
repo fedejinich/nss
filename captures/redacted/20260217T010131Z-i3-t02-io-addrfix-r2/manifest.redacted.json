@@ -1,0 +1,66 @@
+{
+  "created_at": "2026-02-17T01:01:31+00:00",
+  "duration_s": 45,
+  "process": "SoulseekQt",
+  "scenario": "i3-t02-io-addrfix-r2",
+  "label": "i3-t02-io-addrfix-r2",
+  "notes": "",
+  "hook_set": "io",
+  "profile_root": "<redacted:path:0b48bdc18a44>",
+  "frida_scripts": {
+    "protocol": "<redacted:path:1eeaf3942702>",
+    "io": "<redacted:path:90497a4e034a>"
+  },
+  "pcap": {
+    "enabled": false,
+    "iface": "en0",
+    "bpf": "tcp"
+  },
+  "outputs": {
+    "run_dir": "<redacted:path:d63f77c3c9d7>",
+    "frida_events": "<redacted:path:6a82a4755d33>",
+    "io_events": "<redacted:path:f000920525b6>",
+    "frida_log": "<redacted:path:9ae17396777b>",
+    "io_frida_log": "<redacted:path:6d0a47052aef>",
+    "pcap": "<redacted:path:a16ffc97a94e>",
+    "pcap_log": "<redacted:path:287985352faa>",
+    "launch_log": "<redacted:path:21d405f4d99f>"
+  },
+  "commands": {
+    "frida_io": [
+      "<redacted:path:6c567536f60f>",
+      "<redacted:path:183b5727f66f>",
+      "--process",
+      "SoulseekQt",
+      "--script",
+      "<redacted:path:90497a4e034a>",
+      "--output",
+      "<redacted:path:f000920525b6>",
+      "--duration",
+      "50"
+    ]
+  },
+  "blockers": [],
+  "started_at": "2026-02-17T01:01:31+00:00",
+  "ended_at": "2026-02-17T01:02:16+00:00",
+  "elapsed_s": 45.042,
+  "processes": {
+    "frida_io": {
+      "returncode": 0
+    }
+  },
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "2",
+    "generated_at": "2026-02-17T01:02:16+00:00",
+    "raw_source": "captures/raw/20260217T010131Z-i3-t02-io-addrfix-r2",
+    "payload_sampling": {
+      "mode": "sampled",
+      "max_payload_chars": 160,
+      "sensitive_fields_redacted": true
+    },
+    "stats": {
+      "path": 15
+    }
+  }
+}

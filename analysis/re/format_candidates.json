@@ -1,0 +1,530 @@
+{
+  "generated_at": "2026-02-17T01:13:42+00:00",
+  "inputs": {
+    "nm": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+    "mainwindow": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+    "transfer": "evidence/ui_audit/decomp/transfer_methods.txt",
+    "strings": "evidence/ui_audit/ui_strings_feature_candidates.txt"
+  },
+  "candidates": [
+    {
+      "id": "FMT-SETTINGS-QSETTINGS",
+      "title": "QSettings-backed persistent options",
+      "notes": "Key/value persistence for UI and transfer behavior toggles.",
+      "confidence": "high",
+      "counts": {
+        "symbol_hits": 4,
+        "method_hits": 3,
+        "string_hits": 8
+      },
+      "evidence": {
+        "symbol_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 713,
+            "text": "(undefined) external QSettings::remove(QAnyStringView) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 714,
+            "text": "(undefined) external QSettings::setValue(QAnyStringView, QVariant const&) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 994,
+            "text": "(undefined) external QSettings::value(QAnyStringView) const (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 995,
+            "text": "(undefined) external QSettings::contains(QAnyStringView) const (from QtCore)"
+          }
+        ],
+        "method_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 62,
+            "text": "MainWindow::onExportClientDataClicked()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 66,
+            "text": "MainWindow::onImportClientDataClicked()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 136,
+            "text": "MainWindow::saveData()"
+          }
+        ],
+        "string_hits": [
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 397,
+            "text": "10928:minimize_on_close"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 402,
+            "text": "10939:transfer_queued"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 419,
+            "text": "10974:max_results_per_search"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 420,
+            "text": "10975:max_results_per_search_enabled"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 459,
+            "text": "11043:1onShowPrivateSearchResultsClicked(bool)"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 460,
+            "text": "11044:1onShowPrivatelySharedFilesInSharesClicked(bool)"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 622,
+            "text": "11345:showPrivateResultsCheckBox"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 623,
+            "text": "11346:showPrivatelySharedFilesInSharesCheckBox"
+          }
+        ]
+      }
+    },
+    {
+      "id": "FMT-TRANSFER-STATE",
+      "title": "Transfer queue and progress persistence",
+      "notes": "Serialized transfer queue/in-progress/completed state and requeue semantics.",
+      "confidence": "high",
+      "counts": {
+        "symbol_hits": 5,
+        "method_hits": 3,
+        "string_hits": 8
+      },
+      "evidence": {
+        "symbol_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 1808,
+            "text": "00000001000bbc68 (__TEXT,__text) external WriteString(QFile&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 1809,
+            "text": "00000001000bbd18 (__TEXT,__text) external ReadString(QFile&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>&)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 2741,
+            "text": "000000010019eb50 (__TEXT,__text) external QFileStreamer::ReadBuffer(void*, unsigned long)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 2742,
+            "text": "000000010019eb7c (__TEXT,__text) external QFileStreamer::WriteBuffer(void const*, unsigned long)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 2743,
+            "text": "000000010019eba8 (__TEXT,__text) external non-virtual thunk to QFileStreamer::WriteBuffer(void const*, unsigned long)"
+          }
+        ],
+        "method_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/transfer_methods.txt",
+            "line": 30,
+            "text": "TransferQueueManager::OnDataLoaded()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/transfer_methods.txt",
+            "line": 59,
+            "text": "TransferQueueManager::TransfersLoaded()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/transfer_methods.txt",
+            "line": 88,
+            "text": "TransferQueueManager::requeueDownload(Item)"
+          }
+        ],
+        "string_hits": [
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 402,
+            "text": "10939:transfer_queued"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 407,
+            "text": "10955:Transfers - Queued"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 491,
+            "text": "11088:max_queued_uploads_per_user_enabled"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 492,
+            "text": "11089:max_queued_mb_per_user_enabled"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 494,
+            "text": "11091:max_queued_uploads_per_user"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 495,
+            "text": "11092:max_queued_mb_per_user"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 574,
+            "text": "11250:Data successfully imported"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 575,
+            "text": "11251:Client data successfully imported!"
+          }
+        ]
+      }
+    },
+    {
+      "id": "FMT-USERLIST-IMPORT",
+      "title": "User list import format",
+      "notes": "Legacy hotlist import pathway from `hotlist.cfg`.",
+      "confidence": "medium",
+      "counts": {
+        "symbol_hits": 3,
+        "method_hits": 2,
+        "string_hits": 4
+      },
+      "evidence": {
+        "symbol_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 89,
+            "text": "(undefined) external QFileDialog::getOpenFileName(QWidget*, QString const&, QString const&, QString const&, QString*, QFlags<QFileDialog::Option>) (from QtWidgets)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 391,
+            "text": "(undefined) external QFile::open(QFlags<QIODeviceBase::OpenModeFlag>) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 1247,
+            "text": "00000001000280cc (__TEXT,__text) external MainWindow::importConfigurationData()"
+          }
+        ],
+        "method_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 13,
+            "text": "MainWindow::importConfigurationData()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 67,
+            "text": "MainWindow::onImportUserListClicked()"
+          }
+        ],
+        "string_hits": [
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 560,
+            "text": "11218:To import your user list, your original Soulseek client must be set not to save configuration data to the registry (under Options->General), and the hotlist.cfg file must then be located on your computer. The next dialog will ask you to navigate to the exact location of the hotlist.cfg file."
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 665,
+            "text": "11457:importUserListButton"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2352,
+            "text": "22075:To import your user list, your original Soulseek client must be set not to save configuration data to the registry (under Options->General), and the hotlist.cfg file must then be located on your computer. The next dialog will ask you to navigate to the exact location of the hotlist.cfg file."
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2457,
+            "text": "22314:importUserListButton"
+          }
+        ]
+      }
+    },
+    {
+      "id": "FMT-CLIENT-DATA-EXPORT-IMPORT",
+      "title": "Client data backup/restore format",
+      "notes": "Export/import UI surface for complete client-data snapshot.",
+      "confidence": "high",
+      "counts": {
+        "symbol_hits": 4,
+        "method_hits": 2,
+        "string_hits": 8
+      },
+      "evidence": {
+        "symbol_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 76,
+            "text": "(undefined) external QDataStream::writeBytes(char const*, long long) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 77,
+            "text": "(undefined) external QDataStream::readRawData(char*, long long) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 1247,
+            "text": "00000001000280cc (__TEXT,__text) external MainWindow::importConfigurationData()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 1252,
+            "text": "0000000100029858 (__TEXT,__text) external MainWindow::saveData()"
+          }
+        ],
+        "method_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 62,
+            "text": "MainWindow::onExportClientDataClicked()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 66,
+            "text": "MainWindow::onImportClientDataClicked()"
+          }
+        ],
+        "string_hits": [
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 571,
+            "text": "11240:Client data exported"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 572,
+            "text": "11242:Client data export failed"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 575,
+            "text": "11251:Client data successfully imported!"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 576,
+            "text": "11252:Data import failed"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2363,
+            "text": "22097:Client data exported"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2364,
+            "text": "22099:Client data export failed"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2367,
+            "text": "22108:Client data successfully imported!"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2368,
+            "text": "22109:Data import failed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "FMT-SHARE-SCAN-CACHE",
+      "title": "Share scan and file-index cache",
+      "notes": "Persisted share scan outcomes and refresh behavior linked to transfer availability.",
+      "confidence": "high",
+      "counts": {
+        "symbol_hits": 3,
+        "method_hits": 3,
+        "string_hits": 8
+      },
+      "evidence": {
+        "symbol_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 392,
+            "text": "(undefined) external QFile::exists(QString const&) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 393,
+            "text": "(undefined) external QFile::remove(QString const&) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 975,
+            "text": "(undefined) external QFileInfo::absoluteFilePath() const (from QtCore)"
+          }
+        ],
+        "method_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 104,
+            "text": "MainWindow::onSharedFilesRescanned(int, int)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 105,
+            "text": "MainWindow::onSharedFolderAdded(Item)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/transfer_methods.txt",
+            "line": 79,
+            "text": "TransferQueueManager::onUserShare(QString, QSharedPointer<std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, std::__1::set<FileInfo, std::__1::less<FileInfo>, std::__1::allocator<FileInfo>>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const, std::__1::set<FileInfo, std::__1::less<FileInfo>, std::__1::allocator<FileInfo>>>>>>, QSharedPointer<std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, std::__1::set<FileInfo, std::__1::less<FileInfo>, std::__1::allocator<FileInfo>>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const, std::__1::set<FileInfo, std::__1::less<FileInfo>, std::__1::allocator<FileInfo>>>>>>, std::__1::map<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>, std::__1::less<int>, std::__1::allocator<std::__1::pair<int const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>>>>&)"
+          }
+        ],
+        "string_hits": [
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 1,
+            "text": "74:shared_fH"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 3,
+            "text": "78:shared_fH"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 5,
+            "text": "82:shared_fH"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 7,
+            "text": "87:shared_fH"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 16,
+            "text": "363:shared_fH"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 17,
+            "text": "504:shared_fH"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 115,
+            "text": "3413:shared_fH"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 117,
+            "text": "3415:shared_fH"
+          }
+        ]
+      }
+    },
+    {
+      "id": "FMT-SEARCH-HISTORY-PREFERENCES",
+      "title": "Search history and preference persistence",
+      "notes": "Search history controls and related UX preference keys.",
+      "confidence": "high",
+      "counts": {
+        "symbol_hits": 2,
+        "method_hits": 3,
+        "string_hits": 8
+      },
+      "evidence": {
+        "symbol_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 714,
+            "text": "(undefined) external QSettings::setValue(QAnyStringView, QVariant const&) (from QtCore)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/nm_demangled_full.txt",
+            "line": 994,
+            "text": "(undefined) external QSettings::value(QAnyStringView) const (from QtCore)"
+          }
+        ],
+        "method_hits": [
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 37,
+            "text": "MainWindow::onClearSearchHistoryClicked()"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 114,
+            "text": "MainWindow::onShowPrivateSearchResultsClicked(bool)"
+          },
+          {
+            "source": "evidence/ui_audit/decomp/mainwindow_methods.txt",
+            "line": 123,
+            "text": "MainWindow::onUseOldStyleSearchResultsCheckboxToggled(bool)"
+          }
+        ],
+        "string_hits": [
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 528,
+            "text": "11152:1onClearSearchHistoryClicked()"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 643,
+            "text": "11396:clearSearchHistoryButton"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 713,
+            "text": "11530:Clear Search History"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 1743,
+            "text": "19224:onClearSearchHistoryClicked"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2320,
+            "text": "22009:1onClearSearchHistoryClicked()"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2435,
+            "text": "22253:clearSearchHistoryButton"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 2505,
+            "text": "22387:Clear Search History"
+          },
+          {
+            "source": "evidence/ui_audit/ui_strings_feature_candidates.txt",
+            "line": 3535,
+            "text": "30090:onClearSearchHistoryClicked"
+          }
+        ]
+      }
+    }
+  ]
+}

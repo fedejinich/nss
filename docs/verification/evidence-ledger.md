@@ -32,6 +32,60 @@ Project-level evidence summaries and provenance tracking.
 - `captures/redacted/login-global-room-control/official_frames.hex`
 - `captures/redacted/login-peer-message/official_frames.hex`
 - `captures/redacted/peer-static-runtime/official_frames.hex`
+- `analysis/re/flow_graph.json`
+- `analysis/re/format_candidates.json`
+- `analysis/re/official_file_format_map.json`
+- `docs/re/static/file-format-map.md`
+- `evidence/ui_audit/decomp/runtime_hook_offsets_arm64.txt`
+- `evidence/reverse/search_download_symbols_nm.txt`
+- `evidence/reverse/search_download_strings.txt`
+- `frida/hooks/soulseek_io_trace.js`
+- `tools/runtime/official_runner.py`
+- `captures/raw/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2/manifest.raw.json`
+- `captures/raw/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3/manifest.raw.json`
+- `captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4/manifest.raw.json`
+- `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/manifest.raw.json`
+- `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl`
+- `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2/redaction-summary.json`
+- `captures/redacted/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3/redaction-summary.json`
+- `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4/redaction-summary.json`
+- `captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5/redaction-summary.json`
+
+## S9P Program Kickoff Evidence
+
+- Date: `2026-02-16`
+- Gate progress:
+  - `G0-PLAN-PUBLISHED`: state/TODO/roadmap artifacts updated for S9P static/runtime tracks; v3 rebase synchronized.
+  - `G1-TOOLING-READY`: done for the active debug-specimen instrumentation path.
+  - `G2A-STATIC-ARCH-BASELINE`: completed.
+  - `G2B-STATIC-FORMAT-BASELINE`: completed (`extract_format_candidates` + canonical format map/report published).
+  - `G3A-RUNTIME-CAPTURE-BASELINE`: in progress.
+  - `G3B-RUNTIME-FORMAT-BASELINE`: in progress (redacted `io-events` corpus exists; deeper persistence activity still pending).
+- Local-only host security ledger for privileged operations:
+  - `${HOME}/.nss-security-ledger/changes.md`
+  - `${HOME}/.nss-security-ledger/verify.sh`
+  - `${HOME}/.nss-security-ledger/rollback.sh`
+- Notes:
+  - Ledger is intentionally outside git.
+  - Baseline snapshots were captured for `DevToolsSecurity`, `system.privilege.taskport`, UI scripting state, and `/dev/bpf*` permissions.
+  - `scripts/ghidra_pipeline.sh` completed with app-binary fallback from `/Applications/SoulseekQt.app`.
+  - `scripts/extract_search_download_flow.sh` refreshed flow graph and search/download disassembly evidence.
+  - Official runner automation is now available through:
+    - `tools/runtime/official_runner.py`
+    - `scripts/capture_golden.sh` (`OFFICIAL_RUNNER=1`)
+  - Persistence format static evidence for v3 is anchored in:
+    - `evidence/ui_audit/decomp/nm_demangled_full.txt`
+    - `evidence/ui_audit/decomp/mainwindow_methods.txt`
+    - `evidence/ui_audit/decomp/transfer_methods.txt`
+    - `evidence/ui_audit/ui_strings_feature_candidates.txt`
+  - Host unblock application and verification are logged in local ledger entry `CHG-007`.
+  - Active runtime capture specimen is `/Users/void/Applications/SoulseekQt-Debug.app`; this preserves the original signed app while enabling Frida instrumentation.
+  - I3 runtime hardening:
+    - arm64 absolute hook offsets were reconciled from static `nm` evidence,
+    - Frida process selection is now disambiguated by path token (`--process-path-contains`) to avoid same-name process ambiguity,
+    - `frida_capture` now tolerates expected process-exit teardown (`script is destroyed`) without false failure.
+  - Runtime format traces now include high-signal transfer-store persistence events (`writestring`, `mainwindow_save_data_enter`, `datasaver_save_enter`, `datasaver_save_to_file_enter`) in run `20260217T010817Z-i3-t04-io-runtime-r5`.
+  - Remaining format-runtime gap is concentrated in unresolved QSettings/QDataStream symbol hooks.
 
 ## S9A-NEXT Runtime Transfer Diagnostics (In Progress)
 
@@ -72,6 +126,17 @@ Project-level evidence summaries and provenance tracking.
     - queue grants with non-zero sizes,
     - `peer returned zero bytes` and `inbound F timeout`,
     - queue-upload rejection branch (`code=46/50`) with `File not shared`.
+- Destination-host account rerun (`2026-02-16`):
+  - Account/env: `server.slsknet.org:2416` with `voidfdx`.
+  - Evidence log:
+    - `tmp/logs/voidfdx-flim-e2e-20260216134739.log`
+    - `tmp/logs/voidfdx-flim-short-20260216135537.log`
+  - Outcome:
+    - distributed candidate discovery remained live (`candidates=31`),
+    - queue-deny branch reproduced (`code=50`, `File not shared`) on path variants,
+    - queue-grant branch reproduced (`code=40` with non-zero file sizes) followed by transfer failure (`inbound F timeout`, `peer returned zero bytes`, `connection reset`/`early eof`),
+    - bounded retry (`NSS_MAX_CANDIDATE_ATTEMPTS=2`) terminated with explicit aggregate failure (`all distributed candidates failed ... queue-upload flow timed out ... direct flow failed`),
+    - no successful payload transfer observed.
 - Probe path diagnostic (`2026-02-16`):
   - With `SoulseekQt` running concurrently, inbound wait-port bind failed (`Address already in use`) in probe-assisted runs.
   - After terminating `SoulseekQt`, bind conflict disappeared, but transfer still failed with the same queue-grant/zero-byte/denial pattern.
@@ -84,6 +149,14 @@ Project-level evidence summaries and provenance tracking.
     - Local tcpdump path remains permission-blocked on `/dev/bpf*`.
   - Tooling hardening applied:
     - `tools/runtime/capture_harness.py` now preserves venv interpreter path (no symlink resolve) to avoid launching with wrong Python environment.
+  - Destination-host rerun:
+    - Raw run dir:
+      - `captures/raw/20260216T163830Z-s9a-hardwall-official-smoke`
+    - Host adjustments:
+      - `DevToolsSecurity -enable` applied (`Developer mode is currently enabled`).
+    - Remaining blockers:
+      - Frida still cannot attach even to local same-user processes (`PermissionDeniedError unable to access process ... from the current user account`).
+      - tcpdump capture still blocked on `/dev/bpf0` permission.
 - Baseline official-vs-neo transfer sequence comparison:
   - Source: `captures/redacted/login-search-download/official_frames.hex` and `captures/redacted/login-search-download/neo_frames.hex`
   - Observation: baseline successful run terminates transfer control path at `code=40` then `code=41` with no `code=46/50` denial branch.

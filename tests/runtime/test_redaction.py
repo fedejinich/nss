@@ -31,6 +31,19 @@ class RuntimeRedactionTests(unittest.TestCase):
                 json.dumps({"event": "msg", "from_user": "alice", "to_user": "bob"}) + "\n",
                 encoding="utf-8",
             )
+            (raw_run / "io-events.raw.jsonl").write_text(
+                json.dumps(
+                    {
+                        "event": "qsettings_setvalue",
+                        "file_path": "/Users/alice/Library/Application Support/SoulseekQt/config.ini",
+                        "key": "minimize_on_close",
+                        "value_sample": "true",
+                        "username": "alice",
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
             (raw_run / "official_frames.raw.hex").write_text("0a0b0c\n# comment\n0D0E0F\n", encoding="utf-8")
             (raw_run / "neo_frames.raw.hex").write_text("0a0b0c\n0d0e0f\n", encoding="utf-8")
 
@@ -52,6 +65,7 @@ class RuntimeRedactionTests(unittest.TestCase):
             run_dir = out_root / "login-search"
             self.assertTrue((run_dir / "manifest.redacted.json").exists())
             self.assertTrue((run_dir / "frida-events.redacted.jsonl").exists())
+            self.assertTrue((run_dir / "io-events.redacted.jsonl").exists())
             self.assertTrue((run_dir / "official_frames.hex").exists())
             self.assertTrue((run_dir / "neo_frames.hex").exists())
             self.assertTrue((run_dir / "redaction-summary.json").exists())
@@ -64,17 +78,23 @@ class RuntimeRedactionTests(unittest.TestCase):
             self.assertNotIn("/Users/alice/Music/track.flac", raw_text)
             self.assertNotIn("private message", raw_text)
             self.assertNotIn(str(raw_run), raw_text)
+            self.assertEqual(redacted_manifest["redaction"]["policy_version"], "2")
 
             summary = json.loads((run_dir / "redaction-summary.json").read_text(encoding="utf-8"))
             summary_text = json.dumps(summary)
             self.assertNotIn(str(raw_run), summary_text)
             self.assertTrue(summary["raw_dir"].startswith("<external:path:"))
             self.assertTrue(summary["redacted_dir"].startswith("<external:path:"))
+            self.assertIn("io_events", summary["artifacts"])
 
             official = (run_dir / "official_frames.hex").read_text(encoding="utf-8").splitlines()
             neo = (run_dir / "neo_frames.hex").read_text(encoding="utf-8").splitlines()
             self.assertEqual(official, ["0a0b0c", "0d0e0f"])
             self.assertEqual(neo, ["0a0b0c", "0d0e0f"])
+
+            io_rows = (run_dir / "io-events.redacted.jsonl").read_text(encoding="utf-8")
+            self.assertNotIn("/Users/alice/Library/Application Support/SoulseekQt/config.ini", io_rows)
+            self.assertNotIn("\"alice\"", io_rows)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-02-14T14:50:18+00:00",
+  "generated_at": "2026-02-16T22:33:19+00:00",
   "binary": "SoulseekQt",
   "architecture": "arm64",
   "sources": {
-    "symbols": "/Users/void_rsk/Projects/soul-dec/evidence/reverse/search_download_symbols_nm.txt",
+    "symbols": "/Users/void/Projects/nss/evidence/reverse/search_download_symbols_nm.txt",
     "strings": "evidence/reverse/search_download_strings.txt"
   },
   "nodes": [

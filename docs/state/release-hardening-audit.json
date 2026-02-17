@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771185111,
+  "generated_unix_secs": 1771290959,
   "stage": "S8C release hardening closure",
   "stage_state": {
     "ok": true,
@@ -12,8 +12,293 @@
   "checks": {
     "redacted_metadata_paths": {
       "ok": true,
-      "runs": 39,
+      "runs": 58,
       "details": [
+        {
+          "run_id": "20260216T223131Z-s9p-runtime-baseline-frida-only",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T223149Z-s9p-runtime-baseline-pcap",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T223220Z-s9p-runtime-baseline-frida-only-r2",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T235028Z-s9p-v3-t05-official-runner-debug",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T235214Z-s9p-v3-t05-runner-protocol-debug",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T235304Z-s9p-v3-t05-runner-io-debug",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T235428Z-s9p-v3-t05-runner-both-debug-r2",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T235612Z-s9p-v3-t05-runner-both-debug-r3",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T235743Z-s9p-v3-t04f-startup-io-r1",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260216T235846Z-s9p-v3-t04f-startup-io-r2",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T000049Z-s9p-v3-t04f-startup-io-r3",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T000258Z-s9p-v3-t04f-startup-io-r4",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T005324Z-s9p-v3-t04f-shortcut-probe-r1",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T005456Z-s9p-v3-t04f-heartbeat-r1",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T005934Z-i3-t02-io-addrfix-r1",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T010131Z-i3-t02-io-addrfix-r2",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T010507Z-i3-t04-io-runtime-r3",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T010637Z-i3-t04-io-runtime-r4",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T010817Z-i3-t04-io-runtime-r5",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
         {
           "run_id": "login-global-room-control",
           "files": [

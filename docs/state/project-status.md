@@ -44,26 +44,41 @@
 - Stage 8B complete: minimal TUI v1 is operational for login, query edit, search, selection, and download orchestration.
 - Stage 8C complete: capability-first release hardening closure is complete (`redaction`, `packaging`, `recovery runbooks`, `closure checklist/audit`).
 - Stage 9A complete: TUI-first simplification and persistence hardening landed (`login modal gate`, `retro-orange UX`, `downloads history toggle/clear`, `startup recovery`).
-- Stage 9A-NEXT in progress: real transfer-path hardening for `Flim` E2E (`transfer-request/queue handshake tightening`, `runtime diagnostics`, `queue-grant token propagation`).
-- Stage 9B planned: SwiftUI macOS GUI MVP on top of `soul-cli` JSON mode.
-- Stage 9C planned: Next.js web GUI MVP on top of `soul-cli` JSON mode.
+- Stage 9P in progress: protocol parity + deep architecture/file-format reverse program with explicit static/runtime iterative tracks (`G0..G8`) to close transfer/protocol parity and persistence-surface understanding against SoulseekQt (`G1`, `G2A`, and `G2B` done; `G3A`/`G3B` in progress with I3 runtime hardening: arm64 hook alignment, deterministic Frida path-based process selection, and high-signal transfer-store persistence traces in `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5`).
+- Stage 9B planned: SwiftUI macOS GUI MVP on top of `soul-cli` JSON mode (dependency-paused until S9P closure).
+- Stage 9C planned: Next.js web GUI MVP on top of `soul-cli` JSON mode (dependency-paused behind S9B).
 - Product direction remains unchanged: SDK+CLI first, custom evolvable app (not a 1:1 official client clone).
 
 ## Active Execution Plan (Capability-First)
 
 Current long-session objective:
 
-1. Close S9A-NEXT live `Flim` download (`bytes_written > 0`) using runtime transfer-path fixes.
-2. Start S9B SwiftUI macOS GUI MVP on top of the closed S9A baseline after S9A-NEXT closure.
-3. Keep S9C Next.js web MVP queued with the same semantics and shared CLI JSON contract.
+1. Rebase and lock S9P v3 planning artifacts with explicit architecture + file-format reverse tracks.
+2. Close static/runtime baselines for both protocol flows and persistence-critical format surfaces (transfer-store runtime signal now present; settings/export-import runtime gaps remain).
+3. Execute static/runtime synthesis loops and publish architecture+format replicability artifacts.
+4. Execute transfer parity patch loops until `Flim` succeeds and semantic diff gates close.
+5. Resume S9B/S9C only after S9P closure and dashboard sync.
 
 Current capability chain:
 
 1. `CAP-TUI-S9A-SIMPLIFIED`
-2. `CAP-S9A-NEXT-LIVE-FLIM`
-3. `CAP-CLI-JSON-MVP`
-4. `CAP-SWIFT-GUI-MVP`
-5. `CAP-NEXT-GUI-MVP`
+2. `CAP-S9P-PLAN-PUBLISHED`
+3. `CAP-S9P-TOOLING-READY`
+4. `CAP-S9P-STATIC-ARCH-BASELINE`
+5. `CAP-S9P-STATIC-FORMAT-BASELINE`
+6. `CAP-S9P-RUNTIME-CAPTURE-BASELINE`
+7. `CAP-S9P-RUNTIME-FORMAT-BASELINE`
+8. `CAP-S9P-ARCH-MAP`
+9. `CAP-S9P-REPLICABILITY-MATRIX`
+10. `CAP-S9P-TRANSFER-DIFF`
+11. `CAP-S9P-FLIM-E2E`
+12. `CAP-S9P-TRANSFER-PARITY`
+13. `CAP-S9P-PROTOCOL-PARITY`
+14. `CAP-S9P-ARCH-FORMAT-SYNTHESIS`
+15. `CAP-S9P-KB-SYNC`
+16. `CAP-CLI-JSON-MVP`
+17. `CAP-SWIFT-GUI-MVP`
+18. `CAP-NEXT-GUI-MVP`
 
 Execution rule:
 

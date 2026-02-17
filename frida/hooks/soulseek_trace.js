@@ -2,7 +2,7 @@
 
 const MODULE_NAME = 'SoulseekQt';
 const LINK_BASE = ptr('0x100000000');
-const base = Module.findBaseAddress(MODULE_NAME);
+const base = Process.getModuleByName(MODULE_NAME).base;
 
 if (base === null) {
   throw new Error('Unable to locate module base for ' + MODULE_NAME);
