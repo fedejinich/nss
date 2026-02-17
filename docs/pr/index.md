@@ -2,7 +2,7 @@
 
 This page indexes all stage PR documents in collapsed groups to keep navigation compact.
 
-Total PR docs: `31`
+Total PR docs: `32`
 
 <details>
 <summary>Foundation (2 PRs)</summary>
@@ -203,9 +203,10 @@ Total PR docs: `31`
 </details>
 
 <details>
-<summary>S9P (1 PRs)</summary>
+<summary>S9P (2 PRs)</summary>
 
 - [0030-s9p-i3-runtime-format-hardening.md - S9p I3 Runtime Format Hardening](0030-s9p-i3-runtime-format-hardening/)
+- [0031-s9p-i4-qt-symbol-runtime-compat.md - S9p I4 Qt Symbol Runtime Compat](0031-s9p-i4-qt-symbol-runtime-compat/)
 
 </details>
 

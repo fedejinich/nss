@@ -33,10 +33,14 @@ Runtime hardwall context carried from S9A-NEXT:
   - `captures/raw/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
   - `captures/raw/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
   - `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5`
+  - `captures/raw/20260217T024407Z-i4-t04-io-qt-symbol-r2`
+  - `captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3`
   - `captures/redacted/20260216T235428Z-s9p-v3-t05-runner-both-debug-r2`
   - `captures/redacted/20260216T235612Z-s9p-v3-t05-runner-both-debug-r3`
   - `captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4`
   - `captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5`
+  - `captures/redacted/20260217T024407Z-i4-t04-io-qt-symbol-r2`
+  - `captures/redacted/20260217T024511Z-i4-t04-io-qt-symbol-r3`
 - Runtime baseline findings:
   - Host unblock sequence for Frida/tcpdump succeeded and is logged in local ledger entry `CHG-007`.
   - Frida attach against the signed original app still requires hardened-runtime workaround; active instrumentation specimen is `/Users/void/Applications/SoulseekQt-Debug.app`.
@@ -45,8 +49,13 @@ Runtime hardwall context carried from S9A-NEXT:
     - arm64 absolute hook offsets reconciled from `nm` evidence,
     - Frida process selection disambiguated with `--process-path-contains`,
     - graceful script teardown on process exit to avoid false non-zero capture failures.
+  - I4 runtime symbol compatibility landed:
+    - Qt symbol hook candidates now include leading-underscore arm64 variants,
+    - Frida export lookup now falls back cleanly across `findExportByName`/`getExportByName` APIs,
+    - null-address guardrails prevent invalid `0x0` attach attempts.
   - Runtime I/O corpus now includes non-trivial persistence signal for transfer-store flows (`writestring`, `mainwindow_save_data_enter`, `datasaver_save_enter`, `datasaver_save_to_file_enter`) in `captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl`.
-  - Remaining runtime gap: QSettings/QDataStream symbol hooks are still unresolved on the active specimen.
+  - I4 runner-driven capture `captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3/io-events.raw.jsonl` confirms Qt symbol-hook registration and runtime `qfile_open` + `writestring` events.
+  - Remaining runtime gap: deterministic scenarios still under-trigger QSettings/QDataStream invocation depth even though hooks now resolve/register.
 
 ## Validation Gates
 

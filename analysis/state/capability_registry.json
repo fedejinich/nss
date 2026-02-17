@@ -385,12 +385,19 @@
         "captures/redacted/20260217T000258Z-s9p-v3-t04f-startup-io-r4/redaction-summary.json",
         "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/manifest.raw.json",
         "captures/raw/20260217T010817Z-i3-t04-io-runtime-r5/io-events.raw.jsonl",
-        "captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5/redaction-summary.json"
+        "captures/redacted/20260217T010817Z-i3-t04-io-runtime-r5/redaction-summary.json",
+        "captures/raw/20260217T024407Z-i4-t04-io-qt-symbol-r2/manifest.raw.json",
+        "captures/raw/20260217T024407Z-i4-t04-io-qt-symbol-r2/io-events.raw.jsonl",
+        "captures/redacted/20260217T024407Z-i4-t04-io-qt-symbol-r2/redaction-summary.json",
+        "captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3/manifest.raw.json",
+        "captures/raw/20260217T024511Z-i4-t04-io-qt-symbol-r3/io-events.raw.jsonl",
+        "captures/redacted/20260217T024511Z-i4-t04-io-qt-symbol-r3/redaction-summary.json",
+        "tests/runtime/test_io_hook_script.py"
       ],
       "blockers": [
-        "QSettings and QDataStream symbol hooks are still unresolved on the active specimen, limiting settings/export-import runtime evidence depth."
+        "QSettings/QDataStream hooks now resolve and register on the active specimen, but deterministic login/search/download scenarios still show sparse invocation depth for these surfaces."
       ],
-      "notes": "I/O hook set runs deterministically with redacted corpus output; I3 arm64 offset alignment plus process-path filtering produced high-signal transfer-store events (WriteString/saveData/DataSaver), with remaining runtime gaps focused on QSettings/QDataStream surfaces."
+      "notes": "I/O hook set runs deterministically with redacted corpus output; I3 arm64 offset alignment plus process-path filtering produced high-signal transfer-store events (WriteString/saveData/DataSaver), and I4 restored Qt symbol-hook registration via underscore candidates + Frida export API fallback, adding reproducible qfile_open/writestring evidence in runner-driven captures."
     },
     {
       "id": "CAP-S9P-ARCH-MAP",

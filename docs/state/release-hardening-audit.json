@@ -1,5 +1,5 @@
 {
-  "generated_unix_secs": 1771290959,
+  "generated_unix_secs": 1771297058,
   "stage": "S8C release hardening closure",
   "stage_state": {
     "ok": true,
@@ -12,7 +12,7 @@
   "checks": {
     "redacted_metadata_paths": {
       "ok": true,
-      "runs": 58,
+      "runs": 60,
       "details": [
         {
           "run_id": "20260216T223131Z-s9p-runtime-baseline-frida-only",
@@ -286,6 +286,36 @@
         },
         {
           "run_id": "20260217T010817Z-i3-t04-io-runtime-r5",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T024407Z-i4-t04-io-qt-symbol-r2",
+          "files": [
+            {
+              "file": "manifest.redacted.json",
+              "ok": true,
+              "findings": []
+            },
+            {
+              "file": "redaction-summary.json",
+              "ok": true,
+              "findings": []
+            }
+          ]
+        },
+        {
+          "run_id": "20260217T024511Z-i4-t04-io-qt-symbol-r3",
           "files": [
             {
               "file": "manifest.redacted.json",

@@ -1,0 +1,69 @@
+{
+  "created_at": "2026-02-17T02:44:07+00:00",
+  "duration_s": 30,
+  "process": "SoulseekQt",
+  "process_path_contains": "<redacted:path:ec571235098e>",
+  "scenario": "i4-t04-io-qt-symbol-r2",
+  "label": "i4-t04-io-qt-symbol-r2",
+  "notes": "",
+  "hook_set": "io",
+  "profile_root": "<redacted:path:4c5445e3e90c>",
+  "frida_scripts": {
+    "protocol": "<redacted:path:487fb68dab5b>",
+    "io": "<redacted:path:ebb499bbb820>"
+  },
+  "pcap": {
+    "enabled": false,
+    "iface": "en0",
+    "bpf": "tcp"
+  },
+  "outputs": {
+    "run_dir": "<redacted:path:8efe52cf1032>",
+    "frida_events": "<redacted:path:bddcc211047f>",
+    "io_events": "<redacted:path:0c11cf153ff6>",
+    "frida_log": "<redacted:path:7608f57fa623>",
+    "io_frida_log": "<redacted:path:207594167f26>",
+    "pcap": "<redacted:path:4f27191987be>",
+    "pcap_log": "<redacted:path:b58e191abb46>",
+    "launch_log": "<redacted:path:aa65e3b01c46>"
+  },
+  "commands": {
+    "frida_io": [
+      "<redacted:path:91ade18b89c3>",
+      "<redacted:path:4e4b39fb56a1>",
+      "--process",
+      "SoulseekQt",
+      "--script",
+      "<redacted:path:ebb499bbb820>",
+      "--output",
+      "<redacted:path:0c11cf153ff6>",
+      "--duration",
+      "35",
+      "--process-path-contains",
+      "<redacted:path:ec571235098e>"
+    ]
+  },
+  "blockers": [],
+  "started_at": "2026-02-17T02:44:07+00:00",
+  "ended_at": "2026-02-17T02:44:37+00:00",
+  "elapsed_s": 30.152,
+  "processes": {
+    "frida_io": {
+      "returncode": 0
+    }
+  },
+  "redaction": {
+    "policy": "redact+commit",
+    "policy_version": "2",
+    "generated_at": "2026-02-17T02:44:37+00:00",
+    "raw_source": "captures/raw/20260217T024407Z-i4-t04-io-qt-symbol-r2",
+    "payload_sampling": {
+      "mode": "sampled",
+      "max_payload_chars": 160,
+      "sensitive_fields_redacted": true
+    },
+    "stats": {
+      "path": 17
+    }
+  }
+}

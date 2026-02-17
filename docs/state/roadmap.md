@@ -117,7 +117,7 @@ graph TD
     T14 --> S9B
 ```
 
-I3 execution slice (current S9P runtime-format hardening iteration):
+I3 execution slice (completed S9P runtime-format hardening iteration):
 
 ```mermaid
 graph TD
@@ -128,6 +128,19 @@ graph TD
     I3T02 --> I3T05["I3-T05 synthesis/docs update"]
     I3T04 --> I3T06["I3-T06 validation + PR loop + merge"]
     I3T05 --> I3T06
+```
+
+I4 execution slice (completed Qt symbol/runtime compatibility follow-up):
+
+```mermaid
+graph TD
+    I4T01["I4-T01 plan publication"] --> I4T02["I4-T02 hook resolver compatibility + tests"]
+    I4T01 --> I4T03["I4-T03 runtime symbol evidence anchors"]
+    I4T02 --> I4T04["I4-T04 deterministic reruns with Qt hook registration checks"]
+    I4T03 --> I4T04
+    I4T02 --> I4T05["I4-T05 synthesis/docs update"]
+    I4T04 --> I4T06["I4-T06 validation + PR loop + merge"]
+    I4T05 --> I4T06
 ```
 
 S9P closure gates:
